@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
+
+import '../app_theme.dart';
+
+//import '../app_theme.dart';
 
 class ProductsFragment extends StatefulWidget {
   ProductsFragment({Key? key}) : super(key: key);
@@ -25,15 +30,31 @@ class _ProductsFragmentState extends State<ProductsFragment> {
           bottom: true,
           child: Stack(
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-250,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  child: Center(child: Text('Products', style: TextStyle(fontSize: 20),)),
+            Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-220,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: Text('Products',
+                        style: TextStyle(fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    AddNewCategory("Add new product"),
+                  ],
                 ),
               ),
+            ),
+
+          ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
@@ -100,115 +121,136 @@ class _ProductsFragmentState extends State<ProductsFragment> {
         context: context,
         builder: (BuildContext context) {
           return Scaffold(
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: MediaQuery.of(priContext).padding.top,
-                ),
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 70,
-                          height: 6,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25.0),
-                              ),
-                              color: Colors.white.withOpacity(0.5)
-                          ),
-                        ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        Container(
-                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15.0),
-                              topRight: Radius.circular(15.0),
-                            ),
-                            color: Colors.white,
-                          ),
-
-                          child: Container(
-                            width: 150,
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15.0),
-                                      topRight: Radius.circular(15.0),
-                                    ),
-                                    color: Colors.grey.withOpacity(0.1),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          size: 20,
-                                          color: Colors.transparent,
-                                        ),
-                                        onPressed: () {
-                                        },
-
-                                      ),
-                                      Text(
-                                        "New Expense",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 17,
-                                            fontFamily: 'capsulesans',
-                                            fontWeight: FontWeight.w600
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          size: 20,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          print('clicked');
-                                        },
-
-                                      )
-
-                                    ],
-                                  ),
+            body: SafeArea(
+              top: true,
+              bottom: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                // mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    height: MediaQuery.of(priContext).padding.top,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 70,
+                            height: 6,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25.0),
                                 ),
-                              ],
+                                color: Colors.white.withOpacity(0.5)
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 14,
+                          ),
+                          Container(
+                            // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15.0),
+                                topRight: Radius.circular(15.0),
+                              ),
+                              color: Colors.white,
+                            ),
+
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 85,
+                                    decoration: BoxDecoration(
+
+                                        border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            width: 35,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5.0),
+                                                ),
+                                                color: Colors.grey.withOpacity(0.3)
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons.close,
+                                                size: 20,
+                                                color: Colors.black,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+
+                                            ),
+                                          ),
+                                          Text(
+                                            "Add new product",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 17,
+                                                fontFamily: 'capsulesans',
+                                                fontWeight: FontWeight.w600
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          Container(
+                                            width: 35,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5.0),
+                                                ),
+                                                color: AppTheme.skThemeColor,
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons.check,
+                                                size: 20,
+                                                color: Colors.black,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+
+                                            ),
+                                          )
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.yellow,
-                    height: 100,
-                  ),
-                )
-              ],
+                  // Align(
+                  //   alignment: Alignment.bottomCenter,
+                  //   child: Container(
+                  //     color: Colors.yellow,
+                  //     height: 100,
+                  //   ),
+                  // )
+                ],
+              ),
             ),
           );
 
         });
   }
-
-
-
 }
+
