@@ -25,67 +25,115 @@ class _HomeFragmentState extends State<HomeFragment> {
         child: SafeArea(
           top: true,
           bottom: true,
-          child: Stack(
+          child: Row(
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-250,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  child: Center(child: Text('Home', style: TextStyle(fontSize: 20),)),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      addDailyExp(context);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(10.0),
-                        color: Colors.grey.withOpacity(0.2)
-                      ),
+              Container(
+                width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5):MediaQuery.of(context).size.width,
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left:15.0,),
-                              child: Icon(Icons.search, size: 26,),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                                child: Container(child:
-                                Text(
-                                  'Search',
-                                  style: TextStyle(
-                                      fontSize: 16.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black.withOpacity(0.6)
-                                  ),
-                                )
+                        padding: const EdgeInsets.only(top:80.0, bottom: 56),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.white,
+                          child: ListView(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 7.5, right: 7.5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 7.5, right: 7.5),
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                        height: 100,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 7.5, right: 7.5),
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                        height: 100,
+                                        color: Colors.blue,
+                                      ),
+                                    )
+
+                                  ],
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right:15.0,),
-                              child: Icon(Icons.bar_chart, color: Colors.green, size: 22,),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            addDailyExp(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(10.0),
+                              color: Colors.grey.withOpacity(0.2)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:15.0,),
+                                    child: Icon(Icons.search, size: 26,),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left:8.0, right: 8.0),
+                                      child: Container(child:
+                                      Text(
+                                        'Search',
+                                        style: TextStyle(
+                                            fontSize: 16.5,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black.withOpacity(0.6)
+                                        ),
+                                      )
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right:15.0,),
+                                    child: Icon(Icons.bar_chart, color: Colors.green, size: 22,),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  ],
                 ),
               ),
+              MediaQuery.of(context).size.width>900?Padding(
+                padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
+                child: Container(
+                  decoration: BoxDecoration(
 
+                      border: Border(left: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))
+                  ),
+                  width: MediaQuery.of(context).size.width*(1.5/3.5),
+
+                ),
+              ):Container()
             ],
           ),
         ),
