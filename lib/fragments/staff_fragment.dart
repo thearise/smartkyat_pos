@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 
 class StaffFragment extends StatefulWidget {
   StaffFragment({Key? key}) : super(key: key);
@@ -26,13 +27,29 @@ class _StaffFragmentState extends State<StaffFragment> {
           child: Stack(
             children: [
               Align(
-                alignment: Alignment.center,
+                alignment: Alignment.centerLeft,
                 child: Container(
-                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-250,
+                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-220,
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
-                  child: Center(child: Text('Staff', style: TextStyle(fontSize: 20),)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text('Staffs',
+                            style: TextStyle(fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        AddNewCategory("Add new Staff"),
+                      ],
+                    ),
+                  ),
                 ),
+
               ),
               Align(
                 alignment: Alignment.topCenter,
