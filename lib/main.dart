@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
+
     return MaterialApp(
       title: 'Flutter UI',
       debugShowCheckedModeBanner: false,

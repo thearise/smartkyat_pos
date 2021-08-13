@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +37,23 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
-
+  Future? store;
   @override
   void initState() {
     print('user ' + FirebaseAuth.instance.currentUser!.uid);
     print('newUserCheck ' + newUserCheck(FirebaseAuth.instance.currentUser!.uid).toString());
+
+    setStoreId('PucvhZDuUz3XlkTgzcjb').then((String result) {
+      getStoreId().then((String result2) {
+        print('store id ' + result2.toString());
+      });
+      print('resutl');
+    });
+    store = getStoreId();
+
+
+    // print('store id ' + ());
+
 
     FirebaseFirestore.instance
         .collection('users')
@@ -54,6 +67,30 @@ class HomePageState extends State<HomePage> {
       }
     });
     super.initState();
+  }
+
+
+  Future<String> setStoreId(storeId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // int counter = (prefs.getInt('counter') ?? 0) + 1;
+    // print('Pressed $counter times.');
+    prefs.setString('store', storeId).then((bool success) {
+      return 'success store saved';
+    });
+    return 'error store saved';
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if(index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
   }
 
   newUserCheck(userId) async {
@@ -176,12 +213,17 @@ class HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 3,
                           ),
-                          Text(
-                            'Lock screen',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.blue,
-                            ),
+                          FutureBuilder(
+                            future: store,
+                            builder: (context, snapshot) {
+                              return Text(
+                                snapshot.data.toString(),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.blue,
+                                ),
+                              );
+                            }
                           ),
                         ],
                       ),

@@ -67,7 +67,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
           return shops
               .add({
-            'shop_name': 'Ethereals Tech'
+            'shop_name': shopName
           })
               .then((value) {
                 print('shop added');
