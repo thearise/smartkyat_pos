@@ -23,10 +23,8 @@ class _HomeFragmentState extends State<HomeFragment> {
     // await Firebase.initializeApp();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -36,13 +34,15 @@ class _HomeFragmentState extends State<HomeFragment> {
           child: Row(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5):MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width > 900
+                    ? MediaQuery.of(context).size.width * (2 / 3.5)
+                    : MediaQuery.of(context).size.width,
                 child: Stack(
                   children: [
                     Align(
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.only(top:80.0, bottom: 56),
+                        padding: const EdgeInsets.only(top: 80.0, bottom: 56),
                         child: Container(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width,
@@ -51,7 +51,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                             children: [
                               SizedBox(height: 10,),
                               Padding(
-                                padding: const EdgeInsets.only(left: 7.5, right: 7.5),
+                                padding: const EdgeInsets.only(
+                                    left: 7.5, right: 7.5),
                                 child: Row(
                                   children: [
                                     Padding(
@@ -95,7 +96,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 7.5, right: 7.5),
+                                      padding: const EdgeInsets.only(
+                                          left: 7.5, right: 7.5),
                                       child: Container(
                                         decoration: BoxDecoration(
                                             borderRadius:
@@ -129,7 +131,6 @@ class _HomeFragmentState extends State<HomeFragment> {
                                         ),
                                       ),
                                     )
-
                                   ],
                                 ),
                               )
@@ -141,25 +142,30 @@ class _HomeFragmentState extends State<HomeFragment> {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+                        padding: const EdgeInsets.only(
+                            top: 10.0, left: 15.0, right: 15.0),
                         child: GestureDetector(
                           onTap: () {
                             addDailyExp(context);
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(10.0),
-                              color: Colors.grey.withOpacity(0.2)
-                            ),
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors.grey.withOpacity(0.2)),
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                              padding: const EdgeInsets.only(
+                                  top: 15.0, bottom: 15.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(left:15.0,),
-                                    child: Icon(Icons.search, size: 26,),
+                                    padding: const EdgeInsets.only(
+                                      left: 15.0,
+                                    ),
+                                    child: Icon(
+                                      Icons.search,
+                                      size: 26,
+                                    ),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -170,15 +176,20 @@ class _HomeFragmentState extends State<HomeFragment> {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w600,
-                                            color: Colors.black.withOpacity(0.6)
-                                        ),
-                                      )
-                                      ),
+                                            color:
+                                                Colors.black.withOpacity(0.6)),
+                                      )),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(right:15.0,),
-                                    child: Icon(Icons.bar_chart, color: Colors.green, size: 22,),
+                                    padding: const EdgeInsets.only(
+                                      right: 15.0,
+                                    ),
+                                    child: Icon(
+                                      Icons.bar_chart,
+                                      color: Colors.green,
+                                      size: 22,
+                                    ),
                                   )
                                 ],
                               ),
@@ -187,21 +198,22 @@ class _HomeFragmentState extends State<HomeFragment> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
-              MediaQuery.of(context).size.width>900?Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
-                child: Container(
-                  decoration: BoxDecoration(
-
-                      border: Border(left: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))
-                  ),
-                  width: MediaQuery.of(context).size.width*(1.5/3.5),
-
-                ),
-              ):Container()
+              MediaQuery.of(context).size.width > 900
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                left: BorderSide(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    width: 1.0))),
+                        width: MediaQuery.of(context).size.width * (1.5 / 3.5),
+                      ),
+                    )
+                  : Container()
             ],
           ),
         ),
@@ -209,12 +221,12 @@ class _HomeFragmentState extends State<HomeFragment> {
     );
   }
 
-
   addDailyExp(priContext) {
+    final _formKey = GlobalKey<FormState>();
     // myController.clear();
     showModalBottomSheet(
-        enableDrag:false,
-        isScrollControlled:true,
+        enableDrag: false,
+        isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
           return Scaffold(
@@ -239,8 +251,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25.0),
                                 ),
-                                color: Colors.white.withOpacity(0.5)
-                            ),
+                                color: Colors.white.withOpacity(0.5)),
                           ),
                           SizedBox(
                             height: 14,
@@ -256,100 +267,181 @@ class _HomeFragmentState extends State<HomeFragment> {
                               color: Colors.white,
                             ),
 
-                            child: Container(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 85,
-                                    decoration: BoxDecoration(
-
-                                      border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(5.0),
-                                                ),
-                                                color: Colors.grey.withOpacity(0.3)
-                                            ),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.close,
-                                                size: 20,
-                                                color: Colors.black,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 85,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color:
+                                                  Colors.grey.withOpacity(0.3),
+                                              width: 1.0))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15.0, top: 20.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 35,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5.0),
                                               ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-
+                                              color:
+                                                  Colors.grey.withOpacity(0.3)),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.close,
+                                              size: 20,
+                                              color: Colors.black,
                                             ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
                                           ),
-                                          Text(
-                                            "Add new product",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17,
-                                                fontFamily: 'capsulesans',
-                                                fontWeight: FontWeight.w600
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(5.0),
-                                                ),
-                                                color: AppTheme.skThemeColor
-                                            ),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.check,
-                                                size: 20,
-                                                color: Colors.black,
+                                        ),
+                                        Text(
+                                          "Add new product",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 17,
+                                              fontFamily: 'capsulesans',
+                                              fontWeight: FontWeight.w600),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Container(
+                                          width: 35,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5.0),
                                               ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-
+                                              color: AppTheme.skThemeColor),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.check,
+                                              size: 20,
+                                              color: Colors.black,
                                             ),
-                                          )
-
-                                        ],
-                                      ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  padding: EdgeInsets.only(top: 20, left: 15),
+                                  child: Text(
+                                    "PRODUCT INFORMATION",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                      letterSpacing: 2,
+                                      color: Colors.brown,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(left: 15),
+                                      height: 130,
+                                      width: 150,
+                                      child: Image.network(
+                                        'http://www.hmofficesolutions.com/media/4252/royal-d.jpg',
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Container(
+                                      width: 200,
+                                      child: Expanded(
+                                          child: Text(
+                                        "Add images to show customers product details and features",
+                                        style: TextStyle(
+                                          color: Colors.amberAccent,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      )),
+                                    ),
+                                  ],
+                                ),
+                                Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        //height: 200,
+                                        width: 380,
+                                        child: TextFormField(
+                                          // The validator receives the text that the user has entered.
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'This field is required';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            suffixText: 'Required',
+                                            // errorText: 'Error message',
+                                            labelText: 'First Name',
+                                            floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+                                            //filled: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      SizedBox(
+                                        //height: 200,
+                                        width: 380,
+                                        child: TextFormField(
+                                          // The validator receives the text that the user has entered.
+                                          decoration: InputDecoration(
+                                            labelText: 'Last Name',
+                                            floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+                                            //filled: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  // Align(
-                  //   alignment: Alignment.bottomCenter,
-                  //   child: Container(
-                  //     color: Colors.yellow,
-                  //     height: 100,
-                  //   ),
-                  // )
                 ],
               ),
             ),
           );
-
         });
   }
-
-
-
 }

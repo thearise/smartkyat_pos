@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
+import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 
 class CustomersFragment extends StatefulWidget {
   CustomersFragment({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _CustomersFragmentState extends State<CustomersFragment> {
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: Column(
+                    child: ListView(
                       children: [
                         Container(
                           alignment: Alignment.topLeft,
@@ -58,7 +59,7 @@ class _CustomersFragmentState extends State<CustomersFragment> {
                           height: 15,
                         ),
                         CustomerInfo(
-                            'Shwe Pyi Soe', 'Monywa', '(+959)589764241'),
+                            'Shwe Pyi Soe', 'Magway', '(+959)589764241'),
                         SizedBox(
                           height: 15,
                         ),
@@ -117,10 +118,22 @@ class _CustomersFragmentState extends State<CustomersFragment> {
                               padding: const EdgeInsets.only(
                                 right: 15.0,
                               ),
-                              child: Icon(
-                                Icons.bar_chart,
-                                color: Colors.green,
-                                size: 22,
+                              child: SizedBox(
+                                width: 34,
+                                height: 28,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.bar_chart,
+                                    color: Colors.green,
+                                    size: 22,
+                                  ),
+                            onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => QRViewExample()),
+                                );
+                            },
+                          ),
                               ),
                             ),
                           )
