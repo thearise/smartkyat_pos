@@ -89,13 +89,6 @@ class _SettingsFragmentState extends State<SettingsFragment> {
     //     exist = true;
     //   });
     // });
-
-
-
-
-
-
-
   }
 
 
@@ -307,9 +300,6 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
         });
   }
-
-
-
 }
 
 
