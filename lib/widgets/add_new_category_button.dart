@@ -11,7 +11,7 @@ class AddNewCategory extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10.0),
       child: ButtonTheme(
         minWidth: MediaQuery.of(context).size.width,
-        height: 62,
+        height: 56,
         child: FlatButton(
           color: AppTheme.skThemeColor,
           shape: RoundedRectangleBorder(
@@ -24,8 +24,8 @@ class AddNewCategory extends StatelessWidget {
           child: Text(
             categoryText,
             style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.w600,
+                fontSize: 16.5,
+                fontWeight: FontWeight.w600,
             ),
           ),
         ),
