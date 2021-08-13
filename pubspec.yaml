@@ -32,6 +32,8 @@ dependencies:
   cloud_firestore: ^2.4.0
   pinput: ^1.2.0
   qr_code_scanner: ^0.5.2
+  shared_preferences: ^2.0.6
+  adaptive_dialog: ^1.1.0
 
 dev_dependencies:
   flutter_test:
