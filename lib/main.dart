@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smartkyat_pos/login.dart';
 import 'package:smartkyat_pos/pages/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:smartkyat_pos/src/app.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -27,6 +32,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
+
     return MaterialApp(
       title: 'Flutter UI',
       debugShowCheckedModeBanner: false,
@@ -36,7 +42,8 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.white,
       ),
       //home: App(settings),
-      home: HomePage(),
+      // home: HomePage(),
+      home: App()
     );
   }
 }

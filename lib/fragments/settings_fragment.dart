@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SettingsFragment extends StatefulWidget {
@@ -8,6 +10,91 @@ class SettingsFragment extends StatefulWidget {
 }
 
 class _SettingsFragmentState extends State<SettingsFragment> {
+
+
+
+  addShop(shopName) {
+    CollectionReference spaces = FirebaseFirestore.instance.collection('space');
+    var exist = false;
+    var docId = '';
+    var shopExist = false;
+    FirebaseFirestore.instance
+        .collection('space')
+        .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        docId = doc.id;
+        exist = true;
+      });
+
+      if(exist) {
+        print('space shi p thar');
+
+        FirebaseFirestore.instance
+            .collection('space').doc(docId).collection('shops')
+            .where('shop_name', isEqualTo: shopName)
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          querySnapshot.docs.forEach((doc) {
+            shopExist = true;
+          });
+
+          if(shopExist) {
+            print('shop already');
+
+          } else {
+            CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
+            return shops
+                .add({
+              'shop_name': shopName
+            })
+                .then((value) {
+              print('shop added');
+            });
+          }
+        });
+        
+
+      } else {
+        print('space mshi vuu');
+        return spaces
+            .add({
+          'user_id': FirebaseAuth.instance.currentUser!.uid
+        })
+            .then((value) {
+          CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(value.id).collection('shops');
+
+          return shops
+              .add({
+            'shop_name': shopName
+          })
+              .then((value) {
+                print('shop added');
+          });
+
+        }).catchError((error) => print("Failed to add shop: $error"));
+      }
+    });
+
+
+
+
+    // FirebaseFirestore.instance
+    //     .collection('shops')
+    //     .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+    //     .get()
+    //     .then((QuerySnapshot querySnapshot) {
+    //   querySnapshot.docs.forEach((doc) {
+    //     exist = true;
+    //   });
+    // });
+  }
+
+
+
+
+
   @override
   initState() {
     // await Firebase.initializeApp();
@@ -31,7 +118,12 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-250,
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
-                  child: Center(child: Text('Settings', style: TextStyle(fontSize: 20),)),
+                  child: Center(child: GestureDetector(
+                    onTap: () {
+                      addShop('GG Tech');
+                    },
+                      child: Text('Settings', style: TextStyle(fontSize: 20),)
+                  )),
                 ),
               ),
               Align(
@@ -208,7 +300,6 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
         });
   }
-
-
-
 }
+
+

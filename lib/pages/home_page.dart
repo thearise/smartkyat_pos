@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +9,8 @@ import 'package:smartkyat_pos/fragments/products_fragment.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
 import 'package:smartkyat_pos/fragments/staff_fragment.dart';
 import 'package:smartkyat_pos/fragments/support_fragment.dart';
+
+import '../app_theme.dart';
 
 class DrawerItem {
   String title;
@@ -32,11 +37,80 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
+  Future? store;
+  @override
+  void initState() {
+    print('user ' + FirebaseAuth.instance.currentUser!.uid);
+    print('newUserCheck ' + newUserCheck(FirebaseAuth.instance.currentUser!.uid).toString());
+
+    setStoreId('PucvhZDuUz3XlkTgzcjb').then((String result) {
+      getStoreId().then((String result2) {
+        print('store id ' + result2.toString());
+      });
+      print('resutl');
+    });
+    store = getStoreId();
+
+
+    // print('store id ' + ());
+
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('exits ');
+      } else {
+        print('no exits ');
+      }
+    });
+    super.initState();
+  }
+
+
+  Future<String> setStoreId(storeId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // int counter = (prefs.getInt('counter') ?? 0) + 1;
+    // print('Pressed $counter times.');
+    prefs.setString('store', storeId).then((bool success) {
+      return 'success store saved';
+    });
+    return 'error store saved';
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if(index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
+  }
+
+  newUserCheck(userId) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc('aHHin46ulpdoxOGh6kav8EDE4xn2')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('here exits ');
+      } else {
+        print('here no exits ');
+      }
+    });
+  }
 
   _getDrawerItemWidget(int pos) {
     switch (pos) {
       case 0:
-        return new HomeFragment();
+        return new HomeFragment(toggleCoinCallback: addCounter);
       case 1:
         return new OrdersFragment();
       case 2:
@@ -139,12 +213,17 @@ class HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 3,
                           ),
-                          Text(
-                            'Lock screen',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.blue,
-                            ),
+                          FutureBuilder(
+                            future: store,
+                            builder: (context, snapshot) {
+                              return Text(
+                                snapshot.data.toString(),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.blue,
+                                ),
+                              );
+                            }
                           ),
                         ],
                       ),
@@ -178,55 +257,128 @@ class HomePageState extends State<HomePage> {
             child: Stack(
               children: [
                 _getDrawerItemWidget(_selectedDrawerIndex),
+                MediaQuery.of(context).size.width>900?Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 56.0),
+                    child: Container(
+                      height: double.infinity,
+                      width: MediaQuery.of(context).size.width*(1.5/3.5),
+                      child: checkoutCart(),
+                    ),
+                  ),
+                ):Container(),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                      top: BorderSide(
-                          color: Colors.grey.withOpacity(0.2), width: 1.0),
-                    )),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 15.0,
+                    // color: Colors.black,
+                    height: MediaQuery.of(context).size.width>900?57:157,
+                    child: Column(
+                      children: [
+                        MediaQuery.of(context).size.width>900?Container():Padding(
+                          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                          child: Container(
+                            height: 70,
+                            decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(
+                                      color: Colors.grey.withOpacity(0.2), width: 1.0),
+                                )
                             ),
-                            child: GestureDetector(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
+                              child: GestureDetector(
                                 onTap: () {
-                                  Scaffold.of(context).openDrawer();
+                                  addDailyExp(context);
                                 },
-                                child: Icon(
-                                  Icons.home_filled,
-                                  size: 26,
-                                )),
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Text(
-                              'Phyo Pyae Sohn',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16.5,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black.withOpacity(0.6)),
-                            )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              right: 15.0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(10.0),
+                                    color: Colors.grey.withOpacity(0.2),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
+                                            child: Container(child:
+                                            Text(
+                                              'Go to cart',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black.withOpacity(0.6)
+                                              ),
+                                            )
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                            child: Icon(
-                              Icons.circle,
-                              color: Colors.green,
-                              size: 22,
+                          ),
+                        ),
+                        Container(
+                          height: 57,
+                          decoration: BoxDecoration(
+                              border: Border(
+                            top: BorderSide(
+                                color: Colors.grey.withOpacity(0.2), width: 1.0),
+                          )),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 15.0,
+                                  ),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        Scaffold.of(context).openDrawer();
+                                      },
+                                      child: Icon(
+                                        Icons.home_filled,
+                                        size: 26,
+                                      )),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    child: Text(
+                                      'Phyo Pyae Sohn',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 16.5,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black.withOpacity(0.6)),
+                                    )
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 15.0,
+                                  ),
+                                  child: Icon(
+                                    Icons.circle,
+                                    color: Colors.green,
+                                    size: 22,
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -235,4 +387,248 @@ class HomePageState extends State<HomePage> {
           );
         }));
   }
+
+  var counter = 0;
+
+  checkoutCart() {
+    var width = MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(1.5/3.5):MediaQuery.of(context).size.width;
+    return Container(
+      height: MediaQuery.of(context).size.height-105,
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
+        child: Stack(
+          children: [
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    addCounter();
+                  },
+                  child: Container(
+                    width: (width/2)-20,
+                    height: 56,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(10.0),
+                        color: Colors.grey.withOpacity(0.2)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
+                              child: Container(child:
+                              Text(
+                                'Clear cart',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black.withOpacity(0.6)
+                                ),
+                              )
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10.0,),
+                Container(
+                  width: (width/2)-20,
+                  height: 56,
+                  decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.circular(10.0),
+                      color: Colors.grey.withOpacity(0.2)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
+                            child: Container(child:
+                            Text(
+                              'More actions',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black.withOpacity(0.6)
+                              ),
+                            )
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 80.0),
+              child: Container(
+                child: Text('Counter: ' + counter.toString())
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  addCounter() {
+    setState(() {
+      counter++;
+    });
+  }
+
+
+  addDailyExp(priContext) {
+    // myController.clear();
+    showModalBottomSheet(
+        enableDrag:false,
+        isScrollControlled:true,
+        context: context,
+        builder: (BuildContext context) {
+          return Scaffold(
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 70,
+                          height: 6,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25.0),
+                              ),
+                              color: Colors.white.withOpacity(0.5)
+                          ),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Container(
+                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15.0),
+                              topRight: Radius.circular(15.0),
+                            ),
+                            color: Colors.white,
+                          ),
+
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 85,
+                                  decoration: BoxDecoration(
+
+                                      border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 35,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5.0),
+                                              ),
+                                              color: Colors.grey.withOpacity(0.3)
+                                          ),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.close,
+                                              size: 20,
+                                              color: Colors.black,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+
+                                          ),
+                                        ),
+                                        Text(
+                                          "Cart",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 17,
+                                              fontFamily: 'capsulesans',
+                                              fontWeight: FontWeight.w600
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Container(
+                                          width: 35,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5.0),
+                                              ),
+                                              color: AppTheme.skThemeColor
+                                          ),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.check,
+                                              size: 20,
+                                              color: Colors.black,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+
+                                          ),
+                                        )
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                checkoutCart()
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: Container(
+                //     color: Colors.yellow,
+                //     height: 100,
+                //   ),
+                // )
+              ],
+            ),
+          );
+
+        });
+  }
 }
+
+
+
+

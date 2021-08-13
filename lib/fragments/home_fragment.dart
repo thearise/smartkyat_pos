@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-
 import '../app_theme.dart';
 
 class HomeFragment extends StatefulWidget {
-  HomeFragment({Key? key}) : super(key: key);
+  final _callback;
 
+  HomeFragment( {required void toggleCoinCallback() } ) :
+        _callback = toggleCoinCallback;
   @override
   _HomeFragmentState createState() => _HomeFragmentState();
+
+  // HomeFragment({Key? key, required void toggleCoinCallback()}) : super(key: key);
+  //
+  // @override
+  // _HomeFragmentState createState() => _HomeFragmentState();
 }
 
 class _HomeFragmentState extends State<HomeFragment> {
@@ -41,53 +47,86 @@ class _HomeFragmentState extends State<HomeFragment> {
                           color: Colors.white,
                           child: ListView(
                             children: [
+                              SizedBox(height: 10,),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 7.5, right: 7.5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 7.5, right: 7.5),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width >
-                                                    900
-                                                ? MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        (2 / 3.5) *
-                                                        (1 / 2) -
-                                                    22.5
-                                                : MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        (1 / 2) -
-                                                    22.5,
-                                        height: 100,
-                                        color: Colors.green,
+                                      padding: const EdgeInsets.only(left: 7.5, right: 7.5),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          widget._callback();
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10.0),
+                                            color: Colors.green.withOpacity(0.4),
+                                          ),
+                                          width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                          height: 120,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(18.0),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.add_shopping_cart_rounded),
+                                                Expanded(
+                                                  child: Align(
+                                                    alignment: Alignment.bottomLeft,
+                                                    child: Text(
+                                                      'Add orders',
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black.withOpacity(0.6)
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 7.5, right: 7.5),
                                       child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width >
-                                                    900
-                                                ? MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        (2 / 3.5) *
-                                                        (1 / 2) -
-                                                    22.5
-                                                : MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        (1 / 2) -
-                                                    22.5,
-                                        height: 100,
-                                        color: Colors.blue,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10.0),
+                                            color: Colors.blue.withOpacity(0.4),
+                                        ),
+                                        width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                        height: 120,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(18.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Icon(Icons.volunteer_activism),
+                                              Expanded(
+                                                child: Align(
+                                                  alignment: Alignment.bottomLeft,
+                                                  child: Text(
+                                                    'Add discount',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black.withOpacity(0.6)
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     )
                                   ],
@@ -128,13 +167,12 @@ class _HomeFragmentState extends State<HomeFragment> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0),
-                                      child: Container(
-                                          child: Text(
+                                      padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
+                                      child: Container(child:
+                                      Text(
                                         'Search',
                                         style: TextStyle(
-                                            fontSize: 16.5,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.w600,
                                             color:
                                                 Colors.black.withOpacity(0.6)),
@@ -182,7 +220,7 @@ class _HomeFragmentState extends State<HomeFragment> {
   }
 
   addDailyExp(priContext) {
-    final _formKey = GlobalKey<FormState>();
+  //  final _formKey = GlobalKey<FormState>();
     // myController.clear();
     showModalBottomSheet(
         enableDrag: false,
@@ -326,70 +364,66 @@ class _HomeFragmentState extends State<HomeFragment> {
                                     ),
                                     Container(
                                       width: 200,
-                                      child: Expanded(
-                                          child: Text(
+                                      child: Text(
                                         "Add images to show customers product details and features",
                                         style: TextStyle(
-                                          color: Colors.amberAccent,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
+                                      color: Colors.amberAccent,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
                                         ),
-                                      )),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        //height: 200,
-                                        width: 380,
-                                        child: TextFormField(
-                                          // The validator receives the text that the user has entered.
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'This field is required';
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            suffixText: 'Required',
-                                            // errorText: 'Error message',
-                                            labelText: 'First Name',
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.auto,
-                                            //filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                      //height: 200,
+                                      width: 380,
+                                      child: TextFormField(
+                                        // The validator receives the text that the user has entered.
+                                        validator: (value) {
+                                          if (value == null ||
+                                              value.isEmpty) {
+                                            return 'This field is required';
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          suffixText: 'Required',
+                                          // errorText: 'Error message',
+                                          labelText: 'First Name',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+                                          //filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      SizedBox(
-                                        //height: 200,
-                                        width: 380,
-                                        child: TextFormField(
-                                          // The validator receives the text that the user has entered.
-                                          decoration: InputDecoration(
-                                            labelText: 'Last Name',
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.auto,
-                                            //filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    SizedBox(
+                                      //height: 200,
+                                      width: 380,
+                                      child: TextFormField(
+                                        // The validator receives the text that the user has entered.
+                                        decoration: InputDecoration(
+                                          labelText: 'Last Name',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+                                          //filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

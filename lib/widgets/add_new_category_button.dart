@@ -10,6 +10,7 @@ class AddNewCategory extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: ButtonTheme(
+        splashColor: Colors.transparent,
         minWidth: MediaQuery.of(context).size.width,
         height: 56,
         child: FlatButton(
