@@ -35,103 +35,97 @@ class _ProductsFragmentState extends State<ProductsFragment> {
           bottom: true,
           child: Stack(
             children: [
-            Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-220,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 25.0, left: 15.0, right: 15.0),
-                // child: ListView(
-                //   children: [
-                //     CustomerInfo('Phyo Pyae Sohn', 'Monywa', '(+959)794335708'),
-                //     CustomerInfo('Shwe Pyi Soe', 'Magway', '(+959)589764241'),
-                //     CustomerInfo('Sabai', 'Monywa', '(+959)766376767'),
-                //     CustomerInfo('Kabyar', 'Monywa', '(+959)751133553'),
-                //   ],
-                // )
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-220,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+                    // child: ListView(
+                    //   children: [
+                    //     CustomerInfo('Phyo Pyae Sohn', 'Monywa', '(+959)794335708'),
+                    //     CustomerInfo('Shwe Pyi Soe', 'Magway', '(+959)589764241'),
+                    //     CustomerInfo('Sabai', 'Monywa', '(+959)766376767'),
+                    //     CustomerInfo('Kabyar', 'Monywa', '(+959)751133553'),
+                    //   ],
+                    // )
 
 
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').snapshots(),
-                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Something went wrong');
-                    }
+                    child: ListView(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text('Products',
+                            style: TextStyle(fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: ButtonTheme(
+                            splashColor: Colors.transparent,
+                            minWidth: MediaQuery.of(context).size.width,
+                            height: 56,
+                            child: FlatButton(
+                              color: AppTheme.skThemeColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0),
+                                side: BorderSide(
+                                  color: AppTheme.skThemeColor,
+                                ),
+                              ),
+                              onPressed: () {
+                                addNewProd(context);
+                              },
+                              child: Text(
+                                'Add new product',
+                                style: TextStyle(
+                                  fontSize: 16.5,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
 
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("Loading");
-                    }
+                        SizedBox(
+                          height: 10,
+                        ),
+                        StreamBuilder(
+                            stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').snapshots(),
+                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Something went wrong');
+                              }
 
-                    return ListView(
-                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                        return ListTile(
-                          title: Text(data['prod_name']),
-                        );
-                      }).toList(),
-                    );
-                  }
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return Text("Loading");
+                              }
+
+                              return ListView(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                  Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                  // return ListTile(
+                                  //   title: Text(data['prod_name']),
+                                  // );
+                                  return CustomerInfo(data['prod_name'], 'Monywa', '(+959)794335708');
+                                }).toList(),
+                              );
+                            }
+                        )
+
+
+                      ],
+                    ),
+                  ),
                 ),
-                // child: ListView(
-                //   children: [
-                //     Container(
-                //       alignment: Alignment.topLeft,
-                //       child: Text('Products',
-                //         style: TextStyle(fontSize: 24,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.only(top: 10.0),
-                //       child: ButtonTheme(
-                //         splashColor: Colors.transparent,
-                //         minWidth: MediaQuery.of(context).size.width,
-                //         height: 56,
-                //         child: FlatButton(
-                //           color: AppTheme.skThemeColor,
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(7.0),
-                //             side: BorderSide(
-                //               color: AppTheme.skThemeColor,
-                //             ),
-                //           ),
-                //           onPressed: () {
-                //             addNewProd(context);
-                //           },
-                //           child: Text(
-                //             'Add new product',
-                //             style: TextStyle(
-                //               fontSize: 16.5,
-                //               fontWeight: FontWeight.w600,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //
-                //     SizedBox(
-                //       height: 40,
-                //     ),
-                //     ListView(
-                //       shrinkWrap: true,
-                //       children: [
-                //         CustomerInfo('Phyo Pyae Sohn', 'Monywa', '(+959)794335708'),
-                //         CustomerInfo('Shwe Pyi Soe', 'Magway', '(+959)589764241'),
-                //         CustomerInfo('Sabai', 'Monywa', '(+959)766376767'),
-                //         CustomerInfo('Kabyar', 'Monywa', '(+959)751133553'),
-                //       ],
-                //     )
-                //
-                //
-                //   ],
-                // ),
-              ),
-            ),
 
-          ),
+              ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
@@ -187,6 +181,7 @@ class _ProductsFragmentState extends State<ProductsFragment> {
         ),
       ),
     );
+
   }
 
 
