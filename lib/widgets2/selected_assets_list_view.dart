@@ -117,6 +117,7 @@ class SelectedAssetsListView extends StatelessWidget {
             : 40.0,
         child: Column(
           children: <Widget>[
+
             // SizedBox(
             //   height: 20.0,
             //   child: GestureDetector(

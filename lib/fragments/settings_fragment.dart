@@ -75,19 +75,6 @@ class _SettingsFragmentState extends State<SettingsFragment> {
         }).catchError((error) => print("Failed to add shop: $error"));
       }
     });
-
-
-
-
-    // FirebaseFirestore.instance
-    //     .collection('shops')
-    //     .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot) {
-    //   querySnapshot.docs.forEach((doc) {
-    //     exist = true;
-    //   });
-    // });
   }
 
   @override
@@ -182,6 +169,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
             ],
           ),
         )
+
 
     );
   }
@@ -304,6 +292,4 @@ class _SettingsFragmentState extends State<SettingsFragment> {
         });
   }
 }
-
-
 

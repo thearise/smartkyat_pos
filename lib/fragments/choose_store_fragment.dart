@@ -85,4 +85,3 @@ class _chooseStoreState extends State<chooseStore> {
     );
   }
 }
-
