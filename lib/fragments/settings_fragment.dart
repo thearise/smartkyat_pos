@@ -104,10 +104,11 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
   @override
   initState() {
+    _result = 4;
     // await Firebase.initializeApp();
   }
 
-
+  var _result;
   @override
   Widget build(BuildContext context) {
 
@@ -129,7 +130,53 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                     onTap: () {
                       addShop('GG Tech');
                     },
-                      child: Text('Settings', style: TextStyle(fontSize: 20),)
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('1 + 2 + 4 = ?'),
+                          RadioListTile(
+                              title: Text('4'),
+                              value: 4,
+                              groupValue: _result,
+                              onChanged: (value) {
+                                setState(() {
+                                  _result = value;
+                                });
+                              }),
+                          RadioListTile(
+                              title: Text('5.4'),
+                              value: 5.4,
+                              groupValue: _result,
+                              onChanged: (value) {
+                                setState(() {
+                                  _result = value;
+                                });
+                              }),
+
+
+
+                          RadioListTile(
+                              title: Text('6'),
+                              value: 6,
+                              groupValue: _result,
+                              onChanged: (value) {
+                                setState(() {
+                                  _result = value;
+                                });
+                              }),
+                          RadioListTile(
+                              title: Text('7'),
+                              value: 7,
+                              groupValue: _result,
+                              onChanged: (value) {
+                                setState(() {
+                                  _result = value;
+                                });
+                              }),
+                          SizedBox(height: 25),
+                          Text(_result == 7 ? 'Correct!' : 'Please chose the right answer!')
+                        ],
+                      )
                   )),
                 ),
               ),

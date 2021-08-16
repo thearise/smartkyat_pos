@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:smartkyat_pos/pages2/multi_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 
 import '../app_theme.dart';
@@ -42,7 +43,7 @@ class _ProductsFragmentState extends State<ProductsFragment> {
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
               child: Padding(
-                padding: const EdgeInsets.only(top: 25.0, left: 15.0, right: 15.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
                 // child: ListView(
                 //   children: [
                 //     CustomerInfo('Phyo Pyae Sohn', 'Monywa', '(+959)794335708'),
@@ -53,81 +54,82 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                 // )
 
 
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').snapshots(),
-                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Something went wrong');
-                    }
+                child: ListView(
+                  children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: Text('Products',
+                        style: TextStyle(fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: ButtonTheme(
+                        splashColor: Colors.transparent,
+                        minWidth: MediaQuery.of(context).size.width,
+                        height: 56,
+                        child: FlatButton(
+                          color: AppTheme.skThemeColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7.0),
+                            side: BorderSide(
+                              color: AppTheme.skThemeColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            addNewProd(context);
+                          },
+                          child: Text(
+                            'Add new product',
+                            style: TextStyle(
+                              fontSize: 16.5,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
 
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text("Loading");
-                    }
+                    SizedBox(
+                      height: 10,
+                    ),
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').snapshots(),
+                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
-                    return ListView(
-                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                        return ListTile(
-                          title: Text(data['prod_name']),
-                        );
-                      }).toList(),
-                    );
-                  }
+                          if (snapshot.hasError) {
+                            return Text('Something went wrong');
+                          }
+
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Text("Loading");
+                          }
+
+                          print(snapshot.data!.docs.length.toString());
+
+                          var index = 0;
+
+                          return ListView(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                              Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                              index++;
+                              print(index.toString() + 'index');
+                              // return ListTile(
+                              //   title: Text(data['prod_name']),
+                              // );
+                              return CustomerInfo(data['prod_name'], 'Monywa', '(+959)794335708');
+                            }).toList(),
+                          );
+                        }
+                    )
+
+
+                  ],
                 ),
-                // child: ListView(
-                //   children: [
-                //     Container(
-                //       alignment: Alignment.topLeft,
-                //       child: Text('Products',
-                //         style: TextStyle(fontSize: 24,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.only(top: 10.0),
-                //       child: ButtonTheme(
-                //         splashColor: Colors.transparent,
-                //         minWidth: MediaQuery.of(context).size.width,
-                //         height: 56,
-                //         child: FlatButton(
-                //           color: AppTheme.skThemeColor,
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(7.0),
-                //             side: BorderSide(
-                //               color: AppTheme.skThemeColor,
-                //             ),
-                //           ),
-                //           onPressed: () {
-                //             addNewProd(context);
-                //           },
-                //           child: Text(
-                //             'Add new product',
-                //             style: TextStyle(
-                //               fontSize: 16.5,
-                //               fontWeight: FontWeight.w600,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //
-                //     SizedBox(
-                //       height: 40,
-                //     ),
-                //     ListView(
-                //       shrinkWrap: true,
-                //       children: [
-                //         CustomerInfo('Phyo Pyae Sohn', 'Monywa', '(+959)794335708'),
-                //         CustomerInfo('Shwe Pyi Soe', 'Magway', '(+959)589764241'),
-                //         CustomerInfo('Sabai', 'Monywa', '(+959)766376767'),
-                //         CustomerInfo('Kabyar', 'Monywa', '(+959)751133553'),
-                //       ],
-                //     )
-                //
-                //
-                //   ],
-                // ),
               ),
             ),
 
@@ -434,133 +436,135 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                                   SizedBox(
                                     height: 16,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                    child: TextFormField(
-                                      // The validator receives the text that the user has entered.
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.isEmpty) {
-                                          return 'This field is required';
-                                        }
-                                        prodFieldsValue.add(value);
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
-                                        suffixText: 'Required',
-                                        suffixStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',),
-                                        labelStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                        // errorText: 'Error message',
-                                        labelText: 'Product name',
-                                        floatingLabelBehavior:
-                                        FloatingLabelBehavior.auto,
-                                        //filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    padding: EdgeInsets.only(top: 20, left: 15),
-                                    child: Text(
-                                      "PRODUCT PRICING",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                        letterSpacing: 2,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                    child: TextFormField(
-                                      // The validator receives the text that the user has entered.
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.isEmpty) {
-                                          return 'This field is required';
-                                        }
-                                        prodFieldsValue.add(value);
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
-                                        suffixText: 'Required',
-                                        suffixStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',),
-                                        labelStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                        // errorText: 'Error message',
-                                        labelText: 'Sale price',
-                                        floatingLabelBehavior:
-                                        FloatingLabelBehavior.auto,
-                                        //filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                    child: TextFormField(
-                                      // The validator receives the text that the user has entered.
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.isEmpty) {
-                                          return 'This field is required';
-                                        }
-                                        prodFieldsValue.add(value);
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
-                                        suffixText: 'Required',
-                                        suffixStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',),
-                                        labelStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                        // errorText: 'Error message',
-                                        labelText: 'Cost',
-                                        floatingLabelBehavior:
-                                        FloatingLabelBehavior.auto,
-                                        //filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  Container(height: 500,
+                                  child: MultiAssetsPage(),),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                  //   child: TextFormField(
+                                  //     // The validator receives the text that the user has entered.
+                                  //     validator: (value) {
+                                  //       if (value == null ||
+                                  //           value.isEmpty) {
+                                  //         return 'This field is required';
+                                  //       }
+                                  //       prodFieldsValue.add(value);
+                                  //       return null;
+                                  //     },
+                                  //     decoration: InputDecoration(
+                                  //       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
+                                  //       suffixText: 'Required',
+                                  //       suffixStyle: TextStyle(
+                                  //         color: Colors.grey,
+                                  //         fontSize: 12,
+                                  //         fontFamily: 'capsulesans',),
+                                  //       labelStyle: TextStyle(
+                                  //         fontWeight: FontWeight.w500,
+                                  //         color: Colors.black,
+                                  //       ),
+                                  //       // errorText: 'Error message',
+                                  //       labelText: 'Product name',
+                                  //       floatingLabelBehavior:
+                                  //       FloatingLabelBehavior.auto,
+                                  //       //filled: true,
+                                  //       border: OutlineInputBorder(
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(10),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // SizedBox(
+                                  //   height: 10,
+                                  // ),
+                                  // Container(
+                                  //   alignment: Alignment.topLeft,
+                                  //   padding: EdgeInsets.only(top: 20, left: 15),
+                                  //   child: Text(
+                                  //     "PRODUCT PRICING",
+                                  //     style: TextStyle(
+                                  //       fontWeight: FontWeight.bold,
+                                  //       fontSize: 13,
+                                  //       letterSpacing: 2,
+                                  //       color: Colors.grey,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // SizedBox(
+                                  //   height: 16,
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                  //   child: TextFormField(
+                                  //     // The validator receives the text that the user has entered.
+                                  //     validator: (value) {
+                                  //       if (value == null ||
+                                  //           value.isEmpty) {
+                                  //         return 'This field is required';
+                                  //       }
+                                  //       prodFieldsValue.add(value);
+                                  //       return null;
+                                  //     },
+                                  //     decoration: InputDecoration(
+                                  //       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
+                                  //       suffixText: 'Required',
+                                  //       suffixStyle: TextStyle(
+                                  //         color: Colors.grey,
+                                  //         fontSize: 12,
+                                  //         fontFamily: 'capsulesans',),
+                                  //       labelStyle: TextStyle(
+                                  //         fontWeight: FontWeight.w500,
+                                  //         color: Colors.black,
+                                  //       ),
+                                  //       // errorText: 'Error message',
+                                  //       labelText: 'Sale price',
+                                  //       floatingLabelBehavior:
+                                  //       FloatingLabelBehavior.auto,
+                                  //       //filled: true,
+                                  //       border: OutlineInputBorder(
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(10),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // SizedBox(
+                                  //   height: 16,
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                  //   child: TextFormField(
+                                  //     // The validator receives the text that the user has entered.
+                                  //     validator: (value) {
+                                  //       if (value == null ||
+                                  //           value.isEmpty) {
+                                  //         return 'This field is required';
+                                  //       }
+                                  //       prodFieldsValue.add(value);
+                                  //       return null;
+                                  //     },
+                                  //     decoration: InputDecoration(
+                                  //       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
+                                  //       suffixText: 'Required',
+                                  //       suffixStyle: TextStyle(
+                                  //         color: Colors.grey,
+                                  //         fontSize: 12,
+                                  //         fontFamily: 'capsulesans',),
+                                  //       labelStyle: TextStyle(
+                                  //         fontWeight: FontWeight.w500,
+                                  //         color: Colors.black,
+                                  //       ),
+                                  //       // errorText: 'Error message',
+                                  //       labelText: 'Cost',
+                                  //       floatingLabelBehavior:
+                                  //       FloatingLabelBehavior.auto,
+                                  //       //filled: true,
+                                  //       border: OutlineInputBorder(
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(10),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -608,56 +612,62 @@ class CustomerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          border: Border(
-              bottom:
-              BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                customerName,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            border: Border(
+                bottom:
+                BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  customerName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                customerAddress,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.blueGrey.withOpacity(1.0),
+                SizedBox(
+                  height: 7,
                 ),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                customerPhone,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.blueGrey.withOpacity(1.0),
+                Text(
+                  customerAddress,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.blueGrey.withOpacity(1.0),
+                  ),
                 ),
+                SizedBox(
+                  height: 7,
+                ),
+                Text(
+                  customerPhone,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.blueGrey.withOpacity(1.0),
+                  ),
+                ),
+                SizedBox(height: 20),
+              ],
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 16,
+                color: Colors.blueGrey.withOpacity(0.8),
               ),
-              SizedBox(height: 20),
-            ],
-          ),
-          Spacer(),
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 16,
-            color: Colors.blueGrey.withOpacity(0.8),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

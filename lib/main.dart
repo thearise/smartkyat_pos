@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:smartkyat_pos/login.dart';
 import 'package:smartkyat_pos/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smartkyat_pos/src/app.dart';
 
+PackageInfo? packageInfo;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

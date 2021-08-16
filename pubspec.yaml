@@ -34,6 +34,18 @@ dependencies:
   qr_code_scanner: ^0.5.2
   shared_preferences: ^2.0.6
   adaptive_dialog: ^1.1.0
+  sticky_and_expandable_list: ^1.0.0-nullsafety.1
+  json_annotation:
+  device_info: ^2.0.2
+
+  wechat_camera_picker: ^2.3.0
+  wechat_assets_picker:
+  extended_image: ^4.0.0
+  package_info_plus: ^1.0.4
+  path: ^1.8.0
+  path_provider: ^2.0.1
+  provider: ^5.0.0
+
 
 dev_dependencies:
   flutter_test:
