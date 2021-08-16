@@ -41,7 +41,12 @@
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+		<key>NSAllowsArbitraryLoads</key>
+        <true/>
 	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Replace with your permission description.</string>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

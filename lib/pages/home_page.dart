@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
@@ -38,6 +42,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
   Future? store;
+  var deviceIdNum = 0;
   @override
   void initState() {
     print('user ' + FirebaseAuth.instance.currentUser!.uid);
@@ -67,6 +72,64 @@ class HomePageState extends State<HomePage> {
       }
     });
     super.initState();
+    _getId().then((result) {
+      print(result.toString());
+      var deviceAdded = false;
+      FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('devices')
+        .where('id', isEqualTo: result.toString())
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          deviceAdded = true;
+          deviceIdNum = doc['num'];
+        });
+
+        if(deviceAdded) {
+          // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('devices')
+          //     .doc(dateId).update({
+          //   'daily_order': FieldValue.arrayUnion([now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString()+'~'+length.toString()])
+          // }).then((value) {
+          //   print('User updated');
+          //   setState(() {
+          //     orderLoading = false;
+          //   });
+          // });
+        } else {
+          var length = 0;
+          FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('devices')
+          // FirebaseFirestore.instance.collection('space')
+              .get()
+              .then((QuerySnapshot querySnapshot) {
+            querySnapshot.docs.forEach((doc) {
+              length++;
+            });
+
+            FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('devices')
+                .add({
+              'id': result.toString(),
+              'num': length+1
+            })
+                .then((value) {
+              deviceIdNum = length+1;
+              print('order added');
+            });
+          });
+
+        }
+      });
+    });
+  }
+
+
+  Future<String> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return 'ios-' + iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return 'and-' + androidDeviceInfo.androidId; // unique ID on Android
+    }
   }
 
 
@@ -271,7 +334,7 @@ class HomePageState extends State<HomePage> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    // color: Colors.black,
+                    color: Colors.white,
                     height: MediaQuery.of(context).size.width>900?57:157,
                     child: Column(
                       children: [
@@ -280,9 +343,10 @@ class HomePageState extends State<HomePage> {
                           child: Container(
                             height: 70,
                             decoration: BoxDecoration(
+                              color: Colors.white,
                                 border: Border(
                                   top: BorderSide(
-                                      color: Colors.grey.withOpacity(0.2), width: 1.0),
+                                      color: Colors.grey, width: 1.0),
                                 )
                             ),
                             child: Padding(
@@ -295,7 +359,7 @@ class HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                     BorderRadius.circular(10.0),
-                                    color: Colors.grey.withOpacity(0.2),
+                                    color: Colors.grey,
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -313,7 +377,7 @@ class HomePageState extends State<HomePage> {
 
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
-                                                  color: Colors.black.withOpacity(0.6)
+                                                  color: Colors.black
                                               ),
                                             )
                                             ),
@@ -332,7 +396,7 @@ class HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                               border: Border(
                             top: BorderSide(
-                                color: Colors.grey.withOpacity(0.2), width: 1.0),
+                                color: Colors.grey, width: 1.0),
                           )),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -353,15 +417,42 @@ class HomePageState extends State<HomePage> {
                                       )),
                                 ),
                                 Expanded(
-                                  child: Container(
-                                    child: Text(
-                                      'Phyo Pyae Sohn',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 16.5,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black.withOpacity(0.6)),
-                                    )
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      final result = await showModalActionSheet<String>(
+                                        context: context,
+                                        title: 'Title',
+                                        message: 'Message',
+                                        actions: [
+                                          const SheetAction(
+                                            icon: Icons.info,
+                                            label: 'Hello',
+                                            key: 'helloKey',
+                                          ),
+                                          const SheetAction(
+                                            icon: Icons.warning,
+                                            label: 'Destructive',
+                                            key: 'destructiveKey',
+                                            isDestructiveAction: true,
+                                          ),
+                                        ],
+                                      ).then((value) {
+                                        if(value.toString() == 'helloKey') {
+                                          print('good');
+                                        }
+                                      });
+                                      //logger.info(result);
+                                    },
+                                    child: Container(
+                                      child: Text(
+                                        'Phyo Pyae Sohn',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 16.5,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black.withOpacity(0.6)),
+                                      )
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -381,6 +472,9 @@ class HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
+                ),
+                Container(
+                  child: orderLoading?Text('Loading'):Text('')
                 )
               ],
             ),
@@ -389,6 +483,7 @@ class HomePageState extends State<HomePage> {
   }
 
   var counter = 0;
+  var orderLoading = false;
 
   checkoutCart() {
     var width = MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(1.5/3.5):MediaQuery.of(context).size.width;
@@ -403,7 +498,7 @@ class HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    addCounter();
+                    // addCounter();/z
                   },
                   child: Container(
                     width: (width/2)-20,
@@ -419,18 +514,119 @@ class HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                              child: Container(child:
-                              Text(
-                                'Clear cart',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black.withOpacity(0.6)
+                            child: GestureDetector(
+                              onTap: () {
+                                DateTime now = DateTime.now();
+                                CollectionReference daily_order = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+                                var length = 0;
+                                setState(() {
+                                  orderLoading = true;
+                                });
+
+                                print('order creating');
+
+
+                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                // FirebaseFirestore.instance.collection('space')
+                                    .get()
+                                    .then((QuerySnapshot querySnapshot) {
+
+                                      querySnapshot.docs.forEach((doc) {
+                                        length += int.parse(doc['daily_order'].length.toString());
+                                      });
+                                      length=1000+length+1;
+
+
+                                      //Check new date or not
+                                      var dateExist = false;
+                                      var dateId = '';
+
+                                      FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                      // FirebaseFirestore.instance.collection('space')
+                                          .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
+                                          .get()
+                                          .then((QuerySnapshot querySnapshot) {
+
+                                        querySnapshot.docs.forEach((doc) {
+                                          dateExist = true;
+                                          dateId = doc.id;
+                                        });
+
+                                        if(dateExist) {
+                                          daily_order
+                                              .doc(dateId).update({
+                                            'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^total^name^pf'])
+                                          }).then((value) {
+                                            print('User updated');
+                                            setState(() {
+                                              orderLoading = false;
+                                            });
+
+
+                                            FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
+                                                .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                .set({
+                                              'main': 'total',
+                                              'subs': ['name'],
+                                            })
+                                                .then((value) {
+                                              print('order added');
+                                            });
+                                          });
+                                        } else {
+                                          daily_order
+                                              .add({
+                                            'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^total^name^pf'],
+                                            'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
+                                          })
+                                          .then((value) {
+                                            print('order added');
+
+
+                                            FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail')
+                                                .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                .set({
+                                              'main': 'total',
+                                              'subs': ['name'],
+                                            })
+                                                .then((value) {
+                                              print('order added');
+                                            });
+                                          });
+                                        }
+
+
+
+
+
+
+
+                                      });
+
+
+
+
+                                });
+
+
+
+
+
+
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
+                                child: Container(child:
+                                Text(
+                                  'Clear cart',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black.withOpacity(0.6)
+                                  ),
+                                )
                                 ),
-                              )
                               ),
                             ),
                           ),
@@ -454,18 +650,25 @@ class HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                            child: Container(child:
-                            Text(
-                              'More actions',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black.withOpacity(0.6)
+                          child: GestureDetector(
+                            onTap: () {
+                              DateTime now = DateTime.now();
+                              print(now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString());
+
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
+                              child: Container(child:
+                              Text(
+                                'More actions',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black.withOpacity(0.6)
+                                ),
+                              )
                               ),
-                            )
                             ),
                           ),
                         ),
@@ -478,13 +681,26 @@ class HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(top: 80.0),
               child: Container(
-                child: Text('Counter: ' + counter.toString())
+                child: Column(
+                  children: [
+                    Text('Counter: ' + counter.toString()),
+                    orderLoading?Text('Loading'):Text('')
+                  ],
+                )
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  zeroToTen(String string) {
+    if(int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0'+string;
+    }
   }
 
   addCounter() {
@@ -595,7 +811,46 @@ class HomePageState extends State<HomePage> {
                                               color: Colors.black,
                                             ),
                                             onPressed: () {
-                                              Navigator.pop(context);
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                const SnackBar(content: Text('Processing Data')),
+                                              );
+                                              // print(prodFieldsValue);
+
+                                              CollectionReference orders = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc('GhitGLyZLoQekKhan9Xd').collection('detail');
+                                              orders
+                                                  .add({
+                                                'cust_name': 'U Pyaung'
+                                              })
+                                                  .then((value) {
+                                                print('order added');
+
+                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                                // FirebaseFirestore.instance.collection('space')
+                                                    .where('date', isEqualTo: 'saturday')
+                                                    .get()
+                                                    .then((QuerySnapshot querySnapshot) {
+                                                  // querySnapshot.docs.forEach((doc) {
+                                                  //   // spaceDocId = doc.id;
+                                                  // });some thing 2~IXFrkXcaIzgIbJJCcuu6^hay hay~QM1BYslqNxfeTKwn9vaT^working?~SxLgzSmAdv5Ni6P3lKfR^yeah its worked~V2lfzHGwHH0vZ9hu3Wek
+
+
+
+
+                                                  querySnapshot.docs.forEach((doc) {
+
+                                                    FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                                        .doc(doc.id)
+                                                        .update({'data': doc['data']+'^U Pyaung~'+value.id})
+                                                        .then((value) => print("User Updated"))
+                                                        .catchError((error) => print("Failed to update user: $error"));
+
+                                                  });
+
+                                                }).then((value) {
+                                                });
+
+                                                // Navigator.pop(context);
+                                              });
                                             },
 
                                           ),
@@ -627,6 +882,7 @@ class HomePageState extends State<HomePage> {
 
         });
   }
+
 }
 
 

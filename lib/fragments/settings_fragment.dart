@@ -90,49 +90,83 @@ class _SettingsFragmentState extends State<SettingsFragment> {
     // });
   }
 
+
+  @override
+  initState() {
+    _result = 4;
+    // await Firebase.initializeApp();
+  }
+
+  var _result;
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only( left: 8.0, right: 8.0),
-        child: ListView(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 30, left: 16.5),
-              child: Text('Settings',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom:
-                      BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-              child: FlatButton(
-                height: 75,
-                onPressed: () {  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => chooseStore()),
-                );
-                },
-                child: Row(
-                  children: [
-                    Text('Shops',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    ),
-                    Spacer(),
-                    Icon(Icons.arrow_forward_ios,
-                      color: Colors.blueGrey.withOpacity(0.8),
-                    size: 16,),
-                  ],
+      body: Container(
+        color: Colors.white,
+        child: SafeArea(
+          top: true,
+          bottom: true,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-250,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.white,
+                  child: Center(child: GestureDetector(
+                    onTap: () {
+                      addShop('GG Tech');
+                    },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('1 + 2 + 4 = ?'),
+                          RadioListTile(
+                              title: Text('4'),
+                              value: 4,
+                              groupValue: _result,
+                              onChanged: (value) {
+                                setState(() {
+                                  _result = value;
+                                });
+                              }),
+                          RadioListTile(
+                              title: Text('5.4'),
+                              value: 5.4,
+                              groupValue: _result,
+                              onChanged: (value) {
+                                setState(() {
+                                  _result = value;
+                                });
+                              }),
+
+
+
+                          RadioListTile(
+                              title: Text('6'),
+                              value: 6,
+                              groupValue: _result,
+                              onChanged: (value) {
+                                setState(() {
+                                  _result = value;
+                                });
+                              }),
+                          RadioListTile(
+                              title: Text('7'),
+                              value: 7,
+                              groupValue: _result,
+                              onChanged: (value) {
+                                setState(() {
+                                  _result = value;
+                                });
+                              }),
+                          SizedBox(height: 25),
+                          Text(_result == 7 ? 'Correct!' : 'Please chose the right answer!')
+                        ],
+                      )
+                  )),
                 ),
               ),
             ),

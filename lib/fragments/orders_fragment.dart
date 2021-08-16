@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
+
+import '../app_theme.dart';
 
 class OrdersFragment extends StatefulWidget {
   OrdersFragment({Key? key}) : super(key: key);
@@ -8,14 +13,18 @@ class OrdersFragment extends StatefulWidget {
 }
 
 class _OrdersFragmentState extends State<OrdersFragment> {
+  var sectionList;
+
   @override
   initState() {
     // await Firebase.initializeApp();
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+    CollectionReference daily_exps = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
 
     return Scaffold(
       body: Container(
@@ -31,7 +40,148 @@ class _OrdersFragmentState extends State<OrdersFragment> {
                   height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-250,
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
-                  child: Center(child: Text('Orders', style: TextStyle(fontSize: 20),)),
+                  child: StreamBuilder(
+                      stream: daily_exps.snapshots(),
+                      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if(snapshot.hasData) {
+                          var sections = List<ExampleSection>.empty(growable: true);
+                          // snapshot.data!.docs.map((document) {
+                          // }).toList();
+
+                          snapshot.data!.docs.map((document) async {
+
+                            // print('herre ' + document.id);
+                            var section = ExampleSection()
+                              ..header = document['date']
+                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                              ..items = sortList(document['daily_order'].cast<String>())
+                            //   ..items = document['daily_order'].cast<String>()
+                              ..expanded = true;
+                            sections.add(section);
+                          }).toList();
+                          sectionList = sections;
+
+                          return CustomScrollView(
+                            slivers: <Widget>[
+                              SliverExpandableList(
+                                builder: SliverExpandableChildDelegate(
+                                  sectionList: sectionList,
+                                  headerBuilder: _buildHeader,
+                                  itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                    String item = sectionList[sectionIndex].items[itemIndex];
+                                    int length = sectionList[sectionIndex].items.length;
+
+
+                                    // CollectionReference daily_exps_inner = FirebaseFirestore.instance
+                                    //     .collection('users')
+                                    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
+
+
+                                    // StreamBuilder(
+                                    //   stream: daily_exps_inner.snapshots(),
+                                    //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                    //     if(snapshot3.hasData) {
+                                    //
+                                    //     } else {
+                                    //       return Container();
+                                    //     }
+                                    //   },
+                                    // )
+                                    if(itemIndex == length-1) {
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            color: Colors.white,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                print(item.split('^')[1]);
+                                              },
+                                              child: ListTile(
+                                                // leading: CircleAvatar(
+                                                //   child: Text("$index"),
+                                                // ),
+                                                // title: Text(item.split('^')[1]),
+                                                  title: Text(item)
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            color: Colors.white,
+                                            width: double.infinity,
+                                            height: 15,
+                                          )
+                                        ],
+                                      );
+                                    }
+                                    return Container(
+                                      color: Colors.white,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          print(item.split('^')[0].substring(0,8));
+                                          var dateId = '';
+                                          FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                            // FirebaseFirestore.instance.collection('space')
+                                                .where('date', isEqualTo: item.split('^')[0].substring(0,8))
+                                                .get()
+                                                .then((QuerySnapshot querySnapshot) {
+                                            querySnapshot.docs.forEach((doc) {
+                                              dateId = doc.id;
+                                              FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
+
+                                                  .update({
+                                                'daily_order': FieldValue.arrayRemove([item])
+                                              })
+                                                  .then((value) {
+                                                print('array removed');
+
+                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
+
+                                                    .update({
+                                                  'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
+                                                })
+                                                    .then((value) {
+                                                  print('array updated');
+                                                });
+
+
+                                                // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
+                                                // .doc(item.split('^')[0])
+                                                //
+                                                //     .update({
+                                                //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
+                                                // })
+                                                //     .then((value) {
+                                                //   print('array updated');
+                                                // });
+                                                // 2021081601575511001^1-1001^total^name^pf
+
+                                              });
+                                            });
+                                          });
+
+                                        },
+                                        child: ListTile(
+                                          // leading: CircleAvatar(
+                                          //   child: Text("$index"),
+                                          // ),
+                                          // title: Text(item.split('^')[1]),
+                                            title: Text(item)
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                            ],
+                          );
+
+                        } else {
+                          return Container();
+                        }
+                      }
+                  )
                 ),
               ),
               Align(
@@ -90,6 +240,87 @@ class _OrdersFragmentState extends State<OrdersFragment> {
       ),
     );
   }
+
+  sortList(list) {
+    var dlist = list;
+    dlist.sort();
+    var newList = List.from(dlist.reversed);
+    // dlist.sort((a, b) => b.compareTo(a));
+    return newList.cast<String>();
+    // list.sort(alphabetic('name'));
+  }
+
+
+
+  Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
+    ExampleSection section = sectionList[sectionIndex];
+    return InkWell(
+        child: Container(
+            color: Colors.transparent,
+            alignment: Alignment.centerLeft,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                height: 35,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0, top: 15, bottom: 0),
+                  child: Text(
+                    section.header.toUpperCase(),
+                    style: TextStyle(
+                        height: 0.8,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.2,
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+            )),
+        onTap: () {
+          //toggle section expand state
+          // setState(() {
+          //   section.setSectionExpanded(!section.isSectionExpanded());
+          // });
+        });
+  }
+
+  List<String> gloTemp = [];
+
+  // listCreation(String id, data, document) {
+  //   List<String> temp = [];
+  //   // temp.add('add');
+  //   // temp.add('add2');UzZeGlXAnNfrH7icA1ki
+  //
+  //   // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(id).collection('detail')
+  //   //     .get()
+  //   //     .then((QuerySnapshot querySnapshot) {
+  //   //   querySnapshot.docs.forEach((doc) {
+  //   //     temp.add(doc["cust_name"]);
+  //   //     // setState(() {
+  //   //     //   gloTemp = temp;
+  //   //     // });
+  //   //     // gloTemp = temp;
+  //   //   });
+  //   //
+  //   // }).then((value) {
+  //   //   // print('here ' + temp.toString());
+  //   //   //return temp;
+  //   //   // return gloTemp;
+  //   // });
+  //   // print('here2 ' + temp.toString());
+  //   // return gloTemp;
+  //
+  //
+  //   // for()
+  //   // var noExe = true;
+  //
+  //
+  //   temp = data.split('^');
+  //
+  // }
 
 
   addDailyExp(priContext) {
@@ -211,4 +442,62 @@ class _OrdersFragmentState extends State<OrdersFragment> {
 
 
 
+}
+
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._tabBar);
+
+  final Container _tabBar;
+
+  @override
+  double get minExtent => 101;
+  @override
+  double get maxExtent => 101;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new Container(
+      height: 200,
+      color: Colors.transparent,
+      child: _tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
+  }
+}
+
+
+///Section model example
+///
+///Section model must implements ExpandableListSection<T>, each section has
+///expand state, sublist. "T" is the model of each item in the sublist.
+class ExampleSection implements ExpandableListSection<String> {
+  //store expand state.
+  late bool expanded;
+
+  //return item model list.
+  late List<String> items;
+
+  //example header, optional
+  late String header;
+
+  @override
+  List<String> getItems() {
+    return items;
+  }
+
+  @override
+  bool isSectionExpanded() {
+    return expanded;
+  }
+
+  @override
+  void setSectionExpanded(bool expanded) {
+    this.expanded = expanded;
+  }
 }
