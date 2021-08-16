@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/pages/home_page.dart';
 // import 'package:smartkyat_pos/src/screens/home.dart';
 import 'package:smartkyat_pos/src/screens/verify.dart';
@@ -65,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Text('Signin'),
               onPressed: (){
                   auth.signInWithEmailAndPassword(email: _email, password: _password).then((_){
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
                   });
                   
             }),

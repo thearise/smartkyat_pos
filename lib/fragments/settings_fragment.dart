@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 
 class SettingsFragment extends StatefulWidget {
   SettingsFragment({Key? key}) : super(key: key);
@@ -10,8 +11,6 @@ class SettingsFragment extends StatefulWidget {
 }
 
 class _SettingsFragmentState extends State<SettingsFragment> {
-
-
 
   addShop(shopName) {
     CollectionReference spaces = FirebaseFirestore.instance.collection('space');
@@ -89,17 +88,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
     //     exist = true;
     //   });
     // });
-
-
-
-
-
-
-
   }
-
-
-
 
 
   @override
@@ -180,60 +169,54 @@ class _SettingsFragmentState extends State<SettingsFragment> {
                   )),
                 ),
               ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(10.0),
-                        color: Colors.grey.withOpacity(0.2)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left:15.0,),
-                            child: Icon(Icons.search, size: 26,),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                              child: Container(child:
-                              Text(
-                                'Search',
-                                style: TextStyle(
-                                    fontSize: 16.5,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black.withOpacity(0.6)
-                                ),
-                              )
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              addDailyExp(context);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right:15.0,),
-                              child: Icon(Icons.bar_chart, color: Colors.green, size: 22,),
-                            ),
-                          )
-                        ],
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom:
+                      BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
+              child: FlatButton(
+                height: 75,
+                onPressed: () { },
+                child: Row(
+                  children: [
+                    Text('Screen Lock',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
+                    Spacer(),
+                    Icon(Icons.arrow_forward_ios,
+                      color: Colors.blueGrey.withOpacity(0.8),
+                      size: 16,),
+                  ],
                 ),
               ),
-
-            ],
-          ),
+            ),
+            FlatButton(
+              height: 75,
+              onPressed: () { },
+              child: Row(
+                children: [
+                  Text('Dark/light mode',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(Icons.arrow_forward_ios,
+                    color: Colors.blueGrey.withOpacity(0.8),
+                    size: 16,),
+                ],
+              ),
+            ),
+          ],
         ),
-      ),
+      )
+
     );
   }
 
@@ -354,9 +337,7 @@ class _SettingsFragmentState extends State<SettingsFragment> {
 
         });
   }
-
-
-
 }
+
 
 

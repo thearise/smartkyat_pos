@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.0.1
   cloud_firestore: ^2.4.0
-  pinput: ^1.2.0
+  pinput:
   qr_code_scanner: ^0.5.2
   shared_preferences: ^2.0.6
   adaptive_dialog: ^1.1.0

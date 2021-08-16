@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smartkyat_pos/pages/home_page.dart';
-
 import '../app_theme.dart';
 
 class HomeFragment extends StatefulWidget {
@@ -222,7 +220,7 @@ class _HomeFragmentState extends State<HomeFragment> {
   }
 
   addDailyExp(priContext) {
-    final _formKey = GlobalKey<FormState>();
+  //  final _formKey = GlobalKey<FormState>();
     // myController.clear();
     showModalBottomSheet(
         enableDrag: false,
@@ -366,70 +364,66 @@ class _HomeFragmentState extends State<HomeFragment> {
                                     ),
                                     Container(
                                       width: 200,
-                                      child: Expanded(
-                                          child: Text(
+                                      child: Text(
                                         "Add images to show customers product details and features",
                                         style: TextStyle(
-                                          color: Colors.amberAccent,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
+                                      color: Colors.amberAccent,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
                                         ),
-                                      )),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        //height: 200,
-                                        width: 380,
-                                        child: TextFormField(
-                                          // The validator receives the text that the user has entered.
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'This field is required';
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            suffixText: 'Required',
-                                            // errorText: 'Error message',
-                                            labelText: 'First Name',
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.auto,
-                                            //filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                      //height: 200,
+                                      width: 380,
+                                      child: TextFormField(
+                                        // The validator receives the text that the user has entered.
+                                        validator: (value) {
+                                          if (value == null ||
+                                              value.isEmpty) {
+                                            return 'This field is required';
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          suffixText: 'Required',
+                                          // errorText: 'Error message',
+                                          labelText: 'First Name',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+                                          //filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      SizedBox(
-                                        //height: 200,
-                                        width: 380,
-                                        child: TextFormField(
-                                          // The validator receives the text that the user has entered.
-                                          decoration: InputDecoration(
-                                            labelText: 'Last Name',
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.auto,
-                                            //filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    SizedBox(
+                                      //height: 200,
+                                      width: 380,
+                                      child: TextFormField(
+                                        // The validator receives the text that the user has entered.
+                                        decoration: InputDecoration(
+                                          labelText: 'Last Name',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+                                          //filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
