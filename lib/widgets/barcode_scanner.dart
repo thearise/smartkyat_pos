@@ -12,7 +12,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-
+  var firstTime = true;
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
@@ -21,90 +21,33 @@ class _QRViewExampleState extends State<QRViewExample> {
       body: Stack(
         children: [
           Container(
-              margin: EdgeInsets.only(top: 150),
               child: _buildQrView(context)),
-          if (result != null)
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 175),
-              height: 70,
-              color: Colors.blue,
-              child: Text(
-                'Barcode: ${result!.code}',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            )
-          else
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 175),
-              height: 70,
-              color: Colors.blue,
-              child: Text('Point camera at barcode',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),),
-            ),
-          Stack(
-            children: [
-              Container(
-                height: 130,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white,
-              ),
-              Container(
-                height: 65,
-                margin: EdgeInsets.only(top: 65),
-                decoration: BoxDecoration(
-                  borderRadius:
-                  BorderRadius.circular(10.0),
-                  color: Colors.grey.withOpacity(0.2),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left:15.0,),
-                        child: IconButton(
-                          icon:  Icon(Icons.arrow_back, size: 26,
-                         color: Colors.black.withOpacity(0.6),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                          child: Container(child:
-                          Text(
-                            'Search',
-                            style: TextStyle(
-                                fontSize: 16.5,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black.withOpacity(0.6)
-                            ),
-                          )
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right:15.0,),
-                        child: Icon(Icons.bar_chart, color: Colors.green, size: 22,),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // if (result != null)
+          //   Container(
+          //     alignment: Alignment.center,
+          //     margin: EdgeInsets.only(top: 175),
+          //     height: 70,
+          //     color: Colors.blue,
+          //     child: Text(
+          //       'Barcode: ${result!.code}',
+          //       style: TextStyle(
+          //         fontSize: 20,
+          //         color: Colors.white,
+          //       ),
+          //     ),
+          //   )
+          // else
+          //   Container(
+          //     alignment: Alignment.center,
+          //     margin: EdgeInsets.only(top: 175),
+          //     height: 70,
+          //     color: Colors.blue,
+          //     child: Text('Point camera at barcode',
+          //       style: TextStyle(
+          //         fontSize: 20,
+          //         color: Colors.white,
+          //       ),),
+          //   ),
           Container(
             color: Colors.transparent,
             alignment: Alignment.topCenter,
@@ -113,7 +56,7 @@ class _QRViewExampleState extends State<QRViewExample> {
             child: ElevatedButton(
               onPressed: () async {
                 await controller?.flipCamera();
-                setState(() {});
+                // setState(() {});
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -147,7 +90,7 @@ class _QRViewExampleState extends State<QRViewExample> {
             child: ElevatedButton(
                 onPressed: () async {
                   await controller?.toggleFlash();
-                  setState(() {});
+                  // setState(() {});
                 },
                 child: FutureBuilder(
                   future: controller?.getFlashStatus(),
@@ -168,16 +111,19 @@ class _QRViewExampleState extends State<QRViewExample> {
         : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
-      overlay: QrScannerOverlayShape(
-          borderColor: Colors.black,
-          borderRadius: 10,
-          borderLength: 30 ,
-          borderWidth: 10,
-          cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    return Container(
+      color: Colors.black,
+      child: QRView(
+        key: qrKey,
+        onQRViewCreated: _onQRViewCreated,
+        overlay: QrScannerOverlayShape(
+            borderColor: Colors.black,
+            borderRadius: 10,
+            borderLength: 30 ,
+            borderWidth: 10,
+            cutOutSize: scanArea),
+        onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+      ),
     );
   }
 
@@ -186,9 +132,23 @@ class _QRViewExampleState extends State<QRViewExample> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+      // setState(() {
+      //   result = scanData;
+      // });
+      if(firstTime) {
+        controller.getFlashStatus().then((value) {
+          if(value! == true) {
+            controller.toggleFlash();
+          }
+        });
+        Navigator.pop(context, scanData.code);
+
+      } else {
+
+      }
+
+      firstTime=false;
+
     });
   }
 

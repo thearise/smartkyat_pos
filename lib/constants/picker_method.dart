@@ -13,16 +13,15 @@ class PickMethod {
 
   factory PickMethod.cameraAndStay({required int maxAssetsCount}) {
     return PickMethod(
-      icon: '📸',
-      name: 'Pick from camera and stay',
-      description: 'Take a photo or video with the camera picker, '
-          'select the result and stay in the entities list.',
+      icon: '',
+      name: '',
+      description: '',
       method: (BuildContext context, List<AssetEntity> assets) {
         return AssetPicker.pickAssets(
           context,
           maxAssets: maxAssetsCount,
           selectedAssets: assets,
-            requestType: RequestType.image,
+          requestType: RequestType.image,
           specialItemPosition: SpecialItemPosition.prepend,
           specialItemBuilder: (BuildContext context) {
             return GestureDetector(

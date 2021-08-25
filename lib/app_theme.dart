@@ -4,6 +4,11 @@ class AppTheme {
   AppTheme._();
 
   static const Color skThemeColor = Color(0xFFF6C447);
+  static const Color skThemeColor2 = Color(0xFF265a59);
+  static const Color skBorderColor = Color(0xFFEFEFEF);
+  static const Color skBorderColor2 = Color(0xFFe6e6e6);
+  static const Color secButtonColor = Color(0xFFE7E8EA);
+
   static const Color notWhite = Color(0xFFEDF0F2);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
   static const Color white = Color(0xFFFFFFFF);
