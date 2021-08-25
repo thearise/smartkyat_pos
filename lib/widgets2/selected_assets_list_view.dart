@@ -2,7 +2,16 @@
 /// [Author] Alex (https://github.com/AlexV525)
 /// [Date] 2021/7/13 10:51
 ///
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:heic_to_jpg/heic_to_jpg.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart'
     show AssetEntity, AssetPicker, AssetPickerViewer;
 
@@ -25,6 +34,50 @@ class SelectedAssetsListView extends StatelessWidget {
 
   Widget _selectedAssetWidget(BuildContext context, int index) {
     final AssetEntity asset = assets.elementAt(index);
+    final Map params = new Map();
+    Random random = new Random();
+    int randomNumber = random.nextInt(100);
+    asset.originFile.then((value) async {
+      // testCompressAndGetFile(value!, randomNumber.toString()+value.path).then((value2) => addProduct(value2));
+
+      // String? jpegPath = await HeicToJpg.convert(value!.path);
+      // print(jpegPath.toString());
+
+      // addProduct(File(jpegPath.toString()));
+
+
+      // uncommend
+      // addProduct(value!);
+
+
+    });
+
+    // Random random = new Random();
+    // int randomNumber = random.nextInt(10000000);
+    // List<Map> a = <Map>[];
+
+
+    // addProduct(asset.originFile);
+
+    // asset.originBytes.then((value) {
+    //
+    //   a.add({
+    //     'fileName': 'inner' + randomNumber.toString(),
+    //     'encoded' : Base64Encoder().convert(value!)
+    //     //'encoded': randomNumber.toString()
+    //   });
+    //
+    // }).then((value) {
+    //   params["attachment"] = jsonEncode(a);
+    //   httpSend(params).then((sukses){
+    //     print('done connect ' + sukses.toString());
+    //   });
+    // });
+
+
+
+
+
     return ValueListenableBuilder<bool>(
       valueListenable: isDisplayingDetail,
       builder: (_, bool value, __) => GestureDetector(
@@ -51,6 +104,65 @@ class SelectedAssetsListView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<File> testCompressAndGetFile(File? file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file!.absolute.path, targetPath,
+      quality: 88,
+      rotate: 180,
+    );
+
+    print(file.lengthSync());
+    print(result!.lengthSync());
+
+    return result;
+  }
+
+  Future addProduct(File imageFile) async {
+// ignore: deprecated_member_use
+    var stream = new http.ByteStream(
+        DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var uri = Uri.parse("https://hninsunyein.me/smartkyat_pos/api/images_upload.php");
+
+    var request = new http.MultipartRequest("POST", uri);
+
+    var multipartFile = new http.MultipartFile(
+        "image", stream, length, filename: basename(imageFile.path));
+
+    request.files.add(multipartFile);
+    // request.fields['productname'] = controllerName.text;
+    // request.fields['productprice'] = controllerPrice.text;
+    // request.fields['producttype'] = controllerType.text;
+    // request.fields['product_owner'] = globals.restaurantId;
+
+    var respond = await request.send();
+    if (respond.statusCode == 200) {
+      print("Image Uploaded");
+    } else {
+      print("Upload Failed");
+    }
+  }
+
+  Future<bool> httpSend(Map params) async
+  {
+    var endpoint = Uri.parse("https://hninsunyein.me/smartkyat_pos/api/images_upload.php");
+    return await http.post(endpoint, body: params)
+        .then((response) {
+      print('response ' + response.body);
+      if(response.statusCode==201)
+      {
+        Map<String, dynamic> body = jsonDecode(response.body);
+        if(body['status']=='OK')
+          return true;
+      }
+      else {
+        return false;
+      }
+      return false;
+
+    });
   }
 
   Widget _selectedAssetDeleteButton(BuildContext context, int index) {

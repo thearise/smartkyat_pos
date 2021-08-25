@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/fragments/home_fragment.dart';
+import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import '../app_theme.dart';
 
-class HomeFragment extends StatefulWidget {
+class MainFragment extends StatefulWidget {
   final _callback;
 
-  HomeFragment( {required void toggleCoinCallback() } ) :
+  MainFragment( {required void toggleCoinCallback() } ) :
         _callback = toggleCoinCallback;
   @override
-  _HomeFragmentState createState() => _HomeFragmentState();
+  MainFragmentState createState() => MainFragmentState();
 
-  // HomeFragment({Key? key, required void toggleCoinCallback()}) : super(key: key);
-  //
-  // @override
-  // _HomeFragmentState createState() => _HomeFragmentState();
+// HomeFragment({Key? key, required void toggleCoinCallback()}) : super(key: key);
+//
+// @override
+// _HomeFragmentState createState() => _HomeFragmentState();
 }
 
-class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomeFragment>{
+class MainFragmentState extends State<MainFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<MainFragment>{
   @override
   bool get wantKeepAlive => true;
+  int mainIndex = 0;
   @override
   initState() {
     super.initState();
@@ -27,6 +30,12 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
   @override
   void dispose() {
     super.dispose();
+  }
+
+  changeState(index) {
+    setState(() {
+      mainIndex=index;
+    });
   }
 
   @override
@@ -45,116 +54,7 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                     : MediaQuery.of(context).size.width,
                 child: Stack(
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 80.0, bottom: 56),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.white,
-                          child: ListView(
-                            children: [
-                              SizedBox(height: 10,),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 7.5, right: 7.5),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 7.5, right: 7.5),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          widget._callback();
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
-                                            color: Colors.green.withOpacity(0.4),
-                                          ),
-                                          width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                          height: 120,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(18.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Icon(Icons.add_shopping_cart_rounded),
-                                                Expanded(
-                                                  child: Align(
-                                                    alignment: Alignment.bottomLeft,
-                                                    child: Text(
-                                                      'Add orders',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black.withOpacity(0.6)
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 7.5, right: 7.5),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    QRViewExample()),
-                                          );
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(10.0),
-                                              color: Colors.blue.withOpacity(0.4),
-                                          ),
-                                          width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                          height: 120,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(18.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Icon(Icons.volunteer_activism),
-                                                Expanded(
-                                                  child: Align(
-                                                    alignment: Alignment.bottomLeft,
-                                                    child: Text(
-                                                      'Add discount',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black.withOpacity(0.6)
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    mainIndex == 0? HomeFragment(toggleCoinCallback: () {}):OrdersFragment(),
                     Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
@@ -185,14 +85,12 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left:8.0, right: 8.0),
+                                      padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
                                       child: Container(child:
-                                      Text(
-                                        'Search',
-                                        style: TextStyle(
-                                            fontSize: 16.5,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black.withOpacity(0.6)
+                                      TextField(
+                                        decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            hintText: 'Enter a search term'
                                         ),
                                       )
                                       ),
@@ -220,16 +118,16 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
               ),
               MediaQuery.of(context).size.width > 900
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                left: BorderSide(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    width: 1.0))),
-                        width: MediaQuery.of(context).size.width * (1.5 / 3.5),
-                      ),
-                    )
+                padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          left: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                              width: 1.0))),
+                  width: MediaQuery.of(context).size.width * (1.5 / 3.5),
+                ),
+              )
                   : Container()
             ],
           ),
@@ -239,7 +137,7 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
   }
 
   addDailyExp(priContext) {
-  //  final _formKey = GlobalKey<FormState>();
+    //  final _formKey = GlobalKey<FormState>();
     // myController.clear();
     showModalBottomSheet(
         enableDrag: false,
@@ -292,14 +190,14 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                       border: Border(
                                           bottom: BorderSide(
                                               color:
-                                                  Colors.grey.withOpacity(0.3),
+                                              Colors.grey.withOpacity(0.3),
                                               width: 1.0))),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15.0, right: 15.0, top: 20.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           width: 35,
@@ -309,7 +207,7 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                                 Radius.circular(5.0),
                                               ),
                                               color:
-                                                  Colors.grey.withOpacity(0.3)),
+                                              Colors.grey.withOpacity(0.3)),
                                           child: IconButton(
                                             icon: Icon(
                                               Icons.close,
@@ -386,9 +284,9 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                       child: Text(
                                         "Add images to show customers product details and features",
                                         style: TextStyle(
-                                      color: Colors.amberAccent,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
+                                          color: Colors.amberAccent,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ),
@@ -413,11 +311,11 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                           // errorText: 'Error message',
                                           labelText: 'First Name',
                                           floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
+                                          FloatingLabelBehavior.auto,
                                           //filled: true,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
@@ -433,11 +331,11 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                         decoration: InputDecoration(
                                           labelText: 'Last Name',
                                           floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
+                                          FloatingLabelBehavior.auto,
                                           //filled: true,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),

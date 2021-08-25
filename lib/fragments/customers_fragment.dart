@@ -14,10 +14,17 @@ class CustomersFragment extends StatefulWidget {
   _CustomersFragmentState createState() => _CustomersFragmentState();
 }
 
-class _CustomersFragmentState extends State<CustomersFragment> {
+class _CustomersFragmentState extends State<CustomersFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<CustomersFragment>{
+  @override
+  bool get wantKeepAlive => true;
   @override
   initState() {
-    // await Firebase.initializeApp();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -754,6 +761,13 @@ Future<String> getStoreId() async {
   } else {
     return index;
   }
+}
+
+setStoreId(String id) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  // return(prefs.getString('store'));
+
+  prefs.setString('store', id);
 }
 
 class CustomerInfo extends StatelessWidget {

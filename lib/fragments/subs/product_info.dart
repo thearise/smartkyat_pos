@@ -1,117 +1,60 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
+import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 
-class StaffFragment extends StatefulWidget {
-  StaffFragment({Key? key}) : super(key: key);
+class ProductInfoSub extends StatefulWidget {
+  final _callback;
+  ProductInfoSub( {required void toggleCoinCallback()} ) :
+        _callback = toggleCoinCallback;
 
   @override
-  _StaffFragmentState createState() => _StaffFragmentState();
+  _ProductInfoSubState createState() => _ProductInfoSubState();
 }
 
-class _StaffFragmentState extends State<StaffFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<StaffFragment>{
+class _ProductInfoSubState extends State<ProductInfoSub>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<ProductInfoSub>{
   @override
   bool get wantKeepAlive => true;
-  @override
-  initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: SafeArea(
-          top: true,
-          bottom: true,
-          child: Stack(
+        body: Padding(
+          padding: const EdgeInsets.only( left: 8.0, right: 8.0),
+          child: ListView(
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: Container(
-                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-220,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Text('Staffs',
-                            style: TextStyle(fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        AddNewCategory("Add new Staff"),
-                      ],
-                    ),
-                  ),
-                ),
-
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(10.0),
-                        color: Colors.grey.withOpacity(0.2)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left:15.0,),
-                            child: Icon(Icons.search, size: 26,),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                              child: Container(child:
-                              Text(
-                                'Search',
-                                style: TextStyle(
-                                    fontSize: 16.5,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black.withOpacity(0.6)
-                                ),
-                              )
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              addDailyExp(context);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right:15.0,),
-                              child: Icon(Icons.bar_chart, color: Colors.green, size: 22,),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  margin: EdgeInsets.only(top: 30, left: 16.5),
+                  child: Text('Settings',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),),
                 ),
               ),
-
+              GestureDetector(
+                onTap: () {
+                  widget._callback();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 30, left: 16.5),
+                  child: Text('Add to cart',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),),
+                ),
+              )
             ],
           ),
-        ),
-      ),
+        )
+
+
     );
   }
 
@@ -232,7 +175,5 @@ class _StaffFragmentState extends State<StaffFragment>  with TickerProviderState
 
         });
   }
-
-
-
 }
+
