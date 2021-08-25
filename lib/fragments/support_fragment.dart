@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class SupportFragment extends StatefulWidget {
@@ -7,10 +8,17 @@ class SupportFragment extends StatefulWidget {
   _SupportFragmentState createState() => _SupportFragmentState();
 }
 
-class _SupportFragmentState extends State<SupportFragment> {
+class _SupportFragmentState extends State<SupportFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SupportFragment>{
+  @override
+  bool get wantKeepAlive => true;
   @override
   initState() {
-    // await Firebase.initializeApp();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
 
@@ -27,11 +35,15 @@ class _SupportFragmentState extends State<SupportFragment> {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: Container(
-                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-250,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  child: Center(child: Text('Support', style: TextStyle(fontSize: 20),)),
+                child: CachedNetworkImage(
+                  // imageUrl: 'https://hninsunyein.me/rift_plus/allinone/' + inner + '.png',
+                  imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/CC95F08C-88C3-4012-9D6D-64A413D254B3_L0_001_origin.IMG_0006.HEIC',
+                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  fadeInDuration: Duration(milliseconds: 100),
+                  fadeOutDuration: Duration(milliseconds: 10),
+                  fadeInCurve: Curves.bounceIn,
+                  width: double.infinity,
                 ),
               ),
               Align(

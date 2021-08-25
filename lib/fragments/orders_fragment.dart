@@ -12,12 +12,19 @@ class OrdersFragment extends StatefulWidget {
   _OrdersFragmentState createState() => _OrdersFragmentState();
 }
 
-class _OrdersFragmentState extends State<OrdersFragment> {
+class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<OrdersFragment>{
+  @override
+  bool get wantKeepAlive => true;
   var sectionList;
 
   @override
   initState() {
-    // await Firebase.initializeApp();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
 

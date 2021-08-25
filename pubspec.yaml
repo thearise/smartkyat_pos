@@ -45,8 +45,13 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.1
   provider: ^5.0.0
+  flutter_image_compress: ^1.0.0-nullsafety
+  heic_to_jpg: ^0.2.0
+  cached_network_image:
+  dropdown_search:
+  ai_awesome_message:
+  flash: ^2.0.1
   carousel_slider: ^4.0.0
-
 
 
 dev_dependencies:

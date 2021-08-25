@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/pages/home_page.dart';
 
 import '../app_theme.dart';
@@ -31,6 +32,7 @@ class _chooseStoreState extends State<chooseStore> {
           defaultType: OkCancelAlertDefaultType.cancel,
         ).then((result) {
           if(result == OkCancelResult.ok) {
+            setStoreId(_result);
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
           }
         }
@@ -42,46 +44,51 @@ class _chooseStoreState extends State<chooseStore> {
       body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('Something went wrong');
+            if(snapshot.hasData) {
+              var index =0;
+              return ListView(
+                children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                  Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                  index++;
+                  return  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: index==snapshot.data!.docs.length? BorderSide(color: Colors.transparent, width: 0): BorderSide(
+                                color: Colors.grey
+                                    .withOpacity(0.3),
+                                width: 1.0))),
+                    child: RadioListTile(
+                        title: Text(data['shop_name']),
+                        activeColor: AppTheme.skThemeColor2,
+                        value: document.id.toString(),
+                        groupValue: _result,
+                        onChanged: (value) {
+                          setState(() {
+                            _result = value;
+                            _shop= data['shop_name'];
+                            print(_result);
+                          });
+                        }
+                    ),
+                  );
+                }
+                )
+                    .toList(),
+              );
             }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading");
-            }
-             var index =0;
-            return ListView(
-              children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                index++;
-                return  Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: index==snapshot.data!.docs.length? BorderSide(color: Colors.transparent, width: 0): BorderSide(
-                              color: Colors.grey
-                                  .withOpacity(0.3),
-                              width: 1.0))),
-                  child: RadioListTile(
-                      title: Text(data['shop_name']),
-                      value: document.id.toString(),
-                      groupValue: _result,
-                      onChanged: (value) {
-                        setState(() {
-                          _result = value;
-                          _shop= data['shop_name'];
-                          print(_result);
-                        });
-                      }
-                  ),
-                );
-              }
-              )
-                  .toList(),
-            );
+            return Container();
 
           }
       )
     );
+  }
+
+  setStoreId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    prefs.setString('store', id);
   }
 }

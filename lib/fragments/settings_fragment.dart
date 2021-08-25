@@ -10,8 +10,18 @@ class SettingsFragment extends StatefulWidget {
   _SettingsFragmentState createState() => _SettingsFragmentState();
 }
 
-class _SettingsFragmentState extends State<SettingsFragment> {
+class _SettingsFragmentState extends State<SettingsFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SettingsFragment>{
+  @override
+  bool get wantKeepAlive => true;
+  @override
+  initState() {
+    super.initState();
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
   addShop(shopName) {
     CollectionReference spaces = FirebaseFirestore.instance.collection('space');
     var exist = false;
