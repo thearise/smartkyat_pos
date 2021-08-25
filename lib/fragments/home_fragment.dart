@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/widgets/apply_discount_to_cart.dart';
 import '../app_theme.dart';
 
 class HomeFragment extends StatefulWidget {
@@ -114,13 +115,18 @@ class _HomeFragmentState extends State<HomeFragment> {
                                               Expanded(
                                                 child: Align(
                                                   alignment: Alignment.bottomLeft,
-                                                  child: Text(
-                                                    'Add discount',
+                                                  child: TextButton(
+                                                    onPressed: (){
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyDiscount()
+                                                      ),
+                                                      );
+                                                      },
+                                                    child: Text('Add discount',
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         fontWeight: FontWeight.w600,
                                                         color: Colors.black.withOpacity(0.6)
-                                                    ),
+                                                    ),),
                                                   ),
                                                 ),
                                               )

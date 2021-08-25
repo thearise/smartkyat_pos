@@ -45,6 +45,8 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.1
   provider: ^5.0.0
+  carousel_slider: ^4.0.0
+
 
 
 dev_dependencies:
