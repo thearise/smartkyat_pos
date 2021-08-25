@@ -161,7 +161,6 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                 return Container();
                               }
                             )
-                          )
                         ],
                       ),
                     ),
@@ -726,32 +725,10 @@ class CustomerInfo extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: Colors.blueGrey.withOpacity(1.0),
                   ),
-                  SizedBox(
-                    height: 7,
                   ),
-                  Text(
-                    customerPhone,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.blueGrey.withOpacity(1.0),
-                    ),
-                  ),
-                  SizedBox(height: 20),
                 ],
               ),
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 16,
-                  color: Colors.blueGrey.withOpacity(0.8),
-                ),
-                SizedBox(height: 20),
-              ],
-            ),
-            Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
               child: IconButton(
@@ -768,11 +745,12 @@ class CustomerInfo extends StatelessWidget {
                 );
               },
               ),
+            ),
             ],
+
           ),
         ),
-      ),
-    );
+      );
   }
 }
 

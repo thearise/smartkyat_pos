@@ -137,8 +137,8 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                                     ),),
                                                   ),
                                                 )
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
