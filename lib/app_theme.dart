@@ -15,6 +15,9 @@ class AppTheme {
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color grey = Color(0xFF3A5160);
   static const Color dark_grey = Color(0xFF313A44);
+  static const Color skThemeColor2 = Color(0xFF1E4847);
+  static const Color skBorderColor = Color(0xFFEFEFEF);
+  static const Color buttonColor2 = Color(0xFFE7E8EA);
 
   static const Color darkText = Color(0xFF253840);
   static const Color darkerText = Color(0xFF17262A);

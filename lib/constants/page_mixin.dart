@@ -99,8 +99,6 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
         if (assets.isNotEmpty)
           GestureDetector(
             onTap: () {
-
-
               // _waitUntilDone();
               print('_waitUntilDone ' + assets.length.toString());
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
+import 'package:smartkyat_pos/widgets/apply_discount_to_cart.dart';
 import '../app_theme.dart';
 
 class HomeFragment extends StatefulWidget {
@@ -104,41 +105,36 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 7.5, right: 7.5),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    QRViewExample()),
-                                          );
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(10.0),
-                                              color: Colors.blue.withOpacity(0.4),
-                                          ),
-                                          width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                          height: 120,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(18.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Icon(Icons.volunteer_activism),
-                                                Expanded(
-                                                  child: Align(
-                                                    alignment: Alignment.bottomLeft,
-                                                    child: Text(
-                                                      'Add discount',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black.withOpacity(0.6)
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10.0),
+                                            color: Colors.blue.withOpacity(0.4),
+                                        ),
+                                        width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                        height: 120,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(18.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Icon(Icons.volunteer_activism),
+                                              Expanded(
+                                                child: Align(
+                                                  alignment: Alignment.bottomLeft,
+                                                  child: TextButton(
+                                                    onPressed: (){
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyDiscount()
                                                       ),
-                                                    ),
+                                                      );
+                                                      },
+                                                    child: Text('Add discount',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black.withOpacity(0.6)
+                                                    ),),
                                                   ),
                                                 )
                                               ],

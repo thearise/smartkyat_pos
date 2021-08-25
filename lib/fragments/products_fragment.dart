@@ -11,11 +11,11 @@ import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_versions_view.dart';
 
 import '../app_theme.dart';
 import 'subs/product_info.dart';
-
-//import '../app_theme.dart';
 
 class ProductsFragment extends StatefulWidget {
   final _callback;
@@ -49,10 +49,8 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
     widget._callback2();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -127,123 +125,48 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                               ),
                             ),
                           ),
-
                           SizedBox(
                             height: 10,
                           ),
-                          FutureBuilder(
-                            future: getStoreId(),
-                            builder: (context, snapshot) {
-                              if(snapshot.hasData) {
-                                String shopId = snapshot.data.toString();
-                                return StreamBuilder(
-                                    stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('products').snapshots(),
-                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
-                                      if(snapshot.hasData) {
-
-                                        var index = 0;
-
-                                        return ListView(
-                                          shrinkWrap: true,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                            Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                            index++;
-                                            // print(index.toString() + 'index');
-                                            // return ListTile(
-                                            //   title: Text(data['prod_name']),
-                                            // );
-                                            return GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ProductInfoSub(toggleCoinCallback: addProduct)),
-                                                );
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(top: 16.0),
-                                                child: Container(
-                                                  width: MediaQuery.of(context).size.width,
-                                                  decoration: BoxDecoration(
-                                                      border: Border(
-                                                          bottom:
-                                                          BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-                                                  child: Row(
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            data['prod_name'],
-                                                            style: TextStyle(
-                                                              fontSize: 18,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 7,
-                                                          ),
-                                                          Text(
-                                                            'customerAddress',
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w400,
-                                                              color: Colors.blueGrey.withOpacity(1.0),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 7,
-                                                          ),
-                                                          Text(
-                                                            'customerPhone',
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w400,
-                                                              color: Colors.blueGrey.withOpacity(1.0),
-                                                            ),
-                                                          ),
-                                                          SizedBox(height: 20),
-                                                        ],
-                                                      ),
-                                                      Spacer(),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        child: Icon(
-                                                          Icons.arrow_forward_ios_rounded,
-                                                          size: 16,
-                                                          color: Colors.blueGrey.withOpacity(0.8),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }).toList(),
-                                        );
-                                      }
-
-                                      return Text('Loading');
-
-
-                                    }
-                                );
+                          StreamBuilder(
+                              stream: FirebaseFirestore.instance
+                                  .collection('space')
+                                  .doc('0NHIS0Jbn26wsgCzVBKT')
+                                  .collection('shops')
+                                  .doc('PucvhZDuUz3XlkTgzcjb')
+                                  .collection('products')
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasData) {
+                                  return ListView(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    children: snapshot.data!.docs
+                                        .map((DocumentSnapshot document) {
+                                      Map<String, dynamic> data =
+                                      document.data()! as Map<String, dynamic>;
+                                      // index++;
+                                      // print(index.toString() + 'index');
+                                      // return ListTile(
+                                      //   title: Text(data['prod_name']),
+                                      // );
+                                      return CustomerInfo(
+                                          data['prod_name'], data['sale_price'],
+                                          data['unit_qtity'],
+                                      data['img_1']);
+                                    }).toList(),
+                                  );
+                                }
+                                return Container();
                               }
-                              return Container();
-                            }
-                          ),
-
-
-
+                            )
+                          )
                         ],
                       ),
                     ),
                   ),
                 ),
-
               ),
               Align(
                 alignment: Alignment.topCenter,
@@ -303,13 +226,11 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                   ),
                 ),
               ),
-
             ],
           ),
         ),
       ),
     );
-
   }
 
   addNewProd2(priContext) {
@@ -322,6 +243,7 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
         context: context,
         builder: (BuildContext context) {
           return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+
         });
   }
 
@@ -735,65 +657,74 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
       return index;
     }
   }
-
-
-
-
-
-
-
-
 }
-
 
 class CustomerInfo extends StatelessWidget {
   final String customerName;
   final String customerAddress;
   final String customerPhone;
+  final String image;
 
-  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone);
+  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  QRViewExample()),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(top: 16.0),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom:
-                  BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    customerName,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    color: Colors.grey.withOpacity(0.3), width: 1.0))),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: image != "" ? Image.network('https://hninsunyein.me/smartkyat_pos/api/uploads/$image', fit: BoxFit.cover,
+                    height: 70,
+                    width: 70,
+                    ) : Image.network('https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',fit: BoxFit.cover,
+                    height: 70,
+                    width: 70,)
+                ),
+                SizedBox(height: 12),
+              ],
+            ),
+
+            SizedBox(width: 20,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  customerName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(
-                    height: 7,
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                Text(
+                  'MMK $customerAddress',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.blueGrey.withOpacity(1.0),
                   ),
-                  Text(
-                    customerAddress,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.blueGrey.withOpacity(1.0),
-                    ),
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                Text(
+                  '$customerPhone in stock',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.blueGrey.withOpacity(1.0),
                   ),
                   SizedBox(
                     height: 7,
@@ -817,6 +748,25 @@ class CustomerInfo extends StatelessWidget {
                   size: 16,
                   color: Colors.blueGrey.withOpacity(0.8),
                 ),
+                SizedBox(height: 20),
+              ],
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: Colors.blueGrey.withOpacity(0.8),
+                ), onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ProductDetailsView()),
+                );
+              },
               ),
             ],
           ),
@@ -826,3 +776,267 @@ class CustomerInfo extends StatelessWidget {
   }
 }
 
+class SubUnit extends StatefulWidget {
+  @override
+  State<SubUnit> createState() => _SubUnitState();
+}
+
+class _SubUnitState extends State<SubUnit> {
+  final List<String> prodFieldsValue = [];
+
+  var nameTECs = <TextEditingController>[];
+
+  var ageTECs = <TextEditingController>[];
+
+  var jobTECs = <TextEditingController>[];
+
+  var cards = <Padding>[];
+
+  Padding createCard() {
+    var nameController = TextEditingController();
+    var ageController = TextEditingController();
+    var jobController = TextEditingController();
+    nameTECs.add(nameController);
+    ageTECs.add(ageController);
+    jobTECs.add(jobController);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(top: 15),
+                child: Text(
+                  "#${cards.length + 1} SUB UNIT QUANTITY",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                    letterSpacing: 2,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              Spacer(),
+              Container(
+                padding: EdgeInsets.only(top: 15),
+                child: IconButton(
+                  icon: Icon(Icons.close,
+                    size: 20,
+                    color: Colors.blue,),
+                  onPressed: (){
+                    setState(() {
+                    cards.length--;
+                        cards.remove(cards);});
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: [
+              Container(
+                width: (MediaQuery.of(context).size.width-30)/1.74,
+                child: TextFormField(
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    prodFieldsValue.add(value);
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+
+                    focusedBorder: const OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                    suffixText: 'Required',
+                    suffixStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                      fontFamily: 'capsulesans',),
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                    // errorText: 'Error message',
+                    labelText: 'Units / main unit',
+                    floatingLabelBehavior:
+                    FloatingLabelBehavior.auto,
+                    //filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                      BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              Spacer(),
+              Container(
+                width: (MediaQuery.of(context).size.width-30)/2.9,
+                child: TextFormField(
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    prodFieldsValue.add(value);
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+
+                    focusedBorder: const OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                    suffixText: 'Required',
+                    suffixStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                      fontFamily: 'capsulesans',),
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                    // errorText: 'Error message',
+                    labelText: 'Unit name',
+                    floatingLabelBehavior:
+                    FloatingLabelBehavior.auto,
+                    //filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                      BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          TextFormField(
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null ||
+                  value.isEmpty) {
+                return 'This field is required';
+              }
+              prodFieldsValue.add(value);
+              return null;
+            },
+            decoration: InputDecoration(
+              enabledBorder: const OutlineInputBorder(
+                // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))
+              ),
+
+              focusedBorder: const OutlineInputBorder(
+                // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))
+              ),
+              contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+              suffixText: 'MMK',
+              suffixStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+                fontSize: 12,
+                //fontFamily: 'capsulesans',
+              ),
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+              // errorText: 'Error message',
+              labelText: 'Sale price',
+              floatingLabelBehavior:
+              FloatingLabelBehavior.auto,
+              //filled: true,
+              border: OutlineInputBorder(
+                borderRadius:
+                BorderRadius.circular(10),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+          child: ButtonTheme(
+            splashColor: AppTheme.buttonColor2,
+            minWidth: MediaQuery.of(context).size.width,
+            height: 61,
+            child: RaisedButton(
+              color: AppTheme.buttonColor2,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                  side: BorderSide(
+                    color: AppTheme.buttonColor2,
+                  )),
+              onPressed: () {
+                if (cards.length == 3) {
+                  print('Cards limit reached');
+                } else
+                  setState(() => cards.add(createCard()));
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('New sub unit?',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Icon(Icons.add_box_rounded),
+                ],
+              ),
+            ),
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: cards.length,
+          itemBuilder: (BuildContext context, int index) {
+            return cards[index];
+          },
+        ),
+      ],
+    );
+  }
+}

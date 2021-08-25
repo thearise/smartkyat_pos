@@ -4,8 +4,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:smartkyat_pos/login.dart';
 import 'package:smartkyat_pos/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'src/app.dart';
+import 'package:smartkyat_pos/src/app.dart';
+import 'package:smartkyat_pos/widgets/product_versions_view.dart';
+final themeMode = ValueNotifier(2);
 
 PackageInfo? packageInfo;
 Future<void> main() async {
