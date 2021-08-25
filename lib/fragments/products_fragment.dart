@@ -6,10 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:smartkyat_pos/pages2/multi_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
+import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
+import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/product_versions_view.dart';
 
 import '../app_theme.dart';
-
-//import '../app_theme.dart';
 
 class ProductsFragment extends StatefulWidget {
   ProductsFragment({Key? key}) : super(key: key);
@@ -24,10 +25,8 @@ class _ProductsFragmentState extends State<ProductsFragment> {
     // await Firebase.initializeApp();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -39,11 +38,15 @@ class _ProductsFragmentState extends State<ProductsFragment> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-220,
+                  height: MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom -
+                      220,
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 15.0, right: 15.0),
                     // child: ListView(
                     //   children: [
                     //     CustomerInfo('Phyo Pyae Sohn', 'Monywa', '(+959)794335708'),
@@ -53,13 +56,14 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                     //   ],
                     // )
 
-
                     child: ListView(
                       children: [
                         Container(
                           alignment: Alignment.topLeft,
-                          child: Text('Products',
-                            style: TextStyle(fontSize: 24,
+                          child: Text(
+                            'Products',
+                            style: TextStyle(
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -91,81 +95,82 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                             ),
                           ),
                         ),
-
                         SizedBox(
                           height: 10,
                         ),
                         StreamBuilder(
-                            stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').snapshots(),
-                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
-                              if (snapshot.hasError) {
-                                return Text('Something went wrong');
+                            stream: FirebaseFirestore.instance
+                                .collection('space')
+                                .doc('0NHIS0Jbn26wsgCzVBKT')
+                                .collection('shops')
+                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                .collection('products')
+                                .snapshots(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  children: snapshot.data!.docs
+                                      .map((DocumentSnapshot document) {
+                                    Map<String, dynamic> data =
+                                    document.data()! as Map<String, dynamic>;
+                                    // index++;
+                                    // print(index.toString() + 'index');
+                                    // return ListTile(
+                                    //   title: Text(data['prod_name']),
+                                    // );
+                                    return CustomerInfo(
+                                        data['prod_name'], data['sale_price'],
+                                        data['unit_qtity'],
+                                    data['img_1']);
+                                  }).toList(),
+                                );
                               }
-
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return Text("Loading");
-                              }
-
-                              print(snapshot.data!.docs.length.toString());
-
-                              var index = 0;
-
-                              return ListView(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                  Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                  index++;
-                                  print(index.toString() + 'index');
-                                  // return ListTile(
-                                  //   title: Text(data['prod_name']),
-                                  // );
-                                  return CustomerInfo(data['prod_name'], 'Monywa', '(+959)794335708');
-                                }).toList(),
-                              );
+                              return Container();
                             }
-                        )
-
-
+                            )
                       ],
                     ),
                   ),
                 ),
-
               ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(10.0),
-                        color: Colors.grey.withOpacity(0.2)
-                    ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.grey.withOpacity(0.2)),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left:15.0,),
-                            child: Icon(Icons.search, size: 26,),
+                            padding: const EdgeInsets.only(
+                              left: 15.0,
+                            ),
+                            child: Icon(
+                              Icons.search,
+                              size: 26,
+                            ),
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                              child: Container(child:
-                              Text(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
+                              child: Container(
+                                  child: Text(
                                 'Search',
                                 style: TextStyle(
                                     fontSize: 16.5,
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.black.withOpacity(0.6)
-                                ),
-                              )
-                              ),
+                                    color: Colors.black.withOpacity(0.6)),
+                              )),
                             ),
                           ),
                           GestureDetector(
@@ -173,8 +178,14 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                               // addDailyExp(context);
                             },
                             child: Padding(
-                              padding: const EdgeInsets.only(right:15.0,),
-                              child: Icon(Icons.bar_chart, color: Colors.green, size: 22,),
+                              padding: const EdgeInsets.only(
+                                right: 15.0,
+                              ),
+                              child: Icon(
+                                Icons.bar_chart,
+                                color: Colors.green,
+                                size: 22,
+                              ),
                             ),
                           )
                         ],
@@ -183,15 +194,12 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
       ),
     );
-
   }
-
 
   addNewProd(priContext) {
     final List<String> prodFieldsValue = [];
@@ -210,25 +218,151 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  SizedBox(
+                    height: 15,
+                  ),
                   Container(
-                    height: MediaQuery.of(priContext).padding.top,
+                    height: 85,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Colors.grey.withOpacity(0.3),
+                                width: 1.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ),
+                                color: Colors.grey.withOpacity(0.3)),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.close,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate() ||
+                                    !_formKey.currentState!.validate()) {
+                                  if (prodFieldsValue.length > 0) {
+                                    showOkCancelAlertDialog(
+                                      context: context,
+                                      title: 'Are you sure?',
+                                      message: 'You added data in some inputs.',
+                                      defaultType:
+                                          OkCancelAlertDefaultType.cancel,
+                                    ).then((result) {
+                                      if (result == OkCancelResult.ok) {
+                                        Navigator.pop(context);
+                                      }
+                                    });
+                                  } else {
+                                    Navigator.pop(context);
+                                  }
+                                }
+                              },
+                            ),
+                          ),
+                          Text(
+                            "Add new product",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                                fontFamily: 'capsulesans',
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.left,
+                          ),
+                          Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ),
+                                color: AppTheme.skThemeColor2),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.check,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                // if (_formKey.currentState!.validate()) {
+                                //   // If the form is valid, display a snackbar. In the real world,
+                                //   // you'd often call a server or save the information in a database.
+                                //   ScaffoldMessenger.of(context).showSnackBar(
+                                //     const SnackBar(content: Text('Processing Data')),
+                                //   );
+                                //   // print(prodFieldsValue);
+                                //
+                                //   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
+                                //   var prodExist = false;
+                                //   var spaceDocId = '';
+                                //   FirebaseFirestore.instance
+                                //       .collection('space')
+                                //       .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                                //       .get()
+                                //       .then((QuerySnapshot querySnapshot) {
+                                //     querySnapshot.docs.forEach((doc) {
+                                //       spaceDocId = doc.id;
+                                //     });
+                                //
+                                //     print('space shi p thar');
+                                //     getStoreId().then((String result2) {
+                                //       print('store id ' + result2.toString());
+                                //
+                                //       FirebaseFirestore.instance
+                                //           .collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products')
+                                //           .where('prod_name', isEqualTo: prodFieldsValue[0])
+                                //           .get()
+                                //           .then((QuerySnapshot querySnapshot) async {
+                                //         querySnapshot.docs.forEach((doc) {
+                                //           prodExist = true;
+                                //         });
+                                //
+                                //         if(prodExist) {
+                                //           print('product already');
+                                //           var result = await showOkAlertDialog(
+                                //               context: context,
+                                //               title: 'Warning',
+                                //               message: 'Product name already!',
+                                //               okLabel: 'OK',
+                                //           );
+                                //
+                                //         } else {
+                                //           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products');
+                                //           return shops
+                                //               .add({
+                                //             'prod_name': prodFieldsValue[0]
+                                //           })
+                                //               .then((value) {
+                                //             print('product added');
+                                //
+                                //             Navigator.pop(context);
+                                //           });
+                                //         }
+                                //       });
+                                //     });
+                                //   });
+                                // }
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Container(
-                      child: Column(
+                      child: ListView(
                         children: [
-                          Container(
-                            width: 70,
-                            height: 6,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25.0),
-                                ),
-                                color: Colors.white.withOpacity(0.5)),
-                          ),
-                          SizedBox(
-                            height: 14,
-                          ),
                           Container(
                             // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
                             width: double.infinity,
@@ -244,152 +378,6 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                               key: _formKey,
                               child: Column(
                                 children: [
-                                  Container(
-                                    height: 85,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color:
-                                                Colors.grey.withOpacity(0.3),
-                                                width: 1.0))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15.0, top: 20.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(5.0),
-                                                ),
-                                                color:
-                                                Colors.grey.withOpacity(0.3)),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.close,
-                                                size: 20,
-                                                color: Colors.black,
-                                              ),
-                                              onPressed: () {
-                                                if (_formKey.currentState!.validate() || !_formKey.currentState!.validate()) {
-
-                                                  if(prodFieldsValue.length>0) {
-                                                    showOkCancelAlertDialog(
-                                                      context: context,
-                                                      title: 'Are you sure?',
-                                                      message: 'You added data in some inputs.',
-                                                      defaultType: OkCancelAlertDefaultType.cancel,
-                                                    ).then((result) {
-                                                      if(result == OkCancelResult.ok) {
-                                                        Navigator.pop(context);
-                                                      }
-                                                    });
-
-                                                  } else {
-                                                    Navigator.pop(context);
-                                                  }
-                                                }
-
-
-                                              },
-                                            ),
-                                          ),
-                                          Text(
-                                            "Add new product",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17,
-                                                fontFamily: 'capsulesans',
-                                                fontWeight: FontWeight.w600),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Container(
-                                            width: 35,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(5.0),
-                                                ),
-                                                color: AppTheme.skThemeColor),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.check,
-                                                size: 20,
-                                                color: Colors.black,
-                                              ),
-                                              onPressed: () {
-
-                                                if (_formKey.currentState!.validate()) {
-                                                  // If the form is valid, display a snackbar. In the real world,
-                                                  // you'd often call a server or save the information in a database.
-                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                    const SnackBar(content: Text('Processing Data')),
-                                                  );
-                                                  // print(prodFieldsValue);
-
-                                                  CollectionReference spaces = FirebaseFirestore.instance.collection('space');
-                                                  var prodExist = false;
-                                                  var spaceDocId = '';
-                                                  FirebaseFirestore.instance
-                                                      .collection('space')
-                                                      .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                                                      .get()
-                                                      .then((QuerySnapshot querySnapshot) {
-                                                    querySnapshot.docs.forEach((doc) {
-                                                      spaceDocId = doc.id;
-                                                    });
-
-                                                    print('space shi p thar');
-                                                    getStoreId().then((String result2) {
-                                                      print('store id ' + result2.toString());
-
-                                                      FirebaseFirestore.instance
-                                                          .collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products')
-                                                          .where('prod_name', isEqualTo: prodFieldsValue[0])
-                                                          .get()
-                                                          .then((QuerySnapshot querySnapshot) async {
-                                                        querySnapshot.docs.forEach((doc) {
-                                                          prodExist = true;
-                                                        });
-
-                                                        if(prodExist) {
-                                                          print('product already');
-                                                          var result = await showOkAlertDialog(
-                                                              context: context,
-                                                              title: 'Warning',
-                                                              message: 'Product name already!',
-                                                              okLabel: 'OK',
-                                                          );
-
-                                                        } else {
-                                                          CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products');
-                                                          return shops
-                                                              .add({
-                                                            'prod_name': prodFieldsValue[0]
-                                                          })
-                                                              .then((value) {
-                                                            print('product added');
-
-                                                            Navigator.pop(context);
-                                                          });
-                                                        }
-                                                      });
-                                                    });
-                                                  });
-                                                }
-
-                                              },
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-
                                   // Row(
                                   //   mainAxisAlignment: MainAxisAlignment.start,
                                   //   children: [
@@ -420,7 +408,6 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                                   //   ],
                                   // ),
 
-
                                   Container(
                                     alignment: Alignment.topLeft,
                                     padding: EdgeInsets.only(top: 20, left: 15),
@@ -437,135 +424,405 @@ class _ProductsFragmentState extends State<ProductsFragment> {
                                   SizedBox(
                                     height: 16,
                                   ),
-                                  Container(height: 500,
-                                  child: MultiAssetsPage(),),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                  //   child: TextFormField(
-                                  //     // The validator receives the text that the user has entered.
-                                  //     validator: (value) {
-                                  //       if (value == null ||
-                                  //           value.isEmpty) {
-                                  //         return 'This field is required';
-                                  //       }
-                                  //       prodFieldsValue.add(value);
-                                  //       return null;
-                                  //     },
-                                  //     decoration: InputDecoration(
-                                  //       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
-                                  //       suffixText: 'Required',
-                                  //       suffixStyle: TextStyle(
-                                  //         color: Colors.grey,
-                                  //         fontSize: 12,
-                                  //         fontFamily: 'capsulesans',),
-                                  //       labelStyle: TextStyle(
-                                  //         fontWeight: FontWeight.w500,
-                                  //         color: Colors.black,
-                                  //       ),
-                                  //       // errorText: 'Error message',
-                                  //       labelText: 'Product name',
-                                  //       floatingLabelBehavior:
-                                  //       FloatingLabelBehavior.auto,
-                                  //       //filled: true,
-                                  //       border: OutlineInputBorder(
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(10),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // SizedBox(
-                                  //   height: 10,
-                                  // ),
-                                  // Container(
-                                  //   alignment: Alignment.topLeft,
-                                  //   padding: EdgeInsets.only(top: 20, left: 15),
-                                  //   child: Text(
-                                  //     "PRODUCT PRICING",
-                                  //     style: TextStyle(
-                                  //       fontWeight: FontWeight.bold,
-                                  //       fontSize: 13,
-                                  //       letterSpacing: 2,
-                                  //       color: Colors.grey,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // SizedBox(
-                                  //   height: 16,
-                                  // ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                  //   child: TextFormField(
-                                  //     // The validator receives the text that the user has entered.
-                                  //     validator: (value) {
-                                  //       if (value == null ||
-                                  //           value.isEmpty) {
-                                  //         return 'This field is required';
-                                  //       }
-                                  //       prodFieldsValue.add(value);
-                                  //       return null;
-                                  //     },
-                                  //     decoration: InputDecoration(
-                                  //       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
-                                  //       suffixText: 'Required',
-                                  //       suffixStyle: TextStyle(
-                                  //         color: Colors.grey,
-                                  //         fontSize: 12,
-                                  //         fontFamily: 'capsulesans',),
-                                  //       labelStyle: TextStyle(
-                                  //         fontWeight: FontWeight.w500,
-                                  //         color: Colors.black,
-                                  //       ),
-                                  //       // errorText: 'Error message',
-                                  //       labelText: 'Sale price',
-                                  //       floatingLabelBehavior:
-                                  //       FloatingLabelBehavior.auto,
-                                  //       //filled: true,
-                                  //       border: OutlineInputBorder(
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(10),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // SizedBox(
-                                  //   height: 16,
-                                  // ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                  //   child: TextFormField(
-                                  //     // The validator receives the text that the user has entered.
-                                  //     validator: (value) {
-                                  //       if (value == null ||
-                                  //           value.isEmpty) {
-                                  //         return 'This field is required';
-                                  //       }
-                                  //       prodFieldsValue.add(value);
-                                  //       return null;
-                                  //     },
-                                  //     decoration: InputDecoration(
-                                  //       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
-                                  //       suffixText: 'Required',
-                                  //       suffixStyle: TextStyle(
-                                  //         color: Colors.grey,
-                                  //         fontSize: 12,
-                                  //         fontFamily: 'capsulesans',),
-                                  //       labelStyle: TextStyle(
-                                  //         fontWeight: FontWeight.w500,
-                                  //         color: Colors.black,
-                                  //       ),
-                                  //       // errorText: 'Error message',
-                                  //       labelText: 'Cost',
-                                  //       floatingLabelBehavior:
-                                  //       FloatingLabelBehavior.auto,
-                                  //       //filled: true,
-                                  //       border: OutlineInputBorder(
-                                  //         borderRadius:
-                                  //         BorderRadius.circular(10),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
+                                  // Container(height: 250,
+                                  //  child: MultiAssetsPage(),),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15.0),
+                                    child: ButtonTheme(
+                                      splashColor: AppTheme.buttonColor2,
+                                      minWidth:
+                                          MediaQuery.of(context).size.width,
+                                      height: 61,
+                                      child: RaisedButton(
+                                        color: AppTheme.buttonColor2,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7.0),
+                                            side: BorderSide(
+                                              color: AppTheme.buttonColor2,
+                                            )),
+                                        onPressed: () {},
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text('Product Image',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Icon(Icons.add_box_rounded),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: TextFormField(
+                                      // The validator receives the text that the user has entered.
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty) {
+                                          return 'This field is required';
+                                        }
+                                        prodFieldsValue.add(value);
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+
+                                        focusedBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                                        suffixText: 'Required',
+                                        suffixStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',),
+                                        labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                        // errorText: 'Error message',
+                                        labelText: 'Product name',
+                                        floatingLabelBehavior:
+                                        FloatingLabelBehavior.auto,
+                                        //filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.only(top: 20, left: 15),
+                                    child: Text(
+                                      "PRODUCT CATEGORIES",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        letterSpacing: 2,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: TextFormField(
+                                      // The validator receives the text that the user has entered.
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty) {
+                                          return 'This field is required';
+                                        }
+                                        prodFieldsValue.add(value);
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+
+                                        focusedBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                                        suffixText: 'Required',
+                                        suffixStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',),
+                                        labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                        // errorText: 'Error message',
+                                        labelText: 'Choose Category',
+                                        floatingLabelBehavior:
+                                        FloatingLabelBehavior.auto,
+                                        //filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.only(top: 20, left: 15),
+                                    child: Text(
+                                      "OTHER INFORMATION",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        letterSpacing: 2,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: TextFormField(
+                                      // The validator receives the text that the user has entered.
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty) {
+                                          return 'This field is required';
+                                        }
+                                        prodFieldsValue.add(value);
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+
+                                        focusedBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            Icons.bar_chart,
+                                            color: Colors.green,
+                                            size: 30,
+                                          ),
+                                          onPressed: () {
+                                            print("Barcode");
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      QRViewExample()),
+                                            );
+                                          },
+                                        ),
+                                        suffixText: 'Required',
+                                        suffixStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',),
+                                        labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                        // errorText: 'Error message',
+                                        labelText: 'Barcode',
+                                        floatingLabelBehavior:
+                                        FloatingLabelBehavior.auto,
+                                        //filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.only(top: 20, left: 15),
+                                    child: Text(
+                                      "MAIN UNIT QUANTITY",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        letterSpacing: 2,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: TextFormField(
+                                      // The validator receives the text that the user has entered.
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty) {
+                                          return 'This field is required';
+                                        }
+                                        prodFieldsValue.add(value);
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+
+                                        focusedBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                                        suffixText: 'Required',
+                                        suffixStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',),
+                                        labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                        // errorText: 'Error message',
+                                        labelText: 'Unit quantity',
+                                        floatingLabelBehavior:
+                                        FloatingLabelBehavior.auto,
+                                        //filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: TextFormField(
+                                      // The validator receives the text that the user has entered.
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty) {
+                                          return 'This field is required';
+                                        }
+                                        prodFieldsValue.add(value);
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+
+                                        focusedBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                                        suffixText: 'MMK',
+                                        suffixStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          //fontFamily: 'capsulesans',
+                                        ),
+                                        labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                        // errorText: 'Error message',
+                                        labelText: 'Buy price',
+                                        floatingLabelBehavior:
+                                        FloatingLabelBehavior.auto,
+                                        //filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: TextFormField(
+                                      // The validator receives the text that the user has entered.
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty) {
+                                          return 'This field is required';
+                                        }
+                                        prodFieldsValue.add(value);
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+
+                                        focusedBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                            borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                        ),
+                                        contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                                        suffixText: 'MMK',
+                                        suffixStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          //fontFamily: 'capsulesans',
+                                        ),
+                                        labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                        // errorText: 'Error message',
+                                        labelText: 'Sale price',
+                                        floatingLabelBehavior:
+                                        FloatingLabelBehavior.auto,
+                                        //filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  SubUnit(),
+                                  SizedBox(
+                                    height: 50,
+                                  ),
                                 ],
                               ),
                             ),
@@ -587,29 +844,21 @@ class _ProductsFragmentState extends State<ProductsFragment> {
 
     var index = prefs.getString('store');
     print(index);
-    if(index == null) {
+    if (index == null) {
       return 'idk';
     } else {
       return index;
     }
   }
-
-
-
-
-
-
-
-
 }
-
 
 class CustomerInfo extends StatelessWidget {
   final String customerName;
   final String customerAddress;
   final String customerPhone;
+  final String image;
 
-  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone);
+  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image);
 
   @override
   Widget build(BuildContext context) {
@@ -619,10 +868,26 @@ class CustomerInfo extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             border: Border(
-                bottom:
-                BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
+                bottom: BorderSide(
+                    color: Colors.grey.withOpacity(0.3), width: 1.0))),
         child: Row(
           children: [
+            Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: image != "" ? Image.network('https://hninsunyein.me/smartkyat_pos/api/uploads/$image', fit: BoxFit.cover,
+                    height: 70,
+                    width: 70,
+                    ) : Image.network('https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',fit: BoxFit.cover,
+                    height: 70,
+                    width: 70,)
+                ),
+                SizedBox(height: 12),
+              ],
+            ),
+
+            SizedBox(width: 20,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -637,7 +902,7 @@ class CustomerInfo extends StatelessWidget {
                   height: 7,
                 ),
                 Text(
-                  customerAddress,
+                  'MMK $customerAddress',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -648,7 +913,7 @@ class CustomerInfo extends StatelessWidget {
                   height: 7,
                 ),
                 Text(
-                  customerPhone,
+                  '$customerPhone in stock',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -661,10 +926,19 @@ class CustomerInfo extends StatelessWidget {
             Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
-              child: Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
-                color: Colors.blueGrey.withOpacity(0.8),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: Colors.blueGrey.withOpacity(0.8),
+                ), onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ProductDetailsView()),
+                );
+              },
               ),
             ),
           ],
@@ -674,3 +948,267 @@ class CustomerInfo extends StatelessWidget {
   }
 }
 
+class SubUnit extends StatefulWidget {
+  @override
+  State<SubUnit> createState() => _SubUnitState();
+}
+
+class _SubUnitState extends State<SubUnit> {
+  final List<String> prodFieldsValue = [];
+
+  var nameTECs = <TextEditingController>[];
+
+  var ageTECs = <TextEditingController>[];
+
+  var jobTECs = <TextEditingController>[];
+
+  var cards = <Padding>[];
+
+  Padding createCard() {
+    var nameController = TextEditingController();
+    var ageController = TextEditingController();
+    var jobController = TextEditingController();
+    nameTECs.add(nameController);
+    ageTECs.add(ageController);
+    jobTECs.add(jobController);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(top: 15),
+                child: Text(
+                  "#${cards.length + 1} SUB UNIT QUANTITY",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                    letterSpacing: 2,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              Spacer(),
+              Container(
+                padding: EdgeInsets.only(top: 15),
+                child: IconButton(
+                  icon: Icon(Icons.close,
+                    size: 20,
+                    color: Colors.blue,),
+                  onPressed: (){
+                    setState(() {
+                    cards.length--;
+                        cards.remove(cards);});
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: [
+              Container(
+                width: (MediaQuery.of(context).size.width-30)/1.74,
+                child: TextFormField(
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    prodFieldsValue.add(value);
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+
+                    focusedBorder: const OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                    suffixText: 'Required',
+                    suffixStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                      fontFamily: 'capsulesans',),
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                    // errorText: 'Error message',
+                    labelText: 'Units / main unit',
+                    floatingLabelBehavior:
+                    FloatingLabelBehavior.auto,
+                    //filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                      BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              Spacer(),
+              Container(
+                width: (MediaQuery.of(context).size.width-30)/2.9,
+                child: TextFormField(
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    prodFieldsValue.add(value);
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+
+                    focusedBorder: const OutlineInputBorder(
+                      // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                    ),
+                    contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                    suffixText: 'Required',
+                    suffixStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                      fontFamily: 'capsulesans',),
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                    // errorText: 'Error message',
+                    labelText: 'Unit name',
+                    floatingLabelBehavior:
+                    FloatingLabelBehavior.auto,
+                    //filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                      BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          TextFormField(
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null ||
+                  value.isEmpty) {
+                return 'This field is required';
+              }
+              prodFieldsValue.add(value);
+              return null;
+            },
+            decoration: InputDecoration(
+              enabledBorder: const OutlineInputBorder(
+                // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))
+              ),
+
+              focusedBorder: const OutlineInputBorder(
+                // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))
+              ),
+              contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+              suffixText: 'MMK',
+              suffixStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+                fontSize: 12,
+                //fontFamily: 'capsulesans',
+              ),
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+              // errorText: 'Error message',
+              labelText: 'Sale price',
+              floatingLabelBehavior:
+              FloatingLabelBehavior.auto,
+              //filled: true,
+              border: OutlineInputBorder(
+                borderRadius:
+                BorderRadius.circular(10),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+          child: ButtonTheme(
+            splashColor: AppTheme.buttonColor2,
+            minWidth: MediaQuery.of(context).size.width,
+            height: 61,
+            child: RaisedButton(
+              color: AppTheme.buttonColor2,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                  side: BorderSide(
+                    color: AppTheme.buttonColor2,
+                  )),
+              onPressed: () {
+                if (cards.length == 3) {
+                  print('Cards limit reached');
+                } else
+                  setState(() => cards.add(createCard()));
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('New sub unit?',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Icon(Icons.add_box_rounded),
+                ],
+              ),
+            ),
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: cards.length,
+          itemBuilder: (BuildContext context, int index) {
+            return cards[index];
+          },
+        ),
+      ],
+    );
+  }
+}

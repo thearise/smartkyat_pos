@@ -70,11 +70,20 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
     return Column(
       children: <Widget>[
         if (assets.isNotEmpty)
-          SelectedAssetsListView(
-            assets: assets,
-            isDisplayingDetail: isDisplayingDetail,
-            onResult: onResult,
-            onRemoveAsset: removeAsset,
+          GestureDetector(
+            onTap: () {
+              // print(assets[0].toString());
+              for (final AssetEntity entity in assets) {
+                // If the entity isAll, that's the "Recent" entity you want.
+                entity.originFile.then((value) => print(value));
+              }
+              },
+            child: SelectedAssetsListView(
+              assets: assets,
+              isDisplayingDetail: isDisplayingDetail,
+              onResult: onResult,
+              onRemoveAsset: removeAsset,
+            ),
           ),
         Expanded(
           child: MethodListView(
