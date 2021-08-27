@@ -157,6 +157,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
 
                               if (_formKey.currentState!.validate()) {
+                                DateTime now = DateTime.now();
                                 setState(() {
                                   prodAdding = true;
                                 });
@@ -276,19 +277,23 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       .add({
                                                     'prod_name': prodFieldsValue[0],
                                                     'bar_code': prodFieldsValue[1],
-                                                    'unit_qtity': prodFieldsValue[2],
                                                     'unit_name': prodFieldsValue[3],
-                                                    'buy_price': prodFieldsValue[4],
-                                                    'sale_price': prodFieldsValue[5],
-                                                    'sub1_unit': subUnitFieldValue[0],
                                                     'sub1_name': subUnitFieldValue[1],
-                                                    'sub1_sale': subUnitFieldValue[2],
-                                                    'sub2_unit': subUnitFieldValue[3],
                                                     'sub2_name': subUnitFieldValue[4],
-                                                    'sub2_sale': subUnitFieldValue[5],
-                                                    'sub3_unit': subUnitFieldValue[6],
                                                     'sub3_name': subUnitFieldValue[7],
-                                                    'sub3_sale': subUnitFieldValue[8],
+                                                    // 'unit_qtity': prodFieldsValue[2],
+                                                    // 'unit_name': prodFieldsValue[3],
+                                                    // 'buy_price': prodFieldsValue[4],
+                                                    // 'sale_price': prodFieldsValue[5],
+                                                    // 'sub1_unit': subUnitFieldValue[0],
+                                                    // 'sub1_name': subUnitFieldValue[1],
+                                                    // 'sub1_sale': subUnitFieldValue[2],
+                                                    // 'sub2_unit': subUnitFieldValue[3],
+                                                    // 'sub2_name': subUnitFieldValue[4],
+                                                    // 'sub2_sale': subUnitFieldValue[5],
+                                                    // 'sub3_unit': subUnitFieldValue[6],
+                                                    // 'sub3_name': subUnitFieldValue[7],
+                                                    // 'sub3_sale': subUnitFieldValue[8],
                                                     'img_1': '',
                                                     'img_2': '',
                                                     'img_3': '',
@@ -297,61 +302,74 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   })
                                                       .then((value) {
                                                     print('product added');
-                                                    setState(() {
-                                                      prodAdding = false;
-                                                    });
+                                                    // setState(() {
+                                                    //   prodAdding = false;
+                                                    // });
 
-                                                    Navigator.pop(context);
-                                                    // Navigator.push(
-                                                    //   context,
-                                                    //   AwesomeMessageRoute(
-                                                    //     awesomeMessage: AwesomeHelper.createAwesome(
-                                                    //         title: "title", message: "message"),
-                                                    //     theme: null,
-                                                    //     settings: RouteSettings(name: "/messageRouteName"),
-                                                    //   ),
-                                                    // );
+                                                    FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(value.id).collection('versions')
+                                                    .add({
+                                                      'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
+                                                      'unit_qtity': prodFieldsValue[2],
+                                                      'buy_price': prodFieldsValue[4],
+                                                      'sale_price': prodFieldsValue[5],
+                                                      'sub1_unit': subUnitFieldValue[0],
+                                                      'sub1_sale': subUnitFieldValue[2],
+                                                      'sub2_unit': subUnitFieldValue[3],
+                                                      'sub2_sale': subUnitFieldValue[5],
+                                                      'sub3_unit': subUnitFieldValue[6],
+                                                      'sub3_sale': subUnitFieldValue[8],
+                                                    }).then((value) {
+                                                      print('product added 2');
 
-                                                    showFlash(
-                                                      context: context,
-                                                      duration: const Duration(seconds: 2),
-                                                      persistent: true,
-                                                      builder: (_, controller) {
-                                                        return Flash(
-                                                          controller: controller,
-                                                          backgroundColor: Colors.transparent,
-                                                          brightness: Brightness.light,
-                                                          // boxShadows: [BoxShadow(blurRadius: 4)],
-                                                          // barrierBlur: 3.0,
-                                                          // barrierColor: Colors.black38,
-                                                          barrierDismissible: true,
-                                                          behavior: FlashBehavior.floating,
-                                                          position: FlashPosition.top,
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(top: 80.0),
+                                                      setState(() {
+                                                        prodAdding = false;
+                                                      });
+
+                                                      Navigator.pop(context);
+
+                                                      showFlash(
+                                                        context: context,
+                                                        duration: const Duration(seconds: 2),
+                                                        persistent: true,
+                                                        builder: (_, controller) {
+                                                          return Flash(
+                                                            controller: controller,
+                                                            backgroundColor: Colors.transparent,
+                                                            brightness: Brightness.light,
+                                                            // boxShadows: [BoxShadow(blurRadius: 4)],
+                                                            // barrierBlur: 3.0,
+                                                            // barrierColor: Colors.black38,
+                                                            barrierDismissible: true,
+                                                            behavior: FlashBehavior.floating,
+                                                            position: FlashPosition.top,
                                                             child: Padding(
-                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                              child: Container(
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                  BorderRadius.circular(10.0),
-                                                                  color: Colors.green,
-                                                                ),
-                                                                child: FlashBar(
-                                                                  title: Text('Title'),
-                                                                  content: Text('Hello world!'),
-                                                                  // showProgressIndicator: true,
-                                                                  primaryAction: TextButton(
-                                                                    onPressed: () => controller.dismiss(),
-                                                                    child: Text('DISMISS', style: TextStyle(color: Colors.amber)),
+                                                              padding: const EdgeInsets.only(top: 80.0),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                                child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(10.0),
+                                                                    color: Colors.green,
+                                                                  ),
+                                                                  child: FlashBar(
+                                                                    title: Text('Title'),
+                                                                    content: Text('Hello world!'),
+                                                                    // showProgressIndicator: true,
+                                                                    primaryAction: TextButton(
+                                                                      onPressed: () => controller.dismiss(),
+                                                                      child: Text('DISMISS', style: TextStyle(color: Colors.amber)),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    );
+                                                          );
+                                                        },
+                                                      );
+                                                    });
+
+
 
 
 
@@ -1011,6 +1029,14 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   }
 
   int photoUploadCount = 0;
+
+  zeroToTen(String string) {
+    if(int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0'+string;
+    }
+  }
 
   photoUploaded(length, photoArray) {
     print('upload ' + photoUploadCount.toString());

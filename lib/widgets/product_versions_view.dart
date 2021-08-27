@@ -2,9 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 
-class ProductVersionView extends StatelessWidget {
-  const ProductVersionView({Key? key}) : super(key: key);
+class ProductVersionView extends StatefulWidget {
+  final String id;
 
+  const ProductVersionView({Key? key, required this.id}) : super(key: key);
+
+  @override
+  _ProductVersionViewState createState() => _ProductVersionViewState();
+}
+
+class _ProductVersionViewState extends State<ProductVersionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

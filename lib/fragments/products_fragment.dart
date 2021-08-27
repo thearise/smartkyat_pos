@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
@@ -152,15 +153,14 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                       //   title: Text(data['prod_name']),
                                       // );
                                       return CustomerInfo(
-                                          data['prod_name'], data['sale_price'],
-                                          data['unit_qtity'],
-                                      data['img_1']);
+                                          data['prod_name'], '',document.id.toString(),
+                                          // data['sale_price'],data['unit_qtity'],
+                                          data['img_1']);
                                     }).toList(),
                                   );
                                 }
                                 return Container();
                               }
-                            )
                           )
                         ],
                       ),
@@ -172,19 +172,19 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                 alignment: Alignment.topCenter,
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                          color: AppTheme.skBorderColor2, width: 1.0),
-                    )
+                      border: Border(
+                        bottom: BorderSide(
+                            color: AppTheme.skBorderColor2, width: 1.0),
+                      )
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15),
                     child: Container(
                       height: 56,
                       decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.circular(10.0),
-                          color: Colors.grey.withOpacity(0.2),
+                        borderRadius:
+                        BorderRadius.circular(10.0),
+                        color: Colors.grey.withOpacity(0.2),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -665,7 +665,7 @@ class CustomerInfo extends StatelessWidget {
   final String customerPhone;
   final String image;
 
-  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image);
+  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image,);
 
   @override
   Widget build(BuildContext context) {
@@ -682,13 +682,28 @@ class CustomerInfo extends StatelessWidget {
             Column(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: image != "" ? Image.network('https://hninsunyein.me/smartkyat_pos/api/uploads/$image', fit: BoxFit.cover,
-                    height: 70,
-                    width: 70,
-                    ) : Image.network('https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',fit: BoxFit.cover,
-                    height: 70,
-                    width: 70,)
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: image != "" ? CachedNetworkImage(
+                        imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/$image',
+                        width: 70,
+                        height: 70,
+                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fadeInDuration: Duration(milliseconds: 100),
+                        fadeOutDuration: Duration(milliseconds: 10),
+                        fadeInCurve: Curves.bounceIn,
+                        fit: BoxFit.cover,
+                    ) : CachedNetworkImage(
+                      imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+                      width: 70,
+                      height: 70,
+                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      fadeInDuration: Duration(milliseconds: 100),
+                      fadeOutDuration: Duration(milliseconds: 10),
+                      fadeInCurve: Curves.bounceIn,
+                      fit: BoxFit.cover,
+                    )
                 ),
                 SizedBox(height: 12),
               ],
@@ -726,29 +741,7 @@ class CustomerInfo extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: Colors.blueGrey.withOpacity(1.0),
                   ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  Text(
-                    customerPhone,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.blueGrey.withOpacity(1.0),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                ],
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 16,
-                  color: Colors.blueGrey.withOpacity(0.8),
                 ),
-                SizedBox(height: 20),
               ],
             ),
             Spacer(),
@@ -768,8 +761,9 @@ class CustomerInfo extends StatelessWidget {
                 );
               },
               ),
-            ],
-          ),
+            ),
+          ],
+
         ),
       ),
     );
@@ -828,8 +822,8 @@ class _SubUnitState extends State<SubUnit> {
                     color: Colors.blue,),
                   onPressed: (){
                     setState(() {
-                    cards.length--;
-                        cards.remove(cards);});
+                      cards.length--;
+                      cards.remove(cards);});
                   },
                 ),
               ),
