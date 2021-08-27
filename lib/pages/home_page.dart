@@ -983,19 +983,19 @@ class HomePageState extends State<HomePage>{
     return Container(
       height: MediaQuery.of(context).size.height-105,
       width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
-        child: Stack(
-          children: [
-            Row(
+      child: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+            child: Row(
               children: [
                 GestureDetector(
                   onTap: () {
                     // addCounter();/z
                   },
                   child: Container(
-                    width: (width/2)-20,
-                    height: 56,
+                    width: (width/2)-22.5,
+                    height: 55,
                     decoration: BoxDecoration(
                         borderRadius:
                         BorderRadius.circular(10.0),
@@ -1087,31 +1087,14 @@ class HomePageState extends State<HomePage>{
                                             });
                                           });
                                         }
-
-
-
-
-
-
-
                                       });
-
-
-
-
                                 });
-
-
-
-
-
-
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
                                 child: Container(child:
                                 Text(
-                                  'Clear cart',
+                                  'Clear cart2',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 18,
@@ -1128,10 +1111,10 @@ class HomePageState extends State<HomePage>{
                     ),
                   ),
                 ),
-                SizedBox(width: 10.0,),
+                SizedBox(width: 15.0,),
                 Container(
-                  width: (width/2)-20,
-                  height: 56,
+                  width: (width/2)-22.5,
+                  height: 55,
                   decoration: BoxDecoration(
                       borderRadius:
                       BorderRadius.circular(10.0),
@@ -1171,19 +1154,141 @@ class HomePageState extends State<HomePage>{
                 )
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 80.0),
-              child: Container(
-                child: Column(
-                  children: [
-                    Text('Counter: ' + counter.toString()),
-                    orderLoading?Text('Loading'):Text('')
-                  ],
-                )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 80.0),
+            child: Container(
+              child: Column(
+                children: [
+                  Text('Counter: ' + counter.toString()),
+                  orderLoading?Text('Loading'):Text('')
+                ],
+              )
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                        color: AppTheme.skBorderColor2, width: 1.0),
+                  )
               ),
-            )
-          ],
-        ),
+              width: double.infinity,
+              height: 160,
+              child: Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: MediaQuery.of(context).padding.bottom + 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Total',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500
+                          ),
+                        ),
+                        Expanded(child: Container(),),
+                        Text(
+                          '2500 MMK',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Processing Data')),
+                        );
+                        // print(prodFieldsValue);
+
+                        CollectionReference orders = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc('GhitGLyZLoQekKhan9Xd').collection('detail');
+                        orders
+                            .add({
+                          'cust_name': 'U Pyaung'
+                        })
+                            .then((value) {
+                          print('order added');
+
+                          FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                          // FirebaseFirestore.instance.collection('space')
+                              .where('date', isEqualTo: 'saturday')
+                              .get()
+                              .then((QuerySnapshot querySnapshot) {
+                            // querySnapshot.docs.forEach((doc) {
+                            //   // spaceDocId = doc.id;
+                            // });some thing 2~IXFrkXcaIzgIbJJCcuu6^hay hay~QM1BYslqNxfeTKwn9vaT^working?~SxLgzSmAdv5Ni6P3lKfR^yeah its worked~V2lfzHGwHH0vZ9hu3Wek
+
+
+
+
+                            querySnapshot.docs.forEach((doc) {
+
+                              FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                  .doc(doc.id)
+                                  .update({'data': doc['data']+'^U Pyaung~'+value.id})
+                                  .then((value) => print("User Updated"))
+                                  .catchError((error) => print("Failed to update user: $error"));
+
+                            });
+
+                          }).then((value) {
+                          });
+
+                          // Navigator.pop(context);
+                        });
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width-30,
+                        height: 55,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.circular(10.0),
+                          color: AppTheme.skThemeColor2
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
+                                  child: Container(
+                                    child:
+                                      Text(
+                                        'Checkout',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -1258,11 +1363,11 @@ class HomePageState extends State<HomePage>{
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          width: 35,
-                                          height: 35,
+                                          width: 30,
+                                          height: 30,
                                           decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
-                                                Radius.circular(5.0),
+                                                Radius.circular(20.0),
                                               ),
                                               color: Colors.grey.withOpacity(0.3)
                                           ),
@@ -1291,62 +1396,23 @@ class HomePageState extends State<HomePage>{
                                         Container(
                                           width: 35,
                                           height: 35,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5.0),
-                                              ),
-                                              color: AppTheme.skThemeColor
-                                          ),
-                                          child: IconButton(
-                                            icon: Icon(
-                                              Icons.check,
-                                              size: 20,
-                                              color: Colors.black,
-                                            ),
-                                            onPressed: () {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text('Processing Data')),
-                                              );
-                                              // print(prodFieldsValue);
-
-                                              CollectionReference orders = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc('GhitGLyZLoQekKhan9Xd').collection('detail');
-                                              orders
-                                                  .add({
-                                                'cust_name': 'U Pyaung'
-                                              })
-                                                  .then((value) {
-                                                print('order added');
-
-                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                                // FirebaseFirestore.instance.collection('space')
-                                                    .where('date', isEqualTo: 'saturday')
-                                                    .get()
-                                                    .then((QuerySnapshot querySnapshot) {
-                                                  // querySnapshot.docs.forEach((doc) {
-                                                  //   // spaceDocId = doc.id;
-                                                  // });some thing 2~IXFrkXcaIzgIbJJCcuu6^hay hay~QM1BYslqNxfeTKwn9vaT^working?~SxLgzSmAdv5Ni6P3lKfR^yeah its worked~V2lfzHGwHH0vZ9hu3Wek
-
-
-
-
-                                                  querySnapshot.docs.forEach((doc) {
-
-                                                    FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                                        .doc(doc.id)
-                                                        .update({'data': doc['data']+'^U Pyaung~'+value.id})
-                                                        .then((value) => print("User Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
-
-                                                  });
-
-                                                }).then((value) {
-                                                });
-
-                                                // Navigator.pop(context);
-                                              });
-                                            },
-
-                                          ),
+                                          // decoration: BoxDecoration(
+                                          //     borderRadius: BorderRadius.all(
+                                          //       Radius.circular(5.0),
+                                          //     ),
+                                          //     color: AppTheme.skThemeColor
+                                          // ),
+                                          // child: IconButton(
+                                          //   icon: Icon(
+                                          //     Icons.check,
+                                          //     size: 20,
+                                          //     color: Colors.black,
+                                          //   ),
+                                          //   onPressed: () {
+                                          //
+                                          //   },
+                                          //
+                                          // ),
                                         )
 
                                       ],
