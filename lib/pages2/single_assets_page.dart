@@ -117,8 +117,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                               } else {
                                 Navigator.pop(context);
                               }
-
-
                             },
                           ),
                         ),

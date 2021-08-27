@@ -1,10 +1,23 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
 
-class ProductVersionView extends StatelessWidget {
-  const ProductVersionView({Key? key}) : super(key: key);
+late final String id;
 
+class ProductVersionView extends StatefulWidget {
+  const ProductVersionView({Key? key, required this.idString}) : super(key: key);
+
+  final String idString;
+
+
+
+  @override
+  State<ProductVersionView> createState() => _ProductVersionViewState();
+}
+
+class _ProductVersionViewState extends State<ProductVersionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,45 +36,42 @@ class ProductVersionView extends StatelessWidget {
                             bottom: BorderSide(
                                 color: Colors.grey.withOpacity(0.3),
                                 width: 1.0))),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0),
-                                ),
-                                color: Colors.grey.withOpacity(0.3)),
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.arrow_back_ios_rounded,
-                                  size: 16,
-                                  color: Colors.black,
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                }),
-                          ),
-                          Text(
-                            'Product Versions',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          IconButton(
-                              icon: Icon(
-                                Icons.check,
-                                size: 20,
-                                color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 35,
+                          height: 35,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5.0),
                               ),
-                              onPressed: () {}),
-                        ],
-                      ),
+                              color: Colors.grey.withOpacity(0.3)),
+                          child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_back_ios_rounded,
+                                size: 16,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }),
+                        ),
+                        Text(
+                          'Product Versions',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        IconButton(
+                            icon: Icon(
+                              Icons.check,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {}),
+                      ],
                     ),
                   ),
                   StreamBuilder(
@@ -71,6 +81,8 @@ class ProductVersionView extends StatelessWidget {
                           .collection('shops')
                           .doc('PucvhZDuUz3XlkTgzcjb')
                           .collection('products')
+                          .doc(widget.idString)
+                          .collection('versions')
                           .snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -87,11 +99,34 @@ class ProductVersionView extends StatelessWidget {
                               // return ListTile(
                               //   title: Text(data['prod_name']),
                               // );
-                              return CustomerInfo(
-                                  data['prod_name'],
-                                  data['sale_price'],
-                                  data['unit_qtity'],
-                                  data['img_1']);
+                              return Container(
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey.withOpacity(0.3), width: 1.0))),
+                                child: Row(
+                                  children: [
+                                    CustomerInfo(
+                                        data['date'],  data['sale_price'], data['unit_qtity'],
+                                        '', document.id),
+                                    Spacer(),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 16,
+                                        color: Colors.blueGrey.withOpacity(0.8),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => VersionDetailsView(versionID: document.id.toString(), idString: widget.idString,)),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
                             }).toList(),
                           );
                         }
@@ -108,99 +143,91 @@ class CustomerInfo extends StatelessWidget {
   final String customerAddress;
   final String customerPhone;
   final String image;
+  final String id;
 
   CustomerInfo(
-      this.customerName, this.customerAddress, this.customerPhone, this.image);
+      this.customerName, this.customerAddress, this.customerPhone, this.image, this.id);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    color: Colors.grey.withOpacity(0.3), width: 1.0))),
-        child: Row(
-          children: [
-            Column(
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: image != ""
-                        ? Image.network(
-                            'https://hninsunyein.me/smartkyat_pos/api/uploads/$image',
-                            fit: BoxFit.cover,
-                            height: 70,
-                            width: 70,
-                          )
-                        : Image.network(
-                            'https://lh3.googleusercontent.com/proxy/i8fbQ2GzRUS0dJ1c0dARd8ADZ120vedmQjE46k7TQXFfQxmtchl4dF2OMwbVgTKmU0GV3CZ2xoIpgbBRSvt7k54S8q5CbfrNl8tOweIBHw',
-                            fit: BoxFit.cover,
-                            height: 70,
-                            width: 70,
-                          )),
-                SizedBox(height: 12),
-              ],
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  customerName,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: (){
+          print(id.toString());
+        },
+        child: Container(
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: image != "" ? CachedNetworkImage(
+                        imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/$image',
+                        width: 70,
+                        height: 70,
+                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fadeInDuration: Duration(milliseconds: 100),
+                        fadeOutDuration: Duration(milliseconds: 10),
+                        fadeInCurve: Curves.bounceIn,
+                        fit: BoxFit.cover,
+                      ) : CachedNetworkImage(
+                        imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+                        width: 70,
+                        height: 70,
+                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fadeInDuration: Duration(milliseconds: 100),
+                        fadeOutDuration: Duration(milliseconds: 10),
+                        fadeInCurve: Curves.bounceIn,
+                        fit: BoxFit.cover,
+                      )
                   ),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Text(
-    'MMK $customerAddress',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.blueGrey.withOpacity(1.0),
-                  ),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  '$customerPhone in stock',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.blueGrey.withOpacity(1.0),
-                  ),
-                ),
-                SizedBox(height: 20),
-              ],
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 16,
-                  color: Colors.blueGrey.withOpacity(0.8),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProductDetailsView()),
-                  );
-                },
+                  SizedBox(height: 12),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    customerName,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                 'MMK $customerAddress',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey.withOpacity(1.0),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    '$customerPhone in stock',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey.withOpacity(1.0),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

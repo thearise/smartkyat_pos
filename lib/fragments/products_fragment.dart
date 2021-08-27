@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
@@ -10,6 +11,7 @@ import 'package:smartkyat_pos/pages2/multi_assets_page.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
+import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
@@ -152,9 +154,10 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                       //   title: Text(data['prod_name']),
                                       // );
                                       return CustomerInfo(
-                                          data['prod_name'], data['sale_price'],
-                                          data['unit_qtity'],
-                                      data['img_1']);
+                                          data['prod_name'], '',
+                                          '',
+                                      data['img_1'],
+                                      document.id);
                                     }).toList(),
                                   );
                                 }
@@ -663,93 +666,131 @@ class CustomerInfo extends StatelessWidget {
   final String customerAddress;
   final String customerPhone;
   final String image;
+  final String id;
 
-  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image);
+  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image,this.id);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    color: Colors.grey.withOpacity(0.3), width: 1.0))),
-        child: Row(
-          children: [
-            Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: image != "" ? Image.network('https://hninsunyein.me/smartkyat_pos/api/uploads/$image', fit: BoxFit.cover,
-                    height: 70,
-                    width: 70,
-                    ) : Image.network('https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',fit: BoxFit.cover,
-                    height: 70,
-                    width: 70,)
-                ),
-                SizedBox(height: 12),
-              ],
-            ),
-
-            SizedBox(width: 20,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  customerName,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: (){
+          print(id.toString());
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      color: Colors.grey.withOpacity(0.3), width: 1.0))),
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                      child: image != "" ? CachedNetworkImage(
+                        imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/$image',
+                        width: 70,
+                        height: 70,
+                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fadeInDuration: Duration(milliseconds: 100),
+                        fadeOutDuration: Duration(milliseconds: 10),
+                        fadeInCurve: Curves.bounceIn,
+                        fit: BoxFit.cover,
+                      ) : CachedNetworkImage(
+                        imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+                        width: 70,
+                        height: 70,
+                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fadeInDuration: Duration(milliseconds: 100),
+                        fadeOutDuration: Duration(milliseconds: 10),
+                        fadeInCurve: Curves.bounceIn,
+                        fit: BoxFit.cover,
+                      )
                   ),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  'MMK $customerAddress',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.blueGrey.withOpacity(1.0),
-                  ),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  '$customerPhone in stock',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.blueGrey.withOpacity(1.0),
-                  ),
-                  ),
+                  SizedBox(height: 12),
                 ],
               ),
-              Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 16,
-                  color: Colors.blueGrey.withOpacity(0.8),
-                ), onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ProductDetailsView()),
-                );
-              },
-              ),
-            ),
-            ],
 
+              SizedBox(width: 20,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    customerName,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    'MMK $customerAddress',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey.withOpacity(1.0),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    '$customerPhone in stock',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey.withOpacity(1.0),
+                    ),
+                    ),
+                  ],
+                ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 16,
+                    color: Colors.blueGrey.withOpacity(0.8),
+                  ), onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProductVersionView(idString: id)),
+                  );
+                },
+                ),
+              ),
+                Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 16,
+                    color: Colors.blueGrey.withOpacity(0.8),
+                  ), onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailsView()),
+                  );
+                },
+                ),
+              ),
+              ],
+
+            ),
           ),
-        ),
+      ),
       );
   }
 }
