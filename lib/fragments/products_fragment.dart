@@ -174,19 +174,19 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                 alignment: Alignment.topCenter,
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                          color: AppTheme.skBorderColor2, width: 1.0),
-                    )
+                      border: Border(
+                        bottom: BorderSide(
+                            color: AppTheme.skBorderColor2, width: 1.0),
+                      )
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15),
                     child: Container(
                       height: 56,
                       decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.circular(10.0),
-                          color: Colors.grey.withOpacity(0.2),
+                        borderRadius:
+                        BorderRadius.circular(10.0),
+                        color: Colors.grey.withOpacity(0.2),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -667,7 +667,6 @@ class CustomerInfo extends StatelessWidget {
   final String customerPhone;
   final String image;
   final String id;
-
   CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image,this.id);
 
   @override
@@ -715,7 +714,6 @@ class CustomerInfo extends StatelessWidget {
                   SizedBox(height: 12),
                 ],
               ),
-
               SizedBox(width: 20,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -847,8 +845,8 @@ class _SubUnitState extends State<SubUnit> {
                     color: Colors.blue,),
                   onPressed: (){
                     setState(() {
-                    cards.length--;
-                        cards.remove(cards);});
+                      cards.length--;
+                      cards.remove(cards);});
                   },
                 ),
               ),
