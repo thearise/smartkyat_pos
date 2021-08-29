@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment.dart';
@@ -185,7 +186,7 @@ class HomePageState extends State<HomePage>{
       case 2:
         return new CustomersFragment();
       case 3:
-        return new ProductsFragment(toggleCoinCallback: () {  }, toggleCoinCallback2: addCounter);
+        return new ProductsFragment(toggleCoinCallback: () {  }, toggleCoinCallback2: addProduct);
       case 4:
         return new StaffFragment();
       case 5:
@@ -518,6 +519,7 @@ class HomePageState extends State<HomePage>{
                         GestureDetector(
                           onTap: () {
                             _navigatorKey.currentState!.pushNamed('/settings');
+                            // Navigator.pushNamed(context, '/second');
                             setState(() {
                               routeIndex = 5;
                             });
@@ -738,7 +740,7 @@ class HomePageState extends State<HomePage>{
                 );
               case '/products':
                 return new NoAnimationMaterialPageRoute(
-                  builder: (_) => new ProductsFragment(toggleCoinCallback: addNewProd2, toggleCoinCallback2: addCounter),
+                  builder: (_) => new ProductsFragment(toggleCoinCallback: addNewProd2, toggleCoinCallback2: addProduct),
                   settings: settings,
                 );
               case '/staff':
@@ -757,7 +759,7 @@ class HomePageState extends State<HomePage>{
                   settings: settings,
                 );
               case '/others':
-                builder = (BuildContext context) => ProductsFragment(toggleCoinCallback: () {  }, toggleCoinCallback2: addCounter);
+                builder = (BuildContext context) => ProductsFragment(toggleCoinCallback: () {  }, toggleCoinCallback2: addProduct);
                 break;
               default:
                 throw Exception('Invalid route: ${settings.name}');
@@ -1156,12 +1158,70 @@ class HomePageState extends State<HomePage>{
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 80.0),
+            padding: const EdgeInsets.only(top: 80.0, left: 0.0, right: 0.0),
             child: Container(
-              child: Column(
+              child: ListView(
                 children: [
-                  Text('Counter: ' + counter.toString()),
-                  orderLoading?Text('Loading'):Text('')
+                  Slidable(
+                    key: const ValueKey(1),
+                    actionPane: SlidableDrawerActionPane(),
+                    actionExtentRatio: 0.25,
+
+                    child: Container(
+                      color: Colors.white,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.indigoAccent,
+                          child: Text('3'),
+                          foregroundColor: Colors.white,
+                        ),
+                        title: Text('Tile n3'),
+                        subtitle: Text('SlidableDrawerDelegate'),
+                      ),
+                    ),
+                    // actions: <Widget>[
+                    //   IconSlideAction(
+                    //     caption: 'Archive',
+                    //     color: Colors.blue,
+                    //     icon: Icons.archive,
+                    //     onTap: () => print('Archive'),
+                    //   ),
+                    //   IconSlideAction(
+                    //     caption: 'Share',
+                    //     color: Colors.indigo,
+                    //     icon: Icons.share,
+                    //     onTap: () => print('Share'),
+                    //   ),
+                    // ],
+                    dismissal: SlidableDismissal(
+                        child: SlidableDrawerDismissal(),
+                        onWillDismiss: (actionType) {
+                          return true;
+                        },
+                    ),
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Delete',
+                        color: Colors.red,
+                        icon: Icons.delete,
+                        onTap: () => print('Delete'),
+                      ),
+                    ],
+                  )
+                  // for(String str in prodList) Row(
+                  //   children: [
+                  //     // Text(str), Text('unit'), Text('count'), Text('price')
+                  //     Text(
+                  //       str,
+                  //       style: TextStyle(
+                  //         fontSize: 10
+                  //       ),
+                  //     ),
+                  //   ],
+                  // )
+
+
+                  // orderLoading?Text('Loading'):Text('')
                 ],
               )
             ),
@@ -1307,6 +1367,21 @@ class HomePageState extends State<HomePage>{
     });
   }
 
+  List<String> prodList = [];
+  addProduct(data) {
+    for(var i = 0; i<prodList.length; i++){
+      if(prodList[i].split('-')[0]==data.split('-')[0] && prodList[i].split('-')[1]==data.split('-')[1] && prodList[i].split('-')[3]==data.split('-')[3]) {
+        data = data.split('-')[0] + '-' +data.split('-')[1] + '-' + data.split('-')[2] + '-' +data.split('-')[3] + '-' + (int.parse(prodList[i].split('-')[4]) + 1).toString();
+        prodList[i] = data;
+        return;
+      }
+    }
+    setState(() {
+      prodList.add(data);
+    });
+    // print(data);
+  }
+
 
   addDailyExp(priContext) {
     // myController.clear();
@@ -1374,7 +1449,7 @@ class HomePageState extends State<HomePage>{
                                           child: IconButton(
                                             icon: Icon(
                                               Icons.close,
-                                              size: 20,
+                                              size: 15,
                                               color: Colors.black,
                                             ),
                                             onPressed: () {

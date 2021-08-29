@@ -23,7 +23,7 @@ class ProductsFragment extends StatefulWidget {
   final _callback;
   final _callback2;
 
-  ProductsFragment( {required void toggleCoinCallback(), required void toggleCoinCallback2()} ) :
+  ProductsFragment( {required void toggleCoinCallback(), required void toggleCoinCallback2(String str)} ) :
         _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2;
   @override
   ProductsFragmentState createState() => ProductsFragmentState();
@@ -47,8 +47,8 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
     Navigator.pop(context);
   }
 
-  addProduct() {
-    widget._callback2();
+  addProduct1(data) {
+    widget._callback2(data);
   }
 
   @override
@@ -85,7 +85,7 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                         children: [
                           GestureDetector(
                             onTap: () {
-                              widget._callback2();
+                              widget._callback2('data');
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(top: 10.0),
@@ -104,11 +104,11 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                             child: ButtonTheme(
                               splashColor: Colors.transparent,
                               minWidth: MediaQuery.of(context).size.width,
-                              height: 56,
+                              height: 55,
                               child: FlatButton(
                                 color: AppTheme.skThemeColor2,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7.0),
+                                  borderRadius: BorderRadius.circular(10.0),
                                   side: BorderSide(
                                     color: AppTheme.skThemeColor2,
                                   ),
@@ -118,10 +118,11 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                 },
                                 child: Text(
                                   'Add new product',
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 16.5,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white
                                   ),
                                 ),
                               ),
@@ -153,11 +154,125 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                       // return ListTile(
                                       //   title: Text(data['prod_name']),
                                       // );
-                                      return CustomerInfo(
-                                          data['prod_name'], '',
-                                          '',
-                                      data['img_1'],
-                                      document.id);
+                                      return Padding(
+                                        padding: const EdgeInsets.only(top: 16.0),
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            // print(id.toString());
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Colors.grey.withOpacity(0.3), width: 1.0))),
+                                            child: Row(
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    ClipRRect(
+                                                        borderRadius: BorderRadius.circular(8.0),
+                                                        child: data['img_1'] != "" ? CachedNetworkImage(
+                                                          imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/' + data['img_1'],
+                                                          width: 70,
+                                                          height: 70,
+                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                          fadeInDuration: Duration(milliseconds: 100),
+                                                          fadeOutDuration: Duration(milliseconds: 10),
+                                                          fadeInCurve: Curves.bounceIn,
+                                                          fit: BoxFit.cover,
+                                                        ) : CachedNetworkImage(
+                                                          imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+                                                          width: 70,
+                                                          height: 70,
+                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                          fadeInDuration: Duration(milliseconds: 100),
+                                                          fadeOutDuration: Duration(milliseconds: 10),
+                                                          fadeInCurve: Curves.bounceIn,
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                    ),
+                                                    SizedBox(height: 12),
+                                                  ],
+                                                ),
+                                                SizedBox(width: 20,),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'customerName',
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 7,
+                                                    ),
+                                                    Text(
+                                                      'MMK customerAddress',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.blueGrey.withOpacity(1.0),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 7,
+                                                    ),
+                                                    Text(
+                                                      'customerPhone in stock',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.blueGrey.withOpacity(1.0),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                      Icons.arrow_forward_ios_rounded,
+                                                      size: 16,
+                                                      color: Colors.blueGrey.withOpacity(0.8),
+                                                    ), onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProductVersionView(idString: document.id, toggleCoinCallback: addProduct1)),
+                                                    );
+                                                  },
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                      Icons.arrow_forward_ios_rounded,
+                                                      size: 16,
+                                                      color: Colors.blueGrey.withOpacity(0.8),
+                                                    ), onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProductDetailsView()),
+                                                    );
+                                                  },
+                                                  ),
+                                                ),
+                                              ],
+
+                                            ),
+                                          ),
+                                        ),
+                                      );
                                     }).toList(),
                                   );
                                 }
@@ -661,137 +776,137 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
   }
 }
 
-class CustomerInfo extends StatelessWidget {
-  final String customerName;
-  final String customerAddress;
-  final String customerPhone;
-  final String image;
-  final String id;
-  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image,this.id);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: GestureDetector(
-        onTap: (){
-          print(id.toString());
-        },
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: Colors.grey.withOpacity(0.3), width: 1.0))),
-          child: Row(
-            children: [
-              Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                      child: image != "" ? CachedNetworkImage(
-                        imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/$image',
-                        width: 70,
-                        height: 70,
-                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                        fadeInDuration: Duration(milliseconds: 100),
-                        fadeOutDuration: Duration(milliseconds: 10),
-                        fadeInCurve: Curves.bounceIn,
-                        fit: BoxFit.cover,
-                      ) : CachedNetworkImage(
-                        imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
-                        width: 70,
-                        height: 70,
-                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                        fadeInDuration: Duration(milliseconds: 100),
-                        fadeOutDuration: Duration(milliseconds: 10),
-                        fadeInCurve: Curves.bounceIn,
-                        fit: BoxFit.cover,
-                      )
-                  ),
-                  SizedBox(height: 12),
-                ],
-              ),
-              SizedBox(width: 20,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    customerName,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  Text(
-                    'MMK $customerAddress',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.blueGrey.withOpacity(1.0),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  Text(
-                    '$customerPhone in stock',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.blueGrey.withOpacity(1.0),
-                    ),
-                    ),
-                  ],
-                ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 16,
-                    color: Colors.blueGrey.withOpacity(0.8),
-                  ), onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ProductVersionView(idString: id)),
-                  );
-                },
-                ),
-              ),
-                Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 16,
-                    color: Colors.blueGrey.withOpacity(0.8),
-                  ), onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ProductDetailsView()),
-                  );
-                },
-                ),
-              ),
-              ],
-
-            ),
-          ),
-      ),
-      );
-  }
-}
+// class CustomerInfo extends StatelessWidget {
+//   final String customerName;
+//   final String customerAddress;
+//   final String customerPhone;
+//   final String image;
+//   final String id;
+//   CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image,this.id);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(top: 16.0),
+//       child: GestureDetector(
+//         onTap: (){
+//           print(id.toString());
+//         },
+//         child: Container(
+//           width: MediaQuery.of(context).size.width,
+//           decoration: BoxDecoration(
+//               border: Border(
+//                   bottom: BorderSide(
+//                       color: Colors.grey.withOpacity(0.3), width: 1.0))),
+//           child: Row(
+//             children: [
+//               Column(
+//                 children: [
+//                   ClipRRect(
+//                     borderRadius: BorderRadius.circular(8.0),
+//                       child: image != "" ? CachedNetworkImage(
+//                         imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/$image',
+//                         width: 70,
+//                         height: 70,
+//                         // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+//                         errorWidget: (context, url, error) => Icon(Icons.error),
+//                         fadeInDuration: Duration(milliseconds: 100),
+//                         fadeOutDuration: Duration(milliseconds: 10),
+//                         fadeInCurve: Curves.bounceIn,
+//                         fit: BoxFit.cover,
+//                       ) : CachedNetworkImage(
+//                         imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+//                         width: 70,
+//                         height: 70,
+//                         // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+//                         errorWidget: (context, url, error) => Icon(Icons.error),
+//                         fadeInDuration: Duration(milliseconds: 100),
+//                         fadeOutDuration: Duration(milliseconds: 10),
+//                         fadeInCurve: Curves.bounceIn,
+//                         fit: BoxFit.cover,
+//                       )
+//                   ),
+//                   SizedBox(height: 12),
+//                 ],
+//               ),
+//               SizedBox(width: 20,),
+//               Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Text(
+//                     customerName,
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     height: 7,
+//                   ),
+//                   Text(
+//                     'MMK $customerAddress',
+//                     style: TextStyle(
+//                       fontSize: 14,
+//                       fontWeight: FontWeight.w400,
+//                       color: Colors.blueGrey.withOpacity(1.0),
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     height: 7,
+//                   ),
+//                   Text(
+//                     '$customerPhone in stock',
+//                     style: TextStyle(
+//                       fontSize: 14,
+//                       fontWeight: FontWeight.w400,
+//                       color: Colors.blueGrey.withOpacity(1.0),
+//                     ),
+//                     ),
+//                   ],
+//                 ),
+//               Padding(
+//                 padding: const EdgeInsets.only(bottom: 20.0),
+//                 child: IconButton(
+//                   icon: Icon(
+//                     Icons.arrow_forward_ios_rounded,
+//                     size: 16,
+//                     color: Colors.blueGrey.withOpacity(0.8),
+//                   ), onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                         builder: (context) =>
+//                             ProductVersionView(idString: id, toggleCoinCallback: addProduct1)),
+//                   );
+//                 },
+//                 ),
+//               ),
+//                 Spacer(),
+//               Padding(
+//                 padding: const EdgeInsets.only(bottom: 20.0),
+//                 child: IconButton(
+//                   icon: Icon(
+//                     Icons.arrow_forward_ios_rounded,
+//                     size: 16,
+//                     color: Colors.blueGrey.withOpacity(0.8),
+//                   ), onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                         builder: (context) =>
+//                             ProductDetailsView()),
+//                   );
+//                 },
+//                 ),
+//               ),
+//               ],
+//
+//             ),
+//           ),
+//       ),
+//       );
+//   }
+// }
 
 class SubUnit extends StatefulWidget {
   @override
