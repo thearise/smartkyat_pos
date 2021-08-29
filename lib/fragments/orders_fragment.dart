@@ -31,7 +31,7 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference daily_exps = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+    // CollectionReference daily_exps = ;
 
     return Scaffold(
       body: Container(
@@ -48,62 +48,130 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
                   child: StreamBuilder(
-                      stream: daily_exps.snapshots(),
+                      stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').orderBy('date', descending: true).snapshots(),
                       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if(snapshot.hasData) {
-                          var sections = List<ExampleSection>.empty(growable: true);
-                          // snapshot.data!.docs.map((document) {
-                          // }).toList();
+                          return StreamBuilder(
+                            stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').snapshots(),
+                            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                              if(snapshot2.hasData) {
+                                var sections = List<ExampleSection>.empty(growable: true);
+                                // snapshot.data!.docs.map((document) {
+                                // }).toList();
 
-                          snapshot.data!.docs.map((document) async {
+                                snapshot.data!.docs.map((document) async {
 
-                            // print('herre ' + document.id);
-                            var section = ExampleSection()
-                              ..header = document['date']
-                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-                              ..items = sortList(document['daily_order'].cast<String>())
-                            //   ..items = document['daily_order'].cast<String>()
-                              ..expanded = true;
-                            sections.add(section);
-                          }).toList();
-                          sectionList = sections;
+                                  // print('herre ' + document.id);
+                                  var section = ExampleSection()
+                                    ..header = document['date']
+                                  // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                  //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                                    ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                  //   ..items = document['daily_order'].cast<String>()
+                                    ..expanded = true;
+                                  sections.add(section);
+                                }).toList();
+                                sectionList = sections;
 
-                          return CustomScrollView(
-                            slivers: <Widget>[
-                              SliverExpandableList(
-                                builder: SliverExpandableChildDelegate(
-                                  sectionList: sectionList,
-                                  headerBuilder: _buildHeader,
-                                  itemBuilder: (context, sectionIndex, itemIndex, index) {
-                                    String item = sectionList[sectionIndex].items[itemIndex];
-                                    int length = sectionList[sectionIndex].items.length;
-
-
-                                    // CollectionReference daily_exps_inner = FirebaseFirestore.instance
-                                    //     .collection('users')
-                                    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-                                    //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
+                                return CustomScrollView(
+                                  slivers: <Widget>[
+                                    SliverExpandableList(
+                                      builder: SliverExpandableChildDelegate(
+                                        sectionList: sectionList,
+                                        headerBuilder: _buildHeader,
+                                        itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                          String item = sectionList[sectionIndex].items[itemIndex];
+                                          int length = sectionList[sectionIndex].items.length;
 
 
-                                    // StreamBuilder(
-                                    //   stream: daily_exps_inner.snapshots(),
-                                    //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                                    //     if(snapshot3.hasData) {
-                                    //
-                                    //     } else {
-                                    //       return Container();
-                                    //     }
-                                    //   },
-                                    // )
-                                    if(itemIndex == length-1) {
-                                      return Column(
-                                        children: [
-                                          Container(
+                                          // CollectionReference daily_exps_inner = FirebaseFirestore.instance
+                                          //     .collection('users')
+                                          //     .doc(FirebaseAuth.instance.currentUser!.uid)
+                                          //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
+
+
+                                          // StreamBuilder(
+                                          //   stream: daily_exps_inner.snapshots(),
+                                          //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                          //     if(snapshot3.hasData) {
+                                          //
+                                          //     } else {
+                                          //       return Container();
+                                          //     }
+                                          //   },
+                                          // )
+                                          if(itemIndex == length-1) {
+                                            return Column(
+                                              children: [
+                                                Container(
+                                                  color: Colors.white,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      print(item.split('^')[1]);
+                                                    },
+                                                    child: ListTile(
+                                                      // leading: CircleAvatar(
+                                                      //   child: Text("$index"),
+                                                      // ),
+                                                      // title: Text(item.split('^')[1]),
+                                                        title: Text(item)
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  color: Colors.white,
+                                                  width: double.infinity,
+                                                  height: 15,
+                                                )
+                                              ],
+                                            );
+                                          }
+                                          return Container(
                                             color: Colors.white,
                                             child: GestureDetector(
                                               onTap: () {
-                                                print(item.split('^')[1]);
+                                                print(item.split('^')[0].substring(0,8));
+                                                var dateId = '';
+                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                                // FirebaseFirestore.instance.collection('space')
+                                                    .where('date', isEqualTo: item.split('^')[0].substring(0,8))
+                                                    .get()
+                                                    .then((QuerySnapshot querySnapshot) {
+                                                  querySnapshot.docs.forEach((doc) {
+                                                    dateId = doc.id;
+                                                    FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
+
+                                                        .update({
+                                                      'daily_order': FieldValue.arrayRemove([item])
+                                                    })
+                                                        .then((value) {
+                                                      print('array removed');
+
+                                                      FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
+
+                                                          .update({
+                                                        'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
+                                                      })
+                                                          .then((value) {
+                                                        print('array updated');
+                                                      });
+
+
+                                                      // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
+                                                      // .doc(item.split('^')[0])
+                                                      //
+                                                      //     .update({
+                                                      //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
+                                                      // })
+                                                      //     .then((value) {
+                                                      //   print('array updated');
+                                                      // });
+                                                      // 2021081601575511001^1-1001^total^name^pf
+
+                                                    });
+                                                  });
+                                                });
+
                                               },
                                               child: ListTile(
                                                 // leading: CircleAvatar(
@@ -113,80 +181,22 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                                                   title: Text(item)
                                               ),
                                             ),
-                                          ),
-                                          Container(
-                                            color: Colors.white,
-                                            width: double.infinity,
-                                            height: 15,
-                                          )
-                                        ],
-                                      );
-                                    }
-                                    return Container(
-                                      color: Colors.white,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          print(item.split('^')[0].substring(0,8));
-                                          var dateId = '';
-                                          FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                            // FirebaseFirestore.instance.collection('space')
-                                                .where('date', isEqualTo: item.split('^')[0].substring(0,8))
-                                                .get()
-                                                .then((QuerySnapshot querySnapshot) {
-                                            querySnapshot.docs.forEach((doc) {
-                                              dateId = doc.id;
-                                              FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
-
-                                                  .update({
-                                                'daily_order': FieldValue.arrayRemove([item])
-                                              })
-                                                  .then((value) {
-                                                print('array removed');
-
-                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
-
-                                                    .update({
-                                                  'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
-                                                })
-                                                    .then((value) {
-                                                  print('array updated');
-                                                });
-
-
-                                                // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
-                                                // .doc(item.split('^')[0])
-                                                //
-                                                //     .update({
-                                                //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
-                                                // })
-                                                //     .then((value) {
-                                                //   print('array updated');
-                                                // });
-                                                // 2021081601575511001^1-1001^total^name^pf
-
-                                              });
-                                            });
-                                          });
-
+                                          );
                                         },
-                                        child: ListTile(
-                                          // leading: CircleAvatar(
-                                          //   child: Text("$index"),
-                                          // ),
-                                          // title: Text(item.split('^')[1]),
-                                            title: Text(item)
-                                        ),
                                       ),
-                                    );
-                                  },
-                                ),
-                              )
-                            ],
-                          );
+                                    )
+                                  ],
+                                );
 
+                              } else {
+                                return Container();
+                              }
+                            }
+                          );
                         } else {
                           return Container();
                         }
+
                       }
                   )
                 ),
@@ -246,6 +256,23 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
         ),
       ),
     );
+  }
+
+  changeData(list, snpsht) {
+    // list[0].toString()
+    snpsht.data!.docs.map((document) async {
+      for(var i=0;i<list.length;i++) {
+        if(document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] + '^' + list[i].split('^')[1] + '^' + list[i].split('^')[2] + '^' + document['customer_name'].toString() + '^' + list[i].split('^')[4];
+        }
+
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+
   }
 
   sortList(list) {

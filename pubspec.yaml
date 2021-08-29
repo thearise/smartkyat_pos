@@ -52,6 +52,11 @@ dependencies:
   ai_awesome_message:
   flash: ^2.0.1
   carousel_slider: ^4.0.0
+  flutter_slidable:
+#  shake_animation_widget:
+  vector_math: ^2.1.0
+  equatable: ^2.0.3
+  rxdart: ^0.27.1
 
 
 dev_dependencies:

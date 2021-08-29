@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
 
-late final String id;
+// late final String id;
 
 class ProductVersionView extends StatefulWidget {
-  const ProductVersionView({Key? key, required this.idString}) : super(key: key);
+  final _callback;
+
+  ProductVersionView({Key? key, required this.idString, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback;
 
   final String idString;
+
 
 
 
@@ -18,6 +21,10 @@ class ProductVersionView extends StatefulWidget {
 }
 
 class _ProductVersionViewState extends State<ProductVersionView> {
+  addProduct2(data) {
+    widget._callback(data);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,7 +127,7 @@ class _ProductVersionViewState extends State<ProductVersionView> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => VersionDetailsView(versionID: document.id.toString(), idString: widget.idString,)),
+                                              builder: (context) => VersionDetailsView(versionID: document.id.toString(), idString: widget.idString, toggleCoinCallback: addProduct2)),
                                         );
                                       },
                                     ),
