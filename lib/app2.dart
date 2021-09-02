@@ -95,7 +95,7 @@ class AppState extends State<App> {
       TabItem(
         tabName: "Settings",
         icon: Icons.settings,
-        page: CustomersFragment(),
+        page: CustomersFragment(toggleCoinCallback2: (String str) {  },),
       ),
       TabItem(
         tabName: "Settings",
