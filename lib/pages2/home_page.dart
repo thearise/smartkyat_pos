@@ -1,13 +1,13 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment.dart';
+import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
+import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import '../app_theme.dart';
 import 'TabItem.dart';
 
@@ -16,19 +16,17 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => HomePageState();
 }
 
-class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePage>{
+class HomePageState extends State<HomePage>
+    with TickerProviderStateMixin<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   static int currentTab = 0;
   var deviceIdNum = 0;
 
-  List<TabItem> tabs = [
-  ];
+  List<TabItem> tabs = [];
 
   @override
   void initState() {
-
     // list tabs here
-
 
     WidgetsFlutterBinding.ensureInitialized();
     setState(() {
@@ -38,7 +36,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
           icon: Icon(
             Icons.add,
           ),
-          page: HomeFragment(toggleCoinCallback: () {  },),
+          page: HomeFragment(
+            toggleCoinCallback: () {},
+          ),
         ),
         TabItem(
           tabName: "Items",
@@ -59,7 +59,15 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
           icon: Icon(
             Icons.add,
           ),
-          page: ProductsFragment(toggleCoinCallback: () {  }, toggleCoinCallback2: addProduct),
+          page: ProductsFragment(
+              toggleCoinCallback: addNewProd2, toggleCoinCallback2: addProduct),
+        ),
+        TabItem(
+          tabName: "Settings",
+          icon: Icon(
+            Icons.add,
+          ),
+          page: MerchantFragment(),
         ),
       ];
     });
@@ -69,11 +77,22 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
     });
   }
 
+  closeNewProduct() {
+    Navigator.pop(context);
+  }
 
-
-
-
-
+  addNewProd2() {
+    final List<String> prodFieldsValue = [];
+    final _formKey = GlobalKey<FormState>();
+    // myController.clear();
+    showModalBottomSheet(
+        enableDrag: false,
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+        });
+  }
 
   // HomePageState() {
   //   // indexing is necessary for proper funcationality
@@ -82,8 +101,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
   //     details.setIndex(index);
   //   });
   // }
-
-
 
   // sets current tab index
   // and update state
@@ -145,164 +162,200 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
               ),
               SizedBox(
                   child: Padding(
-                    padding:
-                    const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  width: 1.0))),
-                    ),
-                  )),
+                padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                              width: 1.0))),
+                ),
+              )),
               Padding(
                 padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                 // child: new Column(children: drawerOptions),
-                child: new Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectTab(0);
-                          });
+                child: new Column(children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(0);
+                      });
 
-                          _scaffoldKey.currentState!.openEndDrawer();
-
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: new Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.transparent),
-                            height: 55,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 10.0),
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  ),
-                                ),
-                                Text(
-                                  'Home',
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Home',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(1);
+                      });
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectTab(1);
-                          });
-
-                          _scaffoldKey.currentState!.openEndDrawer();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: new Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.transparent),
-                            height: 55,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 10.0),
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  ),
-                                ),
-                                Text(
-                                  'Orders',
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Orders',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(2);
+                      });
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectTab(2);
-                          });
-
-                          _scaffoldKey.currentState!.openEndDrawer();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: new Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.transparent),
-                            height: 55,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 10.0),
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  ),
-                                ),
-                                Text(
-                                  'Customers',
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Customers',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(3);
+                      });
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectTab(3);
-                          });
-
-                          _scaffoldKey.currentState!.openEndDrawer();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: new Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.transparent),
-                            height: 55,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 10.0),
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  ),
-                                ),
-                                Text(
-                                  'Products',
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Products',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(4);
+                      });
 
-                    ]
-                ),
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
+                            ),
+                            Text(
+                              'Merchants',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
               ),
             ],
           ),
@@ -311,7 +364,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
       body: WillPopScope(
         onWillPop: () async {
           final isFirstRouteInCurrentTab =
-          !await tabs[currentTab].key.currentState!.maybePop();
+              !await tabs[currentTab].key.currentState!.maybePop();
           if (isFirstRouteInCurrentTab) {
             // if not on the 'main' tab
             if (currentTab != 0) {
@@ -329,7 +382,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
         // with multiple appbars on one screen
         // eventually breaking the app
 
-
         child: Scaffold(
             backgroundColor: Colors.yellow,
             // indexed stack shows only one child
@@ -338,72 +390,78 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
               children: tabs.map((e) => e.page).toList(),
             ),
             bottomNavigationBar: Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom),
               child: Container(
                 color: Colors.white,
-                height: MediaQuery.of(context).size.width>900?57:142,
+                height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
                 child: Column(
                   children: [
-                    MediaQuery.of(context).size.width>900?Container():Padding(
-                      padding: const EdgeInsets.only(top: 0.0, bottom: 15.0),
-                      child: Container(
-                        height: 70,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border(
-                              top: BorderSide(
-                                  color: AppTheme.skBorderColor2, width: 1.0),
-                            )
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              addDailyExp(context);
-                            },
+                    MediaQuery.of(context).size.width > 900
+                        ? Container()
+                        : Padding(
+                            padding:
+                                const EdgeInsets.only(top: 0.0, bottom: 15.0),
                             child: Container(
+                              height: 70,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                color: AppTheme.secButtonColor,
-                              ),
+                                  color: Colors.white,
+                                  border: Border(
+                                    top: BorderSide(
+                                        color: AppTheme.skBorderColor2,
+                                        width: 1.0),
+                                  )),
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                                        child: Container(child:
-                                        Text(
-                                          'Go to cart',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black
+                                padding: const EdgeInsets.only(
+                                    top: 15.0, left: 15.0, right: 15.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    addDailyExp(context);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: AppTheme.secButtonColor,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15.0, bottom: 15.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  right: 8.0,
+                                                  bottom: 3.0),
+                                              child: Container(
+                                                  child: Text(
+                                                'Go to cart',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black),
+                                              )),
+                                            ),
                                           ),
-                                        )
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
                     Container(
                       height: 57,
                       decoration: BoxDecoration(
                           border: Border(
-                            top: BorderSide(
-                                color: AppTheme.skBorderColor2, width: 1.0),
-                          )),
+                        top: BorderSide(
+                            color: AppTheme.skBorderColor2, width: 1.0),
+                      )),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                         child: Row(
@@ -425,14 +483,13 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                             Expanded(
                               child: Container(
                                   child: Text(
-                                    'Phyo Pyae Sohn',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16.5,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  )
-                              ),
+                                'Phyo Pyae Sohn',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16.5,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black.withOpacity(0.6)),
+                              )),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -454,20 +511,26 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
             )
             // Bottom navigation
 
-        ),
+            ),
       ),
     );
-
-
-
-
   }
 
   List<String> prodList = [];
   addProduct(data) {
-    for(var i = 0; i<prodList.length; i++){
-      if(prodList[i].split('-')[0]==data.split('-')[0] && prodList[i].split('-')[1]==data.split('-')[1] && prodList[i].split('-')[3]==data.split('-')[3]) {
-        data = data.split('-')[0] + '-' +data.split('-')[1] + '-' + data.split('-')[2] + '-' +data.split('-')[3] + '-' + (int.parse(prodList[i].split('-')[4]) + 1).toString();
+    for (var i = 0; i < prodList.length; i++) {
+      if (prodList[i].split('-')[0] == data.split('-')[0] &&
+          prodList[i].split('-')[1] == data.split('-')[1] &&
+          prodList[i].split('-')[3] == data.split('-')[3]) {
+        data = data.split('-')[0] +
+            '-' +
+            data.split('-')[1] +
+            '-' +
+            data.split('-')[2] +
+            '-' +
+            data.split('-')[3] +
+            '-' +
+            (int.parse(prodList[i].split('-')[4]) + 1).toString();
         prodList[i] = data;
         return;
       }
@@ -477,11 +540,12 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
     });
     // print(data);
   }
+
   addDailyExp(priContext) {
     // myController.clear();
     showModalBottomSheet(
-        enableDrag:false,
-        isScrollControlled:true,
+        enableDrag: false,
+        isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
           return Scaffold(
@@ -500,8 +564,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25.0),
                               ),
-                              color: Colors.white.withOpacity(0.5)
-                          ),
+                              color: Colors.white.withOpacity(0.5)),
                         ),
                         SizedBox(
                           height: 14,
@@ -523,13 +586,17 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                                 Container(
                                   height: 85,
                                   decoration: BoxDecoration(
-
-                                      border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))
-                                  ),
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color:
+                                                  Colors.grey.withOpacity(0.3),
+                                              width: 1.0))),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15.0, top: 20.0),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           width: 30,
@@ -538,8 +605,8 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(20.0),
                                               ),
-                                              color: Colors.grey.withOpacity(0.3)
-                                          ),
+                                              color:
+                                                  Colors.grey.withOpacity(0.3)),
                                           child: IconButton(
                                             icon: Icon(
                                               Icons.close,
@@ -549,7 +616,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-
                                           ),
                                         ),
                                         Text(
@@ -558,8 +624,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                                               color: Colors.black,
                                               fontSize: 17,
                                               fontFamily: 'capsulesans',
-                                              fontWeight: FontWeight.w600
-                                          ),
+                                              fontWeight: FontWeight.w600),
                                           textAlign: TextAlign.left,
                                         ),
                                         Container(
@@ -583,7 +648,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                                           //
                                           // ),
                                         )
-
                                       ],
                                     ),
                                   ),
@@ -607,18 +671,18 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
               ],
             ),
           );
-
         });
   }
-
 
   var counter = 0;
   var orderLoading = false;
 
   checkoutCart() {
-    var width = MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(1.5/3.5):MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width > 900
+        ? MediaQuery.of(context).size.width * (1.5 / 3.5)
+        : MediaQuery.of(context).size.width;
     return Container(
-      height: MediaQuery.of(context).size.height-105,
+      height: MediaQuery.of(context).size.height - 105,
       width: double.infinity,
       child: Stack(
         children: [
@@ -631,13 +695,11 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                     // addCounter();/z
                   },
                   child: Container(
-                    width: (width/2)-22.5,
+                    width: (width / 2) - 22.5,
                     height: 55,
                     decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(10.0),
-                        color: Colors.grey.withOpacity(0.2)
-                    ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.grey.withOpacity(0.2)),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: Row(
@@ -647,7 +709,13 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                             child: GestureDetector(
                               onTap: () {
                                 DateTime now = DateTime.now();
-                                CollectionReference daily_order = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+                                CollectionReference daily_order =
+                                    FirebaseFirestore.instance
+                                        .collection('space')
+                                        .doc('0NHIS0Jbn26wsgCzVBKT')
+                                        .collection('shops')
+                                        .doc('PucvhZDuUz3XlkTgzcjb')
+                                        .collection('orders');
                                 var length = 0;
                                 setState(() {
                                   orderLoading = true;
@@ -655,71 +723,138 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
 
                                 print('order creating');
 
-
-                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                // FirebaseFirestore.instance.collection('space')
+                                FirebaseFirestore.instance
+                                    .collection('space')
+                                    .doc('0NHIS0Jbn26wsgCzVBKT')
+                                    .collection('shops')
+                                    .doc('PucvhZDuUz3XlkTgzcjb')
+                                    .collection('orders')
+                                    // FirebaseFirestore.instance.collection('space')
                                     .get()
                                     .then((QuerySnapshot querySnapshot) {
-
                                   querySnapshot.docs.forEach((doc) {
-                                    length += int.parse(doc['daily_order'].length.toString());
+                                    length += int.parse(
+                                        doc['daily_order'].length.toString());
                                   });
-                                  length=1000+length+1;
-
+                                  length = 1000 + length + 1;
 
                                   //Check new date or not
                                   var dateExist = false;
                                   var dateId = '';
 
-                                  FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                  // FirebaseFirestore.instance.collection('space')
-                                      .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
+                                  FirebaseFirestore.instance
+                                      .collection('space')
+                                      .doc('0NHIS0Jbn26wsgCzVBKT')
+                                      .collection('shops')
+                                      .doc('PucvhZDuUz3XlkTgzcjb')
+                                      .collection('orders')
+                                      // FirebaseFirestore.instance.collection('space')
+                                      .where('date',
+                                          isEqualTo: now.year.toString() +
+                                              zeroToTen(now.month.toString()) +
+                                              zeroToTen(now.day.toString()))
                                       .get()
                                       .then((QuerySnapshot querySnapshot) {
-
                                     querySnapshot.docs.forEach((doc) {
                                       dateExist = true;
                                       dateId = doc.id;
                                     });
 
-                                    if(dateExist) {
-                                      daily_order
-                                          .doc(dateId).update({
-                                        'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^total^name^pf'])
+                                    if (dateExist) {
+                                      daily_order.doc(dateId).update({
+                                        'daily_order': FieldValue.arrayUnion([
+                                          now.year.toString() +
+                                              zeroToTen(now.month.toString()) +
+                                              zeroToTen(now.day.toString()) +
+                                              zeroToTen(now.hour.toString()) +
+                                              zeroToTen(now.minute.toString()) +
+                                              zeroToTen(now.second.toString()) +
+                                              deviceIdNum.toString() +
+                                              length.toString() +
+                                              '^' +
+                                              deviceIdNum.toString() +
+                                              '-' +
+                                              length.toString() +
+                                              '^total^name^pf'
+                                        ])
                                       }).then((value) {
                                         print('User updated');
                                         setState(() {
                                           orderLoading = false;
                                         });
 
-
-                                        FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
-                                            .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                        FirebaseFirestore.instance
+                                            .collection('space')
+                                            .doc('0NHIS0Jbn26wsgCzVBKT')
+                                            .collection('shops')
+                                            .doc('PucvhZDuUz3XlkTgzcjb')
+                                            .collection('orders')
+                                            .doc(dateId)
+                                            .collection('detail')
+                                            .doc(now.year.toString() +
+                                                zeroToTen(
+                                                    now.month.toString()) +
+                                                zeroToTen(now.day.toString()) +
+                                                zeroToTen(now.hour.toString()) +
+                                                zeroToTen(
+                                                    now.minute.toString()) +
+                                                zeroToTen(
+                                                    now.second.toString()) +
+                                                deviceIdNum.toString() +
+                                                length.toString())
                                             .set({
                                           'main': 'total',
                                           'subs': ['name'],
-                                        })
-                                            .then((value) {
+                                        }).then((value) {
                                           print('order added');
                                         });
                                       });
                                     } else {
-                                      daily_order
-                                          .add({
-                                        'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^total^name^pf'],
-                                        'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
-                                      })
-                                          .then((value) {
+                                      daily_order.add({
+                                        'daily_order': [
+                                          now.year.toString() +
+                                              zeroToTen(now.month.toString()) +
+                                              zeroToTen(now.day.toString()) +
+                                              zeroToTen(now.hour.toString()) +
+                                              zeroToTen(now.minute.toString()) +
+                                              zeroToTen(now.second.toString()) +
+                                              deviceIdNum.toString() +
+                                              length.toString() +
+                                              '^' +
+                                              deviceIdNum.toString() +
+                                              '-' +
+                                              length.toString() +
+                                              '^total^name^pf'
+                                        ],
+                                        'date': now.year.toString() +
+                                            zeroToTen(now.month.toString()) +
+                                            zeroToTen(now.day.toString())
+                                      }).then((value) {
                                         print('order added');
 
-
-                                        FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail')
-                                            .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                        FirebaseFirestore.instance
+                                            .collection('space')
+                                            .doc('0NHIS0Jbn26wsgCzVBKT')
+                                            .collection('shops')
+                                            .doc('PucvhZDuUz3XlkTgzcjb')
+                                            .collection('orders')
+                                            .doc(value.id)
+                                            .collection('detail')
+                                            .doc(now.year.toString() +
+                                                zeroToTen(
+                                                    now.month.toString()) +
+                                                zeroToTen(now.day.toString()) +
+                                                zeroToTen(now.hour.toString()) +
+                                                zeroToTen(
+                                                    now.minute.toString()) +
+                                                zeroToTen(
+                                                    now.second.toString()) +
+                                                deviceIdNum.toString() +
+                                                length.toString())
                                             .set({
                                           'main': 'total',
                                           'subs': ['name'],
-                                        })
-                                            .then((value) {
+                                        }).then((value) {
                                           print('order added');
                                         });
                                       });
@@ -728,18 +863,17 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                                 });
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                                child: Container(child:
-                                Text(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0, bottom: 3.0),
+                                child: Container(
+                                    child: Text(
                                   'Clear cart2',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black.withOpacity(0.6)
-                                  ),
-                                )
-                                ),
+                                      color: Colors.black.withOpacity(0.6)),
+                                )),
                               ),
                             ),
                           ),
@@ -748,15 +882,15 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                     ),
                   ),
                 ),
-                SizedBox(width: 15.0,),
+                SizedBox(
+                  width: 15.0,
+                ),
                 Container(
-                  width: (width/2)-22.5,
+                  width: (width / 2) - 22.5,
                   height: 55,
                   decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(10.0),
-                      color: Colors.grey.withOpacity(0.2)
-                  ),
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.grey.withOpacity(0.2)),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                     child: Row(
@@ -766,22 +900,25 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                           child: GestureDetector(
                             onTap: () {
                               DateTime now = DateTime.now();
-                              print(now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString());
-
+                              print(now.year.toString() +
+                                  now.month.toString() +
+                                  now.day.toString() +
+                                  now.hour.toString() +
+                                  now.minute.toString() +
+                                  now.second.toString());
                             },
                             child: Padding(
-                              padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                              child: Container(child:
-                              Text(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, right: 8.0, bottom: 3.0),
+                              child: Container(
+                                  child: Text(
                                 'More actions',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.black.withOpacity(0.6)
-                                ),
-                              )
-                              ),
+                                    color: Colors.black.withOpacity(0.6)),
+                              )),
                             ),
                           ),
                         ),
@@ -796,102 +933,112 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
             padding: const EdgeInsets.only(top: 80.0, left: 0.0, right: 0.0),
             child: Container(
                 child: ListView(
-                  children: [
-
-                    for(String str in prodList)
-                      StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                        stream: FirebaseFirestore.instance
-                            .collection('space')
-                            .doc('0NHIS0Jbn26wsgCzVBKT')
-                            .collection('shops')
-                            .doc('PucvhZDuUz3XlkTgzcjb')
-                            .collection('products')
-                            .doc(str.split('-')[0])
-                            .collection('versions')
-                            .doc(str.split('-')[1])
-                            .snapshots(),
-                        builder: (BuildContext context, snapshot1) {
-                          if(snapshot1.hasData) {
-                            var output1 = snapshot1.data!.data();
-                            return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                              stream: FirebaseFirestore.instance
-                                  .collection('space')
-                                  .doc('0NHIS0Jbn26wsgCzVBKT')
-                                  .collection('shops')
-                                  .doc('PucvhZDuUz3XlkTgzcjb')
-                                  .collection('products')
-                                  .doc(str.split('-')[0])
-                                  .snapshots(),
-                              builder: (BuildContext context, snapshot2) {
-                                if(snapshot2.hasData) {
-                                  var output2 = snapshot2.data!.data();
-                                  return Slidable(
-                                    key: const ValueKey(1),
-                                    actionPane: SlidableDrawerActionPane(),
-                                    actionExtentRatio: 0.25,
-
-                                    child: Container(
-                                      color: Colors.white,
-                                      child: ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.indigoAccent,
-                                          child: Text(str.split('-')[4]),
-                                          foregroundColor: Colors.white,
-                                        ),
-                                        title: Text(
-                                          output2?['prod_name'] + ' (' + output2?[str.split('-')[3]] + ')',
-                                          style: TextStyle(
-                                            height: 1
-                                          ),
-                                        ),
-                                        subtitle: Text(str.split('-')[2] + ' MMK'),
-                                        trailing: Text((int.parse(str.split('-')[2])*int.parse(str.split('-')[4])).toString()),
+              children: [
+                for (int i = 0; i < prodList.length; i++)
+                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                      stream: FirebaseFirestore.instance
+                          .collection('space')
+                          .doc('0NHIS0Jbn26wsgCzVBKT')
+                          .collection('shops')
+                          .doc('PucvhZDuUz3XlkTgzcjb')
+                          .collection('products')
+                          .doc(prodList[i].split('-')[0])
+                          .collection('versions')
+                          .doc(prodList[i].split('-')[1])
+                          .snapshots(),
+                      builder: (BuildContext context, snapshot1) {
+                        if (snapshot1.hasData) {
+                          var output1 = snapshot1.data!.data();
+                          return StreamBuilder<
+                              DocumentSnapshot<Map<String, dynamic>>>(
+                            stream: FirebaseFirestore.instance
+                                .collection('space')
+                                .doc('0NHIS0Jbn26wsgCzVBKT')
+                                .collection('shops')
+                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                .collection('products')
+                                .doc(prodList[i].split('-')[0])
+                                .snapshots(),
+                            builder: (BuildContext context, snapshot2) {
+                              if (snapshot2.hasData) {
+                                var output2 = snapshot2.data!.data();
+                                return Slidable(
+                                  key: const ValueKey(1),
+                                  actionPane: SlidableDrawerActionPane(),
+                                  actionExtentRatio: 0.25,
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.indigoAccent,
+                                        child: Text(prodList[i].split('-')[4]),
+                                        foregroundColor: Colors.white,
                                       ),
-                                    ),
-                                    dismissal: SlidableDismissal(
-                                      child: SlidableDrawerDismissal(),
-                                      onWillDismiss: (actionType) {
-                                        print('here');
-                                        return true;
-                                      },
-                                    ),
-                                    secondaryActions: <Widget>[
-                                      IconSlideAction(
-                                        caption: 'Delete',
-                                        color: Colors.red,
-                                        icon: Icons.delete,
-                                        onTap: () => print('Delete'),
+                                      title: Text(
+                                        output2?['prod_name'] +
+                                            ' (' +
+                                            output2?[
+                                                prodList[i].split('-')[3]] +
+                                            ')',
+                                        style: TextStyle(height: 1),
                                       ),
-                                    ],
-                                  );
-                                }
-                                return Container();
-                              },
-                            );
-                          }
-                          return Container();
+                                      subtitle: Text(
+                                          prodList[i].split('-')[2] + ' MMK'),
+                                      trailing: Text((int.parse(
+                                                  prodList[i].split('-')[2]) *
+                                              int.parse(
+                                                  prodList[i].split('-')[4]))
+                                          .toString()),
+                                    ),
+                                  ),
+                                  dismissal: SlidableDismissal(
+                                    child: SlidableDrawerDismissal(),
+                                    onWillDismiss: (actionType) {
+                                      print('here');
+                                      setState(() {
+                                        prodList.removeAt(i);
+                                      });
+                                      return true;
+                                    },
+                                  ),
+                                  secondaryActions: <Widget>[
+                                    IconSlideAction(
+                                      caption: 'Delete',
+                                      color: Colors.red,
+                                      icon: Icons.delete,
+                                      onTap: () => setState(() {
+                                        prodList.removeAt(i);
+                                      }),
+                                    ),
+                                  ],
+                                );
+                              }
+                              return Container();
+                            },
+                          );
                         }
-                      )
+                        return Container();
+                      })
 
-
-                    // orderLoading?Text('Loading'):Text('')
-                  ],
-                )
-            ),
+                // orderLoading?Text('Loading'):Text('')
+              ],
+            )),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               decoration: BoxDecoration(
                   border: Border(
-                    top: BorderSide(
-                        color: AppTheme.skBorderColor2, width: 1.0),
-                  )
-              ),
+                top: BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+              )),
               width: double.infinity,
               height: 160,
               child: Padding(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: MediaQuery.of(context).padding.bottom + 15),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 0.0,
+                    bottom: MediaQuery.of(context).padding.bottom + 15),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -901,17 +1048,15 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                         Text(
                           'Total',
                           style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500
-                          ),
+                              fontSize: 19, fontWeight: FontWeight.w500),
                         ),
-                        Expanded(child: Container(),),
+                        Expanded(
+                          child: Container(),
+                        ),
                         Text(
                           TtlProdListPrice(),
                           style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500
-                          ),
+                              fontSize: 19, fontWeight: FontWeight.w500),
                         )
                       ],
                     ),
@@ -923,8 +1068,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Processing Data')),
                         );
-
-
 
                         // CollectionReference orders = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc('GhitGLyZLoQekKhan9Xd').collection('detail');
                         // orders
@@ -963,33 +1106,30 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                         // });
                       },
                       child: Container(
-                        width: MediaQuery.of(context).size.width-30,
+                        width: MediaQuery.of(context).size.width - 30,
                         height: 55,
                         decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(10.0),
-                            color: AppTheme.skThemeColor2
-                        ),
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: AppTheme.skThemeColor2),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                          padding:
+                              const EdgeInsets.only(top: 15.0, bottom: 15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0, bottom: 3.0),
                                   child: Container(
-                                      child:
-                                      Text(
-                                        'Checkout',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white
-                                        ),
-                                      )
-                                  ),
+                                      child: Text(
+                                    'Checkout',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  )),
                                 ),
                               ),
                             ],
@@ -1009,21 +1149,17 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
 
   TtlProdListPrice() {
     int total = 0;
-    for(String str in prodList) {
-      total += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
+    for (String str in prodList) {
+      total += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
     }
     return total.toString();
-
   }
 
   zeroToTen(String string) {
-    if(int.parse(string) > 9) {
+    if (int.parse(string) > 9) {
       return string;
     } else {
-      return '0'+string;
+      return '0' + string;
     }
   }
-
-
-
 }

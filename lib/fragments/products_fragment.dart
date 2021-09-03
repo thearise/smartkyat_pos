@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fraction/fraction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:smartkyat_pos/pages/home_page.dart';
@@ -23,13 +24,19 @@ class ProductsFragment extends StatefulWidget {
   final _callback;
   final _callback2;
 
-  ProductsFragment( {required void toggleCoinCallback(), required void toggleCoinCallback2(String str)} ) :
-        _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2;
+  ProductsFragment(
+      {required void toggleCoinCallback(),
+      required void toggleCoinCallback2(String str)})
+      : _callback = toggleCoinCallback,
+        _callback2 = toggleCoinCallback2;
   @override
   ProductsFragmentState createState() => ProductsFragmentState();
 }
 
-class ProductsFragmentState extends State<ProductsFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<ProductsFragment>{
+class ProductsFragmentState extends State<ProductsFragment>
+    with
+        TickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<ProductsFragment> {
   @override
   bool get wantKeepAlive => true;
 
@@ -51,6 +58,12 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
     widget._callback2(data);
   }
 
+  Future<String> countDocuments(myDoc) async {
+    QuerySnapshot _myDoc = await myDoc.get();
+    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
+    return _myDocCount.length.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,11 +79,15 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                 child: Padding(
                   padding: const EdgeInsets.only(top: 81.0),
                   child: Container(
-                    height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom-100,
+                    height: MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).padding.bottom -
+                        100,
                     width: MediaQuery.of(context).size.width,
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 0.0, left: 15.0, right: 15.0),
+                      padding: const EdgeInsets.only(
+                          top: 0.0, left: 15.0, right: 15.0),
                       // child: ListView(
                       //   children: [
                       //     CustomerInfo('Phyo Pyae Sohn', 'Monywa', '(+959)794335708'),
@@ -79,7 +96,6 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                       //     CustomerInfo('Kabyar', 'Monywa', '(+959)751133553'),
                       //   ],
                       // )
-
 
                       child: ListView(
                         children: [
@@ -91,8 +107,10 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Container(
                                 alignment: Alignment.topLeft,
-                                child: Text('Products',
-                                  style: TextStyle(fontSize: 24,
+                                child: Text(
+                                  'Products',
+                                  style: TextStyle(
+                                    fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -122,8 +140,7 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white
-                                  ),
+                                      color: Colors.white),
                                 ),
                               ),
                             ),
@@ -143,142 +160,323 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                   AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if (snapshot.hasData) {
                                   return ListView(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    children: snapshot.data!.docs
-                                        .map((DocumentSnapshot document) {
-                                      Map<String, dynamic> data =
-                                      document.data()! as Map<String, dynamic>;
-                                      // index++;
-                                      // print(index.toString() + 'index');
-                                      // return ListTile(
-                                      //   title: Text(data['prod_name']),
-                                      // );
-                                      return Padding(
-                                        padding: const EdgeInsets.only(top: 16.0),
-                                        child: GestureDetector(
-                                          onTap: (){
-                                            // print(id.toString());
-                                          },
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width,
-                                            decoration: BoxDecoration(
-                                                border: Border(
-                                                    bottom: BorderSide(
-                                                        color: Colors.grey.withOpacity(0.3), width: 1.0))),
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    ClipRRect(
-                                                        borderRadius: BorderRadius.circular(8.0),
-                                                        child: data['img_1'] != "" ? CachedNetworkImage(
-                                                          imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/' + data['img_1'],
-                                                          width: 70,
-                                                          height: 70,
-                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                          errorWidget: (context, url, error) => Icon(Icons.error),
-                                                          fadeInDuration: Duration(milliseconds: 100),
-                                                          fadeOutDuration: Duration(milliseconds: 10),
-                                                          fadeInCurve: Curves.bounceIn,
-                                                          fit: BoxFit.cover,
-                                                        ) : CachedNetworkImage(
-                                                          imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
-                                                          width: 70,
-                                                          height: 70,
-                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                          errorWidget: (context, url, error) => Icon(Icons.error),
-                                                          fadeInDuration: Duration(milliseconds: 100),
-                                                          fadeOutDuration: Duration(milliseconds: 10),
-                                                          fadeInCurve: Curves.bounceIn,
-                                                          fit: BoxFit.cover,
-                                                        )
-                                                    ),
-                                                    SizedBox(height: 12),
-                                                  ],
-                                                ),
-                                                SizedBox(width: 20,),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'customerName',
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 7,
-                                                    ),
-                                                    Text(
-                                                      'MMK customerAddress',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Colors.blueGrey.withOpacity(1.0),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 7,
-                                                    ),
-                                                    Text(
-                                                      'customerPhone in stock',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Colors.blueGrey.withOpacity(1.0),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(bottom: 20.0),
-                                                  child: IconButton(
-                                                    icon: Icon(
-                                                      Icons.arrow_forward_ios_rounded,
-                                                      size: 16,
-                                                      color: Colors.blueGrey.withOpacity(0.8),
-                                                    ), onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ProductVersionView(idString: document.id, toggleCoinCallback: addProduct1)),
-                                                    );
-                                                  },
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(bottom: 20.0),
-                                                  child: IconButton(
-                                                    icon: Icon(
-                                                      Icons.arrow_forward_ios_rounded,
-                                                      size: 16,
-                                                      color: Colors.blueGrey.withOpacity(0.8),
-                                                    ), onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ProductDetailsView()),
-                                                    );
-                                                  },
-                                                  ),
-                                                ),
-                                              ],
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      children: snapshot.data!.docs
+                                          .map((DocumentSnapshot document) {
+                                        Map<String, dynamic> data = document
+                                            .data()! as Map<String, dynamic>;
+                                        var image = data['img_1'];
+                                        var prodName = data['prod_name'];
+                                        var mainName = data['unit_name'];
+                                        var sub1Name = data['sub1_name'];
+                                        var sub2Name = data['sub2_name'];
+                                        var sub3Name = data['sub3_name'];
+                                        var version = document.id;
+                                        return StreamBuilder(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('space')
+                                                .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                .collection('shops')
+                                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                                .collection('products')
+                                                .doc(version)
+                                                .collection('versions')
+                                                .orderBy('date')
+                                                .limitToLast(1)
+                                                .snapshots(),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<QuerySnapshot>
+                                                    snapshot2) {
+                                              if (snapshot2.hasData) {
+                                                return ListView(
+                                                    shrinkWrap: true,
+                                                    physics:
+                                                        NeverScrollableScrollPhysics(),
+                                                    children: snapshot2
+                                                        .data!.docs
+                                                        .map((DocumentSnapshot
+                                                            document) {
+                                                      Map<String, dynamic>
+                                                          data1 =
+                                                          document.data()!
+                                                              as Map<String,
+                                                                  dynamic>;
+                                                      var price =
+                                                          data1["sale_price"];
+                                                      var mainQuantity =
+                                                          data1['unit_qtity']
+                                                              .split(' ')[0];
+                                                      var subQuantity =
+                                                          data1['unit_qtity']
+                                                              .split(' ')[1];
+                                                      var sub1Quantity =
+                                                          data1['sub1_unit'];
+                                                      var sub2Quantity =
+                                                          data1['sub2_unit'];
+                                                      var sub3Quantity =
+                                                          data1['sub3_unit'];
 
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  );
+                                                      // final SubOne=((Fraction.fromString(subQuantity)*Fraction.fromString(sub1Quantity+'/1')).toDouble().round()).toString();
+                                                      // final SubTwo=((Fraction.fromString(subQuantity)*Fraction.fromString(sub2Quantity+'/1')).toDouble().round()).toString();
+                                                      // final SubThree=((Fraction.fromString(subQuantity)*Fraction.fromString(sub3Quantity+'/1')).toDouble().round()).toString();
+
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 16.0),
+                                                        child: GestureDetector(
+                                                          onTap: () {},
+                                                          child: Container(
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors
+                                                                            .grey
+                                                                            .withOpacity(
+                                                                                0.3),
+                                                                        width:
+                                                                            1.0))),
+                                                            child: Row(
+                                                              children: [
+                                                                Column(
+                                                                  children: [
+                                                                    ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                8.0),
+                                                                        child: image !=
+                                                                                ""
+                                                                            ? CachedNetworkImage(
+                                                                                imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/' + image,
+                                                                                width: 70,
+                                                                                height: 70,
+                                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                fadeInDuration: Duration(milliseconds: 100),
+                                                                                fadeOutDuration: Duration(milliseconds: 10),
+                                                                                fadeInCurve: Curves.bounceIn,
+                                                                                fit: BoxFit.cover,
+                                                                              )
+                                                                            : CachedNetworkImage(
+                                                                                imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+                                                                                width: 70,
+                                                                                height: 70,
+                                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                fadeInDuration: Duration(milliseconds: 100),
+                                                                                fadeOutDuration: Duration(milliseconds: 10),
+                                                                                fadeInCurve: Curves.bounceIn,
+                                                                                fit: BoxFit.cover,
+                                                                              )),
+                                                                    SizedBox(
+                                                                        height:
+                                                                            12),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 20,
+                                                                ),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      prodName,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            18,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 7,
+                                                                    ),
+                                                                    Text(
+                                                                      "$price MMK",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        color: Colors
+                                                                            .blueGrey
+                                                                            .withOpacity(1.0),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 7,
+                                                                    ),
+                                                                    FutureBuilder(
+                                                                      future: countDocuments(FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              'space')
+                                                                          .doc(
+                                                                              '0NHIS0Jbn26wsgCzVBKT')
+                                                                          .collection(
+                                                                              'shops')
+                                                                          .doc(
+                                                                              'PucvhZDuUz3XlkTgzcjb')
+                                                                          .collection(
+                                                                              'products')
+                                                                          .doc(
+                                                                              version)
+                                                                          .collection(
+                                                                              'versions')),
+                                                                      builder: (BuildContext
+                                                                              context,
+                                                                          AsyncSnapshot<String>
+                                                                              text) {
+                                                                        var versionquantity = text
+                                                                            .data
+                                                                            .toString();
+                                                                        if (text.data.toString() ==
+                                                                            '1') {
+                                                                          if (sub1Quantity != '' &&
+                                                                              sub2Quantity == '' &&
+                                                                              sub3Quantity == '') {
+                                                                            return Text(
+                                                                              mainQuantity + ' $mainName ' + 'and ' + ((Fraction.fromString(subQuantity) * Fraction.fromString(sub1Quantity + '/1')).toDouble().round()).toString() + ' $sub1Name',
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                color: Colors.blueGrey.withOpacity(1.0),
+                                                                              ),
+                                                                            );
+                                                                          }
+                                                                          if (sub1Quantity != '' &&
+                                                                              sub2Quantity != '' &&
+                                                                              sub3Quantity == '') {
+                                                                            return Text(
+                                                                              mainQuantity + ' $mainName' + ', ' + ((Fraction.fromString(subQuantity) * Fraction.fromString(sub1Quantity + '/1')).toDouble().round()).toString() + ' $sub1Name and ' + ((Fraction.fromString(subQuantity) * Fraction.fromString(sub2Quantity + '/1')).toDouble().round()).toString() + ' $sub2Name',
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                color: Colors.blueGrey.withOpacity(1.0),
+                                                                              ),
+                                                                            );
+                                                                          }
+                                                                          if (sub1Quantity != '' &&
+                                                                              sub2Quantity != '' &&
+                                                                              sub3Quantity != '') {
+                                                                            return Text(
+                                                                              mainQuantity + ' $mainName' + ', ' + ((Fraction.fromString(subQuantity) * Fraction.fromString(sub1Quantity + '/1')).toDouble().round()).toString() + ' $sub1Name, ' + ((Fraction.fromString(subQuantity) * Fraction.fromString(sub2Quantity + '/1')).toDouble().round()).toString() + ' $sub2Name' + ' and ' + ((Fraction.fromString(subQuantity) * Fraction.fromString(sub3Quantity + '/1')).toDouble().round()).toString() + ' $sub3Name',
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                color: Colors.blueGrey.withOpacity(1.0),
+                                                                              ),
+                                                                            );
+                                                                          }
+                                                                          return Text(
+                                                                            '$mainQuantity $mainName in Stock',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w400,
+                                                                              color: Colors.blueGrey.withOpacity(1.0),
+                                                                            ),
+                                                                          );
+                                                                        } else {
+                                                                          return Text(
+                                                                            '$versionquantity Versions',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w400,
+                                                                              color: Colors.blueGrey.withOpacity(1.0),
+                                                                            ),
+                                                                          );
+                                                                        }
+                                                                      },
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          20.0),
+                                                                  child:
+                                                                      IconButton(
+                                                                    icon: Icon(
+                                                                      Icons
+                                                                          .arrow_forward_ios_rounded,
+                                                                      size: 16,
+                                                                      color: Colors
+                                                                          .blueGrey
+                                                                          .withOpacity(
+                                                                              0.8),
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator
+                                                                          .push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                            builder: (context) =>
+                                                                                ProductVersionView(idString: version, toggleCoinCallback: addProduct1)),
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                Spacer(),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          20.0),
+                                                                  child:
+                                                                      IconButton(
+                                                                    icon: Icon(
+                                                                      Icons
+                                                                          .arrow_forward_ios_rounded,
+                                                                      size: 16,
+                                                                      color: Colors
+                                                                          .blueGrey
+                                                                          .withOpacity(
+                                                                              0.8),
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator
+                                                                          .push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                            builder: (context) =>
+                                                                                ProductDetailsView()),
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }).toList());
+                                              }
+                                              return Container();
+                                            });
+                                      }).toList());
                                 }
                                 return Container();
-                              }
-                            )
+                              })
                         ],
                       ),
                     ),
@@ -290,17 +488,16 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                 child: Container(
                   decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(
-                            color: AppTheme.skBorderColor2, width: 1.0),
-                      )
-                  ),
+                    bottom:
+                        BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                  )),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15),
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 15.0, right: 15.0, bottom: 15),
                     child: Container(
                       height: 56,
                       decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(10.0),
                         color: Colors.grey.withOpacity(0.2),
                       ),
                       child: Padding(
@@ -309,22 +506,26 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left:15.0,),
-                              child: Icon(Icons.search, size: 26,),
+                              padding: const EdgeInsets.only(
+                                left: 15.0,
+                              ),
+                              child: Icon(
+                                Icons.search,
+                                size: 26,
+                              ),
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                                child: Container(child:
-                                Text(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0),
+                                child: Container(
+                                    child: Text(
                                   'Search',
                                   style: TextStyle(
                                       fontSize: 16.5,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black.withOpacity(0.6)
-                                  ),
-                                )
-                                ),
+                                      color: Colors.black.withOpacity(0.6)),
+                                )),
                               ),
                             ),
                             GestureDetector(
@@ -332,8 +533,14 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                 // addDailyExp(context);
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(right:15.0,),
-                                child: Icon(Icons.bar_chart, color: Colors.green, size: 22,),
+                                padding: const EdgeInsets.only(
+                                  right: 15.0,
+                                ),
+                                child: Icon(
+                                  Icons.bar_chart,
+                                  color: Colors.green,
+                                  size: 22,
+                                ),
                               ),
                             )
                           ],
@@ -360,7 +567,6 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
         context: context,
         builder: (BuildContext context) {
           return SingleAssetPage(toggleCoinCallback: closeNewProduct);
-
         });
   }
 
@@ -768,145 +974,13 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
     // return(prefs.getString('store'));
 
     var index = prefs.getString('store');
-    if(index == null) {
+    if (index == null) {
       return 'idk';
     } else {
       return index;
     }
   }
 }
-
-// class CustomerInfo extends StatelessWidget {
-//   final String customerName;
-//   final String customerAddress;
-//   final String customerPhone;
-//   final String image;
-//   final String id;
-//   CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.image,this.id);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(top: 16.0),
-//       child: GestureDetector(
-//         onTap: (){
-//           print(id.toString());
-//         },
-//         child: Container(
-//           width: MediaQuery.of(context).size.width,
-//           decoration: BoxDecoration(
-//               border: Border(
-//                   bottom: BorderSide(
-//                       color: Colors.grey.withOpacity(0.3), width: 1.0))),
-//           child: Row(
-//             children: [
-//               Column(
-//                 children: [
-//                   ClipRRect(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                       child: image != "" ? CachedNetworkImage(
-//                         imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/$image',
-//                         width: 70,
-//                         height: 70,
-//                         // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-//                         errorWidget: (context, url, error) => Icon(Icons.error),
-//                         fadeInDuration: Duration(milliseconds: 100),
-//                         fadeOutDuration: Duration(milliseconds: 10),
-//                         fadeInCurve: Curves.bounceIn,
-//                         fit: BoxFit.cover,
-//                       ) : CachedNetworkImage(
-//                         imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
-//                         width: 70,
-//                         height: 70,
-//                         // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-//                         errorWidget: (context, url, error) => Icon(Icons.error),
-//                         fadeInDuration: Duration(milliseconds: 100),
-//                         fadeOutDuration: Duration(milliseconds: 10),
-//                         fadeInCurve: Curves.bounceIn,
-//                         fit: BoxFit.cover,
-//                       )
-//                   ),
-//                   SizedBox(height: 12),
-//                 ],
-//               ),
-//               SizedBox(width: 20,),
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     customerName,
-//                     style: TextStyle(
-//                       fontSize: 18,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 7,
-//                   ),
-//                   Text(
-//                     'MMK $customerAddress',
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: FontWeight.w400,
-//                       color: Colors.blueGrey.withOpacity(1.0),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 7,
-//                   ),
-//                   Text(
-//                     '$customerPhone in stock',
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: FontWeight.w400,
-//                       color: Colors.blueGrey.withOpacity(1.0),
-//                     ),
-//                     ),
-//                   ],
-//                 ),
-//               Padding(
-//                 padding: const EdgeInsets.only(bottom: 20.0),
-//                 child: IconButton(
-//                   icon: Icon(
-//                     Icons.arrow_forward_ios_rounded,
-//                     size: 16,
-//                     color: Colors.blueGrey.withOpacity(0.8),
-//                   ), onPressed: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         builder: (context) =>
-//                             ProductVersionView(idString: id, toggleCoinCallback: addProduct1)),
-//                   );
-//                 },
-//                 ),
-//               ),
-//                 Spacer(),
-//               Padding(
-//                 padding: const EdgeInsets.only(bottom: 20.0),
-//                 child: IconButton(
-//                   icon: Icon(
-//                     Icons.arrow_forward_ios_rounded,
-//                     size: 16,
-//                     color: Colors.blueGrey.withOpacity(0.8),
-//                   ), onPressed: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         builder: (context) =>
-//                             ProductDetailsView()),
-//                   );
-//                 },
-//                 ),
-//               ),
-//               ],
-//
-//             ),
-//           ),
-//       ),
-//       );
-//   }
-// }
 
 class SubUnit extends StatefulWidget {
   @override
@@ -955,13 +1029,16 @@ class _SubUnitState extends State<SubUnit> {
               Container(
                 padding: EdgeInsets.only(top: 15),
                 child: IconButton(
-                  icon: Icon(Icons.close,
+                  icon: Icon(
+                    Icons.close,
                     size: 20,
-                    color: Colors.blue,),
-                  onPressed: (){
+                    color: Colors.blue,
+                  ),
+                  onPressed: () {
                     setState(() {
                       cards.length--;
-                      cards.remove(cards);});
+                      cards.remove(cards);
+                    });
                   },
                 ),
               ),
@@ -973,12 +1050,11 @@ class _SubUnitState extends State<SubUnit> {
           Row(
             children: [
               Container(
-                width: (MediaQuery.of(context).size.width-30)/1.74,
+                width: (MediaQuery.of(context).size.width - 30) / 1.74,
                 child: TextFormField(
                   // The validator receives the text that the user has entered.
                   validator: (value) {
-                    if (value == null ||
-                        value.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'This field is required';
                     }
                     prodFieldsValue.add(value);
@@ -986,46 +1062,45 @@ class _SubUnitState extends State<SubUnit> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(
+                            color: AppTheme.skBorderColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
 
                     focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(
+                            color: AppTheme.skThemeColor2, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding: const EdgeInsets.only(
+                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
                     suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
-                      fontFamily: 'capsulesans',),
+                      fontFamily: 'capsulesans',
+                    ),
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
                     // errorText: 'Error message',
                     labelText: 'Units / main unit',
-                    floatingLabelBehavior:
-                    FloatingLabelBehavior.auto,
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
                     //filled: true,
                     border: OutlineInputBorder(
-                      borderRadius:
-                      BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
               ),
               Spacer(),
               Container(
-                width: (MediaQuery.of(context).size.width-30)/2.9,
+                width: (MediaQuery.of(context).size.width - 30) / 2.9,
                 child: TextFormField(
                   // The validator receives the text that the user has entered.
                   validator: (value) {
-                    if (value == null ||
-                        value.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'This field is required';
                     }
                     prodFieldsValue.add(value);
@@ -1033,34 +1108,34 @@ class _SubUnitState extends State<SubUnit> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(
+                            color: AppTheme.skBorderColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
 
                     focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                        // width: 0.0 produces a thin "hairline" border
+                        borderSide: const BorderSide(
+                            color: AppTheme.skThemeColor2, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding: const EdgeInsets.only(
+                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
                     suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
-                      fontFamily: 'capsulesans',),
+                      fontFamily: 'capsulesans',
+                    ),
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
                     // errorText: 'Error message',
                     labelText: 'Unit name',
-                    floatingLabelBehavior:
-                    FloatingLabelBehavior.auto,
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
                     //filled: true,
                     border: OutlineInputBorder(
-                      borderRadius:
-                      BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -1073,8 +1148,7 @@ class _SubUnitState extends State<SubUnit> {
           TextFormField(
             // The validator receives the text that the user has entered.
             validator: (value) {
-              if (value == null ||
-                  value.isEmpty) {
+              if (value == null || value.isEmpty) {
                 return 'This field is required';
               }
               prodFieldsValue.add(value);
@@ -1082,17 +1156,18 @@ class _SubUnitState extends State<SubUnit> {
             },
             decoration: InputDecoration(
               enabledBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))
-              ),
+                  // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(
+                      color: AppTheme.skBorderColor, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
 
               focusedBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))
-              ),
-              contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                  // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(
+                      color: AppTheme.skThemeColor2, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              contentPadding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
               suffixText: 'MMK',
               suffixStyle: TextStyle(
                 fontWeight: FontWeight.w500,
@@ -1106,12 +1181,10 @@ class _SubUnitState extends State<SubUnit> {
               ),
               // errorText: 'Error message',
               labelText: 'Sale price',
-              floatingLabelBehavior:
-              FloatingLabelBehavior.auto,
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
               //filled: true,
               border: OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
           ),
