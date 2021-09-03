@@ -149,6 +149,7 @@ class ProductsFragmentState extends State<ProductsFragment> with TickerProviderS
                                         .map((DocumentSnapshot document) {
                                       Map<String, dynamic> data =
                                       document.data()! as Map<String, dynamic>;
+
                                       // index++;
                                       // print(index.toString() + 'index');
                                       // return ListTile(

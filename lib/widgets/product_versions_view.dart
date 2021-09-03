@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
+import 'package:fraction/fraction.dart';
 
 // late final String id;
 
@@ -223,7 +224,8 @@ class CustomerInfo extends StatelessWidget {
                     height: 7,
                   ),
                   Text(
-                    '$customerPhone in stock',
+                    customerPhone.toString(),
+                    // customerPhone.substring(0,2) == '0 ' ?MixedFraction.fromString(customerPhone).toString() + ' in stock':Fraction.fromString(customerPhone).toString() + ' in stock',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
