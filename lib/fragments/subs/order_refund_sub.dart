@@ -202,7 +202,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>  with TickerProviderS
                                                   Map<String, dynamic>? data = docSnapshot.data();
                                                   String value = data?['unit_qtity'];
                                                   FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions').doc(prodList[i].split('-')[1])
-                                                      .update({'unit_qtity': deffItems[i] - refundItems[i] < 0 ? (MixedFraction.fromString(value) - MixedFraction.fromString('0 ' + (deffItems[i] - refundItems[i]).toString() + '/1')).toString() : (MixedFraction.fromString(value) + MixedFraction.fromString('0 ' + (deffItems[i] - refundItems[i]).toString() + '/1')).toString()})
+                                                      .update({'unit_qtity': deffItems[i] - refundItems[i] < 0 ? (MixedFraction.fromString(value) + MixedFraction.fromString('0 ' + (deffItems[i] - refundItems[i]).toString() + '/1')).toString() : (MixedFraction.fromString(value) - MixedFraction.fromString('0 ' + (deffItems[i] - refundItems[i]).toString() + '/1')).toString()})
                                                       .then((value) => print("User Updated"))
                                                       .catchError((error) => print("Failed to update user: $error"));
                                                 }

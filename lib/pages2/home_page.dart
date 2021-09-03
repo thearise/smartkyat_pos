@@ -1,11 +1,10 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment.dart';
+import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
@@ -18,13 +17,13 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => HomePageState();
 }
 
-class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePage>{
+class HomePageState extends State<HomePage>
+    with TickerProviderStateMixin<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   static int currentTab = 0;
   var deviceIdNum = 0;
 
-  List<TabItem> tabs = [
-  ];
+  List<TabItem> tabs = [];
 
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
@@ -42,8 +41,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
 
   @override
   void initState() {
-
-    // list tabs here
     slidableController = SlidableController(
       onSlideAnimationChanged: handleSlideAnimationChanged,
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
@@ -57,7 +54,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
           icon: Icon(
             Icons.add,
           ),
-          page: HomeFragment(toggleCoinCallback: () {  },),
+          page: HomeFragment(
+            toggleCoinCallback: () {},
+          ),
         ),
         TabItem(
           tabName: "Items",
@@ -78,7 +77,15 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
           icon: Icon(
             Icons.add,
           ),
-          page: ProductsFragment(toggleCoinCallback: addNewProd2, toggleCoinCallback2: addProduct),
+          page: ProductsFragment(
+              toggleCoinCallback: addNewProd2, toggleCoinCallback2: addProduct),
+        ),
+        TabItem(
+          tabName: "Settings",
+          icon: Icon(
+            Icons.add,
+          ),
+          page: MerchantFragment(),
         ),
       ];
     });
@@ -88,7 +95,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
     });
   }
 
-
+  closeNewProduct() {
+    Navigator.pop(context);
+  }
 
   addNewProd2() {
     final List<String> prodFieldsValue = [];
@@ -99,15 +108,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return SingleAssetPage(toggleCoinCallback: () {});
+          return SingleAssetPage(toggleCoinCallback: closeNewProduct);
         });
   }
-
-
-
-
-
-
 
   // HomePageState() {
   //   // indexing is necessary for proper funcationality
@@ -116,8 +119,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
   //     details.setIndex(index);
   //   });
   // }
-
-
 
   // sets current tab index
   // and update state
@@ -179,164 +180,200 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
               ),
               SizedBox(
                   child: Padding(
-                    padding:
-                    const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  width: 1.0))),
-                    ),
-                  )),
+                padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                              width: 1.0))),
+                ),
+              )),
               Padding(
                 padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                 // child: new Column(children: drawerOptions),
-                child: new Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectTab(0);
-                          });
+                child: new Column(children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(0);
+                      });
 
-                          _scaffoldKey.currentState!.openEndDrawer();
-
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: new Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.transparent),
-                            height: 55,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 10.0),
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  ),
-                                ),
-                                Text(
-                                  'Home',
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Home',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(1);
+                      });
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectTab(1);
-                          });
-
-                          _scaffoldKey.currentState!.openEndDrawer();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: new Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.transparent),
-                            height: 55,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 10.0),
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  ),
-                                ),
-                                Text(
-                                  'Orders',
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Orders',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(2);
+                      });
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectTab(2);
-                          });
-
-                          _scaffoldKey.currentState!.openEndDrawer();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: new Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.transparent),
-                            height: 55,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 10.0),
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  ),
-                                ),
-                                Text(
-                                  'Customers',
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Customers',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(3);
+                      });
 
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectTab(3);
-                          });
-
-                          _scaffoldKey.currentState!.openEndDrawer();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: new Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.transparent),
-                            height: 55,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 10.0),
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  ),
-                                ),
-                                Text(
-                                  'Products',
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
                             ),
-                          ),
+                            Text(
+                              'Products',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(4);
+                      });
 
-                    ]
-                ),
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
+                            ),
+                            Text(
+                              'Merchants',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
               ),
             ],
           ),
@@ -345,7 +382,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
       body: WillPopScope(
         onWillPop: () async {
           final isFirstRouteInCurrentTab =
-          !await tabs[currentTab].key.currentState!.maybePop();
+              !await tabs[currentTab].key.currentState!.maybePop();
           if (isFirstRouteInCurrentTab) {
             // if not on the 'main' tab
             if (currentTab != 0) {
@@ -363,7 +400,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
         // with multiple appbars on one screen
         // eventually breaking the app
 
-
         child: Scaffold(
             backgroundColor: Colors.yellow,
             // indexed stack shows only one child
@@ -372,72 +408,78 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
               children: tabs.map((e) => e.page).toList(),
             ),
             bottomNavigationBar: Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom),
               child: Container(
                 color: Colors.white,
-                height: MediaQuery.of(context).size.width>900?57:142,
+                height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
                 child: Column(
                   children: [
-                    MediaQuery.of(context).size.width>900?Container():Padding(
-                      padding: const EdgeInsets.only(top: 0.0, bottom: 15.0),
-                      child: Container(
-                        height: 70,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border(
-                              top: BorderSide(
-                                  color: AppTheme.skBorderColor2, width: 1.0),
-                            )
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              addDailyExp(context);
-                            },
+                    MediaQuery.of(context).size.width > 900
+                        ? Container()
+                        : Padding(
+                            padding:
+                                const EdgeInsets.only(top: 0.0, bottom: 15.0),
                             child: Container(
+                              height: 70,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                color: AppTheme.secButtonColor,
-                              ),
+                                  color: Colors.white,
+                                  border: Border(
+                                    top: BorderSide(
+                                        color: AppTheme.skBorderColor2,
+                                        width: 1.0),
+                                  )),
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                                        child: Container(child:
-                                        Text(
-                                          'Go to cart',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black
+                                padding: const EdgeInsets.only(
+                                    top: 15.0, left: 15.0, right: 15.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    addDailyExp(context);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: AppTheme.secButtonColor,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15.0, bottom: 15.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  right: 8.0,
+                                                  bottom: 3.0),
+                                              child: Container(
+                                                  child: Text(
+                                                'Go to cart',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black),
+                                              )),
+                                            ),
                                           ),
-                                        )
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
                     Container(
                       height: 57,
                       decoration: BoxDecoration(
                           border: Border(
-                            top: BorderSide(
-                                color: AppTheme.skBorderColor2, width: 1.0),
-                          )),
+                        top: BorderSide(
+                            color: AppTheme.skBorderColor2, width: 1.0),
+                      )),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                         child: Row(
@@ -459,14 +501,13 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                             Expanded(
                               child: Container(
                                   child: Text(
-                                    'Phyo Pyae Sohn',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16.5,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  )
-                              ),
+                                'Phyo Pyae Sohn',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16.5,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black.withOpacity(0.6)),
+                              )),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -488,13 +529,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
             )
             // Bottom navigation
 
-        ),
+            ),
       ),
     );
-
-
-
-
   }
 
   List<String> prodList = [];
@@ -522,8 +559,8 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
   addDailyExp(priContext) {
     // myController.clear();
     showModalBottomSheet(
-        enableDrag:false,
-        isScrollControlled:true,
+        enableDrag: false,
+        isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(
@@ -564,7 +601,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                                 ),
                                 color: Colors.white,
                               ),
-
                               child: Container(
                                 child: Column(
                                   children: [
@@ -1245,13 +1281,12 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
             },
 
           );
-
         });
   }
 
-
   var counter = 0;
   var orderLoading = false;
+
 
   String total = 'T';
 
@@ -1722,17 +1757,13 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
       total += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
     }
     return total.toString();
-
   }
 
   zeroToTen(String string) {
-    if(int.parse(string) > 9) {
+    if (int.parse(string) > 9) {
       return string;
     } else {
-      return '0'+string;
+      return '0' + string;
     }
   }
-
-
-
 }

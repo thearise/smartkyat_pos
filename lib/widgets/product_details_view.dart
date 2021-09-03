@@ -20,7 +20,6 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +27,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         top: true,
         bottom: true,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15,),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             // mainAxisAlignment: MainAxisAlignment.end,
@@ -170,9 +171,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       color: AppTheme.skThemeColor,
                     ),
                   ),
-                  onPressed: () {
-                  },
-
+                  onPressed: () {},
                   child: Column(
                     children: [
                       Text(
@@ -204,192 +203,206 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 child: Container(
                   //height: MediaQuery.of(context).size.height,
                   child: ListView(
-                   // shrinkWrap: false,
-                   //scrollDirection: Axis.vertical,
-                    children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "QUANTITY",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        letterSpacing: 2,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _productDetails('Quantity', '40 Package, 18 Pack, 10 Item'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "PRICING",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        letterSpacing: 2,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _productDetails('Main Unit Price', 'MMK 23,000'),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _productDetails('#1 Sub Unit Price', 'MMK 2,300'),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _productDetails('#2 Sub Unit Price', 'MMK 300'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "OTHER INFORMATION",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        letterSpacing: 2,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _productDetails('Category', 'Consumer Goods'),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _productDetails('Bar Code', '8256489955'),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "PRODUCT IMAGES",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        letterSpacing: 2,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 100,
-                    child: ListView(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
+                      // shrinkWrap: false,
+                      //scrollDirection: Axis.vertical,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => FullscreenSliderDemo(0)));
-                            },
-                            child: Image.network(
-                              'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-                              fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "QUANTITY",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              letterSpacing: 2,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
                         SizedBox(
-                          width: 16,
+                          height: 10,
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => FullscreenSliderDemo(1)));
-                            },
-                            child: Image.network(
-                              'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',                            fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
+                        _productDetails(
+                            'Quantity', '40 Package, 18 Pack, 10 Item'),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "PRICING",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              letterSpacing: 2,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
                         SizedBox(
-                          width: 16,
+                          height: 10,
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => FullscreenSliderDemo(2)));
-                            },
-                            child: Image.network(
-                              'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',                            fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
+                        _productDetails('Main Unit Price', 'MMK 23,000'),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _productDetails('#1 Sub Unit Price', 'MMK 2,300'),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _productDetails('#2 Sub Unit Price', 'MMK 300'),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "OTHER INFORMATION",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              letterSpacing: 2,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
                         SizedBox(
-                          width: 16,
+                          height: 10,
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => FullscreenSliderDemo(3)));
-                            },
-                            child: Image.network(
-                              'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',                            fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
+                        _productDetails('Category', 'Consumer Goods'),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _productDetails('Bar Code', '8256489955'),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "PRODUCT IMAGES",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              letterSpacing: 2,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
                         SizedBox(
-                          width: 16,
+                          height: 10,
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => FullscreenSliderDemo(4)));
-                            },
-                            child: Image.network(
-                              'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',                            fit: BoxFit.cover,
-                              height: 100,
-                              width: 100,
-                            ),
+                        Container(
+                          height: 100,
+                          child: ListView(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullscreenSliderDemo(0)));
+                                  },
+                                  child: Image.network(
+                                    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+                                    fit: BoxFit.cover,
+                                    height: 100,
+                                    width: 100,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullscreenSliderDemo(1)));
+                                  },
+                                  child: Image.network(
+                                    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
+                                    fit: BoxFit.cover,
+                                    height: 100,
+                                    width: 100,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullscreenSliderDemo(2)));
+                                  },
+                                  child: Image.network(
+                                    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
+                                    fit: BoxFit.cover,
+                                    height: 100,
+                                    width: 100,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullscreenSliderDemo(3)));
+                                  },
+                                  child: Image.network(
+                                    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+                                    fit: BoxFit.cover,
+                                    height: 100,
+                                    width: 100,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullscreenSliderDemo(4)));
+                                  },
+                                  child: Image.network(
+                                    'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
+                                    fit: BoxFit.cover,
+                                    height: 100,
+                                    width: 100,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                      ]
-                  ),
+                      ]),
                 ),
               )
             ],
@@ -436,6 +449,7 @@ class _productDetails extends StatelessWidget {
     );
   }
 }
+
 class FullscreenSliderDemo extends StatelessWidget {
   final int index;
   FullscreenSliderDemo(this.index);
@@ -460,19 +474,18 @@ class FullscreenSliderDemo extends StatelessWidget {
                   ),
                   items: imgList
                       .map((item) => Container(
-                    child: Center(
-                        child: Image.network(
-                          item,
-                          fit: BoxFit.cover,
-                          height: height,
-                        )),
-                  ))
+                            child: Center(
+                                child: Image.network(
+                              item,
+                              fit: BoxFit.cover,
+                              height: height,
+                            )),
+                          ))
                       .toList(),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15, left: 15),
                   child: Container(
-
                     width: 35,
                     height: 35,
                     decoration: BoxDecoration(
@@ -499,4 +512,3 @@ class FullscreenSliderDemo extends StatelessWidget {
     );
   }
 }
-
