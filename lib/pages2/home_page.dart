@@ -500,16 +500,15 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
   List<String> prodList = [];
   late final SlidableController slidableController;
   addProduct(data) {
-
     for(var i = 0; i<prodList.length; i++){
       if(prodList[i].split('-')[0]==data.split('-')[0] && prodList[i].split('-')[1]==data.split('-')[1] && prodList[i].split('-')[3]==data.split('-')[3]) {
-        data = data.split('-')[0] + '-' +data.split('-')[1] + '-' + data.split('-')[2] + '-' +data.split('-')[3] + '-' + (int.parse(prodList[i].split('-')[4]) + 1).toString() + '-0';
-        prodList[i] = data;
+        data = data.split('-')[0] + '-' +data.split('-')[1] + '-' + data.split('-')[2] + '-' +data.split('-')[3] + '-' + (int.parse(prodList[i].split('-')[4]) + 1).toString();
+        prodList[i] = data + '-0';
         return;
       }
     }
     if(data!='null') {
-      prodList.add(data);
+      prodList.add(data + '-0');
     }
 
   }
@@ -826,6 +825,8 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePa
                                                 child: ListView(
                                                   children: [
                                                     Text(customerId.split('-')[1]),
+                                                    for(int i=0; i < prodList.length; i++)
+                                                      Text(prodList[i]),
 
                                                     for(int i=0; i < prodList.length; i++)
 

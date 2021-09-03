@@ -100,7 +100,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                               }),
                         ),
                         Text(
-                          widget.data.split('^')[0].substring(0,8),
+                          widget.data.split('^')[1],
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -136,12 +136,13 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                           // print(output1?['subs'].toString());
                           List prodList = output1?['subs'];
                           totalPrice = 0;
+                          print(totalPrice.toString() + 'totalPrice ' + prodList.toString());
                           for(String str in prodList) {
                             totalPrice += int.parse(str.split('-')[2]) * (int.parse(str.split('-')[4]) - int.parse(str.split('-')[5]));
 
 
                           }
-                          print(totalPrice.toString() + 'totalPrice ' + prodList.toString());
+
 
 
                           return Container(

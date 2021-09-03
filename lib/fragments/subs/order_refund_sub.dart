@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fraction/fraction.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 
 import '../../app_theme.dart';
@@ -21,6 +22,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>  with TickerProviderS
   bool get wantKeepAlive => true;
   var docId = '';
   List<int> refundItems = [];
+  List<int> deffItems = [];
   @override
   initState() {
     var innerId = '';
@@ -85,24 +87,26 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>  with TickerProviderS
                           width: 35,
                           height: 35,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5.0),
-                              ),
-                              color: Colors.grey.withOpacity(0.3)),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5.0),
+                            ),
+                            color: Colors.grey.withOpacity(0.3)
+                          ),
                           child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios_rounded,
-                                size: 16,
-                                color: Colors.black,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
+                            icon: Icon(
+                              Icons.arrow_back_ios_rounded,
+                              size: 16,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }
+                          ),
                         ),
                         Text(
-                          widget.data,
+                          widget.data.split('^')[1],
                           style: TextStyle(
-                            fontSize: 6,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -140,6 +144,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>  with TickerProviderS
                               for(int i = 0; i < prodList.length; i++) {
                                 // refundItems[i] = int.parse(prodList[i].split('-')[5]);
                                 refundItems.add(int.parse(prodList[i].split('-')[5]));
+                                deffItems.add(int.parse(prodList[i].split('-')[5]));
                               }
                               initAttempt = true;
                             }
@@ -170,8 +175,71 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>  with TickerProviderS
                                             prodList[i] = prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + refundItems[i].toString();
                                             total += (int.parse(prodList[i].split('-')[4]) - refundItems[i]) * int.parse(prodList[i].split('-')[2]);
 
+
+
                                             if(refundItems[i]>0) {
                                               refund = true;
+
+
+                                            }
+
+                                            var collection = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions');
+                                            var docSnapshot = await collection.doc(prodList[i].split('-')[1]).get();
+                                            if (docSnapshot.exists) {
+                                              Map<String, dynamic>? data = docSnapshot.data();
+                                              var mainUnits = data?['unit_qtity'];
+                                              var sub1Units = data?['sub1_unit'];
+                                              var sub2Units = data?['sub2_unit'];
+                                              var sub3Units = data?['sub3_unit'];
+
+
+                                              print('unit _name' + prodList[i]);
+                                              if(prodList[i].split('-')[3] == 'unit_name') {
+                                                print('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
+
+                                                var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions').doc(prodList[i].split('-')[1]).get();
+                                                if (docSnapshot.exists) {
+                                                  Map<String, dynamic>? data = docSnapshot.data();
+                                                  String value = data?['unit_qtity'];
+                                                  FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions').doc(prodList[i].split('-')[1])
+                                                      .update({'unit_qtity': deffItems[i] - refundItems[i] < 0 ? (MixedFraction.fromString(value) - MixedFraction.fromString('0 ' + (deffItems[i] - refundItems[i]).toString() + '/1')).toString() : (MixedFraction.fromString(value) + MixedFraction.fromString('0 ' + (deffItems[i] - refundItems[i]).toString() + '/1')).toString()})
+                                                      .then((value) => print("User Updated"))
+                                                      .catchError((error) => print("Failed to update user: $error"));
+                                                }
+                                              } else {
+                                                var unit = '';
+
+                                                if(prodList[i].split('-')[3] == 'sub1_name') {
+                                                  unit = 'sub1_unit';
+                                                } else if (prodList[i].split('-')[3] == 'sub2_name') {
+                                                  unit = 'sub2_unit';
+                                                } else if (prodList[i].split('-')[3] == 'sub3_name') {
+                                                  unit = 'sub3_unit';
+                                                }
+
+
+
+
+
+                                                var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions').doc(prodList[i].split('-')[1]).get();
+                                                if (docSnapshot.exists) {
+                                                  Map<String, dynamic>? data = docSnapshot.data();
+                                                  // data?['sub1_unit']
+
+
+
+                                                  FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions').doc(prodList[i].split('-')[1])
+                                                      .update({
+                                                        'unit_qtity':
+                                                          deffItems[i] - refundItems[i] < 0 ?
+                                                          (MixedFraction.fromString(data?['unit_qtity']) + (MixedFraction.fromString('0 ' + ((deffItems[i] - refundItems[i])).toString()) / MixedFraction.fromString('0 ' + data?[unit]))).reduce().toString() :
+                                                          (MixedFraction.fromString(data?['unit_qtity']) - (MixedFraction.fromString('0 ' + ((deffItems[i] - refundItems[i])).toString()) / MixedFraction.fromString('0 ' + data?[unit]))).reduce().toString()
+                                                      })
+                                                      .then((value) => print("User Updated" + deffItems[i].toString() + ' ' + refundItems[i].toString()))
+                                                      .catchError((error) => print("Failed to update user: $error"));
+                                                }
+                                              }
+                                              // Call setState if needed.
                                             }
                                           }
                                           changedPrice = total;

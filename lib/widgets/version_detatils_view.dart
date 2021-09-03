@@ -149,19 +149,19 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                           label: '1 ' + mainUnit,
                                           key: widget.idString + '-' + widget.versionID + '-' + mainPrice + '-unit_name-1',
                                         ),
-                                        if(sub1Unit!='')
+                                        if(sub1Price!='')
                                         SheetAction(
                                           icon: Icons.info,
                                           label: '1 ' + sub1Unit,
                                           key: widget.idString + '-' + widget.versionID + '-' + sub1Price + '-sub1_name-1',
                                         ),
-                                        if(sub2Unit!='')
+                                        if(sub2Price!='')
                                         SheetAction(
                                           icon: Icons.info,
                                           label: '1 ' + sub2Unit,
                                           key: widget.idString + '-' + widget.versionID + '-' + sub2Price + '-sub2_name-1',
                                         ),
-                                        if(sub3Unit!='')
+                                        if(sub3Price!='')
                                         SheetAction(
                                           icon: Icons.info,
                                           label: '1 ' + sub3Unit,
