@@ -177,27 +177,6 @@ class HomePageState extends State<HomePage>{
     });
   }
 
-  _getDrawerItemWidget(int pos) {
-    switch (pos) {
-      case 0:
-        return new HomeFragment(toggleCoinCallback: addCounter);
-      case 1:
-        return new OrdersFragment();
-      case 2:
-        return new CustomersFragment();
-      case 3:
-        return new ProductsFragment(toggleCoinCallback: () {  }, toggleCoinCallback2: addProduct);
-      case 4:
-        return new StaffFragment();
-      case 5:
-        return new SettingsFragment();
-      case 6:
-        return new SupportFragment();
-
-      default:
-        return new Text("Error");
-    }
-  }
 
   _onSelectItem(int index) {
     setState(() => _selectedDrawerIndex = index);
@@ -735,7 +714,7 @@ class HomePageState extends State<HomePage>{
                 );
               case '/customers':
                 return new NoAnimationMaterialPageRoute(
-                  builder: (_) => new CustomersFragment(),
+                  builder: (_) => new CustomersFragment(toggleCoinCallback2: (String str) {  },),
                   settings: settings,
                 );
               case '/products':
@@ -968,12 +947,13 @@ class HomePageState extends State<HomePage>{
     final _formKey = GlobalKey<FormState>();
     // myController.clear();
     showModalBottomSheet(
-        enableDrag: false,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SingleAssetPage(toggleCoinCallback: () {});
-        });
+      enableDrag: false,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return SingleAssetPage(toggleCoinCallback: () {});
+      }
+    );
   }
 
 

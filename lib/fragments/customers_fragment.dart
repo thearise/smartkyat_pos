@@ -3,13 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 
 import '../app_theme.dart';
 
 class CustomersFragment extends StatefulWidget {
-  CustomersFragment({Key? key}) : super(key: key);
+  final _callback2;
 
+  CustomersFragment( {required void toggleCoinCallback2(String str)} ) :
+        _callback2 = toggleCoinCallback2;
   @override
   _CustomersFragmentState createState() => _CustomersFragmentState();
 }
@@ -25,6 +28,10 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
   @override
   void dispose() {
     super.dispose();
+  }
+
+  addCustomer2Cart1(data) {
+    widget._callback2(data);
   }
 
   @override
@@ -119,8 +126,67 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                                   // return ListTile(
                                   //   title: Text(data['prod_name']),
                                   // );
-                                  return CustomerInfo(data['customer_name'],
-                                      'Monywa', '(+959)794335708');
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => CustomerInfoSubs(id: document.id, toggleCoinCallback: addCustomer2Cart1)),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom:
+                                              BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data['customer_name'],
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Text(
+                                                data['customer_name'],
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.blueGrey.withOpacity(1.0),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Text(
+                                                data['customer_name'],
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.blueGrey.withOpacity(1.0),
+                                                ),
+                                              ),
+                                              SizedBox(height: 20),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 16,
+                                            color: Colors.blueGrey.withOpacity(0.8),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
 
                                 }).toList(),
                               );
@@ -770,66 +836,76 @@ setStoreId(String id) async {
   prefs.setString('store', id);
 }
 
-class CustomerInfo extends StatelessWidget {
-  final String customerName;
-  final String customerAddress;
-  final String customerPhone;
-
-  CustomerInfo(this.customerName, this.customerAddress, this.customerPhone);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          border: Border(
-              bottom:
-                  BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                customerName,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                customerAddress,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.blueGrey.withOpacity(1.0),
-                ),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                customerPhone,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.blueGrey.withOpacity(1.0),
-                ),
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
-          Spacer(),
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 16,
-            color: Colors.blueGrey.withOpacity(0.8),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class CustomerInfo extends StatelessWidget {
+//   final String customerName;
+//   final String customerAddress;
+//   final String customerPhone;
+//   final String customerId;
+//
+//   CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.customerId);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () {
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(
+//               builder: (context) => CustomerInfoSubs(id: customerId, )),
+//         );
+//       },
+//       child: Container(
+//         width: MediaQuery.of(context).size.width,
+//         decoration: BoxDecoration(
+//             border: Border(
+//                 bottom:
+//                     BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
+//         child: Row(
+//           children: [
+//             Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text(
+//                   customerName,
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//                 SizedBox(
+//                   height: 7,
+//                 ),
+//                 Text(
+//                   customerAddress,
+//                   style: TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w400,
+//                     color: Colors.blueGrey.withOpacity(1.0),
+//                   ),
+//                 ),
+//                 SizedBox(
+//                   height: 7,
+//                 ),
+//                 Text(
+//                   customerPhone,
+//                   style: TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w400,
+//                     color: Colors.blueGrey.withOpacity(1.0),
+//                   ),
+//                 ),
+//                 SizedBox(height: 20),
+//               ],
+//             ),
+//             Spacer(),
+//             Icon(
+//               Icons.arrow_forward_ios_rounded,
+//               size: 16,
+//               color: Colors.blueGrey.withOpacity(0.8),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

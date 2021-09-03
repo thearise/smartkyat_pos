@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import '../app_theme.dart';
@@ -107,14 +108,38 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                                                   color: Colors.white,
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      print(item.split('^')[1]);
+                                                      // print(item.split('^')[1]);
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                                      );
                                                     },
                                                     child: ListTile(
                                                       // leading: CircleAvatar(
                                                       //   child: Text("$index"),
                                                       // ),
                                                       // title: Text(item.split('^')[1]),
-                                                        title: Text(item)
+                                                        title: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(item.split('^')[1]),
+                                                            Text(item.split('^')[2]),
+                                                            Row(
+                                                              children: [
+                                                                Text(item.split('^')[3].split('&')[0]),
+                                                                if(item.split('^')[4][0] == 'r')
+                                                                  Text(' Refunded')
+                                                              ],
+                                                            ),
+                                                            // Text(item,
+                                                            //   style: TextStyle(
+                                                            //     fontSize: 10
+                                                            //   ),
+                                                            // ),
+                                                          ],
+                                                        )
                                                     ),
                                                   ),
                                                 ),
@@ -130,55 +155,33 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                                             color: Colors.white,
                                             child: GestureDetector(
                                               onTap: () {
-                                                print(item.split('^')[0].substring(0,8));
-                                                var dateId = '';
-                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                                // FirebaseFirestore.instance.collection('space')
-                                                    .where('date', isEqualTo: item.split('^')[0].substring(0,8))
-                                                    .get()
-                                                    .then((QuerySnapshot querySnapshot) {
-                                                  querySnapshot.docs.forEach((doc) {
-                                                    dateId = doc.id;
-                                                    FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
-
-                                                        .update({
-                                                      'daily_order': FieldValue.arrayRemove([item])
-                                                    })
-                                                        .then((value) {
-                                                      print('array removed');
-
-                                                      FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
-
-                                                          .update({
-                                                        'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
-                                                      })
-                                                          .then((value) {
-                                                        print('array updated');
-                                                      });
-
-
-                                                      // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
-                                                      // .doc(item.split('^')[0])
-                                                      //
-                                                      //     .update({
-                                                      //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
-                                                      // })
-                                                      //     .then((value) {
-                                                      //   print('array updated');
-                                                      // });
-                                                      // 2021081601575511001^1-1001^total^name^pf
-
-                                                    });
-                                                  });
-                                                });
-
+                                                // print(item.split('^')[1]);
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                                );
                                               },
                                               child: ListTile(
                                                 // leading: CircleAvatar(
                                                 //   child: Text("$index"),
                                                 // ),
                                                 // title: Text(item.split('^')[1]),
-                                                  title: Text(item)
+                                                  title: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(item.split('^')[1]),
+                                                      Text(item.split('^')[2]),
+                                                      Row(
+                                                        children: [
+                                                          Text(item.split('^')[3].split('&')[0]),
+                                                          if(item.split('^')[4][0] == 'r')
+                                                            Text(' Refunded')
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  )
                                               ),
                                             ),
                                           );
@@ -263,7 +266,7 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
     snpsht.data!.docs.map((document) async {
       for(var i=0;i<list.length;i++) {
         if(document.id.toString() == list[i].split('^')[3]) {
-          list[i] = list[i].split('^')[0] + '^' + list[i].split('^')[1] + '^' + list[i].split('^')[2] + '^' + document['customer_name'].toString() + '^' + list[i].split('^')[4];
+          list[i] = list[i].split('^')[0] + '^' + list[i].split('^')[1] + '^' + list[i].split('^')[2] + '^' + document['customer_name'].toString() + '&' + list[i].split('^')[3] + '^' + list[i].split('^')[4];
         }
 
       }
@@ -535,3 +538,47 @@ class ExampleSection implements ExpandableListSection<String> {
     this.expanded = expanded;
   }
 }
+
+
+
+// print(item.split('^')[0].substring(0,8));
+// var dateId = '';
+// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+// // FirebaseFirestore.instance.collection('space')
+// .where('date', isEqualTo: item.split('^')[0].substring(0,8))
+// .get()
+//     .then((QuerySnapshot querySnapshot) {
+// querySnapshot.docs.forEach((doc) {
+// dateId = doc.id;
+// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
+//
+//     .update({
+// 'daily_order': FieldValue.arrayRemove([item])
+// })
+//     .then((value) {
+// print('array removed');
+//
+// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
+//
+//     .update({
+// 'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
+// })
+//     .then((value) {
+// print('array updated');
+// });
+//
+//
+// // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
+// // .doc(item.split('^')[0])
+// //
+// //     .update({
+// //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
+// // })
+// //     .then((value) {
+// //   print('array updated');
+// // });
+// // 2021081601575511001^1-1001^total^name^pf
+//
+// });
+// });
+// });

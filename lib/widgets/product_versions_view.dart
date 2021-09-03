@@ -5,6 +5,7 @@ import 'package:fraction/fraction.dart';
 import 'package:smartkyat_pos/widgets/fill_product.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
+import 'package:fraction/fraction.dart';
 
 // late final String id;
 
@@ -424,6 +425,103 @@ class _ProductVersionViewState extends State<ProductVersionView> {
                       })
                 ]),
           )),
+    );
+  }
+}
+
+class CustomerInfo extends StatelessWidget {
+  final String customerName;
+  final String customerAddress;
+  final String customerPhone;
+  final String image;
+  final String id;
+
+  CustomerInfo(
+      this.customerName, this.customerAddress, this.customerPhone, this.image, this.id);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: GestureDetector(
+        onTap: (){
+          print(id.toString());
+        },
+        child: Container(
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: image != "" ? CachedNetworkImage(
+                        imageUrl: 'https://hninsunyein.me/smartkyat_pos/api/uploads/$image',
+                        width: 70,
+                        height: 70,
+                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fadeInDuration: Duration(milliseconds: 100),
+                        fadeOutDuration: Duration(milliseconds: 10),
+                        fadeInCurve: Curves.bounceIn,
+                        fit: BoxFit.cover,
+                      ) : CachedNetworkImage(
+                        imageUrl: 'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+                        width: 70,
+                        height: 70,
+                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fadeInDuration: Duration(milliseconds: 100),
+                        fadeOutDuration: Duration(milliseconds: 10),
+                        fadeInCurve: Curves.bounceIn,
+                        fit: BoxFit.cover,
+                      )
+                  ),
+                  SizedBox(height: 12),
+                ],
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    customerName,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                 'MMK $customerAddress',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey.withOpacity(1.0),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    customerPhone.toString(),
+                    // customerPhone.substring(0,2) == '0 ' ?MixedFraction.fromString(customerPhone).toString() + ' in stock':Fraction.fromString(customerPhone).toString() + ' in stock',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey.withOpacity(1.0),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
