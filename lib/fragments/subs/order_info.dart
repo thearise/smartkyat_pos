@@ -254,7 +254,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                                                   ),
                                                 ),
                                                 subtitle: Text(prodList[i].split('-')[2] + ' MMK'),
-                                                trailing: Text((int.parse(prodList[i].split('-')[2])*int.parse(prodList[i].split('-')[5])).toString()),
+                                                trailing: Text((int.parse(prodList[i].split('-')[2])*(int.parse(prodList[i].split('-')[4]) - int.parse(prodList[i].split('-')[5]))).toString()),
                                               ),
                                             ),
                                             dismissal: SlidableDismissal(
@@ -330,7 +330,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                                                   ),
                                                 ),
                                                 subtitle: Text(prodList[i].split('-')[2] + ' MMK'),
-                                                trailing: Text((int.parse(prodList[i].split('-')[2])*(int.parse(prodList[i].split('-')[4]) - int.parse(prodList[i].split('-')[5]))).toString()),
+                                                trailing: Text((int.parse(prodList[i].split('-')[2])*int.parse(prodList[i].split('-')[5])).toString()),
                                               ),
                                             ),
                                             dismissal: SlidableDismissal(
