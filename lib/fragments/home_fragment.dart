@@ -1,12 +1,16 @@
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:flutter/src/material/colors.dart' as Colors;
 import 'package:smartkyat_pos/widgets/apply_discount_to_cart.dart';
+import 'package:smartkyat_pos/widgets/line_chart_sample2.dart';
 import 'package:vector_math/vector_math_64.dart';
 import '../app_theme.dart';
 
@@ -54,6 +58,256 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
   late ShakeController _shakeController;
 
 
+  List<Color> gradientColors = [
+    // AppTheme.badgeFgSecond
+    Colors.Colors.blue
+    // const Color(0xff23b6e6),
+    // const Color(0xff02d39a),
+  ];
+
+  bool showAvg = false;
+
+
+  LineChartData mainData() {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: true,
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+            color: const Color(0xFFd6d8db),
+            strokeWidth: 1,
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return FlLine(
+            color: const Color(0xFFd6d8db),
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 22,
+          interval: 1,
+          getTextStyles: (context, value) =>
+          const TextStyle(color: Colors.Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 0:
+                return '0';
+              case 5:
+                return '05';
+              case 10:
+                return '10';
+              case 15:
+                return '15';
+              case 20:
+                return '20';
+              case 25:
+                return '25';
+              case 30:
+                return '30';
+
+            }
+            return '';
+          },
+          margin: 8,
+        ),
+        leftTitles: SideTitles(
+          showTitles: true,
+          interval: 1,
+          getTextStyles: (context, value) => const TextStyle(
+            color: Color(0xff67727d),
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '10k';
+              case 3:
+                return '30k';
+              case 5:
+                return '50k';
+            }
+            return '';
+          },
+          reservedSize: 32,
+          margin: 8,
+        ),
+      ),
+      borderData:
+      FlBorderData(show: true, border: Border.all(color: const Color(0xFFd6d8db), width: 1)),
+      minX: 0,
+      maxX: 30,
+      minY: 0,
+      maxY: 6,
+      lineBarsData: [
+        LineChartBarData(
+          spots: [
+            FlSpot(0, 3),
+            FlSpot(1, 2),
+            FlSpot(2, 5),
+            FlSpot(3, 3.1),
+            FlSpot(4, 4),
+            FlSpot(5, 4),
+            FlSpot(6, 3),
+            FlSpot(7, 2),
+            FlSpot(8, 5),
+            FlSpot(9, 3.1),
+            FlSpot(10, 0),
+            FlSpot(11, 4),
+            FlSpot(12, 3),
+            FlSpot(13, 5),
+            FlSpot(14, 5),
+            FlSpot(15, 3.1),
+            FlSpot(16, 4),
+            FlSpot(17, 2),
+            FlSpot(18, 3),
+            FlSpot(19, 2),
+            FlSpot(20, 1),
+            FlSpot(21, 3),
+            FlSpot(22, 3),
+            FlSpot(23, 4),
+            FlSpot(24, 3.1),
+            FlSpot(25, 1.2),
+            FlSpot(26, 4),
+            FlSpot(27, 2),
+            FlSpot(28, 4.1),
+            FlSpot(29, 2),
+            FlSpot(30, 2.7),
+          ],
+          isCurved: true,
+          colors: gradientColors,
+          barWidth: 3,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: false,
+            colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+
+
+  LineChartData weeklyData() {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: true,
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+            color: const Color(0xFFd6d8db),
+            strokeWidth: 1,
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return FlLine(
+            color: const Color(0xFFd6d8db),
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 22,
+          interval: 1,
+          getTextStyles: (context, value) =>
+          const TextStyle(color: Colors.Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 0:
+                return 'Sun';
+              case 1:
+                return 'Mon';
+              case 2:
+                return 'Tue';
+              case 3:
+                return 'Wed';
+              case 4:
+                return 'Thu';
+              case 5:
+                return 'Fri';
+              case 6:
+                return 'Sat';
+
+            }
+            return '';
+          },
+          margin: 8,
+        ),
+        leftTitles: SideTitles(
+          showTitles: true,
+          interval: 1,
+          getTextStyles: (context, value) => const TextStyle(
+            color: Color(0xff67727d),
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '10k';
+              case 3:
+                return '30k';
+              case 5:
+                return '50k';
+            }
+            return '';
+          },
+          reservedSize: 32,
+          margin: 8,
+        ),
+      ),
+      borderData:
+      FlBorderData(show: true, border: Border.all(color: const Color(0xFFd6d8db), width: 1)),
+      minX: 0,
+      maxX: 6,
+      minY: 0,
+      maxY: 6,
+      lineBarsData: [
+        LineChartBarData(
+          spots: [
+            FlSpot(0, 3),
+            FlSpot(1, 2),
+            FlSpot(2, 5),
+            FlSpot(3, 3.1),
+            FlSpot(4, 4),
+            FlSpot(5, 4),
+            FlSpot(6, 3),
+          ],
+          isCurved: true,
+          colors: gradientColors,
+          barWidth: 3,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: false,
+            colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  int _sliding = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -74,177 +328,267 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                     Align(
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 80.0, bottom: 56),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.Colors.white,
-                          child: ListView(
-                            children: [
-                              SizedBox(height: 10,),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 7.5, right: 7.5),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 7.5, right: 7.5),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          widget._callback();
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
-                                            color: Colors.Colors.green.withOpacity(0.4),
-                                          ),
-                                          width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                          height: 120,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(18.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Icon(Icons.add_shopping_cart_rounded),
-                                                Expanded(
-                                                  child: Align(
-                                                    alignment: Alignment.bottomLeft,
-                                                    child: Text(
-                                                      'Add orders',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.Colors.black.withOpacity(0.6)
+                        padding: const EdgeInsets.only(top: 76.0, bottom: 0),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.Colors.white,
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      // color: AppTheme.skBorderColor2,
+                                        color: Colors.Colors.white,
+                                        width: 1.0),
+                                  )),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 15.0, right: 15.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: CupertinoSlidingSegmentedControl(
+                                      children: {
+                                        0: Text('Weekly'),
+                                        1: Text('Monthly'),
+                                        2: Text('Yearly'),
+                                      },
+                                      groupValue: _sliding,
+                                      onValueChanged: (newValue) {
+                                        setState(() {
+                                          _sliding = int.parse(newValue.toString());
+                                        });
+                                      }),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height-353,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.Colors.grey.withOpacity(0.1),
+                              child: ListView(
+                                children: [
+                                  SizedBox(height: 15,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 7.5, right: 7.5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 7.5, right: 7.5),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              widget._callback();
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(10.0),
+                                                color: Colors.Colors.green.withOpacity(0.4),
+                                              ),
+                                              width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                              height: 120,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(18.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Icon(Icons.add_shopping_cart_rounded),
+                                                    Expanded(
+                                                      child: Align(
+                                                        alignment: Alignment.bottomLeft,
+                                                        child: Text(
+                                                          'Add orders',
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight: FontWeight.w600,
+                                                              color: Colors.Colors.black.withOpacity(0.6)
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 7.5, right: 7.5),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(10.0),
+                                              color: Colors.Colors.blue.withOpacity(0.4),
+                                            ),
+                                            width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                            height: 120,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(18.0),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Icon(Icons.volunteer_activism),
+                                                  Expanded(
+                                                      child: Align(
+                                                        alignment: Alignment.bottomLeft,
+                                                        child: TextButton(
+                                                          onPressed: (){
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyDiscount()
+                                                            ),
+                                                            );
+                                                          },
+                                                          child: Text('Add discount',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight: FontWeight.w600,
+                                                                color: Colors.Colors.black.withOpacity(0.6)
+                                                            ),),
+                                                        ),
+                                                      )
                                                   ),
-                                                )
-                                              ],
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Stack(
+                                    children: <Widget>[
+                                      AspectRatio(
+                                        aspectRatio: 1.5,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            // borderRadius: BorderRadius.all(
+                                            //   Radius.circular(15),
+                                            // ),
+                                            // color: Color(0xffFFFFFF)),
+                                            color: AppTheme.lightBgColor,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(right: 18.0, left: 8.0, top: 24, bottom: 12),
+                                            child: LineChart(
+
+                                              _sliding == 0 ? weeklyData() : mainData(),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 7.5, right: 7.5),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(10.0),
-                                          color: Colors.Colors.blue.withOpacity(0.4),
-                                        ),
-                                        width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                        height: 120,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(18.0),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.volunteer_activism),
-                                              Expanded(
-                                                  child: Align(
-                                                    alignment: Alignment.bottomLeft,
-                                                    child: TextButton(
-                                                      onPressed: (){
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyDiscount()
-                                                        ),
-                                                        );
-                                                      },
-                                                      child: Text('Add discount',
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.Colors.black.withOpacity(0.6)
-                                                        ),),
-                                                    ),
-                                                  )
-                                              ),
-                                            ],
+                                      SizedBox(
+                                        width: 60,
+                                        height: 34,
+                                        child: TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              showAvg = !showAvg;
+                                            });
+                                          },
+                                          child: Text(
+                                            'avg',
+                                            style: TextStyle(
+                                                fontSize: 12, color: showAvg ? Colors.Colors.white.withOpacity(0.5) : Colors.Colors.white),
                                           ),
                                         ),
                                       ),
+                                    ],
+                                  ),
+
+                                  Jiggle(
+                                    jiggleController: controller,
+                                    useGestures: true,
+                                    extent: 3,
+                                    child: Container(
+                                      height: 200,
+                                      margin: EdgeInsets.all(20),
+                                      decoration: BoxDecoration(
+                                          color: Colors.Colors.blueAccent,
+                                          borderRadius: BorderRadius.circular(20)),
                                     ),
-                                  ],
-                                ),
+                                  ),
+
+
+
+                                ],
                               ),
-
-
-
-                              Jiggle(
-                                jiggleController: controller,
-                                useGestures: true,
-                                extent: 3,
-                                child: Container(
-                                  height: 200,
-                                  margin: EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                      color: Colors.Colors.blueAccent,
-                                      borderRadius: BorderRadius.circular(20)),
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                     Align(
                       alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10.0, left: 15.0, right: 15.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            addDailyExp(context);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.Colors.white,
+                            border: Border(
+                              bottom: BorderSide(
+                                  color: AppTheme.skBorderColor2,
+                                  width: 1.0),
+                            )),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10.0, left: 15.0, right: 15.0, bottom: 15),
+                          child: GestureDetector(
+                            onTap: () {
+                              // addDailyExp(context);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.Colors.grey.withOpacity(0.2)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15.0, bottom: 15.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 15.0,
-                                    ),
-                                    child: Icon(
-                                      Icons.search,
-                                      size: 26,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left:8.0, right: 8.0),
-                                      child: Container(child:
-                                      Text(
-                                        'Search',
-                                        style: TextStyle(
-                                            fontSize: 16.5,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.Colors.black.withOpacity(0.6)
-                                        ),
-                                      )
+                                color: AppTheme.secButtonColor,
+                              ),
+                              height: 50,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 11.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 20.0,
+                                      ),
+                                      child: Icon(
+                                        SmartKyat_POS.search,
+                                        size: 17,
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 15.0,
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            bottom: 1.0),
+                                        child: Container(
+                                            child: Text(
+                                              'Search',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.Colors.black),
+                                            )
+                                        ),
+                                      ),
                                     ),
-                                    child: Icon(
-                                      Icons.bar_chart,
-                                      color: Colors.Colors.green,
-                                      size: 22,
-                                    ),
-                                  )
-                                ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 18.0,
+                                      ),
+                                      // child: Icon(
+                                      //   SmartKyat_POS.barcode,
+                                      //   color: Colors.Colors.black,
+                                      //   size: 25,
+                                      // ),
+                                      child: Container(
+                                          child: Image.asset('assets/system/barcode.png', height: 28,)
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),

@@ -274,7 +274,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                                   mainPrice +
                                                   '-unit_name-1',
                                             ),
-                                            if (sub1Name != '')
+                                            if (sub1Price != '')
                                               SheetAction(
                                                 icon: Icons.info,
                                                 label: '1 ' + sub1Name,
@@ -285,7 +285,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                                     sub1Price +
                                                     '-sub1_name-1',
                                               ),
-                                            if (sub2Name != '')
+                                            if (sub2Price != '')
                                               SheetAction(
                                                 icon: Icons.info,
                                                 label: '1 ' + sub2Name,
@@ -296,7 +296,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                                     sub2Price +
                                                     '-sub2_name-1',
                                               ),
-                                            if (sub3Name != '')
+                                            if (sub3Price != '')
                                               SheetAction(
                                                 icon: Icons.info,
                                                 label: '1 ' + sub3Name,
