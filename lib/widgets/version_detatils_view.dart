@@ -11,16 +11,12 @@ bool _isEnable = false;
 
 class VersionDetailsView extends StatefulWidget {
   final _callback;
-  final _callback3;
-
   const VersionDetailsView(
       {Key? key,
-      required this.versionID,
-      required this.idString,
-      required void toggleCoinCallback(String str),
-      required void toggleCoinCallback3(String str)})
-      : _callback = toggleCoinCallback,
-        _callback3 = toggleCoinCallback3;
+        required this.versionID,
+        required this.idString,
+        required void toggleCoinCallback(String str)})
+      : _callback = toggleCoinCallback;
   final String versionID;
   final String idString;
 
@@ -91,10 +87,10 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                     ' $mainName ' +
                                     'and ' +
                                     ((Fraction.fromString(subQuantity) *
-                                                Fraction.fromString(
-                                                    sub1Quantity + '/1'))
-                                            .toDouble()
-                                            .round())
+                                        Fraction.fromString(
+                                            sub1Quantity + '/1'))
+                                        .toDouble()
+                                        .round())
                                         .toString() +
                                     ' $sub1Name',
                                 style: TextStyle(
@@ -112,17 +108,17 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                     ' $mainName' +
                                     ', ' +
                                     ((Fraction.fromString(subQuantity) *
-                                                Fraction.fromString(
-                                                    sub1Quantity + '/1'))
-                                            .toDouble()
-                                            .round())
+                                        Fraction.fromString(
+                                            sub1Quantity + '/1'))
+                                        .toDouble()
+                                        .round())
                                         .toString() +
                                     ' $sub1Name and ' +
                                     ((Fraction.fromString(subQuantity) *
-                                                Fraction.fromString(
-                                                    sub2Quantity + '/1'))
-                                            .toDouble()
-                                            .round())
+                                        Fraction.fromString(
+                                            sub2Quantity + '/1'))
+                                        .toDouble()
+                                        .round())
                                         .toString() +
                                     ' $sub2Name',
                                 style: TextStyle(
@@ -140,25 +136,25 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                     ' $mainName' +
                                     ', ' +
                                     ((Fraction.fromString(subQuantity) *
-                                                Fraction.fromString(
-                                                    sub1Quantity + '/1'))
-                                            .toDouble()
-                                            .round())
+                                        Fraction.fromString(
+                                            sub1Quantity + '/1'))
+                                        .toDouble()
+                                        .round())
                                         .toString() +
                                     ' $sub1Name, ' +
                                     ((Fraction.fromString(subQuantity) *
-                                                Fraction.fromString(
-                                                    sub2Quantity + '/1'))
-                                            .toDouble()
-                                            .round())
+                                        Fraction.fromString(
+                                            sub2Quantity + '/1'))
+                                        .toDouble()
+                                        .round())
                                         .toString() +
                                     ' $sub2Name' +
                                     'and ' +
                                     ((Fraction.fromString(subQuantity) *
-                                                Fraction.fromString(
-                                                    sub3Quantity + '/1'))
-                                            .toDouble()
-                                            .round())
+                                        Fraction.fromString(
+                                            sub3Quantity + '/1'))
+                                        .toDouble()
+                                        .round())
                                         .toString() +
                                     ' $sub3Name',
                                 style: TextStyle(
@@ -190,7 +186,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                             width: 1.0))),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
                                       width: 35,
@@ -241,21 +237,18 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ButtonTheme(
-                                    //minWidth: 50,
-                                    splashColor: Colors.transparent,
-                                    height: 120,
-                                    child: FlatButton(
-                                      color: AppTheme.skThemeColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(7.0),
-                                        side: BorderSide(
-                                          color: AppTheme.skThemeColor,
-                                        ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 120.0),
+                                child: ButtonTheme(
+                                  //minWidth: 50,
+                                  splashColor: Colors.transparent,
+                                  height: 120,
+                                  child: FlatButton(
+                                    color: AppTheme.skThemeColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(7.0),
+                                      side: BorderSide(
+                                        color: AppTheme.skThemeColor,
                                       ),
                                     ),
                                     onPressed: () async {
@@ -268,7 +261,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                             '-unit_name-1'.toString());
                                       } else {
                                         final result =
-                                            await showModalActionSheet<String>(
+                                        await showModalActionSheet<String>(
                                           context: context,
                                           actions: [
                                             SheetAction(
@@ -295,67 +288,37 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                             if (sub2Price != '')
                                               SheetAction(
                                                 icon: Icons.info,
-                                                label: '1 ' + mainName,
+                                                label: '1 ' + sub2Name,
                                                 key: widget.idString +
                                                     '-' +
                                                     widget.versionID +
                                                     '-' +
-                                                    mainPrice +
-                                                    '-unit_name-1',
+                                                    sub2Price +
+                                                    '-sub2_name-1',
                                               ),
                                             if (sub3Price != '')
                                               SheetAction(
                                                 icon: Icons.info,
-                                                label: '1 ' + mainName,
+                                                label: '1 ' + sub3Name,
                                                 key: widget.idString +
                                                     '-' +
                                                     widget.versionID +
                                                     '-' +
-                                                    mainPrice +
-                                                    '-unit_name-1',
+                                                    sub3Price +
+                                                    '-sub3_name-1',
                                               ),
-                                              if (sub1Name != '')
-                                                SheetAction(
-                                                  icon: Icons.info,
-                                                  label: '1 ' + sub1Name,
-                                                  key: widget.idString +
-                                                      '-' +
-                                                      widget.versionID +
-                                                      '-' +
-                                                      sub1Price +
-                                                      '-sub1_name-1',
-                                                ),
-                                              if (sub2Name != '')
-                                                SheetAction(
-                                                  icon: Icons.info,
-                                                  label: '1 ' + sub2Name,
-                                                  key: widget.idString +
-                                                      '-' +
-                                                      widget.versionID +
-                                                      '-' +
-                                                      sub2Price +
-                                                      '-sub2_name-1',
-                                                ),
-                                              if (sub3Name != '')
-                                                SheetAction(
-                                                  icon: Icons.info,
-                                                  label: '1 ' + sub3Name,
-                                                  key: widget.idString +
-                                                      '-' +
-                                                      widget.versionID +
-                                                      '-' +
-                                                      sub3Price +
-                                                      '-sub3_name-1',
-                                                ),
-                                            ],
-                                          );
+                                          ],
+                                        );
 
-                                          widget._callback3(result.toString());
-                                        }
-                                      },
+                                        widget._callback(result.toString());
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.only(right: 120.0),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Icon(
                                             Icons.add,
@@ -365,7 +328,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                             height: 20,
                                           ),
                                           Text(
-                                            'Add to buy list',
+                                            'Add to cart',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
@@ -375,7 +338,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                       ),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
                               Container(
                                 alignment: Alignment.topRight,
@@ -421,7 +384,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             _productDetails('Merchant Name'),
                                             SizedBox(height: 15),
@@ -469,7 +432,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             _productDetails(
                                                 'Main Unit Quantity'),
@@ -495,120 +458,120 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                         ),
                                         sub1Quantity != ""
                                             ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  _productDetails(
-                                                      '#1 Sub Unit Quantity'),
-                                                  SizedBox(height: 15),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Text(
-                                                      '$sub1Quantity $sub1Name',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.blueGrey
-                                                            .withOpacity(1.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      height: 1.5,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.3)),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                ],
-                                              )
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            _productDetails(
+                                                '#1 Sub Unit Quantity'),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Text(
+                                                '$sub1Quantity $sub1Name',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                  FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Container(
+                                                width:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 1.5,
+                                                color: Colors.grey
+                                                    .withOpacity(0.3)),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        )
                                             : Container(),
                                         sub2Quantity != ""
                                             ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  _productDetails(
-                                                      '#2 Sub Unit Quantity'),
-                                                  SizedBox(height: 15),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Text(
-                                                      '$sub2Quantity $sub2Name',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.blueGrey
-                                                            .withOpacity(1.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      height: 1.5,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.3)),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                ],
-                                              )
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            _productDetails(
+                                                '#2 Sub Unit Quantity'),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Text(
+                                                '$sub2Quantity $sub2Name',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                  FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Container(
+                                                width:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 1.5,
+                                                color: Colors.grey
+                                                    .withOpacity(0.3)),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        )
                                             : Container(),
                                         sub3Quantity != ""
                                             ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  _productDetails(
-                                                      '#3 Sub Unit Quantity'),
-                                                  SizedBox(height: 15),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Text(
-                                                      '$sub3Quantity $sub3Name',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.blueGrey
-                                                            .withOpacity(1.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      height: 1.5,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.3)),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                ],
-                                              )
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            _productDetails(
+                                                '#3 Sub Unit Quantity'),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Text(
+                                                '$sub3Quantity $sub3Name',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                  FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Container(
+                                                width:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 1.5,
+                                                color: Colors.grey
+                                                    .withOpacity(0.3)),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        )
                                             : Container(),
                                         Container(
                                           alignment: Alignment.topLeft,
@@ -627,7 +590,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             _productDetails('Main Unit Price'),
                                             SizedBox(height: 15),
@@ -660,120 +623,120 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                         ),
                                         sub1Price != ""
                                             ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  _productDetails(
-                                                      '#1 Sub Unit Price'),
-                                                  SizedBox(height: 15),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Text(
-                                                      '$sub1Price MMK',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.blueGrey
-                                                            .withOpacity(1.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      height: 1.5,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.3)),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                ],
-                                              )
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            _productDetails(
+                                                '#1 Sub Unit Price'),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Text(
+                                                '$sub1Price MMK',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                  FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Container(
+                                                width:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 1.5,
+                                                color: Colors.grey
+                                                    .withOpacity(0.3)),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        )
                                             : Container(),
                                         sub2Price != ""
                                             ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  _productDetails(
-                                                      '#2 Sub Unit Price'),
-                                                  SizedBox(height: 15),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Text(
-                                                      '$sub2Price MMK',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.blueGrey
-                                                            .withOpacity(1.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      height: 1.5,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.3)),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                ],
-                                              )
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            _productDetails(
+                                                '#2 Sub Unit Price'),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Text(
+                                                '$sub2Price MMK',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                  FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Container(
+                                                width:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 1.5,
+                                                color: Colors.grey
+                                                    .withOpacity(0.3)),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        )
                                             : Container(),
                                         sub3Price != ""
                                             ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  _productDetails(
-                                                      '#3 Sub Unit Price'),
-                                                  SizedBox(height: 15),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Text(
-                                                      '$sub3Price MMK',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.blueGrey
-                                                            .withOpacity(1.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      height: 1.5,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.3)),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                ],
-                                              )
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            _productDetails(
+                                                '#3 Sub Unit Price'),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Text(
+                                                '$sub3Price MMK',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                  FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Container(
+                                                width:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 1.5,
+                                                color: Colors.grey
+                                                    .withOpacity(0.3)),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        )
                                             : Container(),
                                       ]),
                                     ),
