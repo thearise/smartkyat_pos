@@ -8,10 +8,15 @@ import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import '../app_theme.dart';
 
 class FillProduct extends StatefulWidget {
-  const FillProduct({
-    Key? key,
-    required this.idString,
-  }) : super(key: key);
+  final _callback;
+  final _callback3;
+  const FillProduct(
+      {Key? key,
+      required this.idString,
+      required void toggleCoinCallback(String str),
+      required void toggleCoinCallback3(String str)})
+      : _callback = toggleCoinCallback,
+        _callback3 = toggleCoinCallback3;
   final String idString;
 
   @override
@@ -107,140 +112,46 @@ class _FillProductState extends State<FillProduct> {
                         ),
                         color: AppTheme.skThemeColor2),
                     child: IconButton(
-                      icon: Icon(
-                        Icons.check,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        prodFieldsValue = [];
-                        if (_formKey.currentState!.validate()) {
-                          DateTime now = DateTime.now();
-                          setState(() {
-                            prodAdding = true;
-                          });
-                          print('validate ' + prodFieldsValue.toString());
-                          var spaceDocId = '';
-
-                          FirebaseFirestore.instance
-                              .collection('space')
-                              .where('user_id',
-                                  isEqualTo:
-                                      FirebaseAuth.instance.currentUser!.uid)
-                              .get()
-                              .then((QuerySnapshot querySnapshot) {
-                            querySnapshot.docs.forEach((doc) {
-                              spaceDocId = doc.id;
-                            });
-
-                            print('space shi p thar');
-                            getStoreId().then((String result2) {
-                              print('store id ' + result2.toString());
-
-                              var subUnitFieldValue = ['', '', '', '', '', ''];
-                              int j = -1;
-                              for (int i = 0; i < cards.length; i++) {
-                                subUnitFieldValue[++j] = nameTECs[i].text;
-                                // subUnitFieldValue[++j] = ageTECs[i].text;
-                                subUnitFieldValue[++j] = jobTECs[i].text;
-                                // var name = nameTECs[i].text;
-                                // var age = ageTECs[i].text;
-                                // var job = jobTECs[i].text;
-                                // entries.add(PersonEntry(name, age, job));
-                              }
-                              print(
-                                  'gg nothing' + subUnitFieldValue.toString());
-
-                              FirebaseFirestore.instance
-                                  .collection('space')
-                                  .doc('0NHIS0Jbn26wsgCzVBKT')
-                                  .collection('shops')
-                                  .doc('PucvhZDuUz3XlkTgzcjb')
-                                  .collection('products')
-                                  .doc(widget.idString)
-                                  .collection('versions')
-                                  .add({
-                                'date': zeroToTen(now.day.toString()) +
-                                    zeroToTen(now.month.toString()) +
-                                    zeroToTen(now.year.toString()),
-                                'unit_qtity': prodFieldsValue[0] + ' 0',
-                                'buy_price': prodFieldsValue[1],
-                                'sale_price': prodFieldsValue[2],
-                                'sub1_unit': subUnitFieldValue[0],
-                                'sub1_sale': subUnitFieldValue[1],
-                                'sub2_unit': subUnitFieldValue[2],
-                                'sub2_sale': subUnitFieldValue[3],
-                                'sub3_unit': subUnitFieldValue[4],
-                                'sub3_sale': subUnitFieldValue[5],
-                              }).then((value) {
-                                print('product added 2');
-
-                                setState(() {
-                                  prodAdding = false;
-                                });
-
-                                Navigator.pop(context);
-
-                                showFlash(
-                                  context: context,
-                                  duration: const Duration(seconds: 2),
-                                  persistent: true,
-                                  builder: (_, controller) {
-                                    return Flash(
-                                      controller: controller,
-                                      backgroundColor: Colors.transparent,
-                                      brightness: Brightness.light,
-                                      // boxShadows: [BoxShadow(blurRadius: 4)],
-                                      // barrierBlur: 3.0,
-                                      // barrierColor: Colors.black38,
-                                      barrierDismissible: true,
-                                      behavior: FlashBehavior.floating,
-                                      position: FlashPosition.top,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 80.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 15.0, right: 15.0),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: Colors.green,
-                                            ),
-                                            child: FlashBar(
-                                              title: Text('Title'),
-                                              content: Text('Hello world!'),
-                                              // showProgressIndicator: true,
-                                              primaryAction: TextButton(
-                                                onPressed: () =>
-                                                    controller.dismiss(),
-                                                child: Text('DISMISS',
-                                                    style: TextStyle(
-                                                        color: Colors.amber)),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              });
-
-                              // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
-                              // .add({
-                              //   'prod_name': prodFieldsValue[0]
-                              // }).then((value) {
-                              //   print('product added 2');
-                              // });
-
-                              // Navigator.pop(context);
-                            });
-                          });
-                        }
-                      },
-                    ),
+                        icon: Icon(
+                          Icons.check,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                        onPressed: () async {
+                          var subUnitFieldValue = ['', '', '', '', '', ''];
+                          int j = -1;
+                          for (int i = 0; i < cards.length; i++) {
+                            subUnitFieldValue[++j] = nameTECs[i].text;
+                            // subUnitFieldValue[++j] = ageTECs[i].text;
+                            subUnitFieldValue[++j] = jobTECs[i].text;
+                            // var name = nameTECs[i].text;
+                            // var age = ageTECs[i].text;
+                            // var job = jobTECs[i].text;
+                            // entries.add(PersonEntry(name, age, job));
+                          }
+                          print('gg nothing' + subUnitFieldValue.toString());
+                          widget._callback3(widget.idString +
+                              '-' +
+                              msaleCtrl.text +
+                              '-' +
+                              munitCtrl.text +
+                              '-' +
+                              mcostCtrl.text +
+                              '-' +
+                              subUnitFieldValue[0].toString() +
+                              '-' +
+                              subUnitFieldValue[1].toString() +
+                              '-' +
+                              subUnitFieldValue[2].toString() +
+                              '-' +
+                              subUnitFieldValue[3].toString() +
+                              '-' +
+                              subUnitFieldValue[4].toString() +
+                              '-' +
+                              subUnitFieldValue[5].toString() +
+                              '-unit_name-1'.toString());
+                          Navigator.pop(context);
+                        }),
                   )
                 ],
               ),

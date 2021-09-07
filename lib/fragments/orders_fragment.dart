@@ -15,7 +15,10 @@ class OrdersFragment extends StatefulWidget {
   _OrdersFragmentState createState() => _OrdersFragmentState();
 }
 
-class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<OrdersFragment>{
+class _OrdersFragmentState extends State<OrdersFragment>
+    with
+        TickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<OrdersFragment> {
   @override
   bool get wantKeepAlive => true;
   var sectionList;
@@ -33,8 +36,6 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     // CollectionReference daily_exps = ;
@@ -49,6 +50,7 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
             children: [
               Align(
                 alignment: Alignment.center,
+
                 child: Padding(
                   // padding: const EdgeInsets.only(top: 138.0),
                   padding: const EdgeInsets.only(top: 125.0),
@@ -556,7 +558,6 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                   ],
                 ),
               ),
-
             ],
           ),
         ),
@@ -617,18 +618,26 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
   changeData(list, snpsht) {
     // list[0].toString()
     snpsht.data!.docs.map((document) async {
-      for(var i=0;i<list.length;i++) {
-        if(document.id.toString() == list[i].split('^')[3]) {
-          list[i] = list[i].split('^')[0] + '^' + list[i].split('^')[1] + '^' + list[i].split('^')[2] + '^' + document['customer_name'].toString() + '&' + list[i].split('^')[3] + '^' + list[i].split('^')[4];
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              document['customer_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4];
         }
-
       }
       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
     }).toList();
 
     // print('changeData ' + snpsht.da);
     return list;
-
   }
 
   sortList(list) {
@@ -639,8 +648,6 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
     return newList.cast<String>();
     // list.sort(alphabetic('name'));
   }
-
-
 
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList[sectionIndex];
@@ -743,12 +750,11 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
   //
   // }
 
-
   addDailyExp(priContext) {
     // myController.clear();
     showModalBottomSheet(
-        enableDrag:false,
-        isScrollControlled:true,
+        enableDrag: false,
+        isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
           return Scaffold(
@@ -770,8 +776,7 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25.0),
                               ),
-                              color: Colors.white.withOpacity(0.5)
-                          ),
+                              color: Colors.white.withOpacity(0.5)),
                         ),
                         SizedBox(
                           height: 14,
@@ -801,7 +806,8 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                                     color: Colors.grey.withOpacity(0.1),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
                                         icon: Icon(
@@ -809,9 +815,7 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                                           size: 20,
                                           color: Colors.transparent,
                                         ),
-                                        onPressed: () {
-                                        },
-
+                                        onPressed: () {},
                                       ),
                                       Text(
                                         "New Expense",
@@ -819,8 +823,7 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                                             color: Colors.black,
                                             fontSize: 17,
                                             fontFamily: 'capsulesans',
-                                            fontWeight: FontWeight.w600
-                                        ),
+                                            fontWeight: FontWeight.w600),
                                         textAlign: TextAlign.left,
                                       ),
                                       IconButton(
@@ -833,9 +836,7 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
                                           Navigator.pop(context);
                                           print('clicked');
                                         },
-
                                       )
-
                                     ],
                                   ),
                                 ),
@@ -857,14 +858,9 @@ class _OrdersFragmentState extends State<OrdersFragment>  with TickerProviderSta
               ],
             ),
           );
-
         });
   }
-
-
-
 }
-
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this._tabBar);
@@ -891,7 +887,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return false;
   }
 }
-
 
 ///Section model example
 ///
@@ -922,8 +917,6 @@ class ExampleSection implements ExpandableListSection<String> {
     this.expanded = expanded;
   }
 }
-
-
 
 // print(item.split('^')[0].substring(0,8));
 // var dateId = '';
