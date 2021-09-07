@@ -11,12 +11,16 @@ bool _isEnable = false;
 
 class VersionDetailsView extends StatefulWidget {
   final _callback;
+  final _callback3;
+
   const VersionDetailsView(
       {Key? key,
       required this.versionID,
       required this.idString,
-      required void toggleCoinCallback(String str)})
-      : _callback = toggleCoinCallback;
+      required void toggleCoinCallback(String str),
+      required void toggleCoinCallback3(String str)})
+      : _callback = toggleCoinCallback,
+        _callback3 = toggleCoinCallback3;
   final String versionID;
   final String idString;
 
@@ -237,85 +241,85 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 120.0),
-                                child: ButtonTheme(
-                                  //minWidth: 50,
-                                  splashColor: Colors.transparent,
-                                  height: 120,
-                                  child: FlatButton(
-                                    color: AppTheme.skThemeColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(7.0),
-                                      side: BorderSide(
-                                        color: AppTheme.skThemeColor,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ButtonTheme(
+                                    //minWidth: 50,
+                                    splashColor: Colors.transparent,
+                                    height: 120,
+                                    child: FlatButton(
+                                      color: AppTheme.skThemeColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(7.0),
+                                        side: BorderSide(
+                                          color: AppTheme.skThemeColor,
+                                        ),
                                       ),
-                                    ),
-                                    onPressed: () async {
-                                      if (sub1Name == '') {
-                                        widget._callback(widget.idString +
-                                            '-' +
-                                            widget.versionID +
-                                            '-' +
-                                            mainPrice +
-                                            '-unit_name-1'.toString());
-                                      } else {
-                                        final result =
-                                            await showModalActionSheet<String>(
-                                          context: context,
-                                          actions: [
-                                            SheetAction(
-                                              icon: Icons.info,
-                                              label: '1 ' + mainName,
-                                              key: widget.idString +
-                                                  '-' +
-                                                  widget.versionID +
-                                                  '-' +
-                                                  mainPrice +
-                                                  '-unit_name-1',
-                                            ),
-                                            if (sub1Name != '')
+                                      onPressed: () async {
+                                        if (sub1Name == '') {
+                                          widget._callback(widget.idString +
+                                              '-' +
+                                              widget.versionID +
+                                              '-' +
+                                              mainPrice +
+                                              '-unit_name-1'.toString());
+                                        } else {
+                                          final result =
+                                              await showModalActionSheet<
+                                                  String>(
+                                            context: context,
+                                            actions: [
                                               SheetAction(
                                                 icon: Icons.info,
-                                                label: '1 ' + sub1Name,
+                                                label: '1 ' + mainName,
                                                 key: widget.idString +
                                                     '-' +
                                                     widget.versionID +
                                                     '-' +
-                                                    sub1Price +
-                                                    '-sub1_name-1',
+                                                    mainPrice +
+                                                    '-unit_name-1',
                                               ),
-                                            if (sub2Name != '')
-                                              SheetAction(
-                                                icon: Icons.info,
-                                                label: '1 ' + sub2Name,
-                                                key: widget.idString +
-                                                    '-' +
-                                                    widget.versionID +
-                                                    '-' +
-                                                    sub2Price +
-                                                    '-sub2_name-1',
-                                              ),
-                                            if (sub3Name != '')
-                                              SheetAction(
-                                                icon: Icons.info,
-                                                label: '1 ' + sub3Name,
-                                                key: widget.idString +
-                                                    '-' +
-                                                    widget.versionID +
-                                                    '-' +
-                                                    sub3Price +
-                                                    '-sub3_name-1',
-                                              ),
-                                          ],
-                                        );
+                                              if (sub1Name != '')
+                                                SheetAction(
+                                                  icon: Icons.info,
+                                                  label: '1 ' + sub1Name,
+                                                  key: widget.idString +
+                                                      '-' +
+                                                      widget.versionID +
+                                                      '-' +
+                                                      sub1Price +
+                                                      '-sub1_name-1',
+                                                ),
+                                              if (sub2Name != '')
+                                                SheetAction(
+                                                  icon: Icons.info,
+                                                  label: '1 ' + sub2Name,
+                                                  key: widget.idString +
+                                                      '-' +
+                                                      widget.versionID +
+                                                      '-' +
+                                                      sub2Price +
+                                                      '-sub2_name-1',
+                                                ),
+                                              if (sub3Name != '')
+                                                SheetAction(
+                                                  icon: Icons.info,
+                                                  label: '1 ' + sub3Name,
+                                                  key: widget.idString +
+                                                      '-' +
+                                                      widget.versionID +
+                                                      '-' +
+                                                      sub3Price +
+                                                      '-sub3_name-1',
+                                                ),
+                                            ],
+                                          );
 
-                                        widget._callback(result.toString());
-                                      }
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 120.0),
+                                          widget._callback(result.toString());
+                                        }
+                                      },
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -328,7 +332,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                             height: 20,
                                           ),
                                           Text(
-                                            'Add to cart',
+                                            'Add to sell list',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
@@ -338,7 +342,108 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                       ),
                                     ),
                                   ),
-                                ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  ButtonTheme(
+                                    //minWidth: 50,
+                                    splashColor: Colors.transparent,
+                                    height: 120,
+                                    child: FlatButton(
+                                      color: AppTheme.skThemeColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(7.0),
+                                        side: BorderSide(
+                                          color: AppTheme.skThemeColor,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        if (sub1Name == '') {
+                                          widget._callback3(widget.idString +
+                                              '-' +
+                                              widget.versionID +
+                                              '-' +
+                                              mainPrice +
+                                              '-unit_name-1');
+                                        } else {
+                                          final result =
+                                              await showModalActionSheet<
+                                                  String>(
+                                            context: context,
+                                            actions: [
+                                              SheetAction(
+                                                icon: Icons.info,
+                                                label: '1 ' + mainName,
+                                                key: widget.idString +
+                                                    '-' +
+                                                    widget.versionID +
+                                                    '-' +
+                                                    mainPrice +
+                                                    '-unit_name-1',
+                                              ),
+                                              if (sub1Name != '')
+                                                SheetAction(
+                                                  icon: Icons.info,
+                                                  label: '1 ' + sub1Name,
+                                                  key: widget.idString +
+                                                      '-' +
+                                                      widget.versionID +
+                                                      '-' +
+                                                      sub1Price +
+                                                      '-sub1_name-1',
+                                                ),
+                                              if (sub2Name != '')
+                                                SheetAction(
+                                                  icon: Icons.info,
+                                                  label: '1 ' + sub2Name,
+                                                  key: widget.idString +
+                                                      '-' +
+                                                      widget.versionID +
+                                                      '-' +
+                                                      sub2Price +
+                                                      '-sub2_name-1',
+                                                ),
+                                              if (sub3Name != '')
+                                                SheetAction(
+                                                  icon: Icons.info,
+                                                  label: '1 ' + sub3Name,
+                                                  key: widget.idString +
+                                                      '-' +
+                                                      widget.versionID +
+                                                      '-' +
+                                                      sub3Price +
+                                                      '-sub3_name-1',
+                                                ),
+                                            ],
+                                          );
+
+                                          widget._callback3(result.toString());
+                                        }
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Icon(
+                                            Icons.add,
+                                            size: 40,
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            'Add to buy list',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Container(
                                 alignment: Alignment.topRight,

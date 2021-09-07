@@ -10,14 +10,17 @@ import 'order_refund_sub.dart';
 
 class OrderInfoSub extends StatefulWidget {
   final _callback;
-  const OrderInfoSub({Key? key, required this.data, required void toggleCoinCallback()}) : _callback = toggleCoinCallback;
+  const OrderInfoSub(
+      {Key? key, required this.data, required void toggleCoinCallback()})
+      : _callback = toggleCoinCallback;
   final String data;
 
   @override
   _OrderInfoSubState createState() => _OrderInfoSubState();
 }
 
-class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<OrderInfoSub>{
+class _OrderInfoSubState extends State<OrderInfoSub>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<OrderInfoSub> {
   @override
   bool get wantKeepAlive => true;
   var docId = '';
@@ -25,9 +28,14 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
   @override
   initState() {
     var innerId = '';
-    FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-    // FirebaseFirestore.instance.collection('space')
-        .where('date', isEqualTo: widget.data.split('^')[0].substring(0,8))
+    FirebaseFirestore.instance
+        .collection('space')
+        .doc('0NHIS0Jbn26wsgCzVBKT')
+        .collection('shops')
+        .doc('PucvhZDuUz3XlkTgzcjb')
+        .collection('orders')
+        // FirebaseFirestore.instance.collection('space')
+        .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -61,7 +69,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
   int totalPrice = 0;
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
           top: true,
@@ -118,271 +125,329 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                   ),
 
                   // orderDateId(widget.data)
-                  if(docId!=null && docId!='')
-                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                      stream: FirebaseFirestore.instance
-                          .collection('space')
-                          .doc('0NHIS0Jbn26wsgCzVBKT')
-                          .collection('shops')
-                          .doc('PucvhZDuUz3XlkTgzcjb')
-                          .collection('orders')
-                          .doc(docId)
-                          .collection('detail')
-                          .doc(widget.data.split('^')[0])
-                          .snapshots(),
-                      builder: (BuildContext context,snapshot2) {
-                        if (snapshot2.hasData) {
-                          var output1 = snapshot2.data!.data();
-                          // print(output1?['subs'].toString());
-                          List prodList = output1?['subs'];
-                          totalPrice = 0;
-                          print(totalPrice.toString() + 'totalPrice ' + prodList.toString());
-                          for(String str in prodList) {
-                            totalPrice += int.parse(str.split('-')[2]) * (int.parse(str.split('-')[4]) - int.parse(str.split('-')[5]));
-
-
-                          }
-
-
-
-                          return Container(
-                            height: 520,
-                            child: ListView(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 20.0, right: 120.0, bottom: 20.0),
-                                  child: ButtonTheme(
-                                    //minWidth: 50,
-                                    splashColor: Colors.transparent,
-                                    height: 120,
-                                    child: FlatButton(
-                                      color: AppTheme.skThemeColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7.0),
-                                        side: BorderSide(
-                                          color: AppTheme.skThemeColor,
+                  if (docId != null && docId != '')
+                    StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                        stream: FirebaseFirestore.instance
+                            .collection('space')
+                            .doc('0NHIS0Jbn26wsgCzVBKT')
+                            .collection('shops')
+                            .doc('PucvhZDuUz3XlkTgzcjb')
+                            .collection('orders')
+                            .doc(docId)
+                            .collection('detail')
+                            .doc(widget.data.split('^')[0])
+                            .snapshots(),
+                        builder: (BuildContext context, snapshot2) {
+                          if (snapshot2.hasData) {
+                            var output1 = snapshot2.data!.data();
+                            // print(output1?['subs'].toString());
+                            List prodList = output1?['subs'];
+                            totalPrice = 0;
+                            print(totalPrice.toString() +
+                                'totalPrice ' +
+                                prodList.toString());
+                            for (String str in prodList) {
+                              totalPrice += int.parse(str.split('-')[2]) *
+                                  (int.parse(str.split('-')[4]) -
+                                      int.parse(str.split('-')[5]));
+                            }
+                            return Container(
+                              height: 520,
+                              child: ListView(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 20.0, right: 120.0, bottom: 20.0),
+                                    child: ButtonTheme(
+                                      //minWidth: 50,
+                                      splashColor: Colors.transparent,
+                                      height: 120,
+                                      child: FlatButton(
+                                        color: AppTheme.skThemeColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(7.0),
+                                          side: BorderSide(
+                                            color: AppTheme.skThemeColor,
+                                          ),
                                         ),
-                                      ),
-                                      onPressed: () async {
-                                        var result = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => OrderRefundsSub(data: widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + totalPrice.toString() + '^' + widget.data.split('^')[3] + '^' + widget.data.split('^')[4], toggleCoinCallback: () {})),
-                                        );
-
-
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(right: 120.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              Icons.add,
-                                              size: 40,
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Text(
-                                              'Refund',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
+                                        onPressed: () async {
+                                          var result = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    OrderRefundsSub(
+                                                        data: widget.data
+                                                                .split('^')[0] +
+                                                            '^' +
+                                                            widget.data
+                                                                .split('^')[1] +
+                                                            '^' +
+                                                            totalPrice
+                                                                .toString() +
+                                                            '^' +
+                                                            widget.data
+                                                                .split('^')[3] +
+                                                            '^' +
+                                                            widget.data
+                                                                .split('^')[4],
+                                                        toggleCoinCallback:
+                                                            () {})),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 120.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.add,
+                                                size: 40,
                                               ),
-                                            ),
-                                          ],
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'Refund',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Text(totalPrice.toString()),
+                                  Text(totalPrice.toString()),
 
-                                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('space')
-                                        .doc('0NHIS0Jbn26wsgCzVBKT')
-                                        .collection('shops')
-                                        .doc('PucvhZDuUz3XlkTgzcjb')
-                                        .collection('customers')
-                                        .doc(widget.data.split('^')[3].split('&')[1])
-                                        .snapshots(),
-                                    builder: (BuildContext context,snapshot2) {
-                                      if (snapshot2.hasData) {
-                                        var output1 = snapshot2.data!.data();
-                                        var mainUnit = output1 ? ['customer_name'];
-                                        return Text(mainUnit.toString());
-                                      }
-                                      return Container();
-                                    }
-                                ),
-
-                                for(int i=0; i < prodList.length; i++)
-                                  if(prodList[i].split('-')[4]!=prodList[i].split('-')[5])
-                                    StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                  StreamBuilder<
+                                          DocumentSnapshot<
+                                              Map<String, dynamic>>>(
                                       stream: FirebaseFirestore.instance
                                           .collection('space')
                                           .doc('0NHIS0Jbn26wsgCzVBKT')
                                           .collection('shops')
                                           .doc('PucvhZDuUz3XlkTgzcjb')
-                                          .collection('products')
-                                          .doc(prodList[i].split('-')[0])
+                                          .collection('customers')
+                                          .doc(widget.data
+                                              .split('^')[3]
+                                              .split('&')[1])
                                           .snapshots(),
-                                      builder: (BuildContext context, snapshot2) {
-                                        if(snapshot2.hasData) {
-                                          var output2 = snapshot2.data!.data();
-                                          
-                                          
-                                          return Slidable(
-                                            key: UniqueKey(),
-                                            actionPane: SlidableDrawerActionPane(),
-                                            actionExtentRatio: 0.25,
-
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: ListTile(
-                                                leading: CircleAvatar(
-                                                  backgroundColor: Colors.indigoAccent,
-                                                  child: Text((int.parse(prodList[i].split('-')[4]) - int.parse(prodList[i].split('-')[5])).toString()),
-                                                  foregroundColor: Colors.white,
-                                                ),
-                                                title: Text(
-                                                  output2?['prod_name'] + ' (' + output2?[prodList[i].split('-')[3]] + ')',
-                                                  style: TextStyle(
-                                                      height: 1
-                                                  ),
-                                                ),
-                                                subtitle: Text(prodList[i].split('-')[2] + ' MMK'),
-                                                trailing: Text((int.parse(prodList[i].split('-')[2])*(int.parse(prodList[i].split('-')[4]) - int.parse(prodList[i].split('-')[5]))).toString()),
-                                              ),
-                                            ),
-                                            dismissal: SlidableDismissal(
-                                              child: SlidableDrawerDismissal(),
-                                              onDismissed: (actionType) {
-                                                // print('here');
-                                                // int tt = 0;
-                                                // prodList.removeAt(i);
-                                                // for(String str in prodList) {
-                                                //   tt += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
-                                                // }
-                                                // // return total.toString();
-                                                //
-                                                // mystate(() {
-                                                //   total = tt.toString();
-                                                // });
-
-                                                // mystate(() {
-                                                //   prodList.removeAt(i);
-                                                // });
-                                              },
-                                            ),
-                                            secondaryActions: <Widget>[
-                                              IconSlideAction(
-                                                caption: 'Delete',
-                                                color: Colors.red,
-                                                icon: Icons.delete,
-                                                onTap: () {
-
-                                                },
-                                              ),
-                                            ],
-                                          );
+                                      builder:
+                                          (BuildContext context, snapshot2) {
+                                        if (snapshot2.hasData) {
+                                          var output1 = snapshot2.data!.data();
+                                          var mainUnit =
+                                              output1?['customer_name'];
+                                          return Text(mainUnit.toString());
                                         }
                                         return Container();
-                                      },
-                                    ),
+                                      }),
 
+                                  for (int i = 0; i < prodList.length; i++)
+                                    if (prodList[i].split('-')[4] !=
+                                        prodList[i].split('-')[5])
+                                      StreamBuilder<
+                                          DocumentSnapshot<
+                                              Map<String, dynamic>>>(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('space')
+                                            .doc('0NHIS0Jbn26wsgCzVBKT')
+                                            .collection('shops')
+                                            .doc('PucvhZDuUz3XlkTgzcjb')
+                                            .collection('products')
+                                            .doc(prodList[i].split('-')[0])
+                                            .snapshots(),
+                                        builder:
+                                            (BuildContext context, snapshot2) {
+                                          if (snapshot2.hasData) {
+                                            var output2 =
+                                                snapshot2.data!.data();
 
-                                Text('Returns'),
-
-                                for(int i=0; i < prodList.length; i++)
-                                  if(prodList[i].split('-')[5]!='0')
-                                    StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                      stream: FirebaseFirestore.instance
-                                          .collection('space')
-                                          .doc('0NHIS0Jbn26wsgCzVBKT')
-                                          .collection('shops')
-                                          .doc('PucvhZDuUz3XlkTgzcjb')
-                                          .collection('products')
-                                          .doc(prodList[i].split('-')[0])
-                                          .snapshots(),
-                                      builder: (BuildContext context, snapshot2) {
-                                        if(snapshot2.hasData) {
-                                          var output2 = snapshot2.data!.data();
-                                          return Slidable(
-                                            key: UniqueKey(),
-                                            actionPane: SlidableDrawerActionPane(),
-                                            actionExtentRatio: 0.25,
-
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: ListTile(
-                                                leading: CircleAvatar(
-                                                  backgroundColor: Colors.indigoAccent,
-                                                  child: Text(prodList[i].split('-')[5]),
-                                                  foregroundColor: Colors.white,
-                                                ),
-                                                title: Text(
-                                                  output2?['prod_name'] + ' (' + output2?[prodList[i].split('-')[3]] + ')',
-                                                  style: TextStyle(
-                                                      height: 1
+                                            return Slidable(
+                                              key: UniqueKey(),
+                                              actionPane:
+                                                  SlidableDrawerActionPane(),
+                                              actionExtentRatio: 0.25,
+                                              child: Container(
+                                                color: Colors.white,
+                                                child: ListTile(
+                                                  leading: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.indigoAccent,
+                                                    child: Text((int.parse(
+                                                                prodList[i]
+                                                                        .split(
+                                                                            '-')[
+                                                                    4]) -
+                                                            int.parse(prodList[
+                                                                    i]
+                                                                .split('-')[5]))
+                                                        .toString()),
+                                                    foregroundColor:
+                                                        Colors.white,
                                                   ),
+                                                  title: Text(
+                                                    output2?['prod_name'] +
+                                                        ' (' +
+                                                        output2?[prodList[i]
+                                                            .split('-')[3]] +
+                                                        ')',
+                                                    style: TextStyle(height: 1),
+                                                  ),
+                                                  subtitle: Text(prodList[i]
+                                                          .split('-')[2] +
+                                                      ' MMK'),
+                                                  trailing: Text((int.parse(
+                                                              prodList[i].split(
+                                                                  '-')[2]) *
+                                                          (int.parse(prodList[i]
+                                                                  .split(
+                                                                      '-')[4]) -
+                                                              int.parse(prodList[
+                                                                      i]
+                                                                  .split(
+                                                                      '-')[5])))
+                                                      .toString()),
                                                 ),
-                                                subtitle: Text(prodList[i].split('-')[2] + ' MMK'),
-                                                trailing: Text((int.parse(prodList[i].split('-')[2])*int.parse(prodList[i].split('-')[5])).toString()),
                                               ),
-                                            ),
-                                            dismissal: SlidableDismissal(
-                                              child: SlidableDrawerDismissal(),
-                                              onDismissed: (actionType) {
-                                                // print('here');
-                                                // int tt = 0;
-                                                // prodList.removeAt(i);
-                                                // for(String str in prodList) {
-                                                //   tt += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
-                                                // }
-                                                // // return total.toString();
-                                                //
-                                                // mystate(() {
-                                                //   total = tt.toString();
-                                                // });
+                                              dismissal: SlidableDismissal(
+                                                child:
+                                                    SlidableDrawerDismissal(),
+                                                onDismissed: (actionType) {
+                                                  // print('here');
+                                                  // int tt = 0;
+                                                  // prodList.removeAt(i);
+                                                  // for(String str in prodList) {
+                                                  //   tt += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
+                                                  // }
+                                                  // // return total.toString();
+                                                  //
+                                                  // mystate(() {
+                                                  //   total = tt.toString();
+                                                  // });
 
-                                                // mystate(() {
-                                                //   prodList.removeAt(i);
-                                                // });
-                                              },
-                                            ),
-                                            secondaryActions: <Widget>[
-                                              IconSlideAction(
-                                                caption: 'Delete',
-                                                color: Colors.red,
-                                                icon: Icons.delete,
-                                                onTap: () {
-
+                                                  // mystate(() {
+                                                  //   prodList.removeAt(i);
+                                                  // });
                                                 },
                                               ),
-                                            ],
-                                          );
-                                        }
-                                        return Container();
-                                      },
-                                    )
+                                              secondaryActions: <Widget>[
+                                                IconSlideAction(
+                                                  caption: 'Delete',
+                                                  color: Colors.red,
+                                                  icon: Icons.delete,
+                                                  onTap: () {},
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                          return Container();
+                                        },
+                                      ),
 
+                                  Text('Returns'),
 
+                                  for (int i = 0; i < prodList.length; i++)
+                                    if (prodList[i].split('-')[5] != '0')
+                                      StreamBuilder<
+                                          DocumentSnapshot<
+                                              Map<String, dynamic>>>(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('space')
+                                            .doc('0NHIS0Jbn26wsgCzVBKT')
+                                            .collection('shops')
+                                            .doc('PucvhZDuUz3XlkTgzcjb')
+                                            .collection('products')
+                                            .doc(prodList[i].split('-')[0])
+                                            .snapshots(),
+                                        builder:
+                                            (BuildContext context, snapshot2) {
+                                          if (snapshot2.hasData) {
+                                            var output2 =
+                                                snapshot2.data!.data();
+                                            return Slidable(
+                                              key: UniqueKey(),
+                                              actionPane:
+                                                  SlidableDrawerActionPane(),
+                                              actionExtentRatio: 0.25,
+                                              child: Container(
+                                                color: Colors.white,
+                                                child: ListTile(
+                                                  leading: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.indigoAccent,
+                                                    child: Text(prodList[i]
+                                                        .split('-')[5]),
+                                                    foregroundColor:
+                                                        Colors.white,
+                                                  ),
+                                                  title: Text(
+                                                    output2?['prod_name'] +
+                                                        ' (' +
+                                                        output2?[prodList[i]
+                                                            .split('-')[3]] +
+                                                        ')',
+                                                    style: TextStyle(height: 1),
+                                                  ),
+                                                  subtitle: Text(prodList[i]
+                                                          .split('-')[2] +
+                                                      ' MMK'),
+                                                  trailing: Text((int.parse(
+                                                              prodList[i].split(
+                                                                  '-')[2]) *
+                                                          int.parse(prodList[i]
+                                                              .split('-')[5]))
+                                                      .toString()),
+                                                ),
+                                              ),
+                                              dismissal: SlidableDismissal(
+                                                child:
+                                                    SlidableDrawerDismissal(),
+                                                onDismissed: (actionType) {
+                                                  // print('here');
+                                                  // int tt = 0;
+                                                  // prodList.removeAt(i);
+                                                  // for(String str in prodList) {
+                                                  //   tt += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
+                                                  // }
+                                                  // // return total.toString();
+                                                  //
+                                                  // mystate(() {
+                                                  //   total = tt.toString();
+                                                  // });
 
+                                                  // mystate(() {
+                                                  //   prodList.removeAt(i);
+                                                  // });
+                                                },
+                                              ),
+                                              secondaryActions: <Widget>[
+                                                IconSlideAction(
+                                                  caption: 'Delete',
+                                                  color: Colors.red,
+                                                  icon: Icons.delete,
+                                                  onTap: () {},
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                          return Container();
+                                        },
+                                      )
 
-                                // orderLoading?Text('Loading'):Text('')
-                              ],
-                            ),
-                          );
+                                  // orderLoading?Text('Loading'):Text('')
+                                ],
+                              ),
+                            );
+                          }
 
-                        }
-
-                        return Container();
-                      }
-                  )
-
+                          return Container();
+                        })
 
                   // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                   //     stream: FirebaseFirestore.instance
@@ -838,18 +903,16 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                   //       return Container();
                   //     }
                   // )
-
                 ]),
           )),
     );
   }
 
-
   addDailyExp(priContext) {
     // myController.clear();
     showModalBottomSheet(
-        enableDrag:false,
-        isScrollControlled:true,
+        enableDrag: false,
+        isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
           return Scaffold(
@@ -871,8 +934,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25.0),
                               ),
-                              color: Colors.white.withOpacity(0.5)
-                          ),
+                              color: Colors.white.withOpacity(0.5)),
                         ),
                         SizedBox(
                           height: 14,
@@ -902,7 +964,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                                     color: Colors.grey.withOpacity(0.1),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
                                         icon: Icon(
@@ -910,9 +973,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                                           size: 20,
                                           color: Colors.transparent,
                                         ),
-                                        onPressed: () {
-                                        },
-
+                                        onPressed: () {},
                                       ),
                                       Text(
                                         "New Expense",
@@ -920,8 +981,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                                             color: Colors.black,
                                             fontSize: 17,
                                             fontFamily: 'capsulesans',
-                                            fontWeight: FontWeight.w600
-                                        ),
+                                            fontWeight: FontWeight.w600),
                                         textAlign: TextAlign.left,
                                       ),
                                       IconButton(
@@ -934,9 +994,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
                                           Navigator.pop(context);
                                           print('clicked');
                                         },
-
                                       )
-
                                     ],
                                   ),
                                 ),
@@ -958,8 +1016,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>  with TickerProviderStateMi
               ],
             ),
           );
-
         });
   }
 }
-

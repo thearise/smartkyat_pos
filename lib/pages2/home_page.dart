@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
+import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
@@ -45,6 +46,10 @@ class HomePageState extends State<HomePage>
       onSlideAnimationChanged: handleSlideAnimationChanged,
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
     );
+    slidableController1 = SlidableController(
+      onSlideAnimationChanged: handleSlideAnimationChanged,
+      onSlideIsOpenChanged: handleSlideIsOpenChanged,
+    );
 
     WidgetsFlutterBinding.ensureInitialized();
     setState(() {
@@ -78,14 +83,23 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: ProductsFragment(
-              toggleCoinCallback: addNewProd2, toggleCoinCallback2: addProduct),
+              toggleCoinCallback: addNewProd2,
+              toggleCoinCallback2: addProduct,
+              toggleCoinCallback3: addProduct3),
         ),
         TabItem(
           tabName: "Settings",
           icon: Icon(
             Icons.add,
           ),
-          page: MerchantFragment(),
+          page: MerchantsFragment(toggleCoinCallback3: addMerchant2Cart),
+        ),
+        TabItem(
+          tabName: "Settings",
+          icon: Icon(
+            Icons.add,
+          ),
+          page: BuyListFragment(),
         ),
       ];
     });
@@ -373,6 +387,42 @@ class HomePageState extends State<HomePage>
                       ),
                     ),
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectTab(5);
+                      });
+
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: new Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.transparent),
+                        height: 55,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
+                              child: Icon(
+                                Icons.home_filled,
+                                size: 26,
+                              ),
+                            ),
+                            Text(
+                              'Buy List',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ]),
               ),
             ],
@@ -434,7 +484,12 @@ class HomePageState extends State<HomePage>
                                     top: 15.0, left: 15.0, right: 15.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    addDailyExp(context);
+                                    if (prodList.length == 0) {
+                                      addDailyExp2(context);
+                                    } else {
+                                      addDailyExp(context);
+                                    }
+                                    print(prodList2);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -537,23 +592,331 @@ class HomePageState extends State<HomePage>
   List<String> prodList = [];
   late final SlidableController slidableController;
   addProduct(data) {
-    for(var i = 0; i<prodList.length; i++){
-      if(prodList[i].split('-')[0]==data.split('-')[0] && prodList[i].split('-')[1]==data.split('-')[1] && prodList[i].split('-')[3]==data.split('-')[3]) {
-        data = data.split('-')[0] + '-' +data.split('-')[1] + '-' + data.split('-')[2] + '-' +data.split('-')[3] + '-' + (int.parse(prodList[i].split('-')[4]) + 1).toString();
+    for (var i = 0; i < prodList.length; i++) {
+      if (prodList[i].split('-')[0] == data.split('-')[0] &&
+          prodList[i].split('-')[1] == data.split('-')[1] &&
+          prodList[i].split('-')[3] == data.split('-')[3]) {
+        data = data.split('-')[0] +
+            '-' +
+            data.split('-')[1] +
+            '-' +
+            data.split('-')[2] +
+            '-' +
+            data.split('-')[3] +
+            '-' +
+            (int.parse(prodList[i].split('-')[4]) + 1).toString();
         prodList[i] = data + '-0';
         return;
       }
     }
-    if(data!='null') {
+    if (data != 'null') {
       prodList.add(data + '-0');
     }
+  }
 
+  List<String> prodList2 = [];
+  late final SlidableController slidableController1;
+  addProduct3(data) {
+    if (data != 'null') {
+      prodList2.add(data + '-0-');
+    }
   }
 
   String customerId = 'name-name';
 
   addCustomer2Cart(data) {
     customerId = data.toString();
+  }
+
+  String merchantId = 'name-name';
+
+  addMerchant2Cart(data) {
+    merchantId = data.toString();
+  }
+
+  addString2Sub(data){
+
+    DateTime now =
+    DateTime.now();
+    CollectionReference
+    daily_order =
+    FirebaseFirestore
+        .instance
+        .collection(
+        'space')
+        .doc(
+        '0NHIS0Jbn26wsgCzVBKT')
+        .collection(
+        'shops')
+        .doc(
+        'PucvhZDuUz3XlkTgzcjb')
+        .collection(
+        'buyOrders');
+    var length = 0;
+    setState(() {
+      orderLoading = true;
+    });
+
+    print('order creating');
+
+    FirebaseFirestore
+        .instance
+        .collection('space')
+        .doc(
+        '0NHIS0Jbn26wsgCzVBKT')
+        .collection('shops')
+        .doc(
+        'PucvhZDuUz3XlkTgzcjb')
+        .collection(
+        'buyOrders')
+    // FirebaseFirestore.instance.collection('space')
+        .get()
+        .then((QuerySnapshot
+    querySnapshot) async {
+      querySnapshot.docs
+          .forEach((doc) {
+        length += int.parse(
+            doc['daily_order']
+                .length
+                .toString());
+      });
+      length =
+          1000 + length + 1;
+
+      //Check new date or not
+      var dateExist = false;
+      var dateId = '';
+
+      FirebaseFirestore
+          .instance
+          .collection(
+          'space')
+          .doc(
+          '0NHIS0Jbn26wsgCzVBKT')
+          .collection(
+          'shops')
+          .doc(
+          'PucvhZDuUz3XlkTgzcjb')
+          .collection(
+          'buyOrders')
+      // FirebaseFirestore.instance.collection('space')
+          .where('date',
+          isEqualTo: now
+              .year
+              .toString() +
+              zeroToTen(now
+                  .month
+                  .toString()) +
+              zeroToTen(now
+                  .day
+                  .toString()))
+          .get()
+          .then((QuerySnapshot
+      querySnapshot) {
+        querySnapshot.docs
+            .forEach((doc) {
+          dateExist = true;
+          dateId = doc.id;
+        });
+
+        if (dateExist) {
+          daily_order
+              .doc(dateId)
+              .update({
+            'daily_order':
+            FieldValue
+                .arrayUnion([
+              now.year.toString() +
+                  zeroToTen(now
+                      .month
+                      .toString()) +
+                  zeroToTen(now
+                      .day
+                      .toString()) +
+                  zeroToTen(now
+                      .hour
+                      .toString()) +
+                  zeroToTen(now
+                      .minute
+                      .toString()) +
+                  zeroToTen(now
+                      .second
+                      .toString()) +
+                  deviceIdNum
+                      .toString() +
+                  length
+                      .toString() +
+                  '^' +
+                  deviceIdNum
+                      .toString() +
+                  '-' +
+                  length
+                      .toString() +
+                  '^' +
+                  TtlProdListPrice2() +
+                  '^' +
+                  merchantId
+                      .split(
+                      '-')[0] +
+                  '^pf'
+            ])
+          }).then((value) {
+            print(
+                'User updated');
+            setState(() {
+              orderLoading =
+              false;
+            });
+
+            FirebaseFirestore
+                .instance
+                .collection(
+                'space')
+                .doc(
+                '0NHIS0Jbn26wsgCzVBKT')
+                .collection(
+                'shops')
+                .doc(
+                'PucvhZDuUz3XlkTgzcjb')
+                .collection(
+                'buyOrders')
+                .doc(dateId)
+                .collection(
+                'expansion')
+                .doc(now
+                .year
+                .toString() +
+                zeroToTen(now
+                    .month
+                    .toString()) +
+                zeroToTen(now
+                    .day
+                    .toString()) +
+                zeroToTen(now
+                    .hour
+                    .toString()) +
+                zeroToTen(now
+                    .minute
+                    .toString()) +
+                zeroToTen(now
+                    .second
+                    .toString()) +
+                deviceIdNum
+                    .toString() +
+                length
+                    .toString())
+                .set({
+              'main':
+              'total',
+              'subs':
+              data,
+            }).then((value) {
+              print(
+                  'order added');
+            });
+          });
+        } else {
+          daily_order.add({
+            'daily_order': [
+              now.year.toString() +
+                  zeroToTen(now
+                      .month
+                      .toString()) +
+                  zeroToTen(now
+                      .day
+                      .toString()) +
+                  zeroToTen(now
+                      .hour
+                      .toString()) +
+                  zeroToTen(now
+                      .minute
+                      .toString()) +
+                  zeroToTen(now
+                      .second
+                      .toString()) +
+                  deviceIdNum
+                      .toString() +
+                  length
+                      .toString() +
+                  '^' +
+                  deviceIdNum
+                      .toString() +
+                  '-' +
+                  length
+                      .toString() +
+                  '^' +
+                  TtlProdListPrice2() +
+                  '^' +
+                  merchantId
+                      .split(
+                      '-')[0] +
+                  '^pf'
+            ],
+            'date': now.year
+                .toString() +
+                zeroToTen(now
+                    .month
+                    .toString()) +
+                zeroToTen(now
+                    .day
+                    .toString())
+          }).then((value) {
+            print(
+                'order added');
+
+            FirebaseFirestore
+                .instance
+                .collection(
+                'space')
+                .doc(
+                '0NHIS0Jbn26wsgCzVBKT')
+                .collection(
+                'shops')
+                .doc(
+                'PucvhZDuUz3XlkTgzcjb')
+                .collection(
+                'buyOrders')
+                .doc(value
+                .id)
+                .collection(
+                'expansion')
+                .doc(now
+                .year
+                .toString() +
+                zeroToTen(now
+                    .month
+                    .toString()) +
+                zeroToTen(now
+                    .day
+                    .toString()) +
+                zeroToTen(now
+                    .hour
+                    .toString()) +
+                zeroToTen(now
+                    .minute
+                    .toString()) +
+                zeroToTen(now
+                    .second
+                    .toString()) +
+                deviceIdNum
+                    .toString() +
+                length
+                    .toString())
+                .set({
+              'main':
+              'total',
+              'subs':
+              prodList2,
+            }).then((value) {
+              print(
+                  'order added');
+            });
+          });
+        }
+      });
+
+    });
+
   }
 
   addDailyExp(priContext) {
@@ -585,8 +948,7 @@ class HomePageState extends State<HomePage>
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(25.0),
                                   ),
-                                  color: Colors.white.withOpacity(0.5)
-                              ),
+                                  color: Colors.white.withOpacity(0.5)),
                             ),
                             SizedBox(
                               height: 14,
@@ -607,23 +969,28 @@ class HomePageState extends State<HomePage>
                                     Container(
                                       height: 40,
                                       decoration: BoxDecoration(
-
-                                          border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))
-                                      ),
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3),
+                                                  width: 1.0))),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
+                                        padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15.0, top: 0.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
                                               width: 30,
                                               height: 30,
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
+                                                  borderRadius:
+                                                      BorderRadius.all(
                                                     Radius.circular(20.0),
                                                   ),
-                                                  color: Colors.grey.withOpacity(0.3)
-                                              ),
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)),
                                               child: IconButton(
                                                 icon: Icon(
                                                   Icons.close,
@@ -633,7 +1000,6 @@ class HomePageState extends State<HomePage>
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 },
-
                                               ),
                                             ),
                                             Text(
@@ -642,8 +1008,7 @@ class HomePageState extends State<HomePage>
                                                   color: Colors.black,
                                                   fontSize: 17,
                                                   fontFamily: 'capsulesans',
-                                                  fontWeight: FontWeight.w600
-                                              ),
+                                                  fontWeight: FontWeight.w600),
                                               textAlign: TextAlign.left,
                                             ),
                                             Container(
@@ -667,19 +1032,23 @@ class HomePageState extends State<HomePage>
                                               //
                                               // ),
                                             )
-
                                           ],
                                         ),
                                       ),
                                     ),
                                     // checkoutCart()
                                     Container(
-                                      height: MediaQuery.of(context).size.height-105,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              105,
                                       width: double.infinity,
                                       child: Stack(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                                            padding: EdgeInsets.only(
+                                                left: 15.0,
+                                                right: 15.0,
+                                                top: 15.0),
                                             child: Row(
                                               children: [
                                                 GestureDetector(
@@ -687,22 +1056,33 @@ class HomePageState extends State<HomePage>
                                                     // addCounter();/z
                                                   },
                                                   child: Container(
-                                                    width: (MediaQuery.of(context).size.width/2)-22.5,
+                                                    width:
+                                                        (MediaQuery.of(context)
+                                                                    .size
+                                                                    .width /
+                                                                2) -
+                                                            22.5,
                                                     height: 55,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
-                                                        BorderRadius.circular(10.0),
-                                                        color: Colors.grey.withOpacity(0.2)
-                                                    ),
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                        color: Colors.grey
+                                                            .withOpacity(0.2)),
                                                     child: Padding(
-                                                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 15.0,
+                                                              bottom: 15.0),
                                                       child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           Expanded(
-                                                            child: GestureDetector(
+                                                            child:
+                                                                GestureDetector(
                                                               onTap: () {
-
                                                                 mystate(() {
                                                                   prodList = [];
                                                                 });
@@ -788,18 +1168,32 @@ class HomePageState extends State<HomePage>
                                                                 // });
                                                               },
                                                               child: Padding(
-                                                                padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                                                                child: Container(child:
-                                                                Text(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            8.0,
+                                                                        right:
+                                                                            8.0,
+                                                                        bottom:
+                                                                            3.0),
+                                                                child: Container(
+                                                                    child: Text(
                                                                   'Clear cart',
-                                                                  textAlign: TextAlign.center,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
                                                                   style: TextStyle(
-                                                                      fontSize: 18,
-                                                                      fontWeight: FontWeight.w600,
-                                                                      color: Colors.black.withOpacity(0.6)
-                                                                  ),
-                                                                )
-                                                                ),
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      color: Colors
+                                                                          .black
+                                                                          .withOpacity(
+                                                                              0.6)),
+                                                                )),
                                                               ),
                                                             ),
                                                           ),
@@ -808,43 +1202,78 @@ class HomePageState extends State<HomePage>
                                                     ),
                                                   ),
                                                 ),
-                                                SizedBox(width: 15.0,),
+                                                SizedBox(
+                                                  width: 15.0,
+                                                ),
                                                 Container(
-                                                  width: (MediaQuery.of(context).size.width/2)-22.5,
+                                                  width: (MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          2) -
+                                                      22.5,
                                                   height: 55,
                                                   decoration: BoxDecoration(
                                                       borderRadius:
-                                                      BorderRadius.circular(10.0),
-                                                      color: Colors.grey.withOpacity(0.2)
-                                                  ),
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      color: Colors.grey
+                                                          .withOpacity(0.2)),
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15.0,
+                                                            bottom: 15.0),
                                                     child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: [
                                                         Expanded(
-                                                          child: GestureDetector(
+                                                          child:
+                                                              GestureDetector(
                                                             onTap: () {
+                                                              for (var i = 0;
+                                                                  i <
+                                                                      prodList2
+                                                                          .length;
+                                                                  i++) {
+                                                                print('Lee ' +
+                                                                    prodList2[i]
+                                                                        .split(
+                                                                            '-')[5]);
+                                                              }
                                                               // DateTime now = DateTime.now();
                                                               // print(now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString());
                                                               // mystate(() {
                                                               //   total = 'Total yay';
                                                               // });
-
                                                             },
                                                             child: Padding(
-                                                              padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                                                              child: Container(child:
-                                                              Text(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 8.0,
+                                                                      right:
+                                                                          8.0,
+                                                                      bottom:
+                                                                          3.0),
+                                                              child: Container(
+                                                                  child: Text(
                                                                 'More actions',
-                                                                textAlign: TextAlign.center,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
                                                                 style: TextStyle(
-                                                                    fontSize: 18,
-                                                                    fontWeight: FontWeight.w600,
-                                                                    color: Colors.black.withOpacity(0.6)
-                                                                ),
-                                                              )
-                                                              ),
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.6)),
+                                                              )),
                                                             ),
                                                           ),
                                                         ),
@@ -856,174 +1285,238 @@ class HomePageState extends State<HomePage>
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 80.0, left: 0.0, right: 0.0),
+                                            padding: const EdgeInsets.only(
+                                                top: 80.0,
+                                                left: 0.0,
+                                                right: 0.0),
                                             child: Container(
                                                 child: ListView(
-                                                  children: [
-                                                    Text(customerId.split('-')[1]),
-                                                    for(int i=0; i < prodList.length; i++)
-                                                      Text(prodList[i]),
+                                              children: [
+                                                Text(customerId.split('-')[1]),
+                                                for (int i = 0;
+                                                    i < prodList.length;
+                                                    i++)
+                                                  Text(prodList[i]),
 
-                                                    for(int i=0; i < prodList.length; i++)
+                                                for (int i = 0;
+                                                    i < prodList.length;
+                                                    i++)
 
-                                                      // Slidable(
-                                                      //   key: UniqueKey(),
-                                                      //   // controller: slidableController,
-                                                      //   direction: Axis.horizontal,
-                                                      //   dismissal: SlidableDismissal(
-                                                      //     child: SlidableDrawerDismissal(),
-                                                      //     onDismissed: (actionType) {
-                                                      //       mystate(() {
-                                                      //         prodList.removeAt(i);
-                                                      //       });
-                                                      //       // return true;
-                                                      //     },
-                                                      //   ),
-                                                      //   actionPane: SlidableDrawerActionPane(),
-                                                      //   // actionExtentRatio: 0.25,
-                                                      //   child: ListTile(
-                                                      //     leading: CircleAvatar(
-                                                      //       backgroundColor: Colors.indigoAccent,
-                                                      //       child: Text(prodList[i].split('-')[4]),
-                                                      //       foregroundColor: Colors.white,
-                                                      //     ),
-                                                      //     title: Text(
-                                                      //       'Text',
-                                                      //       // output2?['prod_name'] + ' (' + output2?[prodList[i].split('-')[3]] + ')',
-                                                      //       style: TextStyle(
-                                                      //           height: 1
-                                                      //       ),
-                                                      //     )
-                                                      //   ),
-                                                      //   actions: <Widget>[
-                                                      //     IconSlideAction(
-                                                      //       caption: 'Archive',
-                                                      //       color: Colors.blue,
-                                                      //       icon: Icons.archive,
-                                                      //       // onTap: () => _showSnackBar(context, 'Archive'),
-                                                      //     ),
-                                                      //     IconSlideAction(
-                                                      //       caption: 'Share',
-                                                      //       color: Colors.indigo,
-                                                      //       icon: Icons.share,
-                                                      //       // onTap: () => _showSnackBar(context, 'Share'),
-                                                      //     ),
-                                                      //   ],
-                                                      //   secondaryActions: <Widget>[
-                                                      //     Container(
-                                                      //       height: 800,
-                                                      //       color: Colors.green,
-                                                      //       child: Text('a'),
-                                                      //     ),
-                                                      //     IconSlideAction(
-                                                      //       caption: 'More',
-                                                      //       color: Colors.grey.shade200,
-                                                      //       icon: Icons.more_horiz,
-                                                      //       // onTap: () => _showSnackBar(context, 'More'),
-                                                      //       closeOnTap: false,
-                                                      //     ),
-                                                      //     IconSlideAction(
-                                                      //       caption: 'Delete',
-                                                      //       color: Colors.red,
-                                                      //       icon: Icons.delete,
-                                                      //       // onTap: () => _showSnackBar(context, 'Delete'),
-                                                      //     ),
-                                                      //   ],
-                                                      // )
+                                                  // Slidable(
+                                                  //   key: UniqueKey(),
+                                                  //   // controller: slidableController,
+                                                  //   direction: Axis.horizontal,
+                                                  //   dismissal: SlidableDismissal(
+                                                  //     child: SlidableDrawerDismissal(),
+                                                  //     onDismissed: (actionType) {
+                                                  //       mystate(() {
+                                                  //         prodList.removeAt(i);
+                                                  //       });
+                                                  //       // return true;
+                                                  //     },
+                                                  //   ),
+                                                  //   actionPane: SlidableDrawerActionPane(),
+                                                  //   // actionExtentRatio: 0.25,
+                                                  //   child: ListTile(
+                                                  //     leading: CircleAvatar(
+                                                  //       backgroundColor: Colors.indigoAccent,
+                                                  //       child: Text(prodList[i].split('-')[4]),
+                                                  //       foregroundColor: Colors.white,
+                                                  //     ),
+                                                  //     title: Text(
+                                                  //       'Text',
+                                                  //       // output2?['prod_name'] + ' (' + output2?[prodList[i].split('-')[3]] + ')',
+                                                  //       style: TextStyle(
+                                                  //           height: 1
+                                                  //       ),
+                                                  //     )
+                                                  //   ),
+                                                  //   actions: <Widget>[
+                                                  //     IconSlideAction(
+                                                  //       caption: 'Archive',
+                                                  //       color: Colors.blue,
+                                                  //       icon: Icons.archive,
+                                                  //       // onTap: () => _showSnackBar(context, 'Archive'),
+                                                  //     ),
+                                                  //     IconSlideAction(
+                                                  //       caption: 'Share',
+                                                  //       color: Colors.indigo,
+                                                  //       icon: Icons.share,
+                                                  //       // onTap: () => _showSnackBar(context, 'Share'),
+                                                  //     ),
+                                                  //   ],
+                                                  //   secondaryActions: <Widget>[
+                                                  //     Container(
+                                                  //       height: 800,
+                                                  //       color: Colors.green,
+                                                  //       child: Text('a'),
+                                                  //     ),
+                                                  //     IconSlideAction(
+                                                  //       caption: 'More',
+                                                  //       color: Colors.grey.shade200,
+                                                  //       icon: Icons.more_horiz,
+                                                  //       // onTap: () => _showSnackBar(context, 'More'),
+                                                  //       closeOnTap: false,
+                                                  //     ),
+                                                  //     IconSlideAction(
+                                                  //       caption: 'Delete',
+                                                  //       color: Colors.red,
+                                                  //       icon: Icons.delete,
+                                                  //       // onTap: () => _showSnackBar(context, 'Delete'),
+                                                  //     ),
+                                                  //   ],
+                                                  // )
 
-                                                      StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                                        stream: FirebaseFirestore.instance
-                                                            .collection('space')
-                                                            .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                            .collection('shops')
-                                                            .doc('PucvhZDuUz3XlkTgzcjb')
-                                                            .collection('products')
-                                                            .doc(prodList[i].split('-')[0])
-                                                            .snapshots(),
-                                                        builder: (BuildContext context, snapshot2) {
-                                                          if(snapshot2.hasData) {
-                                                            var output2 = snapshot2.data!.data();
-                                                            return Slidable(
-                                                              key: UniqueKey(),
-                                                              actionPane: SlidableDrawerActionPane(),
-                                                              actionExtentRatio: 0.25,
-
-                                                              child: Container(
-                                                                color: Colors.white,
-                                                                child: ListTile(
-                                                                  leading: CircleAvatar(
-                                                                    backgroundColor: Colors.indigoAccent,
-                                                                    child: Text(prodList[i].split('-')[4]),
-                                                                    foregroundColor: Colors.white,
-                                                                  ),
-                                                                  title: Text(
-                                                                    output2?['prod_name'] + ' (' + output2?[prodList[i].split('-')[3]] + ')',
-                                                                    style: TextStyle(
-                                                                        height: 1
-                                                                    ),
-                                                                  ),
-                                                                  subtitle: Text(prodList[i].split('-')[2] + ' MMK'),
-                                                                  trailing: Text((int.parse(prodList[i].split('-')[2])*int.parse(prodList[i].split('-')[4])).toString()),
-                                                                ),
+                                                  StreamBuilder<
+                                                      DocumentSnapshot<
+                                                          Map<String,
+                                                              dynamic>>>(
+                                                    stream: FirebaseFirestore
+                                                        .instance
+                                                        .collection('space')
+                                                        .doc(
+                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                        .collection('shops')
+                                                        .doc(
+                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                        .collection('products')
+                                                        .doc(prodList[i]
+                                                            .split('-')[0])
+                                                        .snapshots(),
+                                                    builder:
+                                                        (BuildContext context,
+                                                            snapshot2) {
+                                                      if (snapshot2.hasData) {
+                                                        var output2 = snapshot2
+                                                            .data!
+                                                            .data();
+                                                        return Slidable(
+                                                          key: UniqueKey(),
+                                                          actionPane:
+                                                              SlidableDrawerActionPane(),
+                                                          actionExtentRatio:
+                                                              0.25,
+                                                          child: Container(
+                                                            color: Colors.white,
+                                                            child: ListTile(
+                                                              leading:
+                                                                  CircleAvatar(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .indigoAccent,
+                                                                child: Text(
+                                                                    prodList[i]
+                                                                        .split(
+                                                                            '-')[4]),
+                                                                foregroundColor:
+                                                                    Colors
+                                                                        .white,
                                                               ),
-                                                              dismissal: SlidableDismissal(
-                                                                child: SlidableDrawerDismissal(),
-                                                                onDismissed: (actionType) {
-                                                                  // print('here');
-                                                                  // int tt = 0;
-                                                                  // prodList.removeAt(i);
-                                                                  // for(String str in prodList) {
-                                                                  //   tt += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
-                                                                  // }
-                                                                  // // return total.toString();
-                                                                  //
-                                                                  // mystate(() {
-                                                                  //   total = tt.toString();
-                                                                  // });
+                                                              title: Text(
+                                                                output2?[
+                                                                        'prod_name'] +
+                                                                    ' (' +
+                                                                    output2?[prodList[
+                                                                            i]
+                                                                        .split(
+                                                                            '-')[3]] +
+                                                                    ')',
+                                                                style:
+                                                                    TextStyle(
+                                                                        height:
+                                                                            1),
+                                                              ),
+                                                              subtitle: Text(
+                                                                  prodList[i].split(
+                                                                          '-')[2] +
+                                                                      ' MMK'),
+                                                              trailing: Text((int.parse(
+                                                                          prodList[i].split('-')[
+                                                                              2]) *
+                                                                      int.parse(prodList[
+                                                                              i]
+                                                                          .split(
+                                                                              '-')[4]))
+                                                                  .toString()),
+                                                            ),
+                                                          ),
+                                                          dismissal:
+                                                              SlidableDismissal(
+                                                            child:
+                                                                SlidableDrawerDismissal(),
+                                                            onDismissed:
+                                                                (actionType) {
+                                                              // print('here');
+                                                              // int tt = 0;
+                                                              // prodList.removeAt(i);
+                                                              // for(String str in prodList) {
+                                                              //   tt += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
+                                                              // }
+                                                              // // return total.toString();
+                                                              //
+                                                              // mystate(() {
+                                                              //   total = tt.toString();
+                                                              // });
 
+                                                              mystate(() {
+                                                                prodList
+                                                                    .removeAt(
+                                                                        i);
+                                                              });
+                                                            },
+                                                          ),
+                                                          secondaryActions: <
+                                                              Widget>[
+                                                            IconSlideAction(
+                                                              caption: 'Delete',
+                                                              color: Colors.red,
+                                                              icon:
+                                                                  Icons.delete,
+                                                              onTap: () =>
                                                                   mystate(() {
-                                                                    prodList.removeAt(i);
-                                                                  });
-                                                                },
-                                                              ),
-                                                              secondaryActions: <Widget>[
-                                                                IconSlideAction(
-                                                                  caption: 'Delete',
-                                                                  color: Colors.red,
-                                                                  icon: Icons.delete,
-                                                                  onTap: () => mystate(() {
-                                                                    prodList.removeAt(i);
-                                                                  }),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          }
-                                                          return Container();
-                                                        },
-                                                      )
+                                                                prodList
+                                                                    .removeAt(
+                                                                        i);
+                                                              }),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      }
+                                                      return Container();
+                                                    },
+                                                  )
 
-
-                                                    // orderLoading?Text('Loading'):Text('')
-                                                  ],
-                                                )
-                                            ),
+                                                // orderLoading?Text('Loading'):Text('')
+                                              ],
+                                            )),
                                           ),
                                           Align(
                                             alignment: Alignment.bottomCenter,
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   border: Border(
-                                                    top: BorderSide(
-                                                        color: AppTheme.skBorderColor2, width: 1.0),
-                                                  )
-                                              ),
+                                                top: BorderSide(
+                                                    color:
+                                                        AppTheme.skBorderColor2,
+                                                    width: 1.0),
+                                              )),
                                               width: double.infinity,
                                               height: 160,
                                               child: Padding(
-                                                padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: MediaQuery.of(context).padding.bottom + 15),
+                                                padding: EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 0.0,
+                                                    bottom:
+                                                        MediaQuery.of(context)
+                                                                .padding
+                                                                .bottom +
+                                                            15),
                                                 child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
                                                   children: [
                                                     Row(
                                                       children: [
@@ -1031,16 +1524,20 @@ class HomePageState extends State<HomePage>
                                                           'Total',
                                                           style: TextStyle(
                                                               fontSize: 19,
-                                                              fontWeight: FontWeight.w500
-                                                          ),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
                                                         ),
-                                                        Expanded(child: Container(),),
+                                                        Expanded(
+                                                          child: Container(),
+                                                        ),
                                                         Text(
                                                           TtlProdListPrice(),
                                                           style: TextStyle(
                                                               fontSize: 19,
-                                                              fontWeight: FontWeight.w500
-                                                          ),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
                                                         )
                                                       ],
                                                     ),
@@ -1049,13 +1546,30 @@ class HomePageState extends State<HomePage>
                                                     ),
                                                     GestureDetector(
                                                       onTap: () {
-                                                        ScaffoldMessenger.of(context).showSnackBar(
-                                                          const SnackBar(content: Text('Processing Data')),
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          const SnackBar(
+                                                              content: Text(
+                                                                  'Processing Data')),
                                                         );
 
-
-                                                        DateTime now = DateTime.now();
-                                                        CollectionReference daily_order = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+                                                        DateTime now =
+                                                            DateTime.now();
+                                                        CollectionReference
+                                                            daily_order =
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'space')
+                                                                .doc(
+                                                                    '0NHIS0Jbn26wsgCzVBKT')
+                                                                .collection(
+                                                                    'shops')
+                                                                .doc(
+                                                                    'PucvhZDuUz3XlkTgzcjb')
+                                                                .collection(
+                                                                    'orders');
                                                         var length = 0;
                                                         setState(() {
                                                           orderLoading = true;
@@ -1063,122 +1577,408 @@ class HomePageState extends State<HomePage>
 
                                                         print('order creating');
 
-
-                                                        FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                                        // FirebaseFirestore.instance.collection('space')
+                                                        FirebaseFirestore
+                                                            .instance
+                                                            .collection('space')
+                                                            .doc(
+                                                                '0NHIS0Jbn26wsgCzVBKT')
+                                                            .collection('shops')
+                                                            .doc(
+                                                                'PucvhZDuUz3XlkTgzcjb')
+                                                            .collection(
+                                                                'orders')
+                                                            // FirebaseFirestore.instance.collection('space')
                                                             .get()
-                                                            .then((QuerySnapshot querySnapshot) async {
-
-                                                          querySnapshot.docs.forEach((doc) {
-                                                            length += int.parse(doc['daily_order'].length.toString());
+                                                            .then((QuerySnapshot
+                                                                querySnapshot) async {
+                                                          querySnapshot.docs
+                                                              .forEach((doc) {
+                                                            length += int.parse(
+                                                                doc['daily_order']
+                                                                    .length
+                                                                    .toString());
                                                           });
-                                                          length=1000+length+1;
-
+                                                          length =
+                                                              1000 + length + 1;
 
                                                           //Check new date or not
                                                           var dateExist = false;
                                                           var dateId = '';
 
-                                                          for(String str in prodList) {
-                                                            if(str.split('-')[3] == 'unit_name') {
-                                                              var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(str.split('-')[1]).get();
-                                                              if (docSnapshot.exists) {
-                                                                Map<String, dynamic>? data = docSnapshot.data();
-                                                                String value = data?['unit_qtity'];
-                                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(str.split('-')[1])
-                                                                .update({'unit_qtity': (MixedFraction.fromString(value) - MixedFraction.fromString('0 ' + str.split('-')[4])).toString()})
-                                                                .then((value) => print("User Updated"))
-                                                                .catchError((error) => print("Failed to update user: $error"));
+                                                          for (String str
+                                                              in prodList) {
+                                                            if (str.split(
+                                                                    '-')[3] ==
+                                                                'unit_name') {
+                                                              var docSnapshot = await FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'space')
+                                                                  .doc(
+                                                                      '0NHIS0Jbn26wsgCzVBKT')
+                                                                  .collection(
+                                                                      'shops')
+                                                                  .doc(
+                                                                      'PucvhZDuUz3XlkTgzcjb')
+                                                                  .collection(
+                                                                      'products')
+                                                                  .doc(str.split(
+                                                                      '-')[0])
+                                                                  .collection(
+                                                                      'versions')
+                                                                  .doc(str.split(
+                                                                      '-')[1])
+                                                                  .get();
+                                                              if (docSnapshot
+                                                                  .exists) {
+                                                                Map<String,
+                                                                        dynamic>?
+                                                                    data =
+                                                                    docSnapshot
+                                                                        .data();
+                                                                String value =
+                                                                    data?[
+                                                                        'unit_qtity'];
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'space')
+                                                                    .doc(
+                                                                        '0NHIS0Jbn26wsgCzVBKT')
+                                                                    .collection(
+                                                                        'shops')
+                                                                    .doc(
+                                                                        'PucvhZDuUz3XlkTgzcjb')
+                                                                    .collection(
+                                                                        'products')
+                                                                    .doc(str.split(
+                                                                        '-')[0])
+                                                                    .collection(
+                                                                        'versions')
+                                                                    .doc(str.split(
+                                                                        '-')[1])
+                                                                    .update({
+                                                                      'unit_qtity':
+                                                                          (MixedFraction.fromString(value) - MixedFraction.fromString('0 ' + str.split('-')[4]))
+                                                                              .toString()
+                                                                    })
+                                                                    .then((value) =>
+                                                                        print(
+                                                                            "User Updated"))
+                                                                    .catchError(
+                                                                        (error) =>
+                                                                            print("Failed to update user: $error"));
                                                               }
                                                             } else {
                                                               var unit = '';
 
-                                                              if(str.split('-')[3] == 'sub1_name') {
-                                                                unit = 'sub1_unit';
-                                                              } else if (str.split('-')[3] == 'sub2_name') {
-                                                                unit = 'sub2_unit';
-                                                              } else if (str.split('-')[3] == 'sub3_name') {
-                                                                unit = 'sub3_unit';
+                                                              if (str.split(
+                                                                      '-')[3] ==
+                                                                  'sub1_name') {
+                                                                unit =
+                                                                    'sub1_unit';
+                                                              } else if (str.split(
+                                                                      '-')[3] ==
+                                                                  'sub2_name') {
+                                                                unit =
+                                                                    'sub2_unit';
+                                                              } else if (str.split(
+                                                                      '-')[3] ==
+                                                                  'sub3_name') {
+                                                                unit =
+                                                                    'sub3_unit';
                                                               }
 
-
-
-
-
-                                                              var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(str.split('-')[1]).get();
-                                                              if (docSnapshot.exists) {
-                                                                Map<String, dynamic>? data = docSnapshot.data();
+                                                              var docSnapshot = await FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'space')
+                                                                  .doc(
+                                                                      '0NHIS0Jbn26wsgCzVBKT')
+                                                                  .collection(
+                                                                      'shops')
+                                                                  .doc(
+                                                                      'PucvhZDuUz3XlkTgzcjb')
+                                                                  .collection(
+                                                                      'products')
+                                                                  .doc(str.split(
+                                                                      '-')[0])
+                                                                  .collection(
+                                                                      'versions')
+                                                                  .doc(str.split(
+                                                                      '-')[1])
+                                                                  .get();
+                                                              if (docSnapshot
+                                                                  .exists) {
+                                                                Map<String,
+                                                                        dynamic>?
+                                                                    data =
+                                                                    docSnapshot
+                                                                        .data();
                                                                 // data?['sub1_unit']
 
-
-
-                                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(str.split('-')[1])
-                                                                    .update({'unit_qtity': (MixedFraction.fromString(data?['unit_qtity']) - (MixedFraction.fromString('0 ' + str.split('-')[4]) / MixedFraction.fromString('0 ' + data?[unit]))).reduce().toString()})
-                                                                    .then((value) => print("User Updated"))
-                                                                    .catchError((error) => print("Failed to update user: $error"));
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'space')
+                                                                    .doc(
+                                                                        '0NHIS0Jbn26wsgCzVBKT')
+                                                                    .collection(
+                                                                        'shops')
+                                                                    .doc(
+                                                                        'PucvhZDuUz3XlkTgzcjb')
+                                                                    .collection(
+                                                                        'products')
+                                                                    .doc(str.split(
+                                                                        '-')[0])
+                                                                    .collection(
+                                                                        'versions')
+                                                                    .doc(str.split(
+                                                                        '-')[1])
+                                                                    .update({
+                                                                      'unit_qtity': (MixedFraction.fromString(data?['unit_qtity']) -
+                                                                              (MixedFraction.fromString('0 ' + str.split('-')[4]) / MixedFraction.fromString('0 ' + data?[unit])))
+                                                                          .reduce()
+                                                                          .toString()
+                                                                    })
+                                                                    .then((value) =>
+                                                                        print(
+                                                                            "User Updated"))
+                                                                    .catchError(
+                                                                        (error) =>
+                                                                            print("Failed to update user: $error"));
                                                               }
                                                             }
-
-
                                                           }
 
-                                                          FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                                          // FirebaseFirestore.instance.collection('space')
-                                                              .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
+                                                          FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'space')
+                                                              .doc(
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
+                                                              .collection(
+                                                                  'shops')
+                                                              .doc(
+                                                                  'PucvhZDuUz3XlkTgzcjb')
+                                                              .collection(
+                                                                  'orders')
+                                                              // FirebaseFirestore.instance.collection('space')
+                                                              .where('date',
+                                                                  isEqualTo: now
+                                                                          .year
+                                                                          .toString() +
+                                                                      zeroToTen(now
+                                                                          .month
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .day
+                                                                          .toString()))
                                                               .get()
-                                                              .then((QuerySnapshot querySnapshot) {
-
-                                                            querySnapshot.docs.forEach((doc) {
+                                                              .then((QuerySnapshot
+                                                                  querySnapshot) {
+                                                            querySnapshot.docs
+                                                                .forEach((doc) {
                                                               dateExist = true;
                                                               dateId = doc.id;
                                                             });
 
-                                                            if(dateExist) {
+                                                            if (dateExist) {
                                                               daily_order
-                                                                  .doc(dateId).update({
-                                                                'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf'])
+                                                                  .doc(dateId)
+                                                                  .update({
+                                                                'daily_order':
+                                                                    FieldValue
+                                                                        .arrayUnion([
+                                                                  now.year.toString() +
+                                                                      zeroToTen(now
+                                                                          .month
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .day
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .hour
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .minute
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .second
+                                                                          .toString()) +
+                                                                      deviceIdNum
+                                                                          .toString() +
+                                                                      length
+                                                                          .toString() +
+                                                                      '^' +
+                                                                      deviceIdNum
+                                                                          .toString() +
+                                                                      '-' +
+                                                                      length
+                                                                          .toString() +
+                                                                      '^' +
+                                                                      TtlProdListPrice() +
+                                                                      '^' +
+                                                                      customerId
+                                                                          .split(
+                                                                              '-')[0] +
+                                                                      '^pf'
+                                                                ])
                                                               }).then((value) {
-                                                                print('User updated');
+                                                                print(
+                                                                    'User updated');
                                                                 setState(() {
-                                                                  orderLoading = false;
+                                                                  orderLoading =
+                                                                      false;
                                                                 });
 
-
-                                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
-                                                                    .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'space')
+                                                                    .doc(
+                                                                        '0NHIS0Jbn26wsgCzVBKT')
+                                                                    .collection(
+                                                                        'shops')
+                                                                    .doc(
+                                                                        'PucvhZDuUz3XlkTgzcjb')
+                                                                    .collection(
+                                                                        'orders')
+                                                                    .doc(dateId)
+                                                                    .collection(
+                                                                        'detail')
+                                                                    .doc(now
+                                                                            .year
+                                                                            .toString() +
+                                                                        zeroToTen(now
+                                                                            .month
+                                                                            .toString()) +
+                                                                        zeroToTen(now
+                                                                            .day
+                                                                            .toString()) +
+                                                                        zeroToTen(now
+                                                                            .hour
+                                                                            .toString()) +
+                                                                        zeroToTen(now
+                                                                            .minute
+                                                                            .toString()) +
+                                                                        zeroToTen(now
+                                                                            .second
+                                                                            .toString()) +
+                                                                        deviceIdNum
+                                                                            .toString() +
+                                                                        length
+                                                                            .toString())
                                                                     .set({
-                                                                  'main': 'total',
-                                                                  'subs': prodList,
-                                                                })
-                                                                    .then((value) {
-                                                                  print('order added');
+                                                                  'main':
+                                                                      'total',
+                                                                  'subs':
+                                                                      prodList,
+                                                                }).then((value) {
+                                                                  print(
+                                                                      'order added');
                                                                 });
                                                               });
                                                             } else {
-                                                              daily_order
-                                                                  .add({
-                                                                'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf'],
-                                                                'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
-                                                              })
-                                                                  .then((value) {
-                                                                print('order added');
+                                                              daily_order.add({
+                                                                'daily_order': [
+                                                                  now.year.toString() +
+                                                                      zeroToTen(now
+                                                                          .month
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .day
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .hour
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .minute
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .second
+                                                                          .toString()) +
+                                                                      deviceIdNum
+                                                                          .toString() +
+                                                                      length
+                                                                          .toString() +
+                                                                      '^' +
+                                                                      deviceIdNum
+                                                                          .toString() +
+                                                                      '-' +
+                                                                      length
+                                                                          .toString() +
+                                                                      '^' +
+                                                                      TtlProdListPrice() +
+                                                                      '^' +
+                                                                      customerId
+                                                                          .split(
+                                                                              '-')[0] +
+                                                                      '^pf'
+                                                                ],
+                                                                'date': now.year
+                                                                        .toString() +
+                                                                    zeroToTen(now
+                                                                        .month
+                                                                        .toString()) +
+                                                                    zeroToTen(now
+                                                                        .day
+                                                                        .toString())
+                                                              }).then((value) {
+                                                                print(
+                                                                    'order added');
 
-
-                                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail')
-                                                                    .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'space')
+                                                                    .doc(
+                                                                        '0NHIS0Jbn26wsgCzVBKT')
+                                                                    .collection(
+                                                                        'shops')
+                                                                    .doc(
+                                                                        'PucvhZDuUz3XlkTgzcjb')
+                                                                    .collection(
+                                                                        'orders')
+                                                                    .doc(value
+                                                                        .id)
+                                                                    .collection(
+                                                                        'detail')
+                                                                    .doc(now
+                                                                            .year
+                                                                            .toString() +
+                                                                        zeroToTen(now
+                                                                            .month
+                                                                            .toString()) +
+                                                                        zeroToTen(now
+                                                                            .day
+                                                                            .toString()) +
+                                                                        zeroToTen(now
+                                                                            .hour
+                                                                            .toString()) +
+                                                                        zeroToTen(now
+                                                                            .minute
+                                                                            .toString()) +
+                                                                        zeroToTen(now
+                                                                            .second
+                                                                            .toString()) +
+                                                                        deviceIdNum
+                                                                            .toString() +
+                                                                        length
+                                                                            .toString())
                                                                     .set({
-                                                                  'main': 'total',
-                                                                  'subs': prodList,
-                                                                })
-                                                                    .then((value) {
-                                                                  print('order added');
+                                                                  'main':
+                                                                      'total',
+                                                                  'subs':
+                                                                      prodList,
+                                                                }).then((value) {
+                                                                  print(
+                                                                      'order added');
                                                                 });
                                                               });
                                                             }
                                                           });
                                                         });
-
-
 
                                                         // CollectionReference orders = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc('GhitGLyZLoQekKhan9Xd').collection('detail');
                                                         // orders
@@ -1217,33 +2017,56 @@ class HomePageState extends State<HomePage>
                                                         // });
                                                       },
                                                       child: Container(
-                                                        width: MediaQuery.of(context).size.width-30,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width -
+                                                            30,
                                                         height: 55,
                                                         decoration: BoxDecoration(
                                                             borderRadius:
-                                                            BorderRadius.circular(10.0),
-                                                            color: AppTheme.skThemeColor2
-                                                        ),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            color: AppTheme
+                                                                .skThemeColor2),
                                                         child: Padding(
-                                                          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 15.0,
+                                                                  bottom: 15.0),
                                                           child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
                                                             children: [
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.only(left:8.0, right: 8.0, bottom: 3.0),
-                                                                  child: Container(
-                                                                      child:
-                                                                      Text(
-                                                                        'Checkout',
-                                                                        textAlign: TextAlign.center,
-                                                                        style: TextStyle(
-                                                                            fontSize: 18,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            color: Colors.white
-                                                                        ),
-                                                                      )
-                                                                  ),
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 8.0,
+                                                                      right:
+                                                                          8.0,
+                                                                      bottom:
+                                                                          3.0),
+                                                                  child:
+                                                                      Container(
+                                                                          child:
+                                                                              Text(
+                                                                    'Checkout',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            18,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w600,
+                                                                        color: Colors
+                                                                            .white),
+                                                                  )),
                                                                 ),
                                                               ),
                                                             ],
@@ -1259,7 +2082,6 @@ class HomePageState extends State<HomePage>
                                         ],
                                       ),
                                     )
-
                                   ],
                                 ),
                               ),
@@ -1279,14 +2101,609 @@ class HomePageState extends State<HomePage>
                 ),
               );
             },
+          );
+        });
+  }
 
+  addDailyExp2(priContext) {
+    // myController.clear();
+    showModalBottomSheet(
+        enableDrag: false,
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter mystate) {
+              return Scaffold(
+                backgroundColor: Colors.grey.withOpacity(0.3),
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.top + 45,
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 70,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25.0),
+                                  ),
+                                  color: Colors.white.withOpacity(0.5)),
+                            ),
+                            SizedBox(
+                              height: 14,
+                            ),
+                            Container(
+                              // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20.0),
+                                  topRight: Radius.circular(20.0),
+                                ),
+                                color: Colors.white,
+                              ),
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3),
+                                                  width: 1.0))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15.0, top: 0.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(20.0),
+                                                  ),
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)),
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  size: 15,
+                                                  color: Colors.black,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            ),
+                                            Text(
+                                              "Cart",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 17,
+                                                  fontFamily: 'capsulesans',
+                                                  fontWeight: FontWeight.w600),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            Container(
+                                              width: 35,
+                                              height: 35,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    // checkoutCart()
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              105,
+                                      width: double.infinity,
+                                      child: Stack(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 15.0,
+                                                right: 15.0,
+                                                top: 15.0),
+                                            child: Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    // addCounter();/z
+                                                  },
+                                                  child: Container(
+                                                    width:
+                                                        (MediaQuery.of(context)
+                                                                    .size
+                                                                    .width /
+                                                                2) -
+                                                            22.5,
+                                                    height: 55,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                        color: Colors.grey
+                                                            .withOpacity(0.2)),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 15.0,
+                                                              bottom: 15.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Expanded(
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                mystate(() {
+                                                                  prodList2 =
+                                                                      [];
+                                                                });
+                                                              },
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            8.0,
+                                                                        right:
+                                                                            8.0,
+                                                                        bottom:
+                                                                            3.0),
+                                                                child: Container(
+                                                                    child: Text(
+                                                                  'Clear cart',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      color: Colors
+                                                                          .black
+                                                                          .withOpacity(
+                                                                              0.6)),
+                                                                )),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 15.0,
+                                                ),
+                                                Container(
+                                                  width: (MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          2) -
+                                                      22.5,
+                                                  height: 55,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      color: Colors.grey
+                                                          .withOpacity(0.2)),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15.0,
+                                                            bottom: 15.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Expanded(
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              // DateTime now = DateTime.now();
+                                                              // print(now.year.toString() + now.month.toString() + now.day.toString() + now.hour.toString() + now.minute.toString() + now.second.toString());
+                                                              // mystate(() {
+                                                              //   total = 'Total yay';
+                                                              // });
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 8.0,
+                                                                      right:
+                                                                          8.0,
+                                                                      bottom:
+                                                                          3.0),
+                                                              child: Container(
+                                                                  child: Text(
+                                                                'More actions',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.6)),
+                                                              )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 80.0,
+                                                left: 0.0,
+                                                right: 0.0),
+                                            child: Container(
+                                                child: ListView(
+                                              children: [
+                                                Text(merchantId.split('-')[1]),
+                                                for (int i = 0;
+                                                    i < prodList2.length;
+                                                    i++)
+                                                  Text(prodList2[i]),
+                                                for (int i = 0;
+                                                    i < prodList2.length;
+                                                    i++)
+                                                  StreamBuilder<
+                                                      DocumentSnapshot<
+                                                          Map<String,
+                                                              dynamic>>>(
+                                                    stream: FirebaseFirestore
+                                                        .instance
+                                                        .collection('space')
+                                                        .doc(
+                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                        .collection('shops')
+                                                        .doc(
+                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                        .collection('products')
+                                                        .doc(prodList2[i]
+                                                            .split('-')[0])
+                                                        .snapshots(),
+                                                    builder:
+                                                        (BuildContext context,
+                                                            snapshot2) {
+                                                      if (snapshot2.hasData) {
+                                                        var output2 = snapshot2
+                                                            .data!
+                                                            .data();
+                                                        return Slidable(
+                                                          key: UniqueKey(),
+                                                          actionPane:
+                                                              SlidableDrawerActionPane(),
+                                                          actionExtentRatio:
+                                                              0.25,
+                                                          child: Container(
+                                                            color: Colors.white,
+                                                            child: ListTile(
+                                                              leading:
+                                                                  CircleAvatar(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .indigoAccent,
+                                                                child: Text(
+                                                                    prodList2[i]
+                                                                        .split(
+                                                                            '-')[2]),
+                                                                foregroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                              ),
+                                                              title: Text(
+                                                                output2?[
+                                                                        'prod_name'] +
+                                                                    ' (' +
+                                                                    output2?[prodList2[
+                                                                            i]
+                                                                        .split(
+                                                                            '-')[10]] +
+                                                                    ')',
+                                                                style:
+                                                                    TextStyle(
+                                                                        height:
+                                                                            1),
+                                                              ),
+                                                              subtitle: Text(
+                                                                  prodList2[i].split(
+                                                                          '-')[1] +
+                                                                      ' MMK'),
+                                                              trailing: Text((int.parse(
+                                                                          prodList2[i].split('-')[
+                                                                              2]) *
+                                                                      int.parse(prodList2[
+                                                                              i]
+                                                                          .split(
+                                                                              '-')[1]))
+                                                                  .toString()),
+                                                            ),
+                                                          ),
+                                                          dismissal:
+                                                              SlidableDismissal(
+                                                            child:
+                                                                SlidableDrawerDismissal(),
+                                                            onDismissed:
+                                                                (actionType) {
+                                                              mystate(() {
+                                                                prodList2
+                                                                    .removeAt(
+                                                                        i);
+                                                              });
+                                                            },
+                                                          ),
+                                                          secondaryActions: <
+                                                              Widget>[
+                                                            IconSlideAction(
+                                                              caption: 'Delete',
+                                                              color: Colors.red,
+                                                              icon:
+                                                                  Icons.delete,
+                                                              onTap: () =>
+                                                                  mystate(() {
+                                                                prodList2
+                                                                    .removeAt(
+                                                                        i);
+                                                              }),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      }
+                                                      return Container();
+                                                    },
+                                                  )
+                                              ],
+                                            )),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border(
+                                                top: BorderSide(
+                                                    color:
+                                                        AppTheme.skBorderColor2,
+                                                    width: 1.0),
+                                              )),
+                                              width: double.infinity,
+                                              height: 160,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 0.0,
+                                                    bottom:
+                                                        MediaQuery.of(context)
+                                                                .padding
+                                                                .bottom +
+                                                            15),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          'Total',
+                                                          style: TextStyle(
+                                                              fontSize: 19,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
+                                                        Expanded(
+                                                          child: Container(),
+                                                        ),
+                                                        Text(
+                                                          TtlProdListPrice2(),
+                                                          style: TextStyle(
+                                                              fontSize: 19,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          const SnackBar(
+                                                              content: Text(
+                                                                  'Processing Data')),
+                                                        );
+
+                                                        DateTime now =
+                                                        DateTime.now();
+                                                          List<String> prodList3 =[];
+                                                          for (int i=0; i<prodList2.length; i++) {
+                                                             DocumentReference docRef = await FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'space')
+                                                                  .doc(
+                                                                      '0NHIS0Jbn26wsgCzVBKT')
+                                                                  .collection(
+                                                                      'shops')
+                                                                  .doc(
+                                                                      'PucvhZDuUz3XlkTgzcjb')
+                                                                  .collection(
+                                                                      'products')
+                                                                  .doc(prodList2[i].split(
+                                                                      '-')[0])
+                                                                  .collection(
+                                                                      'versions')
+                                                                  .add(
+                                                                {
+                                                                  'date': zeroToTen(now
+                                                                          .day
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .month
+                                                                          .toString()) +
+                                                                      zeroToTen(now
+                                                                          .year
+                                                                          .toString()),
+                                                                  'unit_qtity':
+                                                                  prodList2[i].split(
+                                                                              '-')[2] +
+                                                                          ' 0',
+                                                                  'buy_price':
+                                                                  prodList2[i].split(
+                                                                          '-')[1],
+                                                                  'sale_price':
+                                                                      prodList2[i].split(
+                                                                          '-')[3],
+                                                                  'sub1_unit':
+                                                                  prodList2[i].split(
+                                                                          '-')[4],
+                                                                  'sub1_sale':
+                                                                  prodList2[i].split(
+                                                                          '-')[5],
+                                                                  'sub2_unit':
+                                                                  prodList2[i].split(
+                                                                          '-')[6],
+                                                                  'sub2_sale':
+                                                                  prodList2[i].split(
+                                                                          '-')[7],
+                                                                  'sub3_unit':
+                                                                  prodList2[i].split(
+                                                                          '-')[8],
+                                                                  'sub3_sale':
+                                                                  prodList2[i].split(
+                                                                          '-')[9],
+                                                                },
+                                                              );
+                                                            prodList3.add(prodList2[i] + docRef.id);
+                                                            if(i==prodList2.length-1) {
+                                                              addString2Sub(prodList3);
+                                                            }
+                                                          }
+                                                      },
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width -
+                                                            30,
+                                                        height: 55,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            color: AppTheme
+                                                                .skThemeColor2),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 15.0,
+                                                                  bottom: 15.0),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 8.0,
+                                                                      right:
+                                                                          8.0,
+                                                                      bottom:
+                                                                          3.0),
+                                                                  child:
+                                                                      Container(
+                                                                          child:
+                                                                              Text(
+                                                                    'Checkout',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            18,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w600,
+                                                                        color: Colors
+                                                                            .white),
+                                                                  )),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           );
         });
   }
 
   var counter = 0;
   var orderLoading = false;
-
 
   String total = 'T';
 
@@ -1753,8 +3170,17 @@ class HomePageState extends State<HomePage>
   TtlProdListPrice() {
     int total = 0;
     print(prodList.toString());
-    for(String str in prodList) {
-      total += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
+    for (String str in prodList) {
+      total += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
+    }
+    return total.toString();
+  }
+
+  TtlProdListPrice2() {
+    int total = 0;
+    //print(prodList.toString());
+    for (String str in prodList2) {
+      total += int.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
     }
     return total.toString();
   }

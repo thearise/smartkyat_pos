@@ -1,22 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import '../app_theme.dart';
 
-class OrdersFragment extends StatefulWidget {
-  OrdersFragment({Key? key}) : super(key: key);
+class BuyListFragment extends StatefulWidget {
+  BuyListFragment({Key? key}) : super(key: key);
 
   @override
-  _OrdersFragmentState createState() => _OrdersFragmentState();
+  _BuyListFragmentState createState() => _BuyListFragmentState();
 }
 
-class _OrdersFragmentState extends State<OrdersFragment>
+class _BuyListFragmentState extends State<BuyListFragment>
     with
         TickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin<OrdersFragment> {
+        AutomaticKeepAliveClientMixin<BuyListFragment> {
   @override
   bool get wantKeepAlive => true;
   var sectionList;
@@ -58,7 +59,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                             .doc('0NHIS0Jbn26wsgCzVBKT')
                             .collection('shops')
                             .doc('PucvhZDuUz3XlkTgzcjb')
-                            .collection('orders')
+                            .collection('buyOrders')
                             .orderBy('date', descending: true)
                             .snapshots(),
                         builder:
@@ -70,7 +71,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                     .doc('0NHIS0Jbn26wsgCzVBKT')
                                     .collection('shops')
                                     .doc('PucvhZDuUz3XlkTgzcjb')
-                                    .collection('customers')
+                                    .collection('merchants')
                                     .snapshots(),
                                 builder: (context,
                                     AsyncSnapshot<QuerySnapshot> snapshot2) {
@@ -140,7 +141,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                             context,
                                                             MaterialPageRoute(
                                                                 builder: (context) =>
-                                                                    OrderInfoSub(
+                                                                    BuyListInfo(
                                                                         data:
                                                                             item,
                                                                         toggleCoinCallback:
@@ -205,7 +206,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              OrderInfoSub(
+                                                              BuyListInfo(
                                                                   data: item,
                                                                   toggleCoinCallback:
                                                                       () {})),
@@ -330,7 +331,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
               '^' +
               list[i].split('^')[2] +
               '^' +
-              document['customer_name'].toString() +
+              document['merchant_name'].toString() +
               '&' +
               list[i].split('^')[3] +
               '^' +

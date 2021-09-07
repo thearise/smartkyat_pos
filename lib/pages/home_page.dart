@@ -719,7 +719,7 @@ class HomePageState extends State<HomePage>{
                 );
               case '/products':
                 return new NoAnimationMaterialPageRoute(
-                  builder: (_) => new ProductsFragment(toggleCoinCallback: addNewProd2, toggleCoinCallback2: addProduct),
+                  builder: (_) => new ProductsFragment(toggleCoinCallback: addNewProd2, toggleCoinCallback2: addProduct, toggleCoinCallback3: (String str) {  },),
                   settings: settings,
                 );
               case '/staff':
@@ -738,7 +738,7 @@ class HomePageState extends State<HomePage>{
                   settings: settings,
                 );
               case '/others':
-                builder = (BuildContext context) => ProductsFragment(toggleCoinCallback: () {  }, toggleCoinCallback2: addProduct);
+                builder = (BuildContext context) => ProductsFragment(toggleCoinCallback: () {  }, toggleCoinCallback2: addProduct, toggleCoinCallback3: (String str) {  },);
                 break;
               default:
                 throw Exception('Invalid route: ${settings.name}');
