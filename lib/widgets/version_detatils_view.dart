@@ -257,20 +257,42 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                           color: AppTheme.skThemeColor,
                                         ),
                                       ),
-                                      onPressed: () async {
-                                        if (sub1Name == '') {
-                                          widget._callback(widget.idString +
-                                              '-' +
-                                              widget.versionID +
-                                              '-' +
-                                              mainPrice +
-                                              '-unit_name-1'.toString());
-                                        } else {
-                                          final result =
-                                              await showModalActionSheet<
-                                                  String>(
-                                            context: context,
-                                            actions: [
+                                    ),
+                                    onPressed: () async {
+                                      if (sub1Name == '') {
+                                        widget._callback(widget.idString +
+                                            '-' +
+                                            widget.versionID +
+                                            '-' +
+                                            mainPrice +
+                                            '-unit_name-1'.toString());
+                                      } else {
+                                        final result =
+                                            await showModalActionSheet<String>(
+                                          context: context,
+                                          actions: [
+                                            SheetAction(
+                                              icon: Icons.info,
+                                              label: '1 ' + mainName,
+                                              key: widget.idString +
+                                                  '-' +
+                                                  widget.versionID +
+                                                  '-' +
+                                                  mainPrice +
+                                                  '-unit_name-1',
+                                            ),
+                                            if (sub1Price != '')
+                                              SheetAction(
+                                                icon: Icons.info,
+                                                label: '1 ' + sub1Name,
+                                                key: widget.idString +
+                                                    '-' +
+                                                    widget.versionID +
+                                                    '-' +
+                                                    sub1Price +
+                                                    '-sub1_name-1',
+                                              ),
+                                            if (sub2Price != '')
                                               SheetAction(
                                                 icon: Icons.info,
                                                 label: '1 ' + mainName,
@@ -281,97 +303,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                                     mainPrice +
                                                     '-unit_name-1',
                                               ),
-                                              if (sub1Name != '')
-                                                SheetAction(
-                                                  icon: Icons.info,
-                                                  label: '1 ' + sub1Name,
-                                                  key: widget.idString +
-                                                      '-' +
-                                                      widget.versionID +
-                                                      '-' +
-                                                      sub1Price +
-                                                      '-sub1_name-1',
-                                                ),
-                                              if (sub2Name != '')
-                                                SheetAction(
-                                                  icon: Icons.info,
-                                                  label: '1 ' + sub2Name,
-                                                  key: widget.idString +
-                                                      '-' +
-                                                      widget.versionID +
-                                                      '-' +
-                                                      sub2Price +
-                                                      '-sub2_name-1',
-                                                ),
-                                              if (sub3Name != '')
-                                                SheetAction(
-                                                  icon: Icons.info,
-                                                  label: '1 ' + sub3Name,
-                                                  key: widget.idString +
-                                                      '-' +
-                                                      widget.versionID +
-                                                      '-' +
-                                                      sub3Price +
-                                                      '-sub3_name-1',
-                                                ),
-                                            ],
-                                          );
-
-                                          widget._callback(result.toString());
-                                        }
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            Icons.add,
-                                            size: 40,
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(
-                                            'Add to sell list',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  ButtonTheme(
-                                    //minWidth: 50,
-                                    splashColor: Colors.transparent,
-                                    height: 120,
-                                    child: FlatButton(
-                                      color: AppTheme.skThemeColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(7.0),
-                                        side: BorderSide(
-                                          color: AppTheme.skThemeColor,
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        if (sub1Name == '') {
-                                          widget._callback3(widget.idString +
-                                              '-' +
-                                              widget.versionID +
-                                              '-' +
-                                              mainPrice +
-                                              '-unit_name-1');
-                                        } else {
-                                          final result =
-                                              await showModalActionSheet<
-                                                  String>(
-                                            context: context,
-                                            actions: [
+                                            if (sub3Price != '')
                                               SheetAction(
                                                 icon: Icons.info,
                                                 label: '1 ' + mainName,

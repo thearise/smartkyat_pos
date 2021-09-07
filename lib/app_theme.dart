@@ -4,10 +4,19 @@ class AppTheme {
   AppTheme._();
 
   static const Color skThemeColor = Color(0xFFF6C447);
-  static const Color skThemeColor2 = Color(0xFF265a59);
+  static const Color skThemeColor2 = Color(0xFF1f4746);
   static const Color skBorderColor = Color(0xFFEFEFEF);
   static const Color skBorderColor2 = Color(0xFFe6e6e6);
   static const Color secButtonColor = Color(0xFFE7E8EA);
+  static const Color lightBgColor = Color(0xFFF5F5F5);
+
+  static const Color badgeBgSuccess = Color(0xFF65B798);
+  static const Color badgeFgSuccess = Color(0xFF65B798);
+  static const Color badgeBgDanger = Color(0xFFFAEDEE);
+  static const Color badgeFgDanger = Color(0xFFCF535C);
+  static const Color badgeBgSecond = Color(0xFF54668D);
+  static const Color badgeFgSecond = Color(0xFF54668D);
+
 
   static const Color notWhite = Color(0xFFEDF0F2);
   static const Color nearlyWhite = Color(0xFFFEFEFE);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
@@ -451,7 +452,7 @@ class HomePageState extends State<HomePage>
         // eventually breaking the app
 
         child: Scaffold(
-            backgroundColor: Colors.yellow,
+            // backgroundColor: Colors.white,
             // indexed stack shows only one child
             body: IndexedStack(
               index: currentTab,
@@ -467,21 +468,20 @@ class HomePageState extends State<HomePage>
                   children: [
                     MediaQuery.of(context).size.width > 900
                         ? Container()
-                        : Padding(
-                            padding:
-                                const EdgeInsets.only(top: 0.0, bottom: 15.0),
-                            child: Container(
-                              height: 70,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border(
-                                    top: BorderSide(
-                                        color: AppTheme.skBorderColor2,
-                                        width: 1.0),
-                                  )),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 15.0, left: 15.0, right: 15.0),
+                        : Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                              top: BorderSide(
+                                  color: AppTheme.skBorderColor2,
+                                  width: 1.0),
+                            )
+                          ),
+                          child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
+                              child: Container(
+                                height: 50,
                                 child: GestureDetector(
                                   onTap: () {
                                     if (prodList.length == 0) {
@@ -494,11 +494,13 @@ class HomePageState extends State<HomePage>
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      color: AppTheme.secButtonColor,
+                                      color: AppTheme.buttonColor2,
+                                      // color: Colors.blue
                                     ),
+
                                     child: Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 15.0, bottom: 15.0),
+                                          top: 13.0, bottom: 15.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -508,16 +510,17 @@ class HomePageState extends State<HomePage>
                                               padding: const EdgeInsets.only(
                                                   left: 8.0,
                                                   right: 8.0,
-                                                  bottom: 3.0),
+                                                  bottom: 2.0),
                                               child: Container(
-                                                  child: Text(
-                                                'Go to cart',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black),
-                                              )),
+                                                child: Text(
+                                                  'Go to cart',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                        fontSize: 18,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black),
+                                                )
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -527,7 +530,7 @@ class HomePageState extends State<HomePage>
                                 ),
                               ),
                             ),
-                          ),
+                        ),
                     Container(
                       height: 57,
                       decoration: BoxDecoration(
@@ -536,27 +539,48 @@ class HomePageState extends State<HomePage>
                             color: AppTheme.skBorderColor2, width: 1.0),
                       )),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                left: 15.0,
+                                left: 15.0,top:0.0
                               ),
-                              child: GestureDetector(
-                                  onTap: () {
-                                    _scaffoldKey.currentState!.openDrawer();
-                                  },
-                                  child: Icon(
-                                    Icons.home_filled,
-                                    size: 26,
-                                  )),
+                              child: Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      _scaffoldKey.currentState!.openDrawer();
+                                    },
+                                    child: Icon(
+                                      Icons.home_filled,
+                                      size: 26,
+                                    )
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 1.0),
+                                      child: Text(
+                                        'Home',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                    )
+                                  )
+                                ],
+                              ),
                             ),
                             Expanded(
                               child: Container(
                                   child: Text(
-                                'Phyo Pyae Sohn',
+                                '',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 16.5,
@@ -566,12 +590,10 @@ class HomePageState extends State<HomePage>
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                right: 15.0,
+                                right: 13.0,top:2.0
                               ),
-                              child: Icon(
-                                Icons.circle,
-                                color: Colors.green,
-                                size: 22,
+                              child: Container(
+                                child: Image.asset('assets/system/menu.png', height: 33,)
                               ),
                             )
                           ],
