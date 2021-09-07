@@ -413,7 +413,7 @@ class _ProductVersionViewState extends State<ProductVersionView> {
                                                                   idString: widget
                                                                       .idString,
                                                                   toggleCoinCallback:
-                                                                      addProduct2, toggleCoinCallback3: addProduct3)),
+                                                                      addProduct2)),
                                                         );
                                                       },
                                                     ),

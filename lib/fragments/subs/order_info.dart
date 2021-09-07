@@ -404,8 +404,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               .split('-')[5]))
                                                       .toString()),
                                                 ),
-                                                subtitle: Text(prodList[i].split('-')[2] + ' MMK'),
-                                                trailing: Text((int.parse(prodList[i].split('-')[2])*int.parse(prodList[i].split('-')[5])).toString()),
+                                                // subtitle: Text(prodList[i].split('-')[2] + ' MMK'),
+                                                // trailing: Text((int.parse(prodList[i].split('-')[2])*int.parse(prodList[i].split('-')[5])).toString()),
                                               ),
                                               dismissal: SlidableDismissal(
                                                 child:
