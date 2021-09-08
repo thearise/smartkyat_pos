@@ -23,12 +23,15 @@ import 'subs/product_info.dart';
 class ProductsFragment extends StatefulWidget {
   final _callback;
   final _callback2;
+  final _callback3;
 
   ProductsFragment(
       {required void toggleCoinCallback(),
-      required void toggleCoinCallback2(String str)})
+      required void toggleCoinCallback2(String str),
+      required void toggleCoinCallback3(String str)})
       : _callback = toggleCoinCallback,
-        _callback2 = toggleCoinCallback2;
+        _callback2 = toggleCoinCallback2,
+         _callback3 = toggleCoinCallback3;
   @override
   ProductsFragmentState createState() => ProductsFragmentState();
 }
@@ -52,6 +55,9 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   closeNewProduct() {
     Navigator.pop(context);
+  }
+  addProduct3(data) {
+    widget._callback3(data);
   }
 
   addProduct1(data) {
@@ -430,7 +436,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                         context,
                                                                         MaterialPageRoute(
                                                                             builder: (context) =>
-                                                                                ProductVersionView(idString: version, toggleCoinCallback: addProduct1)),
+                                                                                ProductVersionView(idString: version, toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3)),
                                                                       );
                                                                     },
                                                                   ),

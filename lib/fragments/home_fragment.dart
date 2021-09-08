@@ -17,8 +17,8 @@ import '../app_theme.dart';
 class HomeFragment extends StatefulWidget {
   final _callback;
 
-  HomeFragment( {required void toggleCoinCallback() } ) :
-        _callback = toggleCoinCallback;
+  HomeFragment({required void toggleCoinCallback()})
+      : _callback = toggleCoinCallback;
   @override
   _HomeFragmentState createState() => _HomeFragmentState();
 
@@ -28,10 +28,10 @@ class HomeFragment extends StatefulWidget {
 // _HomeFragmentState createState() => _HomeFragmentState();
 }
 
-class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomeFragment>{
+class _HomeFragmentState extends State<HomeFragment>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomeFragment> {
   @override
   bool get wantKeepAlive => true;
-
 
   final JiggleController controller = JiggleController();
 
@@ -600,16 +600,16 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
               ),
               MediaQuery.of(context).size.width > 900
                   ? Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                          left: BorderSide(
-                              color: Colors.Colors.grey.withOpacity(0.3),
-                              width: 1.0))),
-                  width: MediaQuery.of(context).size.width * (1.5 / 3.5),
-                ),
-              )
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                left: BorderSide(
+                                    color: Colors.Colors.grey.withOpacity(0.3),
+                                    width: 1.0))),
+                        width: MediaQuery.of(context).size.width * (1.5 / 3.5),
+                      ),
+                    )
                   : Container()
             ],
           ),
@@ -671,15 +671,15 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                   decoration: BoxDecoration(
                                       border: Border(
                                           bottom: BorderSide(
-                                              color:
-                                              Colors.Colors.grey.withOpacity(0.3),
+                                              color: Colors.Colors.grey
+                                                  .withOpacity(0.3),
                                               width: 1.0))),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15.0, right: 15.0, top: 20.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           width: 35,
@@ -688,8 +688,8 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(5.0),
                                               ),
-                                              color:
-                                              Colors.Colors.grey.withOpacity(0.3)),
+                                              color: Colors.Colors.grey
+                                                  .withOpacity(0.3)),
                                           child: IconButton(
                                             icon: Icon(
                                               Icons.close,
@@ -782,8 +782,7 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                       child: TextFormField(
                                         // The validator receives the text that the user has entered.
                                         validator: (value) {
-                                          if (value == null ||
-                                              value.isEmpty) {
+                                          if (value == null || value.isEmpty) {
                                             return 'This field is required';
                                           }
                                           return null;
@@ -793,11 +792,11 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                           // errorText: 'Error message',
                                           labelText: 'First Name',
                                           floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
+                                              FloatingLabelBehavior.auto,
                                           //filled: true,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
@@ -813,11 +812,11 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
                                         decoration: InputDecoration(
                                           labelText: 'Last Name',
                                           floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
+                                              FloatingLabelBehavior.auto,
                                           //filled: true,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
@@ -839,8 +838,6 @@ class _HomeFragmentState extends State<HomeFragment>  with TickerProviderStateMi
   }
 }
 
-
-
 class ShakeView extends StatelessWidget {
   final Widget child;
   final ShakeController controller;
@@ -855,9 +852,9 @@ class ShakeView extends StatelessWidget {
         animation: controller,
         child: child,
         builder: (context, child) => Transform(
-          child: child,
-          transform: Matrix4.translation(_shake(_anim.value)),
-        ));
+              child: child,
+              transform: Matrix4.translation(_shake(_anim.value)),
+            ));
   }
 
   Vector3 _shake(double progress) {
@@ -869,7 +866,7 @@ class ShakeView extends StatelessWidget {
 class ShakeController extends AnimationController {
   ShakeController(
       {required TickerProvider vsync,
-        Duration duration = const Duration(milliseconds: 200)})
+      Duration duration = const Duration(milliseconds: 200)})
       : super(vsync: vsync, duration: duration);
 
   shake() async {
@@ -881,10 +878,9 @@ class ShakeController extends AnimationController {
   }
 }
 
-
 class JiggleController extends Equatable {
   final BehaviorSubject<JiggleState> _jiggleSubject =
-  BehaviorSubject.seeded(JiggleState.STATIC);
+      BehaviorSubject.seeded(JiggleState.STATIC);
 
   Stream<JiggleState> get stream => _jiggleSubject.stream.asBroadcastStream();
 
@@ -911,8 +907,6 @@ class JiggleController extends Equatable {
   bool get stringify => true;
 }
 
-
-
 enum JiggleState { JIGGLING, STATIC }
 
 /// Jiggle your Widgets. 👯‍♀️
@@ -922,10 +916,10 @@ enum JiggleState { JIGGLING, STATIC }
 class Jiggle extends StatefulWidget {
   Jiggle(
       {required this.child,
-        required this.jiggleController,
-        this.extent = 1,
-        this.duration = const Duration(milliseconds: 80),
-        this.useGestures = false});
+      required this.jiggleController,
+      this.extent = 1,
+      this.duration = const Duration(milliseconds: 80),
+      this.useGestures = false});
 
   /// This is the extent in degress to which the Widget rotates.
   ///

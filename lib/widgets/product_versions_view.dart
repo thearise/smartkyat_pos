@@ -11,12 +11,15 @@ import 'package:fraction/fraction.dart';
 
 class ProductVersionView extends StatefulWidget {
   final _callback;
+  final _callback3;
 
   ProductVersionView(
       {Key? key,
       required this.idString,
-      required void toggleCoinCallback(String str)})
-      : _callback = toggleCoinCallback;
+      required void toggleCoinCallback(String str),
+  required void toggleCoinCallback3(String str)})
+      : _callback = toggleCoinCallback,
+  _callback3= toggleCoinCallback3;
 
   final String idString;
 
@@ -28,6 +31,9 @@ class _ProductVersionViewState extends State<ProductVersionView> {
   addProduct2(data) {
     widget._callback(data);
   }
+  addProduct3(data) {
+    widget._callback3(data);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,8 @@ class _ProductVersionViewState extends State<ProductVersionView> {
           bottom: true,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: ListView(
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
@@ -110,8 +117,8 @@ class _ProductVersionViewState extends State<ProductVersionView> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => FillProduct(
-                                              idString: widget.idString,
-                                            )));
+                                              idString: widget.idString, toggleCoinCallback:
+                                        addProduct2, toggleCoinCallback3: addProduct3)),);
                               }),
                         ),
                       ],
