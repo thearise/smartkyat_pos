@@ -113,12 +113,7 @@ class _ProductVersionViewState extends State<ProductVersionView> {
                                 color: Colors.black,
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FillProduct(
-                                              idString: widget.idString, toggleCoinCallback:
-                                        addProduct2, toggleCoinCallback3: addProduct3)),);
+
                               }),
                         ),
                       ],

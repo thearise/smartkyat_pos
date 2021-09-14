@@ -42,6 +42,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   var nameTECs = <TextEditingController>[];
   var ageTECs = <TextEditingController>[];
   var jobTECs = <TextEditingController>[];
+  var priceTECs = <TextEditingController>[];
   var cards = <Padding>[];
   static List<String> prodFieldsValue = [];
   final _formKey = GlobalKey<FormState>();
@@ -169,8 +170,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                 FirebaseFirestore.instance
                                     .collection('space')
                                     .where('user_id',
-                                        isEqualTo: FirebaseAuth
-                                            .instance.currentUser!.uid)
+                                        isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
                                     .get()
                                     .then((QuerySnapshot querySnapshot) {
                                   querySnapshot.docs.forEach((doc) {
@@ -232,7 +232,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             '',
                                             '',
                                             '',
-                                            ''
+                                            '',
+                                            '',
+                                            '',
+                                            '',
                                           ];
                                           int j = -1;
                                           for (int i = 0;
@@ -244,6 +247,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 ageTECs[i].text;
                                             subUnitFieldValue[++j] =
                                                 jobTECs[i].text;
+                                            subUnitFieldValue[++j] =
+                                                priceTECs[i].text;
                                             // var name = nameTECs[i].text;
                                             // var age = ageTECs[i].text;
                                             // var job = jobTECs[i].text;
@@ -260,10 +265,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           FirebaseFirestore.instance
                                               .collection('space')
                                               .where('user_id',
-                                                  isEqualTo: FirebaseAuth
-                                                      .instance
-                                                      .currentUser!
-                                                      .uid)
+                                                  isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
                                               .get()
                                               .then((QuerySnapshot
                                                   querySnapshot) {
@@ -321,12 +323,27 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         prodFieldsValue[1],
                                                     'unit_name':
                                                         prodFieldsValue[3],
+                                                    'main_sprice':
+                                                        prodFieldsValue[5],
+                                                    'sub1_unit':
+                                                    subUnitFieldValue[0],
                                                     'sub1_name':
                                                         subUnitFieldValue[1],
+                                                    'sub1_sprice':
+                                                        subUnitFieldValue[2],
+                                                    'sub2_unit':
+                                                    subUnitFieldValue[4],
                                                     'sub2_name':
-                                                        subUnitFieldValue[4],
+                                                        subUnitFieldValue[5],
+                                                    'sub2_sprice':
+                                                        subUnitFieldValue[6],
+                                                    'sub3_unit':
+                                                    subUnitFieldValue[8],
                                                     'sub3_name':
-                                                        subUnitFieldValue[7],
+                                                        subUnitFieldValue[9],
+                                                    'sub3_sprice':
+                                                        subUnitFieldValue[10],
+
                                                     // 'unit_qtity': prodFieldsValue[2],
                                                     // 'unit_name': prodFieldsValue[3],
                                                     // 'buy_price': prodFieldsValue[4],
@@ -350,6 +367,72 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     // setState(() {
                                                     //   prodAdding = false;
                                                     // });
+                                                    FirebaseFirestore.instance
+                                                        .collection('space')
+                                                        .doc(
+                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                        .collection('shops')
+                                                        .doc(
+                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                        .collection('products')
+                                                        .doc(value.id)
+                                                        .collection('versions')
+                                                        .add({
+                                                      'date': zeroToTen(now.day
+                                                              .toString()) +
+                                                          zeroToTen(now.month
+                                                              .toString()) +
+                                                          zeroToTen(now.year
+                                                              .toString()),
+                                                      'unit_qtity':
+                                                          prodFieldsValue[2],
+                                                      'buy_price':
+                                                          prodFieldsValue[4],
+                                                      'type': 'main',
+                                                    }).then((value) {
+                                                      print('product added 2');
+                                                    });
+                                                    print('sub1'+ prodFieldsValue[4]);
+                                                    print('unit1'+ subUnitFieldValue[0]);
+                                                    print('unit2'+ subUnitFieldValue[8]);
+                                                    print('unit3'+ subUnitFieldValue[4]);
+                                                    // var sub1Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[0]);
+                                                    // var sub2Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[4]);
+                                                    // var sub3Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[8]);
+
+
+
+                                                    FirebaseFirestore.instance
+                                                        .collection('space')
+                                                        .doc(
+                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                        .collection('shops')
+                                                        .doc(
+                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                        .collection('products')
+                                                        .doc(value.id)
+                                                        .collection('versions')
+                                                        .add({
+                                                      'date': zeroToTen(now.day
+                                                              .toString()) +
+                                                          zeroToTen(now.month
+                                                              .toString()) +
+                                                          zeroToTen(now.year
+                                                              .toString()),
+                                                      // 'unit_qtity':
+                                                      // prodFieldsValue[2] +
+                                                      // ' 0',
+                                                      // prodFieldsValue[4],
+                                                      // 'sale_price':
+                                                      // prodFieldsValue[5],
+                                                      'unit_qtity':
+                                                          subUnitFieldValue[3],
+                                                      'buy_price': '0',
+                                                      'type': 'sub1',
+                                                    }).then((value) {
+                                                      print('product added 3');
+
+                                                    });
 
                                                     FirebaseFirestore.instance
                                                         .collection('space')
@@ -369,25 +452,36 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                           zeroToTen(now.year
                                                               .toString()),
                                                       'unit_qtity':
-                                                           prodFieldsValue[2]+' 0',
-                                                      'buy_price':
-                                                          prodFieldsValue[4],
-                                                      'sale_price':
-                                                          prodFieldsValue[5],
-                                                      'sub1_unit':
-                                                          subUnitFieldValue[0],
-                                                      'sub1_sale':
-                                                          subUnitFieldValue[2],
-                                                      'sub2_unit':
-                                                          subUnitFieldValue[3],
-                                                      'sub2_sale':
-                                                          subUnitFieldValue[5],
-                                                      'sub3_unit':
-                                                          subUnitFieldValue[6],
-                                                      'sub3_sale':
-                                                          subUnitFieldValue[8],
+                                                          subUnitFieldValue[7],
+                                                      'buy_price': '0',
+                                                      'type': 'sub2',
                                                     }).then((value) {
-                                                      print('product added 2');
+                                                      print('product added 4');
+                                                    });
+
+                                                    FirebaseFirestore.instance
+                                                        .collection('space')
+                                                        .doc(
+                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                        .collection('shops')
+                                                        .doc(
+                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                        .collection('products')
+                                                        .doc(value.id)
+                                                        .collection('versions')
+                                                        .add({
+                                                      'date': zeroToTen(now.day
+                                                              .toString()) +
+                                                          zeroToTen(now.month
+                                                              .toString()) +
+                                                          zeroToTen(now.year
+                                                              .toString()),
+                                                      'unit_qtity':
+                                                          subUnitFieldValue[11],
+                                                      'buy_price': '0',
+                                                      'type': 'sub3',
+                                                    }).then((value) {
+                                                      print('product added 5');
 
                                                       setState(() {
                                                         prodAdding = false;
@@ -1216,13 +1310,14 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     if (length == photoUploadCount) {
       print('all fking done' + photoArray.toString());
 
-      var subUnitFieldValue = ['', '', '', '', '', '', '', '', ''];
+      var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', ''];
       int j = -1;
       for (int i = 0; i < cards.length; i++) {
         subUnitFieldValue[++j] = nameTECs[i].text;
         subUnitFieldValue[++j] = ageTECs[i].text;
         subUnitFieldValue[++j] = jobTECs[i].text;
-        // var name = nameTECs[i].text;
+        subUnitFieldValue[++j] =
+            priceTECs[i].text; // var name = nameTECs[i].text;
         // var age = ageTECs[i].text;
         // var job = jobTECs[i].text;
         // entries.add(PersonEntry(name, age, job));
@@ -1238,7 +1333,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
       var spaceDocId = '';
       FirebaseFirestore.instance
           .collection('space')
-          .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('user_id', isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) {
@@ -1280,7 +1375,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               return shops.add({
                 'prod_name': prodFieldsValue[0],
                 'bar_code': prodFieldsValue[1],
-                'unit_qtity': prodFieldsValue[2]+' 0',
+                'unit_qtity': prodFieldsValue[2] + ' 0',
                 'unit_name': prodFieldsValue[3],
                 'buy_price': prodFieldsValue[4],
                 'sale_price': prodFieldsValue[5],
@@ -1293,6 +1388,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 'sub3_unit': subUnitFieldValue[6],
                 'sub3_name': subUnitFieldValue[7],
                 'sub3_sale': subUnitFieldValue[8],
+                'sub1_qtity': subUnitFieldValue[9],
+                'sub2_qtity': subUnitFieldValue[10],
+                'sub3_qtity': subUnitFieldValue[11],
                 'img_1': photoArray[0],
                 'img_2': photoArray[1],
                 'img_3': photoArray[2],
@@ -1358,6 +1456,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     var nameController = TextEditingController();
     var ageController = TextEditingController();
     var jobController = TextEditingController();
+    var priceController = TextEditingController();
+    priceTECs.add(priceController);
     nameTECs.add(nameController);
     ageTECs.add(ageController);
     jobTECs.add(jobController);
@@ -1503,6 +1603,53 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 ),
               ),
             ],
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          TextFormField(
+            controller: priceController,
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'This field is required';
+              }
+              // prodFieldsValue.add(value);
+              return null;
+            },
+            decoration: InputDecoration(
+              enabledBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(
+                      color: AppTheme.skBorderColor, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+              focusedBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(
+                      color: AppTheme.skThemeColor2, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              contentPadding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+              //suffixText: 'MMK',
+              // suffixStyle: TextStyle(
+              //   fontWeight: FontWeight.w500,
+              //   color: Colors.grey,
+              //   fontSize: 12,
+              //   //fontFamily: 'capsulesans',
+              // ),
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+              // errorText: 'Error message',
+              labelText: 'Unit Quantity',
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+              //filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
           ),
           SizedBox(
             height: 16,

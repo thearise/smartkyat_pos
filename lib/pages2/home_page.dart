@@ -41,6 +41,8 @@ class HomePageState extends State<HomePage>
     });
   }
 
+  List<String> subList = [];
+
   @override
   void initState() {
     slidableController = SlidableController(
@@ -588,12 +590,17 @@ class HomePageState extends State<HomePage>
                                     color: Colors.black.withOpacity(0.6)),
                               )),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 13.0,top:2.0
-                              ),
-                              child: Container(
-                                child: Image.asset('assets/system/menu.png', height: 33,)
+                            GestureDetector(
+                              onTap: () {
+                                print('sub ' + subList.toString());
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 13.0,top:2.0
+                                ),
+                                child: Container(
+                                  child: Image.asset('assets/system/menu.png', height: 33,)
+                                ),
                               ),
                             )
                           ],
@@ -616,7 +623,6 @@ class HomePageState extends State<HomePage>
   addProduct(data) {
     for (var i = 0; i < prodList.length; i++) {
       if (prodList[i].split('-')[0] == data.split('-')[0] &&
-          prodList[i].split('-')[1] == data.split('-')[1] &&
           prodList[i].split('-')[3] == data.split('-')[3]) {
         data = data.split('-')[0] +
             '-' +
@@ -1627,70 +1633,70 @@ class HomePageState extends State<HomePage>
                                                           var dateExist = false;
                                                           var dateId = '';
 
+                                                          subList = [];
+
                                                           for (String str
                                                               in prodList) {
                                                             if (str.split(
                                                                     '-')[3] ==
                                                                 'unit_name') {
-                                                              var docSnapshot = await FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'space')
-                                                                  .doc(
-                                                                      '0NHIS0Jbn26wsgCzVBKT')
-                                                                  .collection(
-                                                                      'shops')
-                                                                  .doc(
-                                                                      'PucvhZDuUz3XlkTgzcjb')
-                                                                  .collection(
-                                                                      'products')
-                                                                  .doc(str.split(
-                                                                      '-')[0])
-                                                                  .collection(
-                                                                      'versions')
-                                                                  .doc(str.split(
-                                                                      '-')[1])
-                                                                  .get();
-                                                              if (docSnapshot
-                                                                  .exists) {
-                                                                Map<String,
-                                                                        dynamic>?
-                                                                    data =
-                                                                    docSnapshot
-                                                                        .data();
-                                                                String value =
-                                                                    data?[
-                                                                        'unit_qtity'];
-                                                                FirebaseFirestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        'space')
-                                                                    .doc(
-                                                                        '0NHIS0Jbn26wsgCzVBKT')
-                                                                    .collection(
-                                                                        'shops')
-                                                                    .doc(
-                                                                        'PucvhZDuUz3XlkTgzcjb')
-                                                                    .collection(
-                                                                        'products')
-                                                                    .doc(str.split(
-                                                                        '-')[0])
-                                                                    .collection(
-                                                                        'versions')
-                                                                    .doc(str.split(
-                                                                        '-')[1])
-                                                                    .update({
-                                                                      'unit_qtity':
-                                                                          (MixedFraction.fromString(value) - MixedFraction.fromString('0 ' + str.split('-')[4]))
-                                                                              .toString()
-                                                                    })
-                                                                    .then((value) =>
-                                                                        print(
-                                                                            "User Updated"))
-                                                                    .catchError(
-                                                                        (error) =>
-                                                                            print("Failed to update user: $error"));
-                                                              }
+
+                                                              await FirebaseFirestore
+                                                                  .instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions')
+                                                                   .orderBy('date', descending: true)
+                                                                  .where('type',
+                                                                    isEqualTo: 'main')
+
+                                                                  .get()
+                                                                  .then((QuerySnapshot querySnapshot) async {
+                                                                    int value = int.parse(str.split('-')[4]);
+
+
+                                                                    for(int j = 0; j < querySnapshot.docs.length; j++) {
+                                                                      if(value != 0 && querySnapshot.docs[j]["unit_qtity"] != '0' && int.parse(querySnapshot.docs[j]["unit_qtity"]) < value) {
+                                                                        int newValue = 0;
+                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(querySnapshot.docs[j].id)
+                                                                            .update({
+                                                                          'unit_qtity':
+                                                                          newValue.toString()
+                                                                        });
+
+
+                                                                        value = (int.parse(querySnapshot.docs[j]["unit_qtity"]) - value).abs();
+                                                                        subList.add(str.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + querySnapshot.docs[j]["date"]);
+                                                                      } else if (value != 0 && querySnapshot.docs[j]["unit_qtity"] != '0' && int.parse(querySnapshot.docs[j]["unit_qtity"]) >= value) {
+                                                                        print(querySnapshot.docs[j]["unit_qtity"]);
+
+                                                                        int newValue = int.parse(querySnapshot.docs[j]["unit_qtity"]) - value;
+                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(querySnapshot.docs[j].id).update({'unit_qtity': newValue.toString()});
+
+                                                                        subList.add(str.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4]+  '-0-' + querySnapshot.docs[j]["date"]);
+                                                                        break;
+                                                                      }
+                                                                    }
+
+                                                                // outerloop: // This is the label name
+                                                                //
+                                                                // for (var i = 0; i < 5; i++) {
+                                                                //   print("Innerloop: ${i}");
+                                                                //   innerloop:
+                                                                //
+                                                                //   for (var j = 0; j < 5; j++) {
+                                                                //     if (j > 3 ) break ;
+                                                                //
+                                                                //     // Quit the innermost loop
+                                                                //     if (i == 2) break innerloop;
+                                                                //
+                                                                //     // Do the same thing
+                                                                //     if (i == 4) break outerloop;
+                                                                //
+                                                                //     // Quit the outer loop
+                                                                //     print("Innerloop: ${j}");
+                                                                //   }
+                                                                // }
+
+                                                              });
+
                                                             } else {
                                                               var unit = '';
 
@@ -1698,80 +1704,105 @@ class HomePageState extends State<HomePage>
                                                                       '-')[3] ==
                                                                   'sub1_name') {
                                                                 unit =
-                                                                    'sub1_unit';
+                                                                    'sub1';
                                                               } else if (str.split(
                                                                       '-')[3] ==
                                                                   'sub2_name') {
                                                                 unit =
-                                                                    'sub2_unit';
+                                                                    'sub2';
                                                               } else if (str.split(
                                                                       '-')[3] ==
                                                                   'sub3_name') {
                                                                 unit =
-                                                                    'sub3_unit';
+                                                                    'sub3';
                                                               }
 
-                                                              var docSnapshot = await FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'space')
-                                                                  .doc(
-                                                                      '0NHIS0Jbn26wsgCzVBKT')
-                                                                  .collection(
-                                                                      'shops')
-                                                                  .doc(
-                                                                      'PucvhZDuUz3XlkTgzcjb')
-                                                                  .collection(
-                                                                      'products')
-                                                                  .doc(str.split(
-                                                                      '-')[0])
-                                                                  .collection(
-                                                                      'versions')
-                                                                  .doc(str.split(
-                                                                      '-')[1])
-                                                                  .get();
-                                                              if (docSnapshot
-                                                                  .exists) {
-                                                                Map<String,
-                                                                        dynamic>?
-                                                                    data =
-                                                                    docSnapshot
-                                                                        .data();
-                                                                // data?['sub1_unit']
+                                                             await FirebaseFirestore
+                                                                  .instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions')
+                                                                  .orderBy('date', descending: true)
+                                                                  .where('type',
+                                                                  isEqualTo: unit)
 
-                                                                FirebaseFirestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        'space')
-                                                                    .doc(
-                                                                        '0NHIS0Jbn26wsgCzVBKT')
-                                                                    .collection(
-                                                                        'shops')
-                                                                    .doc(
-                                                                        'PucvhZDuUz3XlkTgzcjb')
-                                                                    .collection(
-                                                                        'products')
-                                                                    .doc(str.split(
-                                                                        '-')[0])
-                                                                    .collection(
-                                                                        'versions')
-                                                                    .doc(str.split(
-                                                                        '-')[1])
-                                                                    .update({
-                                                                      'unit_qtity': (MixedFraction.fromString(data?['unit_qtity']) -
-                                                                              (MixedFraction.fromString('0 ' + str.split('-')[4]) / MixedFraction.fromString('0 ' + data?[unit])))
-                                                                          .reduce()
-                                                                          .toString()
-                                                                    })
-                                                                    .then((value) =>
-                                                                        print(
-                                                                            "User Updated"))
-                                                                    .catchError(
-                                                                        (error) =>
-                                                                            print("Failed to update user: $error"));
-                                                              }
+                                                                  .get()
+                                                                  .then((QuerySnapshot querySnapshot) async {
+                                                                int value = int.parse(str.split('-')[4]);
+
+                                                                for(int j = 0; j < querySnapshot.docs.length; j++) {
+                                                                  if(value != 0 && querySnapshot.docs[j]["unit_qtity"] != 0 && int.parse(querySnapshot.docs[j]["unit_qtity"]) < value) {
+                                                                    int newValue = 0;
+                                                                    await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(querySnapshot.docs[j].id)
+                                                                        .update({
+                                                                      'unit_qtity':
+                                                                      newValue.toString()
+                                                                    });
+                                                                    value = (int.parse(querySnapshot.docs[j]["unit_qtity"]) - value).abs();
+                                                                    subList.add(str.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + querySnapshot.docs[j]["date"]);
+                                                                  } else if (value != 0 && querySnapshot.docs[j]["unit_qtity"] != 0 && int.parse(querySnapshot.docs[j]["unit_qtity"]) >= value) {
+                                                                    print(querySnapshot.docs[j]["unit_qtity"]);
+
+                                                                    int newValue = int.parse(querySnapshot.docs[j]["unit_qtity"]) - value;
+                                                                   await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(querySnapshot.docs[j].id)
+                                                                        .update({'unit_qtity': newValue.toString()});
+                                                                    subList.add(str.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4]+  '-0-' + querySnapshot.docs[j]["date"]);
+                                                                    // var docSnapshot = await FirebaseFirestore
+                                                                    //     .instance
+                                                                    //     .collection(
+                                                                    //     'space')
+                                                                    //     .doc(
+                                                                    //     '0NHIS0Jbn26wsgCzVBKT')
+                                                                    //     .collection(
+                                                                    //     'shops')
+                                                                    //     .doc(
+                                                                    //     'PucvhZDuUz3XlkTgzcjb')
+                                                                    //     .collection(
+                                                                    //     'products')
+                                                                    //     .doc(str.split(
+                                                                    //     '-')[0])
+                                                                    //     .collection(
+                                                                    //     'versions')
+                                                                    //     .doc(str.split(
+                                                                    //     '-')[1])
+                                                                    //     .get();
+                                                                    // if (docSnapshot
+                                                                    //     .exists) {
+                                                                    //   Map<String,
+                                                                    //       dynamic>?
+                                                                    //   data =
+                                                                    //   docSnapshot
+                                                                    //       .data();
+                                                                    //   String value =
+                                                                    //   data?[
+                                                                    //   'unit_qtity'];
+
+                                                                    break;
+                                                                  }
+                                                                }
+
+                                                                // outerloop: // This is the label name
+                                                                //
+                                                                // for (var i = 0; i < 5; i++) {
+                                                                //   print("Innerloop: ${i}");
+                                                                //   innerloop:
+                                                                //
+                                                                //   for (var j = 0; j < 5; j++) {
+                                                                //     if (j > 3 ) break ;
+                                                                //
+                                                                //     // Quit the innermost loop
+                                                                //     if (i == 2) break innerloop;
+                                                                //
+                                                                //     // Do the same thing
+                                                                //     if (i == 4) break outerloop;
+                                                                //
+                                                                //     // Quit the outer loop
+                                                                //     print("Innerloop: ${j}");
+                                                                //   }
+                                                                // }
+
+                                                              });
                                                             }
                                                           }
+
+                                                          print('subList here ' + subList.toString());
 
                                                           FirebaseFirestore
                                                               .instance
@@ -1895,7 +1926,7 @@ class HomePageState extends State<HomePage>
                                                                   'main':
                                                                       'total',
                                                                   'subs':
-                                                                      prodList,
+                                                                      subList,
                                                                 }).then((value) {
                                                                   print(
                                                                       'order added');
@@ -2454,7 +2485,7 @@ class HomePageState extends State<HomePage>
                                                                     output2?[prodList2[
                                                                             i]
                                                                         .split(
-                                                                            '-')[10]] +
+                                                                            '-')[4]] +
                                                                     ')',
                                                                 style:
                                                                     TextStyle(
@@ -2579,66 +2610,226 @@ class HomePageState extends State<HomePage>
                                                         DateTime.now();
                                                           List<String> prodList3 =[];
                                                           for (int i=0; i<prodList2.length; i++) {
-                                                             DocumentReference docRef = await FirebaseFirestore
+                                                            if(prodList2[i].split(
+                                                                '-')[4]=='unit_name') {
+                                                              DocumentReference docRef = await FirebaseFirestore
                                                                   .instance
                                                                   .collection(
-                                                                      'space')
+                                                                  'space')
                                                                   .doc(
-                                                                      '0NHIS0Jbn26wsgCzVBKT')
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
                                                                   .collection(
-                                                                      'shops')
+                                                                  'shops')
                                                                   .doc(
-                                                                      'PucvhZDuUz3XlkTgzcjb')
+                                                                  'PucvhZDuUz3XlkTgzcjb')
                                                                   .collection(
-                                                                      'products')
-                                                                  .doc(prodList2[i].split(
+                                                                  'products')
+                                                                  .doc(
+                                                                  prodList2[i]
+                                                                      .split(
                                                                       '-')[0])
                                                                   .collection(
-                                                                      'versions')
+                                                                  'versions')
                                                                   .add(
+
                                                                 {
-                                                                  'date': zeroToTen(now
+                                                                  'date': zeroToTen(
+                                                                      now
                                                                           .day
                                                                           .toString()) +
-                                                                      zeroToTen(now
-                                                                          .month
-                                                                          .toString()) +
-                                                                      zeroToTen(now
-                                                                          .year
-                                                                          .toString()),
+                                                                      zeroToTen(
+                                                                          now
+                                                                              .month
+                                                                              .toString()) +
+                                                                      zeroToTen(
+                                                                          now
+                                                                              .year
+                                                                              .toString()),
                                                                   'unit_qtity':
-                                                                  prodList2[i].split(
-                                                                              '-')[2] +
-                                                                          ' 0',
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[2],
                                                                   'buy_price':
-                                                                  prodList2[i].split(
-                                                                          '-')[1],
-                                                                  'sale_price':
-                                                                      prodList2[i].split(
-                                                                          '-')[3],
-                                                                  'sub1_unit':
-                                                                  prodList2[i].split(
-                                                                          '-')[4],
-                                                                  'sub1_sale':
-                                                                  prodList2[i].split(
-                                                                          '-')[5],
-                                                                  'sub2_unit':
-                                                                  prodList2[i].split(
-                                                                          '-')[6],
-                                                                  'sub2_sale':
-                                                                  prodList2[i].split(
-                                                                          '-')[7],
-                                                                  'sub3_unit':
-                                                                  prodList2[i].split(
-                                                                          '-')[8],
-                                                                  'sub3_sale':
-                                                                  prodList2[i].split(
-                                                                          '-')[9],
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[1],
+                                                                  'type': 'main',
                                                                 },
                                                               );
-                                                            prodList3.add(prodList2[i] + docRef.id);
-                                                            if(i==prodList2.length-1) {
-                                                              addString2Sub(prodList3);
+                                                              prodList3.add(
+                                                                  prodList2[i] +
+                                                                      docRef
+                                                                          .id);
+                                                              if (i == prodList2
+                                                                  .length - 1) {
+                                                                addString2Sub(
+                                                                    prodList3);
+                                                              }
+                                                            }else if(prodList2[i].split(
+                                                                '-')[4]=='sub1_name') {
+                                                              DocumentReference docRef = await FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                  'space')
+                                                                  .doc(
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
+                                                                  .collection(
+                                                                  'shops')
+                                                                  .doc(
+                                                                  'PucvhZDuUz3XlkTgzcjb')
+                                                                  .collection(
+                                                                  'products')
+                                                                  .doc(
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[0])
+                                                                  .collection(
+                                                                  'versions')
+                                                                  .add(
+
+                                                                {
+                                                                  'date': zeroToTen(
+                                                                      now
+                                                                          .day
+                                                                          .toString()) +
+                                                                      zeroToTen(
+                                                                          now
+                                                                              .month
+                                                                              .toString()) +
+                                                                      zeroToTen(
+                                                                          now
+                                                                              .year
+                                                                              .toString()),
+                                                                  'unit_qtity':
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[2],
+                                                                  'buy_price':
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[1],
+                                                                  'type': 'sub1',
+                                                                },
+                                                              );
+                                                              prodList3.add(
+                                                                  prodList2[i] +
+                                                                      docRef
+                                                                          .id);
+                                                              if (i == prodList2
+                                                                  .length - 1) {
+                                                                addString2Sub(
+                                                                    prodList3);
+                                                              }
+                                                            } else if(prodList2[i].split(
+                                                                '-')[4]=='sub2_name') {
+                                                              DocumentReference docRef = await FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                  'space')
+                                                                  .doc(
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
+                                                                  .collection(
+                                                                  'shops')
+                                                                  .doc(
+                                                                  'PucvhZDuUz3XlkTgzcjb')
+                                                                  .collection(
+                                                                  'products')
+                                                                  .doc(
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[0])
+                                                                  .collection(
+                                                                  'versions')
+                                                                  .add(
+
+                                                                {
+                                                                  'date': zeroToTen(
+                                                                      now
+                                                                          .day
+                                                                          .toString()) +
+                                                                      zeroToTen(
+                                                                          now
+                                                                              .month
+                                                                              .toString()) +
+                                                                      zeroToTen(
+                                                                          now
+                                                                              .year
+                                                                              .toString()),
+                                                                  'unit_qtity':
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[2],
+                                                                  'buy_price':
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[1],
+                                                                  'type': 'sub2',
+                                                                },
+                                                              );
+                                                              prodList3.add(
+                                                                  prodList2[i] +
+                                                                      docRef
+                                                                          .id);
+                                                              if (i == prodList2
+                                                                  .length - 1) {
+                                                                addString2Sub(
+                                                                    prodList3);
+                                                              }
+                                                            } else if(prodList2[i].split(
+                                                                '-')[4]=='sub3_name') {
+                                                              DocumentReference docRef = await FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                  'space')
+                                                                  .doc(
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
+                                                                  .collection(
+                                                                  'shops')
+                                                                  .doc(
+                                                                  'PucvhZDuUz3XlkTgzcjb')
+                                                                  .collection(
+                                                                  'products')
+                                                                  .doc(
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[0])
+                                                                  .collection(
+                                                                  'versions')
+                                                                  .add(
+
+                                                                {
+                                                                  'date': zeroToTen(
+                                                                      now
+                                                                          .day
+                                                                          .toString()) +
+                                                                      zeroToTen(
+                                                                          now
+                                                                              .month
+                                                                              .toString()) +
+                                                                      zeroToTen(
+                                                                          now
+                                                                              .year
+                                                                              .toString()),
+                                                                  'unit_qtity':
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[2],
+                                                                  'buy_price':
+                                                                  prodList2[i]
+                                                                      .split(
+                                                                      '-')[1],
+                                                                  'type': 'sub3',
+                                                                },
+                                                              );
+                                                              prodList3.add(
+                                                                  prodList2[i] +
+                                                                      docRef
+                                                                          .id);
+                                                              if (i == prodList2
+                                                                  .length - 1) {
+                                                                addString2Sub(
+                                                                    prodList3);
+                                                              }
                                                             }
                                                           }
                                                       },
