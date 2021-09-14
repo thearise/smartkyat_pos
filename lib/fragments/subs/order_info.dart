@@ -147,9 +147,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                 'totalPrice ' +
                                 prodList.toString());
                             for (String str in prodList) {
-                              totalPrice += int.parse(str.split('-')[2]) *
-                                  (int.parse(str.split('-')[4]) -
-                                      int.parse(str.split('-')[5]));
+                              totalPrice += int.parse(str.split('-')[4]) *
+                                  (int.parse(str.split('-')[3]) -
+                                      int.parse(str.split('-')[7]));
                             }
                             return Container(
                               height: 520,
@@ -249,8 +249,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                       }),
 
                                   for (int i = 0; i < prodList.length; i++)
-                                    if (prodList[i].split('-')[4] !=
-                                        prodList[i].split('-')[5])
+                                    if (prodList[i].split('-')[3] !=
+                                        prodList[i].split('-')[7])
                                       StreamBuilder<
                                           DocumentSnapshot<
                                               Map<String, dynamic>>>(
@@ -283,10 +283,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                 prodList[i]
                                                                         .split(
                                                                             '-')[
-                                                                    4]) -
+                                                                    3]) -
                                                             int.parse(prodList[
                                                                     i]
-                                                                .split('-')[5]))
+                                                                .split('-')[7]))
                                                         .toString()),
                                                     foregroundColor:
                                                         Colors.white,
@@ -295,23 +295,23 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     output2?['prod_name'] +
                                                         ' (' +
                                                         output2?[prodList[i]
-                                                            .split('-')[3]] +
+                                                            .split('-')[5]] +
                                                         ')',
                                                     style: TextStyle(height: 1),
                                                   ),
                                                   subtitle: Text(prodList[i]
-                                                          .split('-')[2] +
+                                                          .split('-')[4] +
                                                       ' MMK'),
                                                   trailing: Text((int.parse(
                                                               prodList[i].split(
-                                                                  '-')[2]) *
+                                                                  '-')[4]) *
                                                           (int.parse(prodList[i]
                                                                   .split(
-                                                                      '-')[4]) -
+                                                                      '-')[3]) -
                                                               int.parse(prodList[
                                                                       i]
                                                                   .split(
-                                                                      '-')[5])))
+                                                                      '-')[7])))
                                                       .toString()),
                                                 ),
                                               ),
@@ -353,7 +353,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                   Text('Returns'),
 
                                   for (int i = 0; i < prodList.length; i++)
-                                    if (prodList[i].split('-')[5] != '0')
+                                    if (prodList[i].split('-')[7] != '0')
                                       StreamBuilder<
                                           DocumentSnapshot<
                                               Map<String, dynamic>>>(
@@ -382,7 +382,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     backgroundColor:
                                                         Colors.indigoAccent,
                                                     child: Text(prodList[i]
-                                                        .split('-')[5]),
+                                                        .split('-')[7]),
                                                     foregroundColor:
                                                         Colors.white,
                                                   ),
@@ -390,18 +390,18 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     output2?['prod_name'] +
                                                         ' (' +
                                                         output2?[prodList[i]
-                                                            .split('-')[3]] +
+                                                            .split('-')[5]] +
                                                         ')',
                                                     style: TextStyle(height: 1),
                                                   ),
                                                   subtitle: Text(prodList[i]
-                                                          .split('-')[2] +
+                                                          .split('-')[4] +
                                                       ' MMK'),
                                                   trailing: Text((int.parse(
                                                               prodList[i].split(
-                                                                  '-')[2]) *
+                                                                  '-')[4]) *
                                                           int.parse(prodList[i]
-                                                              .split('-')[5]))
+                                                              .split('-')[3]))
                                                       .toString()),
                                                 ),
                                                 // subtitle: Text(prodList[i].split('-')[2] + ' MMK'),

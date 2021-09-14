@@ -12,12 +12,13 @@ class FillProduct extends StatefulWidget {
   final _callback3;
   const FillProduct(
       {Key? key,
-      required this.idString,
+      required this.idString, required this.unitname,
       required void toggleCoinCallback(String str),
-      required void toggleCoinCallback3(String str)})
+      required void toggleCoinCallback3(String str),})
       : _callback = toggleCoinCallback,
         _callback3 = toggleCoinCallback3;
   final String idString;
+  final String unitname;
 
   @override
   _FillProductState createState() => _FillProductState();
@@ -118,18 +119,6 @@ class _FillProductState extends State<FillProduct> {
                           color: Colors.white,
                         ),
                         onPressed: () async {
-                          var subUnitFieldValue = ['', '', '', '', '', ''];
-                          int j = -1;
-                          for (int i = 0; i < cards.length; i++) {
-                            subUnitFieldValue[++j] = nameTECs[i].text;
-                            // subUnitFieldValue[++j] = ageTECs[i].text;
-                            subUnitFieldValue[++j] = jobTECs[i].text;
-                            // var name = nameTECs[i].text;
-                            // var age = ageTECs[i].text;
-                            // var job = jobTECs[i].text;
-                            // entries.add(PersonEntry(name, age, job));
-                          }
-                          print('gg nothing' + subUnitFieldValue.toString());
                           widget._callback3(widget.idString +
                               '-' +
                               msaleCtrl.text +
@@ -137,19 +126,8 @@ class _FillProductState extends State<FillProduct> {
                               munitCtrl.text +
                               '-' +
                               mcostCtrl.text +
-                              '-' +
-                              subUnitFieldValue[0].toString() +
-                              '-' +
-                              subUnitFieldValue[1].toString() +
-                              '-' +
-                              subUnitFieldValue[2].toString() +
-                              '-' +
-                              subUnitFieldValue[3].toString() +
-                              '-' +
-                              subUnitFieldValue[4].toString() +
-                              '-' +
-                              subUnitFieldValue[5].toString() +
-                              '-unit_name-1'.toString());
+
+                              '-'+ widget.unitname +'-'+'1'.toString());
                           Navigator.pop(context);
                         }),
                   )
@@ -188,11 +166,11 @@ class _FillProductState extends State<FillProduct> {
                             if (snapshot2.hasData) {
                               var output1 = snapshot2.data!.data();
                               var prodName = output1?['prod_name'];
-                              var unitName = output1?['unit_name'];
-                              var Sub1unitName = output1?['sub1_name'];
-                              var Sub2unitName = output1?['sub2_name'];
-                              var Sub3unitName = output1?['sub3_name'];
-                              return Column(
+                              var mainName = output1?[widget.unitname];
+                              var Sub1Name = output1?['sub1_name'];
+                              var Sub2Name = output1?['sub2_name'];
+                              var Sub3Name = output1?['sub3_name'];
+                        return Column(
                                 children: [
                                   Container(
                                     alignment: Alignment.topLeft,
@@ -314,7 +292,7 @@ class _FillProductState extends State<FillProduct> {
                                                   30) *
                                               (1.41 / 4),
                                           child: Text(
-                                            unitName,
+                                            mainName,
                                             style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
@@ -446,62 +424,6 @@ class _FillProductState extends State<FillProduct> {
                                   ),
                                   SizedBox(
                                     height: 20,
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 15.0, right: 15.0),
-                                          child: ButtonTheme(
-                                            splashColor: Colors.transparent,
-                                            minWidth: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 54,
-                                            child: FlatButton(
-                                              color: AppTheme.secButtonColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              onPressed: () {
-                                                if (cards.length == 0) {
-                                                  setState(() => cards.add(
-                                                      createCard(
-                                                          Sub1unitName)));
-                                                } else if (cards.length == 1) {
-                                                  setState(() => cards.add(
-                                                      createCard(
-                                                          Sub2unitName)));
-                                                } else if (cards.length == 2) {
-                                                  setState(() => cards.add(
-                                                      createCard(
-                                                          Sub3unitName)));
-                                                } else
-                                                  print('Cards limit reached');
-                                              },
-                                              child: Text(
-                                                'Add sub unit',
-                                                style: TextStyle(
-                                                  fontSize: 16.5,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: cards.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return cards[index];
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 50,
                                   ),
                                 ],
                               );

@@ -134,9 +134,9 @@ class _BuyListRefundState extends State<BuyListRefund>
                               for (int i = 0; i < prodList.length; i++) {
                                 // refundItems[i] = int.parse(prodList[i].split('-')[5]);
                                 refundItems
-                                    .add(int.parse(prodList[i].split('-')[12]));
+                                    .add(int.parse(prodList[i].split('-')[6]));
                                 deffItems
-                                    .add(int.parse(prodList[i].split('-')[12]));
+                                    .add(int.parse(prodList[i].split('-')[6]));
                               }
                               initAttempt = true;
                             }
@@ -180,21 +180,9 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                     '-' +
                                                     prodList[i].split('-')[5] +
                                                     '-' +
-                                                    prodList[i].split('-')[6] +
-                                                    '-' +
-                                                    prodList[i].split('-')[7] +
-                                                    '-' +
-                                                    prodList[i].split('-')[8] +
-                                                    '-' +
-                                                    prodList[i].split('-')[9] +
-                                                    '-' +
-                                                    prodList[i].split('-')[10] +
-                                                    '-' +
-                                                    prodList[i].split('-')[11] +
-                                                    '-' +
                                                     refundItems[i].toString() +
                                                     '-' +
-                                                    prodList[i].split('-')[13];
+                                                    prodList[i].split('-')[7];
                                             total += (int.parse(prodList[i]
                                                         .split('-')[2]) -
                                                     refundItems[i]) *
@@ -215,22 +203,16 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 .doc(prodList[i].split('-')[0])
                                                 .collection('versions');
                                             var docSnapshot = await collection
-                                                .doc(prodList[i].split('-')[13])
+                                                .doc(prodList[i].split('-')[7])
                                                 .get();
                                             if (docSnapshot.exists) {
                                               Map<String, dynamic>? data =
                                                   docSnapshot.data();
                                               var mainUnits =
                                                   data?['unit_qtity'];
-                                              var sub1Units =
-                                                  data?['sub1_unit'];
-                                              var sub2Units =
-                                                  data?['sub2_unit'];
-                                              var sub3Units =
-                                                  data?['sub3_unit'];
 
                                               print('unit _name' + prodList[i]);
-                                              if (prodList[i].split('-')[10] ==
+                                              if (prodList[i].split('-')[4] ==
                                                   'unit_name') {
                                                 print('unit ' +
                                                     deffItems[i].toString() +
@@ -254,7 +236,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                             .split('-')[0])
                                                         .collection('versions')
                                                         .doc(prodList[i]
-                                                            .split('-')[13])
+                                                            .split('-')[7])
                                                         .get();
                                                 if (docSnapshot.exists) {
                                                   Map<String, dynamic>? data =
@@ -273,16 +255,16 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                           .split('-')[0])
                                                       .collection('versions')
                                                       .doc(prodList[i]
-                                                          .split('-')[13])
+                                                          .split('-')[7])
                                                       .update({
-                                                        'unit_qtity': deffItems[
-                                                                        i] -
-                                                                    refundItems[
-                                                                        i] <
-                                                                0
-                                                            ? (int.parse(value) + (deffItems[i] - refundItems[i])).toString()
-                                                            : (int.parse(value) + (deffItems[i] - refundItems[i])).toString()
-                                                      })
+                                                    'unit_qtity': deffItems[
+                                                    i] -
+                                                        refundItems[
+                                                        i] <
+                                                        0
+                                                        ? (int.parse(value) + (deffItems[i] - refundItems[i])).toString()
+                                                        : (int.parse(value) + (deffItems[i] - refundItems[i])).toString()
+                                                  })
                                                       .then((value) =>
                                                           print("User Updated"))
                                                       .catchError((error) => print(
@@ -430,7 +412,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   output2?['prod_name'] +
                                                       ' (' +
                                                       output2?[prodList[i]
-                                                          .split('-')[10]] +
+                                                          .split('-')[4]] +
                                                       ')',
                                                 ),
                                                 Text(prodList[i].split('-')[1] +
@@ -504,11 +486,11 @@ class _BuyListRefundState extends State<BuyListRefund>
                               ),
                             );
                           }
-
                           return Container();
                         })
                 ]),
           )),
     );
   }
+
 }
