@@ -1025,7 +1025,7 @@ class HomePageState extends State<HomePage>
               'main':
               'total',
               'subs':
-              prodList2,
+              data,
             }).then((value) {
               print(
                   'order added');
@@ -2112,7 +2112,7 @@ class HomePageState extends State<HomePage>
                                                                   'main':
                                                                       'total',
                                                                   'subs':
-                                                                      prodList,
+                                                                      subList,
                                                                 }).then((value) {
                                                                   print(
                                                                       'order added');
