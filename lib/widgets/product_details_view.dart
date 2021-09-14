@@ -41,12 +41,16 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     widget._callback3(data);
   }
 
-  routeFill(res){
+  routeFill(res) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                FillProduct(idString: widget.idString, toggleCoinCallback: addProduct2, toggleCoinCallback3: addProduct3, unitname: res, )));
+            builder: (context) => FillProduct(
+                  idString: widget.idString,
+                  toggleCoinCallback: addProduct2,
+                  toggleCoinCallback3: addProduct3,
+                  unitname: res,
+                )));
   }
 
   @override
@@ -180,7 +184,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                           '-unit_name-1'.toString());
                                     } else {
                                       final result =
-                                      await showModalActionSheet<String>(
+                                          await showModalActionSheet<String>(
                                         context: context,
                                         actions: [
                                           SheetAction(
@@ -264,37 +268,39 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    final result = await showModalActionSheet<String>(
-                                      context: context,
-                                      actions: [
-                                        SheetAction(
-                                          icon: Icons.info,
-                                          label: '1 ' + mainName,
-                                          key: 'unit_name'
-                                        ),
-                                        if (sub1Price != '')
+                                    if (sub1Name == '') {
+                                      routeFill('unit_name');
+                                    } else {
+                                      final result =
+                                          await showModalActionSheet<String>(
+                                        context: context,
+                                        actions: [
                                           SheetAction(
-                                            icon: Icons.info,
-                                            label: '1 ' + sub1Name,
-                                            key: 'sub1_name'
-                                          ),
-                                        if (sub2Price != '')
-                                          SheetAction(
-                                            icon: Icons.info,
-                                            label: '1 ' + sub2Name,
-                                            key: 'sub2_name'
-                                          ),
-                                        if (sub3Price != '')
-                                          SheetAction(
-                                            icon: Icons.info,
-                                            label: '1 ' + sub3Name,
-                                            key: 'sub3_name'
-                                          ),
-                                      ],
-                                    );
-                                    print(result.toString());
-                                   routeFill(result);
-                                    },
+                                              icon: Icons.info,
+                                              label: '1 ' + mainName,
+                                              key: 'unit_name'),
+                                          if (sub1Price != '')
+                                            SheetAction(
+                                                icon: Icons.info,
+                                                label: '1 ' + sub1Name,
+                                                key: 'sub1_name'),
+                                          if (sub2Price != '')
+                                            SheetAction(
+                                                icon: Icons.info,
+                                                label: '1 ' + sub2Name,
+                                                key: 'sub2_name'),
+                                          if (sub3Price != '')
+                                            SheetAction(
+                                                icon: Icons.info,
+                                                label: '1 ' + sub3Name,
+                                                key: 'sub3_name'),
+                                        ],
+                                      );
+                                      if(result!=null) {
+                                        routeFill(result);
+                                      }
+                                    }
+                                  },
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -365,62 +371,45 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                     Column(
                                       children: [
                                         StreamBuilder(
-                                            stream: FirebaseFirestore
-                                                .instance
-                                                .collection(
-                                                'space')
-                                                .doc(
-                                                '0NHIS0Jbn26wsgCzVBKT')
-                                                .collection(
-                                                'shops')
-                                                .doc(
-                                                'PucvhZDuUz3XlkTgzcjb')
-                                                .collection(
-                                                'products')
+                                            stream: FirebaseFirestore.instance
+                                                .collection('space')
+                                                .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                .collection('shops')
+                                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                                .collection('products')
                                                 .doc(widget.idString)
-                                                .collection(
-                                                'versions')
+                                                .collection('versions')
                                                 .where('type',
-                                                isEqualTo:
-                                                'main')
+                                                    isEqualTo: 'main')
                                                 .snapshots(),
-                                            builder: (BuildContext
-                                            context,
-                                                AsyncSnapshot<
-                                                    QuerySnapshot>
-                                                snapshot2) {
-                                              if (snapshot2
-                                                  .hasData) {
-                                                int quantity =
-                                                0;
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<QuerySnapshot>
+                                                    snapshot2) {
+                                              if (snapshot2.hasData) {
+                                                int quantity = 0;
                                                 var mainQuantity;
-                                                snapshot2
-                                                    .data!
-                                                    .docs
-                                                    .map((DocumentSnapshot
-                                                document) {
-                                                  Map<String,
-                                                      dynamic>
-                                                  data1 =
-                                                  document.data()! as Map<
-                                                      String,
-                                                      dynamic>;
+                                                snapshot2.data!.docs.map(
+                                                    (DocumentSnapshot
+                                                        document) {
+                                                  Map<String, dynamic> data1 =
+                                                      document.data()! as Map<
+                                                          String, dynamic>;
 
-                                                  quantity +=
-                                                      int.parse(
-                                                          data1['unit_qtity']);
+                                                  quantity += int.parse(
+                                                      data1['unit_qtity']);
                                                   mainQuantity =
-                                                      quantity
-                                                          .toString();
+                                                      quantity.toString();
                                                 }).toList();
                                                 return Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
                                                       child: Text(
                                                         'Main Quantity',
                                                         style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
+                                                          fontWeight:
+                                                              FontWeight.w500,
                                                           fontSize: 16,
                                                           // letterSpacing: 2,
                                                           color: Colors.black,
@@ -431,90 +420,76 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                                       '$mainQuantity $mainName',
                                                       style: TextStyle(
                                                         fontSize: 16,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Colors.blueGrey.withOpacity(1.0),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.blueGrey
+                                                            .withOpacity(1.0),
                                                       ),
                                                     ),
                                                     Container(
-                                                        width: MediaQuery.of(context)
+                                                        width: MediaQuery.of(
+                                                                context)
                                                             .size
                                                             .width,
                                                         height: 1.5,
                                                         color: Colors.grey
                                                             .withOpacity(0.3)),
-                                                    SizedBox(height: 20,),
-
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
                                                   ],
                                                 );
                                               }
                                               return Container();
                                             }),
                                         StreamBuilder(
-                                            stream: FirebaseFirestore
-                                                .instance
-                                                .collection(
-                                                'space')
-                                                .doc(
-                                                '0NHIS0Jbn26wsgCzVBKT')
-                                                .collection(
-                                                'shops')
-                                                .doc(
-                                                'PucvhZDuUz3XlkTgzcjb')
-                                                .collection(
-                                                'products')
+                                            stream: FirebaseFirestore.instance
+                                                .collection('space')
+                                                .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                .collection('shops')
+                                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                                .collection('products')
                                                 .doc(widget.idString)
-                                                .collection(
-                                                'versions')
+                                                .collection('versions')
                                                 .where('type',
-                                                isEqualTo:
-                                                'sub1')
+                                                    isEqualTo: 'sub1')
                                                 .snapshots(),
-                                            builder: (BuildContext
-                                            context,
-                                                AsyncSnapshot<
-                                                    QuerySnapshot>
-                                                snapshot3) {
-                                              if (snapshot3
-                                                  .hasData) {
-                                                int quantity1 =
-                                                0;
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<QuerySnapshot>
+                                                    snapshot3) {
+                                              if (snapshot3.hasData) {
+                                                int quantity1 = 0;
                                                 var sub1Quantity;
-                                                snapshot3
-                                                    .data!
-                                                    .docs
-                                                    .map((DocumentSnapshot
-                                                document) {
-                                                  Map<String,
-                                                      dynamic>
-                                                  data2 =
-                                                  document.data()! as Map<
-                                                      String,
-                                                      dynamic>;
-                                                  if (data2[
-                                                  'unit_qtity'] !=
+                                                snapshot3.data!.docs.map(
+                                                    (DocumentSnapshot
+                                                        document) {
+                                                  Map<String, dynamic> data2 =
+                                                      document.data()! as Map<
+                                                          String, dynamic>;
+                                                  if (data2['unit_qtity'] !=
                                                       '') {
-                                                    quantity1 +=
-                                                        int.parse(
-                                                            data2['unit_qtity']);
+                                                    quantity1 += int.parse(
+                                                        data2['unit_qtity']);
                                                     sub1Quantity =
-                                                        quantity1
-                                                            .toString();
+                                                        quantity1.toString();
                                                   } else
                                                     return Container();
                                                 }).toList();
                                                 // print(sub1Quantity);
                                                 // print(mainQuantity);
 
-                                                if (sub1Quantity !=
-                                                    null) {
+                                                if (sub1Quantity != null) {
                                                   return Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Container(
                                                         child: Text(
                                                           'Sub1 Quantity',
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
+                                                            fontWeight:
+                                                                FontWeight.w500,
                                                             fontSize: 16,
                                                             // letterSpacing: 2,
                                                             color: Colors.black,
@@ -525,18 +500,24 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                                         '$sub1Quantity $sub1Name',
                                                         style: TextStyle(
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w400,
-                                                          color: Colors.blueGrey.withOpacity(1.0),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.blueGrey
+                                                              .withOpacity(1.0),
                                                         ),
                                                       ),
                                                       Container(
-                                                          width: MediaQuery.of(context)
+                                                          width: MediaQuery.of(
+                                                                  context)
                                                               .size
                                                               .width,
                                                           height: 1.5,
                                                           color: Colors.grey
-                                                              .withOpacity(0.3)),
-                                                      SizedBox(height: 20,),
+                                                              .withOpacity(
+                                                                  0.3)),
+                                                      SizedBox(
+                                                        height: 20,
+                                                      ),
                                                     ],
                                                   );
                                                 }
@@ -545,68 +526,50 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                               return Container();
                                             }),
                                         StreamBuilder(
-                                            stream: FirebaseFirestore
-                                                .instance
-                                                .collection(
-                                                'space')
-                                                .doc(
-                                                '0NHIS0Jbn26wsgCzVBKT')
-                                                .collection(
-                                                'shops')
-                                                .doc(
-                                                'PucvhZDuUz3XlkTgzcjb')
-                                                .collection(
-                                                'products')
+                                            stream: FirebaseFirestore.instance
+                                                .collection('space')
+                                                .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                .collection('shops')
+                                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                                .collection('products')
                                                 .doc(widget.idString)
-                                                .collection(
-                                                'versions')
+                                                .collection('versions')
                                                 .where('type',
-                                                isEqualTo:
-                                                'sub2')
+                                                    isEqualTo: 'sub2')
                                                 .snapshots(),
-                                            builder: (BuildContext
-                                            context,
-                                                AsyncSnapshot<
-                                                    QuerySnapshot>
-                                                snapshot4) {
-                                              if (snapshot4
-                                                  .hasData) {
-                                                int quantity2 =
-                                                0;
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<QuerySnapshot>
+                                                    snapshot4) {
+                                              if (snapshot4.hasData) {
+                                                int quantity2 = 0;
                                                 var sub2Quantity;
-                                                snapshot4
-                                                    .data!
-                                                    .docs
-                                                    .map((DocumentSnapshot
-                                                document) {
-                                                  Map<String,
-                                                      dynamic>
-                                                  data3 =
-                                                  document.data()! as Map<
-                                                      String,
-                                                      dynamic>;
-                                                  if (data3[
-                                                  'unit_qtity'] !=
+                                                snapshot4.data!.docs.map(
+                                                    (DocumentSnapshot
+                                                        document) {
+                                                  Map<String, dynamic> data3 =
+                                                      document.data()! as Map<
+                                                          String, dynamic>;
+                                                  if (data3['unit_qtity'] !=
                                                       '') {
-                                                    quantity2 +=
-                                                        int.parse(
-                                                            data3['unit_qtity']);
+                                                    quantity2 += int.parse(
+                                                        data3['unit_qtity']);
                                                     sub2Quantity =
-                                                        quantity2
-                                                            .toString();
+                                                        quantity2.toString();
                                                   } else
                                                     return Container();
                                                 }).toList();
-                                                if (sub2Quantity !=
-                                                    null) {
+                                                if (sub2Quantity != null) {
                                                   return Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Container(
                                                         child: Text(
                                                           'Sub2 Quantity',
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
+                                                            fontWeight:
+                                                                FontWeight.w500,
                                                             fontSize: 16,
                                                             // letterSpacing: 2,
                                                             color: Colors.black,
@@ -617,19 +580,24 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                                         '$sub2Quantity $sub2Name',
                                                         style: TextStyle(
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w400,
-                                                          color: Colors.blueGrey.withOpacity(1.0),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.blueGrey
+                                                              .withOpacity(1.0),
                                                         ),
                                                       ),
                                                       Container(
-                                                          width: MediaQuery.of(context)
+                                                          width: MediaQuery.of(
+                                                                  context)
                                                               .size
                                                               .width,
                                                           height: 1.5,
                                                           color: Colors.grey
-                                                              .withOpacity(0.3)),
-                                                      SizedBox(height: 20,),
-
+                                                              .withOpacity(
+                                                                  0.3)),
+                                                      SizedBox(
+                                                        height: 20,
+                                                      ),
                                                     ],
                                                   );
                                                 }
@@ -638,70 +606,52 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                               return Container();
                                             }),
                                         StreamBuilder(
-                                            stream: FirebaseFirestore
-                                                .instance
-                                                .collection(
-                                                'space')
-                                                .doc(
-                                                '0NHIS0Jbn26wsgCzVBKT')
-                                                .collection(
-                                                'shops')
-                                                .doc(
-                                                'PucvhZDuUz3XlkTgzcjb')
-                                                .collection(
-                                                'products')
+                                            stream: FirebaseFirestore.instance
+                                                .collection('space')
+                                                .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                .collection('shops')
+                                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                                .collection('products')
                                                 .doc(widget.idString)
-                                                .collection(
-                                                'versions')
+                                                .collection('versions')
                                                 .where('type',
-                                                isEqualTo:
-                                                'sub3')
+                                                    isEqualTo: 'sub3')
                                                 .snapshots(),
-                                            builder: (BuildContext
-                                            context,
-                                                AsyncSnapshot<
-                                                    QuerySnapshot>
-                                                snapshot5) {
-                                              if (snapshot5
-                                                  .hasData) {
-                                                int quantity3 =
-                                                0;
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<QuerySnapshot>
+                                                    snapshot5) {
+                                              if (snapshot5.hasData) {
+                                                int quantity3 = 0;
                                                 var sub3Quantity;
-                                                snapshot5
-                                                    .data!
-                                                    .docs
-                                                    .map((DocumentSnapshot
-                                                document) {
-                                                  Map<String,
-                                                      dynamic>
-                                                  data4 =
-                                                  document.data()! as Map<
-                                                      String,
-                                                      dynamic>;
-                                                  if (data4[
-                                                  'unit_qtity'] !=
+                                                snapshot5.data!.docs.map(
+                                                    (DocumentSnapshot
+                                                        document) {
+                                                  Map<String, dynamic> data4 =
+                                                      document.data()! as Map<
+                                                          String, dynamic>;
+                                                  if (data4['unit_qtity'] !=
                                                       '') {
-                                                    quantity3 +=
-                                                        int.parse(
-                                                            data4['unit_qtity']);
+                                                    quantity3 += int.parse(
+                                                        data4['unit_qtity']);
                                                     sub3Quantity =
-                                                        quantity3
-                                                            .toString();
+                                                        quantity3.toString();
                                                   } else
                                                     return Container();
                                                 }).toList();
                                                 // print(sub1Quantity);
                                                 // print(mainQuantity);
-                                                if (sub3Quantity !=
-                                                    null) {
+                                                if (sub3Quantity != null) {
                                                   return Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Container(
                                                         child: Text(
                                                           'Sub3 Quantity',
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
+                                                            fontWeight:
+                                                                FontWeight.w500,
                                                             fontSize: 16,
                                                             // letterSpacing: 2,
                                                             color: Colors.black,
@@ -712,19 +662,24 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                                         '$sub3Quantity $sub3Name',
                                                         style: TextStyle(
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w400,
-                                                          color: Colors.blueGrey.withOpacity(1.0),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.blueGrey
+                                                              .withOpacity(1.0),
                                                         ),
                                                       ),
                                                       Container(
-                                                          width: MediaQuery.of(context)
+                                                          width: MediaQuery.of(
+                                                                  context)
                                                               .size
                                                               .width,
                                                           height: 1.5,
                                                           color: Colors.grey
-                                                              .withOpacity(0.3)),
-                                                      SizedBox(height: 20,),
-
+                                                              .withOpacity(
+                                                                  0.3)),
+                                                      SizedBox(
+                                                        height: 20,
+                                                      ),
                                                     ],
                                                   );
                                                 }
@@ -760,7 +715,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 15,),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
                                     Text(
                                       mainPrice,
                                       style: TextStyle(
@@ -769,249 +726,296 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                         color: Colors.blueGrey.withOpacity(1.0),
                                       ),
                                     ),
-                                    SizedBox(height: 15,),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
                                     Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         height: 1.5,
-                                        color: Colors.grey
-                                            .withOpacity(0.3)),
-                                    SizedBox(height: 15,),
+                                        color: Colors.grey.withOpacity(0.3)),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
                                     sub1Price != ""
                                         ? Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            'Sub1 Price',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              // letterSpacing: 2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-
-                                    SizedBox(height: 15,),
-                                    Text(
-                                      sub1Price,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.blueGrey.withOpacity(1.0),
-                                      ),
-                                    ),
-                                    SizedBox(height: 15,),
-                                    Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        height: 1.5,
-                                        color: Colors.grey
-                                            .withOpacity(0.3)),
-                                    SizedBox(height: 15,),
-                                      ],
-                                    ): Container(),
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'Sub1 Price',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    // letterSpacing: 2,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                sub1Price,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: 1.5,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                            ],
+                                          )
+                                        : Container(),
                                     sub2Price != ""
-                                        ?Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            'Sub2 Price',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              // letterSpacing: 2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-
-                                    SizedBox(height: 15,),
-                                    Text(
-                                      sub2Price,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.blueGrey.withOpacity(1.0),
-                                      ),
-                                    ),
-                                    SizedBox(height: 15,),
-                                    Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        height: 1.5,
-                                        color: Colors.grey
-                                            .withOpacity(0.3)),
-                                    SizedBox(height: 15,),
-                                      ],
-                                    ): Container(),
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'Sub2 Price',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    // letterSpacing: 2,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                sub2Price,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: 1.5,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                            ],
+                                          )
+                                        : Container(),
                                     sub3Price != ""
-                                        ?Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            'Sub3 Price',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              // letterSpacing: 2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-
-                                    SizedBox(height: 15,),
-                                    Text(
-                                      sub3Price,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.blueGrey.withOpacity(1.0),
-                                      ),
-                                    ),
-                                    SizedBox(height: 15,),
-                                    Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        height: 1.5,
-                                        color: Colors.grey
-                                            .withOpacity(0.3)),
-                                    SizedBox(height: 15,),
-                                      ],
-                                    ): Container(),
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'Sub3 Price',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    // letterSpacing: 2,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                sub3Price,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: 1.5,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                            ],
+                                          )
+                                        : Container(),
                                     sub1Unit != ""
-                                        ?Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "Sub per Main Unit",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              letterSpacing: 2,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ),
-
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        'Sub1',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          // letterSpacing: 2,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 15,),
-                                    Text(
-                                      sub1Unit,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.blueGrey.withOpacity(1.0),
-                                      ),
-                                    ),
-                                    SizedBox(height: 15,),
-                                    Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        height: 1.5,
-                                        color: Colors.grey
-                                            .withOpacity(0.3)),
-                                    SizedBox(height: 20,),
-                                      ],
-                                    ): Container(),
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  "Sub per Main Unit",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                    letterSpacing: 2,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
+                                                child: Text(
+                                                  'Sub1',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    // letterSpacing: 2,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                sub1Unit,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: 1.5,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                            ],
+                                          )
+                                        : Container(),
                                     sub2Unit != ""
-                                        ?Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            'Sub2',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              // letterSpacing: 2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-
-                                    SizedBox(height: 15,),
-                                    Text(
-                                      sub2Unit,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.blueGrey.withOpacity(1.0),
-                                      ),
-                                    ),
-                                    SizedBox(height: 15,),
-                                    Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        height: 1.5,
-                                        color: Colors.grey
-                                            .withOpacity(0.3)),
-                                    SizedBox(height: 20,),
-                                      ],
-                                    ):Container(),
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'Sub2',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    // letterSpacing: 2,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                sub2Unit,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: 1.5,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                            ],
+                                          )
+                                        : Container(),
                                     sub3Unit != ""
-                                        ?Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            'Sub3',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              // letterSpacing: 2,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-
-                                    SizedBox(height: 15,),
-                                    Text(
-                                      sub3Unit,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.blueGrey.withOpacity(1.0),
-                                      ),
-                                    ),
-                                    SizedBox(height: 15,),
-                                    Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-                                        height: 1.5,
-                                        color: Colors.grey
-                                            .withOpacity(0.3)),
-                                    SizedBox(height: 20,),
-                                      ],
-                                    ):Container(),
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  'Sub3',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    // letterSpacing: 2,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                sub3Unit,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.blueGrey
+                                                      .withOpacity(1.0),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: 1.5,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3)),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                            ],
+                                          )
+                                        : Container(),
                                     Container(
                                       alignment: Alignment.topLeft,
                                       child: Text(
