@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:smartkyat_pos/login.dart';
 import 'package:smartkyat_pos/pages2/home_page.dart';
@@ -18,7 +19,7 @@ Future<void> main() async {
 
 
 class MyApp extends StatelessWidget {
-
+  final navigatorKey = GlobalKey<NavigatorState>();
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
 
 
     return MaterialApp(
+      navigatorKey: OneContext().key,
       title: 'Flutter UI',
       debugShowCheckedModeBanner: false,
 
@@ -46,6 +48,8 @@ class MyApp extends StatelessWidget {
         // primarySwatch: Colors.teal,
         canvasColor: Colors.white,
       ),
+      navigatorObservers: [OneContext().heroController],
+      builder: OneContext().builder,
       //home: App(settings),
       // home: HomePage(),
       home: HomePage()

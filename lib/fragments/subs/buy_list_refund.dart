@@ -280,21 +280,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                     refundItems[
                                                                         i] <
                                                                 0
-                                                            ? (MixedFraction.fromString(
-                                                                        value) -
-                                                                    MixedFraction.fromString('0 ' +
-                                                                        (deffItems[i] - refundItems[i])
-                                                                            .toString() +
-                                                                        '/1'))
-                                                                .toString()
-                                                            : (MixedFraction.fromString(
-                                                                        value) +
-                                                                    MixedFraction.fromString('0 ' +
-                                                                        (deffItems[i] -
-                                                                                refundItems[i])
-                                                                            .toString() +
-                                                                        '/1'))
-                                                                .toString()
+                                                            ? (int.parse(value) + (deffItems[i] - refundItems[i])).toString()
+                                                            : (int.parse(value) + (deffItems[i] - refundItems[i])).toString()
                                                       })
                                                       .then((value) =>
                                                           print("User Updated"))
