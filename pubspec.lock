@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.6.0"
+  back_button_interceptor:
+    dependency: transitive
+    description:
+      name: back_button_interceptor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -92,6 +99,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  charts_common:
+    dependency: transitive
+    description:
+      name: charts_common
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.0"
+  charts_flutter:
+    dependency: "direct main"
+    description:
+      name: charts_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.0"
   clock:
     dependency: transitive
     description:
@@ -286,6 +307,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
+  flutter_cupertino_datetime_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_cupertino_datetime_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   flutter_image_compress:
     dependency: "direct main"
     description:
@@ -317,6 +345,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   heic_to_jpg:
     dependency: "direct main"
     description:
@@ -366,6 +401,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   matcher:
     dependency: transitive
     description:
@@ -394,6 +436,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0+1"
+  one_context:
+    dependency: "direct main"
+    description:
+      name: one_context
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   package_info_plus:
     dependency: "direct main"
     description:
