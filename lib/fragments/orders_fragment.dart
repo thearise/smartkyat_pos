@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:intl/intl.dart';
@@ -23,10 +24,23 @@ class _OrdersFragmentState extends State<OrdersFragment>
   bool get wantKeepAlive => true;
   var sectionList;
   int _sliding = 0;
-
+  late TabController _controller;
   @override
   initState() {
+    _controller = new TabController(length: 2, vsync: this);
 
+    _controller.addListener((){
+      print('my index is'+ _controller.index.toString());
+      if(_controller.index.toString()=='1') {
+        setState(() {
+          _sliding = 1;
+        });
+      } else {
+        setState(() {
+          _sliding = 0;
+        });
+      }
+    });
     print(convertToDate('20210904').toString());
     super.initState();
   }
@@ -54,399 +68,611 @@ class _OrdersFragmentState extends State<OrdersFragment>
                 child: Padding(
                   // padding: const EdgeInsets.only(top: 138.0),
                   padding: const EdgeInsets.only(top: 125.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
-                    width: MediaQuery.of(context).size.width,
-                    color: AppTheme.lightBgColor,
-                    child: StreamBuilder(
-                        stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').orderBy('date', descending: true).snapshots(),
-                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if(snapshot.hasData) {
-                            return StreamBuilder(
-                              stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').snapshots(),
-                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                if(snapshot2.hasData) {
-                                  var sections = List<ExampleSection>.empty(growable: true);
-                                  // snapshot.data!.docs.map((document) {
-                                  // }).toList();
+                  child: TabBarView(
+                    physics: NeverScrollableScrollPhysics(),
+                    controller: _controller,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
+                        width: MediaQuery.of(context).size.width,
+                        color: AppTheme.lightBgColor,
+                        child: StreamBuilder(
+                            stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').orderBy('date', descending: true).snapshots(),
+                            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if(snapshot.hasData) {
+                                return StreamBuilder(
+                                  stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').snapshots(),
+                                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                                    if(snapshot2.hasData) {
+                                      var sections = List<ExampleSection>.empty(growable: true);
+                                      // snapshot.data!.docs.map((document) {
+                                      // }).toList();
 
-                                  snapshot.data!.docs.map((document) async {
+                                      snapshot.data!.docs.map((document) async {
 
-                                    // print('herre ' + document.id);
-                                    var section = ExampleSection()
-                                      ..header = document['date']
-                                    // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                    //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-                                      ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-                                    //   ..items = document['daily_order'].cast<String>()
-                                      ..expanded = true;
-                                    sections.add(section);
-                                  }).toList();
-                                  sectionList = sections;
+                                        // print('herre ' + document.id);
+                                        var section = ExampleSection()
+                                          ..header = document['date']
+                                        // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                        //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                                          ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                        //   ..items = document['daily_order'].cast<String>()
+                                          ..expanded = true;
+                                        sections.add(section);
+                                      }).toList();
+                                      sectionList = sections;
 
-                                  return CustomScrollView(
-                                    slivers: <Widget>[
-                                      SliverExpandableList(
-                                        builder: SliverExpandableChildDelegate(
-                                          sectionList: sectionList,
-                                          headerBuilder: _buildHeader,
-                                          itemBuilder: (context, sectionIndex, itemIndex, index) {
-                                            String item = sectionList[sectionIndex].items[itemIndex];
-                                            int length = sectionList[sectionIndex].items.length;
-
-
-                                            // CollectionReference daily_exps_inner = FirebaseFirestore.instance
-                                            //     .collection('users')
-                                            //     .doc(FirebaseAuth.instance.currentUser!.uid)
-                                            //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
+                                      return CustomScrollView(
+                                        slivers: <Widget>[
+                                          SliverExpandableList(
+                                            builder: SliverExpandableChildDelegate(
+                                              sectionList: sectionList,
+                                              headerBuilder: _buildHeader,
+                                              itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                                String item = sectionList[sectionIndex].items[itemIndex];
+                                                int length = sectionList[sectionIndex].items.length;
 
 
-                                            // StreamBuilder(
-                                            //   stream: daily_exps_inner.snapshots(),
-                                            //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                                            //     if(snapshot3.hasData) {
-                                            //
-                                            //     } else {
-                                            //       return Container();
-                                            //     }
-                                            //   },
-                                            // )
-                                            if(itemIndex == length-1) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  // print(item.split('^')[1]);
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
-                                                  );
-                                                },
-                                                child: Stack(
-                                                  alignment: Alignment.center,
-
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: AppTheme.lightBgColor,
-                                                            border: Border(
-                                                              bottom: BorderSide(
-                                                                  color: AppTheme.skBorderColor2,
-                                                                  width: 1.0),
-                                                            )),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 1.0),
-                                                                child: Column(
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    Text('#' + item.split('^')[1],
-                                                                      style: TextStyle(
-                                                                          fontSize: 18,
-                                                                          fontWeight: FontWeight.w500
-                                                                      ),
-
-                                                                    ),
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                      child: Text('MMK ' + item.split('^')[2]),
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        Text(item.split('^')[3].split('&')[0]),
-
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  if(item.split('^')[4][0] == 'r')
-                                                                    Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(6.0),
-                                                                        color: AppTheme.badgeBgSecond,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                        child: Text('Refunded',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-
-                                                                  if(item.split('^')[4][0] == 's')
-                                                                    Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(6.0),
-                                                                        color: AppTheme.badgeBgSecond,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                        child: Text('Partially refunded',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-
-                                                                  if(item.split('^')[4][1] == 'f')
-                                                                    Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(6.0),
-                                                                        color: AppTheme.badgeBgSuccess,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                        child: Text('Paid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    )
+                                                // CollectionReference daily_exps_inner = FirebaseFirestore.instance
+                                                //     .collection('users')
+                                                //     .doc(FirebaseAuth.instance.currentUser!.uid)
+                                                //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
 
 
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right: 15.0, bottom: 1),
-                                                      child: Align(
-                                                        alignment: Alignment.centerRight,
-                                                        child: Icon(
-                                                          Icons
-                                                              .arrow_forward_ios_rounded,
-                                                          size: 16,
-                                                          color: Colors
-                                                              .blueGrey
-                                                              .withOpacity(
-                                                              0.8),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                            return GestureDetector(
-                                              onTap: () {
-                                                // print(item.split('^')[1]);
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
-                                                );
-                                              },
-                                              child: Stack(
-                                                alignment: Alignment.center,
+                                                // StreamBuilder(
+                                                //   stream: daily_exps_inner.snapshots(),
+                                                //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                //     if(snapshot3.hasData) {
+                                                //
+                                                //     } else {
+                                                //       return Container();
+                                                //     }
+                                                //   },
+                                                // )
+                                                if(itemIndex == length-1) {
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      // print(item.split('^')[1]);
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                                      );
+                                                    },
+                                                    child: Stack(
+                                                      alignment: Alignment.center,
 
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: AppTheme.lightBgColor,
-                                                          border: Border(
-                                                            bottom: BorderSide(
-                                                                color: AppTheme.skBorderColor2,
-                                                                width: 1.0),
-                                                          )),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(top: 12.0, bottom: 14.0),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left: 1.0),
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: AppTheme.lightBgColor,
+                                                                border: Border(
+                                                                  bottom: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                      width: 1.0),
+                                                                )),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
                                                               child: Column(
                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children: [
-                                                                  Text('#' + item.split('^')[1],
-                                                                    style: TextStyle(
-                                                                        fontSize: 18,
-                                                                        fontWeight: FontWeight.w500
-                                                                    ),
-
-                                                                  ),
                                                                   Padding(
-                                                                    padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                    child: Text('MMK ' + item.split('^')[2]),
+                                                                    padding: const EdgeInsets.only(left: 1.0),
+                                                                    child: Column(
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Text('#' + item.split('^')[1],
+                                                                          style: TextStyle(
+                                                                              fontSize: 18,
+                                                                              fontWeight: FontWeight.w500
+                                                                          ),
+
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                                                                          child: Text('MMK ' + item.split('^')[2]),
+                                                                        ),
+                                                                        Row(
+                                                                          children: [
+                                                                            Text(item.split('^')[3].split('&')[0]),
+
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 8,
                                                                   ),
                                                                   Row(
                                                                     children: [
-                                                                      Text(item.split('^')[3].split('&')[0]),
+                                                                      if(item.split('^')[4][0] == 'r')
+                                                                        Container(
+                                                                          height: 21,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                            color: AppTheme.badgeBgSecond,
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                            child: Text('Refunded',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.white
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+
+                                                                      if(item.split('^')[4][0] == 's')
+                                                                        Container(
+                                                                          height: 21,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                            color: AppTheme.badgeBgSecond,
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                            child: Text('Partially refunded',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.white
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+
+                                                                      if(item.split('^')[4][1] == 'f')
+                                                                        Container(
+                                                                          height: 21,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                            color: AppTheme.badgeBgSuccess,
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                            child: Text('Paid',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.white
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        )
+
 
                                                                     ],
-                                                                  ),
+                                                                  )
                                                                 ],
                                                               ),
                                                             ),
-                                                            SizedBox(
-                                                              height: 8,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 15.0, bottom: 1),
+                                                          child: Align(
+                                                            alignment: Alignment.centerRight,
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios_rounded,
+                                                              size: 16,
+                                                              color: Colors
+                                                                  .blueGrey
+                                                                  .withOpacity(
+                                                                  0.8),
                                                             ),
-                                                            Row(
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                }
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    // print(item.split('^')[1]);
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                                    );
+                                                  },
+                                                  child: Stack(
+                                                    alignment: Alignment.center,
+
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              color: AppTheme.lightBgColor,
+                                                              border: Border(
+                                                                bottom: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                    width: 1.0),
+                                                              )),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(top: 12.0, bottom: 14.0),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
-                                                                if(item.split('^')[4][1] == 'f')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(right: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(6.0),
-                                                                        color: AppTheme.badgeBgSuccess,
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 1.0),
+                                                                  child: Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text('#' + item.split('^')[1],
+                                                                        style: TextStyle(
+                                                                            fontSize: 18,
+                                                                            fontWeight: FontWeight.w500
+                                                                        ),
+
                                                                       ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                        child: Text('Paid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                                                                        child: Text('MMK ' + item.split('^')[2]),
+                                                                      ),
+                                                                      Row(
+                                                                        children: [
+                                                                          Text(item.split('^')[3].split('&')[0]),
+
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 8,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    if(item.split('^')[4][1] == 'f')
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(right: 6.0),
+                                                                        child: Container(
+                                                                          height: 21,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                            color: AppTheme.badgeBgSuccess,
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                            child: Text('Paid',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.white
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ),
 
-                                                                if(item.split('^')[4][1] == 'd')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(right: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(6.0),
-                                                                        color: AppTheme.badgeFgDanger,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                        child: Text('Unpaid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
+                                                                    if(item.split('^')[4][1] == 'd')
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(right: 6.0),
+                                                                        child: Container(
+                                                                          height: 21,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                            color: AppTheme.badgeFgDanger,
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                            child: Text('Unpaid',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.white
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ),
 
-                                                                if(item.split('^')[4][0] == 'r')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(right: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(6.0),
-                                                                        color: AppTheme.badgeBgSecond,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                        child: Text('Refunded',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
+                                                                    if(item.split('^')[4][0] == 'r')
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(right: 6.0),
+                                                                        child: Container(
+                                                                          height: 21,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                            color: AppTheme.badgeBgSecond,
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                            child: Text('Refunded',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.white
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ),
 
-                                                                if(item.split('^')[4][0] == 's')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(right: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(6.0),
-                                                                        color: AppTheme.badgeBgSecond,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                        child: Text('Partially refunded',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
+                                                                    if(item.split('^')[4][0] == 's')
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(right: 6.0),
+                                                                        child: Container(
+                                                                          height: 21,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                            color: AppTheme.badgeBgSecond,
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                            child: Text('Partially refunded',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.white
+                                                                              ),
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ),
 
 
+                                                                  ],
+                                                                )
                                                               ],
-                                                            )
-                                                          ],
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 15.0, bottom: 1),
+                                                        child: Align(
+                                                          alignment: Alignment.centerRight,
+                                                          child: Icon(
+                                                            Icons
+                                                                .arrow_forward_ios_rounded,
+                                                            size: 16,
+                                                            color: Colors
+                                                                .blueGrey
+                                                                .withOpacity(
+                                                                0.8),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 15.0, bottom: 1),
-                                                    child: Align(
-                                                      alignment: Alignment.centerRight,
-                                                      child: Icon(
-                                                        Icons
-                                                            .arrow_forward_ios_rounded,
-                                                        size: 16,
-                                                        color: Colors
-                                                            .blueGrey
-                                                            .withOpacity(
-                                                            0.8),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  );
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      );
 
+                                    } else {
+                                      return Container();
+                                    }
+                                  }
+                                );
+                              } else {
+                                return Container();
+                              }
+
+                            }
+                        )
+                      ),
+                      Container(
+                          height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
+                          width: MediaQuery.of(context).size.width,
+                          color: AppTheme.lightBgColor,
+                          child: StreamBuilder(
+                              stream: FirebaseFirestore.instance
+                                  .collection('space')
+                                  .doc('0NHIS0Jbn26wsgCzVBKT')
+                                  .collection('shops')
+                                  .doc('PucvhZDuUz3XlkTgzcjb')
+                                  .collection('buyOrders')
+                                  .orderBy('date', descending: true)
+                                  .snapshots(),
+                              builder:
+                                  (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasData) {
+                                  return StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('space')
+                                          .doc('0NHIS0Jbn26wsgCzVBKT')
+                                          .collection('shops')
+                                          .doc('PucvhZDuUz3XlkTgzcjb')
+                                          .collection('merchants')
+                                          .snapshots(),
+                                      builder: (context,
+                                          AsyncSnapshot<QuerySnapshot> snapshot2) {
+                                        if (snapshot2.hasData) {
+                                          var sections = List<ExampleSection>.empty(
+                                              growable: true);
+                                          // snapshot.data!.docs.map((document) {
+                                          // }).toList();
+
+                                          snapshot.data!.docs.map((document) async {
+                                            // print('herre ' + document.id);
+                                            var section = ExampleSection()
+                                              ..header = document['date']
+                                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                                              ..items = sortList(changeData2(
+                                                  document['daily_order']
+                                                      .cast<String>(),
+                                                  snapshot2))
+                                            //   ..items = document['daily_order'].cast<String>()
+                                              ..expanded = true;
+                                            sections.add(section);
+                                          }).toList();
+                                          sectionList = sections;
+
+                                          return CustomScrollView(
+                                            slivers: <Widget>[
+                                              SliverExpandableList(
+                                                builder:
+                                                SliverExpandableChildDelegate(
+                                                  sectionList: sectionList,
+                                                  headerBuilder: _buildHeader,
+                                                  itemBuilder: (context, sectionIndex,
+                                                      itemIndex, index) {
+                                                    String item =
+                                                    sectionList[sectionIndex]
+                                                        .items[itemIndex];
+                                                    int length =
+                                                        sectionList[sectionIndex]
+                                                            .items
+                                                            .length;
+
+                                                    // CollectionReference daily_exps_inner = FirebaseFirestore.instance
+                                                    //     .collection('users')
+                                                    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+                                                    //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
+
+                                                    // StreamBuilder(
+                                                    //   stream: daily_exps_inner.snapshots(),
+                                                    //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                    //     if(snapshot3.hasData) {
+                                                    //
+                                                    //     } else {
+                                                    //       return Container();
+                                                    //     }
+                                                    //   },
+                                                    // )
+                                                    if (itemIndex == length - 1) {
+                                                      return Column(
+                                                        children: [
+                                                          Container(
+                                                            color: Colors.white,
+                                                            child: GestureDetector(
+                                                              onTap: () {
+                                                                // print(item.split('^')[1]);
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          BuyListInfo(
+                                                                              data:
+                                                                              item,
+                                                                              toggleCoinCallback:
+                                                                                  () {})),
+                                                                );
+                                                              },
+                                                              child: ListTile(
+                                                                // leading: CircleAvatar(
+                                                                //   child: Text("$index"),
+                                                                // ),
+                                                                // title: Text(item.split('^')[1]),
+                                                                  title: Column(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                    children: [
+                                                                      Text(item
+                                                                          .split('^')[1]),
+                                                                      Text(item
+                                                                          .split('^')[2]),
+                                                                      Row(
+                                                                        children: [
+                                                                          Text(item
+                                                                              .split(
+                                                                              '^')[3]
+                                                                              .split(
+                                                                              '&')[0]),
+                                                                          if (item.split(
+                                                                              '^')[
+                                                                          4][0] ==
+                                                                              'r')
+                                                                            Text(
+                                                                                ' Refunded')
+                                                                        ],
+                                                                      ),
+                                                                      // Text(item,
+                                                                      //   style: TextStyle(
+                                                                      //     fontSize: 10
+                                                                      //   ),
+                                                                      // ),
+                                                                    ],
+                                                                  )),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            color: Colors.white,
+                                                            width: double.infinity,
+                                                            height: 15,
+                                                          )
+                                                        ],
+                                                      );
+                                                    }
+                                                    return Container(
+                                                      color: Colors.white,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          // print(item.split('^')[1]);
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    BuyListInfo(
+                                                                        data: item,
+                                                                        toggleCoinCallback:
+                                                                            () {})),
+                                                          );
+                                                        },
+                                                        child: ListTile(
+                                                          // leading: CircleAvatar(
+                                                          //   child: Text("$index"),
+                                                          // ),
+                                                          // title: Text(item.split('^')[1]),
+                                                            title: Column(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(item.split('^')[1]),
+                                                                Text(item.split('^')[2]),
+                                                                Row(
+                                                                  children: [
+                                                                    Text(item
+                                                                        .split('^')[3]
+                                                                        .split('&')[0]),
+                                                                    if (item.split('^')[4]
+                                                                    [0] ==
+                                                                        'r')
+                                                                      Text(' Refunded')
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            )),
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      });
                                 } else {
                                   return Container();
                                 }
-                              }
-                            );
-                          } else {
-                            return Container();
-                          }
-
-                        }
-                    )
+                              }),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -537,22 +763,36 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                 color: Colors.white,
                                 width: 1.0),
                           )),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 15.0, right: 15.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: CupertinoSlidingSegmentedControl(
-                              children: {
-                                0: Text('Sale orders'),
-                                1: Text('Buy orders'),
-                              },
-                              groupValue: _sliding,
-                              onValueChanged: (newValue) {
-                                setState(() {
-                                  _sliding = 0;
-                                });
-                              }),
-                        ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 15.0, right: 15.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: CupertinoSlidingSegmentedControl(
+                                    children: {
+                                      0: Text('Sale orders'),
+                                      1: Text('Buy orders'),
+                                    },
+                                    groupValue: _sliding,
+                                    onValueChanged: (newValue) {
+                                      setState(() {
+                                        _sliding = int.parse(newValue.toString());
+                                      });
+                                      if(int.parse(newValue.toString()) == 1) {
+                                        _controller.animateTo(1);
+                                      } else {
+                                        _controller.animateTo(0);
+                                      }
+                                    }),
+                              ),
+                            ),
+                          ),
+                          // Container(
+                          //   width: 100,
+                          // )
+                        ],
                       ),
                     ),
                   ],
@@ -564,6 +804,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
       ),
     );
   }
+
 
   covertToDayNum(String input) {
     if(input[0]=='0') {
@@ -627,6 +868,31 @@ class _OrdersFragmentState extends State<OrdersFragment>
               list[i].split('^')[2] +
               '^' +
               document['customer_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4];
+        }
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
+
+  changeData2(list, snpsht) {
+    // list[0].toString()
+    snpsht.data!.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              // document['customer_name'].toString() +
               '&' +
               list[i].split('^')[3] +
               '^' +

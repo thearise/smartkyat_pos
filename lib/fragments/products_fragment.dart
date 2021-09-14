@@ -689,6 +689,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                   ),
                 ),
               ),
+
             ],
           ),
         ),

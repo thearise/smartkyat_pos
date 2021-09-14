@@ -42,9 +42,99 @@ class HomePageState extends State<HomePage>
   }
 
   List<String> subList = [];
+  testFunc() async {
+    print('hi');
+
+    CollectionReference users = FirebaseFirestore.instance.collection('test');
+
+
+
+    // return users.get().then((querySnapshot) {
+    //   querySnapshot.docs.forEach((document) {
+    //     batch.update(FirebaseFirestore.instance.collection('test'), 'data': (data+1).toString());
+    //   });
+    //
+    //   return batch.commit();
+    // });
+
+    print('gg ');
+
+    FirebaseFirestore
+        .instance.collection('test')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+
+        // Create a reference to the document the transaction will use
+        DocumentReference documentReference = FirebaseFirestore.instance
+            .collection('test')
+            .doc(doc.id);
+
+        FirebaseFirestore.instance.runTransaction((transaction) async {
+          // Get the document
+          DocumentSnapshot snapshot = await transaction.get(documentReference);
+
+          if (!snapshot.exists) {
+            throw Exception("User does not exist!");
+          }
+
+          Map<String,
+              dynamic>?
+          data = snapshot.data() as Map<String, dynamic>?;
+
+          String str = data?['data'];
+          str = (int.parse(str) + 1).toString();
+
+          transaction.update(documentReference, {'data': str});
+
+          // Return the new count
+
+
+
+        })
+        .then((value) => print("Follower count updated to $value"))
+        .catchError((error) => print("Failed to update user followers: $error"));
+
+        // print(doc["data"]);
+        // int data = int.parse(doc["data"]);
+        //
+        // WriteBatch batch = FirebaseFirestore.instance.batch();
+        // var sfRef = FirebaseFirestore.instance.collection("test").doc("TtWFXrDF1feBVlUTPyQr");
+        // batch.update(sfRef, {'data': (data+1).toString()});
+        //
+        // batch.commit();
+        // FirebaseFirestore
+        //     .instance
+        //     .collection(
+        //     'test')
+        //     .doc(doc.id)
+        //     .update({
+        //   'data': (data+1).toString()
+        // })
+        //     .then((value) =>
+        //     print(
+        //         "User Updated"))
+        //     .catchError(
+        //         (error) =>
+        //         print("Failed to update user: $error"));
+
+      });
+    });
+  }
+
+  testLoopData() {
+
+
+    for(int i=0; i<1; i++) {
+      testFunc();
+    }
+  }
 
   @override
   void initState() {
+    print('home_page');
+
+
     slidableController = SlidableController(
       onSlideAnimationChanged: handleSlideAnimationChanged,
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
@@ -593,6 +683,7 @@ class HomePageState extends State<HomePage>
                             GestureDetector(
                               onTap: () {
                                 print('sub ' + subList.toString());
+                                testLoopData();
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(
@@ -620,7 +711,7 @@ class HomePageState extends State<HomePage>
 
   List<String> prodList = [];
   late final SlidableController slidableController;
-  addProduct(data) {
+  addProduct(data) async {
     for (var i = 0; i < prodList.length; i++) {
       if (prodList[i].split('-')[0] == data.split('-')[0] &&
           prodList[i].split('-')[3] == data.split('-')[3]) {
@@ -1640,7 +1731,6 @@ class HomePageState extends State<HomePage>
                                                             if (str.split(
                                                                     '-')[3] ==
                                                                 'unit_name') {
-
                                                               await FirebaseFirestore
                                                                   .instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions')
                                                                    .orderBy('date', descending: true)
@@ -1696,7 +1786,6 @@ class HomePageState extends State<HomePage>
                                                                 // }
 
                                                               });
-
                                                             } else {
                                                               var unit = '';
 

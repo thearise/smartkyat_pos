@@ -419,6 +419,16 @@ class _ProductVersionViewState extends State<ProductVersionView> {
                                       );
                                     }).toList(),
                                   );
+                                  // int quantity = 0;
+                                  //
+                                  // snapshot.data!.docs
+                                  //     .map((DocumentSnapshot document) {
+                                  //       Map<String, dynamic> data = document
+                                  //           .data()! as Map<String, dynamic>;
+                                  //       quantity += int.parse(data['sub1_unit']);
+                                  // });
+                                  //
+                                  // return Text(quantity.toString());
                                 }
                                 return Container();
                               });
