@@ -64,7 +64,137 @@ class _HomeFragmentState extends State<HomeFragment>
 
   @override
   initState() {
+
+    fetchOrders();
     super.initState();
+  }
+
+  List<double> thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+  List<double> thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+
+
+  zeroToTen(String string) {
+    if(int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0'+string;
+    }
+  }
+
+  fetchOrders() async {
+    DateTime today = DateTime.now();
+    DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
+    DateTime monthAgo = today.subtract(const Duration(days: 31));
+    // print('seven ' + sevenDaysAgo.toString());
+    // print('each ');
+    CollectionReference orders = FirebaseFirestore
+        .instance
+        .collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+
+    orders.get().then((QuerySnapshot
+      querySnapshot) async {
+        // print(DateTime.now().subtract(duration))
+
+      sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+      monthAgo = monthAgo.add(const Duration(days: 1));
+        querySnapshot.docs
+            .forEach((doc) {
+          int week = 0;
+          int month = 0;
+          sevenDaysAgo = today.subtract(const Duration(days: 8));
+          monthAgo = today.subtract(const Duration(days: 31));
+
+          while(!(today.year.toString() == sevenDaysAgo.year.toString() && today.month.toString() == sevenDaysAgo.month.toString() && today.day.toString() == sevenDaysAgo.day.toString())) {
+            sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+
+            print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
+            print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+
+
+            print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+
+            if(doc['date'] == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
+              double total = 0;
+              // print(doc['daily_order'].toString());
+              for(String str in doc['daily_order']) {
+                // print(double.parse(str));
+                total += double.parse(str.split('^')[2]);
+              }
+              print('total ' + total.toString());
+              setState(() {
+                thisWeekOrdersChart[week] = total;
+              });
+
+            }
+            week = week + 1;
+
+          }
+
+
+          while(!(today.year.toString() == monthAgo.year.toString() && today.month.toString() == monthAgo.month.toString() && today.day.toString() == monthAgo.day.toString())) {
+            monthAgo = monthAgo.add(const Duration(days: 1));
+
+            print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
+            print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+
+
+            print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+
+            if(doc['date'] == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
+              double total = 0;
+              // print(doc['daily_order'].toString());
+              for(String str in doc['daily_order']) {
+                // print(double.parse(str));
+                print('testing ' + str.split('^')[2]);
+                total += double.parse(str.split('^')[2]);
+              }
+              print('total ' + total.toString());
+              setState(() {
+                thisMonthOrdersChart[month] = total;
+              });
+
+            }
+            month = month + 1;
+
+          }
+
+          print('this week ' + thisWeekOrdersChart.toString());
+          // for(int j = 20210909; j <= 20210915; j++) {
+          //
+          //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
+          //   print('here shwe 2 ' + j.toString());
+          //   // if(doc['date'] == j.toString()) {
+          //   //   double total = 0;
+          //   //   // print(doc['daily_order'].toString());
+          //   //   for(String str in doc['daily_order']) {
+          //   //     // print(double.parse(str));
+          //   //     total += double.parse(str.split('^')[2]);
+          //   //   }
+          //   //   print('total ' + total.toString());
+          //   //   setState(() {
+          //   //     thisWeekOrdersChart[ij] = total;
+          //   //   });
+          //   //
+          //   // }
+          //   // ij = ij + 1;
+          //   // print(ij);
+          // }
+
+
+          // print('this week 2' + thisWeekOrdersChart.toString());
+
+          // print('each ' + doc.id.toString());
+      });
+      print('this month ' + thisMonthOrdersChart.toString());
+      // setState(() {
+      //   thisWeekOrdersChart
+      // });
+    });
+
+    // CollectionReference col1 = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+    // final snapshots = col1.snapshots().map((snapshot) => snapshot.docs.where((doc) => doc['date'] == "20210914" || doc['date'] == "20210913"));
+    //
+    // print((await snapshots.first).toList());
   }
 
   void _incrementCounter() {
@@ -175,37 +305,37 @@ class _HomeFragmentState extends State<HomeFragment>
       lineBarsData: [
         LineChartBarData(
           spots: [
-            FlSpot(0, 3),
-            FlSpot(1, 2),
-            FlSpot(2, 5),
-            FlSpot(3, 3.1),
-            FlSpot(4, 4),
-            FlSpot(5, 4),
-            FlSpot(6, 3),
-            FlSpot(7, 2),
-            FlSpot(8, 5),
-            FlSpot(9, 3.1),
-            FlSpot(10, 0),
-            FlSpot(11, 4),
-            FlSpot(12, 3),
-            FlSpot(13, 5),
-            FlSpot(14, 5),
-            FlSpot(15, 3.1),
-            FlSpot(16, 4),
-            FlSpot(17, 2),
-            FlSpot(18, 3),
-            FlSpot(19, 2),
-            FlSpot(20, 1),
-            FlSpot(21, 3),
-            FlSpot(22, 3),
-            FlSpot(23, 4),
-            FlSpot(24, 3.1),
-            FlSpot(25, 1.2),
-            FlSpot(26, 4),
-            FlSpot(27, 2),
-            FlSpot(28, 4.1),
-            FlSpot(29, 2),
-            FlSpot(30, 2.7),
+            FlSpot(0, 3, ''),
+            FlSpot(1, 2, ''),
+            FlSpot(2, 5, ''),
+            FlSpot(3, 3.1, ''),
+            FlSpot(4, 4, ''),
+            FlSpot(5, 4, ''),
+            FlSpot(6, 3, ''),
+            FlSpot(7, 2, ''),
+            FlSpot(8, 5, ''),
+            FlSpot(9, 3.1, ''),
+            FlSpot(10, 0, ''),
+            FlSpot(11, 4, ''),
+            FlSpot(12, 3, ''),
+            FlSpot(13, 5, ''),
+            FlSpot(14, 5, ''),
+            FlSpot(15, 3.1, ''),
+            FlSpot(16, 4, ''),
+            FlSpot(17, 2, ''),
+            FlSpot(18, 3, ''),
+            FlSpot(19, 2, ''),
+            FlSpot(20, 1, ''),
+            FlSpot(21, 3, ''),
+            FlSpot(22, 3, ''),
+            FlSpot(23, 4, ''),
+            FlSpot(24, 3.1, ''),
+            FlSpot(25, 1.2, ''),
+            FlSpot(26, 4, ''),
+            FlSpot(27, 2, ''),
+            FlSpot(28, 4.1, ''),
+            FlSpot(29, 2, ''),
+            FlSpot(30, 2.7, ''),
           ],
           isCurved: true,
           colors: gradientColors,
@@ -225,8 +355,190 @@ class _HomeFragmentState extends State<HomeFragment>
 
 
 
+  int findMax(List<int> numbers) {
+    return numbers.reduce(max);
+  }
 
-  LineChartData weeklyData() {
+  LineChartData monthlyData(DateTime today) {
+    List<int> roundMonth = [];
+    for(double dbl in thisMonthOrdersChart) {
+      roundMonth.add(dbl.round());
+    }
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: true,
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+            color: const Color(0xFFd6d8db),
+            strokeWidth: 1,
+            // dashArray: [0]
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return FlLine(
+              color: const Color(0xFFd6d8db),
+              strokeWidth: 1,
+              dashArray: [5]
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 22,
+          interval: 1,
+          getTextStyles: (context, value) =>
+          const TextStyle(color: Colors.Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
+          getTitles: (value) {
+            // DateTime day = DateTime.now().add(Duration(days: 1));
+            // for(int i = 0; i<7; i++) {
+            //   today = today.subtract(Duration(days: 1));
+            //   return today.day.toString();
+            //
+            // }
+            // return '';
+            // DateTime today = DateTime.now();
+            // today.day.toString()
+            switch (value.toInt()) {
+              case 0:
+                return today.subtract(Duration(days: 30)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 29)).month.toString());
+              case 5:
+                return today.subtract(Duration(days: 25)).day.toString();
+              case 10:
+                return today.subtract(Duration(days: 20)).day.toString();
+              case 15:
+                return today.subtract(Duration(days: 15)).day.toString();
+              case 20:
+                return today.subtract(Duration(days: 10)).day.toString();
+              case 25:
+                return today.subtract(Duration(days: 5)).day.toString();
+              case 30:
+                return 'Today';
+            // return today.day.toString() + ', ' + changeMonth2String(today.month.toString());
+            }
+            return '';
+          },
+          margin: 8,
+        ),
+        leftTitles: SideTitles(
+          showTitles: true,
+          interval: 1,
+          getTextStyles: (context, value) => const TextStyle(
+            color: Color(0xff67727d),
+            fontWeight: FontWeight.w600,
+            fontSize: 13,
+          ),
+          getTitles: (value) {
+            // switch (value.toInt()) {
+            //   case 1:
+            //     return '10k';
+            //   case 3:
+            //     return '30k';
+            //   case 5:
+            //     return (findMax(roundWeek)/1000000).round().toString() + 'M';
+            // }
+            // return '';
+
+            chgDeci3Place(findMax(roundMonth));
+
+            if(value.toInt() == 5) {
+              return (findMax(roundMonth)/1000000).toStringAsFixed(1) + 'M';
+            } else if(value.toInt() == 3) {
+              return ((findMax(roundMonth)/1000000)*(3/5)).toStringAsFixed(1) + 'M';
+            } else if(value.toInt() == 1) {
+              return ((findMax(roundMonth)/1000000)*(1/5)).toStringAsFixed(1) + 'M';
+            }
+
+
+
+            print('value ' + findMax(roundMonth).toString());
+            return '';
+          },
+          reservedSize: 42,
+          margin: 6,
+        ),
+      ),
+      borderData:
+      FlBorderData(show: true, border: Border.symmetric(horizontal: BorderSide(color: const Color(0xFFd6d8db), width: 0))),
+      minX: 0,
+      maxX: 30,
+      minY: 0,
+      maxY: 6,
+      lineBarsData: [
+        LineChartBarData(
+          spots: [
+            // double.parse(((thisWeekOrdersChart[5]/1000000)).toString())
+            FlSpot(0, ((thisMonthOrdersChart[0]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[0]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 30)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 30)).month.toString()) + ')'),
+            FlSpot(1, ((thisMonthOrdersChart[1]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[1]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 29)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 29)).month.toString()) + ')'),
+            FlSpot(2, ((thisMonthOrdersChart[2]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[2]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 28)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 28)).month.toString()) + ')'),
+            FlSpot(3, ((thisMonthOrdersChart[3]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[3]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 27)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 27)).month.toString()) + ')'),
+            // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
+            // (thisWeekOrdersChart[4]/1000000) * 3.260
+            FlSpot(4, ((thisMonthOrdersChart[4]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[4]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 26)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 26)).month.toString()) + ')'),
+            FlSpot(5, ((thisMonthOrdersChart[5]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[5]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 25)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 25)).month.toString()) + ')'),
+            FlSpot(6, ((thisMonthOrdersChart[6]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[6]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 24)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 24)).month.toString()) + ')'),
+
+            FlSpot(7, ((thisMonthOrdersChart[7]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[7]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 23)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 23)).month.toString()) + ')'),
+            FlSpot(8, ((thisMonthOrdersChart[8]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[8]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 22)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 22)).month.toString()) + ')'),
+            FlSpot(9, ((thisMonthOrdersChart[9]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[9]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 21)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 21)).month.toString()) + ')'),
+            FlSpot(10, ((thisMonthOrdersChart[10]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[10]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 20)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 20)).month.toString()) + ')'),
+            // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
+            // (thisWeekOrdersChart[4]/1000000) * 3.260
+            FlSpot(11, ((thisMonthOrdersChart[11]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[11]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 19)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 19)).month.toString()) + ')'),
+            FlSpot(12, ((thisMonthOrdersChart[12]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[12]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 18)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 18)).month.toString()) + ')'),
+            FlSpot(13, ((thisMonthOrdersChart[13]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[13]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 17)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 17)).month.toString()) + ')'),
+
+            FlSpot(14, ((thisMonthOrdersChart[14]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[14]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 16)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 16)).month.toString()) + ')'),
+            FlSpot(15, ((thisMonthOrdersChart[15]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[15]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 15)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 15)).month.toString()) + ')'),
+            FlSpot(16, ((thisMonthOrdersChart[16]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[16]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 14)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 14)).month.toString()) + ')'),
+            FlSpot(17, ((thisMonthOrdersChart[17]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[17]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 13)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 13)).month.toString()) + ')'),
+            // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
+            // (thisWeekOrdersChart[4]/1000000) * 3.260
+            FlSpot(18, ((thisMonthOrdersChart[18]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[18]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 12)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 12)).month.toString()) + ')'),
+            FlSpot(19, ((thisMonthOrdersChart[19]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[19]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 11)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 11)).month.toString()) + ')'),
+            FlSpot(20, ((thisMonthOrdersChart[20]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[20]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 10)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 10)).month.toString()) + ')'),
+
+            FlSpot(21, ((thisMonthOrdersChart[21]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[21]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 9)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 9)).month.toString()) + ')'),
+            FlSpot(22, ((thisMonthOrdersChart[22]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[22]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 8)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 8)).month.toString()) + ')'),
+            FlSpot(23, ((thisMonthOrdersChart[23]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[23]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 7)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 7)).month.toString()) + ')'),
+            FlSpot(24, ((thisMonthOrdersChart[24]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[24]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 6)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 6)).month.toString()) + ')'),
+            // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
+            // (thisWeekOrdersChart[4]/1000000) * 3.260
+            FlSpot(25, ((thisMonthOrdersChart[25]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[25]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 5)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 5)).month.toString()) + ')'),
+            FlSpot(26, ((thisMonthOrdersChart[26]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[26]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 4)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 4)).month.toString()) + ')'),
+            FlSpot(27, ((thisMonthOrdersChart[27]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[27]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 3)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 3)).month.toString()) + ')'),
+
+            FlSpot(28, ((thisMonthOrdersChart[28]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[28]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 2)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 2)).month.toString()) + ')'),
+            FlSpot(29, ((thisMonthOrdersChart[29]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[29]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.subtract(Duration(days: 1)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 1)).month.toString()) + ')'),
+            FlSpot(30, ((thisMonthOrdersChart[30]/chgDeci3Place(findMax(roundMonth))) * 5 )/ (findMax(roundMonth)/chgDeci3Place(findMax(roundMonth))), (thisMonthOrdersChart[30]/chgDeci3Place(findMax(roundMonth))).toString() + '\n(' + today.day.toString() + ', ' + changeMonth2String(today.month.toString()) + ')'),
+          ],
+          isCurved: true,
+          colors: gradientColors,
+          barWidth: 3,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: false,
+            colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  LineChartData weeklyData(DateTime today) {
+    List<int> roundWeek = [];
+    for(double dbl in thisWeekOrdersChart) {
+      roundWeek.add(dbl.round());
+    }
+    int five = 5;
+    // print(roundWeek.toString);
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -257,21 +569,31 @@ class _HomeFragmentState extends State<HomeFragment>
           getTextStyles: (context, value) =>
           const TextStyle(color: Colors.Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
           getTitles: (value) {
+            // DateTime day = DateTime.now().add(Duration(days: 1));
+            // for(int i = 0; i<7; i++) {
+            //   today = today.subtract(Duration(days: 1));
+            //   return today.day.toString();
+            //
+            // }
+            // return '';
+            // DateTime today = DateTime.now();
+            // today.day.toString()
             switch (value.toInt()) {
               case 0:
-                return 'Sun';
+                return today.subtract(Duration(days: 6)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 6)).month.toString());
               case 1:
-                return 'Mon';
+                return today.subtract(Duration(days: 5)).day.toString();
               case 2:
-                return 'Tue';
+                return today.subtract(Duration(days: 4)).day.toString();
               case 3:
-                return 'Wed';
+                return today.subtract(Duration(days: 3)).day.toString();
               case 4:
-                return 'Thu';
+                return today.subtract(Duration(days: 2)).day.toString();
               case 5:
-                return 'Fri';
+                return today.subtract(Duration(days: 1)).day.toString();
               case 6:
-                return 'Sat';
+                return 'Today';
+                // return today.day.toString() + ', ' + changeMonth2String(today.month.toString());
 
             }
             return '';
@@ -287,18 +609,33 @@ class _HomeFragmentState extends State<HomeFragment>
             fontSize: 13,
           ),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '10k';
-              case 3:
-                return '30k';
-              case 5:
-                return '50k';
+            // switch (value.toInt()) {
+            //   case 1:
+            //     return '10k';
+            //   case 3:
+            //     return '30k';
+            //   case 5:
+            //     return (findMax(roundWeek)/1000000).round().toString() + 'M';
+            // }
+            // return '';
+
+            chgDeci3Place(findMax(roundWeek));
+
+            if(value.toInt() == 5) {
+              return (findMax(roundWeek)/1000000).toStringAsFixed(1) + 'M';
+            } else if(value.toInt() == 3) {
+              return ((findMax(roundWeek)/1000000)*(3/5)).toStringAsFixed(1) + 'M';
+            } else if(value.toInt() == 1) {
+              return ((findMax(roundWeek)/1000000)*(1/5)).toStringAsFixed(1) + 'M';
             }
+
+
+
+            print('value ' + findMax(roundWeek).toString());
             return '';
           },
-          reservedSize: 35,
-          margin: 8,
+          reservedSize: 42,
+          margin: 6,
         ),
       ),
       borderData:
@@ -310,13 +647,16 @@ class _HomeFragmentState extends State<HomeFragment>
       lineBarsData: [
         LineChartBarData(
           spots: [
-            FlSpot(0, 3),
-            FlSpot(1, 2),
-            FlSpot(2, 5),
-            FlSpot(3, 3.1),
-            FlSpot(4, 4),
-            FlSpot(5, 4),
-            FlSpot(6, 3),
+    // double.parse(((thisWeekOrdersChart[5]/1000000)).toString())
+            FlSpot(0, ((thisWeekOrdersChart[1]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[1]/chgDeci3Place(findMax(roundWeek))).toString()),
+            FlSpot(1, ((thisWeekOrdersChart[2]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[2]/chgDeci3Place(findMax(roundWeek))).toString()),
+            FlSpot(2, ((thisWeekOrdersChart[3]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[3]/chgDeci3Place(findMax(roundWeek))).toString()),
+            FlSpot(3, ((thisWeekOrdersChart[4]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[4]/chgDeci3Place(findMax(roundWeek))).toString()),
+            // ((thisWeekOrdersChart[3]/1000000) * 5 )/ (findMax(roundWeek)/1000000)
+            // (thisWeekOrdersChart[4]/1000000) * 3.260
+            FlSpot(4, ((thisWeekOrdersChart[5]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[5]/chgDeci3Place(findMax(roundWeek))).toString()),
+            FlSpot(5, ((thisWeekOrdersChart[6]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[6]/chgDeci3Place(findMax(roundWeek))).toString()),
+            FlSpot(6, ((thisWeekOrdersChart[7]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[7]/chgDeci3Place(findMax(roundWeek))).toString()),
           ],
           isCurved: true,
           colors: gradientColors,
@@ -332,6 +672,52 @@ class _HomeFragmentState extends State<HomeFragment>
         ),
       ],
     );
+  }
+
+  String changeMonth2String(String str) {
+    if(str == '1') {
+      return 'Jan';
+    } else if(str == '2') {
+      return 'Feb';
+    } else if(str == '3') {
+      return 'Mar';
+    } else if(str == '4') {
+      return 'Apr';
+    } else if(str == '5') {
+      return 'May';
+    } else if(str == '6') {
+      return 'Jun';
+    } else if(str == '7') {
+      return 'Jul';
+    } else if(str == '8') {
+      return 'Aug';
+    } else if(str == '9') {
+      return 'Sep';
+    } else if(str == '10') {
+      return 'Oct';
+    } else if(str == '11') {
+      return 'Nov';
+    } else if(str == '12') {
+      return 'Dec';
+    } else {
+      return '';
+    }
+  }
+
+  double funChange(max) {
+    // print(findMax(roundWeek));
+    max = max/chgDeci3Place(max);
+    print('gg ' + (5.0 - max).toString());
+    return 5.0 - max;
+  }
+
+  double chgDeci3Place(max) {
+    double ten = 10.0;
+    for(int i = 0; i<max.toString().length - 2; i++) {
+      ten = ten * 10;
+    }
+    return ten;
+    // print('length ' + ten.toString().toString());
   }
 
   int _sliding = 0;
@@ -743,7 +1129,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                             height: 8,
                                           ),
                                           Container(
-                                            height: 108,
+                                            height: 100,
                                             child: ListView(
 
                                               scrollDirection: Axis.horizontal,
@@ -777,7 +1163,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             SizedBox(
-                                                              height:30
+                                                              height:26
                                                             ),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right:30.0),
@@ -786,7 +1172,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                                 style: GoogleFonts.lato(
                                                                     textStyle: TextStyle(
                                                                         letterSpacing: 1,
-                                                                        fontSize: 22,
+                                                                        fontSize: 20,
                                                                         fontWeight: FontWeight.w600,
                                                                         color: Colors.Colors.black
                                                                     )
@@ -802,27 +1188,27 @@ class _HomeFragmentState extends State<HomeFragment>
                                                         ),
                                                         Text('Net Profit',
                                                           style: TextStyle(
-                                                              fontSize: 15,
+                                                              fontSize: 13,
                                                               fontWeight: FontWeight.w500,
                                                               color: Colors.Colors.black.withOpacity(0.6)),
                                                         ),
 
                                                         Positioned(
                                                             right: 0,
-                                                            bottom: 3,
+                                                            bottom: 2,
                                                             child: Text('+20%',
                                                               style: TextStyle(
-                                                                  fontSize: 15,
+                                                                  fontSize: 13,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: Colors.Colors.green),
                                                             )
                                                         ),
                                                         Positioned(
                                                           left: 0,
-                                                          bottom: 3,
+                                                          bottom: 2,
                                                           child: Text('MMK',
                                                             style: TextStyle(
-                                                                fontSize: 15,
+                                                                fontSize: 13,
                                                                 fontWeight: FontWeight.w500,
                                                                 color: Colors.Colors.black.withOpacity(0.6)),
                                                           ),
@@ -862,7 +1248,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             SizedBox(
-                                                                height:30
+                                                                height:26
                                                             ),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right:30.0),
@@ -871,7 +1257,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                                 style: GoogleFonts.lato(
                                                                     textStyle: TextStyle(
                                                                         letterSpacing: 1,
-                                                                        fontSize: 22,
+                                                                        fontSize: 20,
                                                                         fontWeight: FontWeight.w600,
                                                                         color: Colors.Colors.black
                                                                     )
@@ -887,27 +1273,27 @@ class _HomeFragmentState extends State<HomeFragment>
                                                         ),
                                                         Text('Debts',
                                                           style: TextStyle(
-                                                              fontSize: 15,
+                                                              fontSize: 13,
                                                               fontWeight: FontWeight.w500,
                                                               color: Colors.Colors.black.withOpacity(0.6)),
                                                         ),
 
                                                         Positioned(
                                                             right: 0,
-                                                            bottom: 3,
+                                                            bottom: 2,
                                                             child: Text('+2%',
                                                               style: TextStyle(
-                                                                  fontSize: 15,
+                                                                  fontSize: 13,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: Colors.Colors.red),
                                                             )
                                                         ),
                                                         Positioned(
                                                           left: 0,
-                                                          bottom: 3,
+                                                          bottom: 2,
                                                           child: Text('MMK',
                                                             style: TextStyle(
-                                                                fontSize: 15,
+                                                                fontSize: 13,
                                                                 fontWeight: FontWeight.w500,
                                                                 color: Colors.Colors.black.withOpacity(0.6)),
                                                           ),
@@ -947,7 +1333,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             SizedBox(
-                                                                height:30
+                                                                height:26
                                                             ),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right:30.0),
@@ -956,7 +1342,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                                 style: GoogleFonts.lato(
                                                                     textStyle: TextStyle(
                                                                         letterSpacing: 1,
-                                                                        fontSize: 22,
+                                                                        fontSize: 20,
                                                                         fontWeight: FontWeight.w600,
                                                                         color: Colors.Colors.black
                                                                     )
@@ -972,27 +1358,27 @@ class _HomeFragmentState extends State<HomeFragment>
                                                         ),
                                                         Text('Buys',
                                                           style: TextStyle(
-                                                              fontSize: 15,
+                                                              fontSize: 13,
                                                               fontWeight: FontWeight.w500,
                                                               color: Colors.Colors.black.withOpacity(0.6)),
                                                         ),
 
                                                         Positioned(
                                                             right: 0,
-                                                            bottom: 3,
+                                                            bottom: 2,
                                                             child: Text('+20%',
                                                               style: TextStyle(
-                                                                  fontSize: 15,
+                                                                  fontSize: 13,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: Colors.Colors.green),
                                                             )
                                                         ),
                                                         Positioned(
                                                           left: 0,
-                                                          bottom: 3,
+                                                          bottom: 2,
                                                           child: Text('MMK',
                                                             style: TextStyle(
-                                                                fontSize: 15,
+                                                                fontSize: 13,
                                                                 fontWeight: FontWeight.w500,
                                                                 color: Colors.Colors.black.withOpacity(0.6)),
                                                           ),
@@ -1008,7 +1394,7 @@ class _HomeFragmentState extends State<HomeFragment>
 
                                                 Container(
                                                   // width: 100,
-                                                  height: 108,
+                                                  height: 100,
                                                   constraints: BoxConstraints(
                                                       maxWidth: double.infinity, minWidth: 120),
                                                   decoration: BoxDecoration(
@@ -1031,7 +1417,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             SizedBox(
-                                                                height:30
+                                                                height:26
                                                             ),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right:30.0),
@@ -1040,7 +1426,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                                 style: GoogleFonts.lato(
                                                                     textStyle: TextStyle(
                                                                         letterSpacing: 1,
-                                                                        fontSize: 22,
+                                                                        fontSize: 20,
                                                                         fontWeight: FontWeight.w600,
                                                                         color: Colors.Colors.black
                                                                     )
@@ -1056,27 +1442,27 @@ class _HomeFragmentState extends State<HomeFragment>
                                                         ),
                                                         Text('Refunds',
                                                           style: TextStyle(
-                                                              fontSize: 15,
+                                                              fontSize: 13,
                                                               fontWeight: FontWeight.w500,
                                                               color: Colors.Colors.black.withOpacity(0.6)),
                                                         ),
 
                                                         Positioned(
                                                             right: 0,
-                                                            bottom: 3,
+                                                            bottom: 2,
                                                             child: Text('+20%',
                                                               style: TextStyle(
-                                                                  fontSize: 15,
+                                                                  fontSize: 13,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: Colors.Colors.blue),
                                                             )
                                                         ),
                                                         Positioned(
                                                           left: 0,
-                                                          bottom: 3,
+                                                          bottom: 2,
                                                           child: Text('MMK',
                                                             style: TextStyle(
-                                                                fontSize: 15,
+                                                                fontSize: 13,
                                                                 fontWeight: FontWeight.w500,
                                                                 color: Colors.Colors.black.withOpacity(0.6)),
                                                           ),
@@ -1161,21 +1547,25 @@ class _HomeFragmentState extends State<HomeFragment>
                                                       // color: Colors.Colors.white,
                                                     ),
                                                     child: Padding(
-                                                      padding: const EdgeInsets.only(right: 18.0, left: 8.0, top: 5, bottom: 15),
-                                                      child: LineChart(
-
-                                                        _sliding == 0 ? weeklyData() : mainData(),
-                                                      ),
+                                                      padding: const EdgeInsets.only(right: 18.0, left: 8.0, top: 10, bottom: 10),
+                                                      child: lineChartByTab(),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                  width: double.infinity,
-                                                  height: 15,
-                                                  color: AppTheme.skBorderColor
-                                              ),
+                                              // Container(
+                                              //     width: double.infinity,
+                                              //     height: 15,
+                                              //     color: AppTheme.skBorderColor
+                                              // ),
                                             ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
+                                            child: Container(
+                                              height: 2,
+                                              color: AppTheme.skBorderColor2,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -1615,6 +2005,19 @@ class _HomeFragmentState extends State<HomeFragment>
     } else {
       return "LAST 12 MONTHS";
     }
+  }
+
+  lineChartByTab() {
+    if(_sliding==0) {
+      return LineChart(mainData());
+    } else if(_sliding==1) {
+      return LineChart(weeklyData(DateTime.now()));
+    } else if(_sliding==2) {
+      return LineChart(monthlyData(DateTime.now()));
+    }
+
+    //_sliding == 0 ? mainData(): weeklyData(DateTime.now()),
+
   }
 }
 

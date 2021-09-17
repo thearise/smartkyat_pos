@@ -149,9 +149,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                               for (int i = 0; i < prodList.length; i++) {
                                 // refundItems[i] = int.parse(prodList[i].split('-')[5]);
                                 refundItems
-                                    .add(int.parse(prodList[i].split('-')[5]));
+                                    .add(int.parse(prodList[i].split('-')[7]));
                                 deffItems
-                                    .add(int.parse(prodList[i].split('-')[5]));
+                                    .add(int.parse(prodList[i].split('-')[7]));
                               }
                               initAttempt = true;
                             }
@@ -193,44 +193,24 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     '-' +
                                                     prodList[i].split('-')[4] +
                                                     '-' +
-                                                    refundItems[i].toString();
+                                                    prodList[i].split('-')[5] +
+                                                    '-' +
+                                                    prodList[i].split('-')[6] +
+                                                    '-' +
+                                                    refundItems[i].toString() +
+                                                    '-' +
+                                                    prodList[i].split('-')[8];
                                             total += (int.parse(prodList[i]
-                                                        .split('-')[4]) -
+                                                        .split('-')[3]) -
                                                     refundItems[i]) *
                                                 int.parse(
-                                                    prodList[i].split('-')[2]);
+                                                    prodList[i].split('-')[4]);
 
                                             if (refundItems[i] > 0) {
                                               refund = true;
                                             }
 
-                                            var collection = FirebaseFirestore
-                                                .instance
-                                                .collection('space')
-                                                .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                .collection('shops')
-                                                .doc('PucvhZDuUz3XlkTgzcjb')
-                                                .collection('products')
-                                                .doc(prodList[i].split('-')[0])
-                                                .collection('versions');
-                                            var docSnapshot = await collection
-                                                .doc(prodList[i].split('-')[1])
-                                                .get();
-                                            if (docSnapshot.exists) {
-                                              Map<String, dynamic>? data =
-                                                  docSnapshot.data();
-                                              var mainUnits =
-                                                  data?['unit_qtity'];
-                                              var sub1Units =
-                                                  data?['sub1_unit'];
-                                              var sub2Units =
-                                                  data?['sub2_unit'];
-                                              var sub3Units =
-                                                  data?['sub3_unit'];
-
                                               print('unit _name' + prodList[i]);
-                                              if (prodList[i].split('-')[3] ==
-                                                  'unit_name') {
                                                 print('unit ' +
                                                     deffItems[i].toString() +
                                                     ' ' +
@@ -279,110 +259,15 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                     refundItems[
                                                                         i] <
                                                                 0
-                                                            ? (MixedFraction.fromString(
-                                                                        value) +
-                                                                    MixedFraction.fromString('0 ' +
-                                                                        (deffItems[i] - refundItems[i])
-                                                                            .toString() +
-                                                                        '/1'))
-                                                                .toString()
-                                                            : (MixedFraction.fromString(
-                                                                        value) -
-                                                                    MixedFraction.fromString('0 ' +
-                                                                        (deffItems[i] -
-                                                                                refundItems[i])
-                                                                            .toString() +
-                                                                        '/1'))
-                                                                .toString()
+                                                            ? (int.parse(value) - (deffItems[i] - refundItems[i])).toString()
+                                                            : (int.parse(value) - (deffItems[i] - refundItems[i])).toString()
                                                       })
                                                       .then((value) =>
                                                           print("User Updated"))
                                                       .catchError((error) => print(
                                                           "Failed to update user: $error"));
                                                 }
-                                              } else {
-                                                var unit = '';
-
-                                                if (prodList[i].split('-')[3] ==
-                                                    'sub1_name') {
-                                                  unit = 'sub1_unit';
-                                                } else if (prodList[i]
-                                                        .split('-')[3] ==
-                                                    'sub2_name') {
-                                                  unit = 'sub2_unit';
-                                                } else if (prodList[i]
-                                                        .split('-')[3] ==
-                                                    'sub3_name') {
-                                                  unit = 'sub3_unit';
-                                                }
-
-                                                var docSnapshot =
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection('space')
-                                                        .doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT')
-                                                        .collection('shops')
-                                                        .doc(
-                                                            'PucvhZDuUz3XlkTgzcjb')
-                                                        .collection('products')
-                                                        .doc(prodList[i]
-                                                            .split('-')[0])
-                                                        .collection('versions')
-                                                        .doc(prodList[i]
-                                                            .split('-')[1])
-                                                        .get();
-                                                if (docSnapshot.exists) {
-                                                  Map<String, dynamic>? data =
-                                                      docSnapshot.data();
-                                                  // data?['sub1_unit']
-
-                                                  FirebaseFirestore.instance
-                                                      .collection('space')
-                                                      .doc(
-                                                          '0NHIS0Jbn26wsgCzVBKT')
-                                                      .collection('shops')
-                                                      .doc(
-                                                          'PucvhZDuUz3XlkTgzcjb')
-                                                      .collection('products')
-                                                      .doc(prodList[i]
-                                                          .split('-')[0])
-                                                      .collection('versions')
-                                                      .doc(prodList[i]
-                                                          .split('-')[1])
-                                                      .update({
-                                                        'unit_qtity': deffItems[i] -
-                                                                    refundItems[
-                                                                        i] <
-                                                                0
-                                                            ? (MixedFraction.fromString(data?['unit_qtity']) +
-                                                                    (MixedFraction.fromString('0 ' + ((deffItems[i] - refundItems[i])).toString()) /
-                                                                        MixedFraction.fromString('0 ' +
-                                                                            data?[
-                                                                                unit])))
-                                                                .reduce()
-                                                                .toString()
-                                                            : (MixedFraction.fromString(
-                                                                        data?[
-                                                                            'unit_qtity']) -
-                                                                    (MixedFraction.fromString('0 ' + ((deffItems[i] - refundItems[i])).toString()) /
-                                                                        MixedFraction.fromString('0 ' + data?[unit])))
-                                                                .reduce()
-                                                                .toString()
-                                                      })
-                                                      .then((value) => print(
-                                                          "User Updated" +
-                                                              deffItems[i]
-                                                                  .toString() +
-                                                              ' ' +
-                                                              refundItems[i]
-                                                                  .toString()))
-                                                      .catchError((error) => print(
-                                                          "Failed to update user: $error"));
-                                                }
-                                              }
                                               // Call setState if needed.
-                                            }
                                           }
                                           changedPrice = total;
                                           Navigator.pop(context);
@@ -537,15 +422,15 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   output2?['prod_name'] +
                                                       ' (' +
                                                       output2?[prodList[i]
-                                                          .split('-')[3]] +
+                                                          .split('-')[5]] +
                                                       ')',
                                                 ),
-                                                Text(prodList[i].split('-')[2] +
+                                                Text(prodList[i].split('-')[4] +
                                                     ' MMK'),
                                                 Text((int.parse(prodList[i]
-                                                            .split('-')[2]) *
+                                                            .split('-')[4]) *
                                                         int.parse(prodList[i]
-                                                            .split('-')[4]))
+                                                            .split('-')[3]))
                                                     .toString()),
                                                 GestureDetector(
                                                   onTap: () {
@@ -578,7 +463,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                       // refundItems[i] = refundItems[i]+1;
                                                       if ((refundItems[i]) >=
                                                           int.parse(prodList[i]
-                                                              .split('-')[4])) {
+                                                              .split('-')[3])) {
                                                       } else {
                                                         refundItems[i] =
                                                             refundItems[i] + 1;
@@ -1198,5 +1083,12 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
             ),
           );
         });
+  }
+  zeroToTen(String string) {
+    if (int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0' + string;
+    }
   }
 }
