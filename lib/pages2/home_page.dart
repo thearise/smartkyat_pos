@@ -1895,6 +1895,18 @@ class HomePageState extends State<HomePage>
                                                             }
                                                           }
 
+
+                                                          // var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(str.split('-')[1]).get();
+                                                          // if (docSnapshot.exists) {
+                                                          //   Map<String, dynamic>? data = docSnapshot.data();
+                                                          //   // data?['sub1_unit']
+                                                          //
+                                                          //   FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions').doc(str.split('-')[1])
+                                                          //       .update({'unit_qtity': (MixedFraction.fromString(data?['unit_qtity']) - (MixedFraction.fromString('0 ' + str.split('-')[4]) / MixedFraction.fromString('0 ' + data?[unit]))).reduce().toString()})
+                                                          //       .then((value) => print("User Updated"))
+                                                          //       .catchError((error) => print("Failed to update user: $error"));
+                                                          // }
+
                                                           print('subList here ' + subList.toString());
 
                                                           FirebaseFirestore
