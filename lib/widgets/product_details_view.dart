@@ -296,7 +296,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                                 key: 'sub3_name'),
                                         ],
                                       );
-                                      if(result!=null) {
+                                      if (result != null) {
                                         routeFill(result);
                                       }
                                     }
@@ -353,6 +353,136 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Column(
+                                      children: [
+                                        Text('Main Unit Versions'),
+                                    SizedBox(height: 15,),
+                                    StreamBuilder(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('space')
+                                            .doc('0NHIS0Jbn26wsgCzVBKT')
+                                            .collection('shops')
+                                            .doc('PucvhZDuUz3XlkTgzcjb')
+                                            .collection('products')
+                                            .doc(widget.idString)
+                                            .collection('versions')
+                                            .where('type', isEqualTo: 'main')
+                                            .where('unit_qtity', isNotEqualTo: '0')
+                                            .snapshots(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<QuerySnapshot>
+                                                snapshot6) {
+                                          if (snapshot6.hasData) {
+                                            return ListView(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              children: snapshot6.data!.docs.map(
+                                                  (DocumentSnapshot document) {
+                                                Map<String, dynamic> data6 =
+                                                    document.data()!
+                                                        as Map<String, dynamic>;
+                                                var mainPrices = data6['buy_price'];
+                                                var mainQtity = data6['unit_qtity'];
+                                                var date = data6['date'];
+                                                return Column(
+                                                  children: [
+                                                    Container(
+                                                             width: MediaQuery.of(
+                                                          context)
+                                                              .size
+                                                              .width,
+                                                                  height: 50,
+                                                          color: Colors.grey
+                                                              .withOpacity(0.3),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                Text('$mainQtity $mainName'),
+                                                                Spacer(),
+                                                                Text('$mainPrices MMK'),
+                                                                Spacer(),
+                                                                Text('Date: $date'),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                                ),
+                                                    SizedBox(height: 10,),
+                                                  ],
+                                                );
+                                              }).toList(),
+                                            );
+                                          }
+                                          return Container();
+                                        }), ],
+                                    ),
+                                    sub1Name!=''? Column(
+                                      children: [
+                                        Text('Sub1 Versions'),
+                                    SizedBox(height: 15,),
+                                    StreamBuilder(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('space')
+                                            .doc('0NHIS0Jbn26wsgCzVBKT')
+                                            .collection('shops')
+                                            .doc('PucvhZDuUz3XlkTgzcjb')
+                                            .collection('products')
+                                            .doc(widget.idString)
+                                            .collection('versions')
+                                            .where('type', isEqualTo: 'sub1')
+                                            .where('unit_qtity', isNotEqualTo: '0')
+                                            .snapshots(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<QuerySnapshot>
+                                            snapshot6) {
+                                          if (snapshot6.hasData) {
+                                            return ListView(
+                                              shrinkWrap: true,
+                                              physics:
+                                              NeverScrollableScrollPhysics(),
+                                              children: snapshot6.data!.docs.map(
+                                                      (DocumentSnapshot document) {
+                                                    Map<String, dynamic> data6 =
+                                                    document.data()!
+                                                    as Map<String, dynamic>;
+                                                    var mainPrices = data6['buy_price'];
+                                                    var mainQtity = data6['unit_qtity'];
+                                                    var date = data6['date'];
+                                                    return Column(
+                                                      children: [
+                                                        Container(
+                                                          width: MediaQuery.of(
+                                                              context)
+                                                              .size
+                                                              .width,
+                                                          height: 50,
+                                                          color: Colors.grey
+                                                              .withOpacity(0.3),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                Text('$mainQtity $sub1Name'),
+                                                                Spacer(),
+                                                                Text('$mainPrices MMK'),
+                                                                Spacer(),
+                                                                Text('Date: $date'),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 10,),
+                                                      ],
+                                                    );
+                                                  }).toList(),
+                                            );
+                                          }
+                                          return Container();
+                                        }), ],
+                                    ): Container(),
                                     Container(
                                       alignment: Alignment.topLeft,
                                       child: Text(

@@ -51,7 +51,7 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                   height: MediaQuery.of(context).size.height -
                       MediaQuery.of(context).padding.top -
                       MediaQuery.of(context).padding.bottom -
-                      220,
+                      300,
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
                   child: Padding(
@@ -61,7 +61,7 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                         Container(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            'Customers',
+                            'Merchants',
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
@@ -96,7 +96,7 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                           ),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 20,
                         ),
                         StreamBuilder(
                             stream: FirebaseFirestore.instance
@@ -105,6 +105,7 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                 .collection('shops')
                                 .doc('PucvhZDuUz3XlkTgzcjb')
                                 .collection('merchants')
+                                .where('merchant_name', isNotEqualTo: 'Unknown')
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -157,7 +158,7 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                                 height: 7,
                                               ),
                                               Text(
-                                                data['merchant_name'],
+                                                data['merchant_address'],
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
@@ -168,7 +169,7 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                                 height: 7,
                                               ),
                                               Text(
-                                                data['merchant_name'],
+                                                data['merchant_phone'],
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
