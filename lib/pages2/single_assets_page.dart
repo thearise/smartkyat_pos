@@ -3,7 +3,6 @@
 /// [Date] 2020-05-31 21:17
 ///
 import 'dart:io';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:ai_awesome_message/ai_awesome_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,6 +54,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   final mcostCtrl = TextEditingController();
 
   bool prodAdding = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -482,7 +482,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       'type': 'sub3',
                                                     }).then((value) {
                                                       print('product added 5');
-
                                                       setState(() {
                                                         prodAdding = false;
                                                       });
@@ -1203,7 +1202,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
                                             ),
-                                            onPressed: () {
+                                            onPressed: (){
                                               if (cards.length == 3) {
                                                 print('Cards limit reached');
                                               } else
@@ -1218,7 +1217,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               ),
                                             ),
                                           ),
-                                        )),
+                                        )
+                                    ),
                                     ListView.builder(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
@@ -1375,7 +1375,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               return shops.add({
                 'prod_name': prodFieldsValue[0],
                 'bar_code': prodFieldsValue[1],
-                'unit_qtity': prodFieldsValue[2] + ' 0',
+                'unit_qtity': prodFieldsValue[2],
                 'unit_name': prodFieldsValue[3],
                 'buy_price': prodFieldsValue[4],
                 'sale_price': prodFieldsValue[5],
@@ -1728,6 +1728,81 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
         setState(() {});
       }
     }
+  }
+  addSubUnit() {
+    return Scaffold(
+      body: Stack(
+          children: [
+            SafeArea(
+              top: true,
+              bottom: true, child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                    height: 85,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: AppTheme.skBorderColor, width: 2.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 15.0, left: 15, right: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ),
+                                color: Colors.grey.withOpacity(0.3)),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_back_ios_rounded,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          Text(
+                            "Add new product",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                                fontFamily: 'capsulesans',
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.left,
+                          ),
+                          Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),),
+                                color: AppTheme.skThemeColor2),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.check,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {}),
+                          ),
+                        ],
+                      ),
+                    )
+                ),
+              ],
+            ),
+            ),
+          ]
+      ),
+    );
   }
 
   Future<String> getStoreId() async {
