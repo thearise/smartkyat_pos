@@ -1736,7 +1736,6 @@ class HomePageState extends State<HomePage>
                                                                    .orderBy('date', descending: true)
                                                                   .where('type',
                                                                     isEqualTo: 'main')
-
                                                                   .get()
                                                                   .then((QuerySnapshot querySnapshot) async {
                                                                     int value = int.parse(str.split('-')[4]);
@@ -1788,30 +1787,33 @@ class HomePageState extends State<HomePage>
                                                               });
                                                             } else {
                                                               var unit = '';
+                                                              var unit_q ='';
 
                                                               if (str.split(
                                                                       '-')[3] ==
                                                                   'sub1_name') {
                                                                 unit =
                                                                     'sub1';
+                                                                unit_q = 'sub1_unit';
+
                                                               } else if (str.split(
                                                                       '-')[3] ==
                                                                   'sub2_name') {
                                                                 unit =
                                                                     'sub2';
+                                                                unit_q = 'sub2_unit';
                                                               } else if (str.split(
                                                                       '-')[3] ==
                                                                   'sub3_name') {
                                                                 unit =
                                                                     'sub3';
+                                                                unit_q = 'sub3_unit';
                                                               }
-
                                                              await FirebaseFirestore
                                                                   .instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0]).collection('versions')
                                                                   .orderBy('date', descending: true)
                                                                   .where('type',
                                                                   isEqualTo: unit)
-
                                                                   .get()
                                                                   .then((QuerySnapshot querySnapshot) async {
                                                                 int value = int.parse(str.split('-')[4]);
@@ -1864,6 +1866,8 @@ class HomePageState extends State<HomePage>
                                                                     //   'unit_qtity'];
 
                                                                     break;
+                                                                  } else {
+
                                                                   }
                                                                 }
 
