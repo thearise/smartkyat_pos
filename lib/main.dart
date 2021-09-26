@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:smartkyat_pos/login.dart';
-import 'package:smartkyat_pos/pages2/home_page.dart';
+import 'package:smartkyat_pos/pages2/home_page2.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'src/app.dart';
 import 'package:smartkyat_pos/src/app.dart';
