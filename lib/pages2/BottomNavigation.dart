@@ -2,9 +2,8 @@ import 'package:flutter/services.dart';
 // import 'package:soundpool/soundpool.dart';
 
 import 'TabItem.dart';
-import 'home_page.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'home_page2.dart';
 
 class BottomNavigation extends StatelessWidget {
   var gindex = 0;
