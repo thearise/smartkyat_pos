@@ -436,36 +436,25 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                                     FirebaseFirestore.instance
                                                         .collection('space')
-                                                        .doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                        .doc('0NHIS0Jbn26wsgCzVBKT')
                                                         .collection('shops')
-                                                        .doc(
-                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                        .doc('PucvhZDuUz3XlkTgzcjb')
                                                         .collection('products')
                                                         .doc(value.id)
                                                         .collection('versions')
                                                         .add({
-                                                      'date': zeroToTen(now.day
-                                                              .toString()) +
-                                                          zeroToTen(now.month
-                                                              .toString()) +
-                                                          zeroToTen(now.year
-                                                              .toString()),
-                                                      'unit_qtity':
-                                                          subUnitFieldValue[7],
+                                                      'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
+                                                      'unit_qtity': subUnitFieldValue[7],
                                                       'buy_price': '0',
                                                       'type': 'sub2',
                                                     }).then((value) {
                                                       print('product added 4');
                                                     });
 
-                                                    FirebaseFirestore.instance
-                                                        .collection('space')
-                                                        .doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                    FirebaseFirestore.instance.collection('space')
+                                                        .doc('0NHIS0Jbn26wsgCzVBKT')
                                                         .collection('shops')
-                                                        .doc(
-                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                        .doc('PucvhZDuUz3XlkTgzcjb')
                                                         .collection('products')
                                                         .doc(value.id)
                                                         .collection('versions')
