@@ -93,158 +93,158 @@ class _HomeFragmentState extends State<HomeFragment>
         .collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
 
     orders.get().then((QuerySnapshot
-      querySnapshot) async {
-        // print(DateTime.now().subtract(duration))
-          //today = today.add(const Duration(hours: 1));
+    querySnapshot) async {
+      // print(DateTime.now().subtract(duration))
+      //today = today.add(const Duration(hours: 1));
       sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
       monthAgo = monthAgo.add(const Duration(days: 1));
-        querySnapshot.docs
-            .forEach((doc) {
-          int week = 0;
-          int month = 0;
-          int year = 0;
-          sevenDaysAgo = today.subtract(const Duration(days: 8));
-          monthAgo = today.subtract(const Duration(days: 31));
+      querySnapshot.docs
+          .forEach((doc) {
+        int week = 0;
+        int month = 0;
+        int year = 0;
+        sevenDaysAgo = today.subtract(const Duration(days: 8));
+        monthAgo = today.subtract(const Duration(days: 31));
 
-          while(!(today.year.toString() == sevenDaysAgo.year.toString() && today.month.toString() == sevenDaysAgo.month.toString() && today.day.toString() == sevenDaysAgo.day.toString())) {
-            sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+        while(!(today.year.toString() == sevenDaysAgo.year.toString() && today.month.toString() == sevenDaysAgo.month.toString() && today.day.toString() == sevenDaysAgo.day.toString())) {
+          sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 
-            print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-            print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-
-            print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-            if(doc['date'] == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
-              double total = 0;
-              // print(doc['daily_order'].toString());
-              for(String str in doc['daily_order']) {
-                // print(double.parse(str));
-                total += double.parse(str.split('^')[2]);
-              }
-              print('total ' + total.toString());
-              setState(() {
-                thisWeekOrdersChart[week] = total;
-              });
-
-            }
-            week = week + 1;
-
-          }
-
-          while(!(today.year.toString() == monthAgo.year.toString() && today.month.toString() == monthAgo.month.toString() && today.day.toString() == monthAgo.day.toString())) {
-            monthAgo = monthAgo.add(const Duration(days: 1));
-
-            print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-            print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+          print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
+          print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
 
-            print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+          print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
-            if(doc['date'] == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
-              double total = 0;
-              // print(doc['daily_order'].toString());
-              for(String str in doc['daily_order']) {
-                // print(double.parse(str));
-                print('testing ' + str.split('^')[2]);
-                total += double.parse(str.split('^')[2]);
-              }
-              print('tatoos ' + total.toString());
-              setState(() {
-                thisMonthOrdersChart[month] = total;
-              });
-
-            }
-            month = month + 1;
-
-          }
-          if (doc['date'].substring(0,8) == today.year.toString() +
-                zeroToTen(today.month.toString()) +
-                zeroToTen(today.day.toString())) {
-              double total = 0;
-              for (String str in doc['daily_order']) {
-                for(int i=0; i<=24 ; i++ ){
-
-                if(str.split('^')[0].substring(0, 10) == today.year.toString() +
-                    zeroToTen(today.month.toString()) +
-                    zeroToTen(today.day.toString()) +
-                    zeroToTen(i.toString()))
-                {
-                total += double.parse(str.split('^')[2]);
-                  setState(() {
-                  todayOrdersChart[i]+=double.parse(str.split('^')[2]);
-                  });
-                }
-             // print('laos ' + total.toString());
-                print('World ' +todayOrdersChart.toString());
-                }
-            }
-          }
-          if (doc['date'].substring(0,4) == today.year.toString()){
+          if(doc['date'] == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
             double total = 0;
-            for (String str in doc['daily_order']) {
-              for(int i=1; i<=12 ; i++ ){
-               // print('helloworld '+i.toString());
+            // print(doc['daily_order'].toString());
+            for(String str in doc['daily_order']) {
+              // print(double.parse(str));
+              total += double.parse(str.split('^')[2]);
+            }
+            print('total ' + total.toString());
+            setState(() {
+              thisWeekOrdersChart[week] = total;
+            });
 
-                if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
-                {
-                  total += double.parse(str.split('^')[2]);
-                  setState(() {
+          }
+          week = week + 1;
+
+        }
+
+        while(!(today.year.toString() == monthAgo.year.toString() && today.month.toString() == monthAgo.month.toString() && today.day.toString() == monthAgo.day.toString())) {
+          monthAgo = monthAgo.add(const Duration(days: 1));
+
+          print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
+          print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+
+
+          print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+
+          if(doc['date'] == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
+            double total = 0;
+            // print(doc['daily_order'].toString());
+            for(String str in doc['daily_order']) {
+              // print(double.parse(str));
+              print('testing ' + str.split('^')[2]);
+              total += double.parse(str.split('^')[2]);
+            }
+            print('tatoos ' + total.toString());
+            setState(() {
+              thisMonthOrdersChart[month] = total;
+            });
+
+          }
+          month = month + 1;
+
+        }
+        if (doc['date'].substring(0,8) == today.year.toString() +
+            zeroToTen(today.month.toString()) +
+            zeroToTen(today.day.toString())) {
+          double total = 0;
+          for (String str in doc['daily_order']) {
+            for(int i=0; i<=24 ; i++ ){
+
+              if(str.split('^')[0].substring(0, 10) == today.year.toString() +
+                  zeroToTen(today.month.toString()) +
+                  zeroToTen(today.day.toString()) +
+                  zeroToTen(i.toString()))
+              {
+                total += double.parse(str.split('^')[2]);
+                setState(() {
+                  todayOrdersChart[i]+=double.parse(str.split('^')[2]);
+                });
+              }
+              // print('laos ' + total.toString());
+              print('World ' +todayOrdersChart.toString());
+            }
+          }
+        }
+        if (doc['date'].substring(0,4) == today.year.toString()){
+          double total = 0;
+          for (String str in doc['daily_order']) {
+            for(int i=1; i<=12 ; i++ ){
+              // print('helloworld '+i.toString());
+
+              if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
+              {
+                total += double.parse(str.split('^')[2]);
+                setState(() {
                   thisYearOrdersChart[i]+=double.parse(str.split('^')[2]);
                   print('fortune ' +thisYearOrdersChart.toString()); });
-                }
-                 //print('laos ' + total.toString());
-
               }
+              //print('laos ' + total.toString());
+
             }
           }
+        }
 
-          // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
-          //   yearAgo = yearAgo.add(const Duration(days: 1));
-          //
-          //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
-          //     double total = 0;
-          //     // print(doc['daily_order'].toString());
-          //     for(String str in doc['daily_order']) {
-          //       // print(double.parse(str));
-          //       total += double.parse(str.split('^')[2]);
-          //     }
-          //     print('total ' + total.toString());
-          //     setState(() {
-          //       thisYearOrdersChart[year] = total;
-          //     });
-          //
-          //   }
-          //   year = year + 1;
-          //
-          // }
-          print('this year' + thisYearOrdersChart.toString());
-          print('this week ' + thisWeekOrdersChart.toString());
-          // for(int j = 20210909; j <= 20210915; j++) {
-          //
-          //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
-          //   print('here shwe 2 ' + j.toString());
-          //   // if(doc['date'] == j.toString()) {
-          //   //   double total = 0;
-          //   //   // print(doc['daily_order'].toString());
-          //   //   for(String str in doc['daily_order']) {
-          //   //     // print(double.parse(str));
-          //   //     total += double.parse(str.split('^')[2]);
-          //   //   }
-          //   //   print('total ' + total.toString());
-          //   //   setState(() {
-          //   //     thisWeekOrdersChart[ij] = total;
-          //   //   });
-          //   //
-          //   // }
-          //   // ij = ij + 1;
-          //   // print(ij);
-          // }
+        // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
+        //   yearAgo = yearAgo.add(const Duration(days: 1));
+        //
+        //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
+        //     double total = 0;
+        //     // print(doc['daily_order'].toString());
+        //     for(String str in doc['daily_order']) {
+        //       // print(double.parse(str));
+        //       total += double.parse(str.split('^')[2]);
+        //     }
+        //     print('total ' + total.toString());
+        //     setState(() {
+        //       thisYearOrdersChart[year] = total;
+        //     });
+        //
+        //   }
+        //   year = year + 1;
+        //
+        // }
+        print('this year' + thisYearOrdersChart.toString());
+        print('this week ' + thisWeekOrdersChart.toString());
+        // for(int j = 20210909; j <= 20210915; j++) {
+        //
+        //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
+        //   print('here shwe 2 ' + j.toString());
+        //   // if(doc['date'] == j.toString()) {
+        //   //   double total = 0;
+        //   //   // print(doc['daily_order'].toString());
+        //   //   for(String str in doc['daily_order']) {
+        //   //     // print(double.parse(str));
+        //   //     total += double.parse(str.split('^')[2]);
+        //   //   }
+        //   //   print('total ' + total.toString());
+        //   //   setState(() {
+        //   //     thisWeekOrdersChart[ij] = total;
+        //   //   });
+        //   //
+        //   // }
+        //   // ij = ij + 1;
+        //   // print(ij);
+        // }
 
 
-          // print('this week 2' + thisWeekOrdersChart.toString());
+        // print('this week 2' + thisWeekOrdersChart.toString());
 
-          // print('each ' + doc.id.toString());
+        // print('each ' + doc.id.toString());
       });
       print('this month ' + thisMonthOrdersChart.toString());
       // setState(() {
@@ -387,15 +387,15 @@ class _HomeFragmentState extends State<HomeFragment>
 
 
             if(value.toInt() == 5) {
-            return (findMax(roundToday)/quantity).toStringAsFixed(1) + ' $unit';
+              return (findMax(roundToday)/quantity).toStringAsFixed(1) + ' $unit';
             } else if(value.toInt() == 3) {
-            return ((findMax(roundToday)/quantity)*(3/5)).toStringAsFixed(1) + ' $unit';
+              return ((findMax(roundToday)/quantity)*(3/5)).toStringAsFixed(1) + ' $unit';
             } else if(value.toInt() == 1) {
-            return ((findMax(roundToday)/quantity)*(1/5)).toStringAsFixed(1) + ' $unit';
+              return ((findMax(roundToday)/quantity)*(1/5)).toStringAsFixed(1) + ' $unit';
             }
 
-    return '';
-    },
+            return '';
+          },
           reservedSize: 35,
           margin: 8,
         ),
@@ -684,9 +684,9 @@ class _HomeFragmentState extends State<HomeFragment>
         },
         getDrawingVerticalLine: (value) {
           return FlLine(
-            color: const Color(0xFFd6d8db),
-            strokeWidth: 1,
-            dashArray: [5]
+              color: const Color(0xFFd6d8db),
+              strokeWidth: 1,
+              dashArray: [5]
           );
         },
       ),
@@ -725,7 +725,7 @@ class _HomeFragmentState extends State<HomeFragment>
                 return today.subtract(Duration(days: 1)).day.toString();
               case 6:
                 return 'Today';
-                // return today.day.toString() + ', ' + changeMonth2String(today.month.toString());
+            // return today.day.toString() + ', ' + changeMonth2String(today.month.toString());
 
             }
             return '';
@@ -813,7 +813,7 @@ class _HomeFragmentState extends State<HomeFragment>
       lineBarsData: [
         LineChartBarData(
           spots: [
-    // double.parse(((thisWeekOrdersChart[5]/1000000)).toString())
+            // double.parse(((thisWeekOrdersChart[5]/1000000)).toString())
             FlSpot(0, (((thisWeekOrdersChart[1]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[1]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[1]).toString() + '\n(' + today.subtract(Duration(days: 6)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 6)).month.toString()) + ')'),
             FlSpot(1, (((thisWeekOrdersChart[2]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[2]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[2]).toString() + '\n(' + today.subtract(Duration(days: 5)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 5)).month.toString()) + ')'),
             FlSpot(2, (((thisWeekOrdersChart[3]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek)))).toString() == "NaN" ? 0.0 :((thisWeekOrdersChart[3]/chgDeci3Place(findMax(roundWeek))) * 5 )/ (findMax(roundWeek)/chgDeci3Place(findMax(roundWeek))), (thisWeekOrdersChart[3]).toString() + '\n(' + today.subtract(Duration(days: 4)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 4)).month.toString()) + ')'),
@@ -877,8 +877,8 @@ class _HomeFragmentState extends State<HomeFragment>
           const TextStyle(color: Colors.Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
           getTitles: (value) {
             switch (value.toInt()) {
-              // case 0:
-              //   return (int.parse(today.month.toString()) - int.parse(subMonths)).toString();
+            // case 0:
+            //   return (int.parse(today.month.toString()) - int.parse(subMonths)).toString();
               case 0:
                 return (int.parse(today.month.toString()) - int.parse(subMonths)+1).toString();
               case 1:
@@ -1342,9 +1342,9 @@ class _HomeFragmentState extends State<HomeFragment>
 
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0),
-                                          ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0),
+                                        ),
                                       ),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
@@ -1366,12 +1366,12 @@ class _HomeFragmentState extends State<HomeFragment>
                                                   Text(totalBySlide(),
                                                     textAlign: TextAlign.left,
                                                     style: GoogleFonts.lato(
-                                                      textStyle: TextStyle(
-                                                          letterSpacing: 1,
-                                                          fontSize: 30,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.Colors.black
-                                                      )
+                                                        textStyle: TextStyle(
+                                                            letterSpacing: 1,
+                                                            fontSize: 30,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: Colors.Colors.black
+                                                        )
                                                     ),
                                                   ),
                                                   Padding(
@@ -1504,7 +1504,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             SizedBox(
-                                                              height:26
+                                                                height:26
                                                             ),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right:30.0),
@@ -1523,9 +1523,9 @@ class _HomeFragmentState extends State<HomeFragment>
                                                           ],
                                                         ),
                                                         Positioned(
-                                                          right: 0,
-                                                          top: 0,
-                                                          child: Text('?')
+                                                            right: 0,
+                                                            top: 0,
+                                                            child: Text('?')
                                                         ),
                                                         Text('Net Profit',
                                                           style: TextStyle(
@@ -1870,11 +1870,11 @@ class _HomeFragmentState extends State<HomeFragment>
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 0.0
+                                              height: 0.0
                                           ),
                                           Stack(
                                             children: [
-                                              
+
                                               Padding(
                                                 padding: const EdgeInsets.only(right: 10.0),
                                                 child: AspectRatio(
@@ -2089,16 +2089,16 @@ class _HomeFragmentState extends State<HomeFragment>
               ),
               MediaQuery.of(context).size.width > 900
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                left: BorderSide(
-                                    color: Colors.Colors.grey.withOpacity(0.3),
-                                    width: 1.0))),
-                        width: MediaQuery.of(context).size.width * (1.5 / 3.5),
-                      ),
-                    )
+                padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          left: BorderSide(
+                              color: Colors.Colors.grey.withOpacity(0.3),
+                              width: 1.0))),
+                  width: MediaQuery.of(context).size.width * (1.5 / 3.5),
+                ),
+              )
                   : Container()
             ],
           ),
@@ -2178,7 +2178,7 @@ class _HomeFragmentState extends State<HomeFragment>
                                         left: 15.0, right: 15.0, top: 20.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
                                           width: 35,
@@ -2291,11 +2291,11 @@ class _HomeFragmentState extends State<HomeFragment>
                                           // errorText: 'Error message',
                                           labelText: 'First Name',
                                           floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
+                                          FloatingLabelBehavior.auto,
                                           //filled: true,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
@@ -2311,11 +2311,11 @@ class _HomeFragmentState extends State<HomeFragment>
                                         decoration: InputDecoration(
                                           labelText: 'Last Name',
                                           floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
+                                          FloatingLabelBehavior.auto,
                                           //filled: true,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
@@ -2342,7 +2342,7 @@ class _HomeFragmentState extends State<HomeFragment>
     } else if(_sliding == 1) {
       return "LAST 7 DAYS";
     } else if(_sliding == 2) {
-    return "LAST 28 DAYS";
+      return "LAST 28 DAYS";
     } else {
       return "LAST 12 MONTHS";
     }
@@ -2408,9 +2408,9 @@ class ShakeView extends StatelessWidget {
         animation: controller,
         child: child,
         builder: (context, child) => Transform(
-              child: child,
-              transform: Matrix4.translation(_shake(_anim.value)),
-            ));
+          child: child,
+          transform: Matrix4.translation(_shake(_anim.value)),
+        ));
   }
 
   Vector3 _shake(double progress) {
@@ -2422,7 +2422,7 @@ class ShakeView extends StatelessWidget {
 class ShakeController extends AnimationController {
   ShakeController(
       {required TickerProvider vsync,
-      Duration duration = const Duration(milliseconds: 200)})
+        Duration duration = const Duration(milliseconds: 200)})
       : super(vsync: vsync, duration: duration);
 
   shake() async {
@@ -2436,7 +2436,7 @@ class ShakeController extends AnimationController {
 
 class JiggleController extends Equatable {
   final BehaviorSubject<JiggleState> _jiggleSubject =
-      BehaviorSubject.seeded(JiggleState.STATIC);
+  BehaviorSubject.seeded(JiggleState.STATIC);
 
   Stream<JiggleState> get stream => _jiggleSubject.stream.asBroadcastStream();
 
@@ -2472,10 +2472,10 @@ enum JiggleState { JIGGLING, STATIC }
 class Jiggle extends StatefulWidget {
   Jiggle(
       {required this.child,
-      required this.jiggleController,
-      this.extent = 1,
-      this.duration = const Duration(milliseconds: 80),
-      this.useGestures = false});
+        required this.jiggleController,
+        this.extent = 1,
+        this.duration = const Duration(milliseconds: 80),
+        this.useGestures = false});
 
   /// This is the extent in degress to which the Widget rotates.
   ///

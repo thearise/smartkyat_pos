@@ -13,9 +13,9 @@ import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets/fill_product.dart';
+import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
 
 import '../app_theme.dart';
@@ -28,8 +28,8 @@ class ProductsFragment extends StatefulWidget {
 
   ProductsFragment(
       {required void toggleCoinCallback(),
-      required void toggleCoinCallback2(String str),
-      required void toggleCoinCallback3(String str)})
+        required void toggleCoinCallback2(String str),
+        required void toggleCoinCallback3(String str)})
       : _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2,
         _callback3 = toggleCoinCallback3;
@@ -184,12 +184,12 @@ class ProductsFragmentState extends State<ProductsFragment>
                                         var version = document.id;
                                         return Padding(
                                           padding:
-                                              const EdgeInsets.only(top: 16.0),
+                                          const EdgeInsets.only(top: 16.0),
                                           child: GestureDetector(
                                             onTap: () {Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => ProductDetailsView(
+                                                  builder: (context) => ProductDetailsView2(
                                                       idString: version, toggleCoinCallback:
                                                   addProduct1, toggleCoinCallback3: addProduct3)),);},
                                             child: Container(
@@ -208,61 +208,61 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                     children: [
                                                       ClipRRect(
                                                           borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
+                                                          BorderRadius
+                                                              .circular(
+                                                              8.0),
                                                           child: image != ""
                                                               ? CachedNetworkImage(
-                                                                  imageUrl:
-                                                                      'https://hninsunyein.me/smartkyat_pos/api/uploads/' +
-                                                                          image,
-                                                                  width: 70,
-                                                                  height: 70,
-                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                  errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                                  fadeInDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                              100),
-                                                                  fadeOutDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                              10),
-                                                                  fadeInCurve:
-                                                                      Curves
-                                                                          .bounceIn,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )
+                                                            imageUrl:
+                                                            'https://hninsunyein.me/smartkyat_pos/api/uploads/' +
+                                                                image,
+                                                            width: 70,
+                                                            height: 70,
+                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                            errorWidget: (context,
+                                                                url,
+                                                                error) =>
+                                                                Icon(Icons
+                                                                    .error),
+                                                            fadeInDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                100),
+                                                            fadeOutDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                10),
+                                                            fadeInCurve:
+                                                            Curves
+                                                                .bounceIn,
+                                                            fit: BoxFit
+                                                                .cover,
+                                                          )
                                                               : CachedNetworkImage(
-                                                                  imageUrl:
-                                                                      'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
-                                                                  width: 70,
-                                                                  height: 70,
-                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                  errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                                  fadeInDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                              100),
-                                                                  fadeOutDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                              10),
-                                                                  fadeInCurve:
-                                                                      Curves
-                                                                          .bounceIn,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )),
+                                                            imageUrl:
+                                                            'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+                                                            width: 70,
+                                                            height: 70,
+                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                            errorWidget: (context,
+                                                                url,
+                                                                error) =>
+                                                                Icon(Icons
+                                                                    .error),
+                                                            fadeInDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                100),
+                                                            fadeOutDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                10),
+                                                            fadeInCurve:
+                                                            Curves
+                                                                .bounceIn,
+                                                            fit: BoxFit
+                                                                .cover,
+                                                          )),
                                                       SizedBox(height: 12),
                                                     ],
                                                   ),
@@ -271,15 +271,15 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                   ),
                                                   Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    CrossAxisAlignment
+                                                        .start,
                                                     children: [
                                                       Text(
                                                         prodName,
                                                         style: TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
-                                                              FontWeight.bold,
+                                                          FontWeight.bold,
                                                         ),
                                                       ),
                                                       SizedBox(
@@ -290,7 +290,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         style: TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
-                                                              FontWeight.bold,
+                                                          FontWeight.bold,
                                                         ),
                                                       ),
                                                       Row(
@@ -299,43 +299,43 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               stream: FirebaseFirestore
                                                                   .instance
                                                                   .collection(
-                                                                      'space')
+                                                                  'space')
                                                                   .doc(
-                                                                      '0NHIS0Jbn26wsgCzVBKT')
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
                                                                   .collection(
-                                                                      'shops')
+                                                                  'shops')
                                                                   .doc(
-                                                                      'PucvhZDuUz3XlkTgzcjb')
+                                                                  'PucvhZDuUz3XlkTgzcjb')
                                                                   .collection(
-                                                                      'products')
+                                                                  'products')
                                                                   .doc(version)
                                                                   .collection(
-                                                                      'versions')
+                                                                  'versions')
                                                                   .where('type',
-                                                                      isEqualTo:
-                                                                          'main')
+                                                                  isEqualTo:
+                                                                  'main')
                                                                   .snapshots(),
                                                               builder: (BuildContext
-                                                                      context,
+                                                              context,
                                                                   AsyncSnapshot<
-                                                                          QuerySnapshot>
-                                                                      snapshot2) {
+                                                                      QuerySnapshot>
+                                                                  snapshot2) {
                                                                 if (snapshot2
                                                                     .hasData) {
                                                                   int quantity =
-                                                                      0;
+                                                                  0;
                                                                   var mainQuantity;
                                                                   snapshot2
                                                                       .data!
                                                                       .docs
                                                                       .map((DocumentSnapshot
-                                                                          document) {
+                                                                  document) {
                                                                     Map<String,
-                                                                            dynamic>
-                                                                        data1 =
-                                                                        document.data()! as Map<
-                                                                            String,
-                                                                            dynamic>;
+                                                                        dynamic>
+                                                                    data1 =
+                                                                    document.data()! as Map<
+                                                                        String,
+                                                                        dynamic>;
 
                                                                     quantity +=
                                                                         int.parse(
@@ -353,45 +353,45 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               stream: FirebaseFirestore
                                                                   .instance
                                                                   .collection(
-                                                                      'space')
+                                                                  'space')
                                                                   .doc(
-                                                                      '0NHIS0Jbn26wsgCzVBKT')
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
                                                                   .collection(
-                                                                      'shops')
+                                                                  'shops')
                                                                   .doc(
-                                                                      'PucvhZDuUz3XlkTgzcjb')
+                                                                  'PucvhZDuUz3XlkTgzcjb')
                                                                   .collection(
-                                                                      'products')
+                                                                  'products')
                                                                   .doc(version)
                                                                   .collection(
-                                                                      'versions')
+                                                                  'versions')
                                                                   .where('type',
-                                                                      isEqualTo:
-                                                                          'sub1')
+                                                                  isEqualTo:
+                                                                  'sub1')
                                                                   .snapshots(),
                                                               builder: (BuildContext
-                                                                      context,
+                                                              context,
                                                                   AsyncSnapshot<
-                                                                          QuerySnapshot>
-                                                                      snapshot3) {
+                                                                      QuerySnapshot>
+                                                                  snapshot3) {
                                                                 if (snapshot3
                                                                     .hasData) {
                                                                   int quantity1 =
-                                                                      0;
+                                                                  0;
                                                                   var sub1Quantity;
                                                                   snapshot3
                                                                       .data!
                                                                       .docs
                                                                       .map((DocumentSnapshot
-                                                                          document) {
+                                                                  document) {
                                                                     Map<String,
-                                                                            dynamic>
-                                                                        data2 =
-                                                                        document.data()! as Map<
-                                                                            String,
-                                                                            dynamic>;
+                                                                        dynamic>
+                                                                    data2 =
+                                                                    document.data()! as Map<
+                                                                        String,
+                                                                        dynamic>;
                                                                     if (data2[
-                                                                            'unit_qtity'] !=
+                                                                    'unit_qtity'] !=
                                                                         '') {
                                                                       quantity1 +=
                                                                           int.parse(
@@ -418,45 +418,45 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               stream: FirebaseFirestore
                                                                   .instance
                                                                   .collection(
-                                                                      'space')
+                                                                  'space')
                                                                   .doc(
-                                                                      '0NHIS0Jbn26wsgCzVBKT')
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
                                                                   .collection(
-                                                                      'shops')
+                                                                  'shops')
                                                                   .doc(
-                                                                      'PucvhZDuUz3XlkTgzcjb')
+                                                                  'PucvhZDuUz3XlkTgzcjb')
                                                                   .collection(
-                                                                      'products')
+                                                                  'products')
                                                                   .doc(version)
                                                                   .collection(
-                                                                      'versions')
+                                                                  'versions')
                                                                   .where('type',
-                                                                      isEqualTo:
-                                                                          'sub2')
+                                                                  isEqualTo:
+                                                                  'sub2')
                                                                   .snapshots(),
                                                               builder: (BuildContext
-                                                                      context,
+                                                              context,
                                                                   AsyncSnapshot<
-                                                                          QuerySnapshot>
-                                                                      snapshot4) {
+                                                                      QuerySnapshot>
+                                                                  snapshot4) {
                                                                 if (snapshot4
                                                                     .hasData) {
                                                                   int quantity2 =
-                                                                      0;
+                                                                  0;
                                                                   var sub2Quantity;
                                                                   snapshot4
                                                                       .data!
                                                                       .docs
                                                                       .map((DocumentSnapshot
-                                                                          document) {
+                                                                  document) {
                                                                     Map<String,
-                                                                            dynamic>
-                                                                        data3 =
-                                                                        document.data()! as Map<
-                                                                            String,
-                                                                            dynamic>;
+                                                                        dynamic>
+                                                                    data3 =
+                                                                    document.data()! as Map<
+                                                                        String,
+                                                                        dynamic>;
                                                                     if (data3[
-                                                                            'unit_qtity'] !=
+                                                                    'unit_qtity'] !=
                                                                         '') {
                                                                       quantity2 +=
                                                                           int.parse(
@@ -480,45 +480,45 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               stream: FirebaseFirestore
                                                                   .instance
                                                                   .collection(
-                                                                      'space')
+                                                                  'space')
                                                                   .doc(
-                                                                      '0NHIS0Jbn26wsgCzVBKT')
+                                                                  '0NHIS0Jbn26wsgCzVBKT')
                                                                   .collection(
-                                                                      'shops')
+                                                                  'shops')
                                                                   .doc(
-                                                                      'PucvhZDuUz3XlkTgzcjb')
+                                                                  'PucvhZDuUz3XlkTgzcjb')
                                                                   .collection(
-                                                                      'products')
+                                                                  'products')
                                                                   .doc(version)
                                                                   .collection(
-                                                                      'versions')
+                                                                  'versions')
                                                                   .where('type',
-                                                                      isEqualTo:
-                                                                          'sub3')
+                                                                  isEqualTo:
+                                                                  'sub3')
                                                                   .snapshots(),
                                                               builder: (BuildContext
-                                                                      context,
+                                                              context,
                                                                   AsyncSnapshot<
-                                                                          QuerySnapshot>
-                                                                      snapshot5) {
+                                                                      QuerySnapshot>
+                                                                  snapshot5) {
                                                                 if (snapshot5
                                                                     .hasData) {
                                                                   int quantity3 =
-                                                                      0;
+                                                                  0;
                                                                   var sub3Quantity;
                                                                   snapshot5
                                                                       .data!
                                                                       .docs
                                                                       .map((DocumentSnapshot
-                                                                          document) {
+                                                                  document) {
                                                                     Map<String,
-                                                                            dynamic>
-                                                                        data4 =
-                                                                        document.data()! as Map<
-                                                                            String,
-                                                                            dynamic>;
+                                                                        dynamic>
+                                                                    data4 =
+                                                                    document.data()! as Map<
+                                                                        String,
+                                                                        dynamic>;
                                                                     if (data4[
-                                                                            'unit_qtity'] !=
+                                                                    'unit_qtity'] !=
                                                                         '') {
                                                                       quantity3 +=
                                                                           int.parse(
@@ -592,15 +592,15 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                   Spacer(),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 20.0),
+                                                    const EdgeInsets.only(
+                                                        bottom: 20.0),
                                                     child: Icon(
-                                                        Icons
-                                                            .arrow_forward_ios_rounded,
-                                                        size: 16,
-                                                        color: Colors.blueGrey
-                                                            .withOpacity(0.8),
-                                                  ),),
+                                                      Icons
+                                                          .arrow_forward_ios_rounded,
+                                                      size: 16,
+                                                      color: Colors.blueGrey
+                                                          .withOpacity(0.8),
+                                                    ),),
                                                 ],
                                               ),
                                             ),
@@ -621,9 +621,9 @@ class ProductsFragmentState extends State<ProductsFragment>
                 child: Container(
                   decoration: BoxDecoration(
                       border: Border(
-                    bottom:
+                        bottom:
                         BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                  )),
+                      )),
                   child: Padding(
                     padding: const EdgeInsets.only(
                         top: 10.0, left: 15.0, right: 15.0, bottom: 15),
@@ -653,12 +653,12 @@ class ProductsFragmentState extends State<ProductsFragment>
                                     left: 8.0, right: 8.0),
                                 child: Container(
                                     child: Text(
-                                  'Search',
-                                  style: TextStyle(
-                                      fontSize: 16.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black.withOpacity(0.6)),
-                                )),
+                                      'Search',
+                                      style: TextStyle(
+                                          fontSize: 16.5,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black.withOpacity(0.6)),
+                                    )),
                               ),
                             ),
                             GestureDetector(
@@ -1196,13 +1196,13 @@ class _SubUnitState extends State<SubUnit> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
+                      // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(
                             color: AppTheme.skBorderColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
 
                     focusedBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
+                      // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(
                             color: AppTheme.skThemeColor2, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
@@ -1242,13 +1242,13 @@ class _SubUnitState extends State<SubUnit> {
                   },
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
+                      // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(
                             color: AppTheme.skBorderColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
 
                     focusedBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
+                      // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(
                             color: AppTheme.skThemeColor2, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
@@ -1290,13 +1290,13 @@ class _SubUnitState extends State<SubUnit> {
             },
             decoration: InputDecoration(
               enabledBorder: const OutlineInputBorder(
-                  // width: 0.0 produces a thin "hairline" border
+                // width: 0.0 produces a thin "hairline" border
                   borderSide: const BorderSide(
                       color: AppTheme.skBorderColor, width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
 
               focusedBorder: const OutlineInputBorder(
-                  // width: 0.0 produces a thin "hairline" border
+                // width: 0.0 produces a thin "hairline" border
                   borderSide: const BorderSide(
                       color: AppTheme.skThemeColor2, width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smartkyat_pos/pages2/home_page.dart';
-import 'home_page.dart';
+import 'package:smartkyat_pos/pages2/home_page2.dart';
+// import 'home_page2.dart';
 
 class TabItem {
   // you can customize what kind of information is needed

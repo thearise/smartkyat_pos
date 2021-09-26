@@ -45,9 +45,10 @@ class TopSaleDetail extends StatefulWidget {
 }
 
 class _TopSaleDetailState extends State<TopSaleDetail>   with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<TopSaleDetail> {
-@override
-bool get wantKeepAlive => true;
- DateTime? _dateTime;
+
+  @override
+  bool get wantKeepAlive => true;
+  DateTime? _dateTime;
   String _format = 'yyyy-MMMM-dd';
 
   zeroAddDate(String str) {
@@ -63,7 +64,7 @@ bool get wantKeepAlive => true;
     _dateTime = DateTime.now();
     fetchOrders();
     //dateTime = DateTime.parse(DateTime.now().year.toString() + '-' + zeroAddDate(DateTime.now().month.toString()) + '-' + zeroAddDate(DateTime.now().day.toString()));
-  //  print(DateTime.now().year.toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString());
+    //  print(DateTime.now().year.toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString());
 
     super.initState();
 
@@ -1169,9 +1170,9 @@ bool get wantKeepAlive => true;
                                         'Change',
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.Colors.blue
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.Colors.blue
                                         ),
                                       ),
                                     ),
@@ -2002,8 +2003,8 @@ bool get wantKeepAlive => true;
       locale: DateTimePickerLocale.en_us,
       onClose: () {
         setState((){
-        _dateTime = _dateTime;
-        DateTime td = DateTime.now();
+          _dateTime = _dateTime;
+          DateTime td = DateTime.now();
           print('closed 1 ' + _dateTime.toString());
           print('closed 2 ' + td.toString());
         });
@@ -2011,8 +2012,7 @@ bool get wantKeepAlive => true;
       },
       onCancel: () => print('onCancel'),
       onChange: (dateTime, List<int> index) {
-          _dateTime = dateTime;
-
+        _dateTime = dateTime;
 
       },
       onConfirm: (dateTime, List<int> index) {
@@ -2062,33 +2062,33 @@ bool get wantKeepAlive => true;
 
   String selectDaysCast() {
     // if(_sliding==0) {
-      if(_dateTime!.month == 9) {
-        return 'Sep ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 1) {
-        return 'Jan ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 2) {
-        return 'Feb ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 3) {
-        return 'Mar ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 4) {
-        return 'Apr ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 5) {
-        return 'May ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 6) {
-        return 'Jun ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 7) {
-        return 'Jul ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 8) {
-        return 'Aug ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 10) {
-        return 'Oct ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 11) {
-        return 'Nov ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else if(_dateTime!.month == 12) {
-        return 'Dec ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
-      } else {
-        return '';
-      }
+    if(_dateTime!.month == 9) {
+      return 'Sep ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 1) {
+      return 'Jan ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 2) {
+      return 'Feb ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 3) {
+      return 'Mar ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 4) {
+      return 'Apr ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 5) {
+      return 'May ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 6) {
+      return 'Jun ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 7) {
+      return 'Jul ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 8) {
+      return 'Aug ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 10) {
+      return 'Oct ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 11) {
+      return 'Nov ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else if(_dateTime!.month == 12) {
+      return 'Dec ' + _dateTime!.day.toString() + ', ' + _dateTime!.year.toString();
+    } else {
+      return '';
+    }
 
   }
 
@@ -2105,35 +2105,34 @@ bool get wantKeepAlive => true;
     }
   }
 
-String totalBySlide() {
-  double todayTotal=0.0;
-  for (int i = 0; i < todayOrdersChart.length; i++){
-    todayTotal += todayOrdersChart[i];
-  }
+  String totalBySlide() {
+    double todayTotal=0.0;
+    for (int i = 0; i < todayOrdersChart.length; i++){
+      todayTotal += todayOrdersChart[i];
+    }
 
-  double monthlyTotal=0.0;
-  for (int i = 0; i < thisMonthOrdersChart.length; i++){
-    monthlyTotal += thisMonthOrdersChart[i];
-  }
+    double monthlyTotal=0.0;
+    for (int i = 0; i < thisMonthOrdersChart.length; i++){
+      monthlyTotal += thisMonthOrdersChart[i];
+    }
 
-  double weeklyTotal=0.0;
-  for (int i = 0; i < thisWeekOrdersChart.length; i++){
-    weeklyTotal += thisWeekOrdersChart[i];
-  }
+    double weeklyTotal=0.0;
+    for (int i = 0; i < thisWeekOrdersChart.length; i++){
+      weeklyTotal += thisWeekOrdersChart[i];
+    }
 
-  double yearlyTotal=0.0;
-  for (int i = 0; i < thisYearOrdersChart.length; i++){
-    yearlyTotal += thisYearOrdersChart[i];
+    double yearlyTotal=0.0;
+    for (int i = 0; i < thisYearOrdersChart.length; i++){
+      yearlyTotal += thisYearOrdersChart[i];
+    }
+    if(_sliding == 0) {
+      return todayTotal.toString();
+    } else if(_sliding == 1) {
+      return weeklyTotal.toString();
+    } else if(_sliding == 2) {
+      return monthlyTotal.toString();
+    } else {
+      return yearlyTotal.toString();
+    }
   }
-  if(_sliding == 0) {
-    return todayTotal.toString();
-  } else if(_sliding == 1) {
-    return weeklyTotal.toString();
-  } else if(_sliding == 2) {
-    return monthlyTotal.toString();
-  } else {
-    return yearlyTotal.toString();
-  }
-}
-
 }
