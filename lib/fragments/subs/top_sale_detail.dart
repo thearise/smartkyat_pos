@@ -45,6 +45,7 @@ class TopSaleDetail extends StatefulWidget {
 }
 
 class _TopSaleDetailState extends State<TopSaleDetail>   with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<TopSaleDetail> {
+
   @override
   bool get wantKeepAlive => true;
   DateTime? _dateTime;
@@ -2013,7 +2014,6 @@ class _TopSaleDetailState extends State<TopSaleDetail>   with TickerProviderStat
       onChange: (dateTime, List<int> index) {
         _dateTime = dateTime;
 
-
       },
       onConfirm: (dateTime, List<int> index) {
         setState(() {
@@ -2135,5 +2135,4 @@ class _TopSaleDetailState extends State<TopSaleDetail>   with TickerProviderStat
       return yearlyTotal.toString();
     }
   }
-
 }
