@@ -76,8 +76,7 @@ class _FillProductState extends State<FillProduct> {
                         color: Colors.black,
                       ),
                       onPressed: () {
-                        if (mcostCtrl.text.length > 0 ||
-                            msaleCtrl.text.length > 0 ||
+                        if (msaleCtrl.text.length > 0 ||
                             munitCtrl.text.length > 0) {
                           showOkCancelAlertDialog(
                             context: context,
@@ -125,7 +124,16 @@ class _FillProductState extends State<FillProduct> {
                               '-' +
                               munitCtrl.text +
                               '-' +
-                              mcostCtrl.text +
+                              'Phyo' +
+
+                              '-'+ widget.unitname +'-'+'1'.toString());
+                          print(widget.idString +
+                              '-' +
+                              msaleCtrl.text +
+                              '-' +
+                              munitCtrl.text +
+                              '-' +
+                              'Phyo' +
 
                               '-'+ widget.unitname +'-'+'1'.toString());
                           Navigator.pop(context);
@@ -167,9 +175,9 @@ class _FillProductState extends State<FillProduct> {
                               var output1 = snapshot2.data!.data();
                               var prodName = output1?['prod_name'];
                               var mainName = output1?[widget.unitname];
-                              var Sub1Name = output1?['sub1_name'];
-                              var Sub2Name = output1?['sub2_name'];
-                              var Sub3Name = output1?['sub3_name'];
+                              // var Sub1Name = output1?['sub1_name'];
+                              // var Sub2Name = output1?['sub2_name'];
+                              // var Sub3Name = output1?['sub3_name'];
                         return Column(
                                 children: [
                                   Container(
@@ -365,63 +373,63 @@ class _FillProductState extends State<FillProduct> {
                                   SizedBox(
                                     height: 16,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0),
-                                    child: TextFormField(
-                                      controller: mcostCtrl,
-// The validator receives the text that the user has entered.
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'This field is required';
-                                        }
-                                        prodFieldsValue.add(value);
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                            borderSide: const BorderSide(
-                                                color: AppTheme.skBorderColor,
-                                                width: 2.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-
-                                        focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                            borderSide: const BorderSide(
-                                                color: AppTheme.skThemeColor2,
-                                                width: 2.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        contentPadding: const EdgeInsets.only(
-                                            left: 15.0,
-                                            right: 15.0,
-                                            top: 18.0,
-                                            bottom: 18.0),
-                                        suffixText: 'MMK',
-                                        suffixStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey,
-                                          fontSize: 12,
-//fontFamily: 'capsulesans',
-                                        ),
-                                        labelStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-// errorText: 'Error message',
-                                        labelText: 'Sale price',
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.auto,
-//filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+//                                   Padding(
+//                                     padding: const EdgeInsets.only(
+//                                         left: 15.0, right: 15.0),
+//                                     child: TextFormField(
+//                                       controller: mcostCtrl,
+// // The validator receives the text that the user has entered.
+//                                       validator: (value) {
+//                                         if (value == null || value.isEmpty) {
+//                                           return 'This field is required';
+//                                         }
+//                                         prodFieldsValue.add(value);
+//                                         return null;
+//                                       },
+//                                       decoration: InputDecoration(
+//                                         enabledBorder: const OutlineInputBorder(
+// // width: 0.0 produces a thin "hairline" border
+//                                             borderSide: const BorderSide(
+//                                                 color: AppTheme.skBorderColor,
+//                                                 width: 2.0),
+//                                             borderRadius: BorderRadius.all(
+//                                                 Radius.circular(10.0))),
+//
+//                                         focusedBorder: const OutlineInputBorder(
+// // width: 0.0 produces a thin "hairline" border
+//                                             borderSide: const BorderSide(
+//                                                 color: AppTheme.skThemeColor2,
+//                                                 width: 2.0),
+//                                             borderRadius: BorderRadius.all(
+//                                                 Radius.circular(10.0))),
+//                                         contentPadding: const EdgeInsets.only(
+//                                             left: 15.0,
+//                                             right: 15.0,
+//                                             top: 18.0,
+//                                             bottom: 18.0),
+//                                         suffixText: 'MMK',
+//                                         suffixStyle: TextStyle(
+//                                           fontWeight: FontWeight.w500,
+//                                           color: Colors.grey,
+//                                           fontSize: 12,
+// //fontFamily: 'capsulesans',
+//                                         ),
+//                                         labelStyle: TextStyle(
+//                                           fontWeight: FontWeight.w500,
+//                                           color: Colors.black,
+//                                         ),
+// // errorText: 'Error message',
+//                                         labelText: 'Sale price',
+//                                         floatingLabelBehavior:
+//                                             FloatingLabelBehavior.auto,
+// //filled: true,
+//                                         border: OutlineInputBorder(
+//                                           borderRadius:
+//                                               BorderRadius.circular(10),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
                                   SizedBox(
                                     height: 20,
                                   ),
