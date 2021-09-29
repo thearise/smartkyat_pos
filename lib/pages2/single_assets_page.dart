@@ -145,10 +145,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                             onPressed: () {
                               prodFieldsValue = [];
 
-// List<AssetEntity> assets = <AssetEntity>[];
-// MultiAssetsPageState().pageMultiGlo();
-// print(assets.length.toString());
-
                               if (_formKey.currentState!.validate()) {
                                 DateTime now = DateTime.now();
                                 setState(() {
@@ -278,6 +274,40 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               print('store id ' +
                                                   result2.toString());
 
+                                              String sub1_buy;
+                                              String sub2_buy;
+                                              String sub3_buy;
+                                              String subExist;
+
+                                              if( subUnitFieldValue[0] != ''){
+                                                sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
+                                              } else
+                                              {
+                                                sub1_buy = '0';
+                                              }
+
+                                              if( subUnitFieldValue[4] != ''){
+                                                sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
+                                              } else
+                                              {
+                                                sub2_buy = '0';
+                                              }
+
+                                              if( subUnitFieldValue[8] != ''){
+                                                sub3_buy= (double.parse(sub2_buy)/double.parse(subUnitFieldValue[8])).toString();
+                                              } else
+                                              {
+                                                sub3_buy = '0';
+                                              }
+
+                                              if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
+                                                subExist = '1';
+                                              } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] == ''){
+                                                subExist = '2';
+                                              } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
+                                                subExist = '3';
+                                              } else subExist ='0';
+
                                               FirebaseFirestore.instance
                                                   .collection('space')
                                                   .doc('0NHIS0Jbn26wsgCzVBKT')
@@ -323,26 +353,30 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         prodFieldsValue[1],
                                                     'unit_name':
                                                         prodFieldsValue[3],
-                                                    'main_sprice':
+                                                    'unit_sell':
                                                         prodFieldsValue[5],
-                                                    'sub1_unit':
+                                                    'sub1_link':
                                                     subUnitFieldValue[0],
                                                     'sub1_name':
                                                         subUnitFieldValue[1],
-                                                    'sub1_sprice':
+                                                    'sub1_sell':
                                                         subUnitFieldValue[2],
-                                                    'sub2_unit':
+                                                    'sub2_link':
                                                     subUnitFieldValue[4],
                                                     'sub2_name':
                                                         subUnitFieldValue[5],
-                                                    'sub2_sprice':
+                                                    'sub2_sell':
                                                         subUnitFieldValue[6],
-                                                    'sub3_unit':
+                                                    'sub3_link':
                                                     subUnitFieldValue[8],
                                                     'sub3_name':
                                                         subUnitFieldValue[9],
-                                                    'sub3_sprice':
+                                                    'sub3_sell':
                                                         subUnitFieldValue[10],
+                                                    'sub_exist': subExist,
+                                                    'main_loss' : '0',
+                                                    'sub1_loss' : '0',
+                                                    'sub2_loss' : '0',
 
                                                     // 'unit_qtity': prodFieldsValue[2],
                                                     // 'unit_name': prodFieldsValue[3],
@@ -367,6 +401,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     // setState(() {
                                                     //   prodAdding = false;
                                                     // });
+
+
+
                                                     FirebaseFirestore.instance
                                                         .collection('space')
                                                         .doc(
@@ -427,7 +464,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       // prodFieldsValue[5],
                                                       'unit_qtity':
                                                           subUnitFieldValue[3],
-                                                      'buy_price': '0',
+                                                      'buy_price': sub1_buy,
                                                       'type': 'sub1',
                                                     }).then((value) {
                                                       print('product added 3');
@@ -445,7 +482,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         .add({
                                                       'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
                                                       'unit_qtity': subUnitFieldValue[7],
-                                                      'buy_price': '0',
+                                                      'buy_price': sub2_buy,
                                                       'type': 'sub2',
                                                     }).then((value) {
                                                       print('product added 4');
@@ -467,7 +504,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                               .toString()),
                                                       'unit_qtity':
                                                           subUnitFieldValue[11],
-                                                      'buy_price': '0',
+                                                      'buy_price': sub3_buy,
                                                       'type': 'sub3',
                                                     }).then((value) {
                                                       print('product added 5');
@@ -1191,13 +1228,28 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
                                             ),
-                                            onPressed: (){
-                                              if (cards.length == 3) {
-                                                print('Cards limit reached');
-                                              } else
-                                                setState(() =>
-                                                    cards.add(createCard()));
-                                            },
+                                            onPressed: () async {
+                                              // final result =
+                                              // await showModalActionSheet<String>(
+                                              //     context: context,
+                                               //     actions: [
+                                              //      SheetAction(
+                                              //           icon: Icons.info,
+                                              //           label: 'Type One',
+                                              //           key: 'type_one'),
+                                              //       SheetAction(
+                                              //           icon: Icons.info,
+                                              //           label: 'Type Two',
+                                              //           key: 'type_two'),
+                                              //     ]
+                                              // );
+
+                                              if (cards.length == 2) {
+                                        print('Cards limit reached');
+                                        } else
+                                            setState(() =>
+                              cards.add(createCard())); 
+  },
                                             child: Text(
                                               'Add sub unit',
                                               style: TextStyle(
@@ -1780,7 +1832,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                   size: 20,
                                   color: Colors.white,
                                 ),
-                                onPressed: () {}),
+                                onPressed: () {
+                                }),
                           ),
                         ],
                       ),

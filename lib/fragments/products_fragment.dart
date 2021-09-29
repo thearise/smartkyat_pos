@@ -13,6 +13,7 @@ import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets/fill_product.dart';
+import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -180,7 +181,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                         var sub1Name = data['sub1_name'];
                                         var sub2Name = data['sub2_name'];
                                         var sub3Name = data['sub3_name'];
-                                        // var mainsPrice = data['main_sprice'];
+                                        var mainsPrice = data['unit_sell'];
                                         var version = document.id;
                                         return Padding(
                                           padding:
@@ -191,7 +192,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               MaterialPageRoute(
                                                   builder: (context) => ProductDetailsView2(
                                                       idString: version, toggleCoinCallback:
-                                                  addProduct1, toggleCoinCallback3: addProduct3)),);},
+                                                  addProduct1, toggleCoinCallback3: addProduct3)),);
+                                            },
                                             child: Container(
                                               width: MediaQuery.of(context)
                                                   .size
