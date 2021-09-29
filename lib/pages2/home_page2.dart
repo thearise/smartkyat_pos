@@ -273,8 +273,8 @@ class HomePageState extends State<HomePage>
                       child: new Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.transparent),
-                        height: 55,
+                            color: AppTheme.secButtonColor),
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -310,7 +310,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -346,7 +346,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -382,7 +382,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -418,7 +418,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -454,7 +454,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -1372,7 +1372,7 @@ class HomePageState extends State<HomePage>
                                                               // print('h10 ' + subExist);
 
 
-                                                              for(int i = 0; i < data10 ? ["sub_exist"]; i++) {
+                                                              for(int i = 0; i < int.parse(data10 ? ["sub_exist"]); i++) {
                                                                 subSell.add(data10 ? ['sub' + (i+1).toString() + '_sell']);
                                                                 subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
                                                                 subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
