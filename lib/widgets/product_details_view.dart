@@ -81,13 +81,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   var sub2Name = output?['sub2_name'];
                   var sub3Name = output?['sub3_name'];
                   var barcode = output?['bar_code'];
-                  var mainPrice = output?['main_sprice'];
-                  var sub1Price = output?['sub1_sprice'];
-                  var sub2Price = output?['sub2_sprice'];
-                  var sub3Price = output?['sub3_sprice'];
-                  var sub1Unit = output?['sub1_unit'];
-                  var sub2Unit = output?['sub2_unit'];
-                  var sub3Unit = output?['sub3_unit'];
+                  var mainPrice = output?['unit_sell'];
+                  var sub1Price = output?['sub1_sell'];
+                  var sub2Price = output?['sub2_sell'];
+                  var sub3Price = output?['sub3_sell'];
+                  var sub1Unit = output?['sub1_link'];
+                  var sub2Unit = output?['sub2_link'];
+                  var sub3Unit = output?['sub3_link'];
                   return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                       // mainAxisAlignment: MainAxisAlignment.end,
                       children: [
