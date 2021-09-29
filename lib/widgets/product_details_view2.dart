@@ -136,7 +136,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2> {
                       if (snapshot.hasData) {
                         var output = snapshot.data!.data();
                         var prodName = output?['prod_name'];
-                        int subExist = output?['sub_exist'];
+                        int subExist = int.parse(output?['sub_exist']);
                         List<String> subSell = [];
                         List<String> subLink = [];
                         List<String> subName = [];

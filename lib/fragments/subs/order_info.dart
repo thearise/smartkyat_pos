@@ -142,15 +142,57 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             var output1 = snapshot2.data!.data();
                             // print(output1?['subs'].toString());
                             List prodList = output1?['subs'];
+                            
+                            List prodListView = [];
+                            prodListView.add(prodList[0]);
                             totalPrice = 0;
                             print(totalPrice.toString() +
                                 'totalPrice ' +
                                 prodList.toString());
-                            for (String str in prodList) {
-                              totalPrice += int.parse(str.split('-')[4]) *
-                                  (int.parse(str.split('-')[3]) -
-                                      int.parse(str.split('-')[7]));
+
+                            for (int j=0;j< prodList.length; j++) {
+                              totalPrice += int.parse(prodList[j].split('-')[4]) * (int.parse(prodList[j].split('-')[3]) - int.parse(prodList[j].split('-')[7]));
                             }
+
+                            int ttlQtity = int.parse(prodList[0].split('-')[3]);
+                            int ttlRefun = int.parse(prodList[0].split('-')[3]);
+                            for (int j=1;j< prodList.length; j++) {
+
+                              int k = prodListView.length-1;
+                              if(prodList[j].split('-')[0] == prodListView[k].split('-')[0] && prodList[j].split('-')[5] == prodListView[k].split('-')[5]) {
+                                ttlQtity += int.parse(prodList[j].split('-')[3]);
+                                ttlRefun += int.parse(prodList[j].split('-')[7]);
+                                prodListView[k] = prodListView[k].split('-')[0] + '-' + prodListView[k].split('-')[1] + '-' + prodListView[k].split('-')[2] + '-' + ttlQtity.toString() + '-' +
+                                    prodListView[k].split('-')[4] + '-' + prodListView[k].split('-')[5] + '-' + prodListView[k].split('-')[6] + '-' + (int.parse(prodListView[k].split('-')[7])+int.parse(prodList[j].split('-')[7])).toString() + '-' +
+                                    prodListView[k].split('-')[8] ;
+                              } else {
+                                prodListView.add(prodList[j]);
+                                ttlQtity = int.parse(prodList[j].split('-')[3]);
+                                ttlRefun += int.parse(prodList[j].split('-')[7]);
+                              }
+
+
+
+
+
+                              // if(j!=0) {
+                              //   for (int k = 0; k< prodListView.length; k++) {
+                              //     if(prodListView[k].split('-')[0] == prodListView[k].split('-')[0] && str.split('-')[5] == prodListView[k].split('-')[5]) {
+                              //       prodListView[k] = prodListView[k].split('-')[0] + '-' + prodListView[k].split('-')[1] + '-' + prodListView[k].split('-')[2] + '-' + (int.parse(prodListView[k].split('-')[3])+int.parse(str.split('-')[3])).toString() + '-' +
+                              //           prodListView[k].split('-')[4] + '-' + prodListView[k].split('-')[5] + '-' + prodListView[k].split('-')[6] + '-' + (int.parse(prodListView[k].split('-')[7])+int.parse(str.split('-')[7])).toString() + '-' +
+                              //           prodListView[k].split('-')[8] ;
+                              //     } else {
+                              //       prodListView.add(str);
+                              //     }
+                              //     print('length '+ prodListView.length.toString() + ' ' + prodListView.toString());
+                              //   }
+                              // }
+
+
+                            }
+
+                            print('view ' + prodListView.toString());
+
                             return Container(
                               height: 520,
                               child: ListView(
@@ -191,6 +233,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             '^' +
                                                             widget.data
                                                                 .split('^')[4],
+                                                        data2: prodList,
                                                         toggleCoinCallback:
                                                             () {})),
                                           );
@@ -248,25 +291,20 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         return Container();
                                       }),
 
-                                  for (int i = 0; i < prodList.length; i++)
-                                    if (prodList[i].split('-')[3] !=
-                                        prodList[i].split('-')[7])
-                                      StreamBuilder<
-                                          DocumentSnapshot<
-                                              Map<String, dynamic>>>(
+                                  for (int i = 0; i < prodListView.length; i++)
+                                    // if (prodListView[i].split('-')[3] != prodListView[i].split('-')[7])
+                                      StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                                         stream: FirebaseFirestore.instance
                                             .collection('space')
                                             .doc('0NHIS0Jbn26wsgCzVBKT')
                                             .collection('shops')
                                             .doc('PucvhZDuUz3XlkTgzcjb')
                                             .collection('products')
-                                            .doc(prodList[i].split('-')[0])
+                                            .doc(prodListView[i].split('-')[0])
                                             .snapshots(),
-                                        builder:
-                                            (BuildContext context, snapshot2) {
+                                        builder: (BuildContext context, snapshot2) {
                                           if (snapshot2.hasData) {
-                                            var output2 =
-                                                snapshot2.data!.data();
+                                            var output2 = snapshot2.data!.data();
 
                                             return Slidable(
                                               key: UniqueKey(),
@@ -279,40 +317,19 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   leading: CircleAvatar(
                                                     backgroundColor:
                                                         Colors.indigoAccent,
-                                                    child: Text((int.parse(
-                                                                prodList[i]
-                                                                        .split(
-                                                                            '-')[
-                                                                    3]) -
-                                                            int.parse(prodList[
-                                                                    i]
-                                                                .split('-')[7]))
-                                                        .toString()),
-                                                    foregroundColor:
-                                                        Colors.white,
+                                                    child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString()),
+                                                    foregroundColor: Colors.white,
                                                   ),
                                                   title: Text(
                                                     output2?['prod_name'] +
                                                         ' (' +
-                                                        output2?[prodList[i]
+                                                        output2?[prodListView[i]
                                                             .split('-')[5]] +
                                                         ')',
                                                     style: TextStyle(height: 1),
                                                   ),
-                                                  subtitle: Text(prodList[i]
-                                                          .split('-')[4] +
-                                                      ' MMK'),
-                                                  trailing: Text((int.parse(
-                                                              prodList[i].split(
-                                                                  '-')[4]) *
-                                                          (int.parse(prodList[i]
-                                                                  .split(
-                                                                      '-')[3]) -
-                                                              int.parse(prodList[
-                                                                      i]
-                                                                  .split(
-                                                                      '-')[7])))
-                                                      .toString()),
+                                                  subtitle: Text(prodListView[i].split('-')[4] + ' MMK'),
+                                                  trailing: Text((int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
                                                 ),
                                               ),
                                               dismissal: SlidableDismissal(
@@ -352,8 +369,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
                                   Text('Returns'),
 
-                                  for (int i = 0; i < prodList.length; i++)
-                                    if (prodList[i].split('-')[7] != '0')
+                                  for (int i = 0; i < prodListView.length; i++)
+                                    if (prodListView[i].split('-')[7] != '0')
                                       StreamBuilder<
                                           DocumentSnapshot<
                                               Map<String, dynamic>>>(
@@ -363,7 +380,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             .collection('shops')
                                             .doc('PucvhZDuUz3XlkTgzcjb')
                                             .collection('products')
-                                            .doc(prodList[i].split('-')[0])
+                                            .doc(prodListView[i].split('-')[0])
                                             .snapshots(),
                                         builder:
                                             (BuildContext context, snapshot2) {
@@ -381,7 +398,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   leading: CircleAvatar(
                                                     backgroundColor:
                                                         Colors.indigoAccent,
-                                                    child: Text(prodList[i]
+                                                    child: Text(prodListView[i]
                                                         .split('-')[7]),
                                                     foregroundColor:
                                                         Colors.white,
@@ -389,19 +406,19 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   title: Text(
                                                     output2?['prod_name'] +
                                                         ' (' +
-                                                        output2?[prodList[i]
+                                                        output2?[prodListView[i]
                                                             .split('-')[5]] +
                                                         ')',
                                                     style: TextStyle(height: 1),
                                                   ),
-                                                  subtitle: Text(prodList[i]
+                                                  subtitle: Text(prodListView[i]
                                                           .split('-')[4] +
                                                       ' MMK'),
                                                   trailing: Text((int.parse(
-                                                              prodList[i].split(
+                                                      prodListView[i].split(
                                                                   '-')[4]) *
-                                                          int.parse(prodList[i]
-                                                              .split('-')[3]))
+                                                      (int.parse(prodListView[i]
+                                                              .split('-')[7])) )
                                                       .toString()),
                                                 ),
                                                 // subtitle: Text(prodList[i].split('-')[2] + ' MMK'),

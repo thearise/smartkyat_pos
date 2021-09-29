@@ -180,7 +180,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                         var sub1Name = data['sub1_name'];
                                         var sub2Name = data['sub2_name'];
                                         var sub3Name = data['sub3_name'];
-                                        var mainsPrice = data['main_sprice'];
+                                        // var mainsPrice = data['main_sprice'];
                                         var version = document.id;
                                         return Padding(
                                           padding:
@@ -285,14 +285,14 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                       SizedBox(
                                                         height: 7,
                                                       ),
-                                                      Text(
-                                                        mainsPrice,
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                          FontWeight.bold,
-                                                        ),
-                                                      ),
+                                                      // Text(
+                                                      //   mainsPrice,
+                                                      //   style: TextStyle(
+                                                      //     fontSize: 18,
+                                                      //     fontWeight:
+                                                      //     FontWeight.bold,
+                                                      //   ),
+                                                      // ),
                                                       Row(
                                                         children: [
                                                           StreamBuilder(
