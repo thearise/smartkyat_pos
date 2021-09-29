@@ -572,13 +572,33 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      SizedBox(height: 20,),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: Row(
+                SizedBox(
+                  height: 15,
+                ),
+                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance
+                        .collection('space')
+                        .doc('0NHIS0Jbn26wsgCzVBKT')
+                        .collection('shops')
+                        .doc('PucvhZDuUz3XlkTgzcjb')
+                        .collection('products')
+                        .doc(widget.idString)
+                        .snapshots(),
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.hasData) {
+                        var output = snapshot.data!.data();
+                        var prodName = output?['prod_name'];
+                        int subExist = int.parse(output?['sub_exist']);
+                        List<String> subSell = [];
+                        List<String> subLink = [];
+                        List<String> subName = [];
+                        for(int i = 0; i < subExist; i++) {
+                          subSell.add(output?['sub' + (i+1).toString() + '_sell']);
+                          subLink.add(output?['sub' + (i+1).toString() + '_link']);
+                          subName.add(output?['sub' + (i+1).toString() + '_name']);
+                        }
+                        print(subSell.toString() + subLink.toString() + subName.toString());
+                        return Column(
                           children: [
                             ButtonTheme(
                               //minWidth: 50,

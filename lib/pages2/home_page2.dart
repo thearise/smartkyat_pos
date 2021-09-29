@@ -273,8 +273,8 @@ class HomePageState extends State<HomePage>
                       child: new Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.transparent),
-                        height: 55,
+                            color: AppTheme.secButtonColor),
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -310,7 +310,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -346,7 +346,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -382,7 +382,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -418,7 +418,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [
@@ -454,7 +454,7 @@ class HomePageState extends State<HomePage>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent),
-                        height: 55,
+                        height: 50,
                         width: double.infinity,
                         child: Row(
                           children: [

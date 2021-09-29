@@ -11,9 +11,10 @@ import '../../app_theme.dart';
 class OrderRefundsSub extends StatefulWidget {
   final _callback;
   const OrderRefundsSub(
-      {Key? key, required this.data, required void toggleCoinCallback()})
+      {Key? key, required this.data, required this.data2, required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
+  final List data2;
 
   @override
   _OrderRefundsSubState createState() => _OrderRefundsSubState();
@@ -144,14 +145,34 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                             var output1 = snapshot2.data!.data();
                             // print(output1?['subs'].toString());
                             List prodList = output1?['subs'];
+                            List prodListBefore = widget.data2;
+                            List<String> prodListView = [];
+                            prodListView.add(prodList[0]);
+
+                            int ttlQtity = int.parse(prodList[0].split('-')[3]);
+                            int ttlRefun = int.parse(prodList[0].split('-')[3]);
+                            for (int j=1;j< prodList.length; j++) {
+                              int k = prodListView.length-1;
+                              if(prodList[j].split('-')[0] == prodListView[k].split('-')[0] && prodList[j].split('-')[5] == prodListView[k].split('-')[5]) {
+                                ttlQtity += int.parse(prodList[j].split('-')[3]);
+                                ttlRefun += int.parse(prodList[j].split('-')[7]);
+                                prodListView[k] = prodListView[k].split('-')[0] + '-' + prodListView[k].split('-')[1] + '-' + prodListView[k].split('-')[2] + '-' + ttlQtity.toString() + '-' +
+                                    prodListView[k].split('-')[4] + '-' + prodListView[k].split('-')[5] + '-' + prodListView[k].split('-')[6] + '-' + (int.parse(prodListView[k].split('-')[7])+int.parse(prodList[j].split('-')[7])).toString() + '-' +
+                                    prodListView[k].split('-')[8] ;
+                              } else {
+                                prodListView.add(prodList[j]);
+                                ttlQtity = int.parse(prodList[j].split('-')[3]);
+                                ttlRefun += int.parse(prodList[j].split('-')[7]);
+                              }
+                            }
 
                             if (!initAttempt) {
-                              for (int i = 0; i < prodList.length; i++) {
+                              for (int i = 0; i < prodListView.length; i++) {
                                 // refundItems[i] = int.parse(prodList[i].split('-')[5]);
                                 refundItems
-                                    .add(int.parse(prodList[i].split('-')[7]));
+                                    .add(int.parse(prodListView[i].split('-')[7]));
                                 deffItems
-                                    .add(int.parse(prodList[i].split('-')[7]));
+                                    .add(int.parse(prodListView[i].split('-')[7]));
                               }
                               initAttempt = true;
                             }
@@ -179,100 +200,147 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                         onPressed: () async {
                                           int total = 0;
                                           bool refund = false;
-                                          for (int i = 0;
-                                              i < refundItems.length;
-                                              i++) {
-                                            prodList[i] =
-                                                prodList[i].split('-')[0] +
-                                                    '-' +
-                                                    prodList[i].split('-')[1] +
-                                                    '-' +
-                                                    prodList[i].split('-')[2] +
-                                                    '-' +
-                                                    prodList[i].split('-')[3] +
-                                                    '-' +
-                                                    prodList[i].split('-')[4] +
-                                                    '-' +
-                                                    prodList[i].split('-')[5] +
-                                                    '-' +
-                                                    prodList[i].split('-')[6] +
+                                          List<String> ref2Cust = [];
+                                          List<String> ref2Shop = [];
+                                          for (int i = 0; i < refundItems.length; i++) {
+                                            prodListView[i] = prodListView[i].split('-')[0] + '-' + prodListView[i].split('-')[1] + '-' + prodListView[i].split('-')[2] + '-' +
+                                                prodListView[i].split('-')[3] + '-' + prodListView[i].split('-')[4] + '-' + prodListView[i].split('-')[5] + '-' +
+                                                prodListView[i].split('-')[6] +
                                                     '-' +
                                                     refundItems[i].toString() +
                                                     '-' +
-                                                    prodList[i].split('-')[8];
-                                            total += (int.parse(prodList[i]
+                                                prodListView[i].split('-')[8];
+                                            total += (int.parse(prodListView[i]
                                                         .split('-')[3]) -
                                                     refundItems[i]) *
                                                 int.parse(
-                                                    prodList[i].split('-')[4]);
+                                                    prodListView[i].split('-')[4]);
 
                                             if (refundItems[i] > 0) {
                                               refund = true;
                                             }
 
-                                              print('unit _name' + prodList[i]);
-                                                print('unit ' +
-                                                    deffItems[i].toString() +
-                                                    ' ' +
-                                                    refundItems[i].toString() +
-                                                    (deffItems[i] -
-                                                            refundItems[i])
-                                                        .toString());
+                                            print('unit _name' + prodListView[i]);
+                                            print('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
 
-                                                var docSnapshot =
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection('space')
-                                                        .doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT')
-                                                        .collection('shops')
-                                                        .doc(
-                                                            'PucvhZDuUz3XlkTgzcjb')
-                                                        .collection('products')
-                                                        .doc(prodList[i]
-                                                            .split('-')[0])
-                                                        .collection('versions')
-                                                        .doc(prodList[i]
-                                                            .split('-')[1])
-                                                        .get();
-                                                if (docSnapshot.exists) {
-                                                  Map<String, dynamic>? data =
-                                                      docSnapshot.data();
-                                                  String value =
-                                                      data?['unit_qtity'];
-                                                  FirebaseFirestore.instance
-                                                      .collection('space')
-                                                      .doc(
-                                                          '0NHIS0Jbn26wsgCzVBKT')
-                                                      .collection('shops')
-                                                      .doc(
-                                                          'PucvhZDuUz3XlkTgzcjb')
-                                                      .collection('products')
-                                                      .doc(prodList[i]
-                                                          .split('-')[0])
-                                                      .collection('versions')
-                                                      .doc(prodList[i]
-                                                          .split('-')[1])
-                                                      .update({
-                                                        'unit_qtity': deffItems[
-                                                                        i] -
-                                                                    refundItems[
-                                                                        i] <
-                                                                0
-                                                            ? (int.parse(value) - (deffItems[i] - refundItems[i])).toString()
-                                                            : (int.parse(value) - (deffItems[i] - refundItems[i])).toString()
-                                                      })
-                                                      .then((value) =>
-                                                          print("User Updated"))
-                                                      .catchError((error) => print(
-                                                          "Failed to update user: $error"));
-                                                }
-                                              // Call setState if needed.
+                                            ref2Cust = [];
+                                            ref2Shop = [];
+                                            for(int i=0; i < deffItems.length; i++) {
+                                              if(deffItems[i] - refundItems[i] < 0) {
+                                                print('ref to shop ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
+                                                ref2Shop.add(prodListView[i].split('-')[0] + '-' + prodListView[i].split('-')[1] + '-' + (deffItems[i] - refundItems[i]).abs().toString() + '-' + prodListView[i].split('-')[5]);
+                                              } else if(deffItems[i] - refundItems[i] > 0) {
+                                                print('ref to cust ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
+                                              }
+                                            }
+
+
+
+                                            // for(int i=0; i < ref2Shop.length; i++) {
+                                            //   int value = int.parse(ref2Shop[i].split('-')[2]);
+                                            //   String prodId = ref2Shop[i].split('-')[0];
+                                            //   String prodTp = ref2Shop[i].split('-')[3];
+                                            //   for(int j=0; j< prodList.length; j++) {
+                                            //     if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= int.parse(prodList[j].split('-')[3])) {
+                                            //       prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
+                                            //                     value.toString() + '-' + prodList[j].split('-')[8];
+                                            //       break;
+                                            //     } else if (prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value > int.parse(prodList[j].split('-')[3])) {
+                                            //       prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
+                                            //           prodList[j].split('-')[3] + '-' + prodList[j].split('-')[8];
+                                            //       value = value - int.parse(prodList[j].split('-')[3]);
+                                            //     }
+                                            //   }
+                                            // }
+                                            //
+                                            // print('prodList 5 ' + prodList.toString());
+
+                                            // var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodListView[i].split('-')[0]).collection('versions')
+                                            //   .doc(prodListView[i].split('-')[1]).get();
+                                            // if (docSnapshot.exists) {
+                                            //   Map<String, dynamic>? data = docSnapshot.data();
+                                            //   String value = data?['unit_qtity'];
+                                            //   FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops')
+                                            //     .doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodListView[i].split('-')[0]).collection('versions')
+                                            //     .doc(prodListView[i].split('-')[1])
+                                            //     .update({
+                                            //       'unit_qtity': deffItems[i] - refundItems[i] < 0
+                                            //           ? (int.parse(value) - (deffItems[i] - refundItems[i])).toString()
+                                            //           : (int.parse(value) - (deffItems[i] - refundItems[i])).toString()
+                                            //     })
+                                            //     .then((value) =>
+                                            //         print("User Updated"))
+                                            //     .catchError((error) => print(
+                                            //         "Failed to update user: $error"));
+                                            // }
                                           }
-                                          changedPrice = total;
-                                          Navigator.pop(context);
-                                          // prodList
 
+                                          print('che ' + ref2Shop.toString());
+                                          print('che2 ' + prodListView.toString());
+
+                                          print('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
+                                          print('prodListBef 1 ' + prodListBefore.toString());
+
+                                          for(int i=0; i < prodListView.length; i++) {
+                                            // int.parse(ref2Shop[i].split('-')[2])
+                                            int value = int.parse(prodListView[i].split('-')[7]);
+                                            String prodId = prodListView[i].split('-')[0];
+                                            String prodTp = prodListView[i].split('-')[5];
+
+                                            print(prodId + ' ' + prodTp);
+
+                                            for(int j=0; j< prodList.length; j++) {
+                                              print('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
+                                              int refund = 0;
+                                              if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= int.parse(prodList[j].split('-')[3])) {
+                                                refund = value - int.parse(prodList[j].split('-')[7]);
+                                                print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
+                                                prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
+                                                              value.toString() + '-' + prodList[j].split('-')[8];
+
+                                                // prodListBefore[j] = prodListBefore[j].split('-')[0] + '-' + prodListBefore[j].split('-')[1] + '-' + prodListBefore[j].split('-')[2] + '-' + prodListBefore[j].split('-')[3] + '-' + prodListBefore[j].split('-')[4] + '-' + prodListBefore[j].split('-')[5] + '-' + prodListBefore[j].split('-')[6] + '-' +
+                                                //     refund.toString() + '-' + prodListBefore[j].split('-')[8];
+                                                break;
+                                              } else if (prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value > int.parse(prodList[j].split('-')[3])) {
+                                                refund = value - int.parse(prodList[j].split('-')[7]);
+                                                print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
+                                                prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
+                                                    prodList[j].split('-')[3] + '-' + prodList[j].split('-')[8];
+                                                value = value - int.parse(prodList[j].split('-')[3]);
+                                              }
+                                            }
+                                          }
+
+                                          print('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
+                                          print('prodListBef 2 ' + prodListBefore.toString());
+                                          List prodRets = prodList;
+                                          for(int i=0; i < prodList.length; i++) {
+                                            int refNum = int.parse(prodList[i].split('-')[7]) - int.parse(prodListBefore[i].split('-')[7]);
+                                            if(refNum > 0) {
+                                              print('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
+                                              var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions')
+                                                .doc(prodList[i].split('-')[1]).get();
+                                              if (docSnapshot.exists) {
+                                                Map<String, dynamic>? data = docSnapshot.data();
+                                                String value = data?['unit_qtity'];
+                                                FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops')
+                                                  .doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions')
+                                                  .doc(prodList[i].split('-')[1])
+                                                  .update({
+                                                    'unit_qtity': (int.parse(value) + refNum).toString()
+                                                  })
+                                                  .then((value) =>
+                                                      print("User Updated"))
+                                                  .catchError((error) => print(
+                                                      "Failed to update user: $error"));
+                                              }
+                                            }
+                                          }
+
+                                          changedPrice = total;
+                                          // Navigator.pop(context);
+                                          // // prodList
+                                          //
                                           String data = widget.data;
                                           String dataRm = data.split('^')[0] +
                                               '^' +
@@ -356,6 +424,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                             });
                                           });
 
+
+
                                           // // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
                                           // // .doc(item.split('^')[0])
                                           // //
@@ -398,7 +468,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                       ),
                                     ),
                                   ),
-                                  for (int i = 0; i < prodList.length; i++)
+                                  for (int i = 0; i < prodListView.length; i++)
                                     StreamBuilder<
                                         DocumentSnapshot<Map<String, dynamic>>>(
                                       stream: FirebaseFirestore.instance
@@ -407,42 +477,33 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           .collection('shops')
                                           .doc('PucvhZDuUz3XlkTgzcjb')
                                           .collection('products')
-                                          .doc(prodList[i].split('-')[0])
+                                          .doc(prodListView[i].split('-')[0])
                                           .snapshots(),
-                                      builder:
-                                          (BuildContext context, snapshot2) {
+                                      builder: (BuildContext context, snapshot2) {
                                         if (snapshot2.hasData) {
                                           var output2 = snapshot2.data!.data();
-                                          // int refundItems = int.parse(prodList[i].split('-')[5]);
                                           return Container(
                                             color: Colors.white,
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  output2?['prod_name'] +
-                                                      ' (' +
-                                                      output2?[prodList[i]
-                                                          .split('-')[5]] +
-                                                      ')',
+                                                  output2?['prod_name'] + ' (' + output2?[prodListView[i].split('-')[5]] + ')',
                                                 ),
-                                                Text(prodList[i].split('-')[4] +
-                                                    ' MMK'),
-                                                Text((int.parse(prodList[i]
-                                                            .split('-')[4]) *
-                                                        int.parse(prodList[i]
-                                                            .split('-')[3]))
+                                                Text(prodListView[i].split('-')[4] + ' MMK'),
+                                                Text((int.parse(prodListView[i].split('-')[4]) * int.parse(prodListView[i].split('-')[3]))
                                                     .toString()),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    setState(() {
-                                                      if (refundItems[i] <= 0) {
-                                                      } else {
-                                                        refundItems[i] =
-                                                            refundItems[i] - 1;
-                                                      }
-
-                                                      // refundItems = refundItems+1;
-                                                    });
+                                                    print('7 ' + prodListView[i].split('-')[7] + ' ' + refundItems[i].toString());
+                                                    if(prodListView[i].split('-')[7] == '0' || int.parse(prodListView[i].split('-')[7]) < refundItems[i]) {
+                                                      setState(() {
+                                                        if (refundItems[i] <= 0) {
+                                                        } else {
+                                                          refundItems[i] =
+                                                              refundItems[i] - 1;
+                                                        }
+                                                      });
+                                                    }
                                                   },
                                                   child: Padding(
                                                     padding:
@@ -458,19 +519,20 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 Text(refundItems[i].toString()),
                                                 GestureDetector(
                                                   onTap: () {
+                                                    print('8 ' + prodListView[i].split('-')[7]);
                                                     // print('plus ' + (refundItems+1).toString());
-                                                    setState(() {
-                                                      // refundItems[i] = refundItems[i]+1;
-                                                      if ((refundItems[i]) >=
-                                                          int.parse(prodList[i]
-                                                              .split('-')[3])) {
-                                                      } else {
-                                                        refundItems[i] =
-                                                            refundItems[i] + 1;
-                                                      }
-
-                                                      // refundItems = refundItems+1;
-                                                    });
+                                                    // if(prodListView[i].split('-')[7] == '0') {
+                                                      setState(() {
+                                                        // refundItems[i] = refundItems[i]+1;
+                                                        if ((refundItems[i]) >=
+                                                            int.parse(prodListView[i]
+                                                                .split('-')[3])) {
+                                                        } else {
+                                                          refundItems[i] =
+                                                              refundItems[i] + 1;
+                                                        }
+                                                      });
+                                                    // }
                                                   },
                                                   child: Padding(
                                                     padding:
