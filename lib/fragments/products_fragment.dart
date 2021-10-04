@@ -287,14 +287,17 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                       SizedBox(
                                                         height: 7,
                                                       ),
-                                                      // Text(
-                                                      //   mainsPrice,
-                                                      //   style: TextStyle(
-                                                      //     fontSize: 18,
-                                                      //     fontWeight:
-                                                      //     FontWeight.bold,
-                                                      //   ),
-                                                      // ),
+                                                      Text(
+                                                        mainsPrice,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                          FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 4,
+                                                      ),
                                                       Row(
                                                         children: [
                                                           StreamBuilder(

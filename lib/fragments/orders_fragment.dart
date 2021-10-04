@@ -227,8 +227,26 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             ),
                                                                           ),
                                                                         ),
+                                                                      // if(item.split('^')[4][1] == 'f')
+                                                                      //   Container(
+                                                                      //     height: 21,
+                                                                      //     decoration: BoxDecoration(
+                                                                      //       borderRadius: BorderRadius.circular(6.0),
+                                                                      //       color: AppTheme.badgeBgSuccess,
+                                                                      //     ),
+                                                                      //     child: Padding(
+                                                                      //       padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                      //       child: Text('Paid',
+                                                                      //         style: TextStyle(
+                                                                      //             fontSize: 13,
+                                                                      //             fontWeight: FontWeight.w500,
+                                                                      //             color: Colors.white
+                                                                      //         ),
+                                                                      //       ),
+                                                                      //     ),
+                                                                      //   ),
 
-                                                                      if(item.split('^')[4][1] == 'f')
+                                                                      if(item.split('^')[5] == '0')
                                                                         Container(
                                                                           height: 21,
                                                                           decoration: BoxDecoration(
@@ -245,9 +263,26 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                               ),
                                                                             ),
                                                                           ),
+                                                                        ),
+
+                                                                      if(item.split('^')[5] != '0')
+                                                                        Container(
+                                                                          height: 21,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                            color: AppTheme.badgeFgDanger,
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                            child: Text('Unpaid',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.white
+                                                                              ),
+                                                                            ),
+                                                                          ),
                                                                         )
-
-
                                                                     ],
                                                                   )
                                                                 ],
@@ -276,7 +311,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                 }
                                                 return GestureDetector(
                                                   onTap: () {
-                                                    // print(item.split('^')[1]);
+                                                     print('Items'+item);
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -334,7 +369,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    if(item.split('^')[4][1] == 'f')
+                                                                    if(item.split('^')[5] == '0')
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(right: 6.0),
                                                                         child: Container(
@@ -356,7 +391,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                         ),
                                                                       ),
 
-                                                                    if(item.split('^')[4][1] == 'd')
+                                                                    if(item.split('^')[5] != '0')
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(right: 6.0),
                                                                         child: Container(
@@ -871,7 +906,12 @@ class _OrdersFragmentState extends State<OrdersFragment>
               '&' +
               list[i].split('^')[3] +
               '^' +
-              list[i].split('^')[4];
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+               '^' +
+              list[i].split('^')[6]
+          ;
         }
       }
       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
