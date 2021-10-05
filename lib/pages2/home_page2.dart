@@ -1305,8 +1305,8 @@ class HomePageState extends State<HomePage>
                                                                       prodList = [];
                                                                     });
                                                                     mystate(() {
-                                                                     discount = 0.0;
-                                                                     discountAmount = 0.0;
+                                                                      discount = 0.0;
+                                                                      discountAmount = 0.0;
                                                                     });
                                                                     // DateTime now = DateTime.now();
                                                                     // CollectionReference daily_order = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
@@ -2826,12 +2826,12 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                   title: Text(
                                                                     output2?[
-                                                                      'prod_name'] +
+                                                                    'prod_name'] +
                                                                         ' (' +
                                                                         output2?[prodList2[
-                                                                    i]
-                                                                        .split(
-                                                                        '-')[4]] +
+                                                                        i]
+                                                                            .split(
+                                                                            '-')[4]] +
                                                                         ')',
                                                                     style:
                                                                     TextStyle(
