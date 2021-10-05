@@ -205,6 +205,8 @@ class HomePageState extends State<HomePage>
 
   // sets current tab index
   // and update state
+
+  int _selectIndex = 0;
   void _selectTab(int index) {
     if (index == currentTab) {
       // pop to first route
@@ -275,224 +277,362 @@ class HomePageState extends State<HomePage>
               Padding(
                 padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                 // child: new Column(children: drawerOptions),
-                child: new Column(children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectTab(0);
-                      });
-
-                      _scaffoldKey.currentState!.openEndDrawer();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: new Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: AppTheme.secButtonColor),
-                        height: 50,
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
-                              child: Icon(
-                                Icons.home_filled,
-                                size: 26,
-                              ),
+                child: Stack(
+                  children: [
+                    new Column(children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectTab(0);
+                            _selectIndex = 0;
+                          });
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: _selectIndex == 0? AppTheme.secButtonColor: Colors.transparent),
+                            height: 50,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 18.0, right: 15.0, bottom: 2.0),
+                                  child: Icon(
+                                    // Icons.home_filled,
+                                    SmartKyat_POS.home,
+                                    size: 20,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                  child: Text(
+                                    'Home',
+                                    style: TextStyle(
+                                        fontSize: 17, fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Home',
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectTab(1);
-                      });
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectTab(3);
+                            _selectIndex = 1;
+                          });
 
-                      _scaffoldKey.currentState!.openEndDrawer();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: new Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.transparent),
-                        height: 50,
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
-                              child: Icon(
-                                Icons.home_filled,
-                                size: 26,
-                              ),
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: _selectIndex == 1? AppTheme.secButtonColor: Colors.transparent),
+                            height: 50,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 18.0, right: 15.0, bottom: 1),
+                                  child: Icon(
+                                    SmartKyat_POS.product,
+                                    size: 21,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                  child: Text(
+                                    'Products',
+                                    style: TextStyle(
+                                        fontSize: 17, fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Orders',
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectTab(2);
-                      });
-
-                      _scaffoldKey.currentState!.openEndDrawer();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: new Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.transparent),
-                        height: 50,
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
-                              child: Icon(
-                                Icons.home_filled,
-                                size: 26,
-                              ),
+                      GestureDetector(
+                        onTap: () {
+                          // setState(() {
+                          //   _selectTab(1);
+                          //   _selectIndex = 2;
+                          // });
+                          //
+                          // _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors.transparent),
+                            height: 50,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 18.0, right: 15.0, bottom: 2),
+                                  child: Icon(
+                                    SmartKyat_POS.order,
+                                    size: 23,
+                                  ),
+                                ),
+                                Text(
+                                  'Orders',
+                                  style: TextStyle(
+                                      fontSize: 17, fontWeight: FontWeight.w500),
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Customers',
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectTab(3);
-                      });
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectTab(1);
+                            _selectIndex = 2;
+                          });
 
-                      _scaffoldKey.currentState!.openEndDrawer();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: new Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.transparent),
-                        height: 50,
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
-                              child: Icon(
-                                Icons.home_filled,
-                                size: 26,
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 58.0, right: 15.0),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: _selectIndex == 2? AppTheme.secButtonColor: Colors.transparent),
+                            height: 50,
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 13.0),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 1.0),
+                                    child: Text(
+                                      'Sale orders',
+                                      style: TextStyle(
+                                          fontSize: 17, fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Text(
-                              'Products',
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectTab(4);
-                      });
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectTab(1);
+                            _selectIndex = 3;
+                          });
 
-                      _scaffoldKey.currentState!.openEndDrawer();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: new Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.transparent),
-                        height: 50,
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
-                              child: Icon(
-                                Icons.home_filled,
-                                size: 26,
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 58.0, right: 15.0),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: _selectIndex == 3? AppTheme.secButtonColor: Colors.transparent),
+                            height: 50,
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 13.0),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 1.0),
+                                    child: Text(
+                                      'Buy orders',
+                                      style: TextStyle(
+                                          fontSize: 17, fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Text(
-                              'Merchants',
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectTab(5);
-                      });
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectTab(2);
+                            _selectIndex = 4;
+                          });
 
-                      _scaffoldKey.currentState!.openEndDrawer();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: new Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.transparent),
-                        height: 50,
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
-                              child: Icon(
-                                Icons.home_filled,
-                                size: 26,
-                              ),
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: _selectIndex == 4? AppTheme.secButtonColor: Colors.transparent),
+                            height: 50,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 18.0, right: 15.0, bottom: 1.0),
+                                  child: Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 7.0),
+                                        child: Icon(
+                                          SmartKyat_POS.customer1,
+                                          size: 17.5,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 14.0, top: 11.0),
+                                        child: Icon(
+                                          SmartKyat_POS.customer2,
+                                          size: 9,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 5.0, top: 5),
+                                        child: Container(
+                                          width: 8,
+                                          height: 7.5,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 14.5, top: 7.5),
+                                        child: Container(
+                                          width: 5,
+                                          height: 4.5,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              color: Colors.black),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                  child: Text(
+                                    'Customers',
+                                    style: TextStyle(
+                                        fontSize: 17, fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Buy List',
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ]),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectTab(4);
+                            _selectIndex = 5;
+                          });
+
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: _selectIndex == 5? AppTheme.secButtonColor: Colors.transparent),
+                            height: 50,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 18.0, right: 15.0),
+                                  child: Icon(
+                                    SmartKyat_POS.merchant,
+                                    size: 20,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                  child: Text(
+                                    'Merchants',
+                                    style: TextStyle(
+                                        fontSize: 17, fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectTab(5);
+                            _selectIndex = 6;
+                          });
+
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: new Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: _selectIndex == 6? AppTheme.secButtonColor: Colors.transparent),
+                            height: 50,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 18.0, right: 15.0, top: 0.0),
+                                  child: Icon(
+                                    SmartKyat_POS.setting,
+                                    size: 22,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                  child: Text(
+                                    'Settings',
+                                    style: TextStyle(
+                                        fontSize: 17, fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0, top: 150.0),
+                      child: Icon(
+                        SmartKyat_POS.merge_arrow,
+                        size: 80,
+                        color: Colors.grey.withOpacity(0.3),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -613,34 +753,13 @@ class HomePageState extends State<HomePage>
                               padding: const EdgeInsets.only(
                                   left: 15.0,top:0.0
                               ),
-                              child: Row(
-                                children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        _scaffoldKey.currentState!.openDrawer();
-                                      },
-                                      child: Icon(
-                                        Icons.home_filled,
-                                        size: 26,
-                                      )
-                                  ),
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 1.0),
-                                        child: Text(
-                                          'Home',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black),
-                                        ),
-                                      )
-                                  )
-                                ],
+                              child: GestureDetector(
+                                onTap: () {
+                                  _scaffoldKey.currentState!.openDrawer();
+                                },
+                                child: selectedTab(
+
+                                ),
                               ),
                             ),
                             Expanded(
@@ -1331,7 +1450,7 @@ class HomePageState extends State<HomePage>
                                                               child:
                                                               GestureDetector(
                                                                 onTap: () async {
-                                                                   final result = await showModalActionSheet<String>(
+                                                                  final result = await showModalActionSheet<String>(
                                                                     context: context,
                                                                     actions: [
                                                                       SheetAction(
@@ -1346,11 +1465,50 @@ class HomePageState extends State<HomePage>
                                                                       ),
                                                                     ],
                                                                   );
-                                                                   mystate(() {
-                                                                     isDiscount = result.toString();
-                                                                   });
+                                                                  mystate(() {
+                                                                    isDiscount = result.toString();
+                                                                  });
 
-                                                                   addDiscount(result);
+                                                                  if (result == 'amount') {
+                                                                    final amount = await showTextInputDialog(
+                                                                      context: context,
+                                                                      textFields: [
+                                                                        DialogTextField(
+                                                                          keyboardType: TextInputType.number,
+                                                                          hintText: '0',
+                                                                          suffixText: 'MMK',
+                                                                          // initialText: 'mono0926@gmail.com',
+                                                                        ),
+                                                                      ],
+                                                                      title: 'Discount',
+                                                                      message: 'Add Discount Amount to Cart',
+                                                                    );
+                                                                    mystate(() {
+                                                                      discount =double.parse(amount![0].toString());
+                                                                      print('disss ' + discount.toString());
+                                                                    });
+
+                                                                  } else {
+                                                                    final percentage = await showTextInputDialog(
+                                                                      context: context,
+                                                                      textFields: [
+                                                                        DialogTextField(
+                                                                          keyboardType: TextInputType.number,
+                                                                          hintText: '0.0',
+                                                                          suffixText: '%',
+                                                                          // initialText: 'mono0926@gmail.com',
+                                                                        ),
+                                                                      ],
+                                                                      title: 'Discount',
+                                                                      message: 'Add Discount Percent to Cart',
+                                                                    );
+                                                                    mystate(() {
+                                                                      discount =double.parse(percentage![0].toString());
+                                                                      print('disss ' + discount.toString());
+                                                                    });
+                                                                  }
+
+
                                                                   print('dis' + result.toString());
 
                                                                 },
@@ -1520,12 +1678,12 @@ class HomePageState extends State<HomePage>
                                                                       ),
                                                                       title: Text(
                                                                         output2?[
-                                                                        'prod_name'] +
+                                                                          'prod_name'] +
                                                                             ' (' +
                                                                             output2?[prodList[
-                                                                            i]
-                                                                                .split(
-                                                                                '-')[3]] +
+                                                                        i]
+                                                                            .split(
+                                                                            '-')[3]] +
                                                                             ')',
                                                                         style:
                                                                         TextStyle(
@@ -1657,9 +1815,9 @@ class HomePageState extends State<HomePage>
                                                         ),
                                                         GestureDetector(
                                                           onTap: () {
-                                                              mystate(() {
-                                                                totalAmount = int.parse(TtlProdListPrice());
-                                                              });
+                                                            mystate(() {
+                                                              totalAmount = int.parse(TtlProdListPrice());
+                                                            });
 
                                                             print('totalAmount '+ totalAmount.toString());
                                                             _controller.animateTo(1);
@@ -2268,9 +2426,9 @@ class HomePageState extends State<HomePage>
 
                                                         });
                                                         _controller.animateTo(0);
-                                                          Navigator.pop(context);
-                                                          _textFieldController.clear();
-                                                          //discountAmount =0.0;
+                                                        Navigator.pop(context);
+                                                        _textFieldController.clear();
+                                                        //discountAmount =0.0;
                                                       },
                                                     ),
                                                   ],
@@ -2626,12 +2784,12 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                   title: Text(
                                                                     output2?[
-                                                                    'prod_name'] +
+                                                                      'prod_name'] +
                                                                         ' (' +
                                                                         output2?[prodList2[
-                                                                        i]
-                                                                            .split(
-                                                                            '-')[4]] +
+                                                                    i]
+                                                                        .split(
+                                                                        '-')[4]] +
                                                                         ')',
                                                                     style:
                                                                     TextStyle(
@@ -3041,22 +3199,22 @@ class HomePageState extends State<HomePage>
 
     } else {
       final percentage = await showTextInputDialog(
-      context: context,
-      textFields: [
-        DialogTextField(
-          keyboardType: TextInputType.number,
-          hintText: '0.0',
-          suffixText: '%',
-          // initialText: 'mono0926@gmail.com',
-        ),
-      ],
-      title: 'Discount',
-      message: 'Add Discount Percent to Cart',
-    );
-    setState(() {
-      discount =double.parse(percentage![0].toString());
-      print('disss ' + discount.toString());
-    });
+        context: context,
+        textFields: [
+          DialogTextField(
+            keyboardType: TextInputType.number,
+            hintText: '0.0',
+            suffixText: '%',
+            // initialText: 'mono0926@gmail.com',
+          ),
+        ],
+        title: 'Discount',
+        message: 'Add Discount Percent to Cart',
+      );
+      setState(() {
+        discount =double.parse(percentage![0].toString());
+        print('disss ' + discount.toString());
+      });
     }
 
   }
@@ -3106,6 +3264,228 @@ class HomePageState extends State<HomePage>
       return string;
     } else {
       return '0' + string;
+    }
+  }
+
+  selectedTab() {
+    if(_selectIndex==0) {
+      return Row(
+        children: [
+          Icon(
+            SmartKyat_POS.home,
+            size: 20,
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, top: 0.0),
+                child: Text(
+                  'Home',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              )
+          )
+        ],
+      );
+    } else if(_selectIndex==1) {
+      return Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1.0),
+            child: Icon(
+              SmartKyat_POS.product,
+              size: 21,
+            ),
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, top: 1.0),
+                child: Text(
+                  'Product',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              )
+          )
+        ],
+      );
+    } else if(_selectIndex==2) {
+      return Row(
+        children: [
+          Icon(
+            SmartKyat_POS.order,
+            size: 23,
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, top: 1.0),
+                child: Text(
+                  'Sale orders',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              )
+          )
+        ],
+      );
+    } else if(_selectIndex==3) {
+      return Row(
+        children: [
+          Icon(
+            SmartKyat_POS.order,
+            size: 23,
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, top: 1.0),
+                child: Text(
+                  'Buy orders',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              )
+          )
+        ],
+      );
+    } else if(_selectIndex==4) {
+      return Row(
+        children: [
+          Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 7.0),
+                child: Icon(
+                  SmartKyat_POS.customer1,
+                  size: 17.5,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 14.0, top: 11.0),
+                child: Icon(
+                  SmartKyat_POS.customer2,
+                  size: 9,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0, top: 5),
+                child: Container(
+                  width: 8,
+                  height: 7.5,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.black),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 14.5, top: 7.5),
+                child: Container(
+                  width: 5,
+                  height: 4.5,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.black),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, top: 1.0),
+                child: Text(
+                  'Customers',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              )
+          )
+        ],
+      );
+    } else if(_selectIndex==5) {
+      return Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1.0),
+            child: Icon(
+              SmartKyat_POS.merchant,
+              size: 20,
+            ),
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, top: 1.0),
+                child: Text(
+                  'Merchants',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              )
+          )
+        ],
+      );
+    } else if(_selectIndex==6) {
+      return Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1.0),
+            child: Icon(
+              SmartKyat_POS.setting,
+              size: 22,
+            ),
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, top: 1.0),
+                child: Text(
+                  'Settings',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              )
+          )
+        ],
+      );
     }
   }
 }
