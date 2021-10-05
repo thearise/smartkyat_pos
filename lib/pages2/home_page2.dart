@@ -1303,7 +1303,10 @@ class HomePageState extends State<HomePage>
                                                                   onTap: () {
                                                                     mystate(() {
                                                                       prodList = [];
-                                                                      discount = 0.0;
+                                                                    });
+                                                                    mystate(() {
+                                                                     discount = 0.0;
+                                                                     discountAmount = 0.0;
                                                                     });
                                                                     // DateTime now = DateTime.now();
                                                                     // CollectionReference daily_order = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
@@ -1508,44 +1511,6 @@ class HomePageState extends State<HomePage>
                                                                       print('disss ' + discount.toString());
                                                                     });
                                                                   }
-                                                                   if (result == 'amount') {
-                                                                     final amount = await showTextInputDialog(
-                                                                       context: context,
-                                                                       textFields: [
-                                                                         DialogTextField(
-                                                                           keyboardType: TextInputType.number,
-                                                                           hintText: '0',
-                                                                           suffixText: 'MMK',
-                                                                           // initialText: 'mono0926@gmail.com',
-                                                                         ),
-                                                                       ],
-                                                                       title: 'Discount',
-                                                                       message: 'Add Discount Amount to Cart',
-                                                                     );
-                                                                     mystate(() {
-                                                                       discount =double.parse(amount![0].toString());
-                                                                       print('disss ' + discount.toString());
-                                                                     });
-
-                                                                   } else {
-                                                                     final percentage = await showTextInputDialog(
-                                                                       context: context,
-                                                                       textFields: [
-                                                                         DialogTextField(
-                                                                           keyboardType: TextInputType.number,
-                                                                           hintText: '0.0',
-                                                                           suffixText: '%',
-                                                                           // initialText: 'mono0926@gmail.com',
-                                                                         ),
-                                                                       ],
-                                                                       title: 'Discount',
-                                                                       message: 'Add Discount Percent to Cart',
-                                                                     );
-                                                                     mystate(() {
-                                                                       discount =double.parse(percentage![0].toString());
-                                                                       print('disss ' + discount.toString());
-                                                                     });
-                                                                   }
                                                                   print('dis' + result.toString());
 
                                                                 },
@@ -1720,10 +1685,10 @@ class HomePageState extends State<HomePage>
                                                                                   .split(
                                                                                   '-')[4]))
                                                                               .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                          style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            fontWeight: FontWeight.w500,
-                                                                          ),),
+                                                                            style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            ),),
                                                                         ),
                                                                         Padding(
                                                                           padding: const EdgeInsets.only(left: 15.0),
@@ -1779,23 +1744,23 @@ class HomePageState extends State<HomePage>
 
                                                           child: Container(
                                                             color: Colors.white,
-                                                          child: Column(
-                                                            children: [
-                                                              discountAmount != 0.0 ? Container(
-                                                                child: isDiscount == 'percent' ?
-                                                                ListTile(
-                                                                  title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                  subtitle: Text('Percentage (' +  discountAmount.toString() + '%)'),
-                                                                  trailing: Text('- MMK ' + disPercent.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                            child: Column(
+                                                              children: [
+                                                                discountAmount != 0.0 ? Container(
+                                                                  child: isDiscount == 'percent' ?
+                                                                  ListTile(
+                                                                    title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                    subtitle: Text('Percentage (' +  discountAmount.toString() + '%)'),
+                                                                    trailing: Text('- MMK ' + disPercent.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
-                                                                    ) :  ListTile (
-                                                                      title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                      trailing: Text('- MMK ' + discountAmount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                    ),
-                                                              ) : Container(),
-                                                            ],
+                                                                  ) :  ListTile (
+                                                                    title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                    trailing: Text('- MMK ' + discountAmount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                  ),
+                                                                ) : Container(),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
                                                           dismissal:
                                                           SlidableDismissal(
                                                             child: SlidableDrawerDismissal(),
@@ -1803,6 +1768,7 @@ class HomePageState extends State<HomePage>
                                                                 (actionType) {
                                                               mystate(() {
                                                                 discountAmount = 0.0;
+                                                                discount = 0.0;
                                                               });
                                                             },
                                                           ),
@@ -1816,6 +1782,7 @@ class HomePageState extends State<HomePage>
                                                               onTap: () =>
                                                                   mystate(() {
                                                                     discountAmount = 0.0;
+                                                                    discount =0.0;
                                                                   }),
                                                             ),
                                                           ],
