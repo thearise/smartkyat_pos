@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -1350,7 +1351,44 @@ class HomePageState extends State<HomePage>
                                                                      isDiscount = result.toString();
                                                                    });
 
-                                                                   addDiscount(result);
+                                                                   if (result == 'amount') {
+                                                                     final amount = await showTextInputDialog(
+                                                                       context: context,
+                                                                       textFields: [
+                                                                         DialogTextField(
+                                                                           keyboardType: TextInputType.number,
+                                                                           hintText: '0',
+                                                                           suffixText: 'MMK',
+                                                                           // initialText: 'mono0926@gmail.com',
+                                                                         ),
+                                                                       ],
+                                                                       title: 'Discount',
+                                                                       message: 'Add Discount Amount to Cart',
+                                                                     );
+                                                                     mystate(() {
+                                                                       discount =double.parse(amount![0].toString());
+                                                                       print('disss ' + discount.toString());
+                                                                     });
+
+                                                                   } else {
+                                                                     final percentage = await showTextInputDialog(
+                                                                       context: context,
+                                                                       textFields: [
+                                                                         DialogTextField(
+                                                                           keyboardType: TextInputType.number,
+                                                                           hintText: '0.0',
+                                                                           suffixText: '%',
+                                                                           // initialText: 'mono0926@gmail.com',
+                                                                         ),
+                                                                       ],
+                                                                       title: 'Discount',
+                                                                       message: 'Add Discount Percent to Cart',
+                                                                     );
+                                                                     mystate(() {
+                                                                       discount =double.parse(percentage![0].toString());
+                                                                       print('disss ' + discount.toString());
+                                                                     });
+                                                                   }
                                                                   print('dis' + result.toString());
 
                                                                 },
@@ -1399,80 +1437,14 @@ class HomePageState extends State<HomePage>
                                                     child: ListView(
                                                       children: [
                                                         Text(customerId.split('-')[1]),
+                                                        SizedBox(height: 20),
+                                                        // for (int i = 0;
+                                                        // i < prodList.length;
+                                                        // i++)
+                                                        //   Text(prodList[i]),
                                                         for (int i = 0;
                                                         i < prodList.length;
                                                         i++)
-                                                          Text(prodList[i]),
-
-                                                        for (int i = 0;
-                                                        i < prodList.length;
-                                                        i++)
-
-                                                        // Slidable(
-                                                        //   key: UniqueKey(),
-                                                        //   // controller: slidableController,
-                                                        //   direction: Axis.horizontal,
-                                                        //   dismissal: SlidableDismissal(
-                                                        //     child: SlidableDrawerDismissal(),
-                                                        //     onDismissed: (actionType) {
-                                                        //       mystate(() {
-                                                        //         prodList.removeAt(i);
-                                                        //       });
-                                                        //       // return true;
-                                                        //     },
-                                                        //   ),
-                                                        //   actionPane: SlidableDrawerActionPane(),
-                                                        //   // actionExtentRatio: 0.25,
-                                                        //   child: ListTile(
-                                                        //     leading: CircleAvatar(
-                                                        //       backgroundColor: Colors.indigoAccent,
-                                                        //       child: Text(prodList[i].split('-')[4]),
-                                                        //       foregroundColor: Colors.white,
-                                                        //     ),
-                                                        //     title: Text(
-                                                        //       'Text',
-                                                        //       // output2?['prod_name'] + ' (' + output2?[prodList[i].split('-')[3]] + ')',
-                                                        //       style: TextStyle(
-                                                        //           height: 1
-                                                        //       ),
-                                                        //     )
-                                                        //   ),
-                                                        //   actions: <Widget>[
-                                                        //     IconSlideAction(
-                                                        //       caption: 'Archive',
-                                                        //       color: Colors.blue,
-                                                        //       icon: Icons.archive,
-                                                        //       // onTap: () => _showSnackBar(context, 'Archive'),
-                                                        //     ),
-                                                        //     IconSlideAction(
-                                                        //       caption: 'Share',
-                                                        //       color: Colors.indigo,
-                                                        //       icon: Icons.share,
-                                                        //       // onTap: () => _showSnackBar(context, 'Share'),
-                                                        //     ),
-                                                        //   ],
-                                                        //   secondaryActions: <Widget>[
-                                                        //     Container(
-                                                        //       height: 800,
-                                                        //       color: Colors.green,
-                                                        //       child: Text('a'),
-                                                        //     ),
-                                                        //     IconSlideAction(
-                                                        //       caption: 'More',
-                                                        //       color: Colors.grey.shade200,
-                                                        //       icon: Icons.more_horiz,
-                                                        //       // onTap: () => _showSnackBar(context, 'More'),
-                                                        //       closeOnTap: false,
-                                                        //     ),
-                                                        //     IconSlideAction(
-                                                        //       caption: 'Delete',
-                                                        //       color: Colors.red,
-                                                        //       icon: Icons.delete,
-                                                        //       // onTap: () => _showSnackBar(context, 'Delete'),
-                                                        //     ),
-                                                        //   ],
-                                                        // )
-
                                                           StreamBuilder<
                                                               DocumentSnapshot<
                                                                   Map<String,
@@ -1496,6 +1468,8 @@ class HomePageState extends State<HomePage>
                                                                 var output2 = snapshot2
                                                                     .data!
                                                                     .data();
+                                                                var image = output2?[
+                                                                'img_1'];
                                                                 return Slidable(
                                                                   key: UniqueKey(),
                                                                   actionPane:
@@ -1504,46 +1478,106 @@ class HomePageState extends State<HomePage>
                                                                   0.25,
                                                                   child: Container(
                                                                     color: Colors.white,
-                                                                    child: ListTile(
-                                                                      leading:
-                                                                      CircleAvatar(
-                                                                        backgroundColor:
-                                                                        Colors
-                                                                            .indigoAccent,
-                                                                        child: Text(
-                                                                            prodList[i]
-                                                                                .split(
-                                                                                '-')[4]),
-                                                                        foregroundColor:
-                                                                        Colors
-                                                                            .white,
-                                                                      ),
-                                                                      title: Text(
-                                                                        output2?[
-                                                                        'prod_name'] +
-                                                                            ' (' +
-                                                                            output2?[prodList[
-                                                                            i]
-                                                                                .split(
-                                                                                '-')[3]] +
-                                                                            ')',
-                                                                        style:
-                                                                        TextStyle(
-                                                                            height:
-                                                                            1),
-                                                                      ),
-                                                                      subtitle: Text(
-                                                                          prodList[i].split(
-                                                                              '-')[2] +
-                                                                              ' MMK'),
-                                                                      trailing: Text((int.parse(
-                                                                          prodList[i].split('-')[
-                                                                          2]) *
-                                                                          int.parse(prodList[
-                                                                          i]
-                                                                              .split(
-                                                                              '-')[4]))
-                                                                          .toString()),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        SizedBox(height: 12),
+                                                                        ListTile(
+                                                                          leading:
+                                                                          ClipRRect(
+                                                                              borderRadius:
+                                                                              BorderRadius
+                                                                                  .circular(
+                                                                                  5.0),
+                                                                              child: image != ""
+                                                                                  ? CachedNetworkImage(
+                                                                                imageUrl:
+                                                                                'https://hninsunyein.me/smartkyat_pos/api/uploads/' +
+                                                                                    image,
+                                                                                width: 58,
+                                                                                height: 58,
+                                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                errorWidget: (context,
+                                                                                    url,
+                                                                                    error) =>
+                                                                                    Icon(Icons
+                                                                                        .error),
+                                                                                fadeInDuration:
+                                                                                Duration(
+                                                                                    milliseconds:
+                                                                                    100),
+                                                                                fadeOutDuration:
+                                                                                Duration(
+                                                                                    milliseconds:
+                                                                                    10),
+                                                                                fadeInCurve:
+                                                                                Curves
+                                                                                    .bounceIn,
+                                                                                fit: BoxFit
+                                                                                    .cover,
+                                                                              )
+                                                                                  : CachedNetworkImage(
+                                                                                imageUrl:
+                                                                                'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                                width: 58,
+                                                                                height: 58,
+                                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                errorWidget: (context,
+                                                                                    url,
+                                                                                    error) =>
+                                                                                    Icon(Icons
+                                                                                        .error),
+                                                                                fadeInDuration:
+                                                                                Duration(
+                                                                                    milliseconds:
+                                                                                    100),
+                                                                                fadeOutDuration:
+                                                                                Duration(
+                                                                                    milliseconds:
+                                                                                    10),
+                                                                                fadeInCurve:
+                                                                                Curves
+                                                                                    .bounceIn,
+                                                                                fit: BoxFit
+                                                                                    .cover,
+                                                                              )),
+                                                                          title: Text(
+                                                                            output2?[
+                                                                            'prod_name'],
+                                                                            style:
+                                                                            TextStyle(
+                                                                                fontWeight: FontWeight.w500, fontSize: 16),
+                                                                          ),
+                                                                          subtitle: Text(
+                                                                              prodList[i]
+                                                                                  .split(
+                                                                                  '-')[4] + ' '+
+                                                                                  output2?[prodList[
+                                                                                  i]
+                                                                                      .split(
+                                                                                      '-')[3]]),
+                                                                          trailing: Text('MMK ' + (int.parse(
+                                                                              prodList[i].split('-')[
+                                                                              2]) *
+                                                                              int.parse(prodList[
+                                                                              i]
+                                                                                  .split(
+                                                                                  '-')[4]))
+                                                                              .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                          style: TextStyle(
+                                                                            fontSize: 16,
+                                                                            fontWeight: FontWeight.w500,
+                                                                          ),),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 15.0),
+                                                                          child: Container(height: 12,
+                                                                            decoration: BoxDecoration(
+                                                                                border: Border(
+                                                                                  bottom:
+                                                                                  BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                                                )),),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
                                                                   dismissal:
@@ -1552,18 +1586,6 @@ class HomePageState extends State<HomePage>
                                                                     SlidableDrawerDismissal(),
                                                                     onDismissed:
                                                                         (actionType) {
-                                                                      // print('here');
-                                                                      // int tt = 0;
-                                                                      // prodList.removeAt(i);
-                                                                      // for(String str in prodList) {
-                                                                      //   tt += int.parse(str.split('-')[2])*int.parse(str.split('-')[4]);
-                                                                      // }
-                                                                      // // return total.toString();
-                                                                      //
-                                                                      // mystate(() {
-                                                                      //   total = tt.toString();
-                                                                      // });
-
                                                                       mystate(() {
                                                                         prodList
                                                                             .removeAt(
@@ -1590,7 +1612,58 @@ class HomePageState extends State<HomePage>
                                                               }
                                                               return Container();
                                                             },
-                                                          )
+                                                          ),
+                                                        Slidable(
+                                                          key: UniqueKey(),
+                                                          actionPane:
+                                                          SlidableDrawerActionPane(),
+                                                          actionExtentRatio:
+                                                          0.25,
+
+                                                          child: Container(
+                                                            color: Colors.white,
+                                                          child: Column(
+                                                            children: [
+                                                              discountAmount != 0.0 ? Container(
+                                                                child: isDiscount == 'percent' ?
+                                                                ListTile(
+                                                                  title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                  subtitle: Text('Percentage (' +  discountAmount.toString() + '%)'),
+                                                                  trailing: Text('- MMK ' + disPercent.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+
+                                                                    ) :  ListTile (
+                                                                      title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                      trailing: Text('- MMK ' + discountAmount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                    ),
+                                                              ) : Container(),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                          dismissal:
+                                                          SlidableDismissal(
+                                                            child: SlidableDrawerDismissal(),
+                                                            onDismissed:
+                                                                (actionType) {
+                                                              mystate(() {
+                                                                discountAmount = 0.0;
+                                                              });
+                                                            },
+                                                          ),
+                                                          secondaryActions: <
+                                                              Widget>[
+                                                            IconSlideAction(
+                                                              caption: 'Delete',
+                                                              color: Colors.red,
+                                                              icon:
+                                                              Icons.delete,
+                                                              onTap: () =>
+                                                                  mystate(() {
+                                                                    discountAmount = 0.0;
+                                                                  }),
+                                                            ),
+                                                          ],
+                                                        ),
+
 
                                                         // orderLoading?Text('Loading'):Text('')
                                                       ],
@@ -3019,52 +3092,12 @@ class HomePageState extends State<HomePage>
         });
   }
 
-  addDiscount(type) async {
-    if (type == 'amount') {
-      final amount = await showTextInputDialog(
-        context: context,
-        textFields: [
-          DialogTextField(
-            keyboardType: TextInputType.number,
-            hintText: '0',
-            suffixText: 'MMK',
-            // initialText: 'mono0926@gmail.com',
-          ),
-        ],
-        title: 'Discount',
-        message: 'Add Discount Amount to Cart',
-      );
-      setState(() {
-        discount =double.parse(amount![0].toString());
-        print('disss ' + discount.toString());
-      });
-
-    } else {
-      final percentage = await showTextInputDialog(
-      context: context,
-      textFields: [
-        DialogTextField(
-          keyboardType: TextInputType.number,
-          hintText: '0.0',
-          suffixText: '%',
-          // initialText: 'mono0926@gmail.com',
-        ),
-      ],
-      title: 'Discount',
-      message: 'Add Discount Percent to Cart',
-    );
-    setState(() {
-      discount =double.parse(percentage![0].toString());
-      print('disss ' + discount.toString());
-    });
-    }
-
-  }
 
   var counter = 0;
   var orderLoading = false;
 
   String total = 'T';
+  int disPercent = 0;
 
 
   TtlProdListPrice()  {
@@ -3072,6 +3105,8 @@ class HomePageState extends State<HomePage>
     print(prodList.toString());
     for (String str in prodList) {
       total += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
+      disPercent = (double.parse(total.toString()) *
+          (discountAmount / 100)).round();
     }
     if(isDiscount == 'percent'){
       discountAmount = discount;
@@ -3091,6 +3126,7 @@ class HomePageState extends State<HomePage>
     }
     return total.toString();
   }
+
 
   TtlProdListPrice2() {
     int total = 0;
