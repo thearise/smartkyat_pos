@@ -1512,6 +1512,9 @@ class HomePageState extends State<HomePage>
                                                                     });
                                                                   }
                                                                   print('dis' + result.toString());
+                                                                  setState(() {
+                                                                    print('do something');
+                                                                  });
 
                                                                 },
                                                                 child: Padding(
@@ -1746,16 +1749,16 @@ class HomePageState extends State<HomePage>
                                                             color: Colors.white,
                                                             child: Column(
                                                               children: [
-                                                                discountAmount != 0.0 ? Container(
+                                                                discount != 0.0 ? Container(
                                                                   child: isDiscount == 'percent' ?
                                                                   ListTile(
                                                                     title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                     subtitle: Text('Percentage (' +  discountAmount.toString() + '%)'),
-                                                                    trailing: Text('- MMK ' + disPercent.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                    trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                                                   ) :  ListTile (
                                                                     title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                    trailing: Text('- MMK ' + discountAmount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                    trailing: Text('- MMK ' + discount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                   ),
                                                                 ) : Container(),
                                                               ],
@@ -3223,6 +3226,14 @@ class HomePageState extends State<HomePage>
   String total = 'T';
   int disPercent = 0;
 
+  TtlProdListPriceInit()  {
+    int total = 0;
+    print(prodList.toString());
+    for (String str in prodList) {
+      total += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
+    }
+    return total.toString();
+  }
 
   TtlProdListPrice()  {
     int total = 0;
