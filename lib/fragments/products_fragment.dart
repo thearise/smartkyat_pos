@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/pages/home_page.dart';
 import 'package:smartkyat_pos/pages2/multi_assets_page.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
@@ -16,6 +17,7 @@ import 'package:smartkyat_pos/widgets/fill_product.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
 
@@ -73,6 +75,11 @@ class ProductsFragmentState extends State<ProductsFragment>
     return _myDocCount.length.toString();
   }
 
+  final cateScCtler = ScrollController();
+  final _width = 10.0;
+  int cateScIndex = 0;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +103,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          top: 0.0, left: 15.0, right: 15.0),
+                          top: 0.0, left: 0.0, right: 0.0),
                       // child: ListView(
                       //   children: [
                       //     CustomerInfo('Phyo Pyae Sohn', 'Monywa', '(+959)794335708'),
@@ -106,516 +113,1231 @@ class ProductsFragmentState extends State<ProductsFragment>
                       //   ],
                       // )
 
-                      child: ListView(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              widget._callback2('data');
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Container(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Products',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: ButtonTheme(
-                              splashColor: Colors.transparent,
-                              minWidth: MediaQuery.of(context).size.width,
-                              height: 55,
-                              child: FlatButton(
-                                color: AppTheme.skThemeColor2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    color: AppTheme.skThemeColor2,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  widget._callback();
-                                },
-                                child: Text(
-                                  'Add new product',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          StreamBuilder(
-                              stream: FirebaseFirestore.instance
-                                  .collection('space')
-                                  .doc('0NHIS0Jbn26wsgCzVBKT')
-                                  .collection('shops')
-                                  .doc('PucvhZDuUz3XlkTgzcjb')
-                                  .collection('products')
-                                  .snapshots(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                                if (snapshot.hasData) {
-                                  return ListView(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      children: snapshot.data!.docs
-                                          .map((DocumentSnapshot document) {
-                                        Map<String, dynamic> data = document
-                                            .data()! as Map<String, dynamic>;
-                                        var image = data['img_1'];
-                                        var prodName = data['prod_name'];
-                                        var mainName = data['unit_name'];
-                                        var sub1Name = data['sub1_name'];
-                                        var sub2Name = data['sub2_name'];
-                                        var sub3Name = data['sub3_name'];
-                                        var mainsPrice = data['unit_sell'];
-                                        var version = document.id;
-                                        return Padding(
-                                          padding:
-                                          const EdgeInsets.only(top: 16.0),
-                                          child: GestureDetector(
-                                            onTap: () {Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => ProductDetailsView2(
-                                                      idString: version, toggleCoinCallback:
-                                                  addProduct1, toggleCoinCallback3: addProduct3)),);
-                                            },
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.3),
-                                                          width: 1.0))),
-                                              child: Row(
+                      // child: ListView(
+                      //   children: [
+                      //     GestureDetector(
+                      //       onTap: () {
+                      //         widget._callback2('data');
+                      //       },
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.only(top: 10.0),
+                      //         child: Container(
+                      //           alignment: Alignment.topLeft,
+                      //           child: Text(
+                      //             'Products',
+                      //             style: TextStyle(
+                      //               fontSize: 24,
+                      //               fontWeight: FontWeight.bold,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(top: 10.0),
+                      //       child: ButtonTheme(
+                      //         splashColor: Colors.transparent,
+                      //         minWidth: MediaQuery.of(context).size.width,
+                      //         height: 55,
+                      //         child: FlatButton(
+                      //           color: AppTheme.skThemeColor2,
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(10.0),
+                      //             side: BorderSide(
+                      //               color: AppTheme.skThemeColor2,
+                      //             ),
+                      //           ),
+                      //           onPressed: () {
+                      //             widget._callback();
+                      //           },
+                      //           child: Text(
+                      //             'Add new product',
+                      //             textAlign: TextAlign.center,
+                      //             style: TextStyle(
+                      //                 fontSize: 18,
+                      //                 fontWeight: FontWeight.w600,
+                      //                 color: Colors.white),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(
+                      //       height: 10,
+                      //     ),
+                      //     // StreamBuilder(
+                      //     //     stream: FirebaseFirestore.instance
+                      //     //         .collection('space')
+                      //     //         .doc('0NHIS0Jbn26wsgCzVBKT')
+                      //     //         .collection('shops')
+                      //     //         .doc('PucvhZDuUz3XlkTgzcjb')
+                      //     //         .collection('products')
+                      //     //         .snapshots(),
+                      //     //     builder: (BuildContext context,
+                      //     //         AsyncSnapshot<QuerySnapshot> snapshot) {
+                      //     //       if (snapshot.hasData) {
+                      //     //         return ListView(
+                      //     //             shrinkWrap: true,
+                      //     //             physics: NeverScrollableScrollPhysics(),
+                      //     //             children: snapshot.data!.docs
+                      //     //                 .map((DocumentSnapshot document) {
+                      //     //               Map<String, dynamic> data = document
+                      //     //                   .data()! as Map<String, dynamic>;
+                      //     //               var image = data['img_1'];
+                      //     //               var prodName = data['prod_name'];
+                      //     //               var mainName = data['unit_name'];
+                      //     //               var sub1Name = data['sub1_name'];
+                      //     //               var sub2Name = data['sub2_name'];
+                      //     //               var sub3Name = data['sub3_name'];
+                      //     //               var mainsPrice = data['unit_sell'];
+                      //     //               var version = document.id;
+                      //     //               return Padding(
+                      //     //                 padding:
+                      //     //                 const EdgeInsets.only(top: 16.0),
+                      //     //                 child: GestureDetector(
+                      //     //                   onTap: () {Navigator.push(
+                      //     //                     context,
+                      //     //                     MaterialPageRoute(
+                      //     //                         builder: (context) => ProductDetailsView2(
+                      //     //                             idString: version, toggleCoinCallback:
+                      //     //                         addProduct1, toggleCoinCallback3: addProduct3)),);
+                      //     //                   },
+                      //     //                   child: Container(
+                      //     //                     width: MediaQuery.of(context)
+                      //     //                         .size
+                      //     //                         .width,
+                      //     //                     decoration: BoxDecoration(
+                      //     //                         border: Border(
+                      //     //                             bottom: BorderSide(
+                      //     //                                 color: Colors.grey
+                      //     //                                     .withOpacity(0.3),
+                      //     //                                 width: 1.0))),
+                      //     //                     child: Row(
+                      //     //                       children: [
+                      //     //                         Column(
+                      //     //                           children: [
+                      //     //                             ClipRRect(
+                      //     //                                 borderRadius:
+                      //     //                                 BorderRadius
+                      //     //                                     .circular(
+                      //     //                                     8.0),
+                      //     //                                 child: image != ""
+                      //     //                                     ? CachedNetworkImage(
+                      //     //                                   imageUrl:
+                      //     //                                   'https://hninsunyein.me/smartkyat_pos/api/uploads/' +
+                      //     //                                       image,
+                      //     //                                   width: 70,
+                      //     //                                   height: 70,
+                      //     //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                      //     //                                   errorWidget: (context,
+                      //     //                                       url,
+                      //     //                                       error) =>
+                      //     //                                       Icon(Icons
+                      //     //                                           .error),
+                      //     //                                   fadeInDuration:
+                      //     //                                   Duration(
+                      //     //                                       milliseconds:
+                      //     //                                       100),
+                      //     //                                   fadeOutDuration:
+                      //     //                                   Duration(
+                      //     //                                       milliseconds:
+                      //     //                                       10),
+                      //     //                                   fadeInCurve:
+                      //     //                                   Curves
+                      //     //                                       .bounceIn,
+                      //     //                                   fit: BoxFit
+                      //     //                                       .cover,
+                      //     //                                 )
+                      //     //                                     : CachedNetworkImage(
+                      //     //                                   imageUrl:
+                      //     //                                   'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
+                      //     //                                   width: 70,
+                      //     //                                   height: 70,
+                      //     //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                      //     //                                   errorWidget: (context,
+                      //     //                                       url,
+                      //     //                                       error) =>
+                      //     //                                       Icon(Icons
+                      //     //                                           .error),
+                      //     //                                   fadeInDuration:
+                      //     //                                   Duration(
+                      //     //                                       milliseconds:
+                      //     //                                       100),
+                      //     //                                   fadeOutDuration:
+                      //     //                                   Duration(
+                      //     //                                       milliseconds:
+                      //     //                                       10),
+                      //     //                                   fadeInCurve:
+                      //     //                                   Curves
+                      //     //                                       .bounceIn,
+                      //     //                                   fit: BoxFit
+                      //     //                                       .cover,
+                      //     //                                 )),
+                      //     //                             SizedBox(height: 12),
+                      //     //                           ],
+                      //     //                         ),
+                      //     //                         SizedBox(
+                      //     //                           width: 20,
+                      //     //                         ),
+                      //     //                         Column(
+                      //     //                           crossAxisAlignment:
+                      //     //                           CrossAxisAlignment
+                      //     //                               .start,
+                      //     //                           children: [
+                      //     //                             Text(
+                      //     //                               prodName,
+                      //     //                               style: TextStyle(
+                      //     //                                 fontSize: 18,
+                      //     //                                 fontWeight:
+                      //     //                                 FontWeight.bold,
+                      //     //                               ),
+                      //     //                             ),
+                      //     //                             SizedBox(
+                      //     //                               height: 7,
+                      //     //                             ),
+                      //     //                             Text(
+                      //     //                               mainsPrice,
+                      //     //                               style: TextStyle(
+                      //     //                                 fontSize: 18,
+                      //     //                                 fontWeight:
+                      //     //                                 FontWeight.bold,
+                      //     //                               ),
+                      //     //                             ),
+                      //     //                             SizedBox(
+                      //     //                               height: 4,
+                      //     //                             ),
+                      //     //                             Row(
+                      //     //                               children: [
+                      //     //                                 StreamBuilder(
+                      //     //                                     stream: FirebaseFirestore
+                      //     //                                         .instance
+                      //     //                                         .collection(
+                      //     //                                         'space')
+                      //     //                                         .doc(
+                      //     //                                         '0NHIS0Jbn26wsgCzVBKT')
+                      //     //                                         .collection(
+                      //     //                                         'shops')
+                      //     //                                         .doc(
+                      //     //                                         'PucvhZDuUz3XlkTgzcjb')
+                      //     //                                         .collection(
+                      //     //                                         'products')
+                      //     //                                         .doc(version)
+                      //     //                                         .collection(
+                      //     //                                         'versions')
+                      //     //                                         .where('type',
+                      //     //                                         isEqualTo:
+                      //     //                                         'main')
+                      //     //                                         .snapshots(),
+                      //     //                                     builder: (BuildContext
+                      //     //                                     context,
+                      //     //                                         AsyncSnapshot<
+                      //     //                                             QuerySnapshot>
+                      //     //                                         snapshot2) {
+                      //     //                                       if (snapshot2
+                      //     //                                           .hasData) {
+                      //     //                                         int quantity =
+                      //     //                                         0;
+                      //     //                                         var mainQuantity;
+                      //     //                                         snapshot2
+                      //     //                                             .data!
+                      //     //                                             .docs
+                      //     //                                             .map((DocumentSnapshot
+                      //     //                                         document) {
+                      //     //                                           Map<String,
+                      //     //                                               dynamic>
+                      //     //                                           data1 =
+                      //     //                                           document.data()! as Map<
+                      //     //                                               String,
+                      //     //                                               dynamic>;
+                      //     //
+                      //     //                                           quantity +=
+                      //     //                                               int.parse(
+                      //     //                                                   data1['unit_qtity']);
+                      //     //                                           mainQuantity =
+                      //     //                                               quantity
+                      //     //                                                   .toString();
+                      //     //                                         }).toList();
+                      //     //                                         return Text(
+                      //     //                                             '$mainQuantity $mainName / ');
+                      //     //                                       }
+                      //     //                                       return Container();
+                      //     //                                     }),
+                      //     //                                 StreamBuilder(
+                      //     //                                     stream: FirebaseFirestore
+                      //     //                                         .instance
+                      //     //                                         .collection(
+                      //     //                                         'space')
+                      //     //                                         .doc(
+                      //     //                                         '0NHIS0Jbn26wsgCzVBKT')
+                      //     //                                         .collection(
+                      //     //                                         'shops')
+                      //     //                                         .doc(
+                      //     //                                         'PucvhZDuUz3XlkTgzcjb')
+                      //     //                                         .collection(
+                      //     //                                         'products')
+                      //     //                                         .doc(version)
+                      //     //                                         .collection(
+                      //     //                                         'versions')
+                      //     //                                         .where('type',
+                      //     //                                         isEqualTo:
+                      //     //                                         'sub1')
+                      //     //                                         .snapshots(),
+                      //     //                                     builder: (BuildContext
+                      //     //                                     context,
+                      //     //                                         AsyncSnapshot<
+                      //     //                                             QuerySnapshot>
+                      //     //                                         snapshot3) {
+                      //     //                                       if (snapshot3
+                      //     //                                           .hasData) {
+                      //     //                                         int quantity1 =
+                      //     //                                         0;
+                      //     //                                         var sub1Quantity;
+                      //     //                                         snapshot3
+                      //     //                                             .data!
+                      //     //                                             .docs
+                      //     //                                             .map((DocumentSnapshot
+                      //     //                                         document) {
+                      //     //                                           Map<String,
+                      //     //                                               dynamic>
+                      //     //                                           data2 =
+                      //     //                                           document.data()! as Map<
+                      //     //                                               String,
+                      //     //                                               dynamic>;
+                      //     //                                           if (data2[
+                      //     //                                           'unit_qtity'] !=
+                      //     //                                               '') {
+                      //     //                                             quantity1 +=
+                      //     //                                                 int.parse(
+                      //     //                                                     data2['unit_qtity']);
+                      //     //                                             sub1Quantity =
+                      //     //                                                 quantity1
+                      //     //                                                     .toString();
+                      //     //                                           } else
+                      //     //                                             return Container();
+                      //     //                                         }).toList();
+                      //     //                                         // print(sub1Quantity);
+                      //     //                                         // print(mainQuantity);
+                      //     //
+                      //     //                                         if (sub1Quantity !=
+                      //     //                                             null) {
+                      //     //                                           return Text(
+                      //     //                                               '$sub1Quantity $sub1Name / ');
+                      //     //                                         }
+                      //     //                                         return Container();
+                      //     //                                       }
+                      //     //                                       return Container();
+                      //     //                                     }),
+                      //     //                                 StreamBuilder(
+                      //     //                                     stream: FirebaseFirestore
+                      //     //                                         .instance
+                      //     //                                         .collection(
+                      //     //                                         'space')
+                      //     //                                         .doc(
+                      //     //                                         '0NHIS0Jbn26wsgCzVBKT')
+                      //     //                                         .collection(
+                      //     //                                         'shops')
+                      //     //                                         .doc(
+                      //     //                                         'PucvhZDuUz3XlkTgzcjb')
+                      //     //                                         .collection(
+                      //     //                                         'products')
+                      //     //                                         .doc(version)
+                      //     //                                         .collection(
+                      //     //                                         'versions')
+                      //     //                                         .where('type',
+                      //     //                                         isEqualTo:
+                      //     //                                         'sub2')
+                      //     //                                         .snapshots(),
+                      //     //                                     builder: (BuildContext
+                      //     //                                     context,
+                      //     //                                         AsyncSnapshot<
+                      //     //                                             QuerySnapshot>
+                      //     //                                         snapshot4) {
+                      //     //                                       if (snapshot4
+                      //     //                                           .hasData) {
+                      //     //                                         int quantity2 =
+                      //     //                                         0;
+                      //     //                                         var sub2Quantity;
+                      //     //                                         snapshot4
+                      //     //                                             .data!
+                      //     //                                             .docs
+                      //     //                                             .map((DocumentSnapshot
+                      //     //                                         document) {
+                      //     //                                           Map<String,
+                      //     //                                               dynamic>
+                      //     //                                           data3 =
+                      //     //                                           document.data()! as Map<
+                      //     //                                               String,
+                      //     //                                               dynamic>;
+                      //     //                                           if (data3[
+                      //     //                                           'unit_qtity'] !=
+                      //     //                                               '') {
+                      //     //                                             quantity2 +=
+                      //     //                                                 int.parse(
+                      //     //                                                     data3['unit_qtity']);
+                      //     //                                             sub2Quantity =
+                      //     //                                                 quantity2
+                      //     //                                                     .toString();
+                      //     //                                           } else
+                      //     //                                             return Container();
+                      //     //                                         }).toList();
+                      //     //                                         if (sub2Quantity !=
+                      //     //                                             null) {
+                      //     //                                           return Text(
+                      //     //                                               '$sub2Quantity $sub2Name / ');
+                      //     //                                         }
+                      //     //                                         return Container();
+                      //     //                                       }
+                      //     //                                       return Container();
+                      //     //                                     }),
+                      //     //                                 StreamBuilder(
+                      //     //                                     stream: FirebaseFirestore
+                      //     //                                         .instance
+                      //     //                                         .collection(
+                      //     //                                         'space')
+                      //     //                                         .doc(
+                      //     //                                         '0NHIS0Jbn26wsgCzVBKT')
+                      //     //                                         .collection(
+                      //     //                                         'shops')
+                      //     //                                         .doc(
+                      //     //                                         'PucvhZDuUz3XlkTgzcjb')
+                      //     //                                         .collection(
+                      //     //                                         'products')
+                      //     //                                         .doc(version)
+                      //     //                                         .collection(
+                      //     //                                         'versions')
+                      //     //                                         .where('type',
+                      //     //                                         isEqualTo:
+                      //     //                                         'sub3')
+                      //     //                                         .snapshots(),
+                      //     //                                     builder: (BuildContext
+                      //     //                                     context,
+                      //     //                                         AsyncSnapshot<
+                      //     //                                             QuerySnapshot>
+                      //     //                                         snapshot5) {
+                      //     //                                       if (snapshot5
+                      //     //                                           .hasData) {
+                      //     //                                         int quantity3 =
+                      //     //                                         0;
+                      //     //                                         var sub3Quantity;
+                      //     //                                         snapshot5
+                      //     //                                             .data!
+                      //     //                                             .docs
+                      //     //                                             .map((DocumentSnapshot
+                      //     //                                         document) {
+                      //     //                                           Map<String,
+                      //     //                                               dynamic>
+                      //     //                                           data4 =
+                      //     //                                           document.data()! as Map<
+                      //     //                                               String,
+                      //     //                                               dynamic>;
+                      //     //                                           if (data4[
+                      //     //                                           'unit_qtity'] !=
+                      //     //                                               '') {
+                      //     //                                             quantity3 +=
+                      //     //                                                 int.parse(
+                      //     //                                                     data4['unit_qtity']);
+                      //     //                                             sub3Quantity =
+                      //     //                                                 quantity3
+                      //     //                                                     .toString();
+                      //     //                                           } else
+                      //     //                                             return Container();
+                      //     //                                         }).toList();
+                      //     //                                         // print(sub1Quantity);
+                      //     //                                         // print(mainQuantity);
+                      //     //                                         if (sub3Quantity !=
+                      //     //                                             null) {
+                      //     //                                           return Text(
+                      //     //                                               '$sub3Quantity $sub3Name');
+                      //     //                                         }
+                      //     //                                         return Container();
+                      //     //                                       }
+                      //     //                                       return Container();
+                      //     //                                     }),
+                      //     //                               ],
+                      //     //                             ),
+                      //     //
+                      //     //                             // Text(
+                      //     //                             //   'MMK',
+                      //     //                             //   style:
+                      //     //                             //       TextStyle(
+                      //     //                             //     fontSize: 14,
+                      //     //                             //     fontWeight: FontWeight.w400,
+                      //     //                             //     color: Colors.blueGrey.withOpacity(1.0),
+                      //     //                             //   ),
+                      //     //                             // ),
+                      //     //                             // SizedBox(
+                      //     //                             //   height:
+                      //     //                             //       7,
+                      //     //                             // ),
+                      //     //                             // Text(
+                      //     //                             //   '55',
+                      //     //                             //   style:
+                      //     //                             //       TextStyle(
+                      //     //                             //     fontSize: 14,
+                      //     //                             //     fontWeight: FontWeight.w400,
+                      //     //                             //     color: Colors.blueGrey.withOpacity(1.0),
+                      //     //                             //   ),
+                      //     //                             // ),
+                      //     //                           ],
+                      //     //                         ),
+                      //     //                         // Padding(
+                      //     //                         //   padding:
+                      //     //                         //       const EdgeInsets.only(
+                      //     //                         //           bottom: 20.0),
+                      //     //                         //   child: IconButton(
+                      //     //                         //     icon: Icon(
+                      //     //                         //       Icons
+                      //     //                         //           .arrow_forward_ios_rounded,
+                      //     //                         //       size: 16,
+                      //     //                         //       color: Colors.blueGrey
+                      //     //                         //           .withOpacity(0.8),
+                      //     //                         //     ),
+                      //     //                         //     onPressed: () {
+                      //     //                         //       Navigator.push(
+                      //     //                         //         context,
+                      //     //                         //         MaterialPageRoute(
+                      //     //                         //             builder: (context) => ProductDetailsView(
+                      //     //                         //                 idString: version, toggleCoinCallback:
+                      //     //                         //             addProduct1, toggleCoinCallback3: addProduct3)),);
+                      //     //                         //     },
+                      //     //                         //   ),
+                      //     //                         // ),
+                      //     //                         Spacer(),
+                      //     //                         Padding(
+                      //     //                           padding:
+                      //     //                           const EdgeInsets.only(
+                      //     //                               bottom: 20.0),
+                      //     //                           child: Icon(
+                      //     //                             Icons
+                      //     //                                 .arrow_forward_ios_rounded,
+                      //     //                             size: 16,
+                      //     //                             color: Colors.blueGrey
+                      //     //                                 .withOpacity(0.8),
+                      //     //                           ),),
+                      //     //                       ],
+                      //     //                     ),
+                      //     //                   ),
+                      //     //                 ),
+                      //     //               );
+                      //     //             }).toList());
+                      //     //       }
+                      //     //       return Container();
+                      //     //     })
+                      //   ],
+                      // ),
+
+
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('space')
+                              .doc('0NHIS0Jbn26wsgCzVBKT')
+                              .collection('shops')
+                              .doc('PucvhZDuUz3XlkTgzcjb')
+                              .collection('products')
+                              .snapshots(),
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if(snapshot.hasData) {
+                              return CustomScrollView(
+                                slivers: [
+                                  // Add the app bar to the CustomScrollView.
+                                  SliverAppBar(
+                                    elevation: 0,
+                                    backgroundColor: Colors.white,
+                                    // Provide a standard title.
+
+                                    // Allows the user to reveal the app bar if they begin scrolling
+                                    // back up the list of items.
+                                    floating: true,
+                                    flexibleSpace: Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                      child: Container(
+                                        height: 32,
+                                        width: MediaQuery.of(context).size.width,
+                                        // color: Colors.yellow,
+                                        child: Row(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                FlatButton(
+                                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                                  color: AppTheme.secButtonColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(8.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.skBorderColor2,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    widget._callback();
+                                                  },
+                                                  child: Container(
+                                                    child: Row(
+                                                      // mainAxisAlignment: Main,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 6.0),
+                                                          child: Icon(
+                                                            SmartKyat_POS.add_plus,
+                                                            size: 17,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          'New item',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12),
+                                                Container(
+                                                  color: Colors.grey.withOpacity(0.2),
+                                                  width: 1.5,
+                                                  height: 30,
+                                                )
+                                              ],
+                                            ),
+                                            Expanded(
+                                              child: ListView(
+                                                controller: cateScCtler,
+                                                scrollDirection: Axis.horizontal,
                                                 children: [
-                                                  Column(
-                                                    children: [
-                                                      ClipRRect(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              8.0),
-                                                          child: image != ""
-                                                              ? CachedNetworkImage(
-                                                            imageUrl:
-                                                            'https://hninsunyein.me/smartkyat_pos/api/uploads/' +
-                                                                image,
-                                                            width: 70,
-                                                            height: 70,
-                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                            errorWidget: (context,
-                                                                url,
-                                                                error) =>
-                                                                Icon(Icons
-                                                                    .error),
-                                                            fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                100),
-                                                            fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                10),
-                                                            fadeInCurve:
-                                                            Curves
-                                                                .bounceIn,
-                                                            fit: BoxFit
-                                                                .cover,
-                                                          )
-                                                              : CachedNetworkImage(
-                                                            imageUrl:
-                                                            'https://fdn.gsmarena.com/imgroot/news/21/04/oneplus-watch-update/-1200/gsmarena_002.jpg',
-                                                            width: 70,
-                                                            height: 70,
-                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                            errorWidget: (context,
-                                                                url,
-                                                                error) =>
-                                                                Icon(Icons
-                                                                    .error),
-                                                            fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                100),
-                                                            fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                10),
-                                                            fadeInCurve:
-                                                            Curves
-                                                                .bounceIn,
-                                                            fit: BoxFit
-                                                                .cover,
-                                                          )),
-                                                      SizedBox(height: 12),
-                                                    ],
+                                                  SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(0);
+                                                        setState(() {
+                                                          cateScIndex = 0;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          'All',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(5.4);
+                                                        setState(() {
+                                                          cateScIndex = 1;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          'Low stocks',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(16.4);
+                                                        setState(() {
+                                                          cateScIndex = 2;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          'Best sales',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(20);
+                                                        setState(() {
+                                                          cateScIndex = 3;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          'Low sales',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                   SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      Text(
-                                                        prodName,
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                          FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 7,
-                                                      ),
-                                                      Text(
-                                                        mainsPrice,
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                          FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 4,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          StreamBuilder(
-                                                              stream: FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                  'space')
-                                                                  .doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT')
-                                                                  .collection(
-                                                                  'shops')
-                                                                  .doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb')
-                                                                  .collection(
-                                                                  'products')
-                                                                  .doc(version)
-                                                                  .collection(
-                                                                  'versions')
-                                                                  .where('type',
-                                                                  isEqualTo:
-                                                                  'main')
-                                                                  .snapshots(),
-                                                              builder: (BuildContext
-                                                              context,
-                                                                  AsyncSnapshot<
-                                                                      QuerySnapshot>
-                                                                  snapshot2) {
-                                                                if (snapshot2
-                                                                    .hasData) {
-                                                                  int quantity =
-                                                                  0;
-                                                                  var mainQuantity;
-                                                                  snapshot2
-                                                                      .data!
-                                                                      .docs
-                                                                      .map((DocumentSnapshot
-                                                                  document) {
-                                                                    Map<String,
-                                                                        dynamic>
-                                                                    data1 =
-                                                                    document.data()! as Map<
-                                                                        String,
-                                                                        dynamic>;
-
-                                                                    quantity +=
-                                                                        int.parse(
-                                                                            data1['unit_qtity']);
-                                                                    mainQuantity =
-                                                                        quantity
-                                                                            .toString();
-                                                                  }).toList();
-                                                                  return Text(
-                                                                      '$mainQuantity $mainName / ');
-                                                                }
-                                                                return Container();
-                                                              }),
-                                                          StreamBuilder(
-                                                              stream: FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                  'space')
-                                                                  .doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT')
-                                                                  .collection(
-                                                                  'shops')
-                                                                  .doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb')
-                                                                  .collection(
-                                                                  'products')
-                                                                  .doc(version)
-                                                                  .collection(
-                                                                  'versions')
-                                                                  .where('type',
-                                                                  isEqualTo:
-                                                                  'sub1')
-                                                                  .snapshots(),
-                                                              builder: (BuildContext
-                                                              context,
-                                                                  AsyncSnapshot<
-                                                                      QuerySnapshot>
-                                                                  snapshot3) {
-                                                                if (snapshot3
-                                                                    .hasData) {
-                                                                  int quantity1 =
-                                                                  0;
-                                                                  var sub1Quantity;
-                                                                  snapshot3
-                                                                      .data!
-                                                                      .docs
-                                                                      .map((DocumentSnapshot
-                                                                  document) {
-                                                                    Map<String,
-                                                                        dynamic>
-                                                                    data2 =
-                                                                    document.data()! as Map<
-                                                                        String,
-                                                                        dynamic>;
-                                                                    if (data2[
-                                                                    'unit_qtity'] !=
-                                                                        '') {
-                                                                      quantity1 +=
-                                                                          int.parse(
-                                                                              data2['unit_qtity']);
-                                                                      sub1Quantity =
-                                                                          quantity1
-                                                                              .toString();
-                                                                    } else
-                                                                      return Container();
-                                                                  }).toList();
-                                                                  // print(sub1Quantity);
-                                                                  // print(mainQuantity);
-
-                                                                  if (sub1Quantity !=
-                                                                      null) {
-                                                                    return Text(
-                                                                        '$sub1Quantity $sub1Name / ');
-                                                                  }
-                                                                  return Container();
-                                                                }
-                                                                return Container();
-                                                              }),
-                                                          StreamBuilder(
-                                                              stream: FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                  'space')
-                                                                  .doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT')
-                                                                  .collection(
-                                                                  'shops')
-                                                                  .doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb')
-                                                                  .collection(
-                                                                  'products')
-                                                                  .doc(version)
-                                                                  .collection(
-                                                                  'versions')
-                                                                  .where('type',
-                                                                  isEqualTo:
-                                                                  'sub2')
-                                                                  .snapshots(),
-                                                              builder: (BuildContext
-                                                              context,
-                                                                  AsyncSnapshot<
-                                                                      QuerySnapshot>
-                                                                  snapshot4) {
-                                                                if (snapshot4
-                                                                    .hasData) {
-                                                                  int quantity2 =
-                                                                  0;
-                                                                  var sub2Quantity;
-                                                                  snapshot4
-                                                                      .data!
-                                                                      .docs
-                                                                      .map((DocumentSnapshot
-                                                                  document) {
-                                                                    Map<String,
-                                                                        dynamic>
-                                                                    data3 =
-                                                                    document.data()! as Map<
-                                                                        String,
-                                                                        dynamic>;
-                                                                    if (data3[
-                                                                    'unit_qtity'] !=
-                                                                        '') {
-                                                                      quantity2 +=
-                                                                          int.parse(
-                                                                              data3['unit_qtity']);
-                                                                      sub2Quantity =
-                                                                          quantity2
-                                                                              .toString();
-                                                                    } else
-                                                                      return Container();
-                                                                  }).toList();
-                                                                  if (sub2Quantity !=
-                                                                      null) {
-                                                                    return Text(
-                                                                        '$sub2Quantity $sub2Name / ');
-                                                                  }
-                                                                  return Container();
-                                                                }
-                                                                return Container();
-                                                              }),
-                                                          StreamBuilder(
-                                                              stream: FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                  'space')
-                                                                  .doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT')
-                                                                  .collection(
-                                                                  'shops')
-                                                                  .doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb')
-                                                                  .collection(
-                                                                  'products')
-                                                                  .doc(version)
-                                                                  .collection(
-                                                                  'versions')
-                                                                  .where('type',
-                                                                  isEqualTo:
-                                                                  'sub3')
-                                                                  .snapshots(),
-                                                              builder: (BuildContext
-                                                              context,
-                                                                  AsyncSnapshot<
-                                                                      QuerySnapshot>
-                                                                  snapshot5) {
-                                                                if (snapshot5
-                                                                    .hasData) {
-                                                                  int quantity3 =
-                                                                  0;
-                                                                  var sub3Quantity;
-                                                                  snapshot5
-                                                                      .data!
-                                                                      .docs
-                                                                      .map((DocumentSnapshot
-                                                                  document) {
-                                                                    Map<String,
-                                                                        dynamic>
-                                                                    data4 =
-                                                                    document.data()! as Map<
-                                                                        String,
-                                                                        dynamic>;
-                                                                    if (data4[
-                                                                    'unit_qtity'] !=
-                                                                        '') {
-                                                                      quantity3 +=
-                                                                          int.parse(
-                                                                              data4['unit_qtity']);
-                                                                      sub3Quantity =
-                                                                          quantity3
-                                                                              .toString();
-                                                                    } else
-                                                                      return Container();
-                                                                  }).toList();
-                                                                  // print(sub1Quantity);
-                                                                  // print(mainQuantity);
-                                                                  if (sub3Quantity !=
-                                                                      null) {
-                                                                    return Text(
-                                                                        '$sub3Quantity $sub3Name');
-                                                                  }
-                                                                  return Container();
-                                                                }
-                                                                return Container();
-                                                              }),
-                                                        ],
-                                                      ),
-
-                                                      // Text(
-                                                      //   'MMK',
-                                                      //   style:
-                                                      //       TextStyle(
-                                                      //     fontSize: 14,
-                                                      //     fontWeight: FontWeight.w400,
-                                                      //     color: Colors.blueGrey.withOpacity(1.0),
-                                                      //   ),
-                                                      // ),
-                                                      // SizedBox(
-                                                      //   height:
-                                                      //       7,
-                                                      // ),
-                                                      // Text(
-                                                      //   '55',
-                                                      //   style:
-                                                      //       TextStyle(
-                                                      //     fontSize: 14,
-                                                      //     fontWeight: FontWeight.w400,
-                                                      //     color: Colors.blueGrey.withOpacity(1.0),
-                                                      //   ),
-                                                      // ),
-                                                    ],
-                                                  ),
-                                                  // Padding(
-                                                  //   padding:
-                                                  //       const EdgeInsets.only(
-                                                  //           bottom: 20.0),
-                                                  //   child: IconButton(
-                                                  //     icon: Icon(
-                                                  //       Icons
-                                                  //           .arrow_forward_ios_rounded,
-                                                  //       size: 16,
-                                                  //       color: Colors.blueGrey
-                                                  //           .withOpacity(0.8),
-                                                  //     ),
-                                                  //     onPressed: () {
-                                                  //       Navigator.push(
-                                                  //         context,
-                                                  //         MaterialPageRoute(
-                                                  //             builder: (context) => ProductDetailsView(
-                                                  //                 idString: version, toggleCoinCallback:
-                                                  //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                                                  //     },
-                                                  //   ),
-                                                  // ),
-                                                  Spacer(),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.only(
-                                                        bottom: 20.0),
-                                                    child: Icon(
-                                                      Icons
-                                                          .arrow_forward_ios_rounded,
-                                                      size: 16,
-                                                      color: Colors.blueGrey
-                                                          .withOpacity(0.8),
-                                                    ),),
+                                                    width: 11,
+                                                  )
                                                 ],
                                               ),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList());
-                                }
-                                return Container();
-                              })
-                        ],
+                                            )
+                                          ],
+                                        ),
+
+                                      ),
+                                    ),
+                                    // Display a placeholder widget to visualize the shrinking size.
+                                    // Make the initial height of the SliverAppBar larger than normal.
+                                    expandedHeight: 20,
+                                  ),
+                                  // Next, create a SliverList
+                                  SliverList(
+                                    // Use a delegate to build items as they're scrolled on screen.
+                                    delegate: SliverChildBuilderDelegate(
+                                      // The builder function returns a ListTile with a title that
+                                      // displays the index of the current item.
+                                          (context, index) {
+                                            Map<String, dynamic> data = snapshot.data!.docs[index]
+                                                .data()! as Map<String, dynamic>;
+                                            var image = data['img_1'];
+                                            var prodName = data['prod_name'];
+                                            var mainName = data['unit_name'];
+                                            var sub1Name = data['sub1_name'];
+                                            var sub2Name = data['sub2_name'];
+                                            var sub3Name = data['sub3_name'];
+                                            var mainsPrice = data['unit_sell'];
+                                            var version = snapshot.data!.docs[index].id;
+                                            return Padding(
+                                              padding:
+                                              EdgeInsets.only(top: index == 0? 10.0: 20.0),
+                                              child: GestureDetector(
+                                                onTap: () {Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => ProductDetailsView2(
+                                                          idString: version, toggleCoinCallback:
+                                                      addProduct1, toggleCoinCallback3: addProduct3)),);
+                                                },
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: index == snapshot.data!.docs.length-1 ?
+                                                          BorderSide(
+                                                              color: Colors.transparent,
+                                                              width: 1.0) :
+
+                                                          BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(0.3),
+                                                              width: 1.0)
+                                                      )),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Column(
+                                                              children: [
+                                                                ClipRRect(
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        5.0),
+                                                                    child: image != ""
+                                                                        ? CachedNetworkImage(
+                                                                      imageUrl:
+                                                                      'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                          image,
+                                                                      width: 75,
+                                                                      height: 75,
+                                                                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                      errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                          Icon(Icons
+                                                                              .error),
+                                                                      fadeInDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                          100),
+                                                                      fadeOutDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                          10),
+                                                                      fadeInCurve:
+                                                                      Curves
+                                                                          .bounceIn,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    )
+                                                                        : CachedNetworkImage(
+                                                                      imageUrl:
+                                                                      'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                      width: 75,
+                                                                      height: 75,
+                                                                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                      errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                          Icon(Icons
+                                                                              .error),
+                                                                      fadeInDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                          100),
+                                                                      fadeOutDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                          10),
+                                                                      fadeInCurve:
+                                                                      Curves
+                                                                          .bounceIn,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    )),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              width: 15,
+                                                            ),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  prodName,
+                                                                  style: TextStyle(
+                                                                    fontSize: 18,
+                                                                    fontWeight:
+                                                                    FontWeight.w500,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Text(
+                                                                  'MMK ' + mainsPrice,
+                                                                  style: TextStyle(
+                                                                    fontSize: 15,
+                                                                    fontWeight:
+                                                                    FontWeight.w500,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 2,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    StreamBuilder(
+                                                                        stream: FirebaseFirestore
+                                                                            .instance
+                                                                            .collection(
+                                                                            'space')
+                                                                            .doc(
+                                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                                            .collection(
+                                                                            'shops')
+                                                                            .doc(
+                                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                                            .collection(
+                                                                            'products')
+                                                                            .doc(version)
+                                                                            .collection(
+                                                                            'versions')
+                                                                            .where('type',
+                                                                            isEqualTo:
+                                                                            'main')
+                                                                            .snapshots(),
+                                                                        builder: (BuildContext
+                                                                        context,
+                                                                            AsyncSnapshot<
+                                                                                QuerySnapshot>
+                                                                            snapshot2) {
+                                                                          if (snapshot2
+                                                                              .hasData) {
+                                                                            int quantity =
+                                                                            0;
+                                                                            var mainQuantity;
+                                                                            snapshot2
+                                                                                .data!
+                                                                                .docs
+                                                                                .map((DocumentSnapshot
+                                                                            document) {
+                                                                              Map<String,
+                                                                                  dynamic>
+                                                                              data1 =
+                                                                              document.data()! as Map<
+                                                                                  String,
+                                                                                  dynamic>;
+
+                                                                              quantity +=
+                                                                                  int.parse(
+                                                                                      data1['unit_qtity']);
+                                                                              mainQuantity =
+                                                                                  quantity
+                                                                                      .toString();
+                                                                            }).toList();
+                                                                            return Row(
+                                                                              children: [
+                                                                                Text(
+                                                                                    '$mainQuantity $mainName ', style: TextStyle(
+                                                                                  fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                )),
+                                                                                Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                                sub1Name != '' ? Text(' | ', style: TextStyle(
+                                                                                  fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                )) : Text(''),
+                                                                              ],
+                                                                            );
+                                                                          }
+                                                                          return Container();
+                                                                        }),
+                                                                    StreamBuilder(
+                                                                        stream: FirebaseFirestore
+                                                                            .instance
+                                                                            .collection(
+                                                                            'space')
+                                                                            .doc(
+                                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                                            .collection(
+                                                                            'shops')
+                                                                            .doc(
+                                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                                            .collection(
+                                                                            'products')
+                                                                            .doc(version)
+                                                                            .collection(
+                                                                            'versions')
+                                                                            .where('type',
+                                                                            isEqualTo:
+                                                                            'sub1')
+                                                                            .snapshots(),
+                                                                        builder: (BuildContext
+                                                                        context,
+                                                                            AsyncSnapshot<
+                                                                                QuerySnapshot>
+                                                                            snapshot3) {
+                                                                          if (snapshot3
+                                                                              .hasData) {
+                                                                            int quantity1 =
+                                                                            0;
+                                                                            var sub1Quantity;
+                                                                            snapshot3
+                                                                                .data!
+                                                                                .docs
+                                                                                .map((DocumentSnapshot
+                                                                            document) {
+                                                                              Map<String,
+                                                                                  dynamic>
+                                                                              data2 =
+                                                                              document.data()! as Map<
+                                                                                  String,
+                                                                                  dynamic>;
+                                                                              if (data2[
+                                                                              'unit_qtity'] !=
+                                                                                  '') {
+                                                                                quantity1 +=
+                                                                                    int.parse(
+                                                                                        data2['unit_qtity']);
+                                                                                sub1Quantity =
+                                                                                    quantity1
+                                                                                        .toString();
+                                                                              } else
+                                                                                return Container();
+                                                                            }).toList();
+                                                                            // print(sub1Quantity);
+                                                                            // print(mainQuantity);
+
+                                                                            if (sub1Quantity !=
+                                                                                null) {
+                                                                              return Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                      '$sub1Quantity $sub1Name ', style: TextStyle(
+                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                  )),
+                                                                                  Icon( SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
+                                                                                  sub2Name != '' ? Text(' | ', style: TextStyle(
+                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                  )) : Text(''),
+                                                                                ],
+                                                                              );
+                                                                            }
+                                                                            return Container();
+                                                                          }
+                                                                          return Container();
+                                                                        }),
+                                                                    StreamBuilder(
+                                                                        stream: FirebaseFirestore
+                                                                            .instance
+                                                                            .collection(
+                                                                            'space')
+                                                                            .doc(
+                                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                                            .collection(
+                                                                            'shops')
+                                                                            .doc(
+                                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                                            .collection(
+                                                                            'products')
+                                                                            .doc(version)
+                                                                            .collection(
+                                                                            'versions')
+                                                                            .where('type',
+                                                                            isEqualTo:
+                                                                            'sub2')
+                                                                            .snapshots(),
+                                                                        builder: (BuildContext
+                                                                        context,
+                                                                            AsyncSnapshot<
+                                                                                QuerySnapshot>
+                                                                            snapshot4) {
+                                                                          if (snapshot4
+                                                                              .hasData) {
+                                                                            int quantity2 =
+                                                                            0;
+                                                                            var sub2Quantity;
+                                                                            snapshot4
+                                                                                .data!
+                                                                                .docs
+                                                                                .map((DocumentSnapshot
+                                                                            document) {
+                                                                              Map<String,
+                                                                                  dynamic>
+                                                                              data3 =
+                                                                              document.data()! as Map<
+                                                                                  String,
+                                                                                  dynamic>;
+                                                                              if (data3[
+                                                                              'unit_qtity'] !=
+                                                                                  '') {
+                                                                                quantity2 +=
+                                                                                    int.parse(
+                                                                                        data3['unit_qtity']);
+                                                                                sub2Quantity =
+                                                                                    quantity2
+                                                                                        .toString();
+                                                                              } else
+                                                                                return Container();
+                                                                            }).toList();
+                                                                            if (sub2Quantity !=
+                                                                                null) {
+                                                                              return Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                      '$sub2Quantity $sub2Name ', style: TextStyle(
+                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                  )),
+                                                                                  Icon( SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                                ],
+                                                                              );
+                                                                            }
+                                                                            return Container();
+                                                                          }
+                                                                          return Container();
+                                                                        }),
+                                                                    // StreamBuilder(
+                                                                    //     stream: FirebaseFirestore
+                                                                    //         .instance
+                                                                    //         .collection(
+                                                                    //         'space')
+                                                                    //         .doc(
+                                                                    //         '0NHIS0Jbn26wsgCzVBKT')
+                                                                    //         .collection(
+                                                                    //         'shops')
+                                                                    //         .doc(
+                                                                    //         'PucvhZDuUz3XlkTgzcjb')
+                                                                    //         .collection(
+                                                                    //         'products')
+                                                                    //         .doc(version)
+                                                                    //         .collection(
+                                                                    //         'versions')
+                                                                    //         .where('type',
+                                                                    //         isEqualTo:
+                                                                    //         'sub3')
+                                                                    //         .snapshots(),
+                                                                    //     builder: (BuildContext
+                                                                    //     context,
+                                                                    //         AsyncSnapshot<
+                                                                    //             QuerySnapshot>
+                                                                    //         snapshot5) {
+                                                                    //       if (snapshot5
+                                                                    //           .hasData) {
+                                                                    //         int quantity3 =
+                                                                    //         0;
+                                                                    //         var sub3Quantity;
+                                                                    //         snapshot5
+                                                                    //             .data!
+                                                                    //             .docs
+                                                                    //             .map((DocumentSnapshot
+                                                                    //         document) {
+                                                                    //           Map<String,
+                                                                    //               dynamic>
+                                                                    //           data4 =
+                                                                    //           document.data()! as Map<
+                                                                    //               String,
+                                                                    //               dynamic>;
+                                                                    //           if (data4[
+                                                                    //           'unit_qtity'] !=
+                                                                    //               '') {
+                                                                    //             quantity3 +=
+                                                                    //                 int.parse(
+                                                                    //                     data4['unit_qtity']);
+                                                                    //             sub3Quantity =
+                                                                    //                 quantity3
+                                                                    //                     .toString();
+                                                                    //           } else
+                                                                    //             return Container();
+                                                                    //         }).toList();
+                                                                    //         // print(sub1Quantity);
+                                                                    //         // print(mainQuantity);
+                                                                    //         if (sub3Quantity !=
+                                                                    //             null) {
+                                                                    //           return Text(
+                                                                    //               '$sub3Quantity $sub3Name');
+                                                                    //         }
+                                                                    //         return Container();
+                                                                    //       }
+                                                                    //       return Container();
+                                                                    //     }),
+                                                                  ],
+                                                                ),
+
+                                                                // Text(
+                                                                //   'MMK',
+                                                                //   style:
+                                                                //       TextStyle(
+                                                                //     fontSize: 14,
+                                                                //     fontWeight: FontWeight.w400,
+                                                                //     color: Colors.blueGrey.withOpacity(1.0),
+                                                                //   ),
+                                                                // ),
+                                                                // SizedBox(
+                                                                //   height:
+                                                                //       7,
+                                                                // ),
+                                                                // Text(
+                                                                //   '55',
+                                                                //   style:
+                                                                //       TextStyle(
+                                                                //     fontSize: 14,
+                                                                //     fontWeight: FontWeight.w400,
+                                                                //     color: Colors.blueGrey.withOpacity(1.0),
+                                                                //   ),
+                                                                // ),
+                                                              ],
+                                                            ),
+                                                            // Padding(
+                                                            //   padding:
+                                                            //       const EdgeInsets.only(
+                                                            //           bottom: 20.0),
+                                                            //   child: IconButton(
+                                                            //     icon: Icon(
+                                                            //       Icons
+                                                            //           .arrow_forward_ios_rounded,
+                                                            //       size: 16,
+                                                            //       color: Colors.blueGrey
+                                                            //           .withOpacity(0.8),
+                                                            //     ),
+                                                            //     onPressed: () {
+                                                            //       Navigator.push(
+                                                            //         context,
+                                                            //         MaterialPageRoute(
+                                                            //             builder: (context) => ProductDetailsView(
+                                                            //                 idString: version, toggleCoinCallback:
+                                                            //             addProduct1, toggleCoinCallback3: addProduct3)),);
+                                                            //     },
+                                                            //   ),
+                                                            // ),
+                                                            Spacer(),
+                                                            Padding(
+                                                              padding:
+                                                              const EdgeInsets.only(
+                                                                  bottom: 12.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios_rounded,
+                                                                size: 16,
+                                                                color: Colors.blueGrey
+                                                                    .withOpacity(0.8),
+                                                              ),),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 20),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                      // Builds 1000 ListTiles
+                                      childCount: snapshot.data!.docs.length,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return Container();
+                          }
                       ),
                     ),
                   ),
@@ -625,63 +1347,73 @@ class ProductsFragmentState extends State<ProductsFragment>
                 alignment: Alignment.topCenter,
                 child: Container(
                   decoration: BoxDecoration(
+                      color: Colors.white,
                       border: Border(
-                        bottom:
-                        BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                        bottom: BorderSide(
+                            color: AppTheme.skBorderColor2,
+                            width: 1.0),
                       )),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 10.0, left: 15.0, right: 15.0, bottom: 15),
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey.withOpacity(0.2),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 15.0,
-                              ),
-                              child: Icon(
-                                Icons.search,
-                                size: 26,
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
+                        top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+                    child: GestureDetector(
+                      onTap: () {
+                        // addDailyExp(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: AppTheme.secButtonColor,
+                        ),
+                        height: 50,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10.0, bottom: 11.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
-                                child: Container(
-                                    child: Text(
-                                      'Search',
-                                      style: TextStyle(
-                                          fontSize: 16.5,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black.withOpacity(0.6)),
-                                    )),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // addDailyExp(context);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 15.0,
+                                  left: 20.0,
                                 ),
                                 child: Icon(
-                                  Icons.bar_chart,
-                                  color: Colors.green,
-                                  size: 22,
+                                  SmartKyat_POS.search,
+                                  size: 17,
                                 ),
                               ),
-                            )
-                          ],
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      bottom: 1.0),
+                                  child: Container(
+                                      child: Text(
+                                        'Search',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      )
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 18.0,
+                                ),
+                                // child: Icon(
+                                //   SmartKyat_POS.barcode,
+                                //   color: Colors.Colors.black,
+                                //   size: 25,
+                                // ),
+                                child: Container(
+                                    child: Image.asset('assets/system/barcode.png', height: 28,)
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -694,6 +1426,16 @@ class ProductsFragmentState extends State<ProductsFragment>
         ),
       ),
     );
+  }
+
+  _animateToIndex(i) {
+    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    if((_width * i) > cateScCtler.position.maxScrollExtent) {
+      cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    } else {
+      cateScCtler.animateTo(_width * i, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    }
+
   }
 
   addNewProd2(priContext) {
