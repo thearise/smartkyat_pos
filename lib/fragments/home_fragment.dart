@@ -1143,7 +1143,7 @@ class _HomeFragmentState extends State<HomeFragment>
                     Align(
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 76.0, bottom: 0),
+                        padding: const EdgeInsets.only(top: 81.0, bottom: 0),
                         child: Column(
                           children: [
                             Container(
@@ -1175,764 +1175,254 @@ class _HomeFragmentState extends State<HomeFragment>
                                 ),
                               ),
                             ),
-                            Container(
-                              height: MediaQuery.of(context).size.height-353,
-                              width: MediaQuery.of(context).size.width,
-                              color: AppTheme.skBorderColor,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 0.0, right: 0.0,),
-                                child: ListView(
-                                  children: [
-                                    SizedBox(height: 15,),
+                            Expanded(
+                              child: Container(
+                                // height: MediaQuery.of(context).size.height-353,
+                                width: MediaQuery.of(context).size.width,
+                                color: AppTheme.skBorderColor,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 0.0, right: 0.0,),
+                                  child: ListView(
+                                    children: [
+                                      SizedBox(height: 15,),
 
 
-                                    // Jiggle(
-                                    //   jiggleController: controller,
-                                    //   useGestures: true,
-                                    //   extent: 3,
-                                    //   child: Container(
-                                    //     height: 200,
-                                    //     margin: EdgeInsets.all(20),
-                                    //     decoration: BoxDecoration(
-                                    //         color: Colors.Colors.blueAccent,
-                                    //         borderRadius: BorderRadius.circular(20)),
-                                    //   ),
-                                    // ),
+                                      // Jiggle(
+                                      //   jiggleController: controller,
+                                      //   useGestures: true,
+                                      //   extent: 3,
+                                      //   child: Container(
+                                      //     height: 200,
+                                      //     margin: EdgeInsets.all(20),
+                                      //     decoration: BoxDecoration(
+                                      //         color: Colors.Colors.blueAccent,
+                                      //         borderRadius: BorderRadius.circular(20)),
+                                      //   ),
+                                      // ),
 
 
 
 
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                      child: Text(
-                                        titleTextBySlide(),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                          letterSpacing: 2,
-                                          color: Colors.Colors.grey,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                        child: Text(
+                                          titleTextBySlide(),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13,
+                                            letterSpacing: 2,
+                                            color: Colors.Colors.grey,
+                                          ),
                                         ),
                                       ),
-                                    ),
 
 
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(
-                                    //       left: 7.5, right: 7.5),
-                                    //   child: Row(
-                                    //     children: [
-                                    //       Padding(
-                                    //         padding: const EdgeInsets.only(left: 7.5, right: 7.5),
-                                    //         child: GestureDetector(
-                                    //           onTap: () {
-                                    //             widget._callback();
-                                    //           },
-                                    //           child: Container(
-                                    //             decoration: BoxDecoration(
-                                    //               borderRadius:
-                                    //               BorderRadius.circular(10.0),
-                                    //               color: Colors.Colors.green.withOpacity(0.4),
-                                    //             ),
-                                    //             width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                    //             height: 120,
-                                    //             child: Padding(
-                                    //               padding: const EdgeInsets.all(18.0),
-                                    //               child: Column(
-                                    //                 mainAxisAlignment: MainAxisAlignment.start,
-                                    //                 crossAxisAlignment: CrossAxisAlignment.start,
-                                    //                 children: [
-                                    //                   Icon(Icons.add_shopping_cart_rounded),
-                                    //                   Expanded(
-                                    //                     child: Align(
-                                    //                       alignment: Alignment.bottomLeft,
-                                    //                       child: Text(
-                                    //                         'Add orders',
-                                    //                         style: TextStyle(
-                                    //                             fontSize: 18,
-                                    //                             fontWeight: FontWeight.w600,
-                                    //                             color: Colors.Colors.black.withOpacity(0.6)
-                                    //                         ),
-                                    //                       ),
-                                    //                     ),
-                                    //                   )
-                                    //                 ],
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //       Padding(
-                                    //         padding: const EdgeInsets.only(
-                                    //             left: 7.5, right: 7.5),
-                                    //         child: Container(
-                                    //           decoration: BoxDecoration(
-                                    //             borderRadius:
-                                    //             BorderRadius.circular(10.0),
-                                    //             color: Colors.Colors.blue.withOpacity(0.4),
-                                    //           ),
-                                    //           width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                    //           height: 120,
-                                    //           child: Padding(
-                                    //             padding: const EdgeInsets.all(18.0),
-                                    //             child: Column(
-                                    //               mainAxisAlignment: MainAxisAlignment.start,
-                                    //               crossAxisAlignment: CrossAxisAlignment.start,
-                                    //               children: [
-                                    //                 Icon(Icons.volunteer_activism),
-                                    //                 Expanded(
-                                    //                     child: Align(
-                                    //                       alignment: Alignment.bottomLeft,
-                                    //                       child: TextButton(
-                                    //                         onPressed: (){
-                                    //                           Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyDiscount()
-                                    //                           ),
-                                    //                           );
-                                    //                         },
-                                    //                         child: Text('Add discount',
-                                    //                           style: TextStyle(
-                                    //                               fontSize: 18,
-                                    //                               fontWeight: FontWeight.w600,
-                                    //                               color: Colors.Colors.black.withOpacity(0.6)
-                                    //                           ),),
-                                    //                       ),
-                                    //                     )
-                                    //                 ),
-                                    //               ],
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                    // ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(
+                                      //       left: 7.5, right: 7.5),
+                                      //   child: Row(
+                                      //     children: [
+                                      //       Padding(
+                                      //         padding: const EdgeInsets.only(left: 7.5, right: 7.5),
+                                      //         child: GestureDetector(
+                                      //           onTap: () {
+                                      //             widget._callback();
+                                      //           },
+                                      //           child: Container(
+                                      //             decoration: BoxDecoration(
+                                      //               borderRadius:
+                                      //               BorderRadius.circular(10.0),
+                                      //               color: Colors.Colors.green.withOpacity(0.4),
+                                      //             ),
+                                      //             width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                      //             height: 120,
+                                      //             child: Padding(
+                                      //               padding: const EdgeInsets.all(18.0),
+                                      //               child: Column(
+                                      //                 mainAxisAlignment: MainAxisAlignment.start,
+                                      //                 crossAxisAlignment: CrossAxisAlignment.start,
+                                      //                 children: [
+                                      //                   Icon(Icons.add_shopping_cart_rounded),
+                                      //                   Expanded(
+                                      //                     child: Align(
+                                      //                       alignment: Alignment.bottomLeft,
+                                      //                       child: Text(
+                                      //                         'Add orders',
+                                      //                         style: TextStyle(
+                                      //                             fontSize: 18,
+                                      //                             fontWeight: FontWeight.w600,
+                                      //                             color: Colors.Colors.black.withOpacity(0.6)
+                                      //                         ),
+                                      //                       ),
+                                      //                     ),
+                                      //                   )
+                                      //                 ],
+                                      //               ),
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //       Padding(
+                                      //         padding: const EdgeInsets.only(
+                                      //             left: 7.5, right: 7.5),
+                                      //         child: Container(
+                                      //           decoration: BoxDecoration(
+                                      //             borderRadius:
+                                      //             BorderRadius.circular(10.0),
+                                      //             color: Colors.Colors.blue.withOpacity(0.4),
+                                      //           ),
+                                      //           width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
+                                      //           height: 120,
+                                      //           child: Padding(
+                                      //             padding: const EdgeInsets.all(18.0),
+                                      //             child: Column(
+                                      //               mainAxisAlignment: MainAxisAlignment.start,
+                                      //               crossAxisAlignment: CrossAxisAlignment.start,
+                                      //               children: [
+                                      //                 Icon(Icons.volunteer_activism),
+                                      //                 Expanded(
+                                      //                     child: Align(
+                                      //                       alignment: Alignment.bottomLeft,
+                                      //                       child: TextButton(
+                                      //                         onPressed: (){
+                                      //                           Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyDiscount()
+                                      //                           ),
+                                      //                           );
+                                      //                         },
+                                      //                         child: Text('Add discount',
+                                      //                           style: TextStyle(
+                                      //                               fontSize: 18,
+                                      //                               fontWeight: FontWeight.w600,
+                                      //                               color: Colors.Colors.black.withOpacity(0.6)
+                                      //                           ),),
+                                      //                       ),
+                                      //                     )
+                                      //                 ),
+                                      //               ],
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
 
-                                    SizedBox(
-                                      height: 2,
-                                    ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 20.0),
-                                    //   child: Container(
-                                    //     child: Row(
-                                    //       children: [
-                                    //         Text('5,503,230 MMKs',
-                                    //           textAlign: TextAlign.left,
-                                    //           style: TextStyle(
-                                    //               fontSize: 20,
-                                    //               fontWeight: FontWeight.w600,
-                                    //               color: Colors.Colors.black),
-                                    //         ),
-                                    //         Expanded(
-                                    //           child: GestureDetector(
-                                    //             onTap: () {
-                                    //               Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
-                                    //             },
-                                    //             child: Text('12%',
-                                    //               textAlign: TextAlign.right,
-                                    //               style: TextStyle(
-                                    //                   fontSize: 20,
-                                    //                   fontWeight: FontWeight.w600,
-                                    //                   color: Colors.Colors.green),
-                                    //             ),
-                                    //           ),
-                                    //         )
-                                    //       ],
-                                    //     ),
-                                    //   ),
-                                    // ),
-
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
+                                      SizedBox(
+                                        height: 2,
                                       ),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 20.0),
+                                      //   child: Container(
+                                      //     child: Row(
+                                      //       children: [
+                                      //         Text('5,503,230 MMKs',
+                                      //           textAlign: TextAlign.left,
+                                      //           style: TextStyle(
+                                      //               fontSize: 20,
+                                      //               fontWeight: FontWeight.w600,
+                                      //               color: Colors.Colors.black),
+                                      //         ),
+                                      //         Expanded(
+                                      //           child: GestureDetector(
+                                      //             onTap: () {
+                                      //               Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
+                                      //             },
+                                      //             child: Text('12%',
+                                      //               textAlign: TextAlign.right,
+                                      //               style: TextStyle(
+                                      //                   fontSize: 20,
+                                      //                   fontWeight: FontWeight.w600,
+                                      //                   color: Colors.Colors.green),
+                                      //             ),
+                                      //           ),
+                                      //         )
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // ),
 
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
-                                          //   child: Container(
-                                          //     height: 1,
-                                          //     color: AppTheme.skBorderColor2,
-                                          //   ),
-                                          // ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
-                                            child: Container(
-                                              child: Row(
-                                                children: [
-                                                  Text(totalBySlide(),
-                                                    textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 30,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 12.0),
-                                                    child: Text(' MMK',
-                                                      textAlign: TextAlign.left,
-                                                      style: GoogleFonts.roboto(
-                                                          textStyle: TextStyle(
-                                                              letterSpacing: 1,
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.w600,
-                                                              color: Colors.Colors.black
-                                                          )
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 3.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.all(
-                                                          Radius.circular(5.0),
-                                                        ),
-                                                        color: Colors.Colors.green,
-                                                      ),
-                                                      width: 50,
-                                                      height: 25,
-                                                      child: Center(
-                                                        child: Text('12%',
-                                                          textAlign: TextAlign.right,
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight: FontWeight.w600,
-                                                              color: Colors.Colors.white),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
-                                            child: Row(
-                                              children: [
-                                                Text('Total sales',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.Colors.black),
-                                                ),
-                                                Expanded(
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
-                                                    },
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      // crossAxisAlignment: CrossAxisAlignment.end,
-                                                      children: [
-                                                        Text('View detail',
-                                                          textAlign: TextAlign.right,
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.Colors.blue),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(bottom: 4.5),
-                                                          child: Container(
-                                                            width: 25,
-                                                            height: 25,
-                                                            child: IconButton(
-                                                                icon: Icon(
-                                                                  Icons.arrow_forward_ios_rounded,
-                                                                  size: 13,
-                                                                  color: Colors.Colors.blue,
-                                                                ),
-                                                                onPressed: () {
-                                                                }),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 8,
-                                          ),
-                                          Container(
-                                            height: 100,
-                                            child: ListView(
-
-                                              scrollDirection: Axis.horizontal,
-                                              children: [
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Container(
-                                                  // width: 100,
-                                                  height: 108,
-
-                                                  constraints: BoxConstraints(
-                                                      maxWidth: double.infinity, minWidth: 120),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                      border: Border(
-                                                        bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                      ),
-                                                      color: Colors.Colors.white
-                                                  ),
-
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                                    child: Stack(
-                                                      children: [
-                                                        Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            SizedBox(
-                                                                height:26
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(right:30.0),
-                                                              child: Text('203,230',
-                                                                textAlign: TextAlign.left,
-                                                                style: GoogleFonts.lato(
-                                                                    textStyle: TextStyle(
-                                                                        letterSpacing: 1,
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        color: Colors.Colors.black
-                                                                    )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Positioned(
-                                                            right: 0,
-                                                            top: 0,
-                                                            child: Text('?')
-                                                        ),
-                                                        Text('Net Profit',
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.Colors.black.withOpacity(0.6)),
-                                                        ),
-
-                                                        Positioned(
-                                                            right: 0,
-                                                            bottom: 2,
-                                                            child: Text('+20%',
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.Colors.green),
-                                                            )
-                                                        ),
-                                                        Positioned(
-                                                          left: 0,
-                                                          bottom: 2,
-                                                          child: Text('MMK',
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.Colors.black.withOpacity(0.6)),
-                                                          ),
-                                                        ),
-
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-
-                                                Container(
-                                                  // width: 100,
-                                                  height: 108,
-
-                                                  constraints: BoxConstraints(
-                                                      maxWidth: double.infinity, minWidth: 120),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                      border: Border(
-                                                        bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                      ),
-                                                      color: Colors.Colors.white
-                                                  ),
-
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                                    child: Stack(
-                                                      children: [
-                                                        Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            SizedBox(
-                                                                height:26
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(right:30.0),
-                                                              child: Text('3,230',
-                                                                textAlign: TextAlign.left,
-                                                                style: GoogleFonts.lato(
-                                                                    textStyle: TextStyle(
-                                                                        letterSpacing: 1,
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        color: Colors.Colors.black
-                                                                    )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Positioned(
-                                                            right: 0,
-                                                            top: 0,
-                                                            child: Text('?')
-                                                        ),
-                                                        Text('Debts',
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.Colors.black.withOpacity(0.6)),
-                                                        ),
-
-                                                        Positioned(
-                                                            right: 0,
-                                                            bottom: 2,
-                                                            child: Text('+2%',
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.Colors.red),
-                                                            )
-                                                        ),
-                                                        Positioned(
-                                                          left: 0,
-                                                          bottom: 2,
-                                                          child: Text('MMK',
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.Colors.black.withOpacity(0.6)),
-                                                          ),
-                                                        ),
-
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-
-                                                Container(
-                                                  // width: 100,
-                                                  height: 108,
-
-                                                  constraints: BoxConstraints(
-                                                      maxWidth: double.infinity, minWidth: 120),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                      border: Border(
-                                                        bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                      ),
-                                                      color: Colors.Colors.white
-                                                  ),
-
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                                    child: Stack(
-                                                      children: [
-                                                        Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            SizedBox(
-                                                                height:26
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(right:30.0),
-                                                              child: Text('1,903,230',
-                                                                textAlign: TextAlign.left,
-                                                                style: GoogleFonts.lato(
-                                                                    textStyle: TextStyle(
-                                                                        letterSpacing: 1,
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        color: Colors.Colors.black
-                                                                    )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Positioned(
-                                                            right: 0,
-                                                            top: 0,
-                                                            child: Text('?')
-                                                        ),
-                                                        Text('Buys',
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.Colors.black.withOpacity(0.6)),
-                                                        ),
-
-                                                        Positioned(
-                                                            right: 0,
-                                                            bottom: 2,
-                                                            child: Text('+20%',
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.Colors.green),
-                                                            )
-                                                        ),
-                                                        Positioned(
-                                                          left: 0,
-                                                          bottom: 2,
-                                                          child: Text('MMK',
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.Colors.black.withOpacity(0.6)),
-                                                          ),
-                                                        ),
-
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-
-                                                Container(
-                                                  // width: 100,
-                                                  height: 100,
-                                                  constraints: BoxConstraints(
-                                                      maxWidth: double.infinity, minWidth: 120),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(8),
-                                                      border: Border(
-                                                        bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                        right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                      ),
-                                                      color: Colors.Colors.white
-                                                  ),
-
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                                    child: Stack(
-                                                      children: [
-                                                        Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            SizedBox(
-                                                                height:26
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(right:30.0),
-                                                              child: Text('230',
-                                                                textAlign: TextAlign.left,
-                                                                style: GoogleFonts.lato(
-                                                                    textStyle: TextStyle(
-                                                                        letterSpacing: 1,
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        color: Colors.Colors.black
-                                                                    )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Positioned(
-                                                            right: 0,
-                                                            top: 0,
-                                                            child: Text('?')
-                                                        ),
-                                                        Text('Refunds',
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.Colors.black.withOpacity(0.6)),
-                                                        ),
-
-                                                        Positioned(
-                                                            right: 0,
-                                                            bottom: 2,
-                                                            child: Text('+20%',
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.Colors.blue),
-                                                            )
-                                                        ),
-                                                        Positioned(
-                                                          left: 0,
-                                                          bottom: 2,
-                                                          child: Text('MMK',
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.Colors.black.withOpacity(0.6)),
-                                                          ),
-                                                        ),
-                                                        // Container(
-                                                        //     constraints: BoxConstraints(
-                                                        //         maxWidth: double.infinity, minWidth: 100, maxHeight: 30),
-                                                        //   // color: Colors.Colors.blue,
-                                                        //   child: Row(
-                                                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                                                        //     children: [
-                                                        //       Text('Net Profit',
-                                                        //         style: TextStyle(
-                                                        //             fontSize: 15,
-                                                        //             fontWeight: FontWeight.w500,
-                                                        //             color: Colors.Colors.black.withOpacity(0.8)),
-                                                        //       ),
-                                                        //       Align(
-                                                        //         alignment: Alignment.topRight,
-                                                        //         child: Text('?')
-                                                        //       )],
-                                                        //   ),
-                                                        // ),
-                                                        //
-                                                        //
-                                                        // Align(
-                                                        //   alignment: Alignment.bottomLeft,
-                                                        //   child: Container(
-                                                        //     constraints: BoxConstraints(
-                                                        //         maxWidth: double.infinity, minWidth: 100, maxHeight: 30),
-                                                        //     // color: Colors.Colors.blue,
-                                                        //     child: Row(
-                                                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        //       crossAxisAlignment: CrossAxisAlignment.end,
-                                                        //       children: [
-                                                        //         Text('MMK',
-                                                        //           style: TextStyle(
-                                                        //               fontSize: 15,
-                                                        //               fontWeight: FontWeight.w500,
-                                                        //               color: Colors.Colors.black.withOpacity(0.8)),
-                                                        //         ),
-                                                        //         Align(
-                                                        //             alignment: Alignment.bottomRight,
-                                                        //             child: Text('+12%',
-                                                        //               style: TextStyle(
-                                                        //                   fontSize: 15,
-                                                        //                   fontWeight: FontWeight.w500,
-                                                        //                   color: Colors.Colors.black.withOpacity(0.8)),
-                                                        //             )
-                                                        //         )],
-                                                        //     ),
-                                                        //   ),
-                                                        // )
-
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              height: 0.0
-                                          ),
-                                          Stack(
-                                            children: [
-
-                                              Padding(
-                                                padding: const EdgeInsets.only(right: 10.0),
-                                                child: AspectRatio(
-                                                  aspectRatio: 1.5,
-                                                  child: Container(
-                                                    decoration: const BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(15),
-                                                      ),
-                                                      // color: Color(0xffFFFFFF)),
-                                                      // color: Colors.Colors.white,
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(right: 18.0, left: 8.0, top: 10, bottom: 10),
-                                                      child: lineChartByTab(),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              // Container(
-                                              //     width: double.infinity,
-                                              //     height: 15,
-                                              //     color: AppTheme.skBorderColor
-                                              // ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
-                                            child: Container(
-                                              height: 2,
-                                              color: AppTheme.skBorderColor2,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    SizedBox(
-                                      height: 0,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                      child: Container(
+                                      Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
-                                            ),
-                                            color: Colors.Colors.white
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
                                         ),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
+
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
+                                            //   child: Container(
+                                            //     height: 1,
+                                            //     color: AppTheme.skBorderColor2,
+                                            //   ),
+                                            // ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
+                                              child: Container(
+                                                child: Row(
+                                                  children: [
+                                                    Text(totalBySlide(),
+                                                      textAlign: TextAlign.left,
+                                                      style: GoogleFonts.lato(
+                                                          textStyle: TextStyle(
+                                                              letterSpacing: 1,
+                                                              fontSize: 30,
+                                                              fontWeight: FontWeight.w600,
+                                                              color: Colors.Colors.black
+                                                          )
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 12.0),
+                                                      child: Text(' MMK',
+                                                        textAlign: TextAlign.left,
+                                                        style: GoogleFonts.roboto(
+                                                            textStyle: TextStyle(
+                                                                letterSpacing: 1,
+                                                                fontSize: 16,
+                                                                fontWeight: FontWeight.w600,
+                                                                color: Colors.Colors.black
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 3.0),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.all(
+                                                            Radius.circular(5.0),
+                                                          ),
+                                                          color: Colors.Colors.green,
+                                                        ),
+                                                        width: 50,
+                                                        height: 25,
+                                                        child: Center(
+                                                          child: Text('12%',
+                                                            textAlign: TextAlign.right,
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w600,
+                                                                color: Colors.Colors.white),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
                                               child: Row(
                                                 children: [
-                                                  Text('Top sale categories',
+                                                  Text('Total sales',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         fontSize: 15,
@@ -1944,62 +1434,574 @@ class _HomeFragmentState extends State<HomeFragment>
                                                       onTap: () {
                                                         Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
                                                       },
-                                                      child: Text('Detail',
-                                                        textAlign: TextAlign.right,
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.Colors.blue),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        // crossAxisAlignment: CrossAxisAlignment.end,
+                                                        children: [
+                                                          Text('View detail',
+                                                            textAlign: TextAlign.right,
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.Colors.blue),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(bottom: 4.5),
+                                                            child: Container(
+                                                              width: 25,
+                                                              height: 25,
+                                                              child: IconButton(
+                                                                  icon: Icon(
+                                                                    Icons.arrow_forward_ios_rounded,
+                                                                    size: 13,
+                                                                    color: Colors.Colors.blue,
+                                                                  ),
+                                                                  onPressed: () {
+                                                                  }),
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
                                                     ),
                                                   )
                                                 ],
                                               ),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 15.0),
-                                              child: Container(
-                                                height: 1,
-                                                color: AppTheme.skBorderColor2,
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Container(
+                                              height: 100,
+                                              child: ListView(
+
+                                                scrollDirection: Axis.horizontal,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Container(
+                                                    // width: 100,
+                                                    height: 108,
+
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: double.infinity, minWidth: 120),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                        border: Border(
+                                                          bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                        ),
+                                                        color: Colors.Colors.white
+                                                    ),
+
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                                      child: Stack(
+                                                        children: [
+                                                          Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              SizedBox(
+                                                                  height:26
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right:30.0),
+                                                                child: Text('203,230',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: GoogleFonts.lato(
+                                                                      textStyle: TextStyle(
+                                                                          letterSpacing: 1,
+                                                                          fontSize: 20,
+                                                                          fontWeight: FontWeight.w600,
+                                                                          color: Colors.Colors.black
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Positioned(
+                                                              right: 0,
+                                                              top: 0,
+                                                              child: Text('?')
+                                                          ),
+                                                          Text('Net Profit',
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.Colors.black.withOpacity(0.6)),
+                                                          ),
+
+                                                          Positioned(
+                                                              right: 0,
+                                                              bottom: 2,
+                                                              child: Text('+20%',
+                                                                style: TextStyle(
+                                                                    fontSize: 13,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.Colors.green),
+                                                              )
+                                                          ),
+                                                          Positioned(
+                                                            left: 0,
+                                                            bottom: 2,
+                                                            child: Text('MMK',
+                                                              style: TextStyle(
+                                                                  fontSize: 13,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.Colors.black.withOpacity(0.6)),
+                                                            ),
+                                                          ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+
+                                                  Container(
+                                                    // width: 100,
+                                                    height: 108,
+
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: double.infinity, minWidth: 120),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                        border: Border(
+                                                          bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                        ),
+                                                        color: Colors.Colors.white
+                                                    ),
+
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                                      child: Stack(
+                                                        children: [
+                                                          Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              SizedBox(
+                                                                  height:26
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right:30.0),
+                                                                child: Text('3,230',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: GoogleFonts.lato(
+                                                                      textStyle: TextStyle(
+                                                                          letterSpacing: 1,
+                                                                          fontSize: 20,
+                                                                          fontWeight: FontWeight.w600,
+                                                                          color: Colors.Colors.black
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Positioned(
+                                                              right: 0,
+                                                              top: 0,
+                                                              child: Text('?')
+                                                          ),
+                                                          Text('Debts',
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.Colors.black.withOpacity(0.6)),
+                                                          ),
+
+                                                          Positioned(
+                                                              right: 0,
+                                                              bottom: 2,
+                                                              child: Text('+2%',
+                                                                style: TextStyle(
+                                                                    fontSize: 13,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.Colors.red),
+                                                              )
+                                                          ),
+                                                          Positioned(
+                                                            left: 0,
+                                                            bottom: 2,
+                                                            child: Text('MMK',
+                                                              style: TextStyle(
+                                                                  fontSize: 13,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.Colors.black.withOpacity(0.6)),
+                                                            ),
+                                                          ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+
+                                                  Container(
+                                                    // width: 100,
+                                                    height: 108,
+
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: double.infinity, minWidth: 120),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                        border: Border(
+                                                          bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                        ),
+                                                        color: Colors.Colors.white
+                                                    ),
+
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                                      child: Stack(
+                                                        children: [
+                                                          Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              SizedBox(
+                                                                  height:26
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right:30.0),
+                                                                child: Text('1,903,230',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: GoogleFonts.lato(
+                                                                      textStyle: TextStyle(
+                                                                          letterSpacing: 1,
+                                                                          fontSize: 20,
+                                                                          fontWeight: FontWeight.w600,
+                                                                          color: Colors.Colors.black
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Positioned(
+                                                              right: 0,
+                                                              top: 0,
+                                                              child: Text('?')
+                                                          ),
+                                                          Text('Buys',
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.Colors.black.withOpacity(0.6)),
+                                                          ),
+
+                                                          Positioned(
+                                                              right: 0,
+                                                              bottom: 2,
+                                                              child: Text('+20%',
+                                                                style: TextStyle(
+                                                                    fontSize: 13,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.Colors.green),
+                                                              )
+                                                          ),
+                                                          Positioned(
+                                                            left: 0,
+                                                            bottom: 2,
+                                                            child: Text('MMK',
+                                                              style: TextStyle(
+                                                                  fontSize: 13,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.Colors.black.withOpacity(0.6)),
+                                                            ),
+                                                          ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+
+                                                  Container(
+                                                    // width: 100,
+                                                    height: 100,
+                                                    constraints: BoxConstraints(
+                                                        maxWidth: double.infinity, minWidth: 120),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                        border: Border(
+                                                          bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                          right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                        ),
+                                                        color: Colors.Colors.white
+                                                    ),
+
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                                      child: Stack(
+                                                        children: [
+                                                          Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              SizedBox(
+                                                                  height:26
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right:30.0),
+                                                                child: Text('230',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: GoogleFonts.lato(
+                                                                      textStyle: TextStyle(
+                                                                          letterSpacing: 1,
+                                                                          fontSize: 20,
+                                                                          fontWeight: FontWeight.w600,
+                                                                          color: Colors.Colors.black
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Positioned(
+                                                              right: 0,
+                                                              top: 0,
+                                                              child: Text('?')
+                                                          ),
+                                                          Text('Refunds',
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.Colors.black.withOpacity(0.6)),
+                                                          ),
+
+                                                          Positioned(
+                                                              right: 0,
+                                                              bottom: 2,
+                                                              child: Text('+20%',
+                                                                style: TextStyle(
+                                                                    fontSize: 13,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.Colors.blue),
+                                                              )
+                                                          ),
+                                                          Positioned(
+                                                            left: 0,
+                                                            bottom: 2,
+                                                            child: Text('MMK',
+                                                              style: TextStyle(
+                                                                  fontSize: 13,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.Colors.black.withOpacity(0.6)),
+                                                            ),
+                                                          ),
+                                                          // Container(
+                                                          //     constraints: BoxConstraints(
+                                                          //         maxWidth: double.infinity, minWidth: 100, maxHeight: 30),
+                                                          //   // color: Colors.Colors.blue,
+                                                          //   child: Row(
+                                                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                                                          //     children: [
+                                                          //       Text('Net Profit',
+                                                          //         style: TextStyle(
+                                                          //             fontSize: 15,
+                                                          //             fontWeight: FontWeight.w500,
+                                                          //             color: Colors.Colors.black.withOpacity(0.8)),
+                                                          //       ),
+                                                          //       Align(
+                                                          //         alignment: Alignment.topRight,
+                                                          //         child: Text('?')
+                                                          //       )],
+                                                          //   ),
+                                                          // ),
+                                                          //
+                                                          //
+                                                          // Align(
+                                                          //   alignment: Alignment.bottomLeft,
+                                                          //   child: Container(
+                                                          //     constraints: BoxConstraints(
+                                                          //         maxWidth: double.infinity, minWidth: 100, maxHeight: 30),
+                                                          //     // color: Colors.Colors.blue,
+                                                          //     child: Row(
+                                                          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          //       crossAxisAlignment: CrossAxisAlignment.end,
+                                                          //       children: [
+                                                          //         Text('MMK',
+                                                          //           style: TextStyle(
+                                                          //               fontSize: 15,
+                                                          //               fontWeight: FontWeight.w500,
+                                                          //               color: Colors.Colors.black.withOpacity(0.8)),
+                                                          //         ),
+                                                          //         Align(
+                                                          //             alignment: Alignment.bottomRight,
+                                                          //             child: Text('+12%',
+                                                          //               style: TextStyle(
+                                                          //                   fontSize: 15,
+                                                          //                   fontWeight: FontWeight.w500,
+                                                          //                   color: Colors.Colors.black.withOpacity(0.8)),
+                                                          //             )
+                                                          //         )],
+                                                          //     ),
+                                                          //   ),
+                                                          // )
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 15.0, bottom: 10),
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: 150,
-                                                child: Container(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(0.0),
-                                                    child: new SimplePieChart.withRandomData(),
+                                            SizedBox(
+                                                height: 0.0
+                                            ),
+                                            Stack(
+                                              children: [
+
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 10.0),
+                                                  child: AspectRatio(
+                                                    aspectRatio: 1.5,
+                                                    child: Container(
+                                                      decoration: const BoxDecoration(
+                                                        borderRadius: BorderRadius.all(
+                                                          Radius.circular(15),
+                                                        ),
+                                                        // color: Color(0xffFFFFFF)),
+                                                        // color: Colors.Colors.white,
+                                                      ),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(right: 18.0, left: 8.0, top: 10, bottom: 10),
+                                                        child: lineChartByTab(),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
+                                                // Container(
+                                                //     width: double.infinity,
+                                                //     height: 15,
+                                                //     color: AppTheme.skBorderColor
+                                                // ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
+                                              child: Container(
+                                                height: 2,
+                                                color: AppTheme.skBorderColor2,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    // SizedBox(
-                                    //   width: 60,
-                                    //   height: 34,
-                                    //   child: TextButton(
-                                    //     onPressed: () {
-                                    //       setState(() {
-                                    //         showAvg = !showAvg;
-                                    //       });
-                                    //     },
-                                    //     child: Text(
-                                    //       'avg',
-                                    //       style: TextStyle(
-                                    //           fontSize: 12, color: showAvg ? Colors.Colors.white.withOpacity(0.5) : Colors.Colors.white),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ],
+
+                                      SizedBox(
+                                        height: 0,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                              color: Colors.Colors.white
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                                                child: Row(
+                                                  children: [
+                                                    Text('Top sale categories',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.Colors.black),
+                                                    ),
+                                                    Expanded(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
+                                                        },
+                                                        child: Text('Detail',
+                                                          textAlign: TextAlign.right,
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.Colors.blue),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 15.0),
+                                                child: Container(
+                                                  height: 1,
+                                                  color: AppTheme.skBorderColor2,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 15.0, bottom: 10),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height: 150,
+                                                  child: Container(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(0.0),
+                                                      child: new SimplePieChart.withRandomData(),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      // SizedBox(
+                                      //   width: 60,
+                                      //   height: 34,
+                                      //   child: TextButton(
+                                      //     onPressed: () {
+                                      //       setState(() {
+                                      //         showAvg = !showAvg;
+                                      //       });
+                                      //     },
+                                      //     child: Text(
+                                      //       'avg',
+                                      //       style: TextStyle(
+                                      //           fontSize: 12, color: showAvg ? Colors.Colors.white.withOpacity(0.5) : Colors.Colors.white),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -2019,7 +2021,7 @@ class _HomeFragmentState extends State<HomeFragment>
                             )),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 10.0, left: 15.0, right: 15.0, bottom: 15),
+                              top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                           child: GestureDetector(
                             onTap: () {
                               // addDailyExp(context);
