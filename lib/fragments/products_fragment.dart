@@ -850,485 +850,485 @@ class ProductsFragmentState extends State<ProductsFragment>
                                       // The builder function returns a ListTile with a title that
                                       // displays the index of the current item.
                                           (context, index) {
-                                        Map<String, dynamic> data = snapshot.data!.docs[index]
-                                            .data()! as Map<String, dynamic>;
-                                        var image = data['img_1'];
-                                        var prodName = data['prod_name'];
-                                        var mainName = data['unit_name'];
-                                        var sub1Name = data['sub1_name'];
-                                        var sub2Name = data['sub2_name'];
-                                        var sub3Name = data['sub3_name'];
-                                        var mainsPrice = data['unit_sell'];
-                                        var version = snapshot.data!.docs[index].id;
-                                        return Padding(
-                                          padding:
-                                          EdgeInsets.only(top: index == 0? 10.0: 20.0),
-                                          child: GestureDetector(
-                                            onTap: () {Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => ProductDetailsView2(
-                                                      idString: version, toggleCoinCallback:
-                                                  addProduct1, toggleCoinCallback3: addProduct3)),);
-                                            },
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: index == snapshot.data!.docs.length-1 ?
-                                                      BorderSide(
-                                                          color: Colors.transparent,
-                                                          width: 1.0) :
+                                            Map<String, dynamic> data = snapshot.data!.docs[index]
+                                                .data()! as Map<String, dynamic>;
+                                            var image = data['img_1'];
+                                            var prodName = data['prod_name'];
+                                            var mainName = data['unit_name'];
+                                            var sub1Name = data['sub1_name'];
+                                            var sub2Name = data['sub2_name'];
+                                            var sub3Name = data['sub3_name'];
+                                            var mainsPrice = data['unit_sell'];
+                                            var version = snapshot.data!.docs[index].id;
+                                            return Padding(
+                                              padding:
+                                              EdgeInsets.only(top: index == 0? 10.0: 20.0),
+                                              child: GestureDetector(
+                                                onTap: () {Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => ProductDetailsView2(
+                                                          idString: version, toggleCoinCallback:
+                                                      addProduct1, toggleCoinCallback3: addProduct3)),);
+                                                },
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: index == snapshot.data!.docs.length-1 ?
+                                                          BorderSide(
+                                                              color: Colors.transparent,
+                                                              width: 1.0) :
 
-                                                      BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.3),
-                                                          width: 1.0)
-                                                  )),
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
+                                                          BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(0.3),
+                                                              width: 1.0)
+                                                      )),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                    child: Column(
                                                       children: [
-                                                        Column(
+                                                        Row(
                                                           children: [
-                                                            ClipRRect(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    5.0),
-                                                                child: image != ""
-                                                                    ? CachedNetworkImage(
-                                                                  imageUrl:
-                                                                  'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                      image,
-                                                                  width: 75,
-                                                                  height: 75,
-                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                  errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                                  fadeInDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      100),
-                                                                  fadeOutDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      10),
-                                                                  fadeInCurve:
-                                                                  Curves
-                                                                      .bounceIn,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )
-                                                                    : CachedNetworkImage(
-                                                                  imageUrl:
-                                                                  'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                                  width: 75,
-                                                                  height: 75,
-                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                  errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                                  fadeInDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      100),
-                                                                  fadeOutDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      10),
-                                                                  fadeInCurve:
-                                                                  Curves
-                                                                      .bounceIn,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: 15,
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                          children: [
-                                                            Text(
-                                                              prodName,
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                FontWeight.w500,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            Text(
-                                                              'MMK ' + mainsPrice,
-                                                              style: TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                FontWeight.w500,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 2,
-                                                            ),
-                                                            Row(
+                                                            Column(
                                                               children: [
-                                                                StreamBuilder(
-                                                                    stream: FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                        'space')
-                                                                        .doc(
-                                                                        '0NHIS0Jbn26wsgCzVBKT')
-                                                                        .collection(
-                                                                        'shops')
-                                                                        .doc(
-                                                                        'PucvhZDuUz3XlkTgzcjb')
-                                                                        .collection(
-                                                                        'products')
-                                                                        .doc(version)
-                                                                        .collection(
-                                                                        'versions')
-                                                                        .where('type',
-                                                                        isEqualTo:
-                                                                        'main')
-                                                                        .snapshots(),
-                                                                    builder: (BuildContext
-                                                                    context,
-                                                                        AsyncSnapshot<
-                                                                            QuerySnapshot>
-                                                                        snapshot2) {
-                                                                      if (snapshot2
-                                                                          .hasData) {
-                                                                        int quantity =
-                                                                        0;
-                                                                        var mainQuantity;
-                                                                        snapshot2
-                                                                            .data!
-                                                                            .docs
-                                                                            .map((DocumentSnapshot
-                                                                        document) {
-                                                                          Map<String,
-                                                                              dynamic>
-                                                                          data1 =
-                                                                          document.data()! as Map<
-                                                                              String,
-                                                                              dynamic>;
-
-                                                                          quantity +=
-                                                                              int.parse(
-                                                                                  data1['unit_qtity']);
-                                                                          mainQuantity =
-                                                                              quantity
-                                                                                  .toString();
-                                                                        }).toList();
-                                                                        return Row(
-                                                                          children: [
-                                                                            Text(
-                                                                                '$mainQuantity $mainName ', style: TextStyle(
-                                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                            )),
-                                                                            Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                            sub1Name != '' ? Text(' | ', style: TextStyle(
-                                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                            )) : Text(''),
-                                                                          ],
-                                                                        );
-                                                                      }
-                                                                      return Container();
-                                                                    }),
-                                                                StreamBuilder(
-                                                                    stream: FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                        'space')
-                                                                        .doc(
-                                                                        '0NHIS0Jbn26wsgCzVBKT')
-                                                                        .collection(
-                                                                        'shops')
-                                                                        .doc(
-                                                                        'PucvhZDuUz3XlkTgzcjb')
-                                                                        .collection(
-                                                                        'products')
-                                                                        .doc(version)
-                                                                        .collection(
-                                                                        'versions')
-                                                                        .where('type',
-                                                                        isEqualTo:
-                                                                        'sub1')
-                                                                        .snapshots(),
-                                                                    builder: (BuildContext
-                                                                    context,
-                                                                        AsyncSnapshot<
-                                                                            QuerySnapshot>
-                                                                        snapshot3) {
-                                                                      if (snapshot3
-                                                                          .hasData) {
-                                                                        int quantity1 =
-                                                                        0;
-                                                                        var sub1Quantity;
-                                                                        snapshot3
-                                                                            .data!
-                                                                            .docs
-                                                                            .map((DocumentSnapshot
-                                                                        document) {
-                                                                          Map<String,
-                                                                              dynamic>
-                                                                          data2 =
-                                                                          document.data()! as Map<
-                                                                              String,
-                                                                              dynamic>;
-                                                                          if (data2[
-                                                                          'unit_qtity'] !=
-                                                                              '') {
-                                                                            quantity1 +=
-                                                                                int.parse(
-                                                                                    data2['unit_qtity']);
-                                                                            sub1Quantity =
-                                                                                quantity1
-                                                                                    .toString();
-                                                                          } else
-                                                                            return Container();
-                                                                        }).toList();
-                                                                        // print(sub1Quantity);
-                                                                        // print(mainQuantity);
-
-                                                                        if (sub1Quantity !=
-                                                                            null) {
-                                                                          return Row(
-                                                                            children: [
-                                                                              Text(
-                                                                                  '$sub1Quantity $sub1Name ', style: TextStyle(
-                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                              )),
-                                                                              Icon( SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
-                                                                              sub2Name != '' ? Text(' | ', style: TextStyle(
-                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                              )) : Text(''),
-                                                                            ],
-                                                                          );
-                                                                        }
-                                                                        return Container();
-                                                                      }
-                                                                      return Container();
-                                                                    }),
-                                                                StreamBuilder(
-                                                                    stream: FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                        'space')
-                                                                        .doc(
-                                                                        '0NHIS0Jbn26wsgCzVBKT')
-                                                                        .collection(
-                                                                        'shops')
-                                                                        .doc(
-                                                                        'PucvhZDuUz3XlkTgzcjb')
-                                                                        .collection(
-                                                                        'products')
-                                                                        .doc(version)
-                                                                        .collection(
-                                                                        'versions')
-                                                                        .where('type',
-                                                                        isEqualTo:
-                                                                        'sub2')
-                                                                        .snapshots(),
-                                                                    builder: (BuildContext
-                                                                    context,
-                                                                        AsyncSnapshot<
-                                                                            QuerySnapshot>
-                                                                        snapshot4) {
-                                                                      if (snapshot4
-                                                                          .hasData) {
-                                                                        int quantity2 =
-                                                                        0;
-                                                                        var sub2Quantity;
-                                                                        snapshot4
-                                                                            .data!
-                                                                            .docs
-                                                                            .map((DocumentSnapshot
-                                                                        document) {
-                                                                          Map<String,
-                                                                              dynamic>
-                                                                          data3 =
-                                                                          document.data()! as Map<
-                                                                              String,
-                                                                              dynamic>;
-                                                                          if (data3[
-                                                                          'unit_qtity'] !=
-                                                                              '') {
-                                                                            quantity2 +=
-                                                                                int.parse(
-                                                                                    data3['unit_qtity']);
-                                                                            sub2Quantity =
-                                                                                quantity2
-                                                                                    .toString();
-                                                                          } else
-                                                                            return Container();
-                                                                        }).toList();
-                                                                        if (sub2Quantity !=
-                                                                            null) {
-                                                                          return Row(
-                                                                            children: [
-                                                                              Text(
-                                                                                  '$sub2Quantity $sub2Name ', style: TextStyle(
-                                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                              )),
-                                                                              Icon( SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                            ],
-                                                                          );
-                                                                        }
-                                                                        return Container();
-                                                                      }
-                                                                      return Container();
-                                                                    }),
-                                                                // StreamBuilder(
-                                                                //     stream: FirebaseFirestore
-                                                                //         .instance
-                                                                //         .collection(
-                                                                //         'space')
-                                                                //         .doc(
-                                                                //         '0NHIS0Jbn26wsgCzVBKT')
-                                                                //         .collection(
-                                                                //         'shops')
-                                                                //         .doc(
-                                                                //         'PucvhZDuUz3XlkTgzcjb')
-                                                                //         .collection(
-                                                                //         'products')
-                                                                //         .doc(version)
-                                                                //         .collection(
-                                                                //         'versions')
-                                                                //         .where('type',
-                                                                //         isEqualTo:
-                                                                //         'sub3')
-                                                                //         .snapshots(),
-                                                                //     builder: (BuildContext
-                                                                //     context,
-                                                                //         AsyncSnapshot<
-                                                                //             QuerySnapshot>
-                                                                //         snapshot5) {
-                                                                //       if (snapshot5
-                                                                //           .hasData) {
-                                                                //         int quantity3 =
-                                                                //         0;
-                                                                //         var sub3Quantity;
-                                                                //         snapshot5
-                                                                //             .data!
-                                                                //             .docs
-                                                                //             .map((DocumentSnapshot
-                                                                //         document) {
-                                                                //           Map<String,
-                                                                //               dynamic>
-                                                                //           data4 =
-                                                                //           document.data()! as Map<
-                                                                //               String,
-                                                                //               dynamic>;
-                                                                //           if (data4[
-                                                                //           'unit_qtity'] !=
-                                                                //               '') {
-                                                                //             quantity3 +=
-                                                                //                 int.parse(
-                                                                //                     data4['unit_qtity']);
-                                                                //             sub3Quantity =
-                                                                //                 quantity3
-                                                                //                     .toString();
-                                                                //           } else
-                                                                //             return Container();
-                                                                //         }).toList();
-                                                                //         // print(sub1Quantity);
-                                                                //         // print(mainQuantity);
-                                                                //         if (sub3Quantity !=
-                                                                //             null) {
-                                                                //           return Text(
-                                                                //               '$sub3Quantity $sub3Name');
-                                                                //         }
-                                                                //         return Container();
-                                                                //       }
-                                                                //       return Container();
-                                                                //     }),
+                                                                ClipRRect(
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        5.0),
+                                                                    child: image != ""
+                                                                        ? CachedNetworkImage(
+                                                                      imageUrl:
+                                                                      'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                          image,
+                                                                      width: 75,
+                                                                      height: 75,
+                                                                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                      errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                          Icon(Icons
+                                                                              .error),
+                                                                      fadeInDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                          100),
+                                                                      fadeOutDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                          10),
+                                                                      fadeInCurve:
+                                                                      Curves
+                                                                          .bounceIn,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    )
+                                                                        : CachedNetworkImage(
+                                                                      imageUrl:
+                                                                      'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                      width: 75,
+                                                                      height: 75,
+                                                                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                      errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                          Icon(Icons
+                                                                              .error),
+                                                                      fadeInDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                          100),
+                                                                      fadeOutDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                          10),
+                                                                      fadeInCurve:
+                                                                      Curves
+                                                                          .bounceIn,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    )),
                                                               ],
                                                             ),
+                                                            SizedBox(
+                                                              width: 15,
+                                                            ),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  prodName,
+                                                                  style: TextStyle(
+                                                                    fontSize: 18,
+                                                                    fontWeight:
+                                                                    FontWeight.w500,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Text(
+                                                                  'MMK ' + mainsPrice,
+                                                                  style: TextStyle(
+                                                                    fontSize: 15,
+                                                                    fontWeight:
+                                                                    FontWeight.w500,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 2,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    StreamBuilder(
+                                                                        stream: FirebaseFirestore
+                                                                            .instance
+                                                                            .collection(
+                                                                            'space')
+                                                                            .doc(
+                                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                                            .collection(
+                                                                            'shops')
+                                                                            .doc(
+                                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                                            .collection(
+                                                                            'products')
+                                                                            .doc(version)
+                                                                            .collection(
+                                                                            'versions')
+                                                                            .where('type',
+                                                                            isEqualTo:
+                                                                            'main')
+                                                                            .snapshots(),
+                                                                        builder: (BuildContext
+                                                                        context,
+                                                                            AsyncSnapshot<
+                                                                                QuerySnapshot>
+                                                                            snapshot2) {
+                                                                          if (snapshot2
+                                                                              .hasData) {
+                                                                            int quantity =
+                                                                            0;
+                                                                            var mainQuantity;
+                                                                            snapshot2
+                                                                                .data!
+                                                                                .docs
+                                                                                .map((DocumentSnapshot
+                                                                            document) {
+                                                                              Map<String,
+                                                                                  dynamic>
+                                                                              data1 =
+                                                                              document.data()! as Map<
+                                                                                  String,
+                                                                                  dynamic>;
 
-                                                            // Text(
-                                                            //   'MMK',
-                                                            //   style:
-                                                            //       TextStyle(
-                                                            //     fontSize: 14,
-                                                            //     fontWeight: FontWeight.w400,
-                                                            //     color: Colors.blueGrey.withOpacity(1.0),
+                                                                              quantity +=
+                                                                                  int.parse(
+                                                                                      data1['unit_qtity']);
+                                                                              mainQuantity =
+                                                                                  quantity
+                                                                                      .toString();
+                                                                            }).toList();
+                                                                            return Row(
+                                                                              children: [
+                                                                                Text(
+                                                                                    '$mainQuantity $mainName ', style: TextStyle(
+                                                                                  fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                )),
+                                                                                Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                                sub1Name != '' ? Text(' | ', style: TextStyle(
+                                                                                  fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                )) : Text(''),
+                                                                              ],
+                                                                            );
+                                                                          }
+                                                                          return Container();
+                                                                        }),
+                                                                    StreamBuilder(
+                                                                        stream: FirebaseFirestore
+                                                                            .instance
+                                                                            .collection(
+                                                                            'space')
+                                                                            .doc(
+                                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                                            .collection(
+                                                                            'shops')
+                                                                            .doc(
+                                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                                            .collection(
+                                                                            'products')
+                                                                            .doc(version)
+                                                                            .collection(
+                                                                            'versions')
+                                                                            .where('type',
+                                                                            isEqualTo:
+                                                                            'sub1')
+                                                                            .snapshots(),
+                                                                        builder: (BuildContext
+                                                                        context,
+                                                                            AsyncSnapshot<
+                                                                                QuerySnapshot>
+                                                                            snapshot3) {
+                                                                          if (snapshot3
+                                                                              .hasData) {
+                                                                            int quantity1 =
+                                                                            0;
+                                                                            var sub1Quantity;
+                                                                            snapshot3
+                                                                                .data!
+                                                                                .docs
+                                                                                .map((DocumentSnapshot
+                                                                            document) {
+                                                                              Map<String,
+                                                                                  dynamic>
+                                                                              data2 =
+                                                                              document.data()! as Map<
+                                                                                  String,
+                                                                                  dynamic>;
+                                                                              if (data2[
+                                                                              'unit_qtity'] !=
+                                                                                  '') {
+                                                                                quantity1 +=
+                                                                                    int.parse(
+                                                                                        data2['unit_qtity']);
+                                                                                sub1Quantity =
+                                                                                    quantity1
+                                                                                        .toString();
+                                                                              } else
+                                                                                return Container();
+                                                                            }).toList();
+                                                                            // print(sub1Quantity);
+                                                                            // print(mainQuantity);
+
+                                                                            if (sub1Quantity !=
+                                                                                null) {
+                                                                              return Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                      '$sub1Quantity $sub1Name ', style: TextStyle(
+                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                  )),
+                                                                                  Icon( SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
+                                                                                  sub2Name != '' ? Text(' | ', style: TextStyle(
+                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                  )) : Text(''),
+                                                                                ],
+                                                                              );
+                                                                            }
+                                                                            return Container();
+                                                                          }
+                                                                          return Container();
+                                                                        }),
+                                                                    StreamBuilder(
+                                                                        stream: FirebaseFirestore
+                                                                            .instance
+                                                                            .collection(
+                                                                            'space')
+                                                                            .doc(
+                                                                            '0NHIS0Jbn26wsgCzVBKT')
+                                                                            .collection(
+                                                                            'shops')
+                                                                            .doc(
+                                                                            'PucvhZDuUz3XlkTgzcjb')
+                                                                            .collection(
+                                                                            'products')
+                                                                            .doc(version)
+                                                                            .collection(
+                                                                            'versions')
+                                                                            .where('type',
+                                                                            isEqualTo:
+                                                                            'sub2')
+                                                                            .snapshots(),
+                                                                        builder: (BuildContext
+                                                                        context,
+                                                                            AsyncSnapshot<
+                                                                                QuerySnapshot>
+                                                                            snapshot4) {
+                                                                          if (snapshot4
+                                                                              .hasData) {
+                                                                            int quantity2 =
+                                                                            0;
+                                                                            var sub2Quantity;
+                                                                            snapshot4
+                                                                                .data!
+                                                                                .docs
+                                                                                .map((DocumentSnapshot
+                                                                            document) {
+                                                                              Map<String,
+                                                                                  dynamic>
+                                                                              data3 =
+                                                                              document.data()! as Map<
+                                                                                  String,
+                                                                                  dynamic>;
+                                                                              if (data3[
+                                                                              'unit_qtity'] !=
+                                                                                  '') {
+                                                                                quantity2 +=
+                                                                                    int.parse(
+                                                                                        data3['unit_qtity']);
+                                                                                sub2Quantity =
+                                                                                    quantity2
+                                                                                        .toString();
+                                                                              } else
+                                                                                return Container();
+                                                                            }).toList();
+                                                                            if (sub2Quantity !=
+                                                                                null) {
+                                                                              return Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                      '$sub2Quantity $sub2Name ', style: TextStyle(
+                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                  )),
+                                                                                  Icon( SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                                ],
+                                                                              );
+                                                                            }
+                                                                            return Container();
+                                                                          }
+                                                                          return Container();
+                                                                        }),
+                                                                    // StreamBuilder(
+                                                                    //     stream: FirebaseFirestore
+                                                                    //         .instance
+                                                                    //         .collection(
+                                                                    //         'space')
+                                                                    //         .doc(
+                                                                    //         '0NHIS0Jbn26wsgCzVBKT')
+                                                                    //         .collection(
+                                                                    //         'shops')
+                                                                    //         .doc(
+                                                                    //         'PucvhZDuUz3XlkTgzcjb')
+                                                                    //         .collection(
+                                                                    //         'products')
+                                                                    //         .doc(version)
+                                                                    //         .collection(
+                                                                    //         'versions')
+                                                                    //         .where('type',
+                                                                    //         isEqualTo:
+                                                                    //         'sub3')
+                                                                    //         .snapshots(),
+                                                                    //     builder: (BuildContext
+                                                                    //     context,
+                                                                    //         AsyncSnapshot<
+                                                                    //             QuerySnapshot>
+                                                                    //         snapshot5) {
+                                                                    //       if (snapshot5
+                                                                    //           .hasData) {
+                                                                    //         int quantity3 =
+                                                                    //         0;
+                                                                    //         var sub3Quantity;
+                                                                    //         snapshot5
+                                                                    //             .data!
+                                                                    //             .docs
+                                                                    //             .map((DocumentSnapshot
+                                                                    //         document) {
+                                                                    //           Map<String,
+                                                                    //               dynamic>
+                                                                    //           data4 =
+                                                                    //           document.data()! as Map<
+                                                                    //               String,
+                                                                    //               dynamic>;
+                                                                    //           if (data4[
+                                                                    //           'unit_qtity'] !=
+                                                                    //               '') {
+                                                                    //             quantity3 +=
+                                                                    //                 int.parse(
+                                                                    //                     data4['unit_qtity']);
+                                                                    //             sub3Quantity =
+                                                                    //                 quantity3
+                                                                    //                     .toString();
+                                                                    //           } else
+                                                                    //             return Container();
+                                                                    //         }).toList();
+                                                                    //         // print(sub1Quantity);
+                                                                    //         // print(mainQuantity);
+                                                                    //         if (sub3Quantity !=
+                                                                    //             null) {
+                                                                    //           return Text(
+                                                                    //               '$sub3Quantity $sub3Name');
+                                                                    //         }
+                                                                    //         return Container();
+                                                                    //       }
+                                                                    //       return Container();
+                                                                    //     }),
+                                                                  ],
+                                                                ),
+
+                                                                // Text(
+                                                                //   'MMK',
+                                                                //   style:
+                                                                //       TextStyle(
+                                                                //     fontSize: 14,
+                                                                //     fontWeight: FontWeight.w400,
+                                                                //     color: Colors.blueGrey.withOpacity(1.0),
+                                                                //   ),
+                                                                // ),
+                                                                // SizedBox(
+                                                                //   height:
+                                                                //       7,
+                                                                // ),
+                                                                // Text(
+                                                                //   '55',
+                                                                //   style:
+                                                                //       TextStyle(
+                                                                //     fontSize: 14,
+                                                                //     fontWeight: FontWeight.w400,
+                                                                //     color: Colors.blueGrey.withOpacity(1.0),
+                                                                //   ),
+                                                                // ),
+                                                              ],
+                                                            ),
+                                                            // Padding(
+                                                            //   padding:
+                                                            //       const EdgeInsets.only(
+                                                            //           bottom: 20.0),
+                                                            //   child: IconButton(
+                                                            //     icon: Icon(
+                                                            //       Icons
+                                                            //           .arrow_forward_ios_rounded,
+                                                            //       size: 16,
+                                                            //       color: Colors.blueGrey
+                                                            //           .withOpacity(0.8),
+                                                            //     ),
+                                                            //     onPressed: () {
+                                                            //       Navigator.push(
+                                                            //         context,
+                                                            //         MaterialPageRoute(
+                                                            //             builder: (context) => ProductDetailsView(
+                                                            //                 idString: version, toggleCoinCallback:
+                                                            //             addProduct1, toggleCoinCallback3: addProduct3)),);
+                                                            //     },
                                                             //   ),
                                                             // ),
-                                                            // SizedBox(
-                                                            //   height:
-                                                            //       7,
-                                                            // ),
-                                                            // Text(
-                                                            //   '55',
-                                                            //   style:
-                                                            //       TextStyle(
-                                                            //     fontSize: 14,
-                                                            //     fontWeight: FontWeight.w400,
-                                                            //     color: Colors.blueGrey.withOpacity(1.0),
-                                                            //   ),
-                                                            // ),
+                                                            Spacer(),
+                                                            Padding(
+                                                              padding:
+                                                              const EdgeInsets.only(
+                                                                  bottom: 12.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios_rounded,
+                                                                size: 16,
+                                                                color: Colors.blueGrey
+                                                                    .withOpacity(0.8),
+                                                              ),),
                                                           ],
                                                         ),
-                                                        // Padding(
-                                                        //   padding:
-                                                        //       const EdgeInsets.only(
-                                                        //           bottom: 20.0),
-                                                        //   child: IconButton(
-                                                        //     icon: Icon(
-                                                        //       Icons
-                                                        //           .arrow_forward_ios_rounded,
-                                                        //       size: 16,
-                                                        //       color: Colors.blueGrey
-                                                        //           .withOpacity(0.8),
-                                                        //     ),
-                                                        //     onPressed: () {
-                                                        //       Navigator.push(
-                                                        //         context,
-                                                        //         MaterialPageRoute(
-                                                        //             builder: (context) => ProductDetailsView(
-                                                        //                 idString: version, toggleCoinCallback:
-                                                        //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                                                        //     },
-                                                        //   ),
-                                                        // ),
-                                                        Spacer(),
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 12.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .arrow_forward_ios_rounded,
-                                                            size: 16,
-                                                            color: Colors.blueGrey
-                                                                .withOpacity(0.8),
-                                                          ),),
+                                                        SizedBox(height: 20),
                                                       ],
                                                     ),
-                                                    SizedBox(height: 20),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                        );
-                                      },
+                                            );
+                                          },
                                       // Builds 1000 ListTiles
                                       childCount: snapshot.data!.docs.length,
                                     ),
