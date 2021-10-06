@@ -1285,8 +1285,7 @@ class HomePageState extends State<HomePage>
                                                             borderRadius:
                                                             BorderRadius
                                                                 .circular(10.0),
-                                                            color: Colors.grey
-                                                                .withOpacity(0.2)),
+                                                            color: AppTheme.clearColor),
                                                         child: Padding(
                                                           padding:
                                                           const EdgeInsets.only(
@@ -1308,86 +1307,6 @@ class HomePageState extends State<HomePage>
                                                                       discount = 0.0;
                                                                       discountAmount = 0.0;
                                                                     });
-                                                                    // DateTime now = DateTime.now();
-                                                                    // CollectionReference daily_order = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
-                                                                    // var length = 0;
-                                                                    // setState(() {
-                                                                    //   orderLoading = true;
-                                                                    // });
-                                                                    //
-                                                                    // print('order creating');
-                                                                    //
-                                                                    //
-                                                                    // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                                                    // // FirebaseFirestore.instance.collection('space')
-                                                                    //     .get()
-                                                                    //     .then((QuerySnapshot querySnapshot) {
-                                                                    //
-                                                                    //   querySnapshot.docs.forEach((doc) {
-                                                                    //     length += int.parse(doc['daily_order'].length.toString());
-                                                                    //   });
-                                                                    //   length=1000+length+1;
-                                                                    //
-                                                                    //
-                                                                    //   //Check new date or not
-                                                                    //   var dateExist = false;
-                                                                    //   var dateId = '';
-                                                                    //
-                                                                    //   FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-                                                                    //   // FirebaseFirestore.instance.collection('space')
-                                                                    //       .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
-                                                                    //       .get()
-                                                                    //       .then((QuerySnapshot querySnapshot) {
-                                                                    //
-                                                                    //     querySnapshot.docs.forEach((doc) {
-                                                                    //       dateExist = true;
-                                                                    //       dateId = doc.id;
-                                                                    //     });
-                                                                    //
-                                                                    //     if(dateExist) {
-                                                                    //       daily_order
-                                                                    //           .doc(dateId).update({
-                                                                    //         'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^total^name^pf'])
-                                                                    //       }).then((value) {
-                                                                    //         print('User updated');
-                                                                    //         setState(() {
-                                                                    //           orderLoading = false;
-                                                                    //         });
-                                                                    //
-                                                                    //
-                                                                    //         FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
-                                                                    //             .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                    //             .set({
-                                                                    //           'main': 'total',
-                                                                    //           'subs': ['name'],
-                                                                    //         })
-                                                                    //             .then((value) {
-                                                                    //           print('order added');
-                                                                    //         });
-                                                                    //       });
-                                                                    //     } else {
-                                                                    //       daily_order
-                                                                    //           .add({
-                                                                    //         'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString()+'-'+length.toString() + '^total^name^pf'],
-                                                                    //         'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
-                                                                    //       })
-                                                                    //           .then((value) {
-                                                                    //         print('order added');
-                                                                    //
-                                                                    //
-                                                                    //         FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail')
-                                                                    //             .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                    //             .set({
-                                                                    //           'main': 'total',
-                                                                    //           'subs': ['name'],
-                                                                    //         })
-                                                                    //             .then((value) {
-                                                                    //           print('order added');
-                                                                    //         });
-                                                                    //       });
-                                                                    //     }
-                                                                    //   });
-                                                                    // });
                                                                   },
                                                                   child: Padding(
                                                                     padding:
@@ -1412,9 +1331,7 @@ class HomePageState extends State<HomePage>
                                                                               FontWeight
                                                                                   .w600,
                                                                               color: Colors
-                                                                                  .black
-                                                                                  .withOpacity(
-                                                                                  0.6)),
+                                                                                  .black),
                                                                         )),
                                                                   ),
                                                                 ),
@@ -1539,9 +1456,7 @@ class HomePageState extends State<HomePage>
                                                                             FontWeight
                                                                                 .w600,
                                                                             color: Colors
-                                                                                .black
-                                                                                .withOpacity(
-                                                                                0.6)),
+                                                                                .black),
                                                                       )),
                                                                 ),
                                                               ),
@@ -1561,12 +1476,27 @@ class HomePageState extends State<HomePage>
                                                 child: Container(
                                                     child: ListView(
                                                       children: [
-                                                        Text(customerId.split('-')[1]),
-                                                        SizedBox(height: 20),
-                                                        // for (int i = 0;
-                                                        // i < prodList.length;
-                                                        // i++)
-                                                        //   Text(prodList[i]),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(customerId.split('-')[1] + '  ', style: TextStyle(
+                                                                fontSize: 16, fontWeight: FontWeight.w500,
+                                                              )),
+                                                              Container(
+                                                                height: 18,
+                                                                width: 18,
+                                                                alignment: Alignment.center,
+                                                                decoration: BoxDecoration(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(
+                                                                        10.0),),
+                                                              child:  Icon(Icons.clear, size: 13, color: Colors.black,),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
                                                         for (int i = 0;
                                                         i < prodList.length;
                                                         i++)
@@ -1601,109 +1531,140 @@ class HomePageState extends State<HomePage>
                                                                   SlidableDrawerActionPane(),
                                                                   actionExtentRatio:
                                                                   0.25,
-                                                                  child: Container(
-                                                                    color: Colors.white,
-                                                                    child: Column(
-                                                                      children: [
-                                                                        SizedBox(height: 12),
-                                                                        ListTile(
-                                                                          leading:
-                                                                          ClipRRect(
-                                                                              borderRadius:
-                                                                              BorderRadius
-                                                                                  .circular(
-                                                                                  5.0),
-                                                                              child: image != ""
-                                                                                  ? CachedNetworkImage(
-                                                                                imageUrl:
-                                                                                'https://hninsunyein.me/smartkyat_pos/api/uploads/' +
-                                                                                    image,
-                                                                                width: 58,
-                                                                                height: 58,
-                                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                errorWidget: (context,
-                                                                                    url,
-                                                                                    error) =>
-                                                                                    Icon(Icons
-                                                                                        .error),
-                                                                                fadeInDuration:
-                                                                                Duration(
-                                                                                    milliseconds:
-                                                                                    100),
-                                                                                fadeOutDuration:
-                                                                                Duration(
-                                                                                    milliseconds:
-                                                                                    10),
-                                                                                fadeInCurve:
-                                                                                Curves
-                                                                                    .bounceIn,
-                                                                                fit: BoxFit
-                                                                                    .cover,
-                                                                              )
-                                                                                  : CachedNetworkImage(
-                                                                                imageUrl:
-                                                                                'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                                                width: 58,
-                                                                                height: 58,
-                                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                errorWidget: (context,
-                                                                                    url,
-                                                                                    error) =>
-                                                                                    Icon(Icons
-                                                                                        .error),
-                                                                                fadeInDuration:
-                                                                                Duration(
-                                                                                    milliseconds:
-                                                                                    100),
-                                                                                fadeOutDuration:
-                                                                                Duration(
-                                                                                    milliseconds:
-                                                                                    10),
-                                                                                fadeInCurve:
-                                                                                Curves
-                                                                                    .bounceIn,
-                                                                                fit: BoxFit
-                                                                                    .cover,
-                                                                              )),
-                                                                          title: Text(
-                                                                            output2?[
-                                                                            'prod_name'],
-                                                                            style:
-                                                                            TextStyle(
-                                                                                fontWeight: FontWeight.w500, fontSize: 16),
-                                                                          ),
-                                                                          subtitle: Text(
-                                                                              prodList[i]
-                                                                                  .split(
-                                                                                  '-')[4] + ' '+
-                                                                                  output2?[prodList[
+                                                                  child: Stack(
+                                                                    children: [
+                                                                      Container(
+                                                                        color: Colors.white,
+                                                                        child: Column(
+                                                                          children: [
+                                                                            SizedBox(height: 12),
+                                                                            ListTile(
+                                                                              leading: ClipRRect(
+                                                                                      borderRadius:
+                                                                                      BorderRadius
+                                                                                          .circular(
+                                                                                          5.0),
+                                                                                      child: image != ""
+                                                                                          ? CachedNetworkImage(
+                                                                                        imageUrl:
+                                                                                        'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                                            image,
+                                                                                        width: 58,
+                                                                                        height: 58,
+                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                        errorWidget: (context,
+                                                                                            url,
+                                                                                            error) =>
+                                                                                            Icon(Icons
+                                                                                                .error),
+                                                                                        fadeInDuration:
+                                                                                        Duration(
+                                                                                            milliseconds:
+                                                                                            100),
+                                                                                        fadeOutDuration:
+                                                                                        Duration(
+                                                                                            milliseconds:
+                                                                                            10),
+                                                                                        fadeInCurve:
+                                                                                        Curves
+                                                                                            .bounceIn,
+                                                                                        fit: BoxFit
+                                                                                            .cover,
+                                                                                      )
+                                                                                          : CachedNetworkImage(
+                                                                                        imageUrl:
+                                                                                        'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                                        width: 58,
+                                                                                        height: 58,
+                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                        errorWidget: (context,
+                                                                                            url,
+                                                                                            error) =>
+                                                                                            Icon(Icons
+                                                                                                .error),
+                                                                                        fadeInDuration:
+                                                                                        Duration(
+                                                                                            milliseconds:
+                                                                                            100),
+                                                                                        fadeOutDuration:
+                                                                                        Duration(
+                                                                                            milliseconds:
+                                                                                            10),
+                                                                                        fadeInCurve:
+                                                                                        Curves
+                                                                                            .bounceIn,
+                                                                                        fit: BoxFit
+                                                                                            .cover,
+                                                                                      )),
+                                                                              title: Text(
+                                                                                output2?[
+                                                                                'prod_name'],
+                                                                                style:
+                                                                                TextStyle(
+                                                                                    fontWeight: FontWeight.w500, fontSize: 16),
+                                                                              ),
+                                                                              subtitle: Padding(
+                                                                                padding: const EdgeInsets.only(top: 4.0),
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Text(output2?[prodList[i].split('-')[3]] + ' ', style: TextStyle(
+                                                                                      fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                    )),
+                                                                                    if (prodList[i].split('-')[3] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                                                    else if(prodList[i].split('-')[3] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                                                    else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              trailing: Text('MMK ' + (int.parse(
+                                                                                  prodList[i].split('-')[
+                                                                                  2]) *
+                                                                                  int.parse(prodList[
                                                                                   i]
                                                                                       .split(
-                                                                                      '-')[3]]),
-                                                                          trailing: Text('MMK ' + (int.parse(
-                                                                              prodList[i].split('-')[
-                                                                              2]) *
-                                                                              int.parse(prodList[
-                                                                              i]
-                                                                                  .split(
-                                                                                  '-')[4]))
-                                                                              .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                            style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              fontWeight: FontWeight.w500,
-                                                                            ),),
+                                                                                      '-')[4]))
+                                                                                  .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                style: TextStyle(
+                                                                                  fontSize: 16,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 15.0),
+                                                                              child: Container(height: 12,
+                                                                                decoration: BoxDecoration(
+                                                                                    border: Border(
+                                                                                      bottom:
+                                                                                      BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                                                    )),),
+                                                                            ),
+                                                                          ],
                                                                         ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 15.0),
-                                                                          child: Container(height: 12,
-                                                                            decoration: BoxDecoration(
-                                                                                border: Border(
-                                                                                  bottom:
-                                                                                  BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                                                )),),
+                                                                      ),
+                                                                      Positioned(
+                                                                        top : 8,
+                                                                        left : 50,
+                                                                        child: Container(
+                                                                          height: 20,
+                                                                          width: 30,
+                                                                          alignment: Alignment.center,
+                                                                          decoration: BoxDecoration(
+                                                                            color: AppTheme.skBorderColor2,
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10.0),
+                                                                              border: Border.all(
+                                                                                color: Colors.white,
+                                                                                width: 2,
+                                                                              )),
+                                                                          child: Text(prodList[i]
+                                                                              .split(
+                                                                              '-')[4], style: TextStyle(
+                                                                            fontSize: 11, fontWeight: FontWeight.w500,
+                                                                          )),
                                                                         ),
-                                                                      ],
-                                                                    ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                   dismissal:
                                                                   SlidableDismissal(
@@ -1753,7 +1714,9 @@ class HomePageState extends State<HomePage>
                                                                   child: isDiscount == 'percent' ?
                                                                   ListTile(
                                                                     title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                    subtitle: Text('Percentage (' +  discountAmount.toString() + '%)'),
+                                                                    subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
+                                                                      fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                    )),
                                                                     trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                                                   ) :  ListTile (
@@ -1807,55 +1770,43 @@ class HomePageState extends State<HomePage>
                                                             width: 1.0),
                                                       )),
                                                   width: double.infinity,
-                                                  height: 160,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 15.0,
-                                                        right: 15.0,
-                                                        top: 0.0,
-                                                        bottom:
-                                                        MediaQuery.of(context)
-                                                            .padding
-                                                            .bottom +
-                                                            15),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            print('sub click ' + subList.toString());
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              Text(
-                                                                'Total',
+                                                  height: 158,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          print('sub click ' + subList.toString());
+                                                        },
+                                                        child: ListTile(
+                                                            title: Text(
+                                                              'Total sale',
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                            subtitle: Text(totalItems() + ' items',
                                                                 style: TextStyle(
-                                                                    fontSize: 19,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                              ),
-                                                              Expanded(
-                                                                child: Container(),
-                                                              ),
-                                                              Text(
-                                                                TtlProdListPrice(),
-                                                                style: TextStyle(
-                                                                    fontSize: 19,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                              )
-                                                            ],
-                                                          ),
+                                                                  fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                  )),
+                                                            trailing: Text('MMK '+
+                                                              TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                              style: TextStyle(
+                                                                  fontSize: 17,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
                                                         ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        GestureDetector(
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                                        child: GestureDetector(
                                                           onTap: () {
                                                             mystate(() {
                                                               totalAmount = int.parse(TtlProdListPrice());
@@ -1870,7 +1821,7 @@ class HomePageState extends State<HomePage>
                                                             decoration: BoxDecoration(
                                                                 borderRadius:
                                                                 BorderRadius.circular(10.0),
-                                                                color: AppTheme.skThemeColor2),
+                                                                color: AppTheme.themeColor),
                                                             child: Padding(
                                                               padding: const EdgeInsets.only(
                                                                   top: 15.0,
@@ -1890,7 +1841,7 @@ class HomePageState extends State<HomePage>
                                                                             style: TextStyle(
                                                                                 fontSize: 18,
                                                                                 fontWeight: FontWeight.w600,
-                                                                                color: Colors.white
+                                                                                color: Colors.black
                                                                             ),
                                                                           )
                                                                       ),
@@ -1900,9 +1851,9 @@ class HomePageState extends State<HomePage>
                                                               ),
                                                             ),
                                                           ),
-                                                        )
-                                                      ],
-                                                    ),
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
                                               )
@@ -3271,6 +3222,16 @@ class HomePageState extends State<HomePage>
     }
     return total.toString();
   }
+
+  totalItems() {
+    int total = 0;
+    //print(prodList.toString());
+    for (String str in prodList) {
+      total += int.parse(str.split('-')[4]);
+    }
+    return total.toString();
+  }
+
 
   zeroToTen(String string) {
     if (int.parse(string) > 9) {
