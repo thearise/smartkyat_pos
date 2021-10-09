@@ -1249,7 +1249,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                         } else
                                             setState(() =>
                               cards.add(createCard())); 
-  },
+                                        },
                                             child: Text(
                                               'Add sub unit',
                                               style: TextStyle(
