@@ -675,9 +675,7 @@ class HomePageState extends State<HomePage>
                 height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
                 child: Column(
                   children: [
-                    MediaQuery.of(context).size.width > 900
-                        ? Container()
-                        : Container(
+                    if (MediaQuery.of(context).size.width > 900) Container() else Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border(
@@ -698,7 +696,7 @@ class HomePageState extends State<HomePage>
                               } else if(prodList2.length == 0){
                                 addDailyExp(context);
                               }},
-                            child: Container(
+                            child: prodList.length == 0 ? Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: AppTheme.buttonColor2,
@@ -726,7 +724,53 @@ class HomePageState extends State<HomePage>
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black),
-                                            )
+                                            ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ) : Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: AppTheme.themeColor,
+                                // color: Colors.blue
+                              ),
+
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 13.0, bottom: 15.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0,
+                                            right: 8.0,
+                                            bottom: 2.0),
+                                        child: int.parse(totalItems()) == 1? Container(
+                                          child:
+                                          Text(
+                                            totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ) : Container(
+                                          child:
+                                          Text(
+                                            totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -818,12 +862,12 @@ class HomePageState extends State<HomePage>
             data.split('-')[3] +
             '-' +
             (int.parse(prodList[i].split('-')[4]) + 1).toString();
-        prodList[i] = data + '-0';
+        setState((){prodList[i] = data + '-0'; });
         return;
       }
     }
     if (data != 'null') {
-      prodList.add(data + '-0');
+       setState((){prodList.add(data + '-0');});
     }
   }
 
@@ -1232,23 +1276,6 @@ class HomePageState extends State<HomePage>
                                                 Container(
                                                   width: 35,
                                                   height: 35,
-                                                  // decoration: BoxDecoration(
-                                                  //     borderRadius: BorderRadius.all(
-                                                  //       Radius.circular(5.0),
-                                                  //     ),
-                                                  //     color: AppTheme.skThemeColor
-                                                  // ),
-                                                  // child: IconButton(
-                                                  //   icon: Icon(
-                                                  //     Icons.check,
-                                                  //     size: 20,
-                                                  //     color: Colors.black,
-                                                  //   ),
-                                                  //   onPressed: () {
-                                                  //
-                                                  //   },
-                                                  //
-                                                  // ),
                                                 )
                                               ],
                                             ),
@@ -1300,12 +1327,12 @@ class HomePageState extends State<HomePage>
                                                                 child:
                                                                 GestureDetector(
                                                                   onTap: () {
+                                                                    setState((){
                                                                     mystate(() {
                                                                       prodList = [];
-                                                                    });
-                                                                    mystate(() {
                                                                       discount = 0.0;
                                                                       discountAmount = 0.0;
+                                                                    });
                                                                     });
                                                                   },
                                                                   child: Padding(
@@ -1464,7 +1491,7 @@ class HomePageState extends State<HomePage>
                                                           ],
                                                         ),
                                                       ),
-                                                    )
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -1672,10 +1699,12 @@ class HomePageState extends State<HomePage>
                                                                     SlidableDrawerDismissal(),
                                                                     onDismissed:
                                                                         (actionType) {
+                                                                      setState((){
                                                                       mystate(() {
                                                                         prodList
                                                                             .removeAt(
                                                                             i);
+                                                                      });
                                                                       });
                                                                     },
                                                                   ),
@@ -1686,12 +1715,15 @@ class HomePageState extends State<HomePage>
                                                                       color: Colors.red,
                                                                       icon:
                                                                       Icons.delete,
-                                                                      onTap: () =>
-                                                                          mystate(() {
-                                                                            prodList
-                                                                                .removeAt(
-                                                                                i);
-                                                                          }),
+                                                                      onTap: () {
+                                                                        setState((){
+                                                                        mystate(() {
+                                                                          prodList
+                                                                              .removeAt(
+                                                                              i);
+                                                                        });
+                                                                        });
+                                                                      },
                                                                     ),
                                                                   ],
                                                                 );
@@ -1790,10 +1822,13 @@ class HomePageState extends State<HomePage>
                                                                   FontWeight
                                                                       .w500),
                                                             ),
-                                                            subtitle: Text(totalItems() + ' items',
+                                                            subtitle: int.parse(totalItems()) == 1? Text(totalItems() + ' item',
                                                                 style: TextStyle(
                                                                   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                  )),
+                                                                  )) : Text(totalItems() + ' items',
+                                                                style: TextStyle(
+                                                                  fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                )),
                                                             trailing: Text('MMK '+
                                                               TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                               style: TextStyle(
@@ -3231,8 +3266,6 @@ class HomePageState extends State<HomePage>
     }
     return total.toString();
   }
-
-
   zeroToTen(String string) {
     if (int.parse(string) > 9) {
       return string;
