@@ -50,6 +50,10 @@ class _OrdersFragmentState extends State<OrdersFragment>
     super.dispose();
   }
 
+  final cateScCtler = ScrollController();
+  final _width = 10.0;
+  int cateScIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     // CollectionReference daily_exps = ;
@@ -67,7 +71,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
 
                 child: Padding(
                   // padding: const EdgeInsets.only(top: 138.0),
-                  padding: const EdgeInsets.only(top: 125.0),
+                  padding: const EdgeInsets.only(top: 81.0),
                   child: TabBarView(
                     physics: NeverScrollableScrollPhysics(),
                     controller: _controller,
@@ -75,7 +79,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                       Container(
                           height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
                           width: MediaQuery.of(context).size.width,
-                          color: AppTheme.lightBgColor,
+                          color: Colors.white,
                           child: StreamBuilder(
                               stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').orderBy('date', descending: true).snapshots(),
                               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -104,6 +108,215 @@ class _OrdersFragmentState extends State<OrdersFragment>
 
                                           return CustomScrollView(
                                             slivers: <Widget>[
+                                              SliverAppBar(
+                                                elevation: 0,
+                                                backgroundColor: Colors.white,
+
+                                                // Provide a standard title.
+
+                                                // Allows the user to reveal the app bar if they begin scrolling
+                                                // back up the list of items.
+                                                floating: true,
+                                                bottom: PreferredSize(                       // Add this code
+                                                  preferredSize: Size.fromHeight(-2.0),      // Add this code
+                                                  child: Container(),                           // Add this code
+                                                ),
+                                                flexibleSpace: Padding(
+                                                  padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+                                                  child: Container(
+                                                    height: 32,
+                                                    width: MediaQuery.of(context).size.width,
+                                                    // color: Colors.yellow,
+                                                    child: Row(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            FlatButton(
+                                                              padding: EdgeInsets.only(left: 10, right: 10),
+                                                              color: AppTheme.secButtonColor,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(8.0),
+                                                                side: BorderSide(
+                                                                  color: AppTheme.skBorderColor2,
+                                                                ),
+                                                              ),
+                                                              onPressed: () {
+                                                                // widget._callback();
+                                                              },
+                                                              child: Container(
+                                                                child: Row(
+                                                                  // mainAxisAlignment: Main,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(right: 1.0),
+                                                                      child: Icon(
+                                                                        Icons.calendar_view_day_rounded,
+                                                                        size: 18,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      ' Sep, 2021',
+                                                                      textAlign: TextAlign.center,
+                                                                      style: TextStyle(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.black),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 12),
+                                                            Container(
+                                                              color: Colors.grey.withOpacity(0.2),
+                                                              width: 1.5,
+                                                              height: 30,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Expanded(
+                                                          child: ListView(
+                                                            controller: cateScCtler,
+                                                            scrollDirection: Axis.horizontal,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 4,
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                                child: FlatButton(
+                                                                  minWidth: 0,
+                                                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                                                  color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(20.0),
+                                                                    side: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                    ),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    _animateToIndex(0);
+                                                                    setState(() {
+                                                                      cateScIndex = 0;
+                                                                    });
+                                                                  },
+                                                                  child: Container(
+                                                                    child: Text(
+                                                                      'All',
+                                                                      textAlign: TextAlign.center,
+                                                                      style: TextStyle(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                                child: FlatButton(
+                                                                  minWidth: 0,
+                                                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                                                  color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(20.0),
+                                                                    side: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                    ),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    _animateToIndex(5.4);
+                                                                    setState(() {
+                                                                      cateScIndex = 1;
+                                                                    });
+                                                                  },
+                                                                  child: Container(
+                                                                    child: Text(
+                                                                      'Low stocks',
+                                                                      textAlign: TextAlign.center,
+                                                                      style: TextStyle(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                                child: FlatButton(
+                                                                  minWidth: 0,
+                                                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                                                  color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(20.0),
+                                                                    side: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                    ),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    _animateToIndex(16.4);
+                                                                    setState(() {
+                                                                      cateScIndex = 2;
+                                                                    });
+                                                                  },
+                                                                  child: Container(
+                                                                    child: Text(
+                                                                      'Best sales',
+                                                                      textAlign: TextAlign.center,
+                                                                      style: TextStyle(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                                child: FlatButton(
+                                                                  minWidth: 0,
+                                                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                                                  color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(20.0),
+                                                                    side: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                    ),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    _animateToIndex(20);
+                                                                    setState(() {
+                                                                      cateScIndex = 3;
+                                                                    });
+                                                                  },
+                                                                  child: Container(
+                                                                    child: Text(
+                                                                      'Low sales',
+                                                                      textAlign: TextAlign.center,
+                                                                      style: TextStyle(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 11,
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+
+                                                  ),
+                                                ),
+                                                // Display a placeholder widget to visualize the shrinking size.
+                                                // Make the initial height of the SliverAppBar larger than normal.
+                                                expandedHeight: 20,
+                                              ),
                                               SliverExpandableList(
                                                 builder: SliverExpandableChildDelegate(
                                                   sectionList: sectionList,
@@ -323,7 +536,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
 
                                                         children: [
                                                           Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                            padding: const EdgeInsets.only(left: 0.0, right: 0.0),
                                                             child: Container(
                                                               decoration: BoxDecoration(
                                                                   color: AppTheme.lightBgColor,
@@ -333,7 +546,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                         width: 1.0),
                                                                   )),
                                                               child: Padding(
-                                                                padding: const EdgeInsets.only(top: 12.0, bottom: 14.0),
+                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
                                                                 child: Column(
                                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -725,7 +938,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                           )),
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 10.0, left: 15.0, right: 15.0, bottom: 15),
+                            top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                         child: GestureDetector(
                           onTap: () {
                             // addDailyExp(context);
@@ -789,47 +1002,47 @@ class _OrdersFragmentState extends State<OrdersFragment>
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border(
-                            bottom: BorderSide(
-                              // color: AppTheme.skBorderColor2,
-                                color: Colors.white,
-                                width: 1.0),
-                          )),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 15.0, right: 15.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: CupertinoSlidingSegmentedControl(
-                                    children: {
-                                      0: Text('Sale orders'),
-                                      1: Text('Buy orders'),
-                                    },
-                                    groupValue: _sliding,
-                                    onValueChanged: (newValue) {
-                                      setState(() {
-                                        _sliding = int.parse(newValue.toString());
-                                      });
-                                      if(int.parse(newValue.toString()) == 1) {
-                                        _controller.animateTo(1);
-                                      } else {
-                                        _controller.animateTo(0);
-                                      }
-                                    }),
-                              ),
-                            ),
-                          ),
-                          // Container(
-                          //   width: 100,
-                          // )
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.white,
+                    //       border: Border(
+                    //         bottom: BorderSide(
+                    //           // color: AppTheme.skBorderColor2,
+                    //             color: Colors.white,
+                    //             width: 1.0),
+                    //       )),
+                    //   child: Row(
+                    //     children: [
+                    //       Expanded(
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 15.0, right: 15.0),
+                    //           child: SizedBox(
+                    //             width: double.infinity,
+                    //             child: CupertinoSlidingSegmentedControl(
+                    //                 children: {
+                    //                   0: Text('Sale orders'),
+                    //                   1: Text('Buy orders'),
+                    //                 },
+                    //                 groupValue: _sliding,
+                    //                 onValueChanged: (newValue) {
+                    //                   setState(() {
+                    //                     _sliding = int.parse(newValue.toString());
+                    //                   });
+                    //                   if(int.parse(newValue.toString()) == 1) {
+                    //                     _controller.animateTo(1);
+                    //                   } else {
+                    //                     _controller.animateTo(0);
+                    //                   }
+                    //                 }),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       // Container(
+                    //       //   width: 100,
+                    //       // )
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -838,6 +1051,16 @@ class _OrdersFragmentState extends State<OrdersFragment>
         ),
       ),
     );
+  }
+
+  _animateToIndex(i) {
+    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    if((_width * i) > cateScCtler.position.maxScrollExtent) {
+      cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    } else {
+      cateScCtler.animateTo(_width * i, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    }
+
   }
 
 
@@ -973,7 +1196,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                 height: 33,
                 child: Padding(
                   // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                  padding: const EdgeInsets.only(left: 15.0, top: 0, bottom: 0),
+                  padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
                   child: Row(
                     children: [
                       Text(
