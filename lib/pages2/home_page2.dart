@@ -7,7 +7,7 @@ import 'package:fraction/fraction.dart';
 import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
-import 'package:smartkyat_pos/fragments/home_fragment.dart';
+import 'package:smartkyat_pos/fragments/home_fragment2.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
