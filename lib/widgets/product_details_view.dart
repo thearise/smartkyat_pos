@@ -395,23 +395,28 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                               }
 
                                             },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(top: 15.0, right: 22),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                            child: Container(
+                                              width: 100,
+                                              height: 100,
+                                              child: Stack(
                                                 children: [
-                                                  Icon(
-                                                    SmartKyat_POS.product,
-                                                    size: 18,
+                                                  Positioned(
+                                                    top: 17,
+                                                    left: 0,
+                                                    child: Icon(
+                                                      SmartKyat_POS.product,
+                                                      size: 18,
+                                                    ),
                                                   ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    'Refill to\ninventory',
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 16,
+                                                  Positioned(
+                                                    bottom: 15,
+                                                    left: 0,
+                                                    child: Text(
+                                                      'Refill to\ninventory',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
