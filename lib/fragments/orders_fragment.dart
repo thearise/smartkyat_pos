@@ -1131,7 +1131,9 @@ class _OrdersFragmentState extends State<OrdersFragment>
               '^' +
               list[i].split('^')[4] +
               '^' +
-              list[i].split('^')[5]
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6]
           ;
         }
       }
