@@ -521,7 +521,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           )),
                                                       title: Text(
                                                         output2?[
-                                                        'prod_name'],
+                                                          'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16),
@@ -839,4 +839,5 @@ class _OrderInfoSubState extends State<OrderInfoSub>
             ),
           );
         });
-  } }
+  }
+}
