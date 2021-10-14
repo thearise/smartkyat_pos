@@ -41,7 +41,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
         .collection('shops')
         .doc('PucvhZDuUz3XlkTgzcjb')
         .collection('orders')
-        // FirebaseFirestore.instance.collection('space')
+    // FirebaseFirestore.instance.collection('space')
         .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
         .get()
         .then((QuerySnapshot querySnapshot) {
@@ -1287,7 +1287,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
                                         icon: Icon(

@@ -160,6 +160,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                 ),
                               ],
                             ),
+                          ],
+                        ),
 
                       ),
                     ),
@@ -665,29 +667,136 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         if (snapshot2.hasData) {
                                           var output2 =
                                           snapshot2.data!.data();
+                                          var image = output2?['img_1'];
                                           return Slidable(
                                             key: UniqueKey(),
                                             actionPane:
                                             SlidableDrawerActionPane(),
-                                            actionExtentRatio: 0.25,
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: ListTile(
-                                                leading: CircleAvatar(
-                                                  backgroundColor:
-                                                  Colors.indigoAccent,
-                                                  child: Text(prodListView[i]
-                                                      .split('-')[7]),
-                                                  foregroundColor:
-                                                  Colors.white,
+                                            actionExtentRatio:
+                                            0.25,
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  color: Colors.white,
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(height: 12),
+                                                      ListTile(
+                                                        leading: ClipRRect(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                5.0),
+                                                            child: image != ""
+                                                                ? CachedNetworkImage(
+                                                              imageUrl:
+                                                              'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                  image,
+                                                              width: 58,
+                                                              height: 58,
+                                                              // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                              errorWidget: (context,
+                                                                  url,
+                                                                  error) =>
+                                                                  Icon(Icons
+                                                                      .error),
+                                                              fadeInDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  100),
+                                                              fadeOutDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  10),
+                                                              fadeInCurve:
+                                                              Curves
+                                                                  .bounceIn,
+                                                              fit: BoxFit
+                                                                  .cover,
+                                                            )
+                                                                : CachedNetworkImage(
+                                                              imageUrl:
+                                                              'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                              width: 58,
+                                                              height: 58,
+                                                              // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                              errorWidget: (context,
+                                                                  url,
+                                                                  error) =>
+                                                                  Icon(Icons
+                                                                      .error),
+                                                              fadeInDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  100),
+                                                              fadeOutDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  10),
+                                                              fadeInCurve:
+                                                              Curves
+                                                                  .bounceIn,
+                                                              fit: BoxFit
+                                                                  .cover,
+                                                            )),
+                                                        title: Text(
+                                                          output2?[
+                                                          'prod_name'],
+                                                          style:
+                                                          TextStyle(
+                                                              fontWeight: FontWeight.w500, fontSize: 16),
+                                                        ),
+                                                        subtitle: Padding(
+                                                          padding: const EdgeInsets.only(top: 4.0),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                              )),
+                                                              if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                              else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                              else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        trailing: Text('MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.w500,
+                                                          ),),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0),
+                                                        child: Container(height: 12,
+                                                          decoration: BoxDecoration(
+                                                              border: Border(
+                                                                bottom:
+                                                                BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                              )),),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                title: Text(
-                                                  output2?['prod_name'] +
-                                                      ' (' +
-                                                      output2?[prodListView[i]
-                                                          .split('-')[5]] +
-                                                      ')',
-                                                  style: TextStyle(height: 1),
+                                                Positioned(
+                                                  top : 8,
+                                                  left : 50,
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                        color: AppTheme.skBorderColor2,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                        border: Border.all(
+                                                          color: Colors.white,
+                                                          width: 2,
+                                                        )),
+                                                    child: Text((int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                      fontSize: 11, fontWeight: FontWeight.w500,
+                                                    )),
+                                                  ),
                                                 ),
                                                 subtitle: widget.data.split('^')[6].split('-')[1] == 'p' ?
                                                   Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString() + ' MMK'):
@@ -698,18 +807,27 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100))).toString()),
                                               ),
                                             ),
-                                            dismissal: SlidableDismissal(
+                                            dismissal:
+                                            SlidableDismissal(
                                               child:
                                               SlidableDrawerDismissal(),
-                                              onDismissed: (actionType) {
+                                              onDismissed:
+                                                  (actionType) {
+                                                setState((){
+                                                });
                                               },
                                             ),
-                                            secondaryActions: <Widget>[
+                                            secondaryActions: <
+                                                Widget>[
                                               IconSlideAction(
                                                 caption: 'Delete',
                                                 color: Colors.red,
-                                                icon: Icons.delete,
-                                                onTap: () {},
+                                                icon:
+                                                Icons.delete,
+                                                onTap: () {
+                                                  setState((){
+                                                  });
+                                                },
                                               ),
                                             ],
                                           );
