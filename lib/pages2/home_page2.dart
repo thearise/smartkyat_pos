@@ -3083,7 +3083,6 @@ class HomePageState extends State<HomePage>
                                                               onTap: () {
 
                                                                 print('eachProduct' +eachProd);
-
                                                                 for (int j = 0; j < prodList.length; j++)
                                                                   if( prodList[j].split('-')[0] == eachProd.split('-')[0] && prodList[j].split('-')[3] == eachProd.split('-')[3]){
                                                                     setState((){
