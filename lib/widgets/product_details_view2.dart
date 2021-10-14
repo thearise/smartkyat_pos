@@ -94,6 +94,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         top: true,
         bottom: true,
