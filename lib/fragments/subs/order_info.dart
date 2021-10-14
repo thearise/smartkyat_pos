@@ -685,7 +685,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   output2?['prod_name'] +
                                                       ' (' +
                                                       output2?[prodListView[i]
-                                                      .split('-')[5]] +
+                                                          .split('-')[5]] +
                                                       ')',
                                                   style: TextStyle(height: 1),
                                                 ),
