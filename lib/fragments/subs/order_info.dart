@@ -26,10 +26,26 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   @override
   bool get wantKeepAlive => true;
   var docId = '';
+  String result = '';
 
   @override
   initState() {
     var innerId = '';
+    result = widget.data
+        .split('^')[0] +
+        '^' +
+        widget.data
+            .split('^')[1] +
+        '^' +
+        widget.data
+            .split('^')[2] +
+        '^' +
+        widget.data
+            .split('^')[3] +
+        '^' +
+        widget.data
+            .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
+        .split('^')[6];
     FirebaseFirestore.instance
         .collection('space')
         .doc('0NHIS0Jbn26wsgCzVBKT')
@@ -53,10 +69,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     super.initState();
   }
 
-  int totalPrice = 0;
+  double totalPrice = 0;
+  double totalRealPrice = 0.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
           top: true,
           bottom: true,
@@ -72,66 +90,73 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                         child:
                             Row(
                               children: [
-                                Container(
-                                  width: 35,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0),
-                                      ),
-                                      color: Colors.grey.withOpacity(0.3)),
-                                  child: IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_back_ios_rounded,
-                                        size: 16,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 0),
+                                  child: Container(
+                                    width: 37,
+                                    height: 37,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(35.0),
+                                        ),
+                                        color: Colors.grey.withOpacity(0.3)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 3.0),
+                                      child: IconButton(
+                                          icon: Icon(
+                                            Icons.arrow_back_ios_rounded,
+                                            size: 17,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          }),
+                                    ),
+                                  ),
                                 ),
-                               Spacer(),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text('MMK ' + (totalPrice.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
-                                      ),),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text('MMK ' + (result.split('^')[2].toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey,
+                                        ),),
 
-                                    StreamBuilder<
-                                        DocumentSnapshot<
-                                            Map<String, dynamic>>>(
-                                        stream: FirebaseFirestore.instance
-                                            .collection('space')
-                                            .doc('0NHIS0Jbn26wsgCzVBKT')
-                                            .collection('shops')
-                                            .doc('PucvhZDuUz3XlkTgzcjb')
-                                            .collection('customers')
-                                            .doc(widget.data
-                                            .split('^')[3]
-                                            .split('&')[1])
-                                            .snapshots(),
-                                        builder:
-                                            (BuildContext context, snapshot2) {
-                                          if (snapshot2.hasData) {
-                                            var output1 = snapshot2.data!.data();
-                                            var mainUnit =
-                                            output1?['customer_name'];
-                                            return Text('#' +
-                                      widget.data.split('^')[1] +' - ' + mainUnit,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    );
-                                            }
-                                              return Container();
-                                            }),
-                                  ],
+                                      StreamBuilder<
+                                          DocumentSnapshot<
+                                              Map<String, dynamic>>>(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('space')
+                                              .doc('0NHIS0Jbn26wsgCzVBKT')
+                                              .collection('shops')
+                                              .doc('PucvhZDuUz3XlkTgzcjb')
+                                              .collection('customers')
+                                              .doc(widget.data
+                                              .split('^')[3]
+                                              .split('&')[1])
+                                              .snapshots(),
+                                          builder:
+                                              (BuildContext context, snapshot2) {
+                                            if (snapshot2.hasData) {
+                                              var output1 = snapshot2.data!.data();
+                                              var mainUnit =
+                                              output1?['customer_name'];
+                                              return Text('#' +
+                                        widget.data.split('^')[1] +' - ' + mainUnit,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                              }
+                                                return Container();
+                                              }),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -171,12 +196,22 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           List prodListView = [];
                           prodListView.add(prodList[0]);
                           totalPrice = 0;
+                          totalRealPrice = 0;
                           print(totalPrice.toString() +
                               'totalPrice ' +
                               prodList.toString());
 
                           for (int j=0;j< prodList.length; j++) {
                             totalPrice += int.parse(prodList[j].split('-')[4]) * (int.parse(prodList[j].split('-')[3]) - int.parse(prodList[j].split('-')[7]));
+                          }
+                          for (int j=0;j< prodList.length; j++) {
+                            totalRealPrice += int.parse(prodList[j].split('-')[4]) * int.parse(prodList[j].split('-')[3]);
+                          }
+
+                          if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                            totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+                          } else {
+                            totalPrice = totalPrice - (totalPrice * ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100));
                           }
 
                           int ttlQtity = int.parse(prodList[0].split('-')[3]);
@@ -202,8 +237,24 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
 
 
-                          return Container(
-                            height: 580,
+                          result = widget.data
+                              .split('^')[0] +
+                              '^' +
+                              widget.data
+                                  .split('^')[1] +
+                              '^' +
+                              totalPrice
+                                  .toString() +
+                              '^' +
+                              widget.data
+                                  .split('^')[3] +
+                              '^' +
+                              widget.data
+                                  .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
+                              .split('^')[6];
+
+                          return Expanded(
+                            // height: 580,
                             child: ListView(
                               children: [
                                 Padding(
@@ -231,29 +282,44 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     ),
                                                   ),
                                                   onPressed: () async {
-                                                    var result = await Navigator.push(
+                                                    String isRef = 'p';
+                                                    print('result__1 ' + result.toString());
+                                                    for (int i = 0; i < prodListView.length; i++) {
+                                                      if (prodListView[i].split('-')[7] != '0') {
+                                                        isRef = 'r';
+                                                      }
+                                                    }
+
+                                                    result = widget.data
+                                                        .split('^')[0] +
+                                                        '^' +
+                                                        widget.data
+                                                            .split('^')[1] +
+                                                        '^' +
+                                                        totalPrice
+                                                            .toString() +
+                                                        '^' +
+                                                        widget.data
+                                                            .split('^')[3] +
+                                                        '^' +
+                                                        isRef + widget.data
+                                                            .split('^')[4][1] + '^' + widget.data.split('^')[5] + '^' + widget.data
+                                                        .split('^')[6];
+
+
+                                                    result = await Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               OrderRefundsSub(
-                                                                  data: widget.data
-                                                                      .split('^')[0] +
-                                                                      '^' +
-                                                                      widget.data
-                                                                          .split('^')[1] +
-                                                                      '^' +
-                                                                      totalPrice
-                                                                          .toString() +
-                                                                      '^' +
-                                                                      widget.data
-                                                                          .split('^')[3] +
-                                                                      '^' +
-                                                                      widget.data
-                                                                          .split('^')[4],
+                                                                  data: result,
                                                                   data2: prodList,
+                                                                  realPrice: totalRealPrice,
                                                                   toggleCoinCallback:
                                                                       () {})),
                                                     );
+
+                                                    print('result__2 ' + result.toString());
                                                   },
                                                   child: Container(
                                                     width: 100,
@@ -317,6 +383,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       widget.data
                                                                           .split('^')[4],
                                                                   data2: prodList,
+                                                                  realPrice: 0.0,
                                                                   toggleCoinCallback:
                                                                       () {})),
                                                     );
@@ -560,12 +627,15 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                subtitle: Text('Percentage (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
                                                  fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                )),
-                                              trailing: Text('- MMK ' + (totalPrice - int.parse(widget.data.split('^')[2])).toString()),
+                                              trailing: Text('- MMK ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString()),
                                               // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
                                                //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                              ) :  ListTile (
                                                title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                               subtitle: Text('Amount applied', style: TextStyle(
+                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                               )),
                                                trailing: Text('- MMK ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                              ),
                                            ) else Container(),
@@ -619,15 +689,13 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       ')',
                                                   style: TextStyle(height: 1),
                                                 ),
-                                                subtitle: Text(prodListView[i]
-                                                    .split('-')[4] +
-                                                    ' MMK'),
-                                                trailing: Text((int.parse(
-                                                    prodListView[i].split(
-                                                        '-')[4]) *
-                                                    (int.parse(prodListView[i]
-                                                        .split('-')[7])) )
-                                                    .toString()),
+                                                subtitle: widget.data.split('^')[6].split('-')[1] == 'p' ?
+                                                  Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString() + ' MMK'):
+                                                  Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100))).toString() + ' MMK'),
+                                                  // ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100)
+                                                trailing: widget.data.split('^')[6].split('-')[1] == 'p' ?
+                                                  Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString()) :
+                                                  Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100))).toString()),
                                               ),
                                             ),
                                             dismissal: SlidableDismissal(

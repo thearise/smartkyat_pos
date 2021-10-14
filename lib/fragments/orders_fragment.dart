@@ -459,7 +459,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                           //     ),
                                                                           //   ),
 
-                                                                          if(item.split('^')[5] == '0')
+                                                                          if(item.split('^')[5] == '0.0')
                                                                             Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
@@ -478,7 +478,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                               ),
                                                                             ),
 
-                                                                          if(item.split('^')[5] != '0')
+                                                                          if(item.split('^')[5] != '0.0')
                                                                             Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
@@ -582,7 +582,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                     ),
                                                                     Row(
                                                                       children: [
-                                                                        if(item.split('^')[5] == '0')
+                                                                        if(item.split('^')[5] == '0.0')
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(right: 6.0),
                                                                             child: Container(
@@ -604,7 +604,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             ),
                                                                           ),
 
-                                                                        if(item.split('^')[5] != '0')
+                                                                        if(item.split('^')[5] != '0.0')
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(right: 6.0),
                                                                             child: Container(
