@@ -1508,7 +1508,7 @@ class HomePageState extends State<HomePage>
                                                             .data!
                                                             .data();
                                                         var image = output2?[
-                                                        'img_1'];
+                                                          'img_1'];
                                                         return GestureDetector(
                                                           onTap: (){
                                                             setState((){
@@ -1601,7 +1601,7 @@ class HomePageState extends State<HomePage>
                                                                             )),
                                                                         title: Text(
                                                                           output2?[
-                                                                          'prod_name'],
+                                                                            'prod_name'],
                                                                           style:
                                                                           TextStyle(
                                                                               fontWeight: FontWeight.w500, fontSize: 16),
@@ -3083,7 +3083,6 @@ class HomePageState extends State<HomePage>
                                                               onTap: () {
 
                                                                 print('eachProduct' +eachProd);
-
                                                                 for (int j = 0; j < prodList.length; j++)
                                                                   if( prodList[j].split('-')[0] == eachProd.split('-')[0] && prodList[j].split('-')[3] == eachProd.split('-')[3]){
                                                                     setState((){
@@ -3499,12 +3498,12 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                   title: Text(
                                                                     output2?[
-                                                                    'prod_name'] +
+                                                                      'prod_name'] +
                                                                         ' (' +
                                                                         output2?[prodList2[
-                                                                        i]
-                                                                            .split(
-                                                                            '-')[4]] +
+                                                                    i]
+                                                                        .split(
+                                                                        '-')[4]] +
                                                                         ')',
                                                                     style:
                                                                     TextStyle(

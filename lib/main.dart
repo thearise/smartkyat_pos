@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
 
       theme: new ThemeData(
         // primarySwatch: Colors.teal,
-        canvasColor: Colors.white,
+        canvasColor: Colors.transparent,
       ),
       navigatorObservers: [OneContext().heroController],
       builder: OneContext().builder,

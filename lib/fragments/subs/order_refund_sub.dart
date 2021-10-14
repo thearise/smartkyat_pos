@@ -13,10 +13,11 @@ import '../../app_theme.dart';
 class OrderRefundsSub extends StatefulWidget {
   final _callback;
   const OrderRefundsSub(
-      {Key? key, required this.data, required this.data2, required void toggleCoinCallback()})
+      {Key? key, required this.data, required this.data2, required this.realPrice, required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
   final List data2;
+  final double realPrice;
 
   @override
   _OrderRefundsSubState createState() => _OrderRefundsSubState();
@@ -106,14 +107,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 3.0),
                                   child: IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_back_ios_rounded,
-                                        size: 17,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }
+                                    icon: Icon(
+                                      Icons.arrow_back_ios_rounded,
+                                      size: 17,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    }
                                   ),
                                 ),
                               ),
@@ -123,7 +124,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text('MMK ' + widget.data.split('^')[2].toString(),
+                                  Text('MMK ' + widget.data.split('^')[2].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -315,7 +316,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                           )),
                                                       title: Text(
                                                         output2?[
-                                                        'prod_name'],
+                                                          'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16),
@@ -466,9 +467,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                     style: TextStyle(
                                         fontSize: 17,
                                         fontWeight:
-                                        FontWeight.w500),
+                                        FontWeight
+                                            .w500),
                                   ),
                                 ),
+
+                                // Text(
+                                //   totalPriceView().toString()
+                                // ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                   child: ButtonTheme(
@@ -485,7 +491,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                         ),
                                       ),
                                       onPressed: () async {
-                                        int total = 0;
+                                        double total = 0;
                                         bool refund = false;
                                         List<String> ref2Cust = [];
                                         List<String> ref2Shop = [];
@@ -566,6 +572,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                         print('che2 ' + prodListView.toString());
 
                                         print('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
+
+                                        if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                                          total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+                                        } else {
+                                          total = total - (total * ((widget.realPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100));
+                                        }
+
+                                        print('result__ 3' + total.toString());
                                         print('prodListBef 1 ' + prodListBefore.toString());
 
                                         for(int i=0; i < prodListView.length; i++) {
@@ -624,7 +638,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           }
                                         }
 
-                                        changedPrice = total;
+                                        // changedPrice = total;
                                         // Navigator.pop(context);
                                         // // prodList
                                         //
@@ -1346,6 +1360,13 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     double totalPrice = 0.0;
     for(int i=0; i<refundItems.length; i++) {
       totalPrice += refundItems[i] * double.parse(prodListView[i].split('-')[4]);
+    }
+
+    // widget.data.split('^')[6].split('-')[1] == 'p' ?
+    if(widget.data.split('^')[6].split('-')[1] == 'p') {
+      totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+    } else {
+      totalPrice = totalPrice - (totalPrice * ((widget.realPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100));
     }
     return totalPrice;
   }
