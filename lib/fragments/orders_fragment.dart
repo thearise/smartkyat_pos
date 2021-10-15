@@ -383,11 +383,10 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                   fontSize: 18,
                                                                                   fontWeight: FontWeight.w500
                                                                               ),
-
                                                                             ),
                                                                             Padding(
                                                                               padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                              child: Text('MMK ' + item.split('^')[2]),
+                                                                              child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
                                                                             ),
                                                                             Row(
                                                                               children: [
@@ -566,7 +565,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                           ),
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                            child: Text('MMK ' + item.split('^')[2]),
+                                                                            child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
                                                                           ),
                                                                           Row(
                                                                             children: [
