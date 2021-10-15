@@ -119,7 +119,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text('MMK ' + (result.split('^')[2].toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  Text('MMK ' + (double.parse(result.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -211,7 +211,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           if(widget.data.split('^')[6].split('-')[1] == 'p') {
                             totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
                           } else {
-                            totalPrice = totalPrice - (totalPrice * ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100));
+                            totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice));
                           }
 
                           int ttlQtity = int.parse(prodList[0].split('-')[3]);
@@ -690,12 +690,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   style: TextStyle(height: 1),
                                                 ),
                                                 subtitle: widget.data.split('^')[6].split('-')[1] == 'p' ?
-                                                Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString() + ' MMK'):
-                                                Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100))).toString() + ' MMK'),
+                                                Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2) + ' MMK'):
+                                                Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2) + ' MMK'),
                                                 // ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100)
                                                 trailing: widget.data.split('^')[6].split('-')[1] == 'p' ?
-                                                Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString()) :
-                                                Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100))).toString()),
+                                                Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2)) :
+                                                Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2)),
                                               ),
                                             ),
                                             dismissal: SlidableDismissal(

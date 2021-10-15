@@ -124,7 +124,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text('MMK ' + widget.data.split('^')[2].replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  Text('MMK ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -463,7 +463,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       )),
                                   trailing: Text('MMK '+
-                                      totalPriceView().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                      totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                         fontSize: 17,
                                         fontWeight:
@@ -576,7 +576,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                         if(widget.data.split('^')[6].split('-')[1] == 'p') {
                                           total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
                                         } else {
-                                          total = total - (total * ((widget.realPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100));
+                                          total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
                                         }
 
                                         print('result__ 3' + total.toString());
@@ -1366,7 +1366,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     if(widget.data.split('^')[6].split('-')[1] == 'p') {
       totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
     } else {
-      totalPrice = totalPrice - (totalPrice * ((widget.realPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100));
+      totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
     }
     return totalPrice;
   }
