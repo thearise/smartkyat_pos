@@ -2131,13 +2131,13 @@ class _TopSaleDetailState extends State<TopSaleDetail>   with TickerProviderStat
       yearlyTotal += thisYearOrdersChart[i];
     }
     if(_sliding == 0) {
-      return todayTotal.toString();
+      return todayTotal.toStringAsFixed(2);
     } else if(_sliding == 1) {
-      return weeklyTotal.toString();
+      return weeklyTotal.toStringAsFixed(2);
     } else if(_sliding == 2) {
-      return monthlyTotal.toString();
+      return monthlyTotal.toStringAsFixed(2);
     } else {
-      return yearlyTotal.toString();
+      return yearlyTotal.toStringAsFixed(2);
     }
   }
 }
