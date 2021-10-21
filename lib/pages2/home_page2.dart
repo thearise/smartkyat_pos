@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
+import 'package:pdf_render/pdf_render_widgets.dart';
+import 'package:smartkyat_pos/api/pdf_api.dart';
+import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
 import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
@@ -14,9 +21,22 @@ import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
 import 'package:smartkyat_pos/fragments/test.dart';
+import 'package:smartkyat_pos/model/customer.dart';
+import 'package:smartkyat_pos/model/invoice.dart';
+import 'package:smartkyat_pos/model/supplier.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import '../app_theme.dart';
 import 'TabItem.dart';
+
+
+import 'package:image_save/image_save.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart' as PDF;
+import 'package:pdf_render/pdf_render_widgets.dart';
+import 'package:printing/printing.dart';
+import 'package:pdf_render/pdf_render.dart';
+import 'package:image/image.dart' as imglib;
+import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
 
 class HomePage extends StatefulWidget {
   @override
@@ -118,7 +138,7 @@ class HomePageState extends State<HomePage>
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    _controller = new TabController(length: 3, vsync: this);
+    _controller = new TabController(length: 4, vsync: this);
     print('home_page' + 'sub1'.substring(3,4));
 
 
@@ -232,6 +252,14 @@ class HomePageState extends State<HomePage>
       setState(() => currentTab = index);
     }
   }
+
+  String pdfText = '';
+
+  File? pdfFile;
+
+  late final mergedImage;
+
+  String pageType = 'roll57';
 
   @override
   Widget build(BuildContext context) {
@@ -837,8 +865,10 @@ class HomePageState extends State<HomePage>
                             ),
                             GestureDetector(
                               onTap: () {
-                                print('sub ' + subList.toString());
-                                testLoopData();
+                                // print('sub ' + subList.toString());
+                                // testLoopData();
+                                addDailyExp(context);
+                                _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(
@@ -1544,6 +1574,8 @@ class HomePageState extends State<HomePage>
                                                             .data();
                                                         var image = output2?[
                                                         'img_1'];
+                                                        prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
+                                                            prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                         return GestureDetector(
                                                           onTap: (){
                                                             setState((){
@@ -2123,7 +2155,8 @@ class HomePageState extends State<HomePage>
                                                           ),
                                                         ]
                                                     ),
-                                                  )  // orderLoading?Text('Loading'):Text('')
+                                                  ),
+                                                  // orderLoading?Text('Loading'):Text('')
                                                 ],
                                               )),
                                         ),
@@ -2633,19 +2666,109 @@ class HomePageState extends State<HomePage>
 
                                                                 });
 
-                                                                mystate(()  {
-                                                                  prodList = [];
-                                                                  discount = 0.0;
-                                                                  debt =0;
-                                                                  refund =0;
-                                                                });
-                                                                // _controller.animateTo(0);
-                                                                // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
 
-                                                                _textFieldController.clear();
-                                                                Navigator.pop(context);
-                                                                sellDone = true;
-                                                                //discountAmount =0.0;
+
+
+                                                                final date = DateTime.now();
+                                                                final dueDate = date.add(Duration(days: 7));
+
+                                                                final invoice = Invoice(
+                                                                  supplier: Supplier(
+                                                                    name: 'Sarah Field',
+                                                                    address: 'Sarah Street 9, Beijing, China',
+                                                                    paymentInfo: 'https://paypal.me/sarahfieldzz',
+                                                                  ),
+                                                                  customer: Customer(
+                                                                    name: 'Apple Inc.',
+                                                                    address: 'Apple Street, Cupertino, CA 95014',
+                                                                  ),
+                                                                  info: InvoiceInfo(
+                                                                    date: date,
+                                                                    dueDate: dueDate,
+                                                                    description: 'My description...',
+                                                                    number: '${DateTime.now().year}-9999',
+                                                                  ),
+                                                                  items: [
+                                                                    for(int i=0; i<prodList.length; i++)
+                                                                      InvoiceItem(
+                                                                        description: prodList[i].split('-')[1],
+                                                                        date: DateTime.now(),
+                                                                        quantity: int.parse(prodList[i].split('-')[4]),
+                                                                        vat: 0,
+                                                                        unitPrice: double.parse(prodList[i].split('-')[2]),
+                                                                      )
+
+                                                                    // InvoiceItem(
+                                                                    //   description: 'Water',
+                                                                    //   date: DateTime.now(),
+                                                                    //   quantity: 8,
+                                                                    //   vat: 0.19,
+                                                                    //   unitPrice: 0.99,
+                                                                    // ),
+                                                                    // InvoiceItem(
+                                                                    //   description: 'Orange',
+                                                                    //   date: DateTime.now(),
+                                                                    //   quantity: 3,
+                                                                    //   vat: 0.19,
+                                                                    //   unitPrice: 2.99,
+                                                                    // ),
+                                                                    // InvoiceItem(
+                                                                    //   description: 'Apple',
+                                                                    //   date: DateTime.now(),
+                                                                    //   quantity: 8,
+                                                                    //   vat: 0.19,
+                                                                    //   unitPrice: 3.99,
+                                                                    // ),
+                                                                    // InvoiceItem(
+                                                                    //   description: 'Mango',
+                                                                    //   date: DateTime.now(),
+                                                                    //   quantity: 1,
+                                                                    //   vat: 0.19,
+                                                                    //   unitPrice: 1.59,
+                                                                    // ),
+                                                                    // InvoiceItem(
+                                                                    //   description: 'Blue Berries',
+                                                                    //   date: DateTime.now(),
+                                                                    //   quantity: 5,
+                                                                    //   vat: 0.19,
+                                                                    //   unitPrice: 0.99,
+                                                                    // ),
+                                                                    // InvoiceItem(
+                                                                    //   description: 'Black',
+                                                                    //   date: DateTime.now(),
+                                                                    //   quantity: 4,
+                                                                    //   vat: 0.19,
+                                                                    //   unitPrice: 1.29,
+                                                                    // ),
+                                                                  ],
+                                                                );
+
+
+
+                                                                // mystate(()  {
+                                                                //   prodList = [];
+                                                                //   discount = 0.0;
+                                                                //   debt =0;
+                                                                //   refund =0;
+                                                                // });
+                                                                // // _controller.animateTo(0);
+                                                                // // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                //
+                                                                // _textFieldController.clear();
+                                                                // Navigator.pop(context);
+                                                                // sellDone = true;
+                                                                // //discountAmount =0.0;
+
+
+
+                                                                pdfFile = await PdfInvoiceApi.generate(invoice, pageType);
+                                                                mystate(() {
+                                                                  // setState(() {
+                                                                    pdfText = pdfFile!.path.toString();
+                                                                  // });
+                                                                });
+
+                                                                _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                               },
                                                               child: Container(
                                                                 width: (MediaQuery.of(context).size.width - 45)/2,
@@ -3227,6 +3350,339 @@ class HomePageState extends State<HomePage>
 
                                       ],
                                     ) : Container(),
+                                  ),
+                                ),
+                                Container(
+                                  // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0),
+                                    ),
+                                    color: Colors.white,
+                                  ),
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          height: 71,
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  bottom: BorderSide(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.3),
+                                                      width: 1.0))),
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 15.0,
+                                                right: 15.0,
+                                                top: 6),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(customerId.split('-')[1], style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                )),
+                                                SizedBox(height: 3.5),
+                                                Text('Invoice receipt', style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 21
+                                                )),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 71.0,
+                                              left: 0.0,
+                                              right: 0.0),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                child: Padding(
+                                                    padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 12.0),
+                                                    child: Row(
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () async {
+                                                              final doc = await PdfDocument.openFile(pdfFile!.path);
+                                                              final pages = doc.pageCount;
+                                                              List<imglib.Image> images = [];
+
+// get images from all the pages
+                                                              for (int i = 1; i <= pages; i++) {
+                                                                var page = await doc.getPage(i);
+                                                                var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
+                                                                var img = await imgPDF.createImageDetached();
+                                                                var imgBytes = await img.toByteData(format: ImageByteFormat.png);
+                                                                var libImage = imglib.decodeImage(imgBytes!.buffer
+                                                                    .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
+                                                                images.add(libImage!);
+                                                              }
+
+// stitch images
+                                                              int totalHeight = 0;
+                                                              images.forEach((e) {
+                                                                totalHeight += e.height;
+                                                              });
+                                                              int totalWidth = 0;
+                                                              images.forEach((element) {
+                                                                totalWidth = totalWidth < element.width ? element.width : totalWidth;
+                                                              });
+                                                              mergedImage = imglib.Image(totalWidth, totalHeight);
+                                                              int mergedHeight = 0;
+                                                              images.forEach((element) {
+                                                                imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
+                                                                mergedHeight += element.height;
+                                                              });
+
+                                                              // Save image as a file
+                                                              // final documentDirectory = await getExternalStorageDirectory();
+                                                              // Directory appDocDirectory = await getApplicationDocumentsDirectory();
+                                                              // File imgFile = new File(appDocDirectory.path + 'test.jpg');
+                                                              // new File(imgFile.path).writeAsBytes(imglib.encodeJpg(mergedImage));
+
+                                                              // Save to album.
+                                                              // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
+                                                              _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
+                                                            },
+                                                            child: Container(
+                                                              width: (MediaQuery.of(context).size.width - 45)* (3/4),
+                                                              height: 50,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(10.0),
+                                                                  color: AppTheme.secButtonColor,
+                                                              ),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    top: 0.0,
+                                                                    bottom: 0.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                        child: Container(
+                                                                            child: Text(
+                                                                              'Save as image',
+                                                                              textAlign: TextAlign.center,
+                                                                              style: TextStyle(
+                                                                                  fontSize: 18,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            )
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Spacer(),
+                                                          GestureDetector(
+                                                            onTap: () async {
+
+                                                            },
+                                                            child: Container(
+                                                              width: (MediaQuery.of(context).size.width - 45)* (1/4),
+                                                              height: 50,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(10.0),
+                                                                  color: AppTheme.themeColor),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    top: 0.0,
+                                                                    bottom: 0.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+                                                                        child: Container(
+                                                                            child: Icon(
+                                                                              Icons.print_rounded,
+                                                                              size: 25,
+                                                                              color: Colors.black,
+                                                                            )
+                                                                            // child: Text(
+                                                                            //   '',
+                                                                            //   textAlign: TextAlign.center,
+                                                                            //   style: TextStyle(
+                                                                            //       fontSize: 18,
+                                                                            //       fontWeight: FontWeight.w600,
+                                                                            //       color: Colors.black
+                                                                            //   ),
+                                                                            // )
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ]
+                                                    )
+                                                ),
+                                              ),
+
+                                              // Container(
+                                              //   height: 500,
+                                              //   width: 200,
+                                              //   child: GestureDetector(
+                                              //       onTap: () {
+                                              //         print('clicked');
+                                              //         PdfApi.openFile(pdfFile);
+                                              //       },
+                                              //       child: PdfViewer.openFile(pdfText)
+                                              //   ),
+                                              // )
+                                              pdfText == '' ? Container() :
+                                              Expanded(
+                                                  child: GestureDetector(
+                                                      onTap: () {
+                                                        print('clicked');
+                                                        PdfApi.openFile(pdfFile!);
+                                                      },
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                        child: PdfViewer.openFile(pdfText),
+                                                      )
+                                                  )
+                                              ),
+                                              SizedBox(
+                                                height: 200,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  border: Border(
+                                                    top: BorderSide(
+                                                        color:
+                                                        AppTheme.skBorderColor2,
+                                                        width: 1.0),
+                                                  )),
+                                              width: double.infinity,
+                                              height: 158,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                                children: [
+                                                  ListTile(
+                                                    title: Text(
+                                                      'Total price',
+                                                      style: TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500),
+                                                    ),
+                                                    trailing: Text('MMK '+
+                                                        debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                      style: TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10),
+                                                  Padding(
+                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                                      child: Row(
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap: () async {
+
+
+                                                                setState(() {
+                                                                  mystate(()  {
+                                                                    prodList = [];
+                                                                    discount = 0.0;
+                                                                    debt =0;
+                                                                    refund =0;
+                                                                  });
+                                                                });
+                                                                // _controller.animateTo(0);
+                                                                // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+
+                                                                _textFieldController.clear();
+                                                                Navigator.pop(context);
+                                                                sellDone = true;
+                                                                //discountAmount =0.0;
+                                                              },
+                                                              child: Container(
+                                                                width: (MediaQuery.of(context).size.width - 30),
+                                                                height: 55,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(10.0),
+                                                                    color: AppTheme.themeColor),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(
+                                                                      top: 15.0,
+                                                                      bottom: 15.0),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                          child: Container(
+                                                                              child: Text(
+                                                                                'Done',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 18,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              )
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ]
+                                                      )
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -3980,6 +4436,22 @@ class HomePageState extends State<HomePage>
 
   String total = 'T';
   int disPercent = 0;
+
+
+  Future<void> _saveImage(_data) async {
+    bool success = false;
+    try {
+      success = (await ImageSave.saveImage(_data, "demo.jpg", albumName: "SmartKyatPOS"))!;
+    } on PlatformException catch (e, s) {
+      print(e);
+      print(s);
+    }
+
+    print(success ? "Save to album success" : "Save to album failed");
+    // setState(() {
+    //   _result = success ? "Save to album success" : "Save to album failed";
+    // });
+  }
 
   TtlProdListPriceInit()  {
     double total = 0;

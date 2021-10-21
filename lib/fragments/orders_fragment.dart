@@ -388,12 +388,15 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                   ),
                                                                                 ),
                                                                                 SizedBox(width: 8),
-                                                                                Icon(Icons.timer, size: 16, color: Colors.grey,),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                                                                  child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                                ),
                                                                                 SizedBox(width: 4),
                                                                                 Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
                                                                                   style: TextStyle(
-                                                                                      fontSize: 14,
-                                                                                      fontWeight: FontWeight.w500,
+                                                                                      fontSize: 13,
+                                                                                      fontWeight: FontWeight.w400,
                                                                                     color: Colors.grey,
                                                                                   ),
                                                                                 ),
@@ -403,6 +406,9 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
                                                                             //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
                                                                             // ),
+                                                                            SizedBox(
+                                                                              height: 6,
+                                                                            ),
                                                                             Row(
                                                                               children: [
                                                                                 Text(item.split('^')[3].split('&')[0],
@@ -432,7 +438,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                   color: AppTheme.badgeBgSecond,
                                                                                 ),
                                                                                 child: Padding(
-                                                                                  padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                  padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
                                                                                   child: Text('Refunded',
                                                                                     style: TextStyle(
                                                                                         fontSize: 13,
@@ -452,7 +458,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 color: AppTheme.badgeBgSecond,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
                                                                                 child: Text('Partially refunded',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -489,7 +495,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 color: AppTheme.badgeBgSuccess,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 2.0, left: 15.0, right: 15.0),
                                                                                 child: Text('Paid',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -508,7 +514,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 color: AppTheme.badgeFgDanger,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 2.0, left: 15.0, right: 15.0),
                                                                                 child: Text('Unpaid',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -598,7 +604,10 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 ),
                                                                               ),
                                                                               SizedBox(width: 8),
-                                                                              Icon(Icons.timer, size: 16),
+                                                                              Padding(
+                                                                                padding: const EdgeInsets.only(bottom: 1.0),
+                                                                                child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                              ),
                                                                               SizedBox(width: 4),
                                                                               Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
                                                                                 style: TextStyle(
@@ -608,6 +617,9 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 ),
                                                                               ),
                                                                             ],
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 6,
                                                                           ),
                                                                           Row(
                                                                             children: [
@@ -637,7 +649,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 color: AppTheme.badgeBgSuccess,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 2.0, left: 15.0, right: 15.0),
                                                                                 child: Text('Paid',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -659,7 +671,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 color: AppTheme.badgeFgDanger,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 2.0, left: 15.0, right: 15.0),
                                                                                 child: Text('Unpaid',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -681,7 +693,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 color: AppTheme.badgeBgSecond,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
                                                                                 child: Text('Refunded',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -703,7 +715,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 color: AppTheme.badgeBgSecond,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
                                                                                 child: Text('Partially refunded',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
