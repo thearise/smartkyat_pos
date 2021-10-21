@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   final navigatorKey = GlobalKey<NavigatorState>();
   @override
   void initState() {
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -45,7 +46,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       theme: new ThemeData(
-        // primarySwatch: Colors.teal,
         canvasColor: Colors.transparent,
         bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
       ),
