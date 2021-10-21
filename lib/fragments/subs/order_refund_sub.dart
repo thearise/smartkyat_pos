@@ -573,11 +573,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
                                         print('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
 
-                                        if(widget.data.split('^')[6].split('-')[1] == 'p') {
-                                          total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-                                        } else {
-                                          total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+                                        if(widget.data.split('^')[6] != '0.0') {
+                                          if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                                            total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+                                          } else {
+                                            total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+                                          }
                                         }
+
 
                                         print('result__ 3' + total.toString());
                                         print('prodListBef 1 ' + prodListBefore.toString());
@@ -1363,11 +1366,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     }
 
     // widget.data.split('^')[6].split('-')[1] == 'p' ?
-    if(widget.data.split('^')[6].split('-')[1] == 'p') {
-      totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-    } else {
-      totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+    if(widget.data.split('^')[6] != '0.0') {
+      if(widget.data.split('^')[6].split('-')[1] == 'p') {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+      } else {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+      }
     }
+
     return totalPrice;
   }
 
