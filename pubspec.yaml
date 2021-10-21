@@ -38,6 +38,10 @@ dependencies:
   json_annotation:
   device_info: ^2.0.2
   sticky_headers: ^0.2.0
+  intl: ^0.17.0
+  open_file: ^3.2.1
+  printing: ^5.3.0
+  url_launcher: ^6.0.6
 
   wechat_camera_picker: ^2.3.0
   wechat_assets_picker:
@@ -65,6 +69,15 @@ dependencies:
   one_context: ^1.1.1
   google_fonts: ^2.1.0
 
+  #printer
+  pdf: ^3.1.0
+  pdf_render: ^1.0.13
+  flutter_cache_manager: ^3.1.2
+  image_gallery_saver: '^1.7.1'
+  image_save: ^5.0.0
+  native_pdf_renderer: ^3.1.0
+  esc_pos_utils:
+
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +101,7 @@ flutter:
 
   assets:
     - assets/system/
+    - assets/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
