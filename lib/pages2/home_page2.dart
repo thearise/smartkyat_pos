@@ -13,6 +13,7 @@ import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
+import 'package:smartkyat_pos/fragments/test.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import '../app_theme.dart';
 import 'TabItem.dart';
@@ -178,7 +179,8 @@ class HomePageState extends State<HomePage>
           icon: Icon(
             Icons.add,
           ),
-          page: BuyListFragment(),
+          // page: BuyListFragment(),
+          page: TestFragment(),
         ),
       ];
     });
@@ -2048,8 +2050,8 @@ class HomePageState extends State<HomePage>
                                                                           totalAmount);
                                                                     }
                                                                   });
-                                                                  });
-                                                                },
+                                                                });
+                                                              },
                                                               child: Container(
                                                                 child: Text( 'MMK ' +
                                                                     TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
