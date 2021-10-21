@@ -378,19 +378,39 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                                           children: [
-                                                                            Text('#' + item.split('^')[1],
-                                                                              style: TextStyle(
-                                                                                  fontSize: 18,
-                                                                                  fontWeight: FontWeight.w500
-                                                                              ),
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: [
+                                                                                Text('#' + item.split('^')[1],
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 16,
+                                                                                      fontWeight: FontWeight.w500
+                                                                                  ),
+                                                                                ),
+                                                                                SizedBox(width: 8),
+                                                                                Icon(Icons.timer, size: 16, color: Colors.grey,),
+                                                                                SizedBox(width: 4),
+                                                                                Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 14,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    color: Colors.grey,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
                                                                             ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                              child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
-                                                                            ),
+                                                                            // Padding(
+                                                                            //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                                                                            //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+                                                                            // ),
                                                                             Row(
                                                                               children: [
-                                                                                Text(item.split('^')[3].split('&')[0]),
+                                                                                Text(item.split('^')[3].split('&')[0],
+                                                                                style: TextStyle(
+                                                                                  fontSize: 15,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.grey,
+                                                                                ),),
 
                                                                               ],
                                                                             ),
@@ -403,19 +423,22 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                       Row(
                                                                         children: [
                                                                           if(item.split('^')[4][0] == 'r')
-                                                                            Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
-                                                                                color: AppTheme.badgeBgSecond,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                                child: Text('Refunded',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeBgSecond,
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                                  child: Text('Refunded',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.white
+                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                               ),
@@ -425,11 +448,11 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
+                                                                                borderRadius: BorderRadius.circular(20.0),
                                                                                 color: AppTheme.badgeBgSecond,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
                                                                                 child: Text('Partially refunded',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -462,11 +485,11 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
+                                                                                borderRadius: BorderRadius.circular(20.0),
                                                                                 color: AppTheme.badgeBgSuccess,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
                                                                                 child: Text('Paid',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -481,11 +504,11 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
+                                                                                borderRadius: BorderRadius.circular(20.0),
                                                                                 color: AppTheme.badgeFgDanger,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
                                                                                 child: Text('Unpaid',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -506,14 +529,23 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                               padding: const EdgeInsets.only(right: 15.0, bottom: 1),
                                                               child: Align(
                                                                 alignment: Alignment.centerRight,
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .arrow_forward_ios_rounded,
-                                                                  size: 16,
-                                                                  color: Colors
-                                                                      .blueGrey
-                                                                      .withOpacity(
-                                                                      0.8),
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                                  children: [
+                                                                    Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                                      fontSize: 15,fontWeight: FontWeight.w500,
+                                                                    )),
+                                                                    SizedBox(width: 10),
+                                                                    Icon(
+                                                                      Icons
+                                                                          .arrow_forward_ios_rounded,
+                                                                      size: 16,
+                                                                      color: Colors
+                                                                          .blueGrey
+                                                                          .withOpacity(
+                                                                          0.8),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             )
@@ -556,20 +588,34 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                                         children: [
-                                                                          Text('#' + item.split('^')[1],
-                                                                            style: TextStyle(
-                                                                                fontSize: 18,
-                                                                                fontWeight: FontWeight.w500
-                                                                            ),
-
-                                                                          ),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                            child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+                                                                          Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                                            children: [
+                                                                              Text('#' + item.split('^')[1],
+                                                                                style: TextStyle(
+                                                                                    fontSize: 16,
+                                                                                    fontWeight: FontWeight.w500
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: 8),
+                                                                              Icon(Icons.timer, size: 16),
+                                                                              SizedBox(width: 4),
+                                                                              Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.grey,
+                                                                                ),
+                                                                              ),
+                                                                            ],
                                                                           ),
                                                                           Row(
                                                                             children: [
-                                                                              Text(item.split('^')[3].split('&')[0]),
+                                                                              Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                                                fontSize: 15,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.grey,
+                                                                              )),
 
                                                                             ],
                                                                           ),
@@ -587,11 +633,11 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
+                                                                                borderRadius: BorderRadius.circular(20.0),
                                                                                 color: AppTheme.badgeBgSuccess,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
                                                                                 child: Text('Paid',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -609,11 +655,11 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
+                                                                                borderRadius: BorderRadius.circular(20.0),
                                                                                 color: AppTheme.badgeFgDanger,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
                                                                                 child: Text('Unpaid',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -631,11 +677,11 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
+                                                                                borderRadius: BorderRadius.circular(20.0),
                                                                                 color: AppTheme.badgeBgSecond,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
                                                                                 child: Text('Refunded',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -653,11 +699,11 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
+                                                                                borderRadius: BorderRadius.circular(20.0),
                                                                                 color: AppTheme.badgeBgSecond,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
+                                                                                padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
                                                                                 child: Text('Partially refunded',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -681,14 +727,24 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                             padding: const EdgeInsets.only(right: 15.0, bottom: 1),
                                                             child: Align(
                                                               alignment: Alignment.centerRight,
-                                                              child: Icon(
-                                                                Icons
-                                                                    .arrow_forward_ios_rounded,
-                                                                size: 16,
-                                                                color: Colors
-                                                                    .blueGrey
-                                                                    .withOpacity(
-                                                                    0.8),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: [
+                                                                  Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                                    fontSize: 15,
+                                                                    fontWeight: FontWeight.w500,
+                                                                  )),
+                                                                  SizedBox(width: 10),
+                                                                  Icon(
+                                                                    Icons
+                                                                        .arrow_forward_ios_rounded,
+                                                                    size: 16,
+                                                                    color: Colors
+                                                                        .blueGrey
+                                                                        .withOpacity(
+                                                                        0.8),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
                                                           )
@@ -1063,11 +1119,166 @@ class _OrdersFragmentState extends State<OrdersFragment>
   }
 
 
+
   covertToDayNum(String input) {
     if(input[0]=='0') {
       return input[1];
     } else {
       return input;
+    }
+  }
+
+  convertToAMPM(String input){
+    switch (input.substring(8,10)) {
+      case '00':
+        return 'AM';
+        break;
+      case '01':
+        return 'AM';
+        break;
+      case '02':
+        return 'AM';
+        break;
+      case '03':
+        return 'AM';
+        break;
+      case '04':
+        return 'AM';
+        break;
+      case '05':
+        return 'AM';
+        break;
+      case '06':
+        return 'AM';
+        break;
+      case '07':
+        return 'AM';
+        break;
+      case '08':
+        return 'AM';
+        break;
+      case '09':
+        return 'AM';
+        break;
+      case '10':
+        return 'AM';
+        break;
+      case '11':
+        return 'AM';
+        break;
+      case '12':
+        return 'PM';
+        break;
+      case '13':
+        return 'PM';
+        break;
+      case '14':
+        return 'PM';
+        break;
+      case '15':
+        return 'PM';
+        break;
+      case '16':
+        return 'PM';
+        break;
+      case '17':
+        return 'PM';
+        break;
+      case '18':
+        return 'PM';
+        break;
+      case '19':
+        return 'PM';
+        break;
+      case '20':
+        return 'PM';
+        break;
+      case '21':
+        return 'PM';
+        break;
+      case '22':
+        return 'PM';
+        break;
+      case '23':
+        return 'PM';
+        break;
+    }
+  }
+
+  convertToHour(String input){
+    switch (input.substring(8,10)) {
+      case '00':
+        return '12';
+        break;
+      case '01':
+        return '1';
+        break;
+      case '02':
+        return '2';
+        break;
+      case '03':
+        return '3';
+        break;
+      case '04':
+        return '4';
+        break;
+      case '05':
+        return '5';
+        break;
+      case '06':
+        return '6';
+        break;
+      case '07':
+        return '7';
+        break;
+      case '08':
+        return '8';
+        break;
+      case '09':
+        return '9';
+        break;
+      case '10':
+        return '10';
+        break;
+      case '11':
+        return '11';
+        break;
+      case '12':
+        return '12';
+        break;
+      case '13':
+        return '1';
+        break;
+      case '14':
+        return '2';
+        break;
+      case '15':
+        return '3';
+        break;
+      case '16':
+        return '4';
+        break;
+      case '17':
+        return '5';
+        break;
+      case '18':
+        return '6';
+        break;
+      case '19':
+        return '7';
+        break;
+      case '20':
+        return '8';
+        break;
+      case '21':
+        return '9';
+        break;
+      case '22':
+        return '10';
+        break;
+      case '23':
+        return '11';
+        break;
     }
   }
 
@@ -1110,7 +1321,6 @@ class _OrdersFragmentState extends State<OrdersFragment>
         return 'DECEMBER';
         break;
     }
-
   }
 
   changeData(list, snpsht) {

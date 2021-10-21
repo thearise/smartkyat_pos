@@ -208,10 +208,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             totalRealPrice += int.parse(prodList[j].split('-')[4]) * int.parse(prodList[j].split('-')[3]);
                           }
 
-                          if(widget.data.split('^')[6].split('-')[1] == 'p') {
-                            totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-                          } else {
-                            totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice));
+                          if(widget.data.split('^')[6] != '0.0') {
+                            if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                              totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+                            } else {
+                              totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice));
+                            }
                           }
 
                           int ttlQtity = int.parse(prodList[0].split('-')[3]);
@@ -521,7 +523,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           )),
                                                       title: Text(
                                                         output2?[
-                                                          'prod_name'],
+                                                        'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16),
@@ -689,13 +691,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       ')',
                                                   style: TextStyle(height: 1),
                                                 ),
-                                                subtitle: widget.data.split('^')[6].split('-')[1] == 'p' ?
-                                                Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2) + ' MMK'):
-                                                Text((double.parse(prodListView[i].split('-')[4]) - (double.parse(prodListView[i].split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2) + ' MMK'),
+                                                subtitle: discSub(widget.data.split('^')[6], prodListView[i]),
                                                 // ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100)
-                                                trailing: widget.data.split('^')[6].split('-')[1] == 'p' ?
-                                                Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2)) :
-                                                Text(((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) - ((double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2)),
+                                                trailing: discTra(widget.data.split('^')[6], prodListView[i]),
                                               ),
                                             ),
                                             dismissal: SlidableDismissal(
@@ -839,5 +837,27 @@ class _OrderInfoSubState extends State<OrderInfoSub>
             ),
           );
         });
+  }
+
+  Widget discSub(String str, String prodList) {
+    if(str != '0.0') {
+      return str.split('-')[1] == 'p' ?
+      Text((double.parse(prodList.split('-')[4]) - (double.parse(prodList.split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2) + ' MMK'):
+      Text((double.parse(prodList.split('-')[4]) - (double.parse(prodList.split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2) + ' MMK');
+    } else {
+      return Text(double.parse(prodList.split('-')[4]).toStringAsFixed(2));
+    }
+
+  }
+
+  discTra(String str, String prodList) {
+    if(str != '0.0') {
+      return widget.data.split('^')[6].split('-')[1] == 'p' ?
+      Text(((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) - ((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2)) :
+      Text(((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) - ((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2));
+    } else {
+      return Text((double.parse(prodList.split('-')[4]) * double.parse(prodList.split('-')[7])).toStringAsFixed(2));
+    }
+
   }
 }

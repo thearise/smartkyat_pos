@@ -34,6 +34,8 @@ class HomePageState extends State<HomePage>
 
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
+
+  bool sellDone = true;
   void handleSlideAnimationChanged(Animation<double>? slideAnimation) {
     setState(() {
       _rotationAnimation = slideAnimation;
@@ -103,6 +105,14 @@ class HomePageState extends State<HomePage>
   double discountAmount =0.0;
   String disText ='';
   String isDiscount = '';
+  double totalAmount = 0.0;
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    _textFieldController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -176,6 +186,8 @@ class HomePageState extends State<HomePage>
     tabs.asMap().forEach((index, details) {
       details.setIndex(index);
     });
+
+    super.initState();
   }
 
   closeNewProduct() {
@@ -1193,8 +1205,14 @@ class HomePageState extends State<HomePage>
     String sub2Name = '';
     String unit = '';
     String name ='';
+    totalAmount = double.parse(TtlProdListPrice());
     TextEditingController myController = TextEditingController();
-    double totalAmount = double.parse(TtlProdListPrice());
+
+
+    if(sellDone == true) {
+      _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+    }
+
     showModalBottomSheet(
         enableDrag: true,
         isScrollControlled: true,
@@ -1203,6 +1221,21 @@ class HomePageState extends State<HomePage>
         builder: (BuildContext context) {
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter mystate) {
+              _textFieldController.addListener((){
+                print("value: ${_textFieldController.text}");
+                mystate(() {
+                  totalAmount = double.parse(TtlProdListPrice());
+                  _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
+                  if((totalAmount - paidAmount).isNegative){
+                    debt = 0;
+                  } else { debt = (totalAmount - paidAmount);
+                  }
+                  if((paidAmount - totalAmount).isNegative){
+                    refund = 0;
+                  } else { refund = (paidAmount - totalAmount);
+                  }
+                });
+              });
               return Scaffold(
                 resizeToAvoidBottomInset: false,
                 body: GestureDetector(
@@ -1508,7 +1541,7 @@ class HomePageState extends State<HomePage>
                                                             .data!
                                                             .data();
                                                         var image = output2?[
-                                                          'img_1'];
+                                                        'img_1'];
                                                         return GestureDetector(
                                                           onTap: (){
                                                             setState((){
@@ -1526,6 +1559,7 @@ class HomePageState extends State<HomePage>
                                                                 barcode = output2?['bar_code'];
                                                                 productName = output2?['prod_name'];
                                                                 myController.text = prodList[i].split('-')[4];
+                                                                sellDone = false;
                                                                 _controller.animateTo(2);});});
                                                           },
                                                           child: Slidable(
@@ -1601,7 +1635,7 @@ class HomePageState extends State<HomePage>
                                                                             )),
                                                                         title: Text(
                                                                           output2?[
-                                                                            'prod_name'],
+                                                                          'prod_name'],
                                                                           style:
                                                                           TextStyle(
                                                                               fontWeight: FontWeight.w500, fontSize: 16),
@@ -1730,6 +1764,9 @@ class HomePageState extends State<HomePage>
 
                                                           ) :  ListTile (
                                                             title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                            subtitle: Text('Amount applied', style: TextStyle(
+                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                            )),
                                                             trailing: Text('- MMK ' + discount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                           ),
                                                         ) : Container(),
@@ -1826,6 +1863,7 @@ class HomePageState extends State<HomePage>
 
                                                       print('totalAmount '+ totalAmount.toString());
                                                       _controller.animateTo(1);
+                                                      sellDone = false;
                                                     },
                                                     child: Container(
                                                       width: MediaQuery.of(context).size.width - 30,
@@ -1978,7 +2016,40 @@ class HomePageState extends State<HomePage>
                                                                 ),
                                                               ),
                                                               onPressed: () async {
-                                                              },
+                                                                setState(() {
+                                                                  mystate(() {
+                                                                    totalAmount =
+                                                                        double
+                                                                            .parse(
+                                                                            TtlProdListPrice());
+                                                                    _textFieldController
+                                                                        .text =
+                                                                        totalAmount
+                                                                            .toString();
+                                                                    paidAmount =
+                                                                        totalAmount;
+                                                                    if ((totalAmount -
+                                                                        paidAmount)
+                                                                        .isNegative) {
+                                                                      debt = 0;
+                                                                    } else {
+                                                                      debt =
+                                                                      (totalAmount -
+                                                                          paidAmount);
+                                                                    }
+                                                                    if ((paidAmount -
+                                                                        totalAmount)
+                                                                        .isNegative) {
+                                                                      refund =
+                                                                      0;
+                                                                    } else {
+                                                                      refund =
+                                                                      (paidAmount -
+                                                                          totalAmount);
+                                                                    }
+                                                                  });
+                                                                  });
+                                                                },
                                                               child: Container(
                                                                 child: Text( 'MMK ' +
                                                                     TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -2033,9 +2104,9 @@ class HomePageState extends State<HomePage>
                                                             ),
                                                             keyboardType: TextInputType.number,
                                                             onChanged: (value) {
-                                                              setState(() {
+                                                              mystate(() {
                                                                 totalAmount = double.parse(TtlProdListPrice());
-                                                                paidAmount = double.parse(value);
+                                                                value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
                                                                 if((totalAmount - paidAmount).isNegative){
                                                                   debt = 0;
                                                                 } else { debt = (totalAmount - paidAmount);
@@ -2512,7 +2583,7 @@ class HomePageState extends State<HomePage>
                                                                   print('subList ' + subList.toString());
 
                                                                   //Order Add
-                                                                  FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                                                  await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
                                                                   // FirebaseFirestore.instance.collection('space')
                                                                       .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
                                                                       .get()
@@ -2526,13 +2597,13 @@ class HomePageState extends State<HomePage>
                                                                       daily_order.doc(dateId).update({
                                                                         'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText
                                                                         ])
-                                                                      }).then((value) {
+                                                                      }).then((value) async {
                                                                         print('User updated');
                                                                         setState(() {
                                                                           orderLoading = false;
                                                                         });
 
-                                                                        FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
+                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
                                                                             .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                             .set({
                                                                           'main': 'total',
@@ -2545,9 +2616,9 @@ class HomePageState extends State<HomePage>
                                                                       daily_order.add({
                                                                         'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText],
                                                                         'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
-                                                                      }).then((value) {
+                                                                      }).then((value) async  {
                                                                         print('order added');
-                                                                        FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                             .set({
                                                                           'main': 'total',
                                                                           'subs': subList,
@@ -2559,9 +2630,19 @@ class HomePageState extends State<HomePage>
                                                                   });
 
                                                                 });
-                                                                _controller.animateTo(0);
-                                                                Navigator.pop(context);
+
+                                                                mystate(()  {
+                                                                  prodList = [];
+                                                                  discount = 0.0;
+                                                                  debt =0;
+                                                                  refund =0;
+                                                                });
+                                                                // _controller.animateTo(0);
+                                                                // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+
                                                                 _textFieldController.clear();
+                                                                Navigator.pop(context);
+                                                                sellDone = true;
                                                                 //discountAmount =0.0;
                                                               },
                                                               child: Container(
@@ -3498,12 +3579,12 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                   title: Text(
                                                                     output2?[
-                                                                      'prod_name'] +
+                                                                    'prod_name'] +
                                                                         ' (' +
                                                                         output2?[prodList2[
-                                                                    i]
-                                                                        .split(
-                                                                        '-')[4]] +
+                                                                        i]
+                                                                            .split(
+                                                                            '-')[4]] +
                                                                         ')',
                                                                     style:
                                                                     TextStyle(

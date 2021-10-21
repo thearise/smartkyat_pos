@@ -16,11 +16,11 @@ final List<String> imgList = [
   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
 ];
 
-class ProductDetailsView2 extends StatefulWidget {
+class ProductDetailsView extends StatefulWidget {
   final _callback;
   final _callback3;
 
-  const ProductDetailsView2(
+  const ProductDetailsView(
       {Key? key,
         required this.idString,
         required void toggleCoinCallback(String str),
@@ -31,11 +31,11 @@ class ProductDetailsView2 extends StatefulWidget {
   final String idString;
 
   @override
-  _ProductDetailsViewState2 createState() => _ProductDetailsViewState2();
+  _ProductDetailsViewState createState() => _ProductDetailsViewState();
 }
 
-class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
-    TickerProviderStateMixin <ProductDetailsView2>
+class _ProductDetailsViewState extends State<ProductDetailsView>  with
+    TickerProviderStateMixin <ProductDetailsView>
   {
   addProduct2(data) {
     widget._callback(data);

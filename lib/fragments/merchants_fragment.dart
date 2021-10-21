@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 
@@ -35,6 +35,10 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
     widget._callback3(data);
   }
 
+  final cateScCtler = ScrollController();
+  final _width = 10.0;
+  int cateScIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,346 +51,450 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
             children: [
               Align(
                 alignment: Alignment.centerLeft,
-                child: Container(
-                  height: MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      MediaQuery.of(context).padding.bottom -
-                      300,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: ListView(
-                      children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Merchants',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: ButtonTheme(
-                            splashColor: Colors.transparent,
-                            minWidth: MediaQuery.of(context).size.width,
-                            height: 56,
-                            child: FlatButton(
-                              color: AppTheme.skThemeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7.0),
-                                side: BorderSide(
-                                  color: AppTheme.skThemeColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                addNewProd(context);
-                              },
-                              child: Text(
-                                'Add new merchants',
-                                style: TextStyle(
-                                  fontSize: 16.5,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('space')
-                                .doc('0NHIS0Jbn26wsgCzVBKT')
-                                .collection('shops')
-                                .doc('PucvhZDuUz3XlkTgzcjb')
-                                .collection('merchants')
-                                .where('merchant_name', isNotEqualTo: 'Unknown')
-                                .snapshots(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              if (snapshot.hasError) {
-                                return Text('Something went wrong');
-                              }
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 81.0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).padding.bottom -
+                        100,
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 0.0, left: 0.0, right: 0.0),
 
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Text("Loading");
-                              }
 
-                              return ListView(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                children: snapshot.data!.docs
-                                    .map((DocumentSnapshot document) {
-                                  Map<String, dynamic> data =
-                                  document.data()! as Map<String, dynamic>;
-                                  // return ListTile(
-                                  //   title: Text(data['prod_name']),
-                                  // );
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => MerchantInfoSubs(id: document.id, toggleCoinCallback: addMerchant2Cart)),
-                                      );
-                                    },
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom:
-                                              BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                data['merchant_name'],
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('space')
+                              .doc('0NHIS0Jbn26wsgCzVBKT')
+                              .collection('shops')
+                              .doc('PucvhZDuUz3XlkTgzcjb')
+                              .collection('merchants')
+                              .where('merchant_name', isNotEqualTo: 'Unknown')
+                              .snapshots(),
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if(snapshot.hasData) {
+                              return CustomScrollView(
+                                slivers: [
+                                  // Add the app bar to the CustomScrollView.
+                                  SliverAppBar(
+                                    elevation: 0,
+                                    backgroundColor: Colors.white,
+                                    // Provide a standard title.
+
+                                    // Allows the user to reveal the app bar if they begin scrolling
+                                    // back up the list of items.
+                                    floating: true,
+                                    flexibleSpace: Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                      child: Container(
+                                        height: 32,
+                                        width: MediaQuery.of(context).size.width,
+                                        // color: Colors.yellow,
+                                        child: Row(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                FlatButton(
+                                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                                  color: AppTheme.secButtonColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(8.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.skBorderColor2,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    addNewProd(context);
+                                                  },
+                                                  child: Container(
+                                                    child: Row(
+                                                      // mainAxisAlignment: Main,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 6.0),
+                                                          child: Icon(
+                                                            SmartKyat_POS.add_plus,
+                                                            size: 17,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          'New Merchant',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
+                                                SizedBox(width: 12),
+                                                Container(
+                                                  color: Colors.grey.withOpacity(0.2),
+                                                  width: 1.5,
+                                                  height: 30,
+                                                )
+                                              ],
+                                            ),
+                                            Expanded(
+                                              child: ListView(
+                                                controller: cateScCtler,
+                                                scrollDirection: Axis.horizontal,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(0);
+                                                        setState(() {
+                                                          cateScIndex = 0;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          'All',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(5.4);
+                                                        setState(() {
+                                                          cateScIndex = 1;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          'Low stocks',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(16.4);
+                                                        setState(() {
+                                                          cateScIndex = 2;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          'Best sales',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                    child: FlatButton(
+                                                      minWidth: 0,
+                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0),
+                                                        side: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _animateToIndex(20);
+                                                        setState(() {
+                                                          cateScIndex = 3;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        child: Text(
+                                                          'Low sales',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 11,
+                                                  )
+                                                ],
                                               ),
-                                              SizedBox(
-                                                height: 7,
-                                              ),
-                                              Text(
-                                                data['merchant_address'],
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.blueGrey.withOpacity(1.0),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 7,
-                                              ),
-                                              Text(
-                                                data['merchant_phone'],
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.blueGrey.withOpacity(1.0),
-                                                ),
-                                              ),
-                                              SizedBox(height: 20),
-                                            ],
-                                          ),
-                                          Spacer(),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            size: 16,
-                                            color: Colors.blueGrey.withOpacity(0.8),
-                                          ),
-                                        ],
+                                            )
+                                          ],
+                                        ),
+
                                       ),
                                     ),
-                                  );
+                                    // Display a placeholder widget to visualize the shrinking size.
+                                    // Make the initial height of the SliverAppBar larger than normal.
+                                    expandedHeight: 20,
+                                  ),
+                                  // Next, create a SliverList
+                                  SliverList(
+                                    // Use a delegate to build items as they're scrolled on screen.
+                                    delegate: SliverChildBuilderDelegate(
+                                      // The builder function returns a ListTile with a title that
+                                      // displays the index of the current item.
+                                          (context, index) {
+                                        Map<String, dynamic> data = snapshot.data!.docs[index]
+                                            .data()! as Map<String, dynamic>;
+                                        var version = snapshot.data!.docs[index].id;
 
-                                }).toList(),
+                                        return Padding(
+                                          padding:
+                                          EdgeInsets.only(top: index == 0? 10.0: 15.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => MerchantInfoSubs(id: version, toggleCoinCallback: addMerchant2Cart)),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  border: Border(
+                                                      bottom: index == snapshot.data!.docs.length-1 ?
+                                                      BorderSide(
+                                                          color: Colors.transparent,
+                                                          width: 1.0) :
+
+                                                      BorderSide(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.3),
+                                                          width: 1.0)
+                                                  )),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 12.0),
+                                                    child: ListTile(
+                                                      title: Text(data['merchant_name'],style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                      ),),
+                                                      subtitle: Padding(
+                                                        padding: const EdgeInsets.only(top: 8.0),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(data['merchant_address'], style: TextStyle(
+                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                            )),
+                                                            SizedBox(height: 5,),
+                                                            Text(data['merchant_phone'], style: TextStyle(
+                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                            )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      trailing: Padding(
+                                                        padding: const EdgeInsets.only(top: 8.0),
+                                                        child: Container(
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(6.0),
+                                                                  color: AppTheme.badgeFgDanger,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
+                                                                  child: Text('2 Unpaid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(width: 12),
+                                                              Icon(
+                                                                Icons.arrow_forward_ios_rounded,
+                                                                size: 16,
+                                                                color: Colors.blueGrey.withOpacity(0.8),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                    ),
+                                                  )
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      // Builds 1000 ListTiles
+                                      childCount: snapshot.data!.docs.length,
+                                    ),
+                                  )
+                                ],
                               );
                             }
-                        ),
-                      ],
+                            return Container();
+                          }
+                      ),
                     ),
                   ),
                 ),
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: Padding(
-                  padding:
-                  const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey.withOpacity(0.2)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 15.0,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              size: 26,
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.only(left: 8.0, right: 8.0),
-                              child: Container(
-                                  child: Text(
-                                    'Search',
-                                    style: TextStyle(
-                                        fontSize: 16.5,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  )),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              //addDailyExp(context);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 15.0,
-                              ),
-                              child: SizedBox(
-                                width: 34,
-                                height: 28,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.bar_chart,
-                                    color: Colors.green,
-                                    size: 22,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              QRViewExample()),
-                                    );
-                                  },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        bottom: BorderSide(
+                            color: AppTheme.skBorderColor2,
+                            width: 1.0),
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+                    child: GestureDetector(
+                      onTap: () {
+                        // addDailyExp(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: AppTheme.secButtonColor,
+                        ),
+                        height: 50,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10.0, bottom: 11.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 20.0,
+                                ),
+                                child: Icon(
+                                  SmartKyat_POS.search,
+                                  size: 17,
                                 ),
                               ),
-                            ),
-                          )
-                        ],
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      bottom: 1.0),
+                                  child: Container(
+                                      child: Text(
+                                        'Search',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      )
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 18.0,
+                                ),
+                                // child: Icon(
+                                //   SmartKyat_POS.barcode,
+                                //   color: Colors.Colors.black,
+                                //   size: 25,
+                                // ),
+                                child: Container(
+                                    child: Image.asset('assets/system/barcode.png', height: 28,)
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
+
             ],
           ),
         ),
       ),
     );
   }
+  _animateToIndex(i) {
+    // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
+    if((_width * i) > cateScCtler.position.maxScrollExtent) {
+      cateScCtler.animateTo(cateScCtler.position.maxScrollExtent, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    } else {
+      cateScCtler.animateTo(_width * i, duration: Duration(microseconds: 100000), curve: Curves.fastOutSlowIn);
+    }
 
-  addDailyExp(priContext) {
-    // myController.clear();
-    showModalBottomSheet(
-        enableDrag: false,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return Scaffold(
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: MediaQuery.of(priContext).padding.top,
-                ),
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 70,
-                          height: 6,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25.0),
-                              ),
-                              color: Colors.white.withOpacity(0.5)),
-                        ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        Container(
-                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15.0),
-                              topRight: Radius.circular(15.0),
-                            ),
-                            color: Colors.white,
-                          ),
-
-                          child: Container(
-                            width: 150,
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15.0),
-                                      topRight: Radius.circular(15.0),
-                                    ),
-                                    color: Colors.grey.withOpacity(0.1),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          size: 20,
-                                          color: Colors.transparent,
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                      Text(
-                                        "New Expense",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 17,
-                                            fontFamily: 'capsulesans',
-                                            fontWeight: FontWeight.w600),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          size: 20,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          print('clicked');
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.yellow,
-                    height: 100,
-                  ),
-                )
-              ],
-            ),
-          );
-        });
   }
 
   addNewProd(priContext) {
@@ -567,7 +675,7 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                                           .collection('shops')
                                                           .doc(result2)
                                                           .collection(
-                                                          'merchants')
+                                                          'merchant')
                                                           .where(
                                                           'merchant_name',
                                                           isEqualTo:
@@ -607,9 +715,15 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                                               .collection(
                                                               'merchants');
                                                           return shops.add({
-                                                            'customer_name':
+                                                            'merchant_name':
                                                             prodFieldsValue[
-                                                            0]
+                                                            0],
+                                                            'merchant_address':
+                                                            prodFieldsValue[
+                                                            1],
+                                                            'merchant_phone':
+                                                            prodFieldsValue[
+                                                            2]
                                                           }).then((value) {
                                                             print(
                                                                 'product added');
@@ -629,36 +743,6 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                       ),
                                     ),
                                   ),
-
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.start,
-                                  //   children: [
-                                  //     Container(
-                                  //       padding: EdgeInsets.only(left: 15),
-                                  //       height: 130,
-                                  //       width: 150,
-                                  //       child: Image.network(
-                                  //         'http://www.hmofficesolutions.com/media/4252/royal-d.jpg',
-                                  //         fit: BoxFit.fill,
-                                  //       ),
-                                  //     ),
-                                  //     SizedBox(
-                                  //       width: 20,
-                                  //     ),
-                                  //     Container(
-                                  //       width: 200,
-                                  //       child: Expanded(
-                                  //           child: Text(
-                                  //             "Add images to show customers product details and features",
-                                  //             style: TextStyle(
-                                  //               color: Colors.amberAccent,
-                                  //               fontSize: 15,
-                                  //               fontWeight: FontWeight.w500,
-                                  //             ),
-                                  //           )),
-                                  //     ),
-                                  //   ],
-                                  // ),
 
                                   Container(
                                     alignment: Alignment.topLeft,
@@ -837,77 +921,3 @@ setStoreId(String id) async {
 
   prefs.setString('store', id);
 }
-
-// class CustomerInfo extends StatelessWidget {
-//   final String customerName;
-//   final String customerAddress;
-//   final String customerPhone;
-//   final String customerId;
-//
-//   CustomerInfo(this.customerName, this.customerAddress, this.customerPhone, this.customerId);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: () {
-//         Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//               builder: (context) => CustomerInfoSubs(id: customerId, )),
-//         );
-//       },
-//       child: Container(
-//         width: MediaQuery.of(context).size.width,
-//         decoration: BoxDecoration(
-//             border: Border(
-//                 bottom:
-//                     BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-//         child: Row(
-//           children: [
-//             Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   customerName,
-//                   style: TextStyle(
-//                     fontSize: 18,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   height: 7,
-//                 ),
-//                 Text(
-//                   customerAddress,
-//                   style: TextStyle(
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.w400,
-//                     color: Colors.blueGrey.withOpacity(1.0),
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   height: 7,
-//                 ),
-//                 Text(
-//                   customerPhone,
-//                   style: TextStyle(
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.w400,
-//                     color: Colors.blueGrey.withOpacity(1.0),
-//                   ),
-//                 ),
-//                 SizedBox(height: 20),
-//               ],
-//             ),
-//             Spacer(),
-//             Icon(
-//               Icons.arrow_forward_ios_rounded,
-//               size: 16,
-//               color: Colors.blueGrey.withOpacity(0.8),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }]

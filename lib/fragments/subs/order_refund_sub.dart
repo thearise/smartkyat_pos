@@ -107,14 +107,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 3.0),
                                   child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_back_ios_rounded,
-                                      size: 17,
-                                      color: Colors.black,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    }
+                                      icon: Icon(
+                                        Icons.arrow_back_ios_rounded,
+                                        size: 17,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }
                                   ),
                                 ),
                               ),
@@ -316,7 +316,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                           )),
                                                       title: Text(
                                                         output2?[
-                                                          'prod_name'],
+                                                        'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16),
@@ -573,11 +573,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
                                         print('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
 
-                                        if(widget.data.split('^')[6].split('-')[1] == 'p') {
-                                          total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-                                        } else {
-                                          total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+                                        if(widget.data.split('^')[6] != '0.0') {
+                                          if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                                            total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+                                          } else {
+                                            total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+                                          }
                                         }
+
 
                                         print('result__ 3' + total.toString());
                                         print('prodListBef 1 ' + prodListBefore.toString());
@@ -1363,11 +1366,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     }
 
     // widget.data.split('^')[6].split('-')[1] == 'p' ?
-    if(widget.data.split('^')[6].split('-')[1] == 'p') {
-      totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-    } else {
-      totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+    if(widget.data.split('^')[6] != '0.0') {
+      if(widget.data.split('^')[6].split('-')[1] == 'p') {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+      } else {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+      }
     }
+
     return totalPrice;
   }
 
