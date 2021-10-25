@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +23,9 @@ class CustomersFragment extends StatefulWidget {
 class _CustomersFragmentState extends State<CustomersFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<CustomersFragment>{
   @override
   bool get wantKeepAlive => true;
+
+  List<String> orderList = [];
+  var orders;
   @override
   initState() {
     super.initState();
@@ -60,229 +65,250 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                         100,
                     width: MediaQuery.of(context).size.width,
                     color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 0.0, left: 0.0, right: 0.0),
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                        .collection('space')
+                          .doc('0NHIS0Jbn26wsgCzVBKT')
+                          .collection('shops')
+                          .doc('PucvhZDuUz3XlkTgzcjb')
+                          .collection('orders')
+                          .snapshots(),
+                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                          if(snapshot2.hasData) {
+                            int quantity =
+                            0;
+                            snapshot2
+                                .data!
+                                .docs
+                                .map((DocumentSnapshot
+                            document) {
+                              Map<String,
+                                  dynamic>
+                              data2 =
+                              document.data()! as Map<
+                                  String,
+                                  dynamic>;
+                              orders = data2['daily_order'];
+                              quantity += int.parse(orders.length.toString());
+                               }).toList();
+                        return StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('space')
+                                .doc('0NHIS0Jbn26wsgCzVBKT')
+                                .collection('shops')
+                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                .collection('customers')
+                                .where('customer_name', isNotEqualTo: 'Unknown')
+                                .snapshots(),
+                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if(snapshot.hasData) {
+                                return CustomScrollView(
+                                  slivers: [
+                                    // Add the app bar to the CustomScrollView.
+                                    SliverAppBar(
+                                      elevation: 0,
+                                      backgroundColor: Colors.white,
+                                      // Provide a standard title.
 
-
-                      child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('space')
-                              .doc('0NHIS0Jbn26wsgCzVBKT')
-                              .collection('shops')
-                              .doc('PucvhZDuUz3XlkTgzcjb')
-                              .collection('customers')
-                              .where('customer_name', isNotEqualTo: 'Unknown')
-                              .snapshots(),
-                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if(snapshot.hasData) {
-                              return CustomScrollView(
-                                slivers: [
-                                  // Add the app bar to the CustomScrollView.
-                                  SliverAppBar(
-                                    elevation: 0,
-                                    backgroundColor: Colors.white,
-                                    // Provide a standard title.
-
-                                    // Allows the user to reveal the app bar if they begin scrolling
-                                    // back up the list of items.
-                                    floating: true,
-                                    flexibleSpace: Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                      child: Container(
-                                        height: 32,
-                                        width: MediaQuery.of(context).size.width,
-                                        // color: Colors.yellow,
-                                        child: Row(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                FlatButton(
-                                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                                  color: AppTheme.secButtonColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.skBorderColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    addNewProd(context);
-                                                  },
-                                                  child: Container(
-                                                    child: Row(
-                                                      // mainAxisAlignment: Main,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right: 6.0),
-                                                          child: Icon(
-                                                            SmartKyat_POS.add_plus,
-                                                            size: 17,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'New Customer',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 12),
-                                                Container(
-                                                  color: Colors.grey.withOpacity(0.2),
-                                                  width: 1.5,
-                                                  height: 30,
-                                                )
-                                              ],
-                                            ),
-                                            Expanded(
-                                              child: ListView(
-                                                controller: cateScCtler,
-                                                scrollDirection: Axis.horizontal,
+                                      // Allows the user to reveal the app bar if they begin scrolling
+                                      // back up the list of items.
+                                      floating: true,
+                                      flexibleSpace: Padding(
+                                        padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                        child: Container(
+                                          height: 32,
+                                          width: MediaQuery.of(context).size.width,
+                                          // color: Colors.yellow,
+                                          child: Row(
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
+                                                  FlatButton(
+                                                    padding: EdgeInsets.only(left: 10, right: 10),
+                                                    color: AppTheme.secButtonColor,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(8.0),
+                                                      side: BorderSide(
+                                                        color: AppTheme.skBorderColor2,
                                                       ),
-                                                      onPressed: () {
-                                                        _animateToIndex(0);
-                                                        setState(() {
-                                                          cateScIndex = 0;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          'All',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
+                                                    ),
+                                                    onPressed: () {
+                                                      addNewProd(context);
+                                                    },
+                                                    child: Container(
+                                                      child: Row(
+                                                        // mainAxisAlignment: Main,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                            child: Icon(
+                                                              SmartKyat_POS.add_plus,
+                                                              size: 17,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'New Customer',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(5.4);
-                                                        setState(() {
-                                                          cateScIndex = 1;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          'Low stocks',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(16.4);
-                                                        setState(() {
-                                                          cateScIndex = 2;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          'Best sales',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(20);
-                                                        setState(() {
-                                                          cateScIndex = 3;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          'Low sales',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 11,
-                                                  ),
+                                                  SizedBox(width: 12),
+                                                  Container(
+                                                    color: Colors.grey.withOpacity(0.2),
+                                                    width: 1.5,
+                                                    height: 30,
+                                                  )
                                                 ],
                                               ),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                child: ListView(
+                                                  controller: cateScCtler,
+                                                  scrollDirection: Axis.horizontal,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 4,
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                      child: FlatButton(
+                                                        minWidth: 0,
+                                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                                        color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          _animateToIndex(0);
+                                                          setState(() {
+                                                            cateScIndex = 0;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Text(
+                                                            'All',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                      child: FlatButton(
+                                                        minWidth: 0,
+                                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                                        color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          _animateToIndex(5.4);
+                                                          setState(() {
+                                                            cateScIndex = 1;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Text(
+                                                            'Low stocks',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                      child: FlatButton(
+                                                        minWidth: 0,
+                                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                                        color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          _animateToIndex(16.4);
+                                                          setState(() {
+                                                            cateScIndex = 2;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Text(
+                                                            'Best sales',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                      child: FlatButton(
+                                                        minWidth: 0,
+                                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                                        color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          _animateToIndex(20);
+                                                          setState(() {
+                                                            cateScIndex = 3;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Text(
+                                                            'Low sales',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 11,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
+                                      // Display a placeholder widget to visualize the shrinking size.
+                                      // Make the initial height of the SliverAppBar larger than normal.
+                                      expandedHeight: 20,
                                     ),
-                                    // Display a placeholder widget to visualize the shrinking size.
-                                    // Make the initial height of the SliverAppBar larger than normal.
-                                    expandedHeight: 20,
-                                  ),
-                                  // Next, create a SliverList
+                                    // Next, create a SliverList
                                    SliverList(
                                           // Use a delegate to build items as they're scrolled on screen.
                                           delegate: SliverChildBuilderDelegate(
@@ -292,188 +318,174 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                                               Map<String, dynamic> data = snapshot.data!.docs[index]
                                                   .data()! as Map<String, dynamic>;
                                               var version = snapshot.data!.docs[index].id;
+                                              print('flore ' + quantity.toString());
+                                                  return Padding(
+                                                              padding:
+                                                              EdgeInsets.only(
+                                                                  top: index == 0
+                                                                      ? 10.0
+                                                                      : 15.0),
+                                                              child: GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (
+                                                                            context) =>
+                                                                            CustomerInfoSubs(
+                                                                                id: version,
+                                                                                toggleCoinCallback: addCustomer2Cart1)),
+                                                                  );
+                                                                },
+                                                                child: Container(
+                                                                  width: MediaQuery
+                                                                      .of(context)
+                                                                      .size
+                                                                      .width,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border(
+                                                                          bottom: index ==
+                                                                              snapshot
+                                                                                  .data!
+                                                                                  .docs
+                                                                                  .length -
+                                                                                  1
+                                                                              ?
+                                                                          BorderSide(
+                                                                              color: Colors
+                                                                                  .transparent,
+                                                                              width: 1.0)
+                                                                              :
 
-      // FirebaseFirestore.instance
-      //     .collection('space')
-      //     .doc('0NHIS0Jbn26wsgCzVBKT')
-      //     .collection('shops')
-      //     .doc('PucvhZDuUz3XlkTgzcjb')
-      //     .collection('orders')
-      //     .where('daily_order', arrayContains: ['2021101015050101049'])
-      //     .get()
-      //     .then((QuerySnapshot querySnapshot) {
-      // querySnapshot.docs.forEach((doc) {
-      // innerID = doc.id;
-      // });
-      // setState(() {
-      //   docID = innerID;
-      //   print('inner' + docID);
-      // });});
-
-
-
-                                                        return Padding(
-                                                          padding:
-                                                          EdgeInsets.only(
-                                                              top: index == 0
-                                                                  ? 10.0
-                                                                  : 15.0),
-                                                          child: GestureDetector(
-                                                            onTap: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (
-                                                                        context) =>
-                                                                        CustomerInfoSubs(
-                                                                            id: version,
-                                                                            toggleCoinCallback: addCustomer2Cart1)),
-                                                              );
-                                                            },
-                                                            child: Container(
-                                                              width: MediaQuery
-                                                                  .of(context)
-                                                                  .size
-                                                                  .width,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border(
-                                                                      bottom: index ==
-                                                                          snapshot
-                                                                              .data!
-                                                                              .docs
-                                                                              .length -
-                                                                              1
-                                                                          ?
-                                                                      BorderSide(
-                                                                          color: Colors
-                                                                              .transparent,
-                                                                          width: 1.0)
-                                                                          :
-
-                                                                      BorderSide(
-                                                                          color: Colors
-                                                                              .grey
-                                                                              .withOpacity(
-                                                                              0.3),
-                                                                          width: 1.0)
-                                                                  )),
-                                                              child: Column(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                        .only(
-                                                                        bottom: 12.0),
-                                                                    child: ListTile(
-                                                                      title: Text(
-                                                                        data['customer_name'],
-                                                                        style: TextStyle(
-                                                                          fontSize: 18,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                        ),),
-                                                                      subtitle: Padding(
+                                                                          BorderSide(
+                                                                              color: Colors
+                                                                                  .grey
+                                                                                  .withOpacity(
+                                                                                  0.3),
+                                                                              width: 1.0)
+                                                                      )),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Padding(
                                                                         padding: const EdgeInsets
                                                                             .only(
-                                                                            top: 8.0),
-                                                                        child: Column(
-                                                                          crossAxisAlignment: CrossAxisAlignment
-                                                                              .start,
-                                                                          children: [
-                                                                            Text(
-                                                                                data['customer_address'],
-                                                                                style: TextStyle(
-                                                                                  fontSize: 14,
-                                                                                  fontWeight: FontWeight
-                                                                                      .w500,
-                                                                                  color: Colors
-                                                                                      .grey,
-                                                                                )),
-                                                                            SizedBox(
-                                                                              height: 5,),
-                                                                            Text(
-                                                                                data['customer_phone'],
-                                                                                style: TextStyle(
-                                                                                  fontSize: 14,
-                                                                                  fontWeight: FontWeight
-                                                                                      .w500,
-                                                                                  color: Colors
-                                                                                      .grey,
-                                                                                )),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      trailing: Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .only(
-                                                                            top: 8.0),
-                                                                        child: Container(
-                                                                          child: Row(
-                                                                            mainAxisSize: MainAxisSize
-                                                                                .min,
-                                                                            children: [
-                                                                              Container(
-                                                                                height: 21,
-                                                                                decoration: BoxDecoration(
-                                                                                  borderRadius: BorderRadius
-                                                                                      .circular(
-                                                                                      6.0),
-                                                                                  color: AppTheme
-                                                                                      .badgeFgDanger,
-                                                                                ),
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets
-                                                                                      .only(
-                                                                                      top: 1.0,
-                                                                                      left: 10.0,
-                                                                                      right: 10.0),
-                                                                                  child: Text(
-                                                                                    '2 Unpaid',
+                                                                            bottom: 12.0),
+                                                                        child: ListTile(
+                                                                          title: Text(
+                                                                              data['customer_name'].toString(),
+                                                                            style: TextStyle(
+                                                                              fontSize: 18,
+                                                                              fontWeight:
+                                                                              FontWeight
+                                                                                  .w500,
+                                                                            ),),
+                                                                          subtitle: Padding(
+                                                                            padding: const EdgeInsets
+                                                                                .only(
+                                                                                top: 8.0),
+                                                                            child: Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment
+                                                                                  .start,
+                                                                              children: [
+                                                                                Text(
+                                                                                    data['customer_address'],
                                                                                     style: TextStyle(
-                                                                                        fontSize: 13,
-                                                                                        fontWeight: FontWeight
-                                                                                            .w500,
-                                                                                        color: Colors
-                                                                                            .white
+                                                                                      fontSize: 14,
+                                                                                      fontWeight: FontWeight
+                                                                                          .w500,
+                                                                                      color: Colors
+                                                                                          .grey,
+                                                                                    )),
+                                                                                SizedBox(
+                                                                                  height: 5,),
+                                                                                Text(
+                                                                                    data['customer_phone'],
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 14,
+                                                                                      fontWeight: FontWeight
+                                                                                          .w500,
+                                                                                      color: Colors
+                                                                                          .grey,
+                                                                                    )),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          trailing: Padding(
+                                                                            padding: const EdgeInsets
+                                                                                .only(
+                                                                                top: 8.0),
+                                                                            child: Container(
+                                                                              child: Row(
+                                                                                mainAxisSize: MainAxisSize
+                                                                                    .min,
+                                                                                children: [
+                                                                                  Container(
+                                                                                    height: 21,
+                                                                                    decoration: BoxDecoration(
+                                                                                      borderRadius: BorderRadius
+                                                                                          .circular(
+                                                                                          6.0),
+                                                                                      color: AppTheme
+                                                                                          .badgeFgDanger,
+                                                                                    ),
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets
+                                                                                          .only(
+                                                                                          top: 1.0,
+                                                                                          left: 10.0,
+                                                                                          right: 10.0),
+                                                                                      child: Text(
+                                                                                        '2 Unpaid',
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 13,
+                                                                                            fontWeight: FontWeight
+                                                                                                .w500,
+                                                                                            color: Colors
+                                                                                                .white
+                                                                                        ),
+                                                                                      ),
                                                                                     ),
                                                                                   ),
-                                                                                ),
+                                                                                  SizedBox(
+                                                                                      width: 12),
+                                                                                  Icon(
+                                                                                    Icons
+                                                                                        .arrow_forward_ios_rounded,
+                                                                                    size: 16,
+                                                                                    color: Colors
+                                                                                        .blueGrey
+                                                                                        .withOpacity(
+                                                                                        0.8),
+                                                                                  ),
+                                                                                ],
                                                                               ),
-                                                                              SizedBox(
-                                                                                  width: 12),
-                                                                              Icon(
-                                                                                Icons
-                                                                                    .arrow_forward_ios_rounded,
-                                                                                size: 16,
-                                                                                color: Colors
-                                                                                    .blueGrey
-                                                                                    .withOpacity(
-                                                                                    0.8),
-                                                                              ),
-                                                                            ],
+                                                                            ),
                                                                           ),
+
                                                                         ),
-                                                                      ),
+                                                                      )
 
-                                                                    ),
-                                                                  )
-
-                                                                ],
+                                                                    ],
+                                                                  ),
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ),
-                                                        );
+                                                            );
+
                                             },
                                             // Builds 1000 ListTiles
                                             childCount: snapshot.data!.docs.length,
                                           ),
                                          )
-                                ],
-                              );
+                                  ],
+                                );
+                              }
+                              return Container();
                             }
-                            return Container();
-                          }
-                      ),
+                        );
+
+                      }
+                 return Container();
+                      }
                     ),
                   ),
                 ),
@@ -562,6 +574,9 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
       ),
     );
   }
+
+
+
   _animateToIndex(i) {
     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
     if((_width * i) > cateScCtler.position.maxScrollExtent) {
