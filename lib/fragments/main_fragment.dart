@@ -92,7 +92,7 @@ class MainFragmentState extends State<MainFragment>  with TickerProviderStateMix
                                             border: OutlineInputBorder(),
                                             hintText: 'Enter a search term'
                                         ),
-                                      )
+                                      ),
                                       ),
                                     ),
                                   ),
