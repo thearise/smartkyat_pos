@@ -622,16 +622,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           int refNum = int.parse(prodList[i].split('-')[7]) - int.parse(prodListBefore[i].split('-')[7]);
                                           if(refNum > 0) {
                                             print('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
-                                            var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions')
-                                                .doc(prodList[i].split('-')[1]).get();
+                                            var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb')
+                                                .collection('products').doc(prodList[i].split('-')[0]).get();
                                             if (docSnapshot.exists) {
                                               Map<String, dynamic>? data = docSnapshot.data();
-                                              String value = data?['unit_qtity'];
+                                              // String value = data?['unit_qtity'];
                                               FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops')
-                                                  .doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0]).collection('versions')
-                                                  .doc(prodList[i].split('-')[1])
-                                                  .update({
-                                                'unit_qtity': (int.parse(value) + refNum).toString()
+                                                  .doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0])
+                                                  .update({changeUnitName2Stock(prodList[i].split('-')[5]): FieldValue.increment(double.parse(refNum.toString()))
                                               })
                                                   .then((value) =>
                                                   print("User Updated"))
@@ -1375,6 +1373,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     }
 
     return totalPrice;
+  }
+
+  changeUnitName2Stock(String split) {
+    if(split == 'unit_name') {
+      return 'inStock1';
+    } else {
+      return 'inStock' + (int.parse(split[3]) + 1).toString();
+    }
   }
 
 }

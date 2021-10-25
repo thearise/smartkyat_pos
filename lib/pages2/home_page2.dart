@@ -33,7 +33,7 @@
 // import 'package:path_provider/path_provider.dart';
 // import 'package:pdf/pdf.dart' as PDF;
 // import 'package:pdf_render/pdf_render_widgets.dart';
-// import 'package:printing/printing.dart';
+// // import 'package:printing/printing.dart';
 // import 'package:pdf_render/pdf_render.dart';
 // import 'package:image/image.dart' as imglib;
 // import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
@@ -76,33 +76,39 @@
 //
 //     print('gg ');
 //
-//     FirebaseFirestore.instance.collection('test')
-//         .get()
-//         .then((QuerySnapshot querySnapshot) {
-//       querySnapshot.docs.forEach((doc) {
-//         // Create a reference to the document the transaction will use
-//         DocumentReference documentReference = FirebaseFirestore.instance.collection('test').doc(doc.id);
+//     users
+//         .doc('TtWFXrDF1feBVlUTPyQr')
+//         .update({'double': FieldValue.increment(1)})
+//         .then((value) => print("User Updated"))
+//         .catchError((error) => print("Failed to update user: $error"));
 //
-//         FirebaseFirestore.instance.runTransaction((transaction) async {
-//           // Get the document
-//           DocumentSnapshot snapshot = await transaction.get(documentReference);
-//
-//           if (!snapshot.exists) {
-//             throw Exception("User does not exist!");
-//           }
-//
-//           Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
-//
-//           String str = data?['data'];
-//           str = (int.parse(str) + 1).toString();
-//
-//           transaction.update(documentReference, {'data': str});
-//         })
-//             .then((value) => print("Follower count updated to $value"))
-//             .catchError((error) => print("Failed to update user followers: $error"));
-//
-//       });
-//     });
+//     // FirebaseFirestore.instance.collection('test')
+//     //     .get()
+//     //     .then((QuerySnapshot querySnapshot) {
+//     //   querySnapshot.docs.forEach((doc) {
+//     //     // Create a reference to the document the transaction will use
+//     //     DocumentReference documentReference = FirebaseFirestore.instance.collection('test').doc(doc.id);
+//     //
+//     //     FirebaseFirestore.instance.runTransaction((transaction) async {
+//     //       // Get the document
+//     //       DocumentSnapshot snapshot = await transaction.get(documentReference);
+//     //
+//     //       if (!snapshot.exists) {
+//     //         throw Exception("User does not exist!");
+//     //       }
+//     //
+//     //       Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+//     //
+//     //       String str = data?['data'];
+//     //       str = (int.parse(str) + 1).toString();
+//     //
+//     //       transaction.update(documentReference, {'data': str});
+//     //     })
+//     //         .then((value) => print("Follower count updated to $value"))
+//     //         .catchError((error) => print("Failed to update user followers: $error"));
+//     //
+//     //   });
+//     // });
 //   }
 //
 //   testLoopData() {
@@ -208,7 +214,7 @@
 //             Icons.add,
 //           ),
 //           // page: BuyListFragment(),
-//           page: BuyListFragment(),
+//           page: TestFragment(),
 //         ),
 //       ];
 //     });
@@ -236,6 +242,17 @@
 //           return SingleAssetPage(toggleCoinCallback: closeNewProduct);
 //         });
 //   }
+//
+//   // HomePageState() {
+//   //   // indexing is necessary for proper funcationality
+//   //   // of determining which tab is active
+//   //   tabs.asMap().forEach((index, details) {
+//   //     details.setIndex(index);
+//   //   });
+//   // }
+//
+//   // sets current tab index
+//   // and update state
 //
 //   int _selectIndex = 0;
 //   void _selectTab(int index) {
@@ -477,7 +494,7 @@
 //                         GestureDetector(
 //                           onTap: () {
 //                             setState(() {
-//                               _selectTab(6);
+//                               _selectTab(1);
 //                               _selectIndex = 3;
 //                             });
 //
@@ -862,18 +879,44 @@
 //                             ),
 //                             GestureDetector(
 //                               onTap: () {
-//                                 // print('sub ' + subList.toString());
-//                                 // testLoopData();
-//                                 addDailyExp(context);
-//                                 _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+//                                 print('sub ' + subList.toString());
+//                                 testLoopData();
+//                                 // addDailyExp(context);
+//                                 // _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
 //                               },
-//                               child: Padding(
-//                                 padding: const EdgeInsets.only(
-//                                     right: 13.0,top:2.0
-//                                 ),
-//                                 child: Container(
-//                                     child: Image.asset('assets/system/menu.png', height: 33,)
-//                                 ),
+//                               child: Row(
+//                                 children: [
+//                                   StreamBuilder<
+//                                       DocumentSnapshot<
+//                                           Map<String, dynamic>>>(
+//                                       stream: FirebaseFirestore.instance
+//                                           .collection('test')
+//                                           .doc('TtWFXrDF1feBVlUTPyQr')
+//                                           .snapshots(),
+//                                       builder:
+//                                           (BuildContext context, snapshot2) {
+//                                         if (snapshot2.hasData) {
+//                                           var output1 = snapshot2.data!.data();
+//                                           var mainUnit =
+//                                           output1?['double'];
+//                                           return Text(mainUnit.toString(),
+//                                             style: TextStyle(
+//                                               fontSize: 18,
+//                                               fontWeight: FontWeight.bold,
+//                                             ),
+//                                           );
+//                                         }
+//                                         return Container();
+//                                       }),
+//                                   Padding(
+//                                     padding: const EdgeInsets.only(
+//                                         right: 13.0,top:2.0
+//                                     ),
+//                                     child: Container(
+//                                         child: Image.asset('assets/system/menu.png', height: 33,)
+//                                     ),
+//                                   ),
+//                                 ],
 //                               ),
 //                             )
 //                           ],
@@ -2278,6 +2321,8 @@
 //                                                                 var length = 0;
 //                                                                 print('order creating');
 //
+//
+//
 //                                                                 await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').get().then((QuerySnapshot querySnapshot) async {
 //                                                                   querySnapshot.docs.forEach((doc) {
 //                                                                     length += int.parse(doc['daily_order'].length.toString());
@@ -2614,6 +2659,7 @@
 //
 //                                                                   print('subList ' + subList.toString());
 //
+//
 //                                                                   //Order Add
 //                                                                   await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
 //                                                                   // FirebaseFirestore.instance.collection('space')
@@ -2660,6 +2706,8 @@
 //                                                                       });
 //                                                                     }
 //                                                                   });
+//
+//
 //
 //                                                                 });
 //
