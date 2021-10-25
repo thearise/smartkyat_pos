@@ -40,7 +40,8 @@ dependencies:
   sticky_headers: ^0.2.0
   intl: ^0.17.0
   open_file: ^3.2.1
-  printing: ^5.3.0
+#  printing: ^5.3.0
+#  printing:
   url_launcher: ^6.0.6
 
   wechat_camera_picker: ^2.3.0

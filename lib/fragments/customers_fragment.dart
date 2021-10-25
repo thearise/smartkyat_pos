@@ -283,191 +283,191 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                                     expandedHeight: 20,
                                   ),
                                   // Next, create a SliverList
-                                 SliverList(
-                                        // Use a delegate to build items as they're scrolled on screen.
-                                        delegate: SliverChildBuilderDelegate(
-                                          // The builder function returns a ListTile with a title that
-                                          // displays the index of the current item.
-                                              (context, index) {
-                                            Map<String, dynamic> data = snapshot.data!.docs[index]
-                                                .data()! as Map<String, dynamic>;
-                                            var version = snapshot.data!.docs[index].id;
+                                   SliverList(
+                                          // Use a delegate to build items as they're scrolled on screen.
+                                          delegate: SliverChildBuilderDelegate(
+                                            // The builder function returns a ListTile with a title that
+                                            // displays the index of the current item.
+                                                (context, index) {
+                                              Map<String, dynamic> data = snapshot.data!.docs[index]
+                                                  .data()! as Map<String, dynamic>;
+                                              var version = snapshot.data!.docs[index].id;
 
-    // FirebaseFirestore.instance
-    //     .collection('space')
-    //     .doc('0NHIS0Jbn26wsgCzVBKT')
-    //     .collection('shops')
-    //     .doc('PucvhZDuUz3XlkTgzcjb')
-    //     .collection('orders')
-    //     .where('daily_order', arrayContains: ['2021101015050101049'])
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot) {
-    // querySnapshot.docs.forEach((doc) {
-    // innerID = doc.id;
-    // });
-    // setState(() {
-    //   docID = innerID;
-    //   print('inner' + docID);
-    // });});
+      // FirebaseFirestore.instance
+      //     .collection('space')
+      //     .doc('0NHIS0Jbn26wsgCzVBKT')
+      //     .collection('shops')
+      //     .doc('PucvhZDuUz3XlkTgzcjb')
+      //     .collection('orders')
+      //     .where('daily_order', arrayContains: ['2021101015050101049'])
+      //     .get()
+      //     .then((QuerySnapshot querySnapshot) {
+      // querySnapshot.docs.forEach((doc) {
+      // innerID = doc.id;
+      // });
+      // setState(() {
+      //   docID = innerID;
+      //   print('inner' + docID);
+      // });});
 
 
 
-                                                      return Padding(
-                                                        padding:
-                                                        EdgeInsets.only(
-                                                            top: index == 0
-                                                                ? 10.0
-                                                                : 15.0),
-                                                        child: GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (
-                                                                      context) =>
-                                                                      CustomerInfoSubs(
-                                                                          id: version,
-                                                                          toggleCoinCallback: addCustomer2Cart1)),
-                                                            );
-                                                          },
-                                                          child: Container(
-                                                            width: MediaQuery
-                                                                .of(context)
-                                                                .size
-                                                                .width,
-                                                            decoration: BoxDecoration(
-                                                                border: Border(
-                                                                    bottom: index ==
-                                                                        snapshot
-                                                                            .data!
-                                                                            .docs
-                                                                            .length -
-                                                                            1
-                                                                        ?
-                                                                    BorderSide(
-                                                                        color: Colors
-                                                                            .transparent,
-                                                                        width: 1.0)
-                                                                        :
+                                                        return Padding(
+                                                          padding:
+                                                          EdgeInsets.only(
+                                                              top: index == 0
+                                                                  ? 10.0
+                                                                  : 15.0),
+                                                          child: GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (
+                                                                        context) =>
+                                                                        CustomerInfoSubs(
+                                                                            id: version,
+                                                                            toggleCoinCallback: addCustomer2Cart1)),
+                                                              );
+                                                            },
+                                                            child: Container(
+                                                              width: MediaQuery
+                                                                  .of(context)
+                                                                  .size
+                                                                  .width,
+                                                              decoration: BoxDecoration(
+                                                                  border: Border(
+                                                                      bottom: index ==
+                                                                          snapshot
+                                                                              .data!
+                                                                              .docs
+                                                                              .length -
+                                                                              1
+                                                                          ?
+                                                                      BorderSide(
+                                                                          color: Colors
+                                                                              .transparent,
+                                                                          width: 1.0)
+                                                                          :
 
-                                                                    BorderSide(
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .withOpacity(
-                                                                            0.3),
-                                                                        width: 1.0)
-                                                                )),
-                                                            child: Column(
-                                                              children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                      .only(
-                                                                      bottom: 12.0),
-                                                                  child: ListTile(
-                                                                    title: Text(
-                                                                      data['customer_name'],
-                                                                      style: TextStyle(
-                                                                        fontSize: 18,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                      ),),
-                                                                    subtitle: Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .only(
-                                                                          top: 8.0),
-                                                                      child: Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment
-                                                                            .start,
-                                                                        children: [
-                                                                          Text(
-                                                                              data['customer_address'],
-                                                                              style: TextStyle(
-                                                                                fontSize: 14,
-                                                                                fontWeight: FontWeight
-                                                                                    .w500,
-                                                                                color: Colors
-                                                                                    .grey,
-                                                                              )),
-                                                                          SizedBox(
-                                                                            height: 5,),
-                                                                          Text(
-                                                                              data['customer_phone'],
-                                                                              style: TextStyle(
-                                                                                fontSize: 14,
-                                                                                fontWeight: FontWeight
-                                                                                    .w500,
-                                                                                color: Colors
-                                                                                    .grey,
-                                                                              )),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    trailing: Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .only(
-                                                                          top: 8.0),
-                                                                      child: Container(
-                                                                        child: Row(
-                                                                          mainAxisSize: MainAxisSize
-                                                                              .min,
+                                                                      BorderSide(
+                                                                          color: Colors
+                                                                              .grey
+                                                                              .withOpacity(
+                                                                              0.3),
+                                                                          width: 1.0)
+                                                                  )),
+                                                              child: Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .only(
+                                                                        bottom: 12.0),
+                                                                    child: ListTile(
+                                                                      title: Text(
+                                                                        data['customer_name'],
+                                                                        style: TextStyle(
+                                                                          fontSize: 18,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                        ),),
+                                                                      subtitle: Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top: 8.0),
+                                                                        child: Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment
+                                                                              .start,
                                                                           children: [
-                                                                            Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius
-                                                                                    .circular(
-                                                                                    6.0),
-                                                                                color: AppTheme
-                                                                                    .badgeFgDanger,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets
-                                                                                    .only(
-                                                                                    top: 1.0,
-                                                                                    left: 10.0,
-                                                                                    right: 10.0),
-                                                                                child: Text(
-                                                                                  '2 Unpaid',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight
-                                                                                          .w500,
-                                                                                      color: Colors
-                                                                                          .white
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
+                                                                            Text(
+                                                                                data['customer_address'],
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight
+                                                                                      .w500,
+                                                                                  color: Colors
+                                                                                      .grey,
+                                                                                )),
                                                                             SizedBox(
-                                                                                width: 12),
-                                                                            Icon(
-                                                                              Icons
-                                                                                  .arrow_forward_ios_rounded,
-                                                                              size: 16,
-                                                                              color: Colors
-                                                                                  .blueGrey
-                                                                                  .withOpacity(
-                                                                                  0.8),
-                                                                            ),
+                                                                              height: 5,),
+                                                                            Text(
+                                                                                data['customer_phone'],
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight
+                                                                                      .w500,
+                                                                                  color: Colors
+                                                                                      .grey,
+                                                                                )),
                                                                           ],
                                                                         ),
                                                                       ),
+                                                                      trailing: Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top: 8.0),
+                                                                        child: Container(
+                                                                          child: Row(
+                                                                            mainAxisSize: MainAxisSize
+                                                                                .min,
+                                                                            children: [
+                                                                              Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius
+                                                                                      .circular(
+                                                                                      6.0),
+                                                                                  color: AppTheme
+                                                                                      .badgeFgDanger,
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets
+                                                                                      .only(
+                                                                                      top: 1.0,
+                                                                                      left: 10.0,
+                                                                                      right: 10.0),
+                                                                                  child: Text(
+                                                                                    '2 Unpaid',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight
+                                                                                            .w500,
+                                                                                        color: Colors
+                                                                                            .white
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                  width: 12),
+                                                                              Icon(
+                                                                                Icons
+                                                                                    .arrow_forward_ios_rounded,
+                                                                                size: 16,
+                                                                                color: Colors
+                                                                                    .blueGrey
+                                                                                    .withOpacity(
+                                                                                    0.8),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+
                                                                     ),
+                                                                  )
 
-                                                                  ),
-                                                                )
-
-                                                              ],
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      );
-                                          },
-                                          // Builds 1000 ListTiles
-                                          childCount: snapshot.data!.docs.length,
-                                        ),
-                                       )
+                                                        );
+                                            },
+                                            // Builds 1000 ListTiles
+                                            childCount: snapshot.data!.docs.length,
+                                          ),
+                                         )
                                 ],
                               );
                             }
