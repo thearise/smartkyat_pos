@@ -2381,7 +2381,7 @@ class HomePageState extends State<HomePage>
                                                                     if (dateExist) {
                                                                       daily_order.doc(dateId).update({
                                                                         'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
-                                                                        'each_order' : [length.toString()]
+                                                                        'each_order' : FieldValue.arrayUnion([length.toString()])
 
                                                                       }).then((value) async {
                                                                         print('User updated');
@@ -2417,7 +2417,7 @@ class HomePageState extends State<HomePage>
                                                                       daily_order.add({
                                                                         'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText],
                                                                         'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()),
-                                                                        'each_order' : [length.toString()]
+                                                                        'each_order' : FieldValue.arrayUnion([length.toString()])
                                                                       }).then((value) async  {
                                                                         print('order added');
                                                                         await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
