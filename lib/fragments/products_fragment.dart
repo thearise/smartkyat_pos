@@ -336,8 +336,12 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             var mainName = data['unit_name'];
                                             var sub1Name = data['sub1_name'];
                                             var sub2Name = data['sub2_name'];
-                                            var sub3Name = data['sub3_name'];
                                             var mainsPrice = data['unit_sell'];
+                                            var mainQty = data['inStock1'].round();
+                                            var sub1Qty = data['inStock2'].round();
+                                            var sub2Qty = data['inStock3'].round();
+                                            var sub1Price = data['sub1_sell'];
+                                            var sub2Price = data['sub2_sell'];
                                             var version = snapshot.data!.docs[index].id;
                                             return Padding(
                                               padding:
@@ -452,227 +456,53 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                 SizedBox(
                                                                   height: 10,
                                                                 ),
-                                                                Text(
-                                                                  'MMK ' + mainsPrice,
-                                                                  style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    fontWeight:
-                                                                    FontWeight.w500,
-                                                                  ),
+                                                                Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      'MMK ' + mainsPrice,
+                                                                      style: TextStyle(
+                                                                        fontSize: 15,
+                                                                        fontWeight:
+                                                                        FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      sub1Name != '' && sub2Name == '' ? ' - ' + sub1Price : sub1Name != '' && sub2Name != '' ? ' - ' + sub2Price : '',
+                                                                      style: TextStyle(
+                                                                        fontSize: 15,
+                                                                        fontWeight:
+                                                                        FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                                 SizedBox(
                                                                   height: 2,
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    StreamBuilder(
-                                                                        stream: FirebaseFirestore
-                                                                            .instance
-                                                                            .collection(
-                                                                            'space')
-                                                                            .doc(
-                                                                            '0NHIS0Jbn26wsgCzVBKT')
-                                                                            .collection(
-                                                                            'shops')
-                                                                            .doc(
-                                                                            'PucvhZDuUz3XlkTgzcjb')
-                                                                            .collection(
-                                                                            'products')
-                                                                            .doc(version)
-                                                                            .collection(
-                                                                            'versions')
-                                                                            .where('type',
-                                                                            isEqualTo:
-                                                                            'main')
-                                                                            .snapshots(),
-                                                                        builder: (BuildContext
-                                                                        context,
-                                                                            AsyncSnapshot<
-                                                                                QuerySnapshot>
-                                                                            snapshot2) {
-                                                                          if (snapshot2
-                                                                              .hasData) {
-                                                                            int quantity =
-                                                                            0;
-                                                                            var mainQuantity;
-                                                                            snapshot2
-                                                                                .data!
-                                                                                .docs
-                                                                                .map((DocumentSnapshot
-                                                                            document) {
-                                                                              Map<String,
-                                                                                  dynamic>
-                                                                              data1 =
-                                                                              document.data()! as Map<
-                                                                                  String,
-                                                                                  dynamic>;
-
-                                                                              quantity +=
-                                                                                  int.parse(
-                                                                                      data1['unit_qtity']);
-                                                                              mainQuantity =
-                                                                                  quantity
-                                                                                      .toString();
-                                                                            }).toList();
-                                                                            return Row(
-                                                                              children: [
+                                                                   Row(
+                                                                     children: [
                                                                                 Text(
-                                                                                    '$mainQuantity $mainName ', style: TextStyle(
+                                                                                    mainQty.toString()+ ' '  + mainName + ' ', style: TextStyle(
                                                                                   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                                                 )),
                                                                                 Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                                sub1Name != '' ? Text(' | ', style: TextStyle(
-                                                                                  fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                )) : Text(''),
+                                                                                // sub1Name != '' ? Text(' | ', style: TextStyle(
+                                                                                //   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                // )) : Text(''),
                                                                               ],
-                                                                            );
-                                                                          }
-                                                                          return Container();
-                                                                        }),
-                                                                    StreamBuilder(
-                                                                        stream: FirebaseFirestore
-                                                                            .instance
-                                                                            .collection(
-                                                                            'space')
-                                                                            .doc(
-                                                                            '0NHIS0Jbn26wsgCzVBKT')
-                                                                            .collection(
-                                                                            'shops')
-                                                                            .doc(
-                                                                            'PucvhZDuUz3XlkTgzcjb')
-                                                                            .collection(
-                                                                            'products')
-                                                                            .doc(version)
-                                                                            .collection(
-                                                                            'versions')
-                                                                            .where('type',
-                                                                            isEqualTo:
-                                                                            'sub1')
-                                                                            .snapshots(),
-                                                                        builder: (BuildContext
-                                                                        context,
-                                                                            AsyncSnapshot<
-                                                                                QuerySnapshot>
-                                                                            snapshot3) {
-                                                                          if (snapshot3
-                                                                              .hasData) {
-                                                                            int quantity1 =
-                                                                            0;
-                                                                            var sub1Quantity;
-                                                                            snapshot3
-                                                                                .data!
-                                                                                .docs
-                                                                                .map((DocumentSnapshot
-                                                                            document) {
-                                                                              Map<String,
-                                                                                  dynamic>
-                                                                              data2 =
-                                                                              document.data()! as Map<
-                                                                                  String,
-                                                                                  dynamic>;
-                                                                              if (data2[
-                                                                              'unit_qtity'] !=
-                                                                                  '') {
-                                                                                quantity1 +=
-                                                                                    int.parse(
-                                                                                        data2['unit_qtity']);
-                                                                                sub1Quantity =
-                                                                                    quantity1
-                                                                                        .toString();
-                                                                              } else
-                                                                                return Container();
-                                                                            }).toList();
-                                                                            // print(sub1Quantity);
-                                                                            // print(mainQuantity);
+                                                                            ),
 
-                                                                            if (sub1Quantity !=
-                                                                                null) {
-                                                                              return Row(
-                                                                                children: [
+                                                                           sub1Name != '' && sub2Name == ''?
                                                                                   Text(
-                                                                                      '$sub1Quantity $sub1Name ', style: TextStyle(
+                                                                                     '  (+1 Sub item)', style: TextStyle(
                                                                                     fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                  )),
-                                                                                  Icon( SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
-                                                                                  sub2Name != '' ? Text(' | ', style: TextStyle(
-                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                  )) : Text(''),
-                                                                                ],
-                                                                              );
-                                                                            }
-                                                                            return Container();
-                                                                          }
-                                                                          return Container();
-                                                                        }),
-                                                                    StreamBuilder(
-                                                                        stream: FirebaseFirestore
-                                                                            .instance
-                                                                            .collection(
-                                                                            'space')
-                                                                            .doc(
-                                                                            '0NHIS0Jbn26wsgCzVBKT')
-                                                                            .collection(
-                                                                            'shops')
-                                                                            .doc(
-                                                                            'PucvhZDuUz3XlkTgzcjb')
-                                                                            .collection(
-                                                                            'products')
-                                                                            .doc(version)
-                                                                            .collection(
-                                                                            'versions')
-                                                                            .where('type',
-                                                                            isEqualTo:
-                                                                            'sub2')
-                                                                            .snapshots(),
-                                                                        builder: (BuildContext
-                                                                        context,
-                                                                            AsyncSnapshot<
-                                                                                QuerySnapshot>
-                                                                            snapshot4) {
-                                                                          if (snapshot4
-                                                                              .hasData) {
-                                                                            int quantity2 =
-                                                                            0;
-                                                                            var sub2Quantity;
-                                                                            snapshot4
-                                                                                .data!
-                                                                                .docs
-                                                                                .map((DocumentSnapshot
-                                                                            document) {
-                                                                              Map<String,
-                                                                                  dynamic>
-                                                                              data3 =
-                                                                              document.data()! as Map<
-                                                                                  String,
-                                                                                  dynamic>;
-                                                                              if (data3[
-                                                                              'unit_qtity'] !=
-                                                                                  '') {
-                                                                                quantity2 +=
-                                                                                    int.parse(
-                                                                                        data3['unit_qtity']);
-                                                                                sub2Quantity =
-                                                                                    quantity2
-                                                                                        .toString();
-                                                                              } else
-                                                                                return Container();
-                                                                            }).toList();
-                                                                            if (sub2Quantity !=
-                                                                                null) {
-                                                                              return Row(
-                                                                                children: [
-                                                                                  Text(
-                                                                                      '$sub2Quantity $sub2Name ', style: TextStyle(
-                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                  )),
-                                                                                  Icon( SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                                ],
-                                                                              );
-                                                                            }
-                                                                            return Container();
-                                                                          }
-                                                                          return Container();
-                                                                        }),
+                                                                                  )) : sub1Name != '' && sub2Name != '' ? Text(
+                                                                                '  (+2 Sub items)', style: TextStyle(
+                                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                            )): Container(),
+
                                                                     // StreamBuilder(
                                                                     //     stream: FirebaseFirestore
                                                                     //         .instance

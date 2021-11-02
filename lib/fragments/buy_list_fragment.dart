@@ -310,7 +310,6 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                         )
                                                       ],
                                                     ),
-
                                                   ),
                                                 ),
                                                 // Display a placeholder widget to visualize the shrinking size.
@@ -349,7 +348,10 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                           Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                                                builder: (context) => BuyListInfo(
+                                                                    data: item,
+                                                                    toggleCoinCallback:
+                                                                        () {})),
                                                           );
                                                         },
                                                         child: Stack(
@@ -565,7 +567,10 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                                              builder: (context) => BuyListInfo(
+                                                                  data: item,
+                                                                  toggleCoinCallback:
+                                                                      () {})),
                                                         );
                                                       },
                                                       child: Stack(
@@ -639,50 +644,6 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                     ),
                                                                     Row(
                                                                       children: [
-                                                                        // if(item.split('^')[5] == '0.0')
-                                                                        //   Padding(
-                                                                        //     padding: const EdgeInsets.only(right: 6.0),
-                                                                        //     child: Container(
-                                                                        //       height: 21,
-                                                                        //       decoration: BoxDecoration(
-                                                                        //         borderRadius: BorderRadius.circular(20.0),
-                                                                        //         color: AppTheme.badgeBgSuccess,
-                                                                        //       ),
-                                                                        //       child: Padding(
-                                                                        //         padding: const EdgeInsets.only(top: 2.0, left: 15.0, right: 15.0),
-                                                                        //         child: Text('Paid',
-                                                                        //           style: TextStyle(
-                                                                        //               fontSize: 13,
-                                                                        //               fontWeight: FontWeight.w500,
-                                                                        //               color: Colors.white
-                                                                        //           ),
-                                                                        //         ),
-                                                                        //       ),
-                                                                        //     ),
-                                                                        //   ),
-
-                                                                        // if(item.split('^')[5] != '0.0')
-                                                                        //   Padding(
-                                                                        //     padding: const EdgeInsets.only(right: 6.0),
-                                                                        //     child: Container(
-                                                                        //       height: 21,
-                                                                        //       decoration: BoxDecoration(
-                                                                        //         borderRadius: BorderRadius.circular(20.0),
-                                                                        //         color: AppTheme.badgeFgDanger,
-                                                                        //       ),
-                                                                        //       child: Padding(
-                                                                        //         padding: const EdgeInsets.only(top: 2.0, left: 15.0, right: 15.0),
-                                                                        //         child: Text('Unpaid',
-                                                                        //           style: TextStyle(
-                                                                        //               fontSize: 13,
-                                                                        //               fontWeight: FontWeight.w500,
-                                                                        //               color: Colors.white
-                                                                        //           ),
-                                                                        //         ),
-                                                                        //       ),
-                                                                        //     ),
-                                                                        //   ),
-
                                                                         if(item.split('^')[4][0] == 'r')
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(right: 6.0),

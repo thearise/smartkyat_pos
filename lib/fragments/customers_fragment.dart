@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,6 +25,8 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
 
   List<String> orderList = [];
   var orders;
+  var docId;
+  var innerId;
   @override
   initState() {
     super.initState();
@@ -88,8 +89,7 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                               document.data()! as Map<
                                   String,
                                   dynamic>;
-                              orders = data2['daily_order'];
-                              quantity += int.parse(orders.length.toString());
+                              quantity += int.parse(data2['daily_order'].length.toString());
                                }).toList();
                         return StreamBuilder(
                             stream: FirebaseFirestore.instance
@@ -312,165 +312,161 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                                    SliverList(
                                           // Use a delegate to build items as they're scrolled on screen.
                                           delegate: SliverChildBuilderDelegate(
-                                            // The builder function returns a ListTile with a title that
-                                            // displays the index of the current item.
                                                 (context, index) {
                                               Map<String, dynamic> data = snapshot.data!.docs[index]
                                                   .data()! as Map<String, dynamic>;
-                                              var version = snapshot.data!.docs[index].id;
-                                              print('flore ' + quantity.toString());
-                                                  return Padding(
-                                                              padding:
-                                                              EdgeInsets.only(
-                                                                  top: index == 0
-                                                                      ? 10.0
-                                                                      : 15.0),
-                                                              child: GestureDetector(
-                                                                onTap: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (
-                                                                            context) =>
-                                                                            CustomerInfoSubs(
-                                                                                id: version,
-                                                                                toggleCoinCallback: addCustomer2Cart1)),
-                                                                  );
-                                                                },
-                                                                child: Container(
-                                                                  width: MediaQuery
-                                                                      .of(context)
-                                                                      .size
-                                                                      .width,
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: index ==
-                                                                              snapshot
-                                                                                  .data!
-                                                                                  .docs
-                                                                                  .length -
-                                                                                  1
-                                                                              ?
-                                                                          BorderSide(
-                                                                              color: Colors
-                                                                                  .transparent,
-                                                                              width: 1.0)
-                                                                              :
+                                                var version = snapshot.data!.docs[index].id;
+                                              print('wild ' + version.toString());
+                                                              return Padding(
+                                                                padding:
+                                                                EdgeInsets.only(
+                                                                      top: index == 0
+                                                                          ? 10.0
+                                                                          : 15.0),
+                                                                child: GestureDetector(
+                                                                    onTap: () {
+                                                                      Navigator.push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                            builder: (context) =>
+                                                                                CustomerInfoSubs(
+                                                                                    id: version,
+                                                                                    toggleCoinCallback: addCustomer2Cart1)),
+                                                                      );
+                                                                    },
+                                                                    child: Container(
+                                                                      width: MediaQuery
+                                                                          .of(context)
+                                                                          .size
+                                                                          .width,
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: index ==
+                                                                                  snapshot
+                                                                                      .data!
+                                                                                      .docs
+                                                                                      .length -
+                                                                                      1
+                                                                                  ?
+                                                                              BorderSide(
+                                                                                  color: Colors
+                                                                                      .transparent,
+                                                                                  width: 1.0)
+                                                                                  :
 
-                                                                          BorderSide(
-                                                                              color: Colors
-                                                                                  .grey
-                                                                                  .withOpacity(
-                                                                                  0.3),
-                                                                              width: 1.0)
-                                                                      )),
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .only(
-                                                                            bottom: 12.0),
-                                                                        child: ListTile(
-                                                                          title: Text(
-                                                                              data['customer_name'].toString(),
-                                                                            style: TextStyle(
-                                                                              fontSize: 18,
-                                                                              fontWeight:
-                                                                              FontWeight
-                                                                                  .w500,
-                                                                            ),),
-                                                                          subtitle: Padding(
+                                                                              BorderSide(
+                                                                                  color: Colors
+                                                                                      .grey
+                                                                                      .withOpacity(
+                                                                                      0.3),
+                                                                                  width: 1.0)
+                                                                          )),
+                                                                      child: Column(
+                                                                        children: [
+                                                                          Padding(
                                                                             padding: const EdgeInsets
                                                                                 .only(
-                                                                                top: 8.0),
-                                                                            child: Column(
-                                                                              crossAxisAlignment: CrossAxisAlignment
-                                                                                  .start,
-                                                                              children: [
-                                                                                Text(
-                                                                                    data['customer_address'],
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 14,
-                                                                                      fontWeight: FontWeight
-                                                                                          .w500,
-                                                                                      color: Colors
-                                                                                          .grey,
-                                                                                    )),
-                                                                                SizedBox(
-                                                                                  height: 5,),
-                                                                                Text(
-                                                                                    data['customer_phone'],
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 14,
-                                                                                      fontWeight: FontWeight
-                                                                                          .w500,
-                                                                                      color: Colors
-                                                                                          .grey,
-                                                                                    )),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          trailing: Padding(
-                                                                            padding: const EdgeInsets
-                                                                                .only(
-                                                                                top: 8.0),
-                                                                            child: Container(
-                                                                              child: Row(
-                                                                                mainAxisSize: MainAxisSize
-                                                                                    .min,
-                                                                                children: [
-                                                                                  Container(
-                                                                                    height: 21,
-                                                                                    decoration: BoxDecoration(
-                                                                                      borderRadius: BorderRadius
-                                                                                          .circular(
-                                                                                          6.0),
-                                                                                      color: AppTheme
-                                                                                          .badgeFgDanger,
-                                                                                    ),
-                                                                                    child: Padding(
-                                                                                      padding: const EdgeInsets
-                                                                                          .only(
-                                                                                          top: 1.0,
-                                                                                          left: 10.0,
-                                                                                          right: 10.0),
-                                                                                      child: Text(
-                                                                                        '2 Unpaid',
+                                                                                bottom: 12.0),
+                                                                            child: ListTile(
+                                                                              title: Text(
+                                                                                data['customer_name'].toString(),
+                                                                                style: TextStyle(
+                                                                                  fontSize: 18,
+                                                                                  fontWeight:
+                                                                                  FontWeight
+                                                                                      .w500,
+                                                                                ),),
+                                                                              subtitle: Padding(
+                                                                                padding: const EdgeInsets
+                                                                                    .only(
+                                                                                    top: 8.0),
+                                                                                child: Column(
+                                                                                  crossAxisAlignment: CrossAxisAlignment
+                                                                                      .start,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                        data['customer_address'],
                                                                                         style: TextStyle(
-                                                                                            fontSize: 13,
-                                                                                            fontWeight: FontWeight
-                                                                                                .w500,
-                                                                                            color: Colors
-                                                                                                .white
+                                                                                          fontSize: 14,
+                                                                                          fontWeight: FontWeight
+                                                                                              .w500,
+                                                                                          color: Colors
+                                                                                              .grey,
+                                                                                        )),
+                                                                                    SizedBox(
+                                                                                      height: 5,),
+                                                                                    Text(
+                                                                                        data['customer_phone'],
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 14,
+                                                                                          fontWeight: FontWeight
+                                                                                              .w500,
+                                                                                          color: Colors
+                                                                                              .grey,
+                                                                                        )),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              trailing: Padding(
+                                                                                padding: const EdgeInsets
+                                                                                    .only(
+                                                                                    top: 8.0),
+                                                                                child: Container(
+                                                                                  child: Row(
+                                                                                    mainAxisSize: MainAxisSize
+                                                                                        .min,
+                                                                                    children: [
+                                                                                      Container(
+                                                                                        height: 21,
+                                                                                        decoration: BoxDecoration(
+                                                                                          borderRadius: BorderRadius
+                                                                                              .circular(
+                                                                                              6.0),
+                                                                                          color: AppTheme
+                                                                                              .badgeFgDanger,
+                                                                                        ),
+                                                                                        child: Padding(
+                                                                                          padding: const EdgeInsets
+                                                                                              .only(
+                                                                                              top: 1.0,
+                                                                                              left: 10.0,
+                                                                                              right: 10.0),
+                                                                                          child: Text(
+                                                                                            '2 Unpaid',
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 13,
+                                                                                                fontWeight: FontWeight
+                                                                                                    .w500,
+                                                                                                color: Colors
+                                                                                                    .white
+                                                                                            ),
+                                                                                          ),
                                                                                         ),
                                                                                       ),
-                                                                                    ),
+                                                                                      SizedBox(
+                                                                                          width: 12),
+                                                                                      Icon(
+                                                                                        Icons
+                                                                                            .arrow_forward_ios_rounded,
+                                                                                        size: 16,
+                                                                                        color: Colors
+                                                                                            .blueGrey
+                                                                                            .withOpacity(
+                                                                                            0.8),
+                                                                                      ),
+                                                                                    ],
                                                                                   ),
-                                                                                  SizedBox(
-                                                                                      width: 12),
-                                                                                  Icon(
-                                                                                    Icons
-                                                                                        .arrow_forward_ios_rounded,
-                                                                                    size: 16,
-                                                                                    color: Colors
-                                                                                        .blueGrey
-                                                                                        .withOpacity(
-                                                                                        0.8),
-                                                                                  ),
-                                                                                ],
+                                                                                ),
                                                                               ),
+
                                                                             ),
+
                                                                           ),
-
-                                                                        ),
-                                                                      )
-
-                                                                    ],
-                                                                  ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
                                                                 ),
-                                                              ),
-                                                            );
-
+                                                              );
                                             },
                                             // Builds 1000 ListTiles
                                             childCount: snapshot.data!.docs.length,

@@ -4,19 +4,10 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 
 import '../app_theme.dart';
 import 'fill_product.dart';
-
-final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-];
 
 class ProductDetailsView2 extends StatefulWidget {
   final _callback;
@@ -59,13 +50,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
             )));
   }
 
-
-
   TextEditingController _textFieldController = TextEditingController();
 
   late int codeDialog =0;
   String prodID = '';
-
 
   late TabController _controller;
   int _sliding = 0;
@@ -126,9 +114,12 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                 var sub2Unit = output?['sub2_link'];
                 var sub3Unit = output?['sub3_link'];
                 var subExist = output?['sub_exist'];
-                var mainLoss = output?['main_loss'];
-                var sub1Loss = output?['sub1_loss'];
-                var sub2Loss = output?['sub2_loss'];
+                var mainLoss = output?['Loss1'].round();
+                var sub1Loss = output?['Loss2'].round();
+                var sub2Loss = output?['Loss3'].round();
+                var mainQty = output?['inStock1'].round();
+                var sub1Qty = output?['inStock2'].round();
+                var sub2Qty = output?['inStock3'].round();
                 var image = output?['img_1'];
                 List<String> subSell = [];
                 List<String> subLink = [];
@@ -509,14 +500,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                 );
                                                 setState(() async {
                                                   codeDialog = int.parse(amount![0]);
-                                                  print('valueText' + codeDialog.toString());
-                                                  List<String> subSell = [];
                                                   List<String> subLink = [];
                                                   List<String> subName = [];
-
-                                                  int mainLoss = 0;
-                                                  int sub1Loss = 0;
-                                                  int sub2Loss = 0;
+                                                  List<double> subStock = [];
                                                   var docSnapshot10 = await FirebaseFirestore.instance.collection('space')
                                                       .doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
                                                       'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
@@ -525,657 +511,47 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                                                   if (docSnapshot10.exists) {
                                                     Map<String, dynamic>? data10 = docSnapshot10.data();
-                                                    for (int i = 0; i < int.parse(data10 ? ["sub_exist"]); i++) {
-                                                      subSell.add(data10 ? ['sub' + (i + 1).toString() + '_sell']);
-                                                      subLink.add(data10 ? ['sub' + (i + 1).toString() + '_link']);
-                                                      subName.add(data10 ? ['sub' + (i + 1).toString() + '_name']);
+                                                      for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                      subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                      subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                      print('inStock' + (i+1).toString());
+                                                      subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
                                                     }
-                                                    mainLoss = int.parse(data10 ? ["main_loss"]);
-                                                    sub1Loss = int.parse(data10 ? ["sub1_loss"]);
-                                                    sub2Loss = int.parse(data10 ? ["sub2_loss"]);
                                                   }
                                                   if (prodID.split('-')[3] == 'unit_name') {
-                                                    await FirebaseFirestore.instance.collection('space').doc(
-                                                        '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                        'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                        prodID.split('-')[0]).collection('versions')
-                                                        .orderBy('date', descending: false)
-                                                        .where('type', isEqualTo: 'main')
-                                                        .get()
-                                                        .then((QuerySnapshot querySnapshot) async {
-                                                      int value = codeDialog;
-                                                      double ttlQtity = 0.0;
-                                                      double ttlPrice = 0.0;
-                                                      int mainLoss1 = 0;
-                                                      mainLoss1 = int.parse(value.toString()) + mainLoss;
+
+                                                    decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
 
                                                       await FirebaseFirestore.instance.collection('space').doc(
                                                           '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
                                                           'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
                                                           prodID.split('-')[0])
-                                                          .update({'main_loss': mainLoss1.toString()
-                                                      });
+                                                          .update({'Loss1': FieldValue.increment(double.parse(amount[0].toString()))})
+                                                          .then((value) => print("User Updated"))
+                                                          .catchError((error) => print("Failed to update user: $error"));
 
-                                                      for (int j = 0; j < querySnapshot.docs.length; j++) {
-                                                        if (value != 0 && querySnapshot.docs[j]["unit_qtity"] != '0' &&
-                                                            int.parse(querySnapshot.docs[j]["unit_qtity"]) < value) {
-                                                          int newValue = 0;
-                                                          ttlPrice += double.parse(querySnapshot.docs[j]["buy_price"]) *
-                                                              double.parse(querySnapshot.docs[j]["unit_qtity"]);
-                                                          ttlQtity += double.parse(querySnapshot.docs[j]["unit_qtity"]);
-                                                          // main_loss1 = int.parse(querySnapshot.docs[j]["unit_qtity"]) + mainLoss;
 
-                                                          await FirebaseFirestore.instance.collection('space').doc(
-                                                              '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                              'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                              prodID.split('-')[0]).collection('versions').doc(
-                                                              querySnapshot.docs[j].id)
-                                                              .update({'unit_qtity': newValue.toString()
-                                                          });
-                                                          // await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodID.split('-')[0])
-                                                          //     .update({'main_loss': main_loss1.toString()
-                                                          // });
-                                                          value = (int.parse(querySnapshot.docs[j]["unit_qtity"]) - value)
-                                                              .abs();
-                                                        } else
-                                                        if (value != 0 && querySnapshot.docs[j]["unit_qtity"] != '0' &&
-                                                            int.parse(querySnapshot.docs[j]["unit_qtity"]) >= value) {
-                                                          print(querySnapshot.docs[j]["unit_qtity"]);
-
-                                                          int newValue = int.parse(querySnapshot.docs[j]["unit_qtity"]) -
-                                                              value;
-                                                          ttlPrice += double.parse(querySnapshot.docs[j]["buy_price"]) *
-                                                              double.parse(value.toString());
-                                                          ttlQtity += double.parse(querySnapshot.docs[j]["unit_qtity"]);
-                                                          //main_loss2 = int.parse(value.toString()) +  mainLoss;
-
-                                                          await FirebaseFirestore.instance.collection('space').doc(
-                                                              '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                              'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                              prodID.split('-')[0]).collection('versions').doc(
-                                                              querySnapshot.docs[j].id).update(
-                                                              {'unit_qtity': newValue.toString()});
-                                                          // await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodID.split('-')[0])
-                                                          //    .update({'main_loss': main_loss2.toString()
-                                                          // });
-                                                          //subList.add(str.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4]+  '-0-' + querySnapshot.docs[j]["date"]);
-                                                          break;
-                                                        }
-                                                      }
-                                                    });
                                                   } else if (prodID.split('-')[3] == 'sub1_name') {
+                                                    sub1Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
                                                     await FirebaseFirestore.instance.collection('space').doc(
                                                         '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
                                                         'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                        prodID.split('-')[0]).collection('versions')
-                                                        .orderBy('date', descending: false)
-                                                        .where('type', isEqualTo: 'sub1')
-                                                        .get()
-                                                        .then((QuerySnapshot querySnapshot) async {
-                                                      int value = codeDialog;
-                                                      double ttlPrice = 0.0;
-                                                      double ttlQtity = 0.0;
-                                                      int sub1Loss1 = 0;
-                                                      int sub1Loss2 = 0;
-
-                                                      sub1Loss1 = int.parse(value.toString()) + sub1Loss;
-                                                      await FirebaseFirestore.instance.collection('space').doc(
-                                                          '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                          'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                          prodID.split('-')[0])
-                                                          .update({'sub1_loss': sub1Loss1.toString()
-                                                      });
-
-                                                      for (int j = 0; j < querySnapshot.docs.length; j++) {
-                                                        print('val ' + value.toString() + ' ' +
-                                                            querySnapshot.docs[j]["unit_qtity"]);
-                                                        if (value != 0 && querySnapshot.docs[j]["unit_qtity"] != '0' &&
-                                                            int.parse(querySnapshot.docs[j]["unit_qtity"]) < value) {
-                                                          int newValue = 0;
-                                                          ttlPrice += double.parse(querySnapshot.docs[j]["buy_price"]) *
-                                                              double.parse(querySnapshot.docs[j]["unit_qtity"]);
-                                                          ttlQtity += double.parse(querySnapshot.docs[j]["unit_qtity"]);
-                                                          // sub1Loss1 = int.parse(querySnapshot.docs[j]["unit_qtity"]) + sub1Loss;
-                                                          // print('sub1Loss1 ' + sub1Loss1.toString());
-                                                          await FirebaseFirestore.instance.collection('space').doc(
-                                                              '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                              'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                              prodID.split('-')[0]).collection('versions').doc(
-                                                              querySnapshot.docs[j].id)
-                                                              .update({'unit_qtity': newValue.toString()
-                                                          });
-                                                          // await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodID.split('-')[0])
-                                                          //     .update({'sub1_loss': sub1Loss1.toString()
-                                                          // });
+                                                        prodID.split('-')[0])
+                                                        .update({'Loss2': FieldValue.increment(double.parse(amount[0].toString()))})
+                                                        .then((value) => print("User Updated"))
+                                                        .catchError((error) => print("Failed to update user: $error"));
 
 
-                                                          value = (int.parse(querySnapshot.docs[j]["unit_qtity"]) - value)
-                                                              .abs();
-                                                          //subList.add(str.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + querySnapshot.docs[j]["unit_qtity"] +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + querySnapshot.docs[j]["date"]);
-                                                        } else
-                                                        if (value != 0 && querySnapshot.docs[j]["unit_qtity"] != '0' &&
-                                                            int.parse(querySnapshot.docs[j]["unit_qtity"]) >= value) {
-                                                          print(querySnapshot.docs[j]["unit_qtity"]);
-
-                                                          int newValue = int.parse(querySnapshot.docs[j]["unit_qtity"]) -
-                                                              value;
-                                                          ttlPrice += double.parse(querySnapshot.docs[j]["buy_price"]) *
-                                                              double.parse(value.toString());
-                                                          ttlQtity += double.parse(querySnapshot.docs[j]["unit_qtity"]);
-                                                          // sub1Loss2 = int.parse(value.toString()) + sub1Loss;
-                                                          // print('sub1Loss2 ' + sub1Loss2.toString());
-                                                          await FirebaseFirestore.instance.collection('space').doc(
-                                                              '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                              'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                              prodID.split('-')[0]).collection('versions').doc(
-                                                              querySnapshot.docs[j].id).update(
-                                                              {'unit_qtity': newValue.toString()});
-                                                          // await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodID.split('-')[0])
-                                                          //     .update({'sub1_loss': sub1Loss2.toString()
-                                                          // });
-                                                          //subList.add(str.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4]+  '-0-' + querySnapshot.docs[j]["date"]);
-                                                          value = 0;
-                                                          break;
-                                                        } else {
-
-                                                        }
-                                                      }
-
-                                                      if (value != 0) {
-                                                        print('sub1 out' +
-                                                            (value / int.parse(subLink[0])).ceil().toString() + ' ' +
-                                                            subLink[0].toString());
-                                                        await FirebaseFirestore.instance.collection('space').doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                            'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                            prodID.split('-')[0]).collection('versions')
-                                                            .orderBy('date', descending: false)
-                                                            .where('type', isEqualTo: 'main')
-                                                            .get()
-                                                            .then((QuerySnapshot querySnapshotSub1Main) async {
-                                                          int mainNhote = (value / int.parse(subLink[0])).ceil();
-                                                          double ttlPrice = 0.0;
-                                                          double ttlQtity = 0.0;
-                                                          double sub1OutP = 0.0;
-                                                          for (int j = 0; j < querySnapshotSub1Main.docs.length; j++) {
-                                                            if (mainNhote != 0 &&
-                                                                querySnapshotSub1Main.docs[j]["unit_qtity"] != '0' &&
-                                                                int.parse(querySnapshotSub1Main.docs[j]["unit_qtity"]) <
-                                                                    mainNhote) {
-                                                              int newValue = 0;
-                                                              ttlPrice += double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["buy_price"]) *
-                                                                  double.parse(
-                                                                      querySnapshotSub1Main.docs[j]["unit_qtity"]);
-                                                              ttlQtity += double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["unit_qtity"]);
-                                                              await FirebaseFirestore.instance.collection('space').doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                  prodID.split('-')[0]).collection('versions').doc(
-                                                                  querySnapshotSub1Main.docs[j].id)
-                                                                  .update({'unit_qtity': newValue.toString()
-                                                              });
-                                                              sub1OutP = double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["buy_price"]);
-                                                              mainNhote = (int.parse(querySnapshotSub1Main
-                                                                  .docs[j]["unit_qtity"]) - mainNhote).abs();
-                                                            } else if (mainNhote != 0 &&
-                                                                querySnapshotSub1Main.docs[j]["unit_qtity"] != '0' &&
-                                                                int.parse(querySnapshotSub1Main.docs[j]["unit_qtity"]) >=
-                                                                    mainNhote) {
-                                                              print(querySnapshotSub1Main.docs[j]["unit_qtity"]);
-
-                                                              int newValue = int.parse(querySnapshotSub1Main
-                                                                  .docs[j]["unit_qtity"]) - mainNhote;
-                                                              ttlPrice += double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["buy_price"]) *
-                                                                  double.parse(mainNhote.toString());
-                                                              ttlQtity += double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["unit_qtity"]);
-                                                              sub1OutP = double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["buy_price"]);
-                                                              await FirebaseFirestore.instance.collection('space').doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                  prodID.split('-')[0]).collection('versions').doc(
-                                                                  querySnapshotSub1Main.docs[j].id).update(
-                                                                  {'unit_qtity': newValue.toString()});
-                                                              // if(sub1Loss1 != 0){
-                                                              //   sub1Loss4 = int.parse(value.toString()) + sub1Loss1;
-                                                              // } else {
-                                                              //   sub1Loss4 =
-                                                              //       int.parse(value.toString()) + sub1Loss;
-                                                              // }
-                                                              // print('loss' + sub1Loss4.toString() + value.toString());
-                                                              // await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodID.split('-')[0])
-                                                              //     .update({'sub1_loss': sub1Loss4.toString()
-                                                              // });
-                                                              break;
-                                                            }
-                                                          }
-
-
-                                                          await FirebaseFirestore.instance.collection('space').doc(
-                                                              '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                              'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                              prodID.split('-')[0]).collection('versions')
-                                                              .add({
-                                                            'date': zeroToTen(DateTime
-                                                                .now()
-                                                                .year
-                                                                .toString()) + zeroToTen(DateTime
-                                                                .now()
-                                                                .month
-                                                                .toString()) + zeroToTen(DateTime
-                                                                .now()
-                                                                .day
-                                                                .toString()) + zeroToTen(DateTime
-                                                                .now()
-                                                                .hour
-                                                                .toString()) + zeroToTen(DateTime
-                                                                .now()
-                                                                .minute
-                                                                .toString()) + zeroToTen(DateTime
-                                                                .now()
-                                                                .second
-                                                                .toString()),
-                                                            'unit_qtity': value % int.parse(subLink[0]) == 0 ? '0' : (int
-                                                                .parse(subLink[0]) - (value % int.parse(subLink[0])))
-                                                                .toString(),
-                                                            'buy_price': (sub1OutP / double.parse(subLink[0])).toString(),
-                                                            'type': 'sub1',
-                                                          }).then((val) {
-                                                            //subList.add(str.split('-')[0] + '-' + val.id + '-' + (sub1OutP/double.parse(subLink[0])).toString() + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + zeroToTen(DateTime.now().year.toString()) + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString()));
-
-                                                          });
-                                                        });
-                                                      }
-                                                    });
                                                   } else if (prodID.split('-')[3] == 'sub2_name') {
+                                                    sub2Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
                                                     await FirebaseFirestore.instance.collection('space').doc(
                                                         '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
                                                         'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                        prodID.split('-')[0]).collection('versions')
-                                                        .orderBy('date', descending: false)
-                                                        .where('type', isEqualTo: 'sub2')
-                                                        .get()
-                                                        .then((QuerySnapshot querySnapshot) async {
-                                                      int value = codeDialog;
-                                                      double ttlPrice = 0.0;
-                                                      double ttlQtity = 0.0;
-                                                      int sub2Loss1 = 0;
-                                                      sub2Loss1 = int.parse(value.toString()) + sub2Loss;
+                                                        prodID.split('-')[0])
+                                                        .update({'Loss3': FieldValue.increment(double.parse(amount[0].toString()))})
+                                                        .then((value) => print("User Updated"))
+                                                        .catchError((error) => print("Failed to update user: $error"));
 
-                                                      await FirebaseFirestore.instance.collection('space').doc(
-                                                          '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                          'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                          prodID.split('-')[0])
-                                                          .update({'sub2_loss': sub2Loss1.toString()
-                                                      });
-
-                                                      for (int j = 0; j < querySnapshot.docs.length; j++) {
-                                                        print('val ' + value.toString() + ' ' +
-                                                            querySnapshot.docs[j]["unit_qtity"]);
-                                                        if (value != 0 && querySnapshot.docs[j]["unit_qtity"] != '0' &&
-                                                            int.parse(querySnapshot.docs[j]["unit_qtity"]) < value) {
-                                                          int newValue = 0;
-                                                          ttlPrice += double.parse(querySnapshot.docs[j]["buy_price"]) *
-                                                              double.parse(querySnapshot.docs[j]["unit_qtity"]);
-                                                          ttlQtity += double.parse(querySnapshot.docs[j]["unit_qtity"]);
-                                                          await FirebaseFirestore.instance.collection('space').doc(
-                                                              '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                              'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                              prodID.split('-')[0]).collection('versions').doc(
-                                                              querySnapshot.docs[j].id)
-                                                              .update({'unit_qtity': newValue.toString()
-                                                          });
-                                                          value = (int.parse(querySnapshot.docs[j]["unit_qtity"]) - value)
-                                                              .abs();
-                                                          //subList.add(prodID.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + querySnapshot.docs[j]["unit_qtity"] +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + querySnapshot.docs[j]["date"]);
-                                                        } else
-                                                        if (value != 0 && querySnapshot.docs[j]["unit_qtity"] != '0' &&
-                                                            int.parse(querySnapshot.docs[j]["unit_qtity"]) >= value) {
-                                                          print(querySnapshot.docs[j]["unit_qtity"]);
-
-                                                          int newValue = int.parse(querySnapshot.docs[j]["unit_qtity"]) -
-                                                              value;
-                                                          ttlPrice += double.parse(querySnapshot.docs[j]["buy_price"]) *
-                                                              double.parse(value.toString());
-                                                          ttlQtity += double.parse(querySnapshot.docs[j]["unit_qtity"]);
-
-                                                          await FirebaseFirestore.instance.collection('space').doc(
-                                                              '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                              'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                              prodID.split('-')[0]).collection('versions').doc(
-                                                              querySnapshot.docs[j].id).update(
-                                                              {'unit_qtity': newValue.toString()});
-
-                                                          //subList.add(str.split('-')[0] + '-' + querySnapshot.docs[j].id + '-' + querySnapshot.docs[j]["buy_price"] + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4]+  '-0-' + querySnapshot.docs[j]["date"]);
-                                                          value = 0;
-                                                          break;
-                                                        } else {
-
-                                                        }
-                                                      }
-                                                      if (value != 0) {
-                                                        print('sub2 out' +
-                                                            (value / int.parse(subLink[1])).ceil().toString() + ' ' +
-                                                            subLink[1].toString());
-                                                        await FirebaseFirestore.instance.collection('space').doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                            'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                            prodID.split('-')[0]).collection('versions')
-                                                            .orderBy('date', descending: false)
-                                                            .where('type', isEqualTo: 'sub1')
-                                                            .get()
-                                                            .then((QuerySnapshot querySnapshotSub1Main) async {
-                                                          int mainNhote = (value / int.parse(subLink[1])).ceil();
-                                                          bool mainNhoted = false;
-                                                          double ttlPrice = 0.0;
-                                                          double ttlQtity = 0.0;
-                                                          double sub2OutP = 0.0;
-                                                          for (int j = 0; j < querySnapshotSub1Main.docs.length; j++) {
-                                                            print('situation ' + value.toString() + ' ' +
-                                                                mainNhote.toString());
-                                                            if (mainNhote != 0 &&
-                                                                querySnapshotSub1Main.docs[j]["unit_qtity"] != '0' &&
-                                                                int.parse(querySnapshotSub1Main.docs[j]["unit_qtity"]) <
-                                                                    mainNhote) {
-                                                              int newValue = 0;
-                                                              ttlPrice += double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["buy_price"]) *
-                                                                  double.parse(
-                                                                      querySnapshotSub1Main.docs[j]["unit_qtity"]);
-                                                              ttlQtity += double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["unit_qtity"]);
-                                                              await FirebaseFirestore.instance.collection('space').doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                  prodID.split('-')[0]).collection('versions').doc(
-                                                                  querySnapshotSub1Main.docs[j].id)
-                                                                  .update({'unit_qtity': newValue.toString()
-                                                              });
-                                                              sub2OutP = double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["buy_price"]);
-
-                                                              mainNhote = (int.parse(querySnapshotSub1Main
-                                                                  .docs[j]["unit_qtity"]) - mainNhote).abs();
-                                                              mainNhoted = true;
-
-                                                              await FirebaseFirestore.instance.collection('space').doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                  prodID.split('-')[0]).collection('versions')
-                                                                  .add({
-                                                                'date': zeroToTen(DateTime
-                                                                    .now()
-                                                                    .year
-                                                                    .toString()) + zeroToTen(DateTime
-                                                                    .now()
-                                                                    .month
-                                                                    .toString()) + zeroToTen(DateTime
-                                                                    .now()
-                                                                    .day
-                                                                    .toString()) + zeroToTen(DateTime
-                                                                    .now()
-                                                                    .hour
-                                                                    .toString()) + zeroToTen(DateTime
-                                                                    .now()
-                                                                    .minute
-                                                                    .toString()) + zeroToTen(DateTime
-                                                                    .now()
-                                                                    .second
-                                                                    .toString()),
-                                                                'unit_qtity': '0',
-                                                                'buy_price': (sub2OutP / double.parse(subLink[1]))
-                                                                    .toString(),
-                                                                'type': 'sub2',
-                                                              }).then((val) {
-                                                                //subList.add(str.split('-')[0] + '-' + val.id + '-' + (sub2OutP/double.parse(subLink[1])).toString() + '-' + (int.parse(querySnapshotSub1Main.docs[j]["unit_qtity"])*int.parse(subLink[1])).toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + zeroToTen(DateTime.now().year.toString()) + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString()));
-                                                                value = value - (int.parse(
-                                                                    querySnapshotSub1Main.docs[j]["unit_qtity"]) *
-                                                                    int.parse(subLink[1]));
-                                                              });
-                                                            } else if (mainNhote != 0 &&
-                                                                querySnapshotSub1Main.docs[j]["unit_qtity"] != '0' &&
-                                                                int.parse(querySnapshotSub1Main.docs[j]["unit_qtity"]) >=
-                                                                    mainNhote) {
-                                                              print(querySnapshotSub1Main.docs[j]["unit_qtity"]);
-
-                                                              int newValue = int.parse(querySnapshotSub1Main
-                                                                  .docs[j]["unit_qtity"]) - mainNhote;
-                                                              ttlPrice += double.parse(querySnapshotSub1Main
-                                                                  .docs[j]["buy_price"]) *
-                                                                  double.parse(mainNhote.toString());
-                                                              ttlQtity += double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["unit_qtity"]);
-                                                              sub2OutP = double.parse(
-                                                                  querySnapshotSub1Main.docs[j]["buy_price"]);
-                                                              mainNhote = 0;
-
-                                                              await FirebaseFirestore.instance.collection('space').doc(
-                                                                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                  'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                  prodID.split('-')[0]).collection('versions').doc(
-                                                                  querySnapshotSub1Main.docs[j].id).update(
-                                                                  {'unit_qtity': newValue.toString()});
-                                                              // break;
-                                                            }
-                                                            if (querySnapshotSub1Main.docs.length - 1 == j) {
-                                                              print('1 situation ' + value.toString() + ' ' +
-                                                                  mainNhote.toString() + sub2OutP.toString());
-
-                                                              if (sub2OutP != 0.0 && mainNhote == 0) {
-                                                                await FirebaseFirestore.instance.collection('space').doc(
-                                                                    '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                    'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                    prodID.split('-')[0]).collection('versions')
-                                                                    .add({
-                                                                  'date': zeroToTen(DateTime
-                                                                      .now()
-                                                                      .year
-                                                                      .toString()) + zeroToTen(DateTime
-                                                                      .now()
-                                                                      .month
-                                                                      .toString()) + zeroToTen(DateTime
-                                                                      .now()
-                                                                      .day
-                                                                      .toString()) + zeroToTen(DateTime
-                                                                      .now()
-                                                                      .hour
-                                                                      .toString()) + zeroToTen(DateTime
-                                                                      .now()
-                                                                      .minute
-                                                                      .toString()) + zeroToTen(DateTime
-                                                                      .now()
-                                                                      .second
-                                                                      .toString()),
-                                                                  'unit_qtity': value % int.parse(subLink[1]) == 0
-                                                                      ? '0'
-                                                                      : (int.parse(subLink[1]) -
-                                                                      (value % int.parse(subLink[1]))).toString(),
-                                                                  'buy_price': (sub2OutP / double.parse(subLink[1]))
-                                                                      .toString(),
-                                                                  'type': 'sub2',
-                                                                }).then((val) {
-                                                                  //subList.add(str.split('-')[0] + '-' + val.id + '-' + (sub2OutP/double.parse(subLink[1])).toString() + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + zeroToTen(DateTime.now().year.toString()) + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString()));
-
-                                                                });
-                                                              } else {
-                                                                if (value != 0) {
-                                                                  print('sub2 Main out' +
-                                                                      (value / int.parse(subLink[0])).ceil().toString() +
-                                                                      ' ' + subLink[0].toString());
-                                                                  await FirebaseFirestore.instance.collection('space')
-                                                                      .doc('0NHIS0Jbn26wsgCzVBKT').collection('shops')
-                                                                      .doc('PucvhZDuUz3XlkTgzcjb').collection('products')
-                                                                      .doc(prodID.split('-')[0]).collection('versions')
-                                                                      .orderBy('date', descending: false)
-                                                                      .where('type', isEqualTo: 'main')
-                                                                      .get()
-                                                                      .then((QuerySnapshot querySnapshotSub1Main) async {
-                                                                    int mainNhoteSub2 = (value /
-                                                                        (int.parse(subLink[0]) * int.parse(subLink[1])))
-                                                                        .ceil();
-                                                                    print(
-                                                                        'sub2 Main out two ' + mainNhoteSub2.toString() +
-                                                                            ' ' + value.toString());
-                                                                    double ttlPrice = 0.0;
-                                                                    double ttlQtity = 0.0;
-                                                                    double sub1OutP = 0.0;
-                                                                    for (int j = 0; j <
-                                                                        querySnapshotSub1Main.docs.length; j++) {
-                                                                      if (mainNhoteSub2 != 0 &&
-                                                                          querySnapshotSub1Main.docs[j]["unit_qtity"] !=
-                                                                              '0' && int.parse(
-                                                                          querySnapshotSub1Main.docs[j]["unit_qtity"]) <
-                                                                          mainNhoteSub2) {
-                                                                        int newValue = 0;
-                                                                        ttlPrice += double.parse(
-                                                                            querySnapshotSub1Main.docs[j]["buy_price"]) *
-                                                                            double.parse(querySnapshotSub1Main
-                                                                                .docs[j]["unit_qtity"]);
-                                                                        ttlQtity += double.parse(
-                                                                            querySnapshotSub1Main.docs[j]["unit_qtity"]);
-                                                                        await FirebaseFirestore.instance.collection(
-                                                                            'space').doc('0NHIS0Jbn26wsgCzVBKT')
-                                                                            .collection('shops').doc(
-                                                                            'PucvhZDuUz3XlkTgzcjb').collection('products')
-                                                                            .doc(prodID.split('-')[0]).collection(
-                                                                            'versions').doc(
-                                                                            querySnapshotSub1Main.docs[j].id)
-                                                                            .update({'unit_qtity': newValue.toString()
-                                                                        });
-                                                                        sub1OutP = double.parse(
-                                                                            querySnapshotSub1Main.docs[j]["buy_price"]);
-
-                                                                        mainNhoteSub2 = (int.parse(
-                                                                            querySnapshotSub1Main.docs[j]["unit_qtity"]) -
-                                                                            mainNhoteSub2).abs();
-                                                                      } else if (mainNhoteSub2 != 0 &&
-                                                                          querySnapshotSub1Main.docs[j]["unit_qtity"] !=
-                                                                              '0' && int.parse(
-                                                                          querySnapshotSub1Main.docs[j]["unit_qtity"]) >=
-                                                                          mainNhoteSub2) {
-                                                                        print(
-                                                                            querySnapshotSub1Main.docs[j]["unit_qtity"]);
-
-                                                                        int newValue = int.parse(
-                                                                            querySnapshotSub1Main.docs[j]["unit_qtity"]) -
-                                                                            mainNhoteSub2;
-                                                                        ttlPrice += double.parse(
-                                                                            querySnapshotSub1Main.docs[j]["buy_price"]) *
-                                                                            double.parse(mainNhoteSub2.toString());
-                                                                        ttlQtity += double.parse(
-                                                                            querySnapshotSub1Main.docs[j]["unit_qtity"]);
-                                                                        sub1OutP = double.parse(
-                                                                            querySnapshotSub1Main.docs[j]["buy_price"]);
-
-                                                                        await FirebaseFirestore.instance.collection(
-                                                                            'space').doc('0NHIS0Jbn26wsgCzVBKT')
-                                                                            .collection('shops').doc(
-                                                                            'PucvhZDuUz3XlkTgzcjb').collection('products')
-                                                                            .doc(prodID.split('-')[0]).collection(
-                                                                            'versions').doc(
-                                                                            querySnapshotSub1Main.docs[j].id)
-                                                                            .update({'unit_qtity': newValue.toString()});
-                                                                        break;
-                                                                      }
-                                                                    }
-
-                                                                    int newVal = 0;
-                                                                    if (mainNhoted) {
-                                                                      newVal = value;
-                                                                    } else {
-                                                                      newVal = value;
-                                                                    }
-
-                                                                    await FirebaseFirestore.instance.collection('space')
-                                                                        .doc('0NHIS0Jbn26wsgCzVBKT').collection('shops')
-                                                                        .doc('PucvhZDuUz3XlkTgzcjb').collection(
-                                                                        'products').doc(prodID.split('-')[0]).collection(
-                                                                        'versions')
-                                                                        .add({
-                                                                      'date': zeroToTen(DateTime
-                                                                          .now()
-                                                                          .year
-                                                                          .toString()) + zeroToTen(DateTime
-                                                                          .now()
-                                                                          .month
-                                                                          .toString()) + zeroToTen(DateTime
-                                                                          .now()
-                                                                          .day
-                                                                          .toString()) + zeroToTen(DateTime
-                                                                          .now()
-                                                                          .hour
-                                                                          .toString()) + zeroToTen(DateTime
-                                                                          .now()
-                                                                          .minute
-                                                                          .toString()) + zeroToTen(DateTime
-                                                                          .now()
-                                                                          .second
-                                                                          .toString()),
-                                                                      'unit_qtity': (newVal % (int.parse(subLink[0]) *
-                                                                          int.parse(subLink[1]))) /
-                                                                          int.parse(subLink[1]) == 0 ? '0' : (int.parse(
-                                                                          subLink[0]) - ((newVal %
-                                                                          (int.parse(subLink[0]) *
-                                                                              int.parse(subLink[1]))) /
-                                                                          int.parse(subLink[1])).ceil()).toString(),
-                                                                      'buy_price': (sub1OutP / double.parse(subLink[0]))
-                                                                          .toString(),
-                                                                      'type': 'sub1',
-                                                                    })
-                                                                        .then((val) async {
-                                                                      // break
-                                                                      //subList.add(str.split('-')[0] + '-' + val.id + '-' + (sub1OutP/double.parse(subLink[0])).toString() + '-' + value.toString() +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + zeroToTen(DateTime.now().year.toString()) + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString()));
-                                                                      await FirebaseFirestore.instance.collection('space')
-                                                                          .doc('0NHIS0Jbn26wsgCzVBKT').collection('shops')
-                                                                          .doc('PucvhZDuUz3XlkTgzcjb').collection(
-                                                                          'products').doc(prodID.split('-')[0])
-                                                                          .collection('versions')
-                                                                          .add({
-                                                                        'date': zeroToTen(DateTime
-                                                                            .now()
-                                                                            .year
-                                                                            .toString()) + zeroToTen(DateTime
-                                                                            .now()
-                                                                            .month
-                                                                            .toString()) + zeroToTen(DateTime
-                                                                            .now()
-                                                                            .day
-                                                                            .toString()) + zeroToTen(DateTime
-                                                                            .now()
-                                                                            .hour
-                                                                            .toString()) + zeroToTen(DateTime
-                                                                            .now()
-                                                                            .minute
-                                                                            .toString()) + zeroToTen(DateTime
-                                                                            .now()
-                                                                            .second
-                                                                            .toString()),
-                                                                        'unit_qtity': value % int.parse(subLink[1]) == 0
-                                                                            ? '0'
-                                                                            : (int.parse(subLink[1]) -
-                                                                            (value % int.parse(subLink[1]))).toString(),
-                                                                        'buy_price': ((sub1OutP /
-                                                                            double.parse(subLink[0])) /
-                                                                            double.parse(subLink[1])).toString(),
-                                                                        'type': 'sub2',
-                                                                      })
-                                                                          .then((val) {
-
-                                                                      });
-                                                                    });
-                                                                  });
-                                                                }
-                                                              }
-                                                            }
-                                                          }
-                                                        });
-                                                      }
-                                                    });
                                                   } else
                                                     Container();
                                                 });
@@ -1343,38 +719,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: StreamBuilder(
-                                                stream: FirebaseFirestore.instance
-                                                    .collection('space')
-                                                    .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                    .collection('shops')
-                                                    .doc('PucvhZDuUz3XlkTgzcjb')
-                                                    .collection('products')
-                                                    .doc(widget.idString)
-                                                    .collection('versions')
-                                                    .where('type',
-                                                    isEqualTo: 'main')
-                                                    .snapshots(),
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<QuerySnapshot>
-                                                    snapshot2) {
-                                                  if (snapshot2.hasData) {
-                                                    int quantity = 0;
-                                                    var mainQuantity;
-                                                    snapshot2.data!.docs.map(
-                                                            (DocumentSnapshot
-                                                        document) {
-                                                          Map<String, dynamic> data1 =
-                                                          document.data()! as Map<
-                                                              String, dynamic>;
-
-                                                          quantity += int.parse(
-                                                              data1['unit_qtity']);
-                                                          mainQuantity =
-                                                              quantity.toString();
-                                                        }).toList();
-
-                                                    return Column(
+                                            child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Text(
@@ -1437,7 +782,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(mainQuantity + ' ' + mainName, style:
+                                                                      Text(mainQty.toString() + ' ' + mainName, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1462,7 +807,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(mainLoss + ' ' + mainName, style:
+                                                                      Text(mainLoss.toString() + ' ' + mainName, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1622,45 +967,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           ),
                                                         ),
                                                       ],
-                                                    );
-                                                  }
-                                                  return Container();
-                                                }),
+                                                    ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: StreamBuilder(
-                                                stream: FirebaseFirestore.instance
-                                                    .collection('space')
-                                                    .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                    .collection('shops')
-                                                    .doc('PucvhZDuUz3XlkTgzcjb')
-                                                    .collection('products')
-                                                    .doc(widget.idString)
-                                                    .collection('versions')
-                                                    .where('type',
-                                                    isEqualTo: 'sub1')
-                                                    .snapshots(),
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<QuerySnapshot>
-                                                    snapshot2) {
-                                                  if (snapshot2.hasData) {
-                                                    int quantity = 0;
-                                                    var sub1Quantity;
-                                                    snapshot2.data!.docs.map(
-                                                            (DocumentSnapshot
-                                                        document) {
-                                                          Map<String, dynamic> data1 =
-                                                          document.data()! as Map<
-                                                              String, dynamic>;
-
-                                                          quantity += int.parse(
-                                                              data1['unit_qtity']);
-                                                          sub1Quantity =
-                                                              quantity.toString();
-                                                        }).toList();
-
-                                                    return Column(
+                                            child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Text(
@@ -1723,7 +1034,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text( sub1Quantity+ ' ' + sub1Name, style:
+                                                                      Text( sub1Qty.toString() + ' ' + sub1Name, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1748,7 +1059,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(sub1Loss + ' ' + sub1Name, style:
+                                                                      Text(sub1Loss.toString() + ' ' + sub1Name, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1908,45 +1219,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           ),
                                                         ),
                                                       ],
-                                                    );
-                                                  }
-                                                  return Container();
-                                                }),
+                                                    ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: StreamBuilder(
-                                                stream: FirebaseFirestore.instance
-                                                    .collection('space')
-                                                    .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                    .collection('shops')
-                                                    .doc('PucvhZDuUz3XlkTgzcjb')
-                                                    .collection('products')
-                                                    .doc(widget.idString)
-                                                    .collection('versions')
-                                                    .where('type',
-                                                    isEqualTo: 'sub2')
-                                                    .snapshots(),
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<QuerySnapshot>
-                                                    snapshot2) {
-                                                  if (snapshot2.hasData) {
-                                                    int quantity = 0;
-                                                    var sub2Quantity;
-                                                    snapshot2.data!.docs.map(
-                                                            (DocumentSnapshot
-                                                        document) {
-                                                          Map<String, dynamic> data1 =
-                                                          document.data()! as Map<
-                                                              String, dynamic>;
-
-                                                          quantity += int.parse(
-                                                              data1['unit_qtity']);
-                                                          sub2Quantity =
-                                                              quantity.toString();
-                                                        }).toList();
-
-                                                    return Column(
+                                            child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Text(
@@ -2009,7 +1286,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(sub2Quantity + ' ' + sub2Name, style:
+                                                                      Text(sub2Qty.toString() + ' ' + sub2Name, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -2034,7 +1311,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(sub2Loss + ' ' + sub2Name, style:
+                                                                      Text(sub2Loss.toString() + ' ' + sub2Name, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -2194,10 +1471,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           ),
                                                         ),
                                                       ],
-                                                    );
-                                                  }
-                                                  return Container();
-                                                }),
+                                                    ),
                                           ),
                                         ],
                                       ),
@@ -2218,6 +1492,67 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
             }),
       ),
     );
+  }
+  changeUnitName2Stock(String split) {
+    if(split == 'main') {
+      return 'inStock1';
+    } else {
+      return 'inStock' + (int.parse(split[3]) + 1).toString();
+    }
+  }
+
+  Future<void> decStockFromInv(id, unit, num) async {
+    CollectionReference users = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products');
+
+    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+
+    users
+        .doc(id)
+        .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+  Future<void> incStockFromInv(id, unit, num) async {
+    CollectionReference users = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products');
+
+    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+
+    users
+        .doc(id)
+        .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+  Future<void> sub1Execution(subStock, subLink, id, num) async {
+    var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(id).get();
+    if (docSnapshot10.exists) {
+      Map<String, dynamic>? data10 = docSnapshot10.data();
+      subStock[1] = double.parse((data10 ? ['inStock2']).toString());
+      if(subStock[1] > double.parse(num)) {
+        decStockFromInv(id, 'sub1', num);
+      } else {
+        decStockFromInv(id, 'main', ((int.parse(num)  - subStock[1])/int.parse(subLink[0])).ceil());
+        incStockFromInv(id, 'sub1', ((int.parse(num)-subStock[1].round()) % int.parse(subLink[0])) == 0? 0: (int.parse(subLink[0]) - (int.parse(num)-subStock[1].round()) % int.parse(subLink[0])));
+        decStockFromInv(id, 'sub1', subStock[1]);
+      }
+    }
+  }
+
+  Future<void> sub2Execution(subStock, subLink, id, num) async {
+    var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(id).get();
+    if (docSnapshot10.exists) {
+      Map<String, dynamic>? data10 = docSnapshot10.data();
+      subStock[2] = double.parse((data10 ? ['inStock3']).toString());
+      if(subStock[2] > double.parse(num)) {
+        decStockFromInv(id, 'sub2', num);
+      } else {
+        await incStockFromInv(id, 'sub2', ((int.parse(num)-subStock[2].round()) % int.parse(subLink[1])) == 0? 0: (int.parse(subLink[1]) - (int.parse(num)-subStock[2].round()) % int.parse(subLink[1])));
+        await decStockFromInv(id, 'sub2', subStock[2]);
+        sub1Execution(subStock, subLink, id, ((int.parse(num)  - subStock[2])/int.parse(subLink[1])).ceil().toString());
+      }
+    }
   }
 
 }
