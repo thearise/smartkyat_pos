@@ -15,6 +15,7 @@ import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
 import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
+// import 'package:smartkyat_pos/fragments/home_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment2.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
@@ -55,6 +56,8 @@ class HomePageState extends State<HomePage>
   Color _fabColor = Colors.blue;
 
   bool sellDone = true;
+
+  double homeBotPadding = 0;
   void handleSlideAnimationChanged(Animation<double>? slideAnimation) {
     setState(() {
       _rotationAnimation = slideAnimation;
@@ -111,6 +114,8 @@ class HomePageState extends State<HomePage>
     super.dispose();
   }
 
+  GlobalKey<HomeFragmentState> homeGlobalKey = GlobalKey();
+
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -136,7 +141,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: HomeFragment(
-            toggleCoinCallback: () {},
+            toggleCoinCallback: () {}, key: homeGlobalKey
           ),
         ),
         TabItem(
@@ -242,7 +247,14 @@ class HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    homeBotPadding = MediaQuery.of(context).padding.bottom;
     return Scaffold(
+      onDrawerChanged: (isOpened) {
+        if(isOpened) {
+          homeGlobalKey.currentState!.unfocusSearch();
+        }
+      },
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       key: _scaffoldKey,
       drawer: new Drawer(
@@ -346,12 +358,18 @@ class HomePageState extends State<HomePage>
                         ),
                         GestureDetector(
                           onTap: () {
-                            setState(() {
-                              _selectTab(3);
-                              _selectIndex = 1;
-                            });
+                            homeGlobalKey.currentState!.closeSearch();
+
+                            // Future.delayed(const Duration(milliseconds: 500), () {
+                              setState(() {
+                                _selectTab(3);
+                                _selectIndex = 1;
+                              });
+                            // });
+
 
                             _scaffoldKey.currentState!.openEndDrawer();
+
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15.0, right: 15.0),
@@ -679,6 +697,7 @@ class HomePageState extends State<HomePage>
         // eventually breaking the app
 
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
           // backgroundColor: Colors.white,
           // indexed stack shows only one child
             body: IndexedStack(
@@ -687,7 +706,8 @@ class HomePageState extends State<HomePage>
             ),
             bottomNavigationBar: Padding(
               padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).padding.bottom),
+                bottom: homeBotPadding
+              ),
               child: Container(
                 color: Colors.white,
                 height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
@@ -844,35 +864,38 @@ class HomePageState extends State<HomePage>
                             ),
                             GestureDetector(
                               onTap: () {
-                                print('sub ' + subList.toString());
-                                testLoopData();
+                                homeGlobalKey.currentState!.closeSearch();
+                                // print('sub ' + subList.toString());
+                                // testLoopData();
                                 // addDailyExp(context);
                                 // _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                // homeGlobalKey.currentState!.Testing();
+                                // HomeFragmentState().Testing();
                               },
                               child: Row(
                                 children: [
-                                  StreamBuilder<
-                                      DocumentSnapshot<
-                                          Map<String, dynamic>>>(
-                                      stream: FirebaseFirestore.instance
-                                          .collection('test')
-                                          .doc('TtWFXrDF1feBVlUTPyQr')
-                                          .snapshots(),
-                                      builder:
-                                          (BuildContext context, snapshot2) {
-                                        if (snapshot2.hasData) {
-                                          var output1 = snapshot2.data!.data();
-                                          var mainUnit =
-                                          output1?['double'];
-                                          return Text(mainUnit.toString(),
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          );
-                                        }
-                                        return Container();
-                                      }),
+                                  // StreamBuilder<
+                                  //     DocumentSnapshot<
+                                  //         Map<String, dynamic>>>(
+                                  //     stream: FirebaseFirestore.instance
+                                  //         .collection('test')
+                                  //         .doc('TtWFXrDF1feBVlUTPyQr')
+                                  //         .snapshots(),
+                                  //     builder:
+                                  //         (BuildContext context, snapshot2) {
+                                  //       if (snapshot2.hasData) {
+                                  //         var output1 = snapshot2.data!.data();
+                                  //         var mainUnit =
+                                  //         output1?['double'];
+                                  //         return Text(mainUnit.toString(),
+                                  //           style: TextStyle(
+                                  //             fontSize: 18,
+                                  //             fontWeight: FontWeight.bold,
+                                  //           ),
+                                  //         );
+                                  //       }
+                                  //       return Container();
+                                  //     }),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         right: 13.0,top:2.0
@@ -1592,6 +1615,7 @@ class HomePageState extends State<HomePage>
                                                             prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                         return GestureDetector(
                                                           onTap: (){
+                                                            print('error prod' + prodList[i].toString());
                                                             setState((){
                                                               mystate((){
                                                                 quantity = 0;
@@ -3481,6 +3505,7 @@ class HomePageState extends State<HomePage>
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter mystate) {
               return Scaffold(
+                resizeToAvoidBottomInset: false,
                 backgroundColor: Colors.grey.withOpacity(0.3),
                 body: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
