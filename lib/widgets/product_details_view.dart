@@ -4,10 +4,19 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 
 import '../app_theme.dart';
 import 'fill_product.dart';
+
+final List<String> imgList = [
+  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
+  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
+  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
+];
 
 class ProductDetailsView2 extends StatefulWidget {
   final _callback;
@@ -49,10 +58,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
             )));
   }
 
+
+
   TextEditingController _textFieldController = TextEditingController();
 
   late int codeDialog =0;
   String prodID = '';
+
 
   late TabController _controller;
   int _sliding = 0;
@@ -510,7 +522,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                                                   if (docSnapshot10.exists) {
                                                     Map<String, dynamic>? data10 = docSnapshot10.data();
-                                                      for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                    for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
                                                       subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
                                                       subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
                                                       print('inStock' + (i+1).toString());
@@ -521,13 +533,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                                                     decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
 
-                                                      await FirebaseFirestore.instance.collection('space').doc(
-                                                          '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                          'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                          prodID.split('-')[0])
-                                                          .update({'Loss1': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                          .then((value) => print("User Updated"))
-                                                          .catchError((error) => print("Failed to update user: $error"));
+                                                    await FirebaseFirestore.instance.collection('space').doc(
+                                                        '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                                                        'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                        prodID.split('-')[0])
+                                                        .update({'Loss1': FieldValue.increment(double.parse(amount[0].toString()))})
+                                                        .then((value) => print("User Updated"))
+                                                        .catchError((error) => print("Failed to update user: $error"));
 
 
                                                   } else if (prodID.split('-')[3] == 'sub1_name') {
@@ -719,6 +731,27 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                             child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'MAIN UNIT PRICING',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    letterSpacing: 2,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 15,),
+                                                Container(
+                                                  height: 220,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    color: AppTheme.lightBgColor,
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                    child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Container(
@@ -777,94 +810,21 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                       color: Colors.grey
                                                                           .withOpacity(0.2),
                                                                       width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Sell price', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text('MMK ' + mainPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(0.2),
-                                                                              width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('In stock', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text(mainQty.toString() + ' ' + mainName, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(0.2),
-                                                                              width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Loss', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text(mainLoss.toString() + ' ' + mainName, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Barcode', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text(barcode, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                          child: Row(
+                                                            children: [
+                                                              Text('Loss', style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                              ),),
+                                                              Spacer(),
+                                                              Text(mainLoss.toString() + ' ' + mainName, style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.grey,
+                                                              ),),
+                                                            ],
                                                           ),
                                                         ),
                                                         Container(
@@ -1015,10 +975,35 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         ),
                                                       ],
                                                     ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                             child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'SUB-1 UNIT PRICING',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    letterSpacing: 2,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 15,),
+                                                Container(
+                                                  height: 220,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    color: AppTheme.lightBgColor,
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                    child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Container(
@@ -1077,94 +1062,21 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                       color: Colors.grey
                                                                           .withOpacity(0.2),
                                                                       width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Sell price', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text('MMK ' + sub1Price.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(0.2),
-                                                                              width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('In stock', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text( sub1Qty.toString() + ' ' + sub1Name, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(0.2),
-                                                                              width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Loss', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text(sub1Loss.toString() + ' ' + sub1Name, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Barcode', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text(barcode, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                          child: Row(
+                                                            children: [
+                                                              Text('Loss', style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                              ),),
+                                                              Spacer(),
+                                                              Text(sub1Loss.toString() + ' ' + sub1Name, style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.grey,
+                                                              ),),
+                                                            ],
                                                           ),
                                                         ),
                                                         Container(
@@ -1315,10 +1227,35 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         ),
                                                       ],
                                                     ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                             child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'SUB-2 UNIT PRICING',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    letterSpacing: 2,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 15,),
+                                                Container(
+                                                  height: 220,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    color: AppTheme.lightBgColor,
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                    child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Container(
@@ -1377,94 +1314,21 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                       color: Colors.grey
                                                                           .withOpacity(0.2),
                                                                       width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Sell price', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text('MMK ' + sub2Price.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(0.2),
-                                                                              width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('In stock', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text(sub2Qty.toString() + ' ' + sub2Name, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(0.2),
-                                                                              width: 1.0))),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Loss', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text(sub2Loss.toString() + ' ' + sub2Name, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  height: 55,
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text('Barcode', style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),),
-                                                                      Spacer(),
-                                                                      Text(barcode, style:
-                                                                      TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                          child: Row(
+                                                            children: [
+                                                              Text('Loss', style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                              ),),
+                                                              Spacer(),
+                                                              Text(sub2Loss.toString() + ' ' + sub2Name, style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.grey,
+                                                              ),),
+                                                            ],
                                                           ),
                                                         ),
                                                         Container(
@@ -1615,6 +1479,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         ),
                                                       ],
                                                     ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
