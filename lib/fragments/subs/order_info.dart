@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
+import 'package:smartkyat_pos/widgets/pay_debt_items.dart';
 
 import '../../app_theme.dart';
 import 'order_refund_sub.dart';
@@ -27,6 +28,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   bool get wantKeepAlive => true;
   var docId = '';
   String result = '';
+
 
   @override
   initState() {
@@ -192,7 +194,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           var output1 = snapshot2.data!.data();
                           // print(output1?['subs'].toString());
                           List prodList = output1?['subs'];
-
+                          var debt = output1?['debt'];
                           List prodListView = [];
                           prodListView.add(prodList[0]);
                           totalPrice = 0;
@@ -365,29 +367,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     ),
                                                   ),
                                                   onPressed: () async {
-                                                    var result = await Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              OrderRefundsSub(
-                                                                  data: widget.data
-                                                                      .split('^')[0] +
-                                                                      '^' +
-                                                                      widget.data
-                                                                          .split('^')[1] +
-                                                                      '^' +
-                                                                      totalPrice
-                                                                          .toString() +
-                                                                      '^' +
-                                                                      widget.data
-                                                                          .split('^')[3] +
-                                                                      '^' +
-                                                                      widget.data
-                                                                          .split('^')[4],
-                                                                  data2: prodList,
-                                                                  realPrice: 0.0,
-                                                                  toggleCoinCallback:
-                                                                      () {})),
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                        builder: (context) => PayDebtItems(debt: debt, data: widget.data, docId: docId,))
                                                     );
                                                   },
                                                   child: Container(

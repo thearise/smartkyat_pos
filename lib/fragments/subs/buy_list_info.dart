@@ -34,7 +34,6 @@ class _BuyListInfoState extends State<BuyListInfo>
         .collection('shops')
         .doc('PucvhZDuUz3XlkTgzcjb')
         .collection('buyOrders')
-        // FirebaseFirestore.instance.collection('space')
         .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
         .get()
         .then((QuerySnapshot querySnapshot) {
@@ -44,8 +43,6 @@ class _BuyListInfoState extends State<BuyListInfo>
       setState(() {
         docId = innerId;
       });
-      // return docId;
-      // return Container();
     });
 
     super.initState();
@@ -146,9 +143,9 @@ class _BuyListInfoState extends State<BuyListInfo>
                             'totalPrice ' +
                             prodList.toString());
                         for (String str in prodList) {
-                          totalPrice += int.parse(str.split('-')[1]) *
-                              (int.parse(str.split('-')[2]) -
-                                  int.parse(str.split('-')[6]));
+                          totalPrice += int.parse(str.split('-')[3]) *
+                              (int.parse(str.split('-')[4]) -
+                                  int.parse(str.split('-')[7]));
                         }
                         return Container(
                           height: 520,
@@ -170,7 +167,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       ),
                                     ),
                                     onPressed: () async {
-                                      var result = await Navigator.push(
+                                      // var result = await
+                                      Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => BuyListRefund(
@@ -216,30 +214,29 @@ class _BuyListInfoState extends State<BuyListInfo>
                               ),
                               Text(totalPrice.toString()),
 
-                              StreamBuilder<
-                                      DocumentSnapshot<Map<String, dynamic>>>(
-                                  stream: FirebaseFirestore.instance
-                                      .collection('space')
-                                      .doc('0NHIS0Jbn26wsgCzVBKT')
-                                      .collection('shops')
-                                      .doc('PucvhZDuUz3XlkTgzcjb')
-                                      .collection('merchants')
-                                      .doc(widget.data
-                                          .split('^')[3]
-                                          .split('&')[1])
-                                      .snapshots(),
-                                  builder: (BuildContext context, snapshot2) {
-                                    if (snapshot2.hasData) {
-                                      var output1 = snapshot2.data!.data();
-                                      var mainUnit = output1?['merchant_name'];
-                                      return Text(mainUnit.toString());
-                                    }
-                                    return Container();
-                                  }),
+                              // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                              //     stream: FirebaseFirestore.instance
+                              //         .collection('space')
+                              //         .doc('0NHIS0Jbn26wsgCzVBKT')
+                              //         .collection('shops')
+                              //         .doc('PucvhZDuUz3XlkTgzcjb')
+                              //         .collection('merchants')
+                              //         .doc(widget.data
+                              //             .split('^')[3]
+                              //             .split('&')[1])
+                              //         .snapshots(),
+                              //     builder: (BuildContext context, snapshot2) {
+                              //       if (snapshot2.hasData) {
+                              //         var output1 = snapshot2.data!.data();
+                              //         var mainUnit = output1?['merchant_name'];
+                              //         return Text(mainUnit.toString());
+                              //       }
+                              //       return Container();
+                              //     }),
 
                               for (int i = 0; i < prodList.length; i++)
-                                if (prodList[i].split('-')[2] !=
-                                    prodList[i].split('-')[6])
+                                if (prodList[i].split('-')[3] !=
+                                    prodList[i].split('-')[7])
                                   StreamBuilder<
                                       DocumentSnapshot<Map<String, dynamic>>>(
                                     stream: FirebaseFirestore.instance
@@ -267,9 +264,9 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     Colors.indigoAccent,
                                                 child: Text((int.parse(
                                                             prodList[i].split(
-                                                                '-')[2]) -
+                                                                '-')[3]) -
                                                         int.parse(prodList[i]
-                                                            .split('-')[6]))
+                                                            .split('-')[7]))
                                                     .toString()),
                                                 foregroundColor: Colors.white,
                                               ),
@@ -277,20 +274,20 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                 output2?['prod_name'] +
                                                     ' (' +
                                                     output2?[prodList[i]
-                                                        .split('-')[4]] +
+                                                        .split('-')[5]] +
                                                     ')',
                                                 style: TextStyle(height: 1),
                                               ),
                                               subtitle: Text(
-                                                  prodList[i].split('-')[1] +
+                                                  prodList[i].split('-')[4] +
                                                       ' MMK'),
                                               trailing: Text((int.parse(
                                                           prodList[i]
-                                                              .split('-')[1]) *
+                                                              .split('-')[3]) *
                                                       (int.parse(prodList[i]
-                                                              .split('-')[2]) -
+                                                              .split('-')[4]) -
                                                           int.parse(prodList[i]
-                                                              .split('-')[6])))
+                                                              .split('-')[7])))
                                                   .toString()),
                                             ),
                                           ),
@@ -331,7 +328,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                               Text('Returns'),
 
                               for (int i = 0; i < prodList.length; i++)
-                                if (prodList[i].split('-')[6] != '0')
+                                if (prodList[i].split('-')[7] != '0')
                                   StreamBuilder<
                                       DocumentSnapshot<Map<String, dynamic>>>(
                                     stream: FirebaseFirestore.instance
@@ -357,25 +354,25 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                 backgroundColor:
                                                     Colors.indigoAccent,
                                                 child: Text(
-                                                    prodList[i].split('-')[6]),
+                                                    prodList[i].split('-')[7]),
                                                 foregroundColor: Colors.white,
                                               ),
                                               title: Text(
                                                 output2?['prod_name'] +
                                                     ' (' +
                                                     output2?[prodList[i]
-                                                        .split('-')[4]] +
+                                                        .split('-')[5]] +
                                                     ')',
                                                 style: TextStyle(height: 1),
                                               ),
                                               subtitle: Text(
-                                                  prodList[i].split('-')[1] +
+                                                  prodList[i].split('-')[4] +
                                                       ' MMK'),
                                               trailing: Text((int.parse(
                                                           prodList[i]
-                                                              .split('-')[1]) *
+                                                              .split('-')[4]) *
                                                       int.parse(prodList[i]
-                                                          .split('-')[6]))
+                                                          .split('-')[7]))
                                                   .toString()),
                                             ),
                                           ),

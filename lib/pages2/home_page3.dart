@@ -52,8 +52,6 @@ class HomePageState extends State<HomePage>
 
   List<TabItem> tabs = [];
 
-
-
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
 
@@ -84,34 +82,6 @@ class HomePageState extends State<HomePage>
         .update({'double': FieldValue.increment(1)})
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
-
-    // FirebaseFirestore.instance.collection('test')
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot) {
-    //   querySnapshot.docs.forEach((doc) {
-    //     // Create a reference to the document the transaction will use
-    //     DocumentReference documentReference = FirebaseFirestore.instance.collection('test').doc(doc.id);
-    //
-    //     FirebaseFirestore.instance.runTransaction((transaction) async {
-    //       // Get the document
-    //       DocumentSnapshot snapshot = await transaction.get(documentReference);
-    //
-    //       if (!snapshot.exists) {
-    //         throw Exception("User does not exist!");
-    //       }
-    //
-    //       Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
-    //
-    //       String str = data?['data'];
-    //       str = (int.parse(str) + 1).toString();
-    //
-    //       transaction.update(documentReference, {'data': str});
-    //     })
-    //         .then((value) => print("Follower count updated to $value"))
-    //         .catchError((error) => print("Failed to update user followers: $error"));
-    //
-    //   });
-    // });
   }
 
   testLoopData() {
@@ -221,6 +191,14 @@ class HomePageState extends State<HomePage>
           // page: BuyListFragment(),
           page: MerchantsFragment(toggleCoinCallback3: addMerchant2Cart),
         ),
+        TabItem(
+          tabName: "Settings",
+          icon: Icon(
+            Icons.add,
+          ),
+          // page: BuyListFragment(),
+          page: BuyListFragment(),
+        ),
       ];
     });
 
@@ -248,22 +226,9 @@ class HomePageState extends State<HomePage>
         });
   }
 
-  // HomePageState() {
-  //   // indexing is necessary for proper funcationality
-  //   // of determining which tab is active
-  //   tabs.asMap().forEach((index, details) {
-  //     details.setIndex(index);
-  //   });
-  // }
-
-  // sets current tab index
-  // and update state
-
   int _selectIndex = 0;
   void _selectTab(int index) {
     if (index == currentTab) {
-      // pop to first route
-      // if the user taps on the active tab
       tabs[index].key.currentState!.popUntil((route) => route.isFirst);
     } else {
       // update the state
@@ -439,12 +404,6 @@ class HomePageState extends State<HomePage>
                         ),
                         GestureDetector(
                           onTap: () {
-                            // setState(() {
-                            //   _selectTab(1);
-                            //   _selectIndex = 2;
-                            // });
-                            //
-                            // _scaffoldKey.currentState!.openEndDrawer();
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15.0, right: 15.0),
@@ -512,7 +471,7 @@ class HomePageState extends State<HomePage>
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              _selectTab(1);
+                              _selectTab(7);
                               _selectIndex = 3;
                             });
 
@@ -770,15 +729,21 @@ class HomePageState extends State<HomePage>
                           height: 50,
                           child: GestureDetector(
                             onTap: () {
-                              if (prodList.length == 0) {
+                              if (prodList2.length != 0 || merchantId != 'name-name' ) {
                                 addDailyExp2(context);
-                              } else if(prodList2.length == 0){
+                              } else if(prodList.length != 0 || customerId != 'name-name') {
                                 addDailyExp(context);
-                              }},
-                            child: prodList.length == 0 ? Container(
+                              } else addDailyExp(context);
+                              // if (prodList.length != 0 || customerId != 'name-name') {
+                              //   addDailyExp(context);
+                              // } else {
+                              //   addDailyExp2(context);
+                              // }
+                              },
+                            child: (prodList.length == 0) ? Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
-                                color: AppTheme.buttonColor2,
+                                color: customerId == 'name-name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
                                 // color: Colors.blue
                               ),
 
@@ -1002,290 +967,290 @@ class HomePageState extends State<HomePage>
     merchantId = data.toString();
   }
 
-  addString2Sub(data){
-
-    DateTime now =
-    DateTime.now();
-    CollectionReference
-    daily_order =
-    FirebaseFirestore
-        .instance
-        .collection(
-        'space')
-        .doc(
-        '0NHIS0Jbn26wsgCzVBKT')
-        .collection(
-        'shops')
-        .doc(
-        'PucvhZDuUz3XlkTgzcjb')
-        .collection(
-        'buyOrders');
-    var length = 0;
-    setState(() {
-      orderLoading = true;
-    });
-
-    print('order creating');
-
-    FirebaseFirestore
-        .instance
-        .collection('space')
-        .doc(
-        '0NHIS0Jbn26wsgCzVBKT')
-        .collection('shops')
-        .doc(
-        'PucvhZDuUz3XlkTgzcjb')
-        .collection(
-        'buyOrders')
-    // FirebaseFirestore.instance.collection('space')
-        .get()
-        .then((QuerySnapshot
-    querySnapshot) async {
-      querySnapshot.docs
-          .forEach((doc) {
-        length += int.parse(
-            doc['daily_order']
-                .length
-                .toString());
-      });
-      length =
-          1000 + length + 1;
-
-      //Check new date or not
-      var dateExist = false;
-      var dateId = '';
-
-      FirebaseFirestore
-          .instance
-          .collection(
-          'space')
-          .doc(
-          '0NHIS0Jbn26wsgCzVBKT')
-          .collection(
-          'shops')
-          .doc(
-          'PucvhZDuUz3XlkTgzcjb')
-          .collection(
-          'buyOrders')
-      // FirebaseFirestore.instance.collection('space')
-          .where('date',
-          isEqualTo: now
-              .year
-              .toString() +
-              zeroToTen(now
-                  .month
-                  .toString()) +
-              zeroToTen(now
-                  .day
-                  .toString()))
-          .get()
-          .then((QuerySnapshot
-      querySnapshot) {
-        querySnapshot.docs
-            .forEach((doc) {
-          dateExist = true;
-          dateId = doc.id;
-        });
-
-        if (dateExist) {
-          daily_order
-              .doc(dateId)
-              .update({
-            'daily_order':
-            FieldValue
-                .arrayUnion([
-              now.year.toString() +
-                  zeroToTen(now
-                      .month
-                      .toString()) +
-                  zeroToTen(now
-                      .day
-                      .toString()) +
-                  zeroToTen(now
-                      .hour
-                      .toString()) +
-                  zeroToTen(now
-                      .minute
-                      .toString()) +
-                  zeroToTen(now
-                      .second
-                      .toString()) +
-                  deviceIdNum
-                      .toString() +
-                  length
-                      .toString() +
-                  '^' +
-                  deviceIdNum
-                      .toString() +
-                  '-' +
-                  length
-                      .toString() +
-                  '^' +
-                  TtlProdListPrice2() +
-                  '^' +
-                  merchantId
-                      .split(
-                      '-')[0] +
-                  '^pf'
-            ])
-          }).then((value) {
-            print(
-                'User updated');
-            setState(() {
-              orderLoading =
-              false;
-            });
-
-            FirebaseFirestore
-                .instance
-                .collection(
-                'space')
-                .doc(
-                '0NHIS0Jbn26wsgCzVBKT')
-                .collection(
-                'shops')
-                .doc(
-                'PucvhZDuUz3XlkTgzcjb')
-                .collection(
-                'buyOrders')
-                .doc(dateId)
-                .collection(
-                'expansion')
-                .doc(now
-                .year
-                .toString() +
-                zeroToTen(now
-                    .month
-                    .toString()) +
-                zeroToTen(now
-                    .day
-                    .toString()) +
-                zeroToTen(now
-                    .hour
-                    .toString()) +
-                zeroToTen(now
-                    .minute
-                    .toString()) +
-                zeroToTen(now
-                    .second
-                    .toString()) +
-                deviceIdNum
-                    .toString() +
-                length
-                    .toString())
-                .set({
-              'main':
-              'total',
-              'subs':
-              data,
-            }).then((value) {
-              print(
-                  'order added');
-            });
-          });
-        } else {
-          daily_order.add({
-            'daily_order': [
-              now.year.toString() +
-                  zeroToTen(now
-                      .month
-                      .toString()) +
-                  zeroToTen(now
-                      .day
-                      .toString()) +
-                  zeroToTen(now
-                      .hour
-                      .toString()) +
-                  zeroToTen(now
-                      .minute
-                      .toString()) +
-                  zeroToTen(now
-                      .second
-                      .toString()) +
-                  deviceIdNum
-                      .toString() +
-                  length
-                      .toString() +
-                  '^' +
-                  deviceIdNum
-                      .toString() +
-                  '-' +
-                  length
-                      .toString() +
-                  '^' +
-                  TtlProdListPrice2() +
-                  '^' +
-                  merchantId
-                      .split(
-                      '-')[0] +
-                  '^pf'
-            ],
-            'date': now.year
-                .toString() +
-                zeroToTen(now
-                    .month
-                    .toString()) +
-                zeroToTen(now
-                    .day
-                    .toString())
-          }).then((value) {
-            print(
-                'order added');
-
-            FirebaseFirestore
-                .instance
-                .collection(
-                'space')
-                .doc(
-                '0NHIS0Jbn26wsgCzVBKT')
-                .collection(
-                'shops')
-                .doc(
-                'PucvhZDuUz3XlkTgzcjb')
-                .collection(
-                'buyOrders')
-                .doc(value
-                .id)
-                .collection(
-                'expansion')
-                .doc(now
-                .year
-                .toString() +
-                zeroToTen(now
-                    .month
-                    .toString()) +
-                zeroToTen(now
-                    .day
-                    .toString()) +
-                zeroToTen(now
-                    .hour
-                    .toString()) +
-                zeroToTen(now
-                    .minute
-                    .toString()) +
-                zeroToTen(now
-                    .second
-                    .toString()) +
-                deviceIdNum
-                    .toString() +
-                length
-                    .toString())
-                .set({
-              'main':
-              'total',
-              'subs':
-              data,
-            }).then((value) {
-              print(
-                  'order added');
-            });
-          });
-        }
-      });
-
-    });
-
-  }
+  // addString2Sub(data){
+  //
+  //   DateTime now =
+  //   DateTime.now();
+  //   CollectionReference
+  //   daily_order =
+  //   FirebaseFirestore
+  //       .instance
+  //       .collection(
+  //       'space')
+  //       .doc(
+  //       '0NHIS0Jbn26wsgCzVBKT')
+  //       .collection(
+  //       'shops')
+  //       .doc(
+  //       'PucvhZDuUz3XlkTgzcjb')
+  //       .collection(
+  //       'buyOrders');
+  //   var length = 0;
+  //   setState(() {
+  //     orderLoading = true;
+  //   });
+  //
+  //   print('order creating');
+  //
+  //   FirebaseFirestore
+  //       .instance
+  //       .collection('space')
+  //       .doc(
+  //       '0NHIS0Jbn26wsgCzVBKT')
+  //       .collection('shops')
+  //       .doc(
+  //       'PucvhZDuUz3XlkTgzcjb')
+  //       .collection(
+  //       'buyOrders')
+  //   // FirebaseFirestore.instance.collection('space')
+  //       .get()
+  //       .then((QuerySnapshot
+  //   querySnapshot) async {
+  //     querySnapshot.docs
+  //         .forEach((doc) {
+  //       length += int.parse(
+  //           doc['daily_order']
+  //               .length
+  //               .toString());
+  //     });
+  //     length =
+  //         1000 + length + 1;
+  //
+  //     //Check new date or not
+  //     var dateExist = false;
+  //     var dateId = '';
+  //
+  //     FirebaseFirestore
+  //         .instance
+  //         .collection(
+  //         'space')
+  //         .doc(
+  //         '0NHIS0Jbn26wsgCzVBKT')
+  //         .collection(
+  //         'shops')
+  //         .doc(
+  //         'PucvhZDuUz3XlkTgzcjb')
+  //         .collection(
+  //         'buyOrders')
+  //     // FirebaseFirestore.instance.collection('space')
+  //         .where('date',
+  //         isEqualTo: now
+  //             .year
+  //             .toString() +
+  //             zeroToTen(now
+  //                 .month
+  //                 .toString()) +
+  //             zeroToTen(now
+  //                 .day
+  //                 .toString()))
+  //         .get()
+  //         .then((QuerySnapshot
+  //     querySnapshot) {
+  //       querySnapshot.docs
+  //           .forEach((doc) {
+  //         dateExist = true;
+  //         dateId = doc.id;
+  //       });
+  //
+  //       if (dateExist) {
+  //         daily_order
+  //             .doc(dateId)
+  //             .update({
+  //           'daily_order':
+  //           FieldValue
+  //               .arrayUnion([
+  //             now.year.toString() +
+  //                 zeroToTen(now
+  //                     .month
+  //                     .toString()) +
+  //                 zeroToTen(now
+  //                     .day
+  //                     .toString()) +
+  //                 zeroToTen(now
+  //                     .hour
+  //                     .toString()) +
+  //                 zeroToTen(now
+  //                     .minute
+  //                     .toString()) +
+  //                 zeroToTen(now
+  //                     .second
+  //                     .toString()) +
+  //                 deviceIdNum
+  //                     .toString() +
+  //                 length
+  //                     .toString() +
+  //                 '^' +
+  //                 deviceIdNum
+  //                     .toString() +
+  //                 '-' +
+  //                 length
+  //                     .toString() +
+  //                 '^' +
+  //                 TtlProdListPrice2() +
+  //                 '^' +
+  //                 merchantId
+  //                     .split(
+  //                     '-')[0] +
+  //                 '^pf'
+  //           ])
+  //         }).then((value) {
+  //           print(
+  //               'User updated');
+  //           setState(() {
+  //             orderLoading =
+  //             false;
+  //           });
+  //
+  //           FirebaseFirestore
+  //               .instance
+  //               .collection(
+  //               'space')
+  //               .doc(
+  //               '0NHIS0Jbn26wsgCzVBKT')
+  //               .collection(
+  //               'shops')
+  //               .doc(
+  //               'PucvhZDuUz3XlkTgzcjb')
+  //               .collection(
+  //               'buyOrders')
+  //               .doc(dateId)
+  //               .collection(
+  //               'expansion')
+  //               .doc(now
+  //               .year
+  //               .toString() +
+  //               zeroToTen(now
+  //                   .month
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .day
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .hour
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .minute
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .second
+  //                   .toString()) +
+  //               deviceIdNum
+  //                   .toString() +
+  //               length
+  //                   .toString())
+  //               .set({
+  //             'main':
+  //             'total',
+  //             'subs':
+  //             data,
+  //           }).then((value) {
+  //             print(
+  //                 'order added');
+  //           });
+  //         });
+  //       } else {
+  //         daily_order.add({
+  //           'daily_order': [
+  //             now.year.toString() +
+  //                 zeroToTen(now
+  //                     .month
+  //                     .toString()) +
+  //                 zeroToTen(now
+  //                     .day
+  //                     .toString()) +
+  //                 zeroToTen(now
+  //                     .hour
+  //                     .toString()) +
+  //                 zeroToTen(now
+  //                     .minute
+  //                     .toString()) +
+  //                 zeroToTen(now
+  //                     .second
+  //                     .toString()) +
+  //                 deviceIdNum
+  //                     .toString() +
+  //                 length
+  //                     .toString() +
+  //                 '^' +
+  //                 deviceIdNum
+  //                     .toString() +
+  //                 '-' +
+  //                 length
+  //                     .toString() +
+  //                 '^' +
+  //                 TtlProdListPrice2() +
+  //                 '^' +
+  //                 merchantId
+  //                     .split(
+  //                     '-')[0] +
+  //                 '^pf'
+  //           ],
+  //           'date': now.year
+  //               .toString() +
+  //               zeroToTen(now
+  //                   .month
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .day
+  //                   .toString())
+  //         }).then((value) {
+  //           print(
+  //               'order added');
+  //
+  //           FirebaseFirestore
+  //               .instance
+  //               .collection(
+  //               'space')
+  //               .doc(
+  //               '0NHIS0Jbn26wsgCzVBKT')
+  //               .collection(
+  //               'shops')
+  //               .doc(
+  //               'PucvhZDuUz3XlkTgzcjb')
+  //               .collection(
+  //               'buyOrders')
+  //               .doc(value
+  //               .id)
+  //               .collection(
+  //               'expansion')
+  //               .doc(now
+  //               .year
+  //               .toString() +
+  //               zeroToTen(now
+  //                   .month
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .day
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .hour
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .minute
+  //                   .toString()) +
+  //               zeroToTen(now
+  //                   .second
+  //                   .toString()) +
+  //               deviceIdNum
+  //                   .toString() +
+  //               length
+  //                   .toString())
+  //               .set({
+  //             'main':
+  //             'total',
+  //             'subs':
+  //             data,
+  //           }).then((value) {
+  //             print(
+  //                 'order added');
+  //           });
+  //         });
+  //       }
+  //     });
+  //
+  //   });
+  //
+  // }
 
   addDailyExp(priContext) {
     String mainLoss = '';
@@ -1318,7 +1283,7 @@ class HomePageState extends State<HomePage>
             builder: (BuildContext context, StateSetter mystate) {
               _textFieldController.addListener((){
                 print("value: ${_textFieldController.text}");
-                mystate(() {
+                setState(() {
                   totalAmount = double.parse(TtlProdListPrice());
                   _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
                   if((totalAmount - paidAmount).isNegative){
@@ -1329,8 +1294,7 @@ class HomePageState extends State<HomePage>
                     refund = 0;
                   } else { refund = (paidAmount - totalAmount);
                   }
-                });
-              });
+              });       });
               return Scaffold(
                 resizeToAvoidBottomInset: false,
                 body: GestureDetector(
@@ -1414,6 +1378,7 @@ class HomePageState extends State<HomePage>
                                                                 discountAmount = 0.0;
                                                                 debt =0;
                                                                 refund =0;
+                                                                customerId = 'name-name';
                                                               });
                                                             });
                                                           },
@@ -1595,16 +1560,25 @@ class HomePageState extends State<HomePage>
                                                       Text(customerId.split('-')[1] + '  ', style: TextStyle(
                                                         fontSize: 16, fontWeight: FontWeight.w500,
                                                       )),
-                                                      Container(
-                                                        height: 18,
-                                                        width: 18,
-                                                        alignment: Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                          color: AppTheme.skBorderColor2,
-                                                          borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),),
-                                                        child:  Icon(Icons.clear, size: 13, color: Colors.black,),
+                                                      GestureDetector(
+                                                        onTap: (){
+                                                          setState(() {
+                                                            mystate((){
+                                                              customerId = 'name-name';
+                                                            });
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          height: 18,
+                                                          width: 18,
+                                                          alignment: Alignment.center,
+                                                          decoration: BoxDecoration(
+                                                            color: AppTheme.skBorderColor2,
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                10.0),),
+                                                          child:  Icon(Icons.clear, size: 13, color: Colors.black,),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -2342,12 +2316,9 @@ class HomePageState extends State<HomePage>
                                                                 subList = [];
                                                                 DateTime now = DateTime.now();
 
-
                                                                 CollectionReference daily_order = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
-                                                                var length = 0;
+                                                                int length = 0;
                                                                 print('order creating');
-
-
 
                                                                 await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').get().then((QuerySnapshot querySnapshot) async {
                                                                   querySnapshot.docs.forEach((doc) {
@@ -2391,10 +2362,6 @@ class HomePageState extends State<HomePage>
                                                                     } else if(str.split('-')[3] == 'sub2_name') {
                                                                       sub2Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
                                                                     }
-
-
-
-
                                                                   }
 
                                                                   print('subList ' + subList.toString());
@@ -2413,9 +2380,9 @@ class HomePageState extends State<HomePage>
 
                                                                     if (dateExist) {
                                                                       daily_order.doc(dateId).update({
-                                                                        'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText,
-                                                                        ]),
-                                                                        'orderMax': int.parse(length.toString())
+                                                                        'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
+                                                                        'each_order' : [length.toString()]
+
                                                                       }).then((value) async {
                                                                         print('User updated');
                                                                         setState(() {
@@ -2425,39 +2392,64 @@ class HomePageState extends State<HomePage>
                                                                         await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
                                                                             .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                             .set({
-                                                                          'main': 'total',
+                                                                          'total': TtlProdListPrice(),
                                                                           'subs': subList,
+                                                                          'docId' : dateId,
+                                                                          'customerId' : customerId.split('-')[0],
+                                                                          'orderId' : length.toString(),
+                                                                          'debt' : debt,
                                                                         }).then((value) {
                                                                           print('order added');
                                                                         });
+
+                                                                        if(customerId.split('-')[0] != 'name') {
+
+                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                            .set({
+                                                                          'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+                                                                          'debt' : debt,
+                                                                          'order_pid': dateId,
+                                                                        }).then((value) {
+                                                                          print('cus order added');
+                                                                        }); }
                                                                       });
                                                                     } else {
                                                                       daily_order.add({
                                                                         'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText],
-                                                                        'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
+                                                                        'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()),
+                                                                        'each_order' : [length.toString()]
                                                                       }).then((value) async  {
                                                                         print('order added');
                                                                         await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                             .set({
-                                                                          'main': 'total',
+                                                                          'total': TtlProdListPrice(),
                                                                           'subs': subList,
+                                                                          'docId' : value.id,
+                                                                          'customerId' : customerId.split('-')[0],
+                                                                          'orderId' : length.toString(),
+                                                                          'debt' : debt,
                                                                         }).then((value) {
                                                                           print('order added');
                                                                         });
+                                                                        if(customerId.split('-')[0] != 'name') {
+                                                                          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
+                                                                            'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+                                                                            'debt' : debt,
+                                                                            'order_pid': value.id,
+
+                                                                              })
+                                                                              .then((
+                                                                              value) {
+                                                                            print(
+                                                                                'cus order added');
+                                                                          });
+                                                                        }
                                                                       });
                                                                     }
                                                                   });
-
-
-
                                                                 });
-
-
-
-
                                                                 final date = DateTime.now();
                                                                 final dueDate = date.add(Duration(days: 7));
-
                                                                 final invoice = Invoice(
                                                                   supplier: Supplier(
                                                                     name: 'Sarah Field',
@@ -3651,10 +3643,12 @@ class HomePageState extends State<HomePage>
                                                             child:
                                                             GestureDetector(
                                                               onTap: () {
+                                                                setState(() {
                                                                 mystate(() {
                                                                   prodList2 =
                                                                   [];
-                                                                });
+                                                                  merchantId = 'name-name';
+                                                                }); });
                                                               },
                                                               child: Padding(
                                                                 padding:
@@ -3949,192 +3943,128 @@ class HomePageState extends State<HomePage>
                                                               content: Text(
                                                                   'Processing Data')),
                                                         );
-
+                                                        subList = [];
                                                         DateTime now =
                                                         DateTime.now();
-                                                        List<String> prodList3 =[];
-                                                        for (int i=0; i<prodList2.length; i++) {
-                                                          if(prodList2[i].split('-')[4]=='unit_name') {
-                                                            DocumentReference docRef = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList2[i].split('-')[0]).collection('versions')
-                                                                .add({
-                                                              'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
-                                                              'unit_qtity': prodList2[i].split('-')[2],
-                                                              'buy_price': prodList2[i].split('-')[1],
-                                                              'type': 'main',
-                                                            },
-                                                            );
-                                                            prodList3.add(prodList2[i] + docRef.id);
-                                                            if (i == prodList2.length - 1) {
-                                                              addString2Sub(prodList3);
-                                                            }
-                                                          }else if(prodList2[i].split(
-                                                              '-')[4]=='sub1_name') {
-                                                            DocumentReference docRef = await FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                'space')
-                                                                .doc(
-                                                                '0NHIS0Jbn26wsgCzVBKT')
-                                                                .collection(
-                                                                'shops')
-                                                                .doc(
-                                                                'PucvhZDuUz3XlkTgzcjb')
-                                                                .collection(
-                                                                'products')
-                                                                .doc(
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[0])
-                                                                .collection(
-                                                                'versions')
-                                                                .add(
+                                                        CollectionReference daily_order = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders');
+                                                        var length = 0;
+                                                        print('order creating');
 
-                                                              {
-                                                                'date': zeroToTen(
-                                                                    now
-                                                                        .day
-                                                                        .toString()) +
-                                                                    zeroToTen(
-                                                                        now
-                                                                            .month
-                                                                            .toString()) +
-                                                                    zeroToTen(
-                                                                        now
-                                                                            .year
-                                                                            .toString()),
-                                                                'unit_qtity':
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[2],
-                                                                'buy_price':
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[1],
-                                                                'type': 'sub1',
-                                                              },
-                                                            );
-                                                            prodList3.add(
-                                                                prodList2[i] +
-                                                                    docRef
-                                                                        .id);
-                                                            if (i == prodList2
-                                                                .length - 1) {
-                                                              addString2Sub(
-                                                                  prodList3);
-                                                            }
-                                                          } else if(prodList2[i].split(
-                                                              '-')[4]=='sub2_name') {
-                                                            DocumentReference docRef = await FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                'space')
-                                                                .doc(
-                                                                '0NHIS0Jbn26wsgCzVBKT')
-                                                                .collection(
-                                                                'shops')
-                                                                .doc(
-                                                                'PucvhZDuUz3XlkTgzcjb')
-                                                                .collection(
-                                                                'products')
-                                                                .doc(
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[0])
-                                                                .collection(
-                                                                'versions')
-                                                                .add(
 
-                                                              {
-                                                                'date': zeroToTen(
-                                                                    now
-                                                                        .day
-                                                                        .toString()) +
-                                                                    zeroToTen(
-                                                                        now
-                                                                            .month
-                                                                            .toString()) +
-                                                                    zeroToTen(
-                                                                        now
-                                                                            .year
-                                                                            .toString()),
-                                                                'unit_qtity':
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[2],
-                                                                'buy_price':
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[1],
-                                                                'type': 'sub2',
-                                                              },
-                                                            );
-                                                            prodList3.add(
-                                                                prodList2[i] +
-                                                                    docRef
-                                                                        .id);
-                                                            if (i == prodList2
-                                                                .length - 1) {
-                                                              addString2Sub(
-                                                                  prodList3);
-                                                            }
-                                                          } else if(prodList2[i].split(
-                                                              '-')[4]=='sub3_name') {
-                                                            DocumentReference docRef = await FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                'space')
-                                                                .doc(
-                                                                '0NHIS0Jbn26wsgCzVBKT')
-                                                                .collection(
-                                                                'shops')
-                                                                .doc(
-                                                                'PucvhZDuUz3XlkTgzcjb')
-                                                                .collection(
-                                                                'products')
-                                                                .doc(
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[0])
-                                                                .collection(
-                                                                'versions')
-                                                                .add(
 
-                                                              {
-                                                                'date': zeroToTen(
-                                                                    now
-                                                                        .day
-                                                                        .toString()) +
-                                                                    zeroToTen(
-                                                                        now
-                                                                            .month
-                                                                            .toString()) +
-                                                                    zeroToTen(
-                                                                        now
-                                                                            .year
-                                                                            .toString()),
-                                                                'unit_qtity':
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[2],
-                                                                'buy_price':
-                                                                prodList2[i]
-                                                                    .split(
-                                                                    '-')[1],
-                                                                'type': 'sub3',
-                                                              },
-                                                            );
-                                                            prodList3.add(
-                                                                prodList2[i] +
-                                                                    docRef
-                                                                        .id);
-                                                            if (i == prodList2
-                                                                .length - 1) {
-                                                              addString2Sub(
-                                                                  prodList3);
+                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders').get().then((QuerySnapshot querySnapshot) async {
+                                                          querySnapshot.docs.forEach((doc) {
+                                                            length += int.parse(doc['daily_order'].length.toString());
+                                                          });
+                                                          length = 1000 + length + 1;
+                                                          //Check new date or not
+                                                          var dateExist = false;
+                                                          var dateId = '';
+                                                          for (String str in prodList2) {
+                                                            subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[2] +'-' + str.split('-')[1] + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-0-' + 'date');
+
+                                                            List<String> subLink = [];
+                                                            List<String> subName = [];
+                                                            List<double> subStock = [];
+
+                                                            var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0])
+                                                                .get();
+
+                                                            if (docSnapshot10.exists) {
+                                                              Map<String, dynamic>? data10 = docSnapshot10.data();
+
+                                                              for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                print('inStock' + (i+1).toString());
+                                                                subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                              }
                                                             }
+
+                                                          if(str.split('-')[4]=='unit_name') {
+                                                            await FirebaseFirestore.instance.collection('space').doc(
+                                                                '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                                                                'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                str.split('-')[0])
+                                                                .update({
+                                                              'inStock1': FieldValue.increment(double.parse(str.split('-')[2].toString())),
+                                                                'buyPrice1': str.split('-')[1].toString(),
+                                                                })
+                                                                .then((value) => print("User Updated"))
+                                                                .catchError((error) => print("Failed to update user: $error"));
                                                           }
-                                                        }
-                                                      },
+                                                          else if (str.split('-')[4]=='sub1_name') {
+                                                            await FirebaseFirestore.instance.collection('space').doc(
+                                                                '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                                                                'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                str.split('-')[0])
+                                                                .update({
+                                                              'inStock2': FieldValue.increment(double.parse(str.split('-')[2].toString())),
+                                                                'buyPrice2': str.split('-')[1].toString(),
+                                                                })
+                                                                .then((value) => print("User Updated"))
+                                                                .catchError((error) => print("Failed to update user: $error"));
+
+                                                            } else if (str.split('-')[4]=='sub2_name') {
+                                                            await FirebaseFirestore.instance.collection('space').doc(
+                                                                '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                                                                'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                str.split('-')[0])
+                                                                .update({
+                                                              'inStock3': FieldValue.increment(double.parse(str.split('-')[2].toString())),
+                                                              'buyPrice3' : str.split('-')[1].toString(),
+                                                                })
+                                                                .then((value) => print("User Updated"))
+                                                                .catchError((error) => print("Failed to update user: $error"));
+                                                           }
+                                                          }
+                                                          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders')
+                                                          // FirebaseFirestore.instance.collection('space')
+                                                              .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
+                                                              .get()
+                                                              .then((QuerySnapshot querySnapshot) {
+                                                            querySnapshot.docs.forEach((doc) {
+                                                              dateExist = true;
+                                                              dateId = doc.id;
+                                                            });
+
+                                                            if (dateExist) {
+                                                              daily_order.doc(dateId).update({
+                                                                'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf'])
+                                                              }).then((value) async {
+                                                                print('User updated');
+                                                                setState(() {
+                                                                  orderLoading = false;
+                                                                });
+
+                                                                await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders').doc(dateId).collection('expansion')
+                                                                    .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                    .set({
+                                                                  'main': 'total',
+                                                                  'subs': subList,
+                                                                }).then((value) {
+                                                                  print('order added');
+                                                                });
+                                                              });
+                                                            } else {
+                                                              daily_order.add({
+                                                                'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf'],
+                                                                'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())
+                                                              }).then((value) async  {
+                                                                print('order added');
+                                                                await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders').doc(value.id).collection('expansion').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                    .set({
+                                                                  'main': 'total',
+                                                                  'subs': subList,
+                                                                }).then((value) {
+                                                                  print('order added');
+                                                                });
+                                                              });
+                                                            }
+                                                          });
+
+                                                      }
+                                                        );},
                                                       child: Container(
                                                         width: MediaQuery.of(
                                                             context)
