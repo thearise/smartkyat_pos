@@ -278,6 +278,14 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               String sub2_buy;
                                               String sub3_buy;
                                               String subExist;
+                                              double mainStock;
+                                              double sub1Stock;
+                                              double sub2Stock;
+                                              double sub3Stock;
+                                              String mTotal;
+                                              String sub1Total;
+                                              String sub2Total;
+                                              String sub3Total;
 
                                               if( subUnitFieldValue[0] != ''){
                                                 sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
@@ -285,7 +293,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               {
                                                 sub1_buy = '0';
                                               }
-
                                               if( subUnitFieldValue[4] != ''){
                                                 sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
                                               } else
@@ -307,6 +314,34 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
                                                 subExist = '3';
                                               } else subExist ='0';
+
+                                              if( prodFieldsValue[2] != '') {
+                                                mainStock=  double.parse(prodFieldsValue[2]);
+                                              mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();
+                                               } else { mainStock = 0;
+                                              mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();}
+
+                                              if( subUnitFieldValue[3] != '') {
+                                                sub1Stock=  double.parse(subUnitFieldValue[3]);
+                                                sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();}
+                                              else {sub1Stock = 0;
+                                              sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+                                              }
+
+                                              if( subUnitFieldValue[7] != '') {
+                                                sub2Stock=  double.parse(subUnitFieldValue[7]);
+                                                sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+                                              }
+                                              else { sub2Stock = 0;
+                                              sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();}
+
+                                              if( subUnitFieldValue[11] != '') {
+                                                sub3Stock =  double.parse(subUnitFieldValue[11]);
+                                                sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();}
+                                              else {
+                                                sub3Stock = 0;
+                                                sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
+                                              }
 
                                               FirebaseFirestore.instance
                                                   .collection('space')
@@ -355,6 +390,14 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         prodFieldsValue[3],
                                                     'unit_sell':
                                                         prodFieldsValue[5],
+                                                    'inStock1' : mainStock,
+                                                    'inStock2'  : sub1Stock,
+                                                    'inStock3' : sub2Stock,
+                                                    'inStock4' : sub3Stock,
+                                                      'buyPrice1' : prodFieldsValue[4],
+                                                      'buyPrice2' : sub1_buy,
+                                                      'buyPrice3' : sub2_buy,
+                                                       'buyPrice4' : sub3_buy,
                                                     'sub1_link':
                                                     subUnitFieldValue[0],
                                                     'sub1_name':
@@ -374,9 +417,14 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     'sub3_sell':
                                                         subUnitFieldValue[10],
                                                     'sub_exist': subExist,
-                                                    'main_loss' : '0',
-                                                    'sub1_loss' : '0',
-                                                    'sub2_loss' : '0',
+                                                    'Loss1' : 0,
+                                                    'Loss2' : 0,
+                                                    'Loss3' : 0,
+                                                    'Loss4' : 0,
+                                                    'mTotal' : mTotal,
+                                                    's1Total' : sub1Total,
+                                                    's2Total' : sub2Total,
+                                                    's3Total' : sub3Total,
 
                                                     // 'unit_qtity': prodFieldsValue[2],
                                                     // 'unit_name': prodFieldsValue[3],
@@ -404,110 +452,89 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
 
 
-                                                    FirebaseFirestore.instance
-                                                        .collection('space')
-                                                        .doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT')
-                                                        .collection('shops')
-                                                        .doc(
-                                                            'PucvhZDuUz3XlkTgzcjb')
-                                                        .collection('products')
-                                                        .doc(value.id)
-                                                        .collection('versions')
-                                                        .add({
-                                                      'date': zeroToTen(now.day
-                                                              .toString()) +
-                                                          zeroToTen(now.month
-                                                              .toString()) +
-                                                          zeroToTen(now.year
-                                                              .toString()),
-                                                      'unit_qtity':
-                                                          prodFieldsValue[2],
-                                                      'buy_price':
-                                                          prodFieldsValue[4],
-                                                      'type': 'main',
-                                                    }).then((value) {
-                                                      print('product added 2');
-                                                    });
-                                                    print('sub1'+ prodFieldsValue[4]);
-                                                    print('unit1'+ subUnitFieldValue[0]);
-                                                    print('unit2'+ subUnitFieldValue[8]);
-                                                    print('unit3'+ subUnitFieldValue[4]);
+                                                    // FirebaseFirestore.instance
+                                                    //     .collection('space')
+                                                    //     .doc(
+                                                    //         '0NHIS0Jbn26wsgCzVBKT')
+                                                    //     .collection('shops')
+                                                    //     .doc(
+                                                    //         'PucvhZDuUz3XlkTgzcjb')
+                                                    //     .collection('products')
+                                                    //     .doc(value.id)
+                                                    //     .collection('versions')
+                                                    //     .add({
+                                                    //   'date': zeroToTen(now.day
+                                                    //           .toString()) +
+                                                    //       zeroToTen(now.month
+                                                    //           .toString()) +
+                                                    //       zeroToTen(now.year
+                                                    //           .toString()),
+                                                    //   'unit_qtity':
+                                                    //       prodFieldsValue[2],
+                                                    //   'buy_price':
+                                                    //       prodFieldsValue[4],
+                                                    //   'type': 'main',
+                                                    // }).then((value) {
+                                                    //   print('product added 2');
+                                                    // });
+                                                    // print('sub1'+ prodFieldsValue[4]);
+                                                    // print('unit1'+ subUnitFieldValue[0]);
+                                                    // print('unit2'+ subUnitFieldValue[8]);
+                                                    // print('unit3'+ subUnitFieldValue[4]);
                                                     // var sub1Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[0]);
                                                     // var sub2Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[4]);
                                                     // var sub3Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[8]);
 
 
 
-                                                    FirebaseFirestore.instance
-                                                        .collection('space')
-                                                        .doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT')
-                                                        .collection('shops')
-                                                        .doc(
-                                                            'PucvhZDuUz3XlkTgzcjb')
-                                                        .collection('products')
-                                                        .doc(value.id)
-                                                        .collection('versions')
-                                                        .add({
-                                                      'date': zeroToTen(now.day
-                                                              .toString()) +
-                                                          zeroToTen(now.month
-                                                              .toString()) +
-                                                          zeroToTen(now.year
-                                                              .toString()),
-                                                      // 'unit_qtity':
-                                                      // prodFieldsValue[2] +
-                                                      // ' 0',
-                                                      // prodFieldsValue[4],
-                                                      // 'sale_price':
-                                                      // prodFieldsValue[5],
-                                                      'unit_qtity':
-                                                          subUnitFieldValue[3],
-                                                      'buy_price': sub1_buy,
-                                                      'type': 'sub1',
-                                                    }).then((value) {
-                                                      print('product added 3');
+                                                    // FirebaseFirestore.instance
+                                                    //     .collection('space')
+                                                    //     .doc(
+                                                    //         '0NHIS0Jbn26wsgCzVBKT')
+                                                    //     .collection('shops')
+                                                    //     .doc(
+                                                    //         'PucvhZDuUz3XlkTgzcjb')
+                                                    //     .collection('products')
+                                                    //     .doc(value.id)
+                                                    //     .collection('versions')
+                                                    //     .add({
+                                                    //   'date': zeroToTen(now.day
+                                                    //           .toString()) +
+                                                    //       zeroToTen(now.month
+                                                    //           .toString()) +
+                                                    //       zeroToTen(now.year
+                                                    //           .toString()),
+                                                    //   // 'unit_qtity':
+                                                    //   // prodFieldsValue[2] +
+                                                    //   // ' 0',
+                                                    //   // prodFieldsValue[4],
+                                                    //   // 'sale_price':
+                                                    //   // prodFieldsValue[5],
+                                                    //   'unit_qtity':
+                                                    //       subUnitFieldValue[3],
+                                                    //   'buy_price': sub1_buy,
+                                                    //   'type': 'sub1',
+                                                    // }).then((value) {
+                                                    //   print('product added 3');
 
-                                                    });
+                                                    // });
 
-                                                    FirebaseFirestore.instance
-                                                        .collection('space')
-                                                        .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                        .collection('shops')
-                                                        .doc('PucvhZDuUz3XlkTgzcjb')
-                                                        .collection('products')
-                                                        .doc(value.id)
-                                                        .collection('versions')
-                                                        .add({
-                                                      'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
-                                                      'unit_qtity': subUnitFieldValue[7],
-                                                      'buy_price': sub2_buy,
-                                                      'type': 'sub2',
-                                                    }).then((value) {
-                                                      print('product added 4');
-                                                    });
-
-                                                    FirebaseFirestore.instance.collection('space')
-                                                        .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                        .collection('shops')
-                                                        .doc('PucvhZDuUz3XlkTgzcjb')
-                                                        .collection('products')
-                                                        .doc(value.id)
-                                                        .collection('versions')
-                                                        .add({
-                                                      'date': zeroToTen(now.day
-                                                              .toString()) +
-                                                          zeroToTen(now.month
-                                                              .toString()) +
-                                                          zeroToTen(now.year
-                                                              .toString()),
-                                                      'unit_qtity':
-                                                          subUnitFieldValue[11],
-                                                      'buy_price': sub3_buy,
-                                                      'type': 'sub3',
-                                                    }).then((value) {
-                                                      print('product added 5');
+                                                    // FirebaseFirestore.instance
+                                                    //     .collection('space')
+                                                    //     .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                    //     .collection('shops')
+                                                    //     .doc('PucvhZDuUz3XlkTgzcjb')
+                                                    //     .collection('products')
+                                                    //     .doc(value.id)
+                                                    //     .collection('versions')
+                                                    //     .add({
+                                                    //   'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
+                                                    //   'unit_qtity': subUnitFieldValue[7],
+                                                    //   'buy_price': sub2_buy,
+                                                    //   'type': 'sub2',
+                                                    // }).then((value) {
+                                                    //   print('product added 4');
+                                                    // });
                                                       setState(() {
                                                         prodAdding = false;
                                                       });
@@ -588,7 +615,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                           );
                                                         },
                                                       );
-                                                    });
 
                                                     // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
                                                     // .add({

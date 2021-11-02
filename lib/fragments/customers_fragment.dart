@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,6 +25,8 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
 
   List<List> orderList = [];
   var orders;
+  var docId;
+  var innerId;
   @override
   initState() {
     super.initState();
@@ -89,7 +90,6 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                                   elevation: 0,
                                   backgroundColor: Colors.white,
                                   // Provide a standard title.
-
                                   // Allows the user to reveal the app bar if they begin scrolling
                                   // back up the list of items.
                                   floating: true,
