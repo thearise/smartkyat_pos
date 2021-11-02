@@ -37,8 +37,7 @@ class ProductDetailsView2 extends StatefulWidget {
 }
 
 class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
-    TickerProviderStateMixin <ProductDetailsView2>
-{
+    TickerProviderStateMixin <ProductDetailsView2> {
   addProduct2(data) {
     widget._callback(data);
   }
