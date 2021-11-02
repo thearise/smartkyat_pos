@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 
 import '../../app_theme.dart';
+import 'customer_orders_info.dart';
 
 
 class CustomerInfoSubs extends StatefulWidget {
@@ -228,6 +229,12 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                               ),
                                             ),
                                             onPressed: () async {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id)
+                                                ),
+                                              );
                                             },
                                             child: Container(
                                               width: 100,

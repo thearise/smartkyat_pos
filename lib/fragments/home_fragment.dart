@@ -42,7 +42,7 @@ class HomeFragment extends StatefulWidget {
   HomeFragment({required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   @override
-  _HomeFragmentState createState() => _HomeFragmentState();
+  HomeFragmentState createState() => HomeFragmentState();
 
 // HomeFragment({Key? key, required void toggleCoinCallback()}) : super(key: key);
 //
@@ -50,7 +50,7 @@ class HomeFragment extends StatefulWidget {
 // _HomeFragmentState createState() => _HomeFragmentState();
 }
 
-class _HomeFragmentState extends State<HomeFragment>
+class HomeFragmentState extends State<HomeFragment>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomeFragment> {
   @override
   bool get wantKeepAlive => true;
@@ -60,6 +60,10 @@ class _HomeFragmentState extends State<HomeFragment>
 
   void _jiggleStuff() {
     controller.toggle();
+  }
+
+  void Testing() {
+    print('clicked testing ');
   }
 
   @override

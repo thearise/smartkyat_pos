@@ -97,10 +97,14 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                             // print('herre ' + document.id);
                                             var section = ExampleSection()
                                               ..header = document['date']
-                                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                              //   ..items = document['daily_order'].cast<String>()
+
+
                                               ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-                                            //   ..items = document['daily_order'].cast<String>()
+                                              // ..items = orderItems(document.id)
                                               ..expanded = true;
                                             sections.add(section);
                                           }).toList();
@@ -342,6 +346,8 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                     //     }
                                                     //   },
                                                     // )
+
+
                                                     if(itemIndex == length-1) {
                                                       return GestureDetector(
                                                         onTap: () {
@@ -763,6 +769,10 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                         ],
                                                       ),
                                                     );
+
+                                                    // return Container(
+                                                    //   child: Text(item)
+                                                    // );
                                                   },
                                                 ),
                                               )
@@ -1508,6 +1518,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
         context: context,
         builder: (BuildContext context) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               // mainAxisAlignment: MainAxisAlignment.end,
@@ -1610,6 +1621,8 @@ class _OrdersFragmentState extends State<OrdersFragment>
           );
         });
   }
+
+  // List<String> orderItems(String id) {}
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
