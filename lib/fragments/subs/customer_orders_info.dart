@@ -314,174 +314,84 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                           var refund = dataP['refund'];
                                           var total = dataP['total'];
                                           var discount = dataP['discount'];
-                                                String Refd = 'pf';
+                                          String Refd = 'pf';
 
-                                                if(dataP['refund'] == 'TRUE') {
-                                                  Refd = 'rf';
-                                                }
-                                                 if(dataP['refund'] == 'PART') {
-                                                  Refd = 'sf';
-                                                }
-                                                String items = orderId.toString() + '^' + deviceIdNum.toString() + voucherId.toString() +'^'+ total.toString() +'^'+ customerName.toString() +'&' +widget.id.toString() +'^'+ Refd + '^'+ debt.toString() + '^' + discount.toString();
+                                          if(dataP['refund'] == 'TRUE') {
+                                            Refd = 'rf';
+                                          }
+                                          if(dataP['refund'] == 'PART') {
+                                            Refd = 'sf';
+                                          }
+                                          String items = orderId.toString() + '^' + deviceIdNum.toString() + voucherId.toString() +'^'+ total.toString() +'^'+ customerName.toString() +'&' +widget.id.toString() +'^'+ Refd + '^'+ debt.toString() + '^' + discount.toString();
 
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => OrderInfoSub(data: items, toggleCoinCallback: () {})),
-                                                    );
-                                                    print('Items');
-                                                  },
-                                                  child: Stack(
-                                                    alignment: Alignment.center,
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                              color: AppTheme.lightBgColor,
-                                                              border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: AppTheme.skBorderColor2,
-                                                                    width: 1.0),
-                                                              )),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => OrderInfoSub(data: items, toggleCoinCallback: () {})),
+                                              );
+                                              print('Items');
+                                            },
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: AppTheme.lightBgColor,
+                                                        border: Border(
+                                                          bottom: BorderSide(
+                                                              color: AppTheme.skBorderColor2,
+                                                              width: 1.0),
+                                                        )),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 1.0),
                                                             child: Column(
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 1.0),
-                                                                  child: Column(
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        children: [
-                                                                          Text('#' + deviceIdNum.toString() + voucherId,
-                                                                            style: TextStyle(
-                                                                                fontSize: 16,
-                                                                                fontWeight: FontWeight.w500
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(width: 8),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(bottom: 1.0),
-                                                                            child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                          ),
-                                                                          SizedBox(width: 4),
-                                                                          Text(convertToHour(orderId.toString()) + ':' + orderId.toString().substring(10,12) +' ' + convertToAMPM(orderId.toString()),
-                                                                            style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w400,
-                                                                              color: Colors.grey,
-                                                                            ),
-                                                                          ),
-                                                                        ],
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                  children: [
+                                                                    Text('#' + deviceIdNum.toString() + voucherId,
+                                                                      style: TextStyle(
+                                                                          fontSize: 16,
+                                                                          fontWeight: FontWeight.w500
                                                                       ),
-                                                                      SizedBox(
-                                                                        height: 6,
+                                                                    ),
+                                                                    SizedBox(width: 8),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 1.0),
+                                                                      child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                    ),
+                                                                    SizedBox(width: 4),
+                                                                    Text(convertToHour(orderId.toString()) + ':' + orderId.toString().substring(10,12) +' ' + convertToAMPM(orderId.toString()),
+                                                                      style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w400,
+                                                                        color: Colors.grey,
                                                                       ),
-                                                                      Row(
-                                                                        children: [
-                                                                          Text(customerName, style: TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          )),
-
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                                 SizedBox(
-                                                                  height: 8,
+                                                                  height: 6,
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    if(refund == 'TRUE')
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(right: 6.0, left: 6.0),
-                                                                        child: Container(
-                                                                          height: 21,
-                                                                          decoration: BoxDecoration(
-                                                                            borderRadius: BorderRadius.circular(20.0),
-                                                                            color: AppTheme.badgeBgSecond,
-                                                                          ),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                            child: Text('Refunded',
-                                                                              style: TextStyle(
-                                                                                  fontSize: 13,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.white
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    if(refund == 'PART')
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(right: 6.0, left: 6.0),
-                                                                        child: Container(
-                                                                          height: 21,
-                                                                          decoration: BoxDecoration(
-                                                                            borderRadius: BorderRadius.circular(20.0),
-                                                                            color: AppTheme.badgeBgSecond,
-                                                                          ),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                            child: Text('Partially refunded',
-                                                                              style: TextStyle(
-                                                                                  fontSize: 13,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.white
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    if(debt == 0)
-                                                                      Container(
-                                                                        height: 21,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          color: AppTheme.badgeBgSuccess,
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                          child: Text('Paid',
-                                                                            style: TextStyle(
-                                                                                fontSize: 13,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.white
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-
-                                                                    if(debt != 0 && double.parse(total.toString()) == double.parse(debt.toString()))
-                                                                      Container(
-                                                                        height: 21,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          color: AppTheme.badgeFgDanger,
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                          child: Text('Unpaid',
-                                                                            style: TextStyle(
-                                                                                fontSize: 13,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.white
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
+                                                                    Text(customerName, style: TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    )),
 
                                                                     if(debt != 0 && double.parse(total.toString()) > double.parse(debt.toString()))
                                                                       Container(
@@ -502,37 +412,156 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                                         ),
                                                                       )
                                                                   ],
-                                                                )
+                                                                ),
                                                               ],
                                                             ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(right: 15.0, bottom: 1),
-                                                        child: Align(
-                                                          alignment: Alignment.centerRight,
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.end,
+                                                          SizedBox(
+                                                            height: 8,
+                                                          ),
+                                                          Row(
                                                             children: [
-                                                              Text('MMK '+ total.toString(), style: TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              )),
-                                                              SizedBox(width: 10),
-                                                              Icon(
-                                                                Icons
-                                                                    .arrow_forward_ios_rounded,
-                                                                size: 16,
-                                                                color: Colors.blueGrey.withOpacity(0.8),
-                                                              ),
+                                                              if(debt == 0)
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeBgSuccess,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                      child: Text('Paid',
+                                                                        style: TextStyle(
+                                                                            fontSize: 13,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.white
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+
+                                                              if(debt != 0 && double.parse(total.toString()) > double.parse(debt.toString()))
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeFgDangerLight,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                      child: Text('Partially paid',
+                                                                        style: TextStyle(
+                                                                            fontSize: 13,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: AppTheme.badgeFgDanger
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              if(debt != 0 && double.parse(total.toString()) == double.parse(debt.toString()))
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeFgDanger,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                      child: Text('Unpaid',
+                                                                        style: TextStyle(
+                                                                            fontSize: 13,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.white
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              if(refund == 'TRUE')
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 6.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeBgSecond,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                      child: Text('Refunded',
+                                                                        style: TextStyle(
+                                                                            fontSize: 13,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.white
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+
+                                                              if(refund == 'PART')
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 6.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeBgSecondLight,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                      child: Text('Partially refunded',
+                                                                        style: TextStyle(
+                                                                            fontSize: 13,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: AppTheme.badgeBgSecond
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+
                                                             ],
                                                           ),
-                                                        ),
-                                                      )
-                                                    ],
+
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
-                                                );
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 15.0, bottom: 1),
+                                                  child: Align(
+                                                    alignment: Alignment.centerRight,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        Text('MMK '+ total.toString(), style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.w500,
+                                                        )),
+                                                        SizedBox(width: 10),
+                                                        Icon(
+                                                          Icons
+                                                              .arrow_forward_ios_rounded,
+                                                          size: 16,
+                                                          color: Colors.blueGrey.withOpacity(0.8),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          );
                                         },
                                         // Builds 1000 ListTiles
                                         childCount: snapshot.data!.docs.length,

@@ -16,7 +16,10 @@ class AppTheme {
   static const Color badgeFgSuccess = Color(0xFF65B798);
   static const Color badgeBgDanger = Color(0xFFFAEDEE);
   static const Color badgeFgDanger = Color(0xFFCF535C);
+  static const Color badgeFgDangerLight = Color(0xFFEBD6DA);
+
   static const Color badgeBgSecond = Color(0xFF54668D);
+  static const Color badgeBgSecondLight = Color(0xFFD9DAE1);
   static const Color badgeFgSecond = Color(0xFF54668D);
 
 

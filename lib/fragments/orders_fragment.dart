@@ -96,14 +96,14 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                             // print('herre ' + document.id);
                                             var section = ExampleSection()
                                               ..header = document['date']
-                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
 
-                                              //   ..items = document['daily_order'].cast<String>()
+                                            //   ..items = document['daily_order'].cast<String>()
 
 
                                               ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-                                              // ..items = orderItems(document.id)
+                                            // ..items = orderItems(document.id)
                                               ..expanded = true;
                                             sections.add(section);
                                           }).toList();
@@ -327,7 +327,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                   itemBuilder: (context, sectionIndex, itemIndex, index) {
                                                     String item = sectionList[sectionIndex].items[itemIndex];
                                                     int length = sectionList[sectionIndex].items.length;
-                                                    
+
                                                     if(itemIndex == length-1) {
                                                       return GestureDetector(
                                                         onTap: () {
@@ -381,8 +381,8 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 SizedBox(width: 4),
                                                                                 Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
                                                                                   style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w400,
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w400,
                                                                                     color: Colors.grey,
                                                                                   ),
                                                                                 ),
@@ -398,11 +398,11 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             Row(
                                                                               children: [
                                                                                 Text(item.split('^')[3].split('&')[0],
-                                                                                style: TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),),
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 15,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.grey,
+                                                                                  ),),
 
                                                                               ],
                                                                             ),
@@ -414,9 +414,73 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                       ),
                                                                       Row(
                                                                         children: [
+                                                                          if(item.split('^')[5] == '0.0')
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeBgSuccess,
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                  child: Text('Paid',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.white
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+
+                                                                          if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeFgDangerLight,
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                  child: Text('Partially paid',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: AppTheme.badgeFgDanger
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeFgDanger,
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                  child: Text('Unpaid',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.white
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
                                                                           if(item.split('^')[4][0] == 'r')
                                                                             Padding(
-                                                                              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
+                                                                              padding: const EdgeInsets.only(left: 6.0),
                                                                               child: Container(
                                                                                 height: 21,
                                                                                 decoration: BoxDecoration(
@@ -437,78 +501,27 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             ),
 
                                                                           if(item.split('^')[4][0] == 's')
-                                                                            Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeBgSecond,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                                child: Text('Partially refunded',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
-                                                                                  ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 6.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeBgSecondLight,
                                                                                 ),
-                                                                              ),
-                                                                            ),
-                                                                          if(item.split('^')[5] == '0.0')
-                                                                            Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeBgSuccess,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                                child: Text('Paid',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                                  child: Text('Partially refunded',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: AppTheme.badgeBgSecond
+                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                               ),
                                                                             ),
 
-                                                                          if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
-                                                                            Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeFgDanger,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                                child: Text('Partially paid',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
-                                                                            Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeFgDanger,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                                child: Text('Unpaid',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            )
                                                                         ],
                                                                       )
                                                                     ],
@@ -555,7 +568,6 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                       },
                                                       child: Stack(
                                                         alignment: Alignment.center,
-
                                                         children: [
                                                           Padding(
                                                             padding: const EdgeInsets.only(left: 0.0, right: 0.0),
@@ -626,7 +638,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                       children: [
                                                                         if(item.split('^')[5] == '0.0')
                                                                           Padding(
-                                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                                            padding: const EdgeInsets.only(left: 0.0),
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
@@ -645,14 +657,15 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                               ),
                                                                             ),
                                                                           ),
+
                                                                         if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
                                                                           Padding(
-                                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                                            padding: const EdgeInsets.only(left: 0.0),
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeFgDanger,
+                                                                                color: AppTheme.badgeFgDangerLight,
                                                                               ),
                                                                               child: Padding(
                                                                                 padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
@@ -660,7 +673,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
                                                                                       fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
+                                                                                      color: AppTheme.badgeFgDanger
                                                                                   ),
                                                                                 ),
                                                                               ),
@@ -668,7 +681,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                           ),
                                                                         if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
                                                                           Padding(
-                                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                                            padding: const EdgeInsets.only(left: 0.0),
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
@@ -687,10 +700,9 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                               ),
                                                                             ),
                                                                           ),
-
                                                                         if(item.split('^')[4][0] == 'r')
                                                                           Padding(
-                                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                                            padding: const EdgeInsets.only(left: 6.0),
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
@@ -712,12 +724,12 @@ class _OrdersFragmentState extends State<OrdersFragment>
 
                                                                         if(item.split('^')[4][0] == 's')
                                                                           Padding(
-                                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                                            padding: const EdgeInsets.only(left: 6.0),
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeBgSecond,
+                                                                                color: AppTheme.badgeBgSecondLight,
                                                                               ),
                                                                               child: Padding(
                                                                                 padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
@@ -725,13 +737,12 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
                                                                                       fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
+                                                                                      color: AppTheme.badgeBgSecond
                                                                                   ),
                                                                                 ),
                                                                               ),
                                                                             ),
                                                                           ),
-
 
                                                                       ],
                                                                     )
@@ -1621,7 +1632,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
         });
   }
 
-  // List<String> orderItems(String id) {}
+// List<String> orderItems(String id) {}
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {

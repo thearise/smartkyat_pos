@@ -343,17 +343,18 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             var sub1Price = data['sub1_sell'];
                                             var sub2Price = data['sub2_sell'];
                                             var version = snapshot.data!.docs[index].id;
-                                            return Padding(
-                                              padding:
-                                              EdgeInsets.only(top: index == 0? 10.0: 20.0),
-                                              child: GestureDetector(
-                                                onTap: () {Navigator.push(
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) => ProductDetailsView2(
                                                           idString: version, toggleCoinCallback:
                                                       addProduct1, toggleCoinCallback3: addProduct3)),);
-                                                },
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                EdgeInsets.only(top: index == 0? 10.0: 20.0),
                                                 child: Container(
                                                   width: MediaQuery.of(context)
                                                       .size
@@ -446,22 +447,27 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               CrossAxisAlignment
                                                                   .start,
                                                               children: [
+                                                                SizedBox(
+                                                                  height: 2,
+                                                                ),
                                                                 Text(
                                                                   prodName,
                                                                   style: TextStyle(
+                                                                    height: 1,
                                                                     fontSize: 18,
                                                                     fontWeight:
                                                                     FontWeight.w500,
                                                                   ),
                                                                 ),
                                                                 SizedBox(
-                                                                  height: 10,
+                                                                  height: 12,
                                                                 ),
                                                                 Row(
                                                                   children: [
                                                                     Text(
                                                                       'MMK ' + mainsPrice,
                                                                       style: TextStyle(
+                                                                        height: 1.3,
                                                                         fontSize: 15,
                                                                         fontWeight:
                                                                         FontWeight.w500,
@@ -470,6 +476,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                     Text(
                                                                       sub1Name != '' && sub2Name == '' ? ' - ' + sub1Price : sub1Name != '' && sub2Name != '' ? ' - ' + sub2Price : '',
                                                                       style: TextStyle(
+                                                                        height: 1.3,
                                                                         fontSize: 15,
                                                                         fontWeight:
                                                                         FontWeight.w500,
@@ -481,26 +488,33 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                   height: 2,
                                                                 ),
                                                                 Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                                   children: [
-                                                                   Row(
-                                                                     children: [
-                                                                                Text(
-                                                                                    mainQty.toString()+ ' '  + mainName + ' ', style: TextStyle(
-                                                                                  fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                )),
-                                                                                Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                                // sub1Name != '' ? Text(' | ', style: TextStyle(
-                                                                                //   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                // )) : Text(''),
-                                                                              ],
-                                                                            ),
+                                                                    Text(
+                                                                        mainQty.toString()+ ' '  + mainName + ' ',
+                                                                        textScaleFactor: 1.0,
+                                                                        style: TextStyle(
+                                                                          height: 1.3,
+                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                        )),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(top: 2.0),
+                                                                      child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                    ),
 
                                                                            sub1Name != '' && sub2Name == ''?
                                                                                   Text(
-                                                                                     '  (+1 Sub item)', style: TextStyle(
+                                                                                     '  +1 Sub item',
+                                                                                      textScaleFactor: 1.0,
+                                                                                      style: TextStyle(
+                                                                                    height: 1.3,
                                                                                     fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                                                   )) : sub1Name != '' && sub2Name != '' ? Text(
-                                                                                '  (+2 Sub items)', style: TextStyle(
+                                                                                '  +2 Sub items',
+                                                                               textScaleFactor: 1.0,
+                                                                               style: TextStyle(
+                                                                             height: 1.3,
                                                                               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                                             )): Container(),
 
@@ -621,7 +635,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             Padding(
                                                               padding:
                                                               const EdgeInsets.only(
-                                                                  bottom: 12.0),
+                                                                  bottom: 6.0),
                                                               child: Icon(
                                                                 Icons
                                                                     .arrow_forward_ios_rounded,
@@ -702,6 +716,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                         'Search',
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
+                                            height: 1.3,
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black),
