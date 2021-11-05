@@ -68,7 +68,6 @@ class _OrdersFragmentState extends State<OrdersFragment>
             children: [
               Align(
                 alignment: Alignment.center,
-
                 child: Padding(
                   // padding: const EdgeInsets.only(top: 138.0),
                   padding: const EdgeInsets.only(top: 81.0),
@@ -328,26 +327,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                   itemBuilder: (context, sectionIndex, itemIndex, index) {
                                                     String item = sectionList[sectionIndex].items[itemIndex];
                                                     int length = sectionList[sectionIndex].items.length;
-
-
-                                                    // CollectionReference daily_exps_inner = FirebaseFirestore.instance
-                                                    //     .collection('users')
-                                                    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-                                                    //     .collection('daily_exp').doc('2021').collection('month').doc('july').collection('day').doc(item).collection('expenses');
-
-
-                                                    // StreamBuilder(
-                                                    //   stream: daily_exps_inner.snapshots(),
-                                                    //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot3) {
-                                                    //     if(snapshot3.hasData) {
-                                                    //
-                                                    //     } else {
-                                                    //       return Container();
-                                                    //     }
-                                                    //   },
-                                                    // )
-
-
+                                                    
                                                     if(itemIndex == length-1) {
                                                       return GestureDetector(
                                                         onTap: () {
@@ -474,25 +454,6 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                                 ),
                                                                               ),
                                                                             ),
-                                                                          // if(item.split('^')[4][1] == 'f')
-                                                                          //   Container(
-                                                                          //     height: 21,
-                                                                          //     decoration: BoxDecoration(
-                                                                          //       borderRadius: BorderRadius.circular(6.0),
-                                                                          //       color: AppTheme.badgeBgSuccess,
-                                                                          //     ),
-                                                                          //     child: Padding(
-                                                                          //       padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                          //       child: Text('Paid',
-                                                                          //         style: TextStyle(
-                                                                          //             fontSize: 13,
-                                                                          //             fontWeight: FontWeight.w500,
-                                                                          //             color: Colors.white
-                                                                          //         ),
-                                                                          //       ),
-                                                                          //     ),
-                                                                          //   ),
-
                                                                           if(item.split('^')[5] == '0.0')
                                                                             Container(
                                                                               height: 21,
@@ -512,7 +473,25 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                               ),
                                                                             ),
 
-                                                                          if(item.split('^')[5] != '0.0')
+                                                                          if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                                            Container(
+                                                                              height: 21,
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                                color: AppTheme.badgeFgDanger,
+                                                                              ),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                child: Text('Partially paid',
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.white
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
                                                                             Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
@@ -666,8 +645,28 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                               ),
                                                                             ),
                                                                           ),
-
-                                                                        if(item.split('^')[5] != '0.0')
+                                                                        if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                                            child: Container(
+                                                                              height: 21,
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                                color: AppTheme.badgeFgDanger,
+                                                                              ),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                child: Text('Partially paid',
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.white
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(right: 6.0),
                                                                             child: Container(

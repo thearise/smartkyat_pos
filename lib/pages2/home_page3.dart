@@ -55,7 +55,8 @@ class HomePageState extends State<HomePage>
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
 
-  bool sellDone = true;
+ // bool sellDone = true;
+  bool onChangeAmountTab = false;
 
   double homeBotPadding = 0;
   void handleSlideAnimationChanged(Animation<double>? slideAnimation) {
@@ -141,7 +142,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: HomeFragment(
-            toggleCoinCallback: () {}, key: homeGlobalKey
+              toggleCoinCallback: () {}, key: homeGlobalKey
           ),
         ),
         TabItem(
@@ -361,10 +362,10 @@ class HomePageState extends State<HomePage>
                             homeGlobalKey.currentState!.closeSearch();
 
                             // Future.delayed(const Duration(milliseconds: 500), () {
-                              setState(() {
-                                _selectTab(3);
-                                _selectIndex = 1;
-                              });
+                            setState(() {
+                              _selectTab(3);
+                              _selectIndex = 1;
+                            });
                             // });
 
 
@@ -698,15 +699,15 @@ class HomePageState extends State<HomePage>
 
         child: Scaffold(
             resizeToAvoidBottomInset: false,
-          // backgroundColor: Colors.white,
-          // indexed stack shows only one child
+            // backgroundColor: Colors.white,
+            // indexed stack shows only one child
             body: IndexedStack(
               index: currentTab,
               children: tabs.map((e) => e.page).toList(),
             ),
             bottomNavigationBar: Padding(
               padding: EdgeInsets.only(
-                bottom: homeBotPadding
+                  bottom: homeBotPadding
               ),
               child: Container(
                 color: Colors.white,
@@ -739,7 +740,7 @@ class HomePageState extends State<HomePage>
                               // } else {
                               //   addDailyExp2(context);
                               // }
-                              },
+                            },
                             child: (prodList.length == 0) ? Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -1253,9 +1254,9 @@ class HomePageState extends State<HomePage>
   // }
 
   addDailyExp(priContext) {
-    String mainLoss = '';
-    String sub1Loss = '';
-    String sub2Loss = '';
+    var mainLoss = 0;
+    var sub1Loss=0;
+    var sub2Loss = 0;
     String eachProd = '';
     String productName = '';
     String salePrice = '';
@@ -1265,13 +1266,31 @@ class HomePageState extends State<HomePage>
     String sub2Name = '';
     String unit = '';
     String name ='';
+    var mainQty= 0;
+    var sub1Qty = 0;
+    var sub2Qty = 0;
     totalAmount = double.parse(TtlProdListPrice());
+    bool sellDone = true;
     TextEditingController myController = TextEditingController();
 
 
-    if(sellDone == true) {
-      _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-    }
+    // if(sellDone == true) {
+    //   _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+    // }
+         if(sellDone == true) {
+           _controller.animateTo(
+             0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
+           _textFieldController.clear();
+           paidAmount = 0;
+           debt = 0;
+           refund = 0;
+           totalAmount = double.parse(TtlProdListPrice());
+           sellDone = false;
+         }
+    // if(onChangeAmountTab == true) {
+    //
+    //   onChangeAmountTab = false;
+    // }
 
     showModalBottomSheet(
         enableDrag: true,
@@ -1294,7 +1313,7 @@ class HomePageState extends State<HomePage>
                     refund = 0;
                   } else { refund = (paidAmount - totalAmount);
                   }
-              });       });
+                });       });
               return Scaffold(
                 resizeToAvoidBottomInset: false,
                 body: GestureDetector(
@@ -1610,7 +1629,7 @@ class HomePageState extends State<HomePage>
                                                             .data!
                                                             .data();
                                                         var image = output2?[
-                                                          'img_1'];
+                                                        'img_1'];
                                                         prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                             prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                         return GestureDetector(
@@ -1625,13 +1644,17 @@ class HomePageState extends State<HomePage>
                                                                 sub1Name = output2?['sub1_name'];
                                                                 sub2Name = output2?['sub2_name'];
                                                                 salePrice = prodList[i].split('-')[2];
-                                                                // mainLoss = output2?['main_loss'];
-                                                                // sub1Loss = output2?['sub1_loss'];
-                                                                // sub2Loss = output2?['sub2_loss'];
+                                                                mainLoss = output2?['Loss1'].round();
+                                                                sub1Loss = output2?['Loss2'].round();
+                                                                sub2Loss = output2?['Loss3'].round();
                                                                 barcode = output2?['bar_code'];
+                                                                mainQty = output2?['inStock1'].round();
+                                                                sub1Qty = output2?['inStock2'].round();
+                                                                sub2Qty = output2?['inStock3'].round();
                                                                 productName = output2?['prod_name'];
                                                                 myController.text = prodList[i].split('-')[4];
                                                                 sellDone = false;
+                                                                onChangeAmountTab = true;
                                                                 _controller.animateTo(2);});});
                                                           },
                                                           child: Slidable(
@@ -1707,7 +1730,7 @@ class HomePageState extends State<HomePage>
                                                                             )),
                                                                         title: Text(
                                                                           output2?[
-                                                                            'prod_name'],
+                                                                          'prod_name'],
                                                                           style:
                                                                           TextStyle(
                                                                               fontWeight: FontWeight.w500, fontSize: 16),
@@ -2382,7 +2405,6 @@ class HomePageState extends State<HomePage>
                                                                       daily_order.doc(dateId).update({
                                                                         'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
-
                                                                       }).then((value) async {
                                                                         print('User updated');
                                                                         setState(() {
@@ -2398,20 +2420,28 @@ class HomePageState extends State<HomePage>
                                                                           'customerId' : customerId.split('-')[0],
                                                                           'orderId' : length.toString(),
                                                                           'debt' : debt,
+                                                                          'deviceId' : deviceIdNum.toString() + '-',
+                                                                          'refund' : 'FALSE',
+                                                                          'discount' : discountAmount.toString() + disText,
                                                                         }).then((value) {
                                                                           print('order added');
                                                                         });
 
                                                                         if(customerId.split('-')[0] != 'name') {
 
-                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                            .set({
-                                                                          'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
-                                                                          'debt' : debt,
-                                                                          'order_pid': dateId,
-                                                                        }).then((value) {
-                                                                          print('cus order added');
-                                                                        }); }
+                                                                          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                              .set({
+                                                                            'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+                                                                            'debt' : debt,
+                                                                            'order_pid': dateId,
+                                                                            'refund' : 'FALSE',
+                                                                            'discount' : discountAmount.toString() + disText,
+                                                                            'total': TtlProdListPrice(),
+                                                                            'deviceId' : deviceIdNum.toString() + '-',
+                                                                            'voucherId' : length.toString(),
+                                                                          }).then((value) {
+                                                                            print('cus order added');
+                                                                          }); }
                                                                       });
                                                                     } else {
                                                                       daily_order.add({
@@ -2428,6 +2458,9 @@ class HomePageState extends State<HomePage>
                                                                           'customerId' : customerId.split('-')[0],
                                                                           'orderId' : length.toString(),
                                                                           'debt' : debt,
+                                                                          'deviceId' : deviceIdNum.toString() + '-',
+                                                                          'refund' : 'FALSE',
+                                                                          'discount' : discountAmount.toString() + disText,
                                                                         }).then((value) {
                                                                           print('order added');
                                                                         });
@@ -2435,9 +2468,13 @@ class HomePageState extends State<HomePage>
                                                                           await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
                                                                             'debt' : debt,
-                                                                            'order_pid': value.id,
-
-                                                                              })
+                                                                            'order_pid': dateId,
+                                                                            'refund' : 'FALSE',
+                                                                            'discount' : discountAmount.toString() + disText,
+                                                                            'total': TtlProdListPrice(),
+                                                                            'deviceId' : deviceIdNum.toString() + '-',
+                                                                            'voucherId' : length.toString(),
+                                                                          })
                                                                               .then((
                                                                               value) {
                                                                             print(
@@ -2545,6 +2582,16 @@ class HomePageState extends State<HomePage>
                                                                   pdfText = pdfFile!.path.toString();
                                                                   // });
                                                                 });
+
+
+                                                                  // mystate(()  {
+                                                                  //   prodList = [];
+                                                                  //   discount = 0.0;
+                                                                  //   debt =0;
+                                                                  //   refund =0;
+                                                                  //   //customerId = 'name-name';
+                                                                  // });
+
 
                                                                 _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                               },
@@ -2800,170 +2847,174 @@ class HomePageState extends State<HomePage>
                                                         color: Colors.grey,
                                                       ),),
                                                       SizedBox(height: 15,),
-                                                      StreamBuilder(
-                                                        stream: FirebaseFirestore
-                                                            .instance
-                                                            .collection('space')
-                                                            .doc(
-                                                            '0NHIS0Jbn26wsgCzVBKT')
-                                                            .collection('shops')
-                                                            .doc(
-                                                            'PucvhZDuUz3XlkTgzcjb')
-                                                            .collection('products')
-                                                            .doc(eachProd.split('-')[0])
-                                                            .collection('versions')
-                                                            .where('type',
-                                                            isEqualTo: unit == 'unit_name' ? 'main' : unit == 'sub1_name' ? 'sub1' : 'sub2')
-                                                            .snapshots(),
-                                                        builder: (BuildContext context,
-                                                            AsyncSnapshot<QuerySnapshot>
-                                                            snapshot2) {
-                                                          if (snapshot2.hasData) {
-                                                            int quantity = 0;
-                                                            var mainQuantity;
-                                                            snapshot2.data!.docs.map(
-                                                                    (DocumentSnapshot
-                                                                document) {
-                                                                  Map<String, dynamic> data1 =
-                                                                  document.data()! as Map<
-                                                                      String, dynamic>;
-
-                                                                  quantity += int.parse(
-                                                                      data1['unit_qtity']);
-                                                                  mainQuantity =
-                                                                      quantity.toString();
-                                                                }).toList();
-                                                            return Container(
-                                                              height: 220,
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                color: AppTheme.lightBgColor,
-                                                              ),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                      // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                      //   stream: FirebaseFirestore
+                                                      //       .instance
+                                                      //       .collection('space')
+                                                      //       .doc(
+                                                      //       '0NHIS0Jbn26wsgCzVBKT')
+                                                      //       .collection('shops')
+                                                      //       .doc(
+                                                      //       'PucvhZDuUz3XlkTgzcjb')
+                                                      //       .collection('products')
+                                                      //       .doc(eachProd.split('-')[0])
+                                                      //       .snapshots(),
+                                                      //   builder: (BuildContext context, snapshot2) {
+                                                      //     if (snapshot2.hasData) {
+                                                      // var output = snapshot2.data!.data();
+                                                      // // var prodName = output?['prod_name'];
+                                                      // var mainName = output?['unit_name'];
+                                                      // var sub1Name = output?['sub1_name'];
+                                                      // var sub2Name = output?['sub2_name'];
+                                                      // // var sub3Name = output?['sub3_name'];
+                                                      // var barcode = output?['bar_code'];
+                                                      // // var mainPrice = output?['unit_sell'];
+                                                      // // var sub1Price = output?['sub1_sell'];
+                                                      // // var sub2Price = output?['sub2_sell'];
+                                                      // // var sub3Price = output?['sub3_sell'];
+                                                      // // var sub1Unit = output?['sub1_link'];
+                                                      // // var sub2Unit = output?['sub2_link'];
+                                                      // // var sub3Unit = output?['sub3_link'];
+                                                      // // var subExist = output?['sub_exist'];
+                                                      // var mainLoss = output?['Loss1'].round();
+                                                      // var sub1Loss = output?['Loss2'].round();
+                                                      // var sub2Loss = output?['Loss3'].round();
+                                                      // var mainQty = output?['inStock1'].round();
+                                                      // var sub1Qty = output?['inStock2'].round();
+                                                      // var sub2Qty = output?['inStock3'].round();
+                                                      // var image = output?['img_1'];
+                                                      //return
+                                                      Container(
+                                                        height: 220,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          color: AppTheme.lightBgColor,
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Container(
+                                                                height: 55,
+                                                                decoration: BoxDecoration(border: Border(bottom: BorderSide(
+                                                                    color: Colors.grey
+                                                                        .withOpacity(0.2),
+                                                                    width: 1.0))),
+                                                                child: Row(
                                                                   children: [
-                                                                    Container(
-                                                                      height: 55,
-                                                                      decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                                                                          color: Colors.grey
-                                                                              .withOpacity(0.2),
-                                                                          width: 1.0))),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Text('Sell price', style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                          ),),
-                                                                          Spacer(),
-                                                                          Text('MMK ' + salePrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      height: 55,
-                                                                      decoration: BoxDecoration(
-                                                                          border: Border(
-                                                                              bottom: BorderSide(
-                                                                                  color: Colors.grey
-                                                                                      .withOpacity(0.2),
-                                                                                  width: 1.0))),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Text('In stock', style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                          ),),
-                                                                          Spacer(),
-                                                                          eachProd.split('-')[3]== 'unit_name' ? Text(mainQuantity + ' ' + mainName, style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),) : eachProd.split('-')[3]== 'sub1_name'? Text( mainQuantity + ' ' + sub1Name, style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),) : Text(mainQuantity + ' ' + sub2Name, style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      height: 55,
-                                                                      decoration: BoxDecoration(
-                                                                          border: Border(
-                                                                              bottom: BorderSide(
-                                                                                  color: Colors.grey
-                                                                                      .withOpacity(0.2),
-                                                                                  width: 1.0))),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Text('Loss', style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                          ),),
-                                                                          Spacer(),
-                                                                          eachProd.split('-')[3]== 'unit_name' ? Text(mainLoss + ' ' + mainName, style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),) : eachProd.split('-')[3]== 'sub1_name'? Text(sub1Loss + ' ' + sub1Name, style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),) : Text(sub2Loss + ' ' + sub2Name, style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      height: 55,
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Text('Barcode', style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                          ),),
-                                                                          Spacer(),
-                                                                          Text(barcode, style:
-                                                                          TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),),
-                                                                        ],
-                                                                      ),
-                                                                    ),
+                                                                    Text('Sell price', style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),),
+                                                                    Spacer(),
+                                                                    Text('MMK ' + salePrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    ),),
                                                                   ],
                                                                 ),
                                                               ),
-                                                            );
-                                                          }
-                                                          return Container();
-                                                        },
+                                                              Container(
+                                                                height: 55,
+                                                                decoration: BoxDecoration(
+                                                                    border: Border(
+                                                                        bottom: BorderSide(
+                                                                            color: Colors.grey
+                                                                                .withOpacity(0.2),
+                                                                            width: 1.0))),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text('In stock', style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),),
+                                                                    Spacer(),
+                                                                    eachProd.split('-')[3]== 'unit_name' ? Text(mainQty.toString() + ' ' + mainName, style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    ),) : eachProd.split('-')[3]== 'sub1_name'? Text( sub1Qty.toString() + ' ' + sub1Name, style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    ),) : Text(sub2Qty.toString() + ' ' + sub2Name, style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    ),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                height: 55,
+                                                                decoration: BoxDecoration(
+                                                                    border: Border(
+                                                                        bottom: BorderSide(
+                                                                            color: Colors.grey
+                                                                                .withOpacity(0.2),
+                                                                            width: 1.0))),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text('Loss', style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),),
+                                                                    Spacer(),
+                                                                    eachProd.split('-')[3]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    ),) : eachProd.split('-')[3]== 'sub1_name'? Text(sub1Loss.toString() + ' ' + sub1Name, style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    ),) : Text(sub2Loss.toString() + ' ' + sub2Name, style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    ),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                height: 55,
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text('Barcode', style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),),
+                                                                    Spacer(),
+                                                                    Text(barcode, style:
+                                                                    TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
+                                                                      color: Colors.grey,
+                                                                    ),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
                                                       ),
+                                                      //     }
+                                                      //     return Container();
+                                                      //   },
+                                                      // ),
                                                     ],
                                                   ),
                                                 ],
@@ -3395,14 +3446,13 @@ class HomePageState extends State<HomePage>
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () async {
-
-
                                                                 setState(() {
                                                                   mystate(()  {
                                                                     prodList = [];
                                                                     discount = 0.0;
                                                                     debt =0;
                                                                     refund =0;
+                                                                    customerId = 'name-name';
                                                                   });
                                                                 });
                                                                 // _controller.animateTo(0);
@@ -3644,11 +3694,11 @@ class HomePageState extends State<HomePage>
                                                             GestureDetector(
                                                               onTap: () {
                                                                 setState(() {
-                                                                mystate(() {
-                                                                  prodList2 =
-                                                                  [];
-                                                                  merchantId = 'name-name';
-                                                                }); });
+                                                                  mystate(() {
+                                                                    prodList2 =
+                                                                    [];
+                                                                    merchantId = 'name-name';
+                                                                  }); });
                                                               },
                                                               child: Padding(
                                                                 padding:
@@ -3818,12 +3868,12 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                   title: Text(
                                                                     output2?[
-                                                                      'prod_name'] +
+                                                                    'prod_name'] +
                                                                         ' (' +
                                                                         output2?[prodList2[
-                                                                    i]
-                                                                        .split(
-                                                                        '-')[4]] +
+                                                                        i]
+                                                                            .split(
+                                                                            '-')[4]] +
                                                                         ')',
                                                                     style:
                                                                     TextStyle(
@@ -3981,42 +4031,42 @@ class HomePageState extends State<HomePage>
                                                               }
                                                             }
 
-                                                          if(str.split('-')[4]=='unit_name') {
-                                                            await FirebaseFirestore.instance.collection('space').doc(
-                                                                '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                str.split('-')[0])
-                                                                .update({
-                                                              'inStock1': FieldValue.increment(double.parse(str.split('-')[2].toString())),
+                                                            if(str.split('-')[4]=='unit_name') {
+                                                              await FirebaseFirestore.instance.collection('space').doc(
+                                                                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                                                                  'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                  str.split('-')[0])
+                                                                  .update({
+                                                                'inStock1': FieldValue.increment(double.parse(str.split('-')[2].toString())),
                                                                 'buyPrice1': str.split('-')[1].toString(),
-                                                                })
-                                                                .then((value) => print("User Updated"))
-                                                                .catchError((error) => print("Failed to update user: $error"));
-                                                          }
-                                                          else if (str.split('-')[4]=='sub1_name') {
-                                                            await FirebaseFirestore.instance.collection('space').doc(
-                                                                '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                str.split('-')[0])
-                                                                .update({
-                                                              'inStock2': FieldValue.increment(double.parse(str.split('-')[2].toString())),
+                                                              })
+                                                                  .then((value) => print("User Updated"))
+                                                                  .catchError((error) => print("Failed to update user: $error"));
+                                                            }
+                                                            else if (str.split('-')[4]=='sub1_name') {
+                                                              await FirebaseFirestore.instance.collection('space').doc(
+                                                                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                                                                  'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                  str.split('-')[0])
+                                                                  .update({
+                                                                'inStock2': FieldValue.increment(double.parse(str.split('-')[2].toString())),
                                                                 'buyPrice2': str.split('-')[1].toString(),
-                                                                })
-                                                                .then((value) => print("User Updated"))
-                                                                .catchError((error) => print("Failed to update user: $error"));
+                                                              })
+                                                                  .then((value) => print("User Updated"))
+                                                                  .catchError((error) => print("Failed to update user: $error"));
 
                                                             } else if (str.split('-')[4]=='sub2_name') {
-                                                            await FirebaseFirestore.instance.collection('space').doc(
-                                                                '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
-                                                                str.split('-')[0])
-                                                                .update({
-                                                              'inStock3': FieldValue.increment(double.parse(str.split('-')[2].toString())),
-                                                              'buyPrice3' : str.split('-')[1].toString(),
-                                                                })
-                                                                .then((value) => print("User Updated"))
-                                                                .catchError((error) => print("Failed to update user: $error"));
-                                                           }
+                                                              await FirebaseFirestore.instance.collection('space').doc(
+                                                                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                                                                  'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                  str.split('-')[0])
+                                                                  .update({
+                                                                'inStock3': FieldValue.increment(double.parse(str.split('-')[2].toString())),
+                                                                'buyPrice3' : str.split('-')[1].toString(),
+                                                              })
+                                                                  .then((value) => print("User Updated"))
+                                                                  .catchError((error) => print("Failed to update user: $error"));
+                                                            }
                                                           }
                                                           await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders')
                                                           // FirebaseFirestore.instance.collection('space')
@@ -4063,7 +4113,7 @@ class HomePageState extends State<HomePage>
                                                             }
                                                           });
 
-                                                      }
+                                                        }
                                                         );},
                                                       child: Container(
                                                         width: MediaQuery.of(

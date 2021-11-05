@@ -350,6 +350,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                     }
                                                                   });
                                                                 }
+                                                                print('dataRMM' + widget.data.toString());
 
                                                               },
                                                               child: Container(
@@ -375,7 +376,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                             GestureDetector(
                                                               onTap: () {
                                                                 setState(() {
-                                                                  // refundItems[i] = refundItems[i]+1;
                                                                   if ((refundItems[i]) >=
                                                                       int.parse(prodListView[i]
                                                                           .split('-')[3])) {
@@ -399,7 +399,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                 ),
                                                               ),
                                                             ),
-
                                                           ],
                                                         ),
                                                       ),
@@ -444,8 +443,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                       return Container();
                                     },
                                   ),
-
-
                                 ListTile(
                                   title: Text(
                                     'Total refunds',
@@ -464,6 +461,31 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                       )),
                                   trailing: Text('MMK '+
                                       totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500),
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    'Total refund Amount',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500),
+                                  ),
+                                  subtitle: totalItems() == 1? Text(totalItems().toString() + ' item',
+                                      style: TextStyle(
+                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                      )) : Text(totalItems().toString() + ' items',
+                                      style: TextStyle(
+                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                      )),
+                                  trailing: Text('MMK '+
+                                      totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                         fontSize: 17,
                                         fontWeight:
@@ -526,46 +548,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               print('ref to cust ' + prodListView[i].split('-')[3] + ' ' + prodListView[i].split('-')[5]);
                                             }
                                           }
-
-
-
-                                          // for(int i=0; i < ref2Shop.length; i++) {
-                                          //   int value = int.parse(ref2Shop[i].split('-')[2]);
-                                          //   String prodId = ref2Shop[i].split('-')[0];
-                                          //   String prodTp = ref2Shop[i].split('-')[3];
-                                          //   for(int j=0; j< prodList.length; j++) {
-                                          //     if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= int.parse(prodList[j].split('-')[3])) {
-                                          //       prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
-                                          //                     value.toString() + '-' + prodList[j].split('-')[8];
-                                          //       break;
-                                          //     } else if (prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value > int.parse(prodList[j].split('-')[3])) {
-                                          //       prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
-                                          //           prodList[j].split('-')[3] + '-' + prodList[j].split('-')[8];
-                                          //       value = value - int.parse(prodList[j].split('-')[3]);
-                                          //     }
-                                          //   }
-                                          // }
-                                          //
-                                          // print('prodList 5 ' + prodList.toString());
-
-                                          // var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodListView[i].split('-')[0]).collection('versions')
-                                          //   .doc(prodListView[i].split('-')[1]).get();
-                                          // if (docSnapshot.exists) {
-                                          //   Map<String, dynamic>? data = docSnapshot.data();
-                                          //   String value = data?['unit_qtity'];
-                                          //   FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops')
-                                          //     .doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodListView[i].split('-')[0]).collection('versions')
-                                          //     .doc(prodListView[i].split('-')[1])
-                                          //     .update({
-                                          //       'unit_qtity': deffItems[i] - refundItems[i] < 0
-                                          //           ? (int.parse(value) - (deffItems[i] - refundItems[i])).toString()
-                                          //           : (int.parse(value) - (deffItems[i] - refundItems[i])).toString()
-                                          //     })
-                                          //     .then((value) =>
-                                          //         print("User Updated"))
-                                          //     .catchError((error) => print(
-                                          //         "Failed to update user: $error"));
-                                          // }
                                         }
 
                                         print('che ' + ref2Shop.toString());
@@ -580,8 +562,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                             total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
                                           }
                                         }
-
-
                                         print('result__ 3' + total.toString());
                                         print('prodListBef 1 ' + prodListBefore.toString());
 
@@ -639,11 +619,27 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           }
                                         }
 
-                                        // changedPrice = total;
-                                        // Navigator.pop(context);
-                                        // // prodList
-                                        //
+                                        double debt = double.parse(widget.data.split('^')[5]);
+                                        String refundAmount = 'FALSE';
+
+                                        if(total <= double.parse(widget.data.split('^')[5])) {
+                                          debt = total;
+                                        }
+
+                                        String isRef = 'p';
+                                        for (int i = 0; i < prodListView.length; i++) {
+                                          if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
+                                            isRef = 'r';
+                                            refundAmount = 'TRUE';
+                                          }
+                                          if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
+                                            isRef = 's';
+                                            refundAmount = 'PART';
+                                          }
+                                        }
+
                                         String data = widget.data;
+
                                         String dataRm = data.split('^')[0] +
                                             '^' +
                                             data.split('^')[1] +
@@ -654,8 +650,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                             '^' +
                                             data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
 
-                                        if (refund) {
-                                          data = data.split('^')[0] +
+                                        data = data.split('^')[0] +
                                               '^' +
                                               data.split('^')[1] +
                                               '^' +
@@ -665,22 +660,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   .split('^')[3]
                                                   .split('&')[1] +
                                               '^' +
-                                              'r' +
-                                              data.split('^')[4][1] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
-                                        } else {
-                                          data = data.split('^')[0] +
-                                              '^' +
-                                              data.split('^')[1] +
-                                              '^' +
-                                              total.toString() +
-                                              '^' +
-                                              data
-                                                  .split('^')[3]
-                                                  .split('&')[1] +
-                                              '^' +
-                                              ' ' +
-                                              data.split('^')[4][1] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
-                                        }
+                                              isRef +
+                                              data.split('^')[4][1] + '^' + debt.toString() + '^' + data.split('^')[6];
+
+
+
 
                                         print('result___ ' + data + dataRm);
 
@@ -720,13 +704,37 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 .collection('detail')
                                                 .doc(data.split('^')[0])
                                                 .update({
-                                              'subs': prodList
+                                              'subs': prodList,
+                                              'total': total.toString(),
+                                              'refund' : refundAmount,
+                                              'debt' : total
                                             }).then((value) =>
                                                 print('subs updated'));
+
+                                            if(widget.data.split('^')[3].split('&')[1].toString() != 'name') {
+                                              FirebaseFirestore.instance
+                                                  .collection('space')
+                                                  .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                  .collection('shops')
+                                                  .doc('PucvhZDuUz3XlkTgzcjb')
+                                                  .collection('customers')
+                                                  .doc(widget.data
+                                                  .split('^')[3]
+                                                  .split('&')[1])
+                                                  .collection('orders')
+                                                  .doc(data.split('^')[0])
+                                                  .update({
+                                                'refund': refundAmount,
+                                                'debt' : total
+                                              }).then((value) =>
+                                                  print('subs updated'));
+                                            }
 
                                             Navigator.pop(context, data);
                                           });
                                         });
+
+
 
 
 
@@ -1355,6 +1363,18 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
       totalItems += refundItems[i];
     }
     return totalItems;
+  }
+
+  totalRefund() {
+    double totalM = 0.0;
+    double debtM = 0.0;
+    double refundAmount = 0.0;
+    totalM = double.parse(widget.data.split('^')[2]) - totalPriceView();
+    debtM = double.parse(widget.data.split('^')[2]) -  double.parse(widget.data.split('^')[5]);
+    if(debtM > totalM) {
+      refundAmount = debtM - totalM;
+    } else refundAmount = 0.0;
+    return refundAmount;
   }
 
   totalPriceView() {

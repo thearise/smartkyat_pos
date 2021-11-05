@@ -7,7 +7,7 @@ import '../app_theme.dart';
 
 class PayDebtItems extends StatefulWidget {
   const PayDebtItems({Key? key, required this.debt, required this.data, required this.docId}) : super(key: key);
-final double debt;
+final String debt;
 final String data;
 final String docId;
   @override
@@ -49,6 +49,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         top: true,
