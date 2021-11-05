@@ -413,7 +413,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                     )
                                                                         : CachedNetworkImage(
                                                                       imageUrl:
-                                                                      'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                      'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg'
+                                                                          ,
                                                                       width: 75,
                                                                       height: 75,
                                                                       // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),

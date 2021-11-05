@@ -283,9 +283,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               double sub2Stock;
                                               double sub3Stock;
                                               String mTotal;
-                                              String sub1Total;
-                                              String sub2Total;
-                                              String sub3Total;
 
                                               if( subUnitFieldValue[0] != ''){
                                                 sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
@@ -323,24 +320,27 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                               if( subUnitFieldValue[3] != '') {
                                                 sub1Stock=  double.parse(subUnitFieldValue[3]);
-                                                sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();}
+                                                //sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+                                              }
                                               else {sub1Stock = 0;
-                                              sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+                                              //sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
                                               }
 
                                               if( subUnitFieldValue[7] != '') {
                                                 sub2Stock=  double.parse(subUnitFieldValue[7]);
-                                                sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+                                                //sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
                                               }
                                               else { sub2Stock = 0;
-                                              sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();}
+                                              //sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+                                              }
 
                                               if( subUnitFieldValue[11] != '') {
                                                 sub3Stock =  double.parse(subUnitFieldValue[11]);
-                                                sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();}
+                                                //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
+                                              }
                                               else {
                                                 sub3Stock = 0;
-                                                sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
+                                                //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                               }
 
                                               FirebaseFirestore.instance
@@ -422,9 +422,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     'Loss3' : 0,
                                                     'Loss4' : 0,
                                                     'mTotal' : mTotal,
-                                                    's1Total' : sub1Total,
-                                                    's2Total' : sub2Total,
-                                                    's3Total' : sub3Total,
+                                                    // 's1Total' : sub1Total,
+                                                    // 's2Total' : sub2Total,
+                                                    // 's3Total' : sub3Total,
 
                                                     // 'unit_qtity': prodFieldsValue[2],
                                                     // 'unit_name': prodFieldsValue[3],

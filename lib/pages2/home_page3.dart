@@ -55,7 +55,7 @@ class HomePageState extends State<HomePage>
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
 
-  bool sellDone = true;
+ // bool sellDone = true;
   bool onChangeAmountTab = false;
 
   double homeBotPadding = 0;
@@ -1270,15 +1270,23 @@ class HomePageState extends State<HomePage>
     var sub1Qty = 0;
     var sub2Qty = 0;
     totalAmount = double.parse(TtlProdListPrice());
+    bool sellDone = true;
     TextEditingController myController = TextEditingController();
 
 
     // if(sellDone == true) {
     //   _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
     // }
-
-    _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-
+         if(sellDone == true) {
+           _controller.animateTo(
+             0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
+           _textFieldController.clear();
+           paidAmount = 0;
+           debt = 0;
+           refund = 0;
+           totalAmount = double.parse(TtlProdListPrice());
+           sellDone = false;
+         }
     // if(onChangeAmountTab == true) {
     //
     //   onChangeAmountTab = false;
@@ -1621,7 +1629,7 @@ class HomePageState extends State<HomePage>
                                                             .data!
                                                             .data();
                                                         var image = output2?[
-                                                          'img_1'];
+                                                        'img_1'];
                                                         prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                             prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                         return GestureDetector(
@@ -1722,7 +1730,7 @@ class HomePageState extends State<HomePage>
                                                                             )),
                                                                         title: Text(
                                                                           output2?[
-                                                                            'prod_name'],
+                                                                          'prod_name'],
                                                                           style:
                                                                           TextStyle(
                                                                               fontWeight: FontWeight.w500, fontSize: 16),
@@ -2414,6 +2422,7 @@ class HomePageState extends State<HomePage>
                                                                           'debt' : debt,
                                                                           'deviceId' : deviceIdNum.toString() + '-',
                                                                           'refund' : 'FALSE',
+                                                                          'discount' : discountAmount.toString() + disText,
                                                                         }).then((value) {
                                                                           print('order added');
                                                                         });
@@ -2425,7 +2434,11 @@ class HomePageState extends State<HomePage>
                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
                                                                             'debt' : debt,
                                                                             'order_pid': dateId,
-                                                                            'refund' : 'FALSE'
+                                                                            'refund' : 'FALSE',
+                                                                            'discount' : discountAmount.toString() + disText,
+                                                                            'total': TtlProdListPrice(),
+                                                                            'deviceId' : deviceIdNum.toString() + '-',
+                                                                            'voucherId' : length.toString(),
                                                                           }).then((value) {
                                                                             print('cus order added');
                                                                           }); }
@@ -2447,6 +2460,7 @@ class HomePageState extends State<HomePage>
                                                                           'debt' : debt,
                                                                           'deviceId' : deviceIdNum.toString() + '-',
                                                                           'refund' : 'FALSE',
+                                                                          'discount' : discountAmount.toString() + disText,
                                                                         }).then((value) {
                                                                           print('order added');
                                                                         });
@@ -2454,9 +2468,12 @@ class HomePageState extends State<HomePage>
                                                                           await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
                                                                             'debt' : debt,
-                                                                            'order_pid': value.id,
-                                                                            'refund' : 'FLASE'
-
+                                                                            'order_pid': dateId,
+                                                                            'refund' : 'FALSE',
+                                                                            'discount' : discountAmount.toString() + disText,
+                                                                            'total': TtlProdListPrice(),
+                                                                            'deviceId' : deviceIdNum.toString() + '-',
+                                                                            'voucherId' : length.toString(),
                                                                           })
                                                                               .then((
                                                                               value) {
@@ -2565,6 +2582,16 @@ class HomePageState extends State<HomePage>
                                                                   pdfText = pdfFile!.path.toString();
                                                                   // });
                                                                 });
+
+
+                                                                  // mystate(()  {
+                                                                  //   prodList = [];
+                                                                  //   discount = 0.0;
+                                                                  //   debt =0;
+                                                                  //   refund =0;
+                                                                  //   //customerId = 'name-name';
+                                                                  // });
+
 
                                                                 _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                               },
@@ -3419,14 +3446,13 @@ class HomePageState extends State<HomePage>
                                                           children: [
                                                             GestureDetector(
                                                               onTap: () async {
-
-
                                                                 setState(() {
                                                                   mystate(()  {
                                                                     prodList = [];
                                                                     discount = 0.0;
                                                                     debt =0;
                                                                     refund =0;
+                                                                    customerId = 'name-name';
                                                                   });
                                                                 });
                                                                 // _controller.animateTo(0);
@@ -3842,12 +3868,12 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                   title: Text(
                                                                     output2?[
-                                                                      'prod_name'] +
+                                                                    'prod_name'] +
                                                                         ' (' +
                                                                         output2?[prodList2[
-                                                                    i]
-                                                                        .split(
-                                                                        '-')[4]] +
+                                                                        i]
+                                                                            .split(
+                                                                            '-')[4]] +
                                                                         ')',
                                                                     style:
                                                                     TextStyle(

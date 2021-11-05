@@ -287,11 +287,19 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                   onPressed: () async {
                                                     String isRef = 'p';
+                                                    double debt = double.parse(widget.data.split('^')[5]);
                                                     print('result__1 ' + result.toString());
                                                     for (int i = 0; i < prodListView.length; i++) {
-                                                      if (prodListView[i].split('-')[7] != '0') {
+                                                      if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
                                                         isRef = 'r';
                                                       }
+                                                      if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
+                                                        isRef = 's';
+                                                      }
+                                                    }
+
+                                                    if(totalPrice <= double.parse(widget.data.split('^')[5])) {
+                                                      debt = totalPrice;
                                                     }
 
                                                     result = widget.data
@@ -307,7 +315,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             .split('^')[3] +
                                                         '^' +
                                                         isRef + widget.data
-                                                        .split('^')[4][1] + '^' + widget.data.split('^')[5] + '^' + widget.data
+                                                        .split('^')[4][1] + '^' + debt.toString() + '^' + widget.data
                                                         .split('^')[6];
 
 
@@ -370,7 +378,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                        builder: (context) => PayDebtItems(debt: debt, data: widget.data, docId: docId,))
+                                                        builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId,))
                                                     );
                                                   },
                                                   child: Container(

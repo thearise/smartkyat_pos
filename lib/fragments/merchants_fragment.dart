@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
+import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 
 import '../app_theme.dart';
@@ -107,7 +108,11 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    addNewProd(context);
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => AddMerchant(),)
+                                                    );
                                                   },
                                                   child: Container(
                                                     child: Row(
