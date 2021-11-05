@@ -25,6 +25,7 @@ class _AddMerchantState extends State<AddMerchant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         bottom: true,
         top: true,
@@ -110,8 +111,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                 FirebaseFirestore.instance
                                     .collection('space')
                                     .where('user_id',
-                                        isEqualTo: FirebaseAuth
-                                            .instance.currentUser!.uid)
+                                        isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
                                     .get()
                                     .then((QuerySnapshot querySnapshot) {
                                   querySnapshot.docs.forEach((doc) {

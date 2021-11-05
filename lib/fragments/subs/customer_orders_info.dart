@@ -393,6 +393,24 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                                       color: Colors.grey,
                                                                     )),
 
+                                                                    if(debt != 0 && double.parse(total.toString()) > double.parse(debt.toString()))
+                                                                      Container(
+                                                                        height: 21,
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(20.0),
+                                                                          color: AppTheme.badgeFgDanger,
+                                                                        ),
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                          child: Text('Partially Paid',
+                                                                            style: TextStyle(
+                                                                                fontSize: 13,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.white
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      )
                                                                   ],
                                                                 ),
                                                               ],
