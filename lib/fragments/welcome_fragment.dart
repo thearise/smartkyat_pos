@@ -353,7 +353,7 @@ class _WelcomeState extends State<Welcome>
                                             color: AppTheme.themeColor,
                                           ),
                                         ),
-                                        onPressed: () async {
+                                        onPressed: () {
                                           if (_formKey.currentState!.validate()) {
                                             auth.signInWithEmailAndPassword(email: _email.text, password: _password.text).then((_){
                                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
@@ -735,7 +735,7 @@ class _WelcomeState extends State<Welcome>
                                               color: AppTheme.themeColor,
                                             ),
                                           ),
-                                          onPressed: () async {
+                                          onPressed: () {
                                             auth.createUserWithEmailAndPassword(email: _emails.text, password: _passwords.text).then((_){
                                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => VerifyScreen()));
                                             });
@@ -841,7 +841,7 @@ class _WelcomeState extends State<Welcome>
                                                   color: AppTheme.themeColor,
                                                 ),
                                               ),
-                                              onPressed: () async {
+                                              onPressed: ()  {
                                                 _signupController.animateTo(0);
                                                 _loginTabController.animateTo(1);
                                               },
