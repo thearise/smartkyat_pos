@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
-import 'package:smartkyat_pos/pages/home_page.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
 // import 'package:smartkyat_pos/src/screens/home.dart';
 import 'package:smartkyat_pos/src/screens/verify.dart';
 

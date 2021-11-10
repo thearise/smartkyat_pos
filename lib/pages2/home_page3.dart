@@ -142,7 +142,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: HomeFragment(
-              toggleCoinCallback: () {}, key: homeGlobalKey
+            toggleCoinCallback:addMerchant2Cart, key: homeGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3,
           ),
         ),
         TabItem(
@@ -190,7 +190,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           // page: BuyListFragment(),
-          page: MerchantsFragment(toggleCoinCallback3: addMerchant2Cart),
+          page: SettingsFragment(),
         ),
         TabItem(
           tabName: "Settings",
@@ -622,7 +622,7 @@ class HomePageState extends State<HomePage>
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              _selectTab(5);
+                              _selectTab(6);
                               _selectIndex = 6;
                             });
 

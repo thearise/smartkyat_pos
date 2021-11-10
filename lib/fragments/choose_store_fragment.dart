@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartkyat_pos/pages/home_page.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../app_theme.dart';
 

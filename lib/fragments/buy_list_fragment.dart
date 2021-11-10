@@ -430,9 +430,73 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                       ),
                                                                       Row(
                                                                         children: [
+                                                                          if(item.split('^')[5] == '0.0')
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeBgSuccess,
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                  child: Text('Paid',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.white
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+
+                                                                          if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeFgDangerLight,
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                  child: Text('Partially paid',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: AppTheme.badgeFgDanger
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeFgDanger,
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                  child: Text('Unpaid',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.white
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
                                                                           if(item.split('^')[4][0] == 'r')
                                                                             Padding(
-                                                                              padding: const EdgeInsets.only(right: 6.0, left: 6.0),
+                                                                              padding: const EdgeInsets.only(left: 6.0),
                                                                               child: Container(
                                                                                 height: 21,
                                                                                 decoration: BoxDecoration(
@@ -440,7 +504,7 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                                   color: AppTheme.badgeBgSecond,
                                                                                 ),
                                                                                 child: Padding(
-                                                                                  padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
                                                                                   child: Text('Refunded',
                                                                                     style: TextStyle(
                                                                                         fontSize: 13,
@@ -453,79 +517,27 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                             ),
 
                                                                           if(item.split('^')[4][0] == 's')
-                                                                            Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeBgSecond,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                                                                                child: Text('Partially refunded',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
-                                                                                  ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 6.0),
+                                                                              child: Container(
+                                                                                height: 21,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                                  color: AppTheme.badgeBgSecondLight,
                                                                                 ),
-                                                                              ),
-                                                                            ),
-                                                                          if(item.split('^')[4][1] == 'f')
-                                                                            Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(6.0),
-                                                                                color: AppTheme.badgeBgSuccess,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 3.0, left: 10.0, right: 10.0),
-                                                                                child: Text('Paid',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                                  child: Text('Partially refunded',
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: AppTheme.badgeBgSecond
+                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                               ),
                                                                             ),
 
-                                                                          // if(item.split('^')[5] == '0.0')
-                                                                          //   Container(
-                                                                          //     height: 21,
-                                                                          //     decoration: BoxDecoration(
-                                                                          //       borderRadius: BorderRadius.circular(20.0),
-                                                                          //       color: AppTheme.badgeBgSuccess,
-                                                                          //     ),
-                                                                          //     child: Padding(
-                                                                          //       padding: const EdgeInsets.only(top: 2.0, left: 15.0, right: 15.0),
-                                                                          //       child: Text('Paid',
-                                                                          //         style: TextStyle(
-                                                                          //             fontSize: 13,
-                                                                          //             fontWeight: FontWeight.w500,
-                                                                          //             color: Colors.white
-                                                                          //         ),
-                                                                          //       ),
-                                                                          //     ),
-                                                                          //   ),
-                                                                          //
-                                                                          // if(item.split('^')[5] != '0.0')
-                                                                          //   Container(
-                                                                          //     height: 21,
-                                                                          //     decoration: BoxDecoration(
-                                                                          //       borderRadius: BorderRadius.circular(20.0),
-                                                                          //       color: AppTheme.badgeFgDanger,
-                                                                          //     ),
-                                                                          //     child: Padding(
-                                                                          //       padding: const EdgeInsets.only(top: 2.0, left: 15.0, right: 15.0),
-                                                                          //       child: Text('Unpaid',
-                                                                          //         style: TextStyle(
-                                                                          //             fontSize: 13,
-                                                                          //             fontWeight: FontWeight.w500,
-                                                                          //             color: Colors.white
-                                                                          //         ),
-                                                                          //       ),
-                                                                          //     ),
-                                                                          //   )
                                                                         ],
                                                                       )
                                                                     ],
@@ -534,24 +546,28 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding: const EdgeInsets.only(right: 15.0, bottom: 1),
+                                                              padding: const EdgeInsets.only(right: 15.0, bottom: 5),
                                                               child: Align(
                                                                 alignment: Alignment.centerRight,
                                                                 child: Row(
                                                                   mainAxisAlignment: MainAxisAlignment.end,
                                                                   children: [
                                                                     Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                                      fontSize: 15,fontWeight: FontWeight.w500,
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
                                                                     )),
                                                                     SizedBox(width: 10),
-                                                                    Icon(
-                                                                      Icons
-                                                                          .arrow_forward_ios_rounded,
-                                                                      size: 16,
-                                                                      color: Colors
-                                                                          .blueGrey
-                                                                          .withOpacity(
-                                                                          0.8),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                                                      child: Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios_rounded,
+                                                                        size: 16,
+                                                                        color: Colors
+                                                                            .blueGrey
+                                                                            .withOpacity(
+                                                                            0.8),
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -644,9 +660,73 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                     ),
                                                                     Row(
                                                                       children: [
+                                                                        if(item.split('^')[5] == '0.0')
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left: 0.0),
+                                                                            child: Container(
+                                                                              height: 21,
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                                color: AppTheme.badgeBgSuccess,
+                                                                              ),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                child: Text('Paid',
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.white
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+
+                                                                        if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left: 0.0),
+                                                                            child: Container(
+                                                                              height: 21,
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                                color: AppTheme.badgeFgDangerLight,
+                                                                              ),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                child: Text('Partially paid',
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: AppTheme.badgeFgDanger
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left: 0.0),
+                                                                            child: Container(
+                                                                              height: 21,
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(20.0),
+                                                                                color: AppTheme.badgeFgDanger,
+                                                                              ),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                                child: Text('Unpaid',
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.white
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
                                                                         if(item.split('^')[4][0] == 'r')
                                                                           Padding(
-                                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                                            padding: const EdgeInsets.only(left: 6.0),
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
@@ -654,7 +734,7 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                                 color: AppTheme.badgeBgSecond,
                                                                               ),
                                                                               child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
                                                                                 child: Text('Refunded',
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
@@ -668,12 +748,12 @@ class _BuyListFragmentState extends State<BuyListFragment>
 
                                                                         if(item.split('^')[4][0] == 's')
                                                                           Padding(
-                                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                                            padding: const EdgeInsets.only(left: 6.0),
                                                                             child: Container(
                                                                               height: 21,
                                                                               decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeBgSecond,
+                                                                                color: AppTheme.badgeBgSecondLight,
                                                                               ),
                                                                               child: Padding(
                                                                                 padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
@@ -681,13 +761,12 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                                   style: TextStyle(
                                                                                       fontSize: 13,
                                                                                       fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
+                                                                                      color: AppTheme.badgeBgSecond
                                                                                   ),
                                                                                 ),
                                                                               ),
                                                                             ),
                                                                           ),
-
 
                                                                       ],
                                                                     )
@@ -697,7 +776,7 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                             ),
                                                           ),
                                                           Padding(
-                                                            padding: const EdgeInsets.only(right: 15.0, bottom: 1),
+                                                            padding: const EdgeInsets.only(right: 15.0, bottom: 5),
                                                             child: Align(
                                                               alignment: Alignment.centerRight,
                                                               child: Row(
@@ -708,14 +787,17 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                     fontWeight: FontWeight.w500,
                                                                   )),
                                                                   SizedBox(width: 10),
-                                                                  Icon(
-                                                                    Icons
-                                                                        .arrow_forward_ios_rounded,
-                                                                    size: 16,
-                                                                    color: Colors
-                                                                        .blueGrey
-                                                                        .withOpacity(
-                                                                        0.8),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(bottom: 2.0),
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .arrow_forward_ios_rounded,
+                                                                      size: 16,
+                                                                      color: Colors
+                                                                          .blueGrey
+                                                                          .withOpacity(
+                                                                          0.8),
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -1311,7 +1393,11 @@ class _BuyListFragmentState extends State<BuyListFragment>
               '&' +
               list[i].split('^')[3] +
               '^' +
-              list[i].split('^')[4]
+              list[i].split('^')[4]+
+              '^' +
+              list[i].split('^')[5]+
+              '^' +
+              list[i].split('^')[6]
           ;
         }
       }

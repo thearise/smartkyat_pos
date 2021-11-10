@@ -51,9 +51,9 @@ class MyApp extends StatelessWidget {
       ),
       navigatorObservers: [OneContext().heroController],
       builder: OneContext().builder,
-      //home: App(settings),
+      home: App(),
       // home: HomePage(),
-      home: HomePage()
+      // home: HomePage()
     );
   }
 }

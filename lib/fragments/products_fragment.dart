@@ -354,7 +354,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               },
                                               child: Padding(
                                                 padding:
-                                                EdgeInsets.only(top: index == 0? 10.0: 20.0),
+                                                EdgeInsets.only(top: index == 0? 10.0: 19.0),
                                                 child: Container(
                                                   width: MediaQuery.of(context)
                                                       .size
