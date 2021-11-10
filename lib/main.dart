@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:smartkyat_pos/login.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'fragments/welcome_fragment.dart';
 import 'src/app.dart';
 import 'package:smartkyat_pos/src/app.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       builder: OneContext().builder,
       home: App(),
       // home: HomePage(),
-      // home: HomePage()
+      home: Welcome(),
     );
   }
 }

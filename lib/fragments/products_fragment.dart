@@ -366,293 +366,293 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               color: Colors.transparent,
                                                               width: 1.0) :
 
-                                                          BorderSide(
-                                                              color: Colors.grey
-                                                                  .withOpacity(0.3),
-                                                              width: 1.0)
-                                                      )),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                    child: Column(
+                                                      BorderSide(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.3),
+                                                          width: 1.0)
+                                                  )),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
                                                       children: [
-                                                        Row(
+                                                        Column(
                                                           children: [
-                                                            Column(
-                                                              children: [
-                                                                ClipRRect(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        5.0),
-                                                                    child: image != ""
-                                                                        ? CachedNetworkImage(
-                                                                      imageUrl:
-                                                                      'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                          image,
-                                                                      width: 75,
-                                                                      height: 75,
-                                                                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                      errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                          Icon(Icons
-                                                                              .error),
-                                                                      fadeInDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                          100),
-                                                                      fadeOutDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                          10),
-                                                                      fadeInCurve:
-                                                                      Curves
-                                                                          .bounceIn,
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    )
-                                                                        : CachedNetworkImage(
-                                                                      imageUrl:
-                                                                      'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg'
-                                                                          ,
-                                                                      width: 75,
-                                                                      height: 75,
-                                                                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                      errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                          Icon(Icons
-                                                                              .error),
-                                                                      fadeInDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                          100),
-                                                                      fadeOutDuration:
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                          10),
-                                                                      fadeInCurve:
-                                                                      Curves
-                                                                          .bounceIn,
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    )),
-                                                              ],
+                                                            ClipRRect(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    5.0),
+                                                                child: image != ""
+                                                                    ? CachedNetworkImage(
+                                                                  imageUrl:
+                                                                  'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                      image,
+                                                                  width: 75,
+                                                                  height: 75,
+                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                  errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                      Icon(Icons
+                                                                          .error),
+                                                                  fadeInDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                      100),
+                                                                  fadeOutDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                      10),
+                                                                  fadeInCurve:
+                                                                  Curves
+                                                                      .bounceIn,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                )
+                                                                    : CachedNetworkImage(
+                                                                  imageUrl:
+                                                                  'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg'
+                                                                  ,
+                                                                  width: 75,
+                                                                  height: 75,
+                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                  errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                      Icon(Icons
+                                                                          .error),
+                                                                  fadeInDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                      100),
+                                                                  fadeOutDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                      10),
+                                                                  fadeInCurve:
+                                                                  Curves
+                                                                      .bounceIn,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                )),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          width: 15,
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 2,
+                                                            ),
+                                                            Text(
+                                                              prodName,
+                                                              style: TextStyle(
+                                                                height: 1,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                FontWeight.w500,
+                                                              ),
                                                             ),
                                                             SizedBox(
-                                                              width: 15,
+                                                              height: 12,
                                                             ),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                            Row(
                                                               children: [
-                                                                SizedBox(
-                                                                  height: 2,
-                                                                ),
                                                                 Text(
-                                                                  prodName,
+                                                                  'MMK ' + mainsPrice,
                                                                   style: TextStyle(
-                                                                    height: 1,
-                                                                    fontSize: 18,
+                                                                    height: 1.3,
+                                                                    fontSize: 15,
                                                                     fontWeight:
                                                                     FontWeight.w500,
                                                                   ),
                                                                 ),
-                                                                SizedBox(
-                                                                  height: 12,
+                                                                Text(
+                                                                  sub1Name != '' && sub2Name == '' ? ' - ' + sub1Price : sub1Name != '' && sub2Name != '' ? ' - ' + sub2Price : '',
+                                                                  style: TextStyle(
+                                                                    height: 1.3,
+                                                                    fontSize: 15,
+                                                                    fontWeight:
+                                                                    FontWeight.w500,
+                                                                  ),
                                                                 ),
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      'MMK ' + mainsPrice,
-                                                                      style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize: 15,
-                                                                        fontWeight:
-                                                                        FontWeight.w500,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      sub1Name != '' && sub2Name == '' ? ' - ' + sub1Price : sub1Name != '' && sub2Name != '' ? ' - ' + sub2Price : '',
-                                                                      style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize: 15,
-                                                                        fontWeight:
-                                                                        FontWeight.w500,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 2,
-                                                                ),
-                                                                Row(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  children: [
-                                                                    Text(
-                                                                        mainQty.toString()+ ' '  + mainName + ' ',
-                                                                        textScaleFactor: 1.0,
-                                                                        style: TextStyle(
-                                                                          height: 1.3,
-                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                        )),
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(top: 2.0),
-                                                                      child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                    ),
-
-                                                                           sub1Name != '' && sub2Name == ''?
-                                                                                  Text(
-                                                                                     '  +1 Sub item',
-                                                                                      textScaleFactor: 1.0,
-                                                                                      style: TextStyle(
-                                                                                    height: 1.3,
-                                                                                    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                                  )) : sub1Name != '' && sub2Name != '' ? Text(
-                                                                                '  +2 Sub items',
-                                                                               textScaleFactor: 1.0,
-                                                                               style: TextStyle(
-                                                                             height: 1.3,
-                                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                            )): Container(),
-
-                                                                    // StreamBuilder(
-                                                                    //     stream: FirebaseFirestore
-                                                                    //         .instance
-                                                                    //         .collection(
-                                                                    //         'space')
-                                                                    //         .doc(
-                                                                    //         '0NHIS0Jbn26wsgCzVBKT')
-                                                                    //         .collection(
-                                                                    //         'shops')
-                                                                    //         .doc(
-                                                                    //         'PucvhZDuUz3XlkTgzcjb')
-                                                                    //         .collection(
-                                                                    //         'products')
-                                                                    //         .doc(version)
-                                                                    //         .collection(
-                                                                    //         'versions')
-                                                                    //         .where('type',
-                                                                    //         isEqualTo:
-                                                                    //         'sub3')
-                                                                    //         .snapshots(),
-                                                                    //     builder: (BuildContext
-                                                                    //     context,
-                                                                    //         AsyncSnapshot<
-                                                                    //             QuerySnapshot>
-                                                                    //         snapshot5) {
-                                                                    //       if (snapshot5
-                                                                    //           .hasData) {
-                                                                    //         int quantity3 =
-                                                                    //         0;
-                                                                    //         var sub3Quantity;
-                                                                    //         snapshot5
-                                                                    //             .data!
-                                                                    //             .docs
-                                                                    //             .map((DocumentSnapshot
-                                                                    //         document) {
-                                                                    //           Map<String,
-                                                                    //               dynamic>
-                                                                    //           data4 =
-                                                                    //           document.data()! as Map<
-                                                                    //               String,
-                                                                    //               dynamic>;
-                                                                    //           if (data4[
-                                                                    //           'unit_qtity'] !=
-                                                                    //               '') {
-                                                                    //             quantity3 +=
-                                                                    //                 int.parse(
-                                                                    //                     data4['unit_qtity']);
-                                                                    //             sub3Quantity =
-                                                                    //                 quantity3
-                                                                    //                     .toString();
-                                                                    //           } else
-                                                                    //             return Container();
-                                                                    //         }).toList();
-                                                                    //         // print(sub1Quantity);
-                                                                    //         // print(mainQuantity);
-                                                                    //         if (sub3Quantity !=
-                                                                    //             null) {
-                                                                    //           return Text(
-                                                                    //               '$sub3Quantity $sub3Name');
-                                                                    //         }
-                                                                    //         return Container();
-                                                                    //       }
-                                                                    //       return Container();
-                                                                    //     }),
-                                                                  ],
-                                                                ),
-
-                                                                // Text(
-                                                                //   'MMK',
-                                                                //   style:
-                                                                //       TextStyle(
-                                                                //     fontSize: 14,
-                                                                //     fontWeight: FontWeight.w400,
-                                                                //     color: Colors.blueGrey.withOpacity(1.0),
-                                                                //   ),
-                                                                // ),
-                                                                // SizedBox(
-                                                                //   height:
-                                                                //       7,
-                                                                // ),
-                                                                // Text(
-                                                                //   '55',
-                                                                //   style:
-                                                                //       TextStyle(
-                                                                //     fontSize: 14,
-                                                                //     fontWeight: FontWeight.w400,
-                                                                //     color: Colors.blueGrey.withOpacity(1.0),
-                                                                //   ),
-                                                                // ),
                                                               ],
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       const EdgeInsets.only(
-                                                            //           bottom: 20.0),
-                                                            //   child: IconButton(
-                                                            //     icon: Icon(
-                                                            //       Icons
-                                                            //           .arrow_forward_ios_rounded,
-                                                            //       size: 16,
-                                                            //       color: Colors.blueGrey
-                                                            //           .withOpacity(0.8),
-                                                            //     ),
-                                                            //     onPressed: () {
-                                                            //       Navigator.push(
-                                                            //         context,
-                                                            //         MaterialPageRoute(
-                                                            //             builder: (context) => ProductDetailsView(
-                                                            //                 idString: version, toggleCoinCallback:
-                                                            //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                                                            //     },
+                                                            SizedBox(
+                                                              height: 2,
+                                                            ),
+                                                            Row(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                    mainQty.toString()+ ' '  + mainName + ' ',
+                                                                    textScaleFactor: 1.0,
+                                                                    style: TextStyle(
+                                                                      height: 1.3,
+                                                                      fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                    )),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.0),
+                                                                  child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                ),
+
+                                                                sub1Name != '' && sub2Name == ''?
+                                                                Text(
+                                                                    '  +1 Sub item',
+                                                                    textScaleFactor: 1.0,
+                                                                    style: TextStyle(
+                                                                      height: 1.3,
+                                                                      fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                    )) : sub1Name != '' && sub2Name != '' ? Text(
+                                                                    '  +2 Sub items',
+                                                                    textScaleFactor: 1.0,
+                                                                    style: TextStyle(
+                                                                      height: 1.3,
+                                                                      fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                    )): Container(),
+
+                                                                // StreamBuilder(
+                                                                //     stream: FirebaseFirestore
+                                                                //         .instance
+                                                                //         .collection(
+                                                                //         'space')
+                                                                //         .doc(
+                                                                //         '0NHIS0Jbn26wsgCzVBKT')
+                                                                //         .collection(
+                                                                //         'shops')
+                                                                //         .doc(
+                                                                //         'PucvhZDuUz3XlkTgzcjb')
+                                                                //         .collection(
+                                                                //         'products')
+                                                                //         .doc(version)
+                                                                //         .collection(
+                                                                //         'versions')
+                                                                //         .where('type',
+                                                                //         isEqualTo:
+                                                                //         'sub3')
+                                                                //         .snapshots(),
+                                                                //     builder: (BuildContext
+                                                                //     context,
+                                                                //         AsyncSnapshot<
+                                                                //             QuerySnapshot>
+                                                                //         snapshot5) {
+                                                                //       if (snapshot5
+                                                                //           .hasData) {
+                                                                //         int quantity3 =
+                                                                //         0;
+                                                                //         var sub3Quantity;
+                                                                //         snapshot5
+                                                                //             .data!
+                                                                //             .docs
+                                                                //             .map((DocumentSnapshot
+                                                                //         document) {
+                                                                //           Map<String,
+                                                                //               dynamic>
+                                                                //           data4 =
+                                                                //           document.data()! as Map<
+                                                                //               String,
+                                                                //               dynamic>;
+                                                                //           if (data4[
+                                                                //           'unit_qtity'] !=
+                                                                //               '') {
+                                                                //             quantity3 +=
+                                                                //                 int.parse(
+                                                                //                     data4['unit_qtity']);
+                                                                //             sub3Quantity =
+                                                                //                 quantity3
+                                                                //                     .toString();
+                                                                //           } else
+                                                                //             return Container();
+                                                                //         }).toList();
+                                                                //         // print(sub1Quantity);
+                                                                //         // print(mainQuantity);
+                                                                //         if (sub3Quantity !=
+                                                                //             null) {
+                                                                //           return Text(
+                                                                //               '$sub3Quantity $sub3Name');
+                                                                //         }
+                                                                //         return Container();
+                                                                //       }
+                                                                //       return Container();
+                                                                //     }),
+                                                              ],
+                                                            ),
+
+                                                            // Text(
+                                                            //   'MMK',
+                                                            //   style:
+                                                            //       TextStyle(
+                                                            //     fontSize: 14,
+                                                            //     fontWeight: FontWeight.w400,
+                                                            //     color: Colors.blueGrey.withOpacity(1.0),
                                                             //   ),
                                                             // ),
-                                                            Spacer(),
-                                                            Padding(
-                                                              padding:
-                                                              const EdgeInsets.only(
-                                                                  bottom: 6.0),
-                                                              child: Icon(
-                                                                Icons
-                                                                    .arrow_forward_ios_rounded,
-                                                                size: 16,
-                                                                color: Colors.blueGrey
-                                                                    .withOpacity(0.8),
-                                                              ),),
+                                                            // SizedBox(
+                                                            //   height:
+                                                            //       7,
+                                                            // ),
+                                                            // Text(
+                                                            //   '55',
+                                                            //   style:
+                                                            //       TextStyle(
+                                                            //     fontSize: 14,
+                                                            //     fontWeight: FontWeight.w400,
+                                                            //     color: Colors.blueGrey.withOpacity(1.0),
+                                                            //   ),
+                                                            // ),
                                                           ],
                                                         ),
-                                                        SizedBox(height: 20),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       const EdgeInsets.only(
+                                                        //           bottom: 20.0),
+                                                        //   child: IconButton(
+                                                        //     icon: Icon(
+                                                        //       Icons
+                                                        //           .arrow_forward_ios_rounded,
+                                                        //       size: 16,
+                                                        //       color: Colors.blueGrey
+                                                        //           .withOpacity(0.8),
+                                                        //     ),
+                                                        //     onPressed: () {
+                                                        //       Navigator.push(
+                                                        //         context,
+                                                        //         MaterialPageRoute(
+                                                        //             builder: (context) => ProductDetailsView(
+                                                        //                 idString: version, toggleCoinCallback:
+                                                        //             addProduct1, toggleCoinCallback3: addProduct3)),);
+                                                        //     },
+                                                        //   ),
+                                                        // ),
+                                                        Spacer(),
+                                                        Padding(
+                                                          padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 6.0),
+                                                          child: Icon(
+                                                            Icons
+                                                                .arrow_forward_ios_rounded,
+                                                            size: 16,
+                                                            color: Colors.blueGrey
+                                                                .withOpacity(0.8),
+                                                          ),),
                                                       ],
                                                     ),
-                                                  ),
+                                                    SizedBox(height: 20),
+                                                  ],
                                                 ),
                                               ),
-                                            );
-                                          },
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       // Builds 1000 ListTiles
                                       childCount: snapshot.data!.docs.length,
                                     ),

@@ -8,10 +8,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     //setStoreId('PucvhZDuUz3XlkTgzcjb');
-
-
-
-    return MaterialApp(  
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Login App',
       theme: ThemeData(  
         accentColor: Colors.orange,
