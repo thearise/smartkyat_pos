@@ -13,7 +13,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
+import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/donut.dart';
+import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
+import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/fragments/subs/top_sale_detail.dart';
 import 'package:smartkyat_pos/pie_chart/simple.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
@@ -45,9 +48,12 @@ import 'subs/customer_info.dart';
 
 class HomeFragment extends StatefulWidget {
   final _callback;
+  final _callback2;
+  final _callback3;
+  final _callback4;
 
-  HomeFragment({required void toggleCoinCallback(), required Key key})
-      : _callback = toggleCoinCallback, super(key: key);
+  HomeFragment({required void toggleCoinCallback(String str), required void toggleCoinCallback2(String str),required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str) , required Key key,})
+      : _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2 , _callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, super(key: key);
   @override
   HomeFragmentState createState() => HomeFragmentState();
 
@@ -68,15 +74,6 @@ class HomeFragmentState extends State<HomeFragment>
   String searchProdCount = '0';
 
   bool buySellerStatus = false;
-
-
-
-
-
-
-
-
-
 
 
   @override
@@ -106,22 +103,22 @@ class HomeFragmentState extends State<HomeFragment>
 
   slidingSearchCont() {
 
-      if(slidingSearch == 0) {
-        print('gg0');
-        subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-        setState(() {
-        });
-      } else if(slidingSearch == 1) {
-        print('gg1');
-        subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
-        setState(() {
-        });
-      } else if(slidingSearch == 2) {
-        print('gg2');
-        subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
-        setState(() {
-        });
-      }
+    if(slidingSearch == 0) {
+      print('gg0');
+      subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+      setState(() {
+      });
+    } else if(slidingSearch == 1) {
+      print('gg1');
+      subTabController.animateTo(1, duration: Duration(milliseconds: 0), curve: Curves.ease);
+      setState(() {
+      });
+    } else if(slidingSearch == 2) {
+      print('gg2');
+      subTabController.animateTo(2, duration: Duration(milliseconds: 0), curve: Curves.ease);
+      setState(() {
+      });
+    }
   }
 
   @override
@@ -167,8 +164,18 @@ class HomeFragmentState extends State<HomeFragment>
     super.initState();
   }
 
+  addProduct1(data) {
+    widget._callback3(data);
+  }
+
   addCustomer2Cart1(data) {
-    // widget._callback2(data);
+    widget._callback2(data);
+  }
+  addMerchant2Cart(data) {
+    widget._callback(data);
+  }
+  addProduct3(data) {
+    widget._callback4(data);
   }
 
   List<double> thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -183,6 +190,7 @@ class HomeFragmentState extends State<HomeFragment>
       return '0'+string;
     }
   }
+
 
   fetchOrders() async {
     DateTime today = DateTime.now();
@@ -258,7 +266,6 @@ class HomeFragmentState extends State<HomeFragment>
 
           }
           month = month + 1;
-
         }
         if (doc['date'].substring(0,8) == today.year.toString() +
             zeroToTen(today.month.toString()) +
@@ -266,7 +273,6 @@ class HomeFragmentState extends State<HomeFragment>
           double total = 0;
           for (String str in doc['daily_order']) {
             for(int i=0; i<=24 ; i++ ){
-
               if(str.split('^')[0].substring(0, 10) == today.year.toString() +
                   zeroToTen(today.month.toString()) +
                   zeroToTen(today.day.toString()) +
@@ -573,8 +579,6 @@ class HomeFragmentState extends State<HomeFragment>
 
     );
   }
-
-
 
   int findMax(List<int> numbers) {
     return numbers.reduce(max);
@@ -1387,162 +1391,9 @@ class HomeFragmentState extends State<HomeFragment>
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       children: [
                                                         SizedBox(height: 10,),
-
-
-                                                        // Jiggle(
-                                                        //   jiggleController: controller,
-                                                        //   useGestures: true,
-                                                        //   extent: 3,
-                                                        //   child: Container(
-                                                        //     height: 200,
-                                                        //     margin: EdgeInsets.all(20),
-                                                        //     decoration: BoxDecoration(
-                                                        //         color: Colors.Colors.blueAccent,
-                                                        //         borderRadius: BorderRadius.circular(20)),
-                                                        //   ),
-                                                        // ),
-
-
-
-
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                          child: Text(
-                                                            titleTextBySlide(),
-                                                            style: TextStyle(
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 13,
-                                                              letterSpacing: 2,
-                                                              color: Colors.Colors.grey,
-                                                            ),
-                                                          ),
-                                                        ),
-
-
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(
-                                                        //       left: 7.5, right: 7.5),
-                                                        //   child: Row(
-                                                        //     children: [
-                                                        //       Padding(
-                                                        //         padding: const EdgeInsets.only(left: 7.5, right: 7.5),
-                                                        //         child: GestureDetector(
-                                                        //           onTap: () {
-                                                        //             widget._callback();
-                                                        //           },
-                                                        //           child: Container(
-                                                        //             decoration: BoxDecoration(
-                                                        //               borderRadius:
-                                                        //               BorderRadius.circular(10.0),
-                                                        //               color: Colors.Colors.green.withOpacity(0.4),
-                                                        //             ),
-                                                        //             width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                                        //             height: 120,
-                                                        //             child: Padding(
-                                                        //               padding: const EdgeInsets.all(18.0),
-                                                        //               child: Column(
-                                                        //                 mainAxisAlignment: MainAxisAlignment.start,
-                                                        //                 crossAxisAlignment: CrossAxisAlignment.start,
-                                                        //                 children: [
-                                                        //                   Icon(Icons.add_shopping_cart_rounded),
-                                                        //                   Expanded(
-                                                        //                     child: Align(
-                                                        //                       alignment: Alignment.bottomLeft,
-                                                        //                       child: Text(
-                                                        //                         'Add orders',
-                                                        //                         style: TextStyle(
-                                                        //                             fontSize: 18,
-                                                        //                             fontWeight: FontWeight.w600,
-                                                        //                             color: Colors.Colors.black.withOpacity(0.6)
-                                                        //                         ),
-                                                        //                       ),
-                                                        //                     ),
-                                                        //                   )
-                                                        //                 ],
-                                                        //               ),
-                                                        //             ),
-                                                        //           ),
-                                                        //         ),
-                                                        //       ),
-                                                        //       Padding(
-                                                        //         padding: const EdgeInsets.only(
-                                                        //             left: 7.5, right: 7.5),
-                                                        //         child: Container(
-                                                        //           decoration: BoxDecoration(
-                                                        //             borderRadius:
-                                                        //             BorderRadius.circular(10.0),
-                                                        //             color: Colors.Colors.blue.withOpacity(0.4),
-                                                        //           ),
-                                                        //           width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                                        //           height: 120,
-                                                        //           child: Padding(
-                                                        //             padding: const EdgeInsets.all(18.0),
-                                                        //             child: Column(
-                                                        //               mainAxisAlignment: MainAxisAlignment.start,
-                                                        //               crossAxisAlignment: CrossAxisAlignment.start,
-                                                        //               children: [
-                                                        //                 Icon(Icons.volunteer_activism),
-                                                        //                 Expanded(
-                                                        //                     child: Align(
-                                                        //                       alignment: Alignment.bottomLeft,
-                                                        //                       child: TextButton(
-                                                        //                         onPressed: (){
-                                                        //                           Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyDiscount()
-                                                        //                           ),
-                                                        //                           );
-                                                        //                         },
-                                                        //                         child: Text('Add discount',
-                                                        //                           style: TextStyle(
-                                                        //                               fontSize: 18,
-                                                        //                               fontWeight: FontWeight.w600,
-                                                        //                               color: Colors.Colors.black.withOpacity(0.6)
-                                                        //                           ),),
-                                                        //                       ),
-                                                        //                     )
-                                                        //                 ),
-                                                        //               ],
-                                                        //             ),
-                                                        //           ),
-                                                        //         ),
-                                                        //       ),
-                                                        //     ],
-                                                        //   ),
-                                                        // ),
-
                                                         SizedBox(
                                                           height: 2,
                                                         ),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 20.0),
-                                                        //   child: Container(
-                                                        //     child: Row(
-                                                        //       children: [
-                                                        //         Text('5,503,230 MMKs',
-                                                        //           textAlign: TextAlign.left,
-                                                        //           style: TextStyle(
-                                                        //               fontSize: 20,
-                                                        //               fontWeight: FontWeight.w600,
-                                                        //               color: Colors.Colors.black),
-                                                        //         ),
-                                                        //         Expanded(
-                                                        //           child: GestureDetector(
-                                                        //             onTap: () {
-                                                        //               Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
-                                                        //             },
-                                                        //             child: Text('12%',
-                                                        //               textAlign: TextAlign.right,
-                                                        //               style: TextStyle(
-                                                        //                   fontSize: 20,
-                                                        //                   fontWeight: FontWeight.w600,
-                                                        //                   color: Colors.Colors.green),
-                                                        //             ),
-                                                        //           ),
-                                                        //         )
-                                                        //       ],
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
-
                                                         Container(
                                                           decoration: BoxDecoration(
                                                             borderRadius: BorderRadius.all(
@@ -2011,57 +1862,6 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                     color: Colors.Colors.black.withOpacity(0.6)),
                                                                               ),
                                                                             ),
-                                                                            // Container(
-                                                                            //     constraints: BoxConstraints(
-                                                                            //         maxWidth: double.infinity, minWidth: 100, maxHeight: 30),
-                                                                            //   // color: Colors.Colors.blue,
-                                                                            //   child: Row(
-                                                                            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            //     crossAxisAlignment: CrossAxisAlignment.start,
-                                                                            //     children: [
-                                                                            //       Text('Net Profit',
-                                                                            //         style: TextStyle(
-                                                                            //             fontSize: 15,
-                                                                            //             fontWeight: FontWeight.w500,
-                                                                            //             color: Colors.Colors.black.withOpacity(0.8)),
-                                                                            //       ),
-                                                                            //       Align(
-                                                                            //         alignment: Alignment.topRight,
-                                                                            //         child: Text('?')
-                                                                            //       )],
-                                                                            //   ),
-                                                                            // ),
-                                                                            //
-                                                                            //
-                                                                            // Align(
-                                                                            //   alignment: Alignment.bottomLeft,
-                                                                            //   child: Container(
-                                                                            //     constraints: BoxConstraints(
-                                                                            //         maxWidth: double.infinity, minWidth: 100, maxHeight: 30),
-                                                                            //     // color: Colors.Colors.blue,
-                                                                            //     child: Row(
-                                                                            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            //       crossAxisAlignment: CrossAxisAlignment.end,
-                                                                            //       children: [
-                                                                            //         Text('MMK',
-                                                                            //           style: TextStyle(
-                                                                            //               fontSize: 15,
-                                                                            //               fontWeight: FontWeight.w500,
-                                                                            //               color: Colors.Colors.black.withOpacity(0.8)),
-                                                                            //         ),
-                                                                            //         Align(
-                                                                            //             alignment: Alignment.bottomRight,
-                                                                            //             child: Text('+12%',
-                                                                            //               style: TextStyle(
-                                                                            //                   fontSize: 15,
-                                                                            //                   fontWeight: FontWeight.w500,
-                                                                            //                   color: Colors.Colors.black.withOpacity(0.8)),
-                                                                            //             )
-                                                                            //         )],
-                                                                            //     ),
-                                                                            //   ),
-                                                                            // )
-
                                                                           ],
                                                                         ),
                                                                       ),
@@ -2217,837 +2017,6 @@ class HomeFragmentState extends State<HomeFragment>
                                               childCount: 1,
                                             ),
                                           ),
-
-                                          // SliverFillRemaining(
-                                          //   child: Container(
-                                          //     // height: MediaQuery.of(context).size.height-353,
-                                          //     width: MediaQuery.of(context).size.width,
-                                          //     color: AppTheme.skBorderColor,
-                                          //     child: Padding(
-                                          //       padding: const EdgeInsets.only(left: 0.0, right: 0.0,),
-                                          //       child: ListView(
-                                          //         children: [
-                                          //           SizedBox(height: 15,),
-                                          //
-                                          //
-                                          //           // Jiggle(
-                                          //           //   jiggleController: controller,
-                                          //           //   useGestures: true,
-                                          //           //   extent: 3,
-                                          //           //   child: Container(
-                                          //           //     height: 200,
-                                          //           //     margin: EdgeInsets.all(20),
-                                          //           //     decoration: BoxDecoration(
-                                          //           //         color: Colors.Colors.blueAccent,
-                                          //           //         borderRadius: BorderRadius.circular(20)),
-                                          //           //   ),
-                                          //           // ),
-                                          //
-                                          //
-                                          //
-                                          //
-                                          //           Padding(
-                                          //             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                          //             child: Text(
-                                          //               titleTextBySlide(),
-                                          //               style: TextStyle(
-                                          //                 fontWeight: FontWeight.bold,
-                                          //                 fontSize: 13,
-                                          //                 letterSpacing: 2,
-                                          //                 color: Colors.Colors.grey,
-                                          //               ),
-                                          //             ),
-                                          //           ),
-                                          //
-                                          //
-                                          //           // Padding(
-                                          //           //   padding: const EdgeInsets.only(
-                                          //           //       left: 7.5, right: 7.5),
-                                          //           //   child: Row(
-                                          //           //     children: [
-                                          //           //       Padding(
-                                          //           //         padding: const EdgeInsets.only(left: 7.5, right: 7.5),
-                                          //           //         child: GestureDetector(
-                                          //           //           onTap: () {
-                                          //           //             widget._callback();
-                                          //           //           },
-                                          //           //           child: Container(
-                                          //           //             decoration: BoxDecoration(
-                                          //           //               borderRadius:
-                                          //           //               BorderRadius.circular(10.0),
-                                          //           //               color: Colors.Colors.green.withOpacity(0.4),
-                                          //           //             ),
-                                          //           //             width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                          //           //             height: 120,
-                                          //           //             child: Padding(
-                                          //           //               padding: const EdgeInsets.all(18.0),
-                                          //           //               child: Column(
-                                          //           //                 mainAxisAlignment: MainAxisAlignment.start,
-                                          //           //                 crossAxisAlignment: CrossAxisAlignment.start,
-                                          //           //                 children: [
-                                          //           //                   Icon(Icons.add_shopping_cart_rounded),
-                                          //           //                   Expanded(
-                                          //           //                     child: Align(
-                                          //           //                       alignment: Alignment.bottomLeft,
-                                          //           //                       child: Text(
-                                          //           //                         'Add orders',
-                                          //           //                         style: TextStyle(
-                                          //           //                             fontSize: 18,
-                                          //           //                             fontWeight: FontWeight.w600,
-                                          //           //                             color: Colors.Colors.black.withOpacity(0.6)
-                                          //           //                         ),
-                                          //           //                       ),
-                                          //           //                     ),
-                                          //           //                   )
-                                          //           //                 ],
-                                          //           //               ),
-                                          //           //             ),
-                                          //           //           ),
-                                          //           //         ),
-                                          //           //       ),
-                                          //           //       Padding(
-                                          //           //         padding: const EdgeInsets.only(
-                                          //           //             left: 7.5, right: 7.5),
-                                          //           //         child: Container(
-                                          //           //           decoration: BoxDecoration(
-                                          //           //             borderRadius:
-                                          //           //             BorderRadius.circular(10.0),
-                                          //           //             color: Colors.Colors.blue.withOpacity(0.4),
-                                          //           //           ),
-                                          //           //           width: MediaQuery.of(context).size.width>900?MediaQuery.of(context).size.width*(2/3.5)*(1/2)-22.5:MediaQuery.of(context).size.width*(1/2)-22.5,
-                                          //           //           height: 120,
-                                          //           //           child: Padding(
-                                          //           //             padding: const EdgeInsets.all(18.0),
-                                          //           //             child: Column(
-                                          //           //               mainAxisAlignment: MainAxisAlignment.start,
-                                          //           //               crossAxisAlignment: CrossAxisAlignment.start,
-                                          //           //               children: [
-                                          //           //                 Icon(Icons.volunteer_activism),
-                                          //           //                 Expanded(
-                                          //           //                     child: Align(
-                                          //           //                       alignment: Alignment.bottomLeft,
-                                          //           //                       child: TextButton(
-                                          //           //                         onPressed: (){
-                                          //           //                           Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyDiscount()
-                                          //           //                           ),
-                                          //           //                           );
-                                          //           //                         },
-                                          //           //                         child: Text('Add discount',
-                                          //           //                           style: TextStyle(
-                                          //           //                               fontSize: 18,
-                                          //           //                               fontWeight: FontWeight.w600,
-                                          //           //                               color: Colors.Colors.black.withOpacity(0.6)
-                                          //           //                           ),),
-                                          //           //                       ),
-                                          //           //                     )
-                                          //           //                 ),
-                                          //           //               ],
-                                          //           //             ),
-                                          //           //           ),
-                                          //           //         ),
-                                          //           //       ),
-                                          //           //     ],
-                                          //           //   ),
-                                          //           // ),
-                                          //
-                                          //           SizedBox(
-                                          //             height: 2,
-                                          //           ),
-                                          //           // Padding(
-                                          //           //   padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 20.0),
-                                          //           //   child: Container(
-                                          //           //     child: Row(
-                                          //           //       children: [
-                                          //           //         Text('5,503,230 MMKs',
-                                          //           //           textAlign: TextAlign.left,
-                                          //           //           style: TextStyle(
-                                          //           //               fontSize: 20,
-                                          //           //               fontWeight: FontWeight.w600,
-                                          //           //               color: Colors.Colors.black),
-                                          //           //         ),
-                                          //           //         Expanded(
-                                          //           //           child: GestureDetector(
-                                          //           //             onTap: () {
-                                          //           //               Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
-                                          //           //             },
-                                          //           //             child: Text('12%',
-                                          //           //               textAlign: TextAlign.right,
-                                          //           //               style: TextStyle(
-                                          //           //                   fontSize: 20,
-                                          //           //                   fontWeight: FontWeight.w600,
-                                          //           //                   color: Colors.Colors.green),
-                                          //           //             ),
-                                          //           //           ),
-                                          //           //         )
-                                          //           //       ],
-                                          //           //     ),
-                                          //           //   ),
-                                          //           // ),
-                                          //
-                                          //           Container(
-                                          //             decoration: BoxDecoration(
-                                          //               borderRadius: BorderRadius.all(
-                                          //                 Radius.circular(10.0),
-                                          //               ),
-                                          //             ),
-                                          //             child: Column(
-                                          //               mainAxisAlignment: MainAxisAlignment.start,
-                                          //               crossAxisAlignment: CrossAxisAlignment.start,
-                                          //               children: [
-                                          //
-                                          //                 // Padding(
-                                          //                 //   padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
-                                          //                 //   child: Container(
-                                          //                 //     height: 1,
-                                          //                 //     color: AppTheme.skBorderColor2,
-                                          //                 //   ),
-                                          //                 // ),
-                                          //                 Padding(
-                                          //                   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
-                                          //                   child: Container(
-                                          //                     child: Row(
-                                          //                       children: [
-                                          //                         Text(totalBySlide(),
-                                          //                           textAlign: TextAlign.left,
-                                          //                           style: GoogleFonts.lato(
-                                          //                               textStyle: TextStyle(
-                                          //                                   letterSpacing: 1,
-                                          //                                   fontSize: 30,
-                                          //                                   fontWeight: FontWeight.w600,
-                                          //                                   color: Colors.Colors.black
-                                          //                               )
-                                          //                           ),
-                                          //                         ),
-                                          //                         Padding(
-                                          //                           padding: const EdgeInsets.only(top: 12.0),
-                                          //                           child: Text(' MMK',
-                                          //                             textAlign: TextAlign.left,
-                                          //                             style: GoogleFonts.roboto(
-                                          //                                 textStyle: TextStyle(
-                                          //                                     letterSpacing: 1,
-                                          //                                     fontSize: 16,
-                                          //                                     fontWeight: FontWeight.w600,
-                                          //                                     color: Colors.Colors.black
-                                          //                                 )
-                                          //                             ),
-                                          //                           ),
-                                          //                         ),
-                                          //                         Expanded(
-                                          //                           child: Container(),
-                                          //                         ),
-                                          //                         Padding(
-                                          //                           padding: const EdgeInsets.only(top: 3.0),
-                                          //                           child: Container(
-                                          //                             decoration: BoxDecoration(
-                                          //                               borderRadius: BorderRadius.all(
-                                          //                                 Radius.circular(5.0),
-                                          //                               ),
-                                          //                               color: Colors.Colors.green,
-                                          //                             ),
-                                          //                             width: 50,
-                                          //                             height: 25,
-                                          //                             child: Center(
-                                          //                               child: Text('12%',
-                                          //                                 textAlign: TextAlign.right,
-                                          //                                 style: TextStyle(
-                                          //                                     fontSize: 15,
-                                          //                                     fontWeight: FontWeight.w600,
-                                          //                                     color: Colors.Colors.white),
-                                          //                               ),
-                                          //                             ),
-                                          //                           ),
-                                          //                         )
-                                          //                       ],
-                                          //                     ),
-                                          //                   ),
-                                          //                 ),
-                                          //                 Padding(
-                                          //                   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
-                                          //                   child: Row(
-                                          //                     children: [
-                                          //                       Text('Total sales',
-                                          //                         textAlign: TextAlign.left,
-                                          //                         style: TextStyle(
-                                          //                             fontSize: 15,
-                                          //                             fontWeight: FontWeight.w500,
-                                          //                             color: Colors.Colors.black),
-                                          //                       ),
-                                          //                       Expanded(
-                                          //                         child: GestureDetector(
-                                          //                           onTap: () {
-                                          //                             Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
-                                          //                           },
-                                          //                           child: Row(
-                                          //                             mainAxisAlignment: MainAxisAlignment.end,
-                                          //                             // crossAxisAlignment: CrossAxisAlignment.end,
-                                          //                             children: [
-                                          //                               Text('View detail',
-                                          //                                 textAlign: TextAlign.right,
-                                          //                                 style: TextStyle(
-                                          //                                     fontSize: 15,
-                                          //                                     fontWeight: FontWeight.w500,
-                                          //                                     color: Colors.Colors.blue),
-                                          //                               ),
-                                          //                               Padding(
-                                          //                                 padding: const EdgeInsets.only(bottom: 4.5),
-                                          //                                 child: Container(
-                                          //                                   width: 25,
-                                          //                                   height: 25,
-                                          //                                   child: IconButton(
-                                          //                                       icon: Icon(
-                                          //                                         Icons.arrow_forward_ios_rounded,
-                                          //                                         size: 13,
-                                          //                                         color: Colors.Colors.blue,
-                                          //                                       ),
-                                          //                                       onPressed: () {
-                                          //                                       }),
-                                          //                                 ),
-                                          //                               )
-                                          //                             ],
-                                          //                           ),
-                                          //                         ),
-                                          //                       )
-                                          //                     ],
-                                          //                   ),
-                                          //                 ),
-                                          //                 SizedBox(
-                                          //                   height: 8,
-                                          //                 ),
-                                          //                 Container(
-                                          //                   height: 100,
-                                          //                   child: ListView(
-                                          //
-                                          //                     scrollDirection: Axis.horizontal,
-                                          //                     children: [
-                                          //                       SizedBox(
-                                          //                         width: 15,
-                                          //                       ),
-                                          //                       Container(
-                                          //                         // width: 100,
-                                          //                         height: 108,
-                                          //
-                                          //                         constraints: BoxConstraints(
-                                          //                             maxWidth: double.infinity, minWidth: 120),
-                                          //                         decoration: BoxDecoration(
-                                          //                             borderRadius: BorderRadius.circular(8),
-                                          //                             border: Border(
-                                          //                               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                             ),
-                                          //                             color: Colors.Colors.white
-                                          //                         ),
-                                          //
-                                          //                         child: Padding(
-                                          //                           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                          //                           child: Stack(
-                                          //                             children: [
-                                          //                               Column(
-                                          //                                 mainAxisAlignment: MainAxisAlignment.start,
-                                          //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                          //                                 children: [
-                                          //                                   SizedBox(
-                                          //                                       height:26
-                                          //                                   ),
-                                          //                                   Padding(
-                                          //                                     padding: const EdgeInsets.only(right:30.0),
-                                          //                                     child: Text('203,230',
-                                          //                                       textAlign: TextAlign.left,
-                                          //                                       style: GoogleFonts.lato(
-                                          //                                           textStyle: TextStyle(
-                                          //                                               letterSpacing: 1,
-                                          //                                               fontSize: 20,
-                                          //                                               fontWeight: FontWeight.w600,
-                                          //                                               color: Colors.Colors.black
-                                          //                                           )
-                                          //                                       ),
-                                          //                                     ),
-                                          //                                   ),
-                                          //                                 ],
-                                          //                               ),
-                                          //                               Positioned(
-                                          //                                   right: 0,
-                                          //                                   top: 0,
-                                          //                                   child: Text('?')
-                                          //                               ),
-                                          //                               Text('Net Profit',
-                                          //                                 style: TextStyle(
-                                          //                                     fontSize: 13,
-                                          //                                     fontWeight: FontWeight.w500,
-                                          //                                     color: Colors.Colors.black.withOpacity(0.6)),
-                                          //                               ),
-                                          //
-                                          //                               Positioned(
-                                          //                                   right: 0,
-                                          //                                   bottom: 2,
-                                          //                                   child: Text('+20%',
-                                          //                                     style: TextStyle(
-                                          //                                         fontSize: 13,
-                                          //                                         fontWeight: FontWeight.w500,
-                                          //                                         color: Colors.Colors.green),
-                                          //                                   )
-                                          //                               ),
-                                          //                               Positioned(
-                                          //                                 left: 0,
-                                          //                                 bottom: 2,
-                                          //                                 child: Text('MMK',
-                                          //                                   style: TextStyle(
-                                          //                                       fontSize: 13,
-                                          //                                       fontWeight: FontWeight.w500,
-                                          //                                       color: Colors.Colors.black.withOpacity(0.6)),
-                                          //                                 ),
-                                          //                               ),
-                                          //
-                                          //                             ],
-                                          //                           ),
-                                          //                         ),
-                                          //                       ),
-                                          //                       SizedBox(
-                                          //                         width: 15,
-                                          //                       ),
-                                          //
-                                          //                       Container(
-                                          //                         // width: 100,
-                                          //                         height: 108,
-                                          //
-                                          //                         constraints: BoxConstraints(
-                                          //                             maxWidth: double.infinity, minWidth: 120),
-                                          //                         decoration: BoxDecoration(
-                                          //                             borderRadius: BorderRadius.circular(8),
-                                          //                             border: Border(
-                                          //                               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                             ),
-                                          //                             color: Colors.Colors.white
-                                          //                         ),
-                                          //
-                                          //                         child: Padding(
-                                          //                           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                          //                           child: Stack(
-                                          //                             children: [
-                                          //                               Column(
-                                          //                                 mainAxisAlignment: MainAxisAlignment.start,
-                                          //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                          //                                 children: [
-                                          //                                   SizedBox(
-                                          //                                       height:26
-                                          //                                   ),
-                                          //                                   Padding(
-                                          //                                     padding: const EdgeInsets.only(right:30.0),
-                                          //                                     child: Text('3,230',
-                                          //                                       textAlign: TextAlign.left,
-                                          //                                       style: GoogleFonts.lato(
-                                          //                                           textStyle: TextStyle(
-                                          //                                               letterSpacing: 1,
-                                          //                                               fontSize: 20,
-                                          //                                               fontWeight: FontWeight.w600,
-                                          //                                               color: Colors.Colors.black
-                                          //                                           )
-                                          //                                       ),
-                                          //                                     ),
-                                          //                                   ),
-                                          //                                 ],
-                                          //                               ),
-                                          //                               Positioned(
-                                          //                                   right: 0,
-                                          //                                   top: 0,
-                                          //                                   child: Text('?')
-                                          //                               ),
-                                          //                               Text('Debts',
-                                          //                                 style: TextStyle(
-                                          //                                     fontSize: 13,
-                                          //                                     fontWeight: FontWeight.w500,
-                                          //                                     color: Colors.Colors.black.withOpacity(0.6)),
-                                          //                               ),
-                                          //
-                                          //                               Positioned(
-                                          //                                   right: 0,
-                                          //                                   bottom: 2,
-                                          //                                   child: Text('+2%',
-                                          //                                     style: TextStyle(
-                                          //                                         fontSize: 13,
-                                          //                                         fontWeight: FontWeight.w500,
-                                          //                                         color: Colors.Colors.red),
-                                          //                                   )
-                                          //                               ),
-                                          //                               Positioned(
-                                          //                                 left: 0,
-                                          //                                 bottom: 2,
-                                          //                                 child: Text('MMK',
-                                          //                                   style: TextStyle(
-                                          //                                       fontSize: 13,
-                                          //                                       fontWeight: FontWeight.w500,
-                                          //                                       color: Colors.Colors.black.withOpacity(0.6)),
-                                          //                                 ),
-                                          //                               ),
-                                          //
-                                          //                             ],
-                                          //                           ),
-                                          //                         ),
-                                          //                       ),
-                                          //                       SizedBox(
-                                          //                         width: 15,
-                                          //                       ),
-                                          //
-                                          //                       Container(
-                                          //                         // width: 100,
-                                          //                         height: 108,
-                                          //
-                                          //                         constraints: BoxConstraints(
-                                          //                             maxWidth: double.infinity, minWidth: 120),
-                                          //                         decoration: BoxDecoration(
-                                          //                             borderRadius: BorderRadius.circular(8),
-                                          //                             border: Border(
-                                          //                               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                             ),
-                                          //                             color: Colors.Colors.white
-                                          //                         ),
-                                          //
-                                          //                         child: Padding(
-                                          //                           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                          //                           child: Stack(
-                                          //                             children: [
-                                          //                               Column(
-                                          //                                 mainAxisAlignment: MainAxisAlignment.start,
-                                          //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                          //                                 children: [
-                                          //                                   SizedBox(
-                                          //                                       height:26
-                                          //                                   ),
-                                          //                                   Padding(
-                                          //                                     padding: const EdgeInsets.only(right:30.0),
-                                          //                                     child: Text('1,903,230',
-                                          //                                       textAlign: TextAlign.left,
-                                          //                                       style: GoogleFonts.lato(
-                                          //                                           textStyle: TextStyle(
-                                          //                                               letterSpacing: 1,
-                                          //                                               fontSize: 20,
-                                          //                                               fontWeight: FontWeight.w600,
-                                          //                                               color: Colors.Colors.black
-                                          //                                           )
-                                          //                                       ),
-                                          //                                     ),
-                                          //                                   ),
-                                          //                                 ],
-                                          //                               ),
-                                          //                               Positioned(
-                                          //                                   right: 0,
-                                          //                                   top: 0,
-                                          //                                   child: Text('?')
-                                          //                               ),
-                                          //                               Text('Buys',
-                                          //                                 style: TextStyle(
-                                          //                                     fontSize: 13,
-                                          //                                     fontWeight: FontWeight.w500,
-                                          //                                     color: Colors.Colors.black.withOpacity(0.6)),
-                                          //                               ),
-                                          //
-                                          //                               Positioned(
-                                          //                                   right: 0,
-                                          //                                   bottom: 2,
-                                          //                                   child: Text('+20%',
-                                          //                                     style: TextStyle(
-                                          //                                         fontSize: 13,
-                                          //                                         fontWeight: FontWeight.w500,
-                                          //                                         color: Colors.Colors.green),
-                                          //                                   )
-                                          //                               ),
-                                          //                               Positioned(
-                                          //                                 left: 0,
-                                          //                                 bottom: 2,
-                                          //                                 child: Text('MMK',
-                                          //                                   style: TextStyle(
-                                          //                                       fontSize: 13,
-                                          //                                       fontWeight: FontWeight.w500,
-                                          //                                       color: Colors.Colors.black.withOpacity(0.6)),
-                                          //                                 ),
-                                          //                               ),
-                                          //
-                                          //                             ],
-                                          //                           ),
-                                          //                         ),
-                                          //                       ),
-                                          //                       SizedBox(
-                                          //                         width: 15,
-                                          //                       ),
-                                          //
-                                          //                       Container(
-                                          //                         // width: 100,
-                                          //                         height: 100,
-                                          //                         constraints: BoxConstraints(
-                                          //                             maxWidth: double.infinity, minWidth: 120),
-                                          //                         decoration: BoxDecoration(
-                                          //                             borderRadius: BorderRadius.circular(8),
-                                          //                             border: Border(
-                                          //                               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          //                             ),
-                                          //                             color: Colors.Colors.white
-                                          //                         ),
-                                          //
-                                          //                         child: Padding(
-                                          //                           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                          //                           child: Stack(
-                                          //                             children: [
-                                          //                               Column(
-                                          //                                 mainAxisAlignment: MainAxisAlignment.start,
-                                          //                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                          //                                 children: [
-                                          //                                   SizedBox(
-                                          //                                       height:26
-                                          //                                   ),
-                                          //                                   Padding(
-                                          //                                     padding: const EdgeInsets.only(right:30.0),
-                                          //                                     child: Text('230',
-                                          //                                       textAlign: TextAlign.left,
-                                          //                                       style: GoogleFonts.lato(
-                                          //                                           textStyle: TextStyle(
-                                          //                                               letterSpacing: 1,
-                                          //                                               fontSize: 20,
-                                          //                                               fontWeight: FontWeight.w600,
-                                          //                                               color: Colors.Colors.black
-                                          //                                           )
-                                          //                                       ),
-                                          //                                     ),
-                                          //                                   ),
-                                          //                                 ],
-                                          //                               ),
-                                          //                               Positioned(
-                                          //                                   right: 0,
-                                          //                                   top: 0,
-                                          //                                   child: Text('?')
-                                          //                               ),
-                                          //                               Text('Refunds',
-                                          //                                 style: TextStyle(
-                                          //                                     fontSize: 13,
-                                          //                                     fontWeight: FontWeight.w500,
-                                          //                                     color: Colors.Colors.black.withOpacity(0.6)),
-                                          //                               ),
-                                          //
-                                          //                               Positioned(
-                                          //                                   right: 0,
-                                          //                                   bottom: 2,
-                                          //                                   child: Text('+20%',
-                                          //                                     style: TextStyle(
-                                          //                                         fontSize: 13,
-                                          //                                         fontWeight: FontWeight.w500,
-                                          //                                         color: Colors.Colors.blue),
-                                          //                                   )
-                                          //                               ),
-                                          //                               Positioned(
-                                          //                                 left: 0,
-                                          //                                 bottom: 2,
-                                          //                                 child: Text('MMK',
-                                          //                                   style: TextStyle(
-                                          //                                       fontSize: 13,
-                                          //                                       fontWeight: FontWeight.w500,
-                                          //                                       color: Colors.Colors.black.withOpacity(0.6)),
-                                          //                                 ),
-                                          //                               ),
-                                          //                               // Container(
-                                          //                               //     constraints: BoxConstraints(
-                                          //                               //         maxWidth: double.infinity, minWidth: 100, maxHeight: 30),
-                                          //                               //   // color: Colors.Colors.blue,
-                                          //                               //   child: Row(
-                                          //                               //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          //                               //     crossAxisAlignment: CrossAxisAlignment.start,
-                                          //                               //     children: [
-                                          //                               //       Text('Net Profit',
-                                          //                               //         style: TextStyle(
-                                          //                               //             fontSize: 15,
-                                          //                               //             fontWeight: FontWeight.w500,
-                                          //                               //             color: Colors.Colors.black.withOpacity(0.8)),
-                                          //                               //       ),
-                                          //                               //       Align(
-                                          //                               //         alignment: Alignment.topRight,
-                                          //                               //         child: Text('?')
-                                          //                               //       )],
-                                          //                               //   ),
-                                          //                               // ),
-                                          //                               //
-                                          //                               //
-                                          //                               // Align(
-                                          //                               //   alignment: Alignment.bottomLeft,
-                                          //                               //   child: Container(
-                                          //                               //     constraints: BoxConstraints(
-                                          //                               //         maxWidth: double.infinity, minWidth: 100, maxHeight: 30),
-                                          //                               //     // color: Colors.Colors.blue,
-                                          //                               //     child: Row(
-                                          //                               //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          //                               //       crossAxisAlignment: CrossAxisAlignment.end,
-                                          //                               //       children: [
-                                          //                               //         Text('MMK',
-                                          //                               //           style: TextStyle(
-                                          //                               //               fontSize: 15,
-                                          //                               //               fontWeight: FontWeight.w500,
-                                          //                               //               color: Colors.Colors.black.withOpacity(0.8)),
-                                          //                               //         ),
-                                          //                               //         Align(
-                                          //                               //             alignment: Alignment.bottomRight,
-                                          //                               //             child: Text('+12%',
-                                          //                               //               style: TextStyle(
-                                          //                               //                   fontSize: 15,
-                                          //                               //                   fontWeight: FontWeight.w500,
-                                          //                               //                   color: Colors.Colors.black.withOpacity(0.8)),
-                                          //                               //             )
-                                          //                               //         )],
-                                          //                               //     ),
-                                          //                               //   ),
-                                          //                               // )
-                                          //
-                                          //                             ],
-                                          //                           ),
-                                          //                         ),
-                                          //                       ),
-                                          //                       SizedBox(
-                                          //                         width: 15,
-                                          //                       ),
-                                          //                     ],
-                                          //                   ),
-                                          //                 ),
-                                          //                 SizedBox(
-                                          //                     height: 0.0
-                                          //                 ),
-                                          //                 Stack(
-                                          //                   children: [
-                                          //
-                                          //                     Padding(
-                                          //                       padding: const EdgeInsets.only(right: 10.0),
-                                          //                       child: AspectRatio(
-                                          //                         aspectRatio: 1.5,
-                                          //                         child: Container(
-                                          //                           decoration: const BoxDecoration(
-                                          //                             borderRadius: BorderRadius.all(
-                                          //                               Radius.circular(15),
-                                          //                             ),
-                                          //                             // color: Color(0xffFFFFFF)),
-                                          //                             // color: Colors.Colors.white,
-                                          //                           ),
-                                          //                           child: Padding(
-                                          //                             padding: const EdgeInsets.only(right: 18.0, left: 8.0, top: 10, bottom: 10),
-                                          //                             child: lineChartByTab(),
-                                          //                           ),
-                                          //                         ),
-                                          //                       ),
-                                          //                     ),
-                                          //                     // Container(
-                                          //                     //     width: double.infinity,
-                                          //                     //     height: 15,
-                                          //                     //     color: AppTheme.skBorderColor
-                                          //                     // ),
-                                          //                   ],
-                                          //                 ),
-                                          //                 Padding(
-                                          //                   padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
-                                          //                   child: Container(
-                                          //                     height: 2,
-                                          //                     color: AppTheme.skBorderColor2,
-                                          //                   ),
-                                          //                 ),
-                                          //               ],
-                                          //             ),
-                                          //           ),
-                                          //
-                                          //           SizedBox(
-                                          //             height: 0,
-                                          //           ),
-                                          //           Padding(
-                                          //             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                          //             child: Container(
-                                          //               decoration: BoxDecoration(
-                                          //                   borderRadius: BorderRadius.all(
-                                          //                     Radius.circular(10.0),
-                                          //                   ),
-                                          //                   color: Colors.Colors.white
-                                          //               ),
-                                          //               child: Column(
-                                          //                 mainAxisAlignment: MainAxisAlignment.start,
-                                          //                 crossAxisAlignment: CrossAxisAlignment.start,
-                                          //                 children: [
-                                          //                   Padding(
-                                          //                     padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                                          //                     child: Row(
-                                          //                       children: [
-                                          //                         Text('Top sale categories',
-                                          //                           textAlign: TextAlign.left,
-                                          //                           style: TextStyle(
-                                          //                               fontSize: 15,
-                                          //                               fontWeight: FontWeight.w500,
-                                          //                               color: Colors.Colors.black),
-                                          //                         ),
-                                          //                         Expanded(
-                                          //                           child: GestureDetector(
-                                          //                             onTap: () {
-                                          //                               Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
-                                          //                             },
-                                          //                             child: Text('Detail',
-                                          //                               textAlign: TextAlign.right,
-                                          //                               style: TextStyle(
-                                          //                                   fontSize: 15,
-                                          //                                   fontWeight: FontWeight.w500,
-                                          //                                   color: Colors.Colors.blue),
-                                          //                             ),
-                                          //                           ),
-                                          //                         )
-                                          //                       ],
-                                          //                     ),
-                                          //                   ),
-                                          //                   Padding(
-                                          //                     padding: const EdgeInsets.only(top: 15.0),
-                                          //                     child: Container(
-                                          //                       height: 1,
-                                          //                       color: AppTheme.skBorderColor2,
-                                          //                     ),
-                                          //                   ),
-                                          //                   Padding(
-                                          //                     padding: const EdgeInsets.only(top: 15.0, bottom: 10),
-                                          //                     child: Container(
-                                          //                       width: double.infinity,
-                                          //                       height: 150,
-                                          //                       child: Container(
-                                          //                         child: Padding(
-                                          //                           padding: const EdgeInsets.all(0.0),
-                                          //                           child: new SimplePieChart.withRandomData(),
-                                          //                         ),
-                                          //                       ),
-                                          //                     ),
-                                          //                   ),
-                                          //                 ],
-                                          //               ),
-                                          //             ),
-                                          //           ),
-                                          //           SizedBox(
-                                          //             height: 20,
-                                          //           ),
-                                          //           // SizedBox(
-                                          //           //   width: 60,
-                                          //           //   height: 34,
-                                          //           //   child: TextButton(
-                                          //           //     onPressed: () {
-                                          //           //       setState(() {
-                                          //           //         showAvg = !showAvg;
-                                          //           //       });
-                                          //           //     },
-                                          //           //     child: Text(
-                                          //           //       'avg',
-                                          //           //       style: TextStyle(
-                                          //           //           fontSize: 12, color: showAvg ? Colors.Colors.white.withOpacity(0.5) : Colors.Colors.white),
-                                          //           //     ),
-                                          //           //   ),
-                                          //           // ),
-                                          //         ],
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // ),
                                         ],
                                       );
                                     }
@@ -3081,16 +2050,6 @@ class HomeFragmentState extends State<HomeFragment>
                                 SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                               },
                               child: Container(
-                                // decoration: BoxDecoration(
-                                //   borderRadius: BorderRadius.circular(10.0),
-                                //   color: AppTheme.secButtonColor,
-                                //   border: Border(
-                                //     bottom: BorderSide(
-                                //         color: Colors.Colors.blue,
-                                //         width: 1.0),
-                                //   )
-                                // ),
-
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: loadingSearch? Colors.Colors.blue: Colors.Colors.transparent,
@@ -3153,25 +2112,11 @@ class HomeFragmentState extends State<HomeFragment>
                                                 left: !loadingSearch? 8.0: 4,
                                                 right: 8.0,
                                                 top: 0.5),
-                                            // child: Container(
-                                            //     child: Text(
-                                            //       'Search',
-                                            //       textAlign: TextAlign.left,
-                                            //       style: TextStyle(
-                                            //           fontSize: 18,
-                                            //           fontWeight: FontWeight.w500,
-                                            //           color: Colors.black),
-                                            //     )
-                                            // ),
                                             child: TextField(
                                               textInputAction: TextInputAction.search,
                                               focusNode: nodeFirst,
                                               controller: _searchController,
                                               onSubmitted: (value) async {
-                                                // setState(() {
-                                                //   searchValue = value;
-                                                // });
-                                                // searchKeyChanged();
                                               },
                                               maxLines: 1,
                                               textAlign: TextAlign.left,
@@ -3278,226 +2223,6 @@ class HomeFragmentState extends State<HomeFragment>
     // The build target must also be an actual device and not the emulator.
     charts.Performance.time = (String tag) => Timeline.startSync(tag);
     charts.Performance.timeEnd = (_) => Timeline.finishSync();
-  }
-
-  addDailyExp(priContext) {
-    //  final _formKey = GlobalKey<FormState>();
-    // myController.clear();
-    showModalBottomSheet(
-        enableDrag: false,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: SafeArea(
-              top: true,
-              bottom: true,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                // mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    height: MediaQuery.of(priContext).padding.top,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 70,
-                            height: 6,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25.0),
-                                ),
-                                color: Colors.Colors.white.withOpacity(0.5)),
-                          ),
-                          SizedBox(
-                            height: 14,
-                          ),
-                          Container(
-                            // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15.0),
-                                topRight: Radius.circular(15.0),
-                              ),
-                              color: Colors.Colors.white,
-                            ),
-
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 85,
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Colors.Colors.grey
-                                                  .withOpacity(0.3),
-                                              width: 1.0))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0, top: 20.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 35,
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5.0),
-                                              ),
-                                              color: Colors.Colors.grey
-                                                  .withOpacity(0.3)),
-                                          child: IconButton(
-                                            icon: Icon(
-                                              Icons.close,
-                                              size: 20,
-                                              color: Colors.Colors.black,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ),
-                                        Text(
-                                          "Add new product",
-                                          style: TextStyle(
-                                              color: Colors.Colors.black,
-                                              fontSize: 17,
-                                              fontFamily: 'capsulesans',
-                                              fontWeight: FontWeight.w600),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Container(
-                                          width: 35,
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5.0),
-                                              ),
-                                              color: AppTheme.skThemeColor),
-                                          child: IconButton(
-                                            icon: Icon(
-                                              Icons.check,
-                                              size: 20,
-                                              color: Colors.Colors.black,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(top: 20, left: 15),
-                                  child: Text(
-                                    "PRODUCT INFORMATION",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13,
-                                      letterSpacing: 2,
-                                      color: Colors.Colors.brown,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.only(left: 15),
-                                      height: 130,
-                                      width: 150,
-                                      child: Image.network(
-                                        'http://www.hmofficesolutions.com/media/4252/royal-d.jpg',
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      width: 200,
-                                      child: Text(
-                                        "Add images to show customers product details and features",
-                                        style: TextStyle(
-                                          color: Colors.Colors.amberAccent,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    SizedBox(
-                                      //height: 200,
-                                      width: 380,
-                                      child: TextFormField(
-                                        // The validator receives the text that the user has entered.
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'This field is required';
-                                          }
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                          suffixText: 'Required',
-                                          // errorText: 'Error message',
-                                          labelText: 'First Name',
-                                          floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-                                          //filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    SizedBox(
-                                      //height: 200,
-                                      width: 380,
-                                      child: TextFormField(
-                                        // The validator receives the text that the user has entered.
-                                        decoration: InputDecoration(
-                                          labelText: 'Last Name',
-                                          floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-                                          //filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 
   String titleTextBySlide() {
@@ -3755,7 +2480,8 @@ class HomeFragmentState extends State<HomeFragment>
                   child: Row(
                     children: [
                       Text(
-                        sectionIndex == 0 ? "BUY ORDERS" : "SELL ORDERS",
+                        section.header == '' ? 'SALE ORDERS' : section.header.split('^')[0].toUpperCase(),
+                        // sectionIndex == 0 ? "SALE ORDERS" : "BUY ORDERS",
                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         style: TextStyle(
                             height: 0.8,
@@ -3769,24 +2495,7 @@ class HomeFragmentState extends State<HomeFragment>
                       searchValue != '' ?
                       Padding(
                         padding: const EdgeInsets.only(right: 15.0),
-                        child: section.header != '' ? Text(
-                          section.header.split('^')[1],
-                          // '0',
-                          // '#' + sectionList[sectionIndex].items.length.toString(),
-                          // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          style: TextStyle(
-                            height: 0.8,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.2,
-                            color: Colors.Colors.black,
-                          ),
-                          textAlign: TextAlign.right,
-                        ): Padding(
-                          padding: const EdgeInsets.only(bottom: 1.0),
-                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                              child: CupertinoActivityIndicator(radius: 8,)),
-                        ),
+                        child: buySellOrderHeaders(section.header),
                       ):
                       Padding(
                         padding: const EdgeInsets.only(right: 15.0),
@@ -3838,114 +2547,250 @@ class HomeFragmentState extends State<HomeFragment>
 
     if(searchValue != '') {
       if(slidingSearch == 2) {
-        print('hereeee');
-        sectionList2 = List<ExampleSection>.empty(growable: true);
-
-        subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
-
-        print("search " + searchValue);
-        String max = searchValue;
-        // sectionList = [];
-        List detailIdList = [];
-
-        setState(() {
-          var sections = List<ExampleSection>.empty(growable: true);
-
-          var init = ExampleSection()
-            ..header = ''
-            ..items = ['']
-            ..expanded = true;
-
-          // var buyOrders = ExampleSection()
-          //   ..header = 'Products'
-          //   ..items = ['']
-          //   ..expanded = true;
-          sections.add(init);
-          // sections.add(buyOrders);
-          sectionList2 = sections;
-        });
-
-        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-        // FirebaseFirestore.instance.collection('space')
-            .where('each_order',  arrayContains: searchValue)
-            .limit(1)
-            .get()
-            .then((QuerySnapshot querySnapshot1) {
-              print('leng ' + querySnapshot1.docs.length.toString());
-          if(querySnapshot1.docs.length == 0) {
-            setState(() {
-              detailIdList = [];
-              setState(() {
-                var sections = List<ExampleSection>.empty(growable: true);
-
-                var buyOrders = ExampleSection()
-                  ..header = 'Buy Orders^' + detailIdList.length.toString()
-                  ..items = detailIdList.cast<String>()
-                  ..expanded = true;
-
-                var sellOrders = ExampleSection()
-                  ..header = 'Sell Orders^' + detailIdList.length.toString()
-                  ..items = detailIdList.cast<String>()
-                  ..expanded = true;
-
-                print('buy ord ' + detailIdList.length.toString());
-                sections.add(buyOrders);
-                sections.add(sellOrders);
-                sectionList2 = sections;
-              });
-            });
+        if(searchValue.toLowerCase().contains('b')) {
+          if(searchValue.contains('-')) {
+            searchValue = searchValue.split('-')[1];
           }
-          querySnapshot1.docs.forEach((doc) async {
-            await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(doc.id).collection('detail')
-                .where('orderId',  isEqualTo: searchValue)
-                .get()
-                .then((QuerySnapshot querySnapshot2) async {
-              querySnapshot2.docs.forEach((doc) {
+          print('hereeee');
+          sectionList2 = List<ExampleSection>.empty(growable: true);
 
+          subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
+
+          print("search " + searchValue);
+          String max = searchValue;
+          // sectionList = [];
+          List detailIdList = [];
+
+          setState(() {
+            var sections = List<ExampleSection>.empty(growable: true);
+
+            var init = ExampleSection()
+              ..header = ''
+              ..items = ['']
+              ..expanded = true;
+
+            // var buyOrders = ExampleSection()
+            //   ..header = 'Products'
+            //   ..items = ['']
+            //   ..expanded = true;
+            sections.add(init);
+            // sections.add(buyOrders);
+            sectionList2 = sections;
+          });
+
+          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders')
+          // FirebaseFirestore.instance.collection('space')
+              .where('each_order',  arrayContains: searchValue)
+              .limit(1)
+              .get()
+              .then((QuerySnapshot querySnapshot1) {
+            print('leng ' + querySnapshot1.docs.length.toString());
+            if(querySnapshot1.docs.length == 0) {
+              setState(() {
+                detailIdList = [];
                 setState(() {
-                  detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + 'rf' + '^' + doc['debt'].toString() + '^' + '0.0');
-                });
-              });
-
-              await FirebaseFirestore.instance.collection('space').doc(
-                  '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                  'PucvhZDuUz3XlkTgzcjb').collection('customers')
-                  .get()
-                  .then((QuerySnapshot querySnapshot3) {
-                setState(() {
-
-                  // if(detailIdList.length == 0) {
-                  //   noSearchData = true;
-                  // } else {
-                  //   noSearchData = false;
-                  // }
                   var sections = List<ExampleSection>.empty(growable: true);
 
-                  var buyOrders = ExampleSection()
-                    ..header = 'Buy Orders^' + detailIdList.length.toString()
-                    ..items = changeData(detailIdList.cast<String>(), querySnapshot3)
-                  // ..items = detailIdList.cast<String>()
-                    ..expanded = true;
-
-                  var sellOrders = ExampleSection()
-                    ..header = 'Sell Orders^' + detailIdList.length.toString()
+                  var saleOrders = ExampleSection()
+                    ..header = 'Buy orders^' + 'GG'
                     ..items = detailIdList.cast<String>()
                     ..expanded = true;
 
+                  // var buyOrders = ExampleSection()
+                  //   ..header = 'Buy orders^' + 'GG'
+                  //   ..items = detailIdList.cast<String>()
+                  //   ..expanded = true;
+
                   print('buy ord ' + detailIdList.length.toString());
-                  sections.add(buyOrders);
-                  sections.add(sellOrders);
+                  sections.add(saleOrders);
+                  // sections.add(buyOrders);
                   sectionList2 = sections;
                 });
               });
+            }
+
+
+            querySnapshot1.docs.forEach((doc) async {
+              await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders').doc(doc.id).collection('expansion')
+                  .where('orderId',  isEqualTo: searchValue)
+                  .get()
+                  .then((QuerySnapshot querySnapshot2) async {
+                querySnapshot2.docs.forEach((doc) {
+                  String isRef = 'pf';
+                  if(doc['refund'] == 'TRUE') {
+                    isRef = 'rf';
+                  }
+                  if(doc['refund'] == 'PART') {
+                    isRef = 'sf';
+                  }
+                  setState(() {
+                    detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + '0.0');
+                  });
+                });
+
+                await FirebaseFirestore.instance.collection('space').doc(
+                    '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                    'PucvhZDuUz3XlkTgzcjb').collection('merchants')
+                    .get()
+                    .then((QuerySnapshot querySnapshot3) {
+                  setState(() {
+
+                    // if(detailIdList.length == 0) {
+                    //   noSearchData = true;
+                    // } else {
+                    //   noSearchData = false;
+                    // }
+                    var sections = List<ExampleSection>.empty(growable: true);
+
+                    var saleOrders = ExampleSection()
+                      ..header = 'Buy orders^' + detailIdList.length.toString()
+                      ..items = changeData2(detailIdList.cast<String>(), querySnapshot3)
+                    // ..items = detailIdList.cast<String>()
+                      ..expanded = true;
+
+                    // var buyOrders = ExampleSection()
+                    //   ..header = 'Buy orders^' + detailIdList.length.toString()
+                    //   ..items = detailIdList.cast<String>()
+                    //   ..expanded = true;
+
+                    print('buy ord ' + detailIdList.length.toString());
+                    sections.add(saleOrders);
+                    // sections.add(buyOrders);
+                    sectionList2 = sections;
+                  });
+                });
 
 
 
+              });
             });
+
+
+          });
+        } else {
+          if(searchValue.contains('-')) {
+            searchValue = searchValue.split('-')[1];
+          }
+          print('hereeee');
+          sectionList2 = List<ExampleSection>.empty(growable: true);
+
+          subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
+
+          print("search " + searchValue);
+          String max = searchValue;
+          // sectionList = [];
+          List detailIdList = [];
+
+          setState(() {
+            var sections = List<ExampleSection>.empty(growable: true);
+
+            var init = ExampleSection()
+              ..header = ''
+              ..items = ['']
+              ..expanded = true;
+
+            // var buyOrders = ExampleSection()
+            //   ..header = 'Products'
+            //   ..items = ['']
+            //   ..expanded = true;
+            sections.add(init);
+            // sections.add(buyOrders);
+            sectionList2 = sections;
           });
 
+          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+          // FirebaseFirestore.instance.collection('space')
+              .where('each_order',  arrayContains: searchValue)
+              .limit(1)
+              .get()
+              .then((QuerySnapshot querySnapshot1) {
+            print('leng ' + querySnapshot1.docs.length.toString());
+            if(querySnapshot1.docs.length == 0) {
+              setState(() {
+                detailIdList = [];
+                setState(() {
+                  var sections = List<ExampleSection>.empty(growable: true);
 
-        });
+                  var saleOrders = ExampleSection()
+                    ..header = 'Sale orders^' + 'GG'
+                    ..items = detailIdList.cast<String>()
+                    ..expanded = true;
+
+                  // var buyOrders = ExampleSection()
+                  //   ..header = 'Buy orders^' + 'GG'
+                  //   ..items = detailIdList.cast<String>()
+                  //   ..expanded = true;
+
+                  print('buy ord ' + detailIdList.length.toString());
+                  sections.add(saleOrders);
+                  // sections.add(buyOrders);
+                  sectionList2 = sections;
+                });
+              });
+            }
+
+
+            querySnapshot1.docs.forEach((doc) async {
+              await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(doc.id).collection('detail')
+                  .where('orderId',  isEqualTo: searchValue)
+                  .get()
+                  .then((QuerySnapshot querySnapshot2) async {
+                querySnapshot2.docs.forEach((doc) {
+                  String isRef = 'pf';
+                  if(doc['refund'] == 'TRUE') {
+                    isRef = 'rf';
+                  }
+                  if(doc['refund'] == 'PART') {
+                    isRef = 'sf';
+                  }
+                  setState(() {
+                    detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + '0.0');
+                  });
+                });
+
+                await FirebaseFirestore.instance.collection('space').doc(
+                    '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                    'PucvhZDuUz3XlkTgzcjb').collection('customers')
+                    .get()
+                    .then((QuerySnapshot querySnapshot3) {
+                  setState(() {
+
+                    // if(detailIdList.length == 0) {
+                    //   noSearchData = true;
+                    // } else {
+                    //   noSearchData = false;
+                    // }
+                    var sections = List<ExampleSection>.empty(growable: true);
+
+                    var saleOrders = ExampleSection()
+                      ..header = 'Sale orders^' + detailIdList.length.toString()
+                      ..items = changeData(detailIdList.cast<String>(), querySnapshot3)
+                    // ..items = detailIdList.cast<String>()
+                      ..expanded = true;
+
+                    // var buyOrders = ExampleSection()
+                    //   ..header = 'Buy orders^' + detailIdList.length.toString()
+                    //   ..items = detailIdList.cast<String>()
+                    //   ..expanded = true;
+
+                    print('buy ord ' + detailIdList.length.toString());
+                    sections.add(saleOrders);
+                    // sections.add(buyOrders);
+                    sectionList2 = sections;
+                  });
+                });
+
+
+
+              });
+            });
+
+
+          });
+        }
+
+
+        //BUY BUY BUY
 
 
 
@@ -3981,7 +2826,7 @@ class HomeFragmentState extends State<HomeFragment>
 
           String sps = '^sps^';
           querySnapshot.docs.forEach((doc) {
-            if(doc['customer_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
+            if(doc.id != 'name' && doc['customer_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
               setState(() {
                 items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
               });
@@ -4010,7 +2855,7 @@ class HomeFragmentState extends State<HomeFragment>
 
           String sps = '^sps^';
           querySnapshot.docs.forEach((doc) {
-            if(doc['merchant_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
+            if(doc.id != 'name' && doc['merchant_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
               setState(() {
                 items1.add(doc.id + sps + doc['merchant_name'] + sps + doc['merchant_phone'] + sps + doc['merchant_address']);
               });
@@ -4042,7 +2887,7 @@ class HomeFragmentState extends State<HomeFragment>
             ..expanded = true;
 
           var init1 = ExampleSection()
-            ..header = 'Customers^' + items1.length.toString()
+            ..header = 'Merchants^' + items1.length.toString()
             ..items = items1
             ..expanded = true;
 
@@ -4069,10 +2914,6 @@ class HomeFragmentState extends State<HomeFragment>
             ..items = ['']
             ..expanded = true;
 
-          // var buyOrders = ExampleSection()
-          //   ..header = 'Products'
-          //   ..items = ['']
-          //   ..expanded = true;
           sections.add(init);
           // sections.add(buyOrders);
           sectionList = sections;
@@ -4323,7 +3164,40 @@ class HomeFragmentState extends State<HomeFragment>
               '^' +
               list[i].split('^')[5] +
               '^' +
-              list[i].split('^')[6]
+              list[i].split('^')[6] +
+              '^s'
+          ;
+        }
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
+
+
+  changeData2(list, snpsht) {
+    // list[0].toString()
+    snpsht.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              document['merchant_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6] +
+              '^b'
           ;
         }
       }
@@ -4336,63 +3210,54 @@ class HomeFragmentState extends State<HomeFragment>
 
   overAllSearch() {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('space')
-          .doc('0NHIS0Jbn26wsgCzVBKT')
-          .collection('shops')
-          .doc('PucvhZDuUz3XlkTgzcjb')
-          .collection('products')
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if(snapshot.hasData) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 80.0),
-            child: IgnorePointer(
-              ignoring: !loadingSearch,
-              child: AnimatedOpacity(
-                opacity: loadingSearch ? 1 : 0,
-                duration: Duration(milliseconds: 170),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.Colors.white,
-                        border: Border(
-                          top: BorderSide(
-                              color: AppTheme.skBorderColor2,
-                              // color: Colors.Colors.transparent,
-                              width: 1.0),
-                        )),
-                    child: CustomScrollView(
-                      slivers: <Widget>[
-                        SliverAppBar(
-                          elevation: 0,
-                          backgroundColor: Colors.Colors.white,
+        stream: FirebaseFirestore.instance
+            .collection('space')
+            .doc('0NHIS0Jbn26wsgCzVBKT')
+            .collection('shops')
+            .doc('PucvhZDuUz3XlkTgzcjb')
+            .collection('products')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if(snapshot.hasData) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 80.0),
+              child: IgnorePointer(
+                ignoring: !loadingSearch,
+                child: AnimatedOpacity(
+                  opacity: loadingSearch ? 1 : 0,
+                  duration: Duration(milliseconds: 170),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.Colors.white,
+                          border: Border(
+                            top: BorderSide(
+                                color: AppTheme.skBorderColor2,
+                                // color: Colors.Colors.transparent,
+                                width: 1.0),
+                          )),
+                      child: CustomScrollView(
+                        slivers: <Widget>[
+                          SliverAppBar(
+                            elevation: 0,
+                            backgroundColor: Colors.Colors.white,
 
-                          // Provide a standard title.
+                            // Provide a standard title.
 
-                          // Allows the user to reveal the app bar if they begin scrolling
-                          // back up the list of items.
-                          floating: true,
-                          bottom: PreferredSize(                       // Add this code
-                            preferredSize: Size.fromHeight(-1),      // Add this code
-                            child: Container(),                           // Add this code
-                          ),
-                          flexibleSpace: Padding(
-                            padding: const EdgeInsets.only(left: 0.0, top: 0.5, bottom: 0.0),
-                            child: Container(
-                              height: 58,
-                              width: MediaQuery.of(context).size.width,
-                              // color: Colors.yellow,
+                            // Allows the user to reveal the app bar if they begin scrolling
+                            // back up the list of items.
+                            floating: true,
+                            bottom: PreferredSize(                       // Add this code
+                              preferredSize: Size.fromHeight(-1),      // Add this code
+                              child: Container(),                           // Add this code
+                            ),
+                            flexibleSpace: Padding(
+                              padding: const EdgeInsets.only(left: 0.0, top: 0.5, bottom: 0.0),
                               child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.Colors.white,
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        // color: AppTheme.skBorderColor2,
-                                          color: Colors.Colors.white,
-                                          width: 1.0),
-                                    )),
+                                height: 58,
+                                width: MediaQuery.of(context).size.width,
+                                // color: Colors.yellow,
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: Colors.Colors.white,
@@ -4402,443 +3267,898 @@ class HomeFragmentState extends State<HomeFragment>
                                             color: Colors.Colors.white,
                                             width: 1.0),
                                       )),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 12.0, bottom: 8.5, left: 15.0, right: 15.0),
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: CupertinoSlidingSegmentedControl(
-                                          children: {
-                                            0: Text('Products'),
-                                            1: Text('Buy/sellers'),
-                                            2: Text('Orders'),
-                                          },
-                                          groupValue: slidingSearch,
-                                          onValueChanged: (newValue) {
-                                            setState(() {
-                                              slidingSearch = int.parse(newValue.toString());
-                                            });
-                                            FocusScope.of(context).unfocus();
-                                            searchValue = _searchController.text;
-                                            searchKeyChanged();
-                                            // searchKeyChanged();
-                                          }),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.Colors.white,
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            // color: AppTheme.skBorderColor2,
+                                              color: Colors.Colors.white,
+                                              width: 1.0),
+                                        )),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 12.0, bottom: 8.5, left: 15.0, right: 15.0),
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: CupertinoSlidingSegmentedControl(
+                                            children: {
+                                              0: Text('Products'),
+                                              1: Text('Buy/sellers'),
+                                              2: Text('Orders'),
+                                            },
+                                            groupValue: slidingSearch,
+                                            onValueChanged: (newValue) {
+                                              setState(() {
+                                                slidingSearch = int.parse(newValue.toString());
+                                              });
+                                              FocusScope.of(context).unfocus();
+                                              searchValue = _searchController.text;
+                                              searchKeyChanged();
+                                              // searchKeyChanged();
+                                            }),
+                                      ),
                                     ),
                                   ),
                                 ),
+
                               ),
-
                             ),
+                            // Display a placeholder widget to visualize the shrinking size.
+                            // Make the initial height of the SliverAppBar larger than normal.
+                            expandedHeight: 20,
                           ),
-                          // Display a placeholder widget to visualize the shrinking size.
-                          // Make the initial height of the SliverAppBar larger than normal.
-                          expandedHeight: 20,
-                        ),
+                          if(slidingSearch == 0)
+                            SliverExpandableList(
+                              builder: SliverExpandableChildDelegate(
+                                sectionList: sectionList,
+                                headerBuilder: _buildHeader,
+                                itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                  String item = sectionList[sectionIndex].items[itemIndex];
+                                  int length = sectionList[sectionIndex].items.length;
+                                  // if(sectionIndex == 0) {
+                                  //   return Container(
+                                  //     height: 0.1,
+                                  //   );
+                                  //   // return SliverFillRemaining(
+                                  //   //   child: new Container(
+                                  //   //     color: Colors.Colors.red,
+                                  //   //   ),
+                                  //   // );
+                                  // }
 
+                                  if(searchValue != '' && slidingSearch == 0 && item.contains('^sps^')) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ProductDetailsView2(
+                                                  idString: item.split('^sps^')[0], toggleCoinCallback:
+                                              addProduct1, toggleCoinCallback3: addProduct3)),);
+                                      },
+                                      child: Container(
+                                        color: AppTheme.lightBgColor,
+                                        child: Padding(
+                                          padding:
+                                          EdgeInsets.only(top: index == 0? 10.0: 20.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: index == snapshot.data!.docs.length-1 ?
+                                                    BorderSide(
+                                                        color: Colors.Colors.transparent,
+                                                        width: 1.0) :
 
-
-
-
-                        // SliverPersistentHeader(
-                        //   // 可以吸顶的TabBar
-                        //   pinned: true,
-                        //   delegate: Delegate(Colors.Colors.white, 'title'),
-                        //   // delegate: StickyTabBarDelegate(
-                        //   //   // child: TabBar(
-                        //   //   //   labelColor: Colors.Colors.black,
-                        //   //   //   controller: this.subTabController,
-                        //   //   //   tabs: <Widget>[
-                        //   //   //     Tab(text: 'SubTab1'),
-                        //   //   //     Tab(text: 'SubTab2'),
-                        //   //   //   ],
-                        //   //   // ),
-                        //   // ),
-                        // ),
-
-                        // if(slidingSearch == 0)
-                        //   SliverPersistentHeader(
-                        //     pinned: true,
-                        //     delegate: SliverAppBarDelegate(
-                        //         child: PreferredSize(
-                        //           preferredSize: Size.fromHeight(33.0),
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //                 color: Colors.Colors.white,
-                        //                 border: Border(
-                        //                   bottom: BorderSide(
-                        //                       color: AppTheme.skBorderColor2,
-                        //                       width: 1.0),
-                        //                 )
-                        //             ),
-                        //             width: double.infinity,
-                        //             height: 33,
-                        //             child: Padding(
-                        //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                        //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                        //               child: Row(
-                        //                 children: [
-                        //                   Text(
-                        //                     'PRODUCTS',
-                        //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                     style: TextStyle(
-                        //                         height: 0.8,
-                        //                         fontSize: 14,
-                        //                         fontWeight: FontWeight.w600,
-                        //                         letterSpacing: 1.2,
-                        //                         color: Colors.Colors.black
-                        //                     ),
-                        //                   ),
-                        //
-                        //                   Expanded(
-                        //                     child: Padding(
-                        //                       padding: const EdgeInsets.only(right: 15.0),
-                        //                       child: Text(
-                        //                         searchProdCount.toString(),
-                        //                         // '#' + sectionList[sectionIndex].items.length.toString(),
-                        //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                         style: TextStyle(
-                        //                           height: 0.8,
-                        //                           fontSize: 14,
-                        //                           fontWeight: FontWeight.w600,
-                        //                           letterSpacing: 1.2,
-                        //                           color: Colors.Colors.black,
-                        //                         ),
-                        //                         textAlign: TextAlign.right,
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         )
-                        //     ),
-                        //   ),
-                        if(slidingSearch == 0)
-                          SliverExpandableList(
-                            builder: SliverExpandableChildDelegate(
-                              sectionList: sectionList,
-                              headerBuilder: _buildHeader,
-                              itemBuilder: (context, sectionIndex, itemIndex, index) {
-                                String item = sectionList[sectionIndex].items[itemIndex];
-                                int length = sectionList[sectionIndex].items.length;
-                                // if(sectionIndex == 0) {
-                                //   return Container(
-                                //     height: 0.1,
-                                //   );
-                                //   // return SliverFillRemaining(
-                                //   //   child: new Container(
-                                //   //     color: Colors.Colors.red,
-                                //   //   ),
-                                //   // );
-                                // }
-
-                                if(searchValue != '' && slidingSearch == 0 && item.contains('^sps^')) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) => ProductDetailsView2(
-                                      //           idString: version, toggleCoinCallback:
-                                      //       addProduct1, toggleCoinCallback3: addProduct3)),);
-                                    },
-                                    child: Container(
-                                      color: AppTheme.lightBgColor,
-                                      child: Padding(
-                                        padding:
-                                        EdgeInsets.only(top: index == 0? 10.0: 20.0),
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width,
-                                          decoration: BoxDecoration(
-                                              border: Border(
-                                                  bottom: index == snapshot.data!.docs.length-1 ?
-                                                  BorderSide(
-                                                      color: Colors.Colors.transparent,
-                                                      width: 1.0) :
-
-                                                  BorderSide(
-                                                      color: Colors.Colors.grey
-                                                          .withOpacity(0.3),
-                                                      width: 1.0)
-                                              )),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        ClipRRect(
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                5.0),
-                                                            child: item.split('^sps^')[2] != ""
-                                                                ? CachedNetworkImage(
-                                                              imageUrl:
-                                                              'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                  item.split('^sps^')[2],
-                                                              width: 75,
-                                                              height: 75,
-                                                              // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                              errorWidget: (context,
-                                                                  url,
-                                                                  error) =>
-                                                                  Icon(Icons
-                                                                      .error),
-                                                              fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  100),
-                                                              fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  10),
-                                                              fadeInCurve:
-                                                              Curves
-                                                                  .bounceIn,
-                                                              fit: BoxFit
-                                                                  .cover,
-                                                            )
-                                                                : CachedNetworkImage(
-                                                              imageUrl:
-                                                              'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                              width: 75,
-                                                              height: 75,
-                                                              // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                              errorWidget: (context,
-                                                                  url,
-                                                                  error) =>
-                                                                  Icon(Icons
-                                                                      .error),
-                                                              fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  100),
-                                                              fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  10),
-                                                              fadeInCurve:
-                                                              Curves
-                                                                  .bounceIn,
-                                                              fit: BoxFit
-                                                                  .cover,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      width: 15,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 2,
-                                                        ),
-                                                        Text(
-                                                          item.split('^sps^')[1],
-                                                          style: TextStyle(
-                                                            height: 1,
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                            FontWeight.w500,
+                                                    BorderSide(
+                                                        color: Colors.Colors.grey
+                                                            .withOpacity(0.3),
+                                                        width: 1.0)
+                                                )),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Column(
+                                                        children: [
+                                                          ClipRRect(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  5.0),
+                                                              child: item.split('^sps^')[2] != ""
+                                                                  ? CachedNetworkImage(
+                                                                imageUrl:
+                                                                'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                    item.split('^sps^')[2],
+                                                                width: 75,
+                                                                height: 75,
+                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                    Icon(Icons
+                                                                        .error),
+                                                                fadeInDuration:
+                                                                Duration(
+                                                                    milliseconds:
+                                                                    100),
+                                                                fadeOutDuration:
+                                                                Duration(
+                                                                    milliseconds:
+                                                                    10),
+                                                                fadeInCurve:
+                                                                Curves
+                                                                    .bounceIn,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              )
+                                                                  : CachedNetworkImage(
+                                                                imageUrl:
+                                                                'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                width: 75,
+                                                                height: 75,
+                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                    Icon(Icons
+                                                                        .error),
+                                                                fadeInDuration:
+                                                                Duration(
+                                                                    milliseconds:
+                                                                    100),
+                                                                fadeOutDuration:
+                                                                Duration(
+                                                                    milliseconds:
+                                                                    10),
+                                                                fadeInCurve:
+                                                                Curves
+                                                                    .bounceIn,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              )),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        width: 15,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 2,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'MMK ' + item.split('^sps^')[3].split('-')[0],
-                                                              style: TextStyle(
-                                                                height: 1.3,
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                FontWeight.w500,
+                                                          Text(
+                                                            item.split('^sps^')[1],
+                                                            style: TextStyle(
+                                                              height: 1,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                              FontWeight.w500,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                'MMK ' + item.split('^sps^')[3].split('-')[0],
+                                                                style: TextStyle(
+                                                                  height: 1.3,
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                  FontWeight.w500,
+                                                                ),
                                                               ),
-                                                            ),
-                                                            Text(
-                                                              item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == '' ? ' - ' + item.split('^sps^')[4].split('-')[0] : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? ' - ' + item.split('^sps^')[5].split('-')[0] : '',
-                                                              style: TextStyle(
-                                                                height: 1.3,
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                FontWeight.w500,
+                                                              Text(
+                                                                item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == '' ? ' - ' + item.split('^sps^')[4].split('-')[0] : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? ' - ' + item.split('^sps^')[5].split('-')[0] : '',
+                                                                style: TextStyle(
+                                                                  height: 1.3,
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                  FontWeight.w500,
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 2,
-                                                        ),
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                                item.split('^sps^')[3].split('-')[1].toString()+ ' '  + item.split('^sps^')[3].split('-')[2] + ' ', style: TextStyle(
-                                                              height: 1.3,
-                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
-                                                            )),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top: 2.0),
-                                                              child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.Colors.grey,),
-                                                            ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 2,
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                  item.split('^sps^')[3].split('-')[1].toString()+ ' '  + item.split('^sps^')[3].split('-')[2] + ' ', style: TextStyle(
+                                                                height: 1.3,
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
+                                                              )),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.0),
+                                                                child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.Colors.grey,),
+                                                              ),
 
-                                                            item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == ''?
-                                                            Text(
-                                                                '  +1 Sub item', style: TextStyle(
-                                                              height: 1.3,
-                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
-                                                            )) : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? Text(
-                                                                '  +2 Sub items', style: TextStyle(
-                                                              height: 1.3,
-                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
-                                                            )): Container(),
+                                                              item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == ''?
+                                                              Text(
+                                                                  '  +1 Sub item', style: TextStyle(
+                                                                height: 1.3,
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
+                                                              )) : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? Text(
+                                                                  '  +2 Sub items', style: TextStyle(
+                                                                height: 1.3,
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
+                                                              )): Container(),
 
-                                                            // StreamBuilder(
-                                                            //     stream: FirebaseFirestore
-                                                            //         .instance
-                                                            //         .collection(
-                                                            //         'space')
-                                                            //         .doc(
-                                                            //         '0NHIS0Jbn26wsgCzVBKT')
-                                                            //         .collection(
-                                                            //         'shops')
-                                                            //         .doc(
-                                                            //         'PucvhZDuUz3XlkTgzcjb')
-                                                            //         .collection(
-                                                            //         'products')
-                                                            //         .doc(version)
-                                                            //         .collection(
-                                                            //         'versions')
-                                                            //         .where('type',
-                                                            //         isEqualTo:
-                                                            //         'sub3')
-                                                            //         .snapshots(),
-                                                            //     builder: (BuildContext
-                                                            //     context,
-                                                            //         AsyncSnapshot<
-                                                            //             QuerySnapshot>
-                                                            //         snapshot5) {
-                                                            //       if (snapshot5
-                                                            //           .hasData) {
-                                                            //         int quantity3 =
-                                                            //         0;
-                                                            //         var sub3Quantity;
-                                                            //         snapshot5
-                                                            //             .data!
-                                                            //             .docs
-                                                            //             .map((DocumentSnapshot
-                                                            //         document) {
-                                                            //           Map<String,
-                                                            //               dynamic>
-                                                            //           data4 =
-                                                            //           document.data()! as Map<
-                                                            //               String,
-                                                            //               dynamic>;
-                                                            //           if (data4[
-                                                            //           'unit_qtity'] !=
-                                                            //               '') {
-                                                            //             quantity3 +=
-                                                            //                 int.parse(
-                                                            //                     data4['unit_qtity']);
-                                                            //             sub3Quantity =
-                                                            //                 quantity3
-                                                            //                     .toString();
-                                                            //           } else
-                                                            //             return Container();
-                                                            //         }).toList();
-                                                            //         // print(sub1Quantity);
-                                                            //         // print(mainQuantity);
-                                                            //         if (sub3Quantity !=
-                                                            //             null) {
-                                                            //           return Text(
-                                                            //               '$sub3Quantity $sub3Name');
-                                                            //         }
-                                                            //         return Container();
-                                                            //       }
-                                                            //       return Container();
-                                                            //     }),
-                                                          ],
-                                                        ),
+                                                              // StreamBuilder(
+                                                              //     stream: FirebaseFirestore
+                                                              //         .instance
+                                                              //         .collection(
+                                                              //         'space')
+                                                              //         .doc(
+                                                              //         '0NHIS0Jbn26wsgCzVBKT')
+                                                              //         .collection(
+                                                              //         'shops')
+                                                              //         .doc(
+                                                              //         'PucvhZDuUz3XlkTgzcjb')
+                                                              //         .collection(
+                                                              //         'products')
+                                                              //         .doc(version)
+                                                              //         .collection(
+                                                              //         'versions')
+                                                              //         .where('type',
+                                                              //         isEqualTo:
+                                                              //         'sub3')
+                                                              //         .snapshots(),
+                                                              //     builder: (BuildContext
+                                                              //     context,
+                                                              //         AsyncSnapshot<
+                                                              //             QuerySnapshot>
+                                                              //         snapshot5) {
+                                                              //       if (snapshot5
+                                                              //           .hasData) {
+                                                              //         int quantity3 =
+                                                              //         0;
+                                                              //         var sub3Quantity;
+                                                              //         snapshot5
+                                                              //             .data!
+                                                              //             .docs
+                                                              //             .map((DocumentSnapshot
+                                                              //         document) {
+                                                              //           Map<String,
+                                                              //               dynamic>
+                                                              //           data4 =
+                                                              //           document.data()! as Map<
+                                                              //               String,
+                                                              //               dynamic>;
+                                                              //           if (data4[
+                                                              //           'unit_qtity'] !=
+                                                              //               '') {
+                                                              //             quantity3 +=
+                                                              //                 int.parse(
+                                                              //                     data4['unit_qtity']);
+                                                              //             sub3Quantity =
+                                                              //                 quantity3
+                                                              //                     .toString();
+                                                              //           } else
+                                                              //             return Container();
+                                                              //         }).toList();
+                                                              //         // print(sub1Quantity);
+                                                              //         // print(mainQuantity);
+                                                              //         if (sub3Quantity !=
+                                                              //             null) {
+                                                              //           return Text(
+                                                              //               '$sub3Quantity $sub3Name');
+                                                              //         }
+                                                              //         return Container();
+                                                              //       }
+                                                              //       return Container();
+                                                              //     }),
+                                                            ],
+                                                          ),
 
-                                                        // Text(
-                                                        //   'MMK',
-                                                        //   style:
-                                                        //       TextStyle(
-                                                        //     fontSize: 14,
-                                                        //     fontWeight: FontWeight.w400,
-                                                        //     color: Colors.blueGrey.withOpacity(1.0),
-                                                        //   ),
-                                                        // ),
-                                                        // SizedBox(
-                                                        //   height:
-                                                        //       7,
-                                                        // ),
-                                                        // Text(
-                                                        //   '55',
-                                                        //   style:
-                                                        //       TextStyle(
-                                                        //     fontSize: 14,
-                                                        //     fontWeight: FontWeight.w400,
-                                                        //     color: Colors.blueGrey.withOpacity(1.0),
-                                                        //   ),
-                                                        // ),
-                                                      ],
-                                                    ),
-                                                    // Padding(
-                                                    //   padding:
-                                                    //       const EdgeInsets.only(
-                                                    //           bottom: 20.0),
-                                                    //   child: IconButton(
-                                                    //     icon: Icon(
-                                                    //       Icons
-                                                    //           .arrow_forward_ios_rounded,
-                                                    //       size: 16,
-                                                    //       color: Colors.blueGrey
-                                                    //           .withOpacity(0.8),
-                                                    //     ),
-                                                    //     onPressed: () {
-                                                    //       Navigator.push(
-                                                    //         context,
-                                                    //         MaterialPageRoute(
-                                                    //             builder: (context) => ProductDetailsView(
-                                                    //                 idString: version, toggleCoinCallback:
-                                                    //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                                                    //     },
-                                                    //   ),
-                                                    // ),
-                                                    Spacer(),
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 6.0),
-                                                      child: Icon(
-                                                        Icons
-                                                            .arrow_forward_ios_rounded,
-                                                        size: 16,
-                                                        color: Colors.Colors.blueGrey
-                                                            .withOpacity(0.8),
-                                                      ),),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 20),
-                                              ],
+                                                          // Text(
+                                                          //   'MMK',
+                                                          //   style:
+                                                          //       TextStyle(
+                                                          //     fontSize: 14,
+                                                          //     fontWeight: FontWeight.w400,
+                                                          //     color: Colors.blueGrey.withOpacity(1.0),
+                                                          //   ),
+                                                          // ),
+                                                          // SizedBox(
+                                                          //   height:
+                                                          //       7,
+                                                          // ),
+                                                          // Text(
+                                                          //   '55',
+                                                          //   style:
+                                                          //       TextStyle(
+                                                          //     fontSize: 14,
+                                                          //     fontWeight: FontWeight.w400,
+                                                          //     color: Colors.blueGrey.withOpacity(1.0),
+                                                          //   ),
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets.only(
+                                                      //           bottom: 20.0),
+                                                      //   child: IconButton(
+                                                      //     icon: Icon(
+                                                      //       Icons
+                                                      //           .arrow_forward_ios_rounded,
+                                                      //       size: 16,
+                                                      //       color: Colors.blueGrey
+                                                      //           .withOpacity(0.8),
+                                                      //     ),
+                                                      //     onPressed: () {
+                                                      //       Navigator.push(
+                                                      //         context,
+                                                      //         MaterialPageRoute(
+                                                      //             builder: (context) => ProductDetailsView(
+                                                      //                 idString: version, toggleCoinCallback:
+                                                      //             addProduct1, toggleCoinCallback3: addProduct3)),);
+                                                      //     },
+                                                      //   ),
+                                                      // ),
+                                                      Spacer(),
+                                                      Padding(
+                                                        padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 6.0),
+                                                        child: Icon(
+                                                          Icons
+                                                              .arrow_forward_ios_rounded,
+                                                          size: 16,
+                                                          color: Colors.Colors.blueGrey
+                                                              .withOpacity(0.8),
+                                                        ),),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
+                                    );
+                                  } else if(slidingSearch == 1 && item.contains('^sps^')) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (
+                                                  context) =>
+                                                  CustomerInfoSubs(
+                                                      id: item.split('^sps^')[0],
+                                                      toggleCoinCallback: addCustomer2Cart1)),
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding:
+                                        EdgeInsets.only(
+                                            top: index == 0
+                                                ? 10.0
+                                                : 15.0),
+                                        child: Container(
+                                          width: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width,
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  bottom: index ==
+                                                      length -
+                                                          1
+                                                      ?
+                                                  BorderSide(
+                                                      color: Colors
+                                                          .Colors.transparent,
+                                                      width: 1.0)
+                                                      :
+
+                                                  BorderSide(
+                                                      color: Colors
+                                                          .Colors.grey
+                                                          .withOpacity(
+                                                          0.3),
+                                                      width: 1.0)
+                                              )),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets
+                                                    .only(
+                                                    bottom: 18.0),
+                                                child: ListTile(
+                                                  title: Text(
+                                                    item.split('^sps^')[1].toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w500,
+                                                    ),),
+                                                  subtitle: Padding(
+                                                    padding: const EdgeInsets
+                                                        .only(
+                                                        top: 8.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment
+                                                          .start,
+                                                      children: [
+                                                        Text(
+                                                            item.split('^sps^')[2].toString(),
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .Colors.grey,
+                                                            )),
+                                                        SizedBox(
+                                                          height: 5,),
+                                                        Text(
+                                                            item.split('^sps^')[3].toString(),
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .Colors.grey,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  trailing: Padding(
+                                                    padding: const EdgeInsets
+                                                        .only(
+                                                        top: 10.0),
+                                                    child: Container(
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          StreamBuilder(
+                                                              stream: FirebaseFirestore.instance
+                                                                  .collection('space')
+                                                                  .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                                  .collection('shops')
+                                                                  .doc('PucvhZDuUz3XlkTgzcjb')
+                                                                  .collection('customers')
+                                                                  .doc(item.split('^sps^')[0].toString())
+                                                                  .collection('orders')
+                                                                  .where('debt', isGreaterThan: 0)
+                                                                  .snapshots(),
+                                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                                                                // orderList[index] = 0;
+                                                                int orderLength = 0;
+                                                                int i = 0;
+                                                                if(snapshot2.hasData) {
+                                                                  return snapshot2.data!.docs.length > 0? Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeFgDanger,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                      child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
+                                                                        style: TextStyle(
+                                                                            fontSize: 13,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.Colors.white
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ): Container(
+                                                                  );
+                                                                  // int quantity = 0;
+                                                                  // snapshot2.data!.docs.map((DocumentSnapshot document2) {
+                                                                  //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
+                                                                  //   orders = data2['daily_order'];
+                                                                  //   quantity += int.parse(orders.length.toString());
+                                                                  //
+                                                                  //   return Text(snapshot2.data!.docs[index].id);
+                                                                  // }).toList();
+                                                                }
+                                                                return Container();
+                                                              }
+                                                          ),
+
+                                                          // Container(
+                                                          //   height: 21,
+                                                          //   decoration: BoxDecoration(
+                                                          //     borderRadius: BorderRadius.circular(20.0),
+                                                          //     color: AppTheme.badgeFgDanger,
+                                                          //   ),
+                                                          //   child: Padding(
+                                                          //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                          //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                          //       style: TextStyle(
+                                                          //           fontSize: 13,
+                                                          //           fontWeight: FontWeight.w500,
+                                                          //           color: Colors.white
+                                                          //       ),
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
+
+                                                          // Text(orderList.toString()),
+
+                                                          // Container(
+                                                          //   height: 21,
+                                                          //   decoration: BoxDecoration(
+                                                          //     borderRadius: BorderRadius.circular(20.0),
+                                                          //     color: AppTheme.badgeFgDanger,
+                                                          //   ),
+                                                          //   child: Padding(
+                                                          //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                          //     child: Text('2 unpaid',
+                                                          //       style: TextStyle(
+                                                          //           fontSize: 13,
+                                                          //           fontWeight: FontWeight.w500,
+                                                          //           color: Colors.white
+                                                          //       ),
+                                                          //     ),
+                                                          //   ),
+                                                          // )
+
+                                                          // Container(
+                                                          //   height: 21,
+                                                          //   decoration: BoxDecoration(
+                                                          //     borderRadius: BorderRadius.circular(20.0),
+                                                          //     color: AppTheme.badgeFgDanger,
+                                                          //   ),
+                                                          //   child: Padding(
+                                                          //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                          //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                          //       style: TextStyle(
+                                                          //           fontSize: 13,
+                                                          //           fontWeight: FontWeight.w500,
+                                                          //           color: Colors.white
+                                                          //       ),
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
+                                                          SizedBox(
+                                                              width: 12),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 2.0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios_rounded,
+                                                              size: 16,
+                                                              color: Colors
+                                                                  .Colors.blueGrey
+                                                                  .withOpacity(
+                                                                  0.8),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                ),
+                                              )
+
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else if(searchValue == '') {
+                                    return Container();
+                                  }
+                                  return Container(
+                                    // child: Text('Loading...')
                                   );
-                                } else if(slidingSearch == 1 && item.contains('^sps^')) {
+                                },
+                              ),
+                            ),
+
+
+                          // if(slidingSearch == 1)
+                          //   SliverPersistentHeader(
+                          //     pinned: true,
+                          //     delegate: SliverAppBarDelegate1(
+                          //         child: PreferredSize(
+                          //           preferredSize: Size.fromHeight(33.0),
+                          //           child: Container(
+                          //             width: double.infinity,
+                          //             height: 33,
+                          //             decoration: BoxDecoration(
+                          //                 color: Colors.Colors.white,
+                          //                 border: Border(
+                          //                   bottom: BorderSide(
+                          //                       color: AppTheme.skBorderColor2,
+                          //                       width: 1.0),
+                          //                 )
+                          //             ),
+                          //             child: Padding(
+                          //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
+                          //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
+                          //               child: Row(
+                          //                 children: [
+                          //                   Text(
+                          //                     'BUY',
+                          //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                          //                     style: TextStyle(
+                          //                         height: 0.8,
+                          //                         fontSize: 14,
+                          //                         fontWeight: FontWeight.w600,
+                          //                         letterSpacing: 1.2,
+                          //                         color: Colors.Colors.black
+                          //                     ),
+                          //                   ),
+                          //                   Padding(
+                          //                     padding: const EdgeInsets.only(left: 4.0, right: 5.0, bottom: 3.0),
+                          //                     child: FlutterSwitch(
+                          //                       width: 31.0,
+                          //                       height: 18.0,
+                          //                       valueFontSize: 5.0,
+                          //                       toggleSize: 13.0,
+                          //                       padding: 2.5,
+                          //                       value: buySellerStatus,
+                          //                       onToggle: (val) {
+                          //                         setState(() {
+                          //                           buySellerStatus = val;
+                          //                         });
+                          //                       },
+                          //                     ),
+                          //                   ),
+                          //                   Text(
+                          //                     'SELLERS',
+                          //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                          //                     style: TextStyle(
+                          //                         height: 0.8,
+                          //                         fontSize: 14,
+                          //                         fontWeight: FontWeight.w600,
+                          //                         letterSpacing: 1.2,
+                          //                         color: Colors.Colors.black
+                          //                     ),
+                          //                   ),
+                          //                   Expanded(
+                          //                     child: Padding(
+                          //                       padding: const EdgeInsets.only(right: 15.0),
+                          //                       child: Text(/
+                          //                         '0',
+                          //                         // '#' + sectionList[sectionIndex].items.length.toString(),
+                          //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                          //                         style: TextStyle(
+                          //                           height: 0.8,
+                          //                           fontSize: 14,
+                          //                           fontWeight: FontWeight.w600,
+                          //                           letterSpacing: 1.2,
+                          //                           color: Colors.Colors.black,
+                          //                         ),
+                          //                         textAlign: TextAlign.right,
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         )
+                          //     ),
+                          //   ),
+                          if(slidingSearch == 1)
+                            SliverExpandableList(
+                              builder: SliverExpandableChildDelegate(
+                                sectionList: sectionList1,
+                                headerBuilder: _buildHeader1,
+                                itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                  String item = sectionList1[sectionIndex].items[itemIndex];
+                                  int length = sectionList1[sectionIndex].items.length;
+                                  // if(sectionIndex == 0) {
+                                  //   return Container(
+                                  //     height: 0.1,
+                                  //   );
+                                  //   // return SliverFillRemaining(
+                                  //   //   child: new Container(
+                                  //   //     color: Colors.Colors.red,
+                                  //   //   ),
+                                  //   // );
+                                  // }
+
+                                  if(searchValue == '') {
+                                    return Container();
+                                  }
+                                  if(item == '') {
+                                    return Container();
+                                  } else {
+                                    if(sectionIndex == 0) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (
+                                                    context) =>
+                                                    CustomerInfoSubs(
+                                                        id: item.split('^sps^')[0],
+                                                        toggleCoinCallback: addCustomer2Cart1)),
+                                          );
+                                        },
+                                        child: Container(
+                                          color: AppTheme.lightBgColor,
+                                          child: Padding(
+                                            padding:
+                                            EdgeInsets.only(
+                                                top: 15.0),
+                                            child: Container(
+                                              width: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  border: Border(
+                                                      bottom: index ==
+                                                          length
+                                                          ?
+                                                      BorderSide(
+                                                          color: Colors
+                                                              .Colors.grey
+                                                              .withOpacity(
+                                                              0.3),
+                                                          width: 1.0)
+                                                          :
+
+                                                      BorderSide(
+                                                          color: Colors
+                                                              .Colors.grey
+                                                              .withOpacity(
+                                                              0.3),
+                                                          width: 1.0)
+                                                  )),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .only(
+                                                        bottom: 18.0),
+                                                    child: ListTile(
+                                                      title: Text(
+                                                        item.split('^sps^')[1].toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500,
+                                                        ),),
+                                                      subtitle: Padding(
+                                                        padding: const EdgeInsets
+                                                            .only(
+                                                            top: 8.0),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            Text(
+                                                                item.split('^sps^')[2].toString(),
+                                                                // 'sps',
+                                                                style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .Colors.grey,
+                                                                )),
+                                                            SizedBox(
+                                                              height: 5,),
+                                                            Text(
+                                                              // 'sps',
+                                                                item.split('^sps^')[3].toString(),
+                                                                style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .Colors.grey,
+                                                                )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      trailing: Padding(
+                                                        padding: const EdgeInsets
+                                                            .only(
+                                                            top: 10.0),
+                                                        child: Container(
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              StreamBuilder(
+                                                                  stream: FirebaseFirestore.instance
+                                                                      .collection('space')
+                                                                      .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                                      .collection('shops')
+                                                                      .doc('PucvhZDuUz3XlkTgzcjb')
+                                                                      .collection('merchants')
+                                                                      .doc(item.split('^sps^')[0].toString())
+                                                                      .collection('buyOrders')
+                                                                      .where('debt', isGreaterThan: 0)
+                                                                      .snapshots(),
+                                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                                                                    // orderList[index] = 0;
+                                                                    int orderLength = 0;
+                                                                    int i = 0;
+                                                                    if(snapshot2.hasData) {
+                                                                      return snapshot2.data!.docs.length > 0? Container(
+                                                                        height: 21,
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(20.0),
+                                                                          color: AppTheme.badgeFgDanger,
+                                                                        ),
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                          child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
+                                                                            style: TextStyle(
+                                                                                fontSize: 13,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.Colors.white
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ): Container(
+                                                                      );
+                                                                      // int quantity = 0;
+                                                                      // snapshot2.data!.docs.map((DocumentSnapshot document2) {
+                                                                      //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
+                                                                      //   orders = data2['daily_order'];
+                                                                      //   quantity += int.parse(orders.length.toString());
+                                                                      //
+                                                                      //   return Text(snapshot2.data!.docs[index].id);
+                                                                      // }).toList();
+                                                                    }
+                                                                    return Container();
+                                                                  }
+                                                              ),
+                                                              SizedBox(
+                                                                  width: 12),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios_rounded,
+                                                                  size: 16,
+                                                                  color: Colors
+                                                                      .Colors.blueGrey
+                                                                      .withOpacity(
+                                                                      0.8),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                    ),
+                                                  )
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  }
                                   return GestureDetector(
                                     onTap: () {
                                       Navigator.push(
@@ -4846,843 +4166,748 @@ class HomeFragmentState extends State<HomeFragment>
                                         MaterialPageRoute(
                                             builder: (
                                                 context) =>
-                                                CustomerInfoSubs(
+                                                MerchantInfoSubs(
                                                     id: item.split('^sps^')[0],
-                                                    toggleCoinCallback: addCustomer2Cart1)),
+                                                    toggleCoinCallback: addMerchant2Cart)),
                                       );
                                     },
-                                    child: Padding(
-                                      padding:
-                                      EdgeInsets.only(
-                                          top: index == 0
-                                              ? 10.0
-                                              : 15.0),
-                                      child: Container(
-                                        width: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width,
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: index ==
-                                                    length -
-                                                        1
-                                                    ?
-                                                BorderSide(
-                                                    color: Colors
-                                                        .Colors.transparent,
-                                                    width: 1.0)
-                                                    :
+                                    child: Container(
+                                      color: AppTheme.lightBgColor,
+                                      child: Padding(
+                                        padding:
+                                        EdgeInsets.only(
+                                            top: 15.0),
+                                        child: Container(
+                                          width: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width,
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  bottom: index ==
+                                                      length
+                                                      ?
+                                                  BorderSide(
+                                                      color: Colors
+                                                          .Colors.grey
+                                                          .withOpacity(
+                                                          0.3),
+                                                      width: 1.0)
+                                                      :
 
-                                                BorderSide(
-                                                    color: Colors
-                                                        .Colors.grey
-                                                        .withOpacity(
-                                                        0.3),
-                                                    width: 1.0)
-                                            )),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets
-                                                  .only(
-                                                  bottom: 18.0),
-                                              child: ListTile(
-                                                title: Text(
-                                                  item.split('^sps^')[1].toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w500,
-                                                  ),),
-                                                subtitle: Padding(
-                                                  padding: const EdgeInsets
-                                                      .only(
-                                                      top: 8.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      Text(
-                                                          item.split('^sps^')[2].toString(),
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .Colors.grey,
-                                                          )),
-                                                      SizedBox(
-                                                        height: 5,),
-                                                      Text(
-                                                          item.split('^sps^')[3].toString(),
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .Colors.grey,
-                                                          )),
-                                                    ],
-                                                  ),
-                                                ),
-                                                trailing: Padding(
-                                                  padding: const EdgeInsets
-                                                      .only(
-                                                      top: 10.0),
-                                                  child: Container(
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                  BorderSide(
+                                                      color: Colors
+                                                          .Colors.grey
+                                                          .withOpacity(
+                                                          0.3),
+                                                      width: 1.0)
+                                              )),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets
+                                                    .only(
+                                                    bottom: 18.0),
+                                                child: ListTile(
+                                                  title: Text(
+                                                    item.split('^sps^')[1].toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w500,
+                                                    ),),
+                                                  subtitle: Padding(
+                                                    padding: const EdgeInsets
+                                                        .only(
+                                                        top: 8.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment
+                                                          .start,
                                                       children: [
-                                                        StreamBuilder(
-                                                            stream: FirebaseFirestore.instance
-                                                                .collection('space')
-                                                                .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                                .collection('shops')
-                                                                .doc('PucvhZDuUz3XlkTgzcjb')
-                                                                .collection('customers')
-                                                                .doc(item.split('^sps^')[0].toString())
-                                                                .collection('orders')
-                                                                .where('debt', isGreaterThan: 0)
-                                                                .snapshots(),
-                                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                                              // orderList[index] = 0;
-                                                              int orderLength = 0;
-                                                              int i = 0;
-                                                              if(snapshot2.hasData) {
-                                                                return snapshot2.data!.docs.length > 0? Container(
-                                                                  height: 21,
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(20.0),
-                                                                    color: AppTheme.badgeFgDanger,
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                    child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
-                                                                      style: TextStyle(
-                                                                          fontSize: 13,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.Colors.white
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ): Container(
-                                                                );
-                                                                // int quantity = 0;
-                                                                // snapshot2.data!.docs.map((DocumentSnapshot document2) {
-                                                                //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
-                                                                //   orders = data2['daily_order'];
-                                                                //   quantity += int.parse(orders.length.toString());
-                                                                //
-                                                                //   return Text(snapshot2.data!.docs[index].id);
-                                                                // }).toList();
-                                                              }
-                                                              return Container();
-                                                            }
-                                                        ),
-
-                                                        // Container(
-                                                        //   height: 21,
-                                                        //   decoration: BoxDecoration(
-                                                        //     borderRadius: BorderRadius.circular(20.0),
-                                                        //     color: AppTheme.badgeFgDanger,
-                                                        //   ),
-                                                        //   child: Padding(
-                                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                        //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                                                        //       style: TextStyle(
-                                                        //           fontSize: 13,
-                                                        //           fontWeight: FontWeight.w500,
-                                                        //           color: Colors.white
-                                                        //       ),
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
-
-                                                        // Text(orderList.toString()),
-
-                                                        // Container(
-                                                        //   height: 21,
-                                                        //   decoration: BoxDecoration(
-                                                        //     borderRadius: BorderRadius.circular(20.0),
-                                                        //     color: AppTheme.badgeFgDanger,
-                                                        //   ),
-                                                        //   child: Padding(
-                                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                        //     child: Text('2 unpaid',
-                                                        //       style: TextStyle(
-                                                        //           fontSize: 13,
-                                                        //           fontWeight: FontWeight.w500,
-                                                        //           color: Colors.white
-                                                        //       ),
-                                                        //     ),
-                                                        //   ),
-                                                        // )
-
-                                                        // Container(
-                                                        //   height: 21,
-                                                        //   decoration: BoxDecoration(
-                                                        //     borderRadius: BorderRadius.circular(20.0),
-                                                        //     color: AppTheme.badgeFgDanger,
-                                                        //   ),
-                                                        //   child: Padding(
-                                                        //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                        //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                                                        //       style: TextStyle(
-                                                        //           fontSize: 13,
-                                                        //           fontWeight: FontWeight.w500,
-                                                        //           color: Colors.white
-                                                        //       ),
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
+                                                        Text(
+                                                            item.split('^sps^')[2].toString(),
+                                                            // 'sps',
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .Colors.grey,
+                                                            )),
                                                         SizedBox(
-                                                            width: 12),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top: 2.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .arrow_forward_ios_rounded,
-                                                            size: 16,
-                                                            color: Colors
-                                                                .Colors.blueGrey
-                                                                .withOpacity(
-                                                                0.8),
-                                                          ),
-                                                        ),
+                                                          height: 5,),
+                                                        Text(
+                                                          // 'sps',
+                                                            item.split('^sps^')[3].toString(),
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .Colors.grey,
+                                                            )),
                                                       ],
                                                     ),
                                                   ),
+                                                  trailing: Padding(
+                                                    padding: const EdgeInsets
+                                                        .only(
+                                                        top: 10.0),
+                                                    child: Container(
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          StreamBuilder(
+                                                              stream: FirebaseFirestore.instance
+                                                                  .collection('space')
+                                                                  .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                                  .collection('shops')
+                                                                  .doc('PucvhZDuUz3XlkTgzcjb')
+                                                                  .collection('merchants')
+                                                                  .doc(item.split('^sps^')[0].toString())
+                                                                  .collection('buyOrders')
+                                                                  .where('debt', isGreaterThan: 0)
+                                                                  .snapshots(),
+                                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                                                                // orderList[index] = 0;
+                                                                int orderLength = 0;
+                                                                int i = 0;
+                                                                if(snapshot2.hasData) {
+                                                                  return snapshot2.data!.docs.length > 0? Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeFgDanger,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                      child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
+                                                                        style: TextStyle(
+                                                                            fontSize: 13,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.Colors.white
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ): Container(
+                                                                  );
+                                                                  // int quantity = 0;
+                                                                  // snapshot2.data!.docs.map((DocumentSnapshot document2) {
+                                                                  //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
+                                                                  //   orders = data2['daily_order'];
+                                                                  //   quantity += int.parse(orders.length.toString());
+                                                                  //
+                                                                  //   return Text(snapshot2.data!.docs[index].id);
+                                                                  // }).toList();
+                                                                }
+                                                                return Container();
+                                                              }
+                                                          ),
+                                                          SizedBox(
+                                                              width: 12),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 2.0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios_rounded,
+                                                              size: 16,
+                                                              color: Colors
+                                                                  .Colors.blueGrey
+                                                                  .withOpacity(
+                                                                  0.8),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+
                                                 ),
+                                              )
 
-                                              ),
-                                            )
-
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   );
-                                } else if(searchValue == '') {
-                                  return Container();
-                                }
-                                return Container(
-                                  // child: Text('Loading...')
-                                );
-                              },
+                                },
+                              ),
                             ),
-                          ),
+                          // if(slidingSearch == 1)
+                          //   SliverPersistentHeader(
+                          //     pinned: true,
+                          //     delegate: SliverAppBarDelegate(
+                          //         child: PreferredSize(
+                          //           preferredSize: Size.fromHeight(33.0),
+                          //           child: Container(
+                          //             width: double.infinity,
+                          //             height: 33,
+                          //             decoration: BoxDecoration(
+                          //                 color: Colors.Colors.white,
+                          //                 border: Border(
+                          //                   bottom: BorderSide(
+                          //                       color: AppTheme.skBorderColor2,
+                          //                       width: 1.0),
+                          //                 )
+                          //             ),
+                          //             child: Padding(
+                          //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
+                          //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
+                          //               child: Row(
+                          //                 children: [
+                          //                   Text(
+                          //                     'SELLERS',
+                          //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                          //                     style: TextStyle(
+                          //                         height: 0.8,
+                          //                         fontSize: 14,
+                          //                         fontWeight: FontWeight.w600,
+                          //                         letterSpacing: 1.2,
+                          //                         color: Colors.Colors.black
+                          //                     ),
+                          //                   ),
+                          //
+                          //                   Expanded(
+                          //                     child: Padding(
+                          //                       padding: const EdgeInsets.only(right: 15.0),
+                          //                       child: Text(
+                          //                         '0',
+                          //                         // '#' + sectionList[sectionIndex].items.length.toString(),
+                          //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                          //                         style: TextStyle(
+                          //                           height: 0.8,
+                          //                           fontSize: 14,
+                          //                           fontWeight: FontWeight.w600,
+                          //                           letterSpacing: 1.2,
+                          //                           color: Colors.Colors.black,
+                          //                         ),
+                          //                         textAlign: TextAlign.right,
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         )
+                          //     ),
+                          //   ),
+                          // if(slidingSearch == 1)
+                          //   SliverList(
+                          //     delegate: SliverChildListDelegate(
+                          //       [
+                          //         Container(
+                          //           height: 100,
+                          //           color: AppTheme.lightBgColor,
+                          //           child: Padding(
+                          //             padding: const EdgeInsets.all(15.0),
+                          //             child: Text('Each seller'),
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
 
 
-                        // if(slidingSearch == 1)
-                        //   SliverPersistentHeader(
-                        //     pinned: true,
-                        //     delegate: SliverAppBarDelegate1(
-                        //         child: PreferredSize(
-                        //           preferredSize: Size.fromHeight(33.0),
-                        //           child: Container(
-                        //             width: double.infinity,
-                        //             height: 33,
-                        //             decoration: BoxDecoration(
-                        //                 color: Colors.Colors.white,
-                        //                 border: Border(
-                        //                   bottom: BorderSide(
-                        //                       color: AppTheme.skBorderColor2,
-                        //                       width: 1.0),
-                        //                 )
-                        //             ),
-                        //             child: Padding(
-                        //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                        //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                        //               child: Row(
-                        //                 children: [
-                        //                   Text(
-                        //                     'BUY',
-                        //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                     style: TextStyle(
-                        //                         height: 0.8,
-                        //                         fontSize: 14,
-                        //                         fontWeight: FontWeight.w600,
-                        //                         letterSpacing: 1.2,
-                        //                         color: Colors.Colors.black
-                        //                     ),
-                        //                   ),
-                        //                   Padding(
-                        //                     padding: const EdgeInsets.only(left: 4.0, right: 5.0, bottom: 3.0),
-                        //                     child: FlutterSwitch(
-                        //                       width: 31.0,
-                        //                       height: 18.0,
-                        //                       valueFontSize: 5.0,
-                        //                       toggleSize: 13.0,
-                        //                       padding: 2.5,
-                        //                       value: buySellerStatus,
-                        //                       onToggle: (val) {
-                        //                         setState(() {
-                        //                           buySellerStatus = val;
-                        //                         });
-                        //                       },
-                        //                     ),
-                        //                   ),
-                        //                   Text(
-                        //                     'SELLERS',
-                        //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                     style: TextStyle(
-                        //                         height: 0.8,
-                        //                         fontSize: 14,
-                        //                         fontWeight: FontWeight.w600,
-                        //                         letterSpacing: 1.2,
-                        //                         color: Colors.Colors.black
-                        //                     ),
-                        //                   ),
-                        //                   Expanded(
-                        //                     child: Padding(
-                        //                       padding: const EdgeInsets.only(right: 15.0),
-                        //                       child: Text(
-                        //                         '0',
-                        //                         // '#' + sectionList[sectionIndex].items.length.toString(),
-                        //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                         style: TextStyle(
-                        //                           height: 0.8,
-                        //                           fontSize: 14,
-                        //                           fontWeight: FontWeight.w600,
-                        //                           letterSpacing: 1.2,
-                        //                           color: Colors.Colors.black,
-                        //                         ),
-                        //                         textAlign: TextAlign.right,
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         )
-                        //     ),
-                        //   ),
-                        if(slidingSearch == 1)
-                          SliverExpandableList(
-                            builder: SliverExpandableChildDelegate(
-                              sectionList: sectionList1,
-                              headerBuilder: _buildHeader1,
-                              itemBuilder: (context, sectionIndex, itemIndex, index) {
-                                String item = sectionList1[sectionIndex].items[itemIndex];
-                                int length = sectionList1[sectionIndex].items.length;
-                                // if(sectionIndex == 0) {
-                                //   return Container(
-                                //     height: 0.1,
-                                //   );
-                                //   // return SliverFillRemaining(
-                                //   //   child: new Container(
-                                //   //     color: Colors.Colors.red,
-                                //   //   ),
-                                //   // );
-                                // }
+                          if(slidingSearch == 2)
+                            SliverExpandableList(
+                              builder: SliverExpandableChildDelegate(
+                                sectionList: sectionList2,
+                                headerBuilder: _buildHeader2,
+                                itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                  String item = sectionList2[sectionIndex].items[itemIndex];
+                                  int length = sectionList2[sectionIndex].items.length;
+                                  // if(sectionIndex == 0) {
+                                  //   return Container(
+                                  //     height: 0.1,
+                                  //   );
+                                  //   // return SliverFillRemaining(
+                                  //   //   child: new Container(
+                                  //   //     color: Colors.Colors.red,
+                                  //   //   ),
+                                  //   // );
+                                  // }
 
-                                if(searchValue == '') {
-                                  return Container();
-                                }
-                                if(item == '') {
-                                  return Container();
-                                }
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (
-                                              context) =>
-                                              CustomerInfoSubs(
-                                                  id: item.split('^sps^')[0],
-                                                  toggleCoinCallback: addCustomer2Cart1)),
-                                    );
-                                  },
-                                  child: Container(
-                                    color: AppTheme.lightBgColor,
-                                    child: Padding(
-                                      padding:
-                                      EdgeInsets.only(
-                                          top: 15.0),
-                                      child: Container(
-                                        width: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width,
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: index ==
-                                                    length
-                                                    ?
-                                                BorderSide(
-                                                    color: Colors
-                                                        .Colors.grey
-                                                        .withOpacity(
-                                                        0.3),
-                                                    width: 1.0)
-                                                    :
+                                  if(searchValue == '') {
+                                    return Container();
+                                  }
+                                  if(item == '') {
+                                    return Container();
+                                  } else {
+                                    if(item.split('^')[7] == 'b') {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          // print(item.split('^')[1]);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {})),
+                                          );
+                                        },
+                                        child: Stack(
+                                          alignment: Alignment.center,
 
-                                                BorderSide(
-                                                    color: Colors
-                                                        .Colors.grey
-                                                        .withOpacity(
-                                                        0.3),
-                                                    width: 1.0)
-                                            )),
-                                        child: Column(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets
-                                                  .only(
-                                                  bottom: 18.0),
-                                              child: ListTile(
-                                                title: Text(
-                                                  item.split('^sps^')[1].toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w500,
-                                                  ),),
-                                                subtitle: Padding(
-                                                  padding: const EdgeInsets
-                                                      .only(
-                                                      top: 8.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      Text(
-                                                          item.split('^sps^')[2].toString(),
-                                                          // 'sps',
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .Colors.grey,
-                                                          )),
-                                                      SizedBox(
-                                                        height: 5,),
-                                                      Text(
-                                                          // 'sps',
-                                                          item.split('^sps^')[3].toString(),
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .Colors.grey,
-                                                          )),
-                                                    ],
-                                                  ),
-                                                ),
-                                                trailing: Padding(
-                                                  padding: const EdgeInsets
-                                                      .only(
-                                                      top: 10.0),
-                                                  child: Container(
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        StreamBuilder(
-                                                            stream: FirebaseFirestore.instance
-                                                                .collection('space')
-                                                                .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                                .collection('shops')
-                                                                .doc('PucvhZDuUz3XlkTgzcjb')
-                                                                .collection('customers')
-                                                                .doc(item.split('^sps^')[0].toString())
-                                                                .collection('orders')
-                                                                .where('debt', isGreaterThan: 0)
-                                                                .snapshots(),
-                                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                                              // orderList[index] = 0;
-                                                              int orderLength = 0;
-                                                              int i = 0;
-                                                              if(snapshot2.hasData) {
-                                                                return snapshot2.data!.docs.length > 0? Container(
-                                                                  height: 21,
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.circular(20.0),
-                                                                    color: AppTheme.badgeFgDanger,
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                    child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
-                                                                      style: TextStyle(
-                                                                          fontSize: 13,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.Colors.white
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ): Container(
-                                                                );
-                                                                // int quantity = 0;
-                                                                // snapshot2.data!.docs.map((DocumentSnapshot document2) {
-                                                                //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
-                                                                //   orders = data2['daily_order'];
-                                                                //   quantity += int.parse(orders.length.toString());
-                                                                //
-                                                                //   return Text(snapshot2.data!.docs[index].id);
-                                                                // }).toList();
-                                                              }
-                                                              return Container();
-                                                            }
-                                                        ),
-                                                        SizedBox(
-                                                            width: 12),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top: 2.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .arrow_forward_ios_rounded,
-                                                            size: 16,
-                                                            color: Colors
-                                                                .Colors.blueGrey
-                                                                .withOpacity(
-                                                                0.8),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-
-                                              ),
-                                            )
-
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        // if(slidingSearch == 1)
-                        //   SliverPersistentHeader(
-                        //     pinned: true,
-                        //     delegate: SliverAppBarDelegate(
-                        //         child: PreferredSize(
-                        //           preferredSize: Size.fromHeight(33.0),
-                        //           child: Container(
-                        //             width: double.infinity,
-                        //             height: 33,
-                        //             decoration: BoxDecoration(
-                        //                 color: Colors.Colors.white,
-                        //                 border: Border(
-                        //                   bottom: BorderSide(
-                        //                       color: AppTheme.skBorderColor2,
-                        //                       width: 1.0),
-                        //                 )
-                        //             ),
-                        //             child: Padding(
-                        //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                        //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                        //               child: Row(
-                        //                 children: [
-                        //                   Text(
-                        //                     'SELLERS',
-                        //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                     style: TextStyle(
-                        //                         height: 0.8,
-                        //                         fontSize: 14,
-                        //                         fontWeight: FontWeight.w600,
-                        //                         letterSpacing: 1.2,
-                        //                         color: Colors.Colors.black
-                        //                     ),
-                        //                   ),
-                        //
-                        //                   Expanded(
-                        //                     child: Padding(
-                        //                       padding: const EdgeInsets.only(right: 15.0),
-                        //                       child: Text(
-                        //                         '0',
-                        //                         // '#' + sectionList[sectionIndex].items.length.toString(),
-                        //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                         style: TextStyle(
-                        //                           height: 0.8,
-                        //                           fontSize: 14,
-                        //                           fontWeight: FontWeight.w600,
-                        //                           letterSpacing: 1.2,
-                        //                           color: Colors.Colors.black,
-                        //                         ),
-                        //                         textAlign: TextAlign.right,
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         )
-                        //     ),
-                        //   ),
-                        // if(slidingSearch == 1)
-                        //   SliverList(
-                        //     delegate: SliverChildListDelegate(
-                        //       [
-                        //         Container(
-                        //           height: 100,
-                        //           color: AppTheme.lightBgColor,
-                        //           child: Padding(
-                        //             padding: const EdgeInsets.all(15.0),
-                        //             child: Text('Each seller'),
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-
-
-                        if(slidingSearch == 2)
-                          SliverExpandableList(
-                            builder: SliverExpandableChildDelegate(
-                              sectionList: sectionList2,
-                              headerBuilder: _buildHeader2,
-                              itemBuilder: (context, sectionIndex, itemIndex, index) {
-                                String item = sectionList2[sectionIndex].items[itemIndex];
-                                int length = sectionList2[sectionIndex].items.length;
-                                // if(sectionIndex == 0) {
-                                //   return Container(
-                                //     height: 0.1,
-                                //   );
-                                //   // return SliverFillRemaining(
-                                //   //   child: new Container(
-                                //   //     color: Colors.Colors.red,
-                                //   //   ),
-                                //   // );
-                                // }
-
-                                if(searchValue == '') {
-                                  return Container();
-                                }
-                                if(item == '') {
-                                  return Container();
-                                }
-                                return GestureDetector(
-                                  onTap: () {
-                                    // print(item.split('^')[1]);
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
-                                    // );
-                                  },
-                                  child: Stack(
-                                    alignment: Alignment.center,
-
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: AppTheme.lightBgColor,
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
-                                                    width: 1.0),
-                                              )),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 1.0),
+                                              padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: AppTheme.lightBgColor,
+                                                    border: Border(
+                                                      bottom: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                          width: 1.0),
+                                                    )),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
                                                   child: Column(
                                                     mainAxisAlignment: MainAxisAlignment.start,
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        children: [
-                                                          Text('#' + item.split('^')[1],
-                                                            style: TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight: FontWeight.w500
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 1.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              children: [
+                                                                Text('#' + item.split('^')[1],
+                                                                  style: TextStyle(
+                                                                      fontSize: 16,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 8),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                                                  child: Icon(Icons.access_time, size: 15, color: Colors.Colors.grey,),
+                                                                ),
+                                                                SizedBox(width: 4),
+                                                                Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                                  style: TextStyle(
+                                                                    fontSize: 13,
+                                                                    fontWeight: FontWeight.w400,
+                                                                    color: Colors.Colors.grey,
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ),
-                                                          SizedBox(width: 8),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(bottom: 1.0),
-                                                            child: Icon(Icons.access_time, size: 15, color: Colors.Colors.grey,),
-                                                          ),
-                                                          SizedBox(width: 4),
-                                                          Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                                            style: TextStyle(
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.w400,
-                                                              color: Colors.Colors.grey,
+                                                            // Padding(
+                                                            //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                                                            //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+                                                            // ),
+                                                            SizedBox(
+                                                              height: 6,
                                                             ),
-                                                          ),
-                                                        ],
+                                                            Row(
+                                                              children: [
+                                                                Text(item.split('^')[3].split('&')[0],
+                                                                  style: TextStyle(
+                                                                    fontSize: 15,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.Colors.grey,
+                                                                  ),),
+
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                      // Padding(
-                                                      //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                      //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
-                                                      // ),
                                                       SizedBox(
-                                                        height: 6,
+                                                        height: 8,
                                                       ),
                                                       Row(
                                                         children: [
-                                                          Text(item.split('^')[3].split('&')[0],
-                                                            style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.Colors.grey,
-                                                            ),),
+                                                          if(item.split('^')[5] == '0.0')
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeBgSuccess,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                  child: Text('Paid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+
+                                                          if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeFgDangerLight,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                  child: Text('Partially paid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: AppTheme.badgeFgDanger
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeFgDanger,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                  child: Text('Unpaid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          if(item.split('^')[4][0] == 'r')
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 6.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeBgSecond,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                  child: Text('Refunded',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+
+                                                          if(item.split('^')[4][0] == 's')
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 6.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeBgSecondLight,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                  child: Text('Partially refunded',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: AppTheme.badgeBgSecond
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
 
                                                         ],
-                                                      ),
+                                                      )
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                                              child: Align(
+                                                alignment: Alignment.centerRight,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
-                                                    if(item.split('^')[4][0] == 'r')
+                                                    Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),
+                                                    SizedBox(width: 10),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                                      child: Icon(
+                                                        Icons
+                                                            .arrow_forward_ios_rounded,
+                                                        size: 16,
+                                                        color: Colors
+                                                            .Colors.blueGrey
+                                                            .withOpacity(
+                                                            0.8),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    } else {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          // print(item.split('^')[1]);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                          );
+                                        },
+                                        child: Stack(
+                                          alignment: Alignment.center,
+
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: AppTheme.lightBgColor,
+                                                    border: Border(
+                                                      bottom: BorderSide(
+                                                          color: AppTheme.skBorderColor2,
+                                                          width: 1.0),
+                                                    )),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
                                                       Padding(
-                                                        padding: const EdgeInsets.only(right: 6.0, left: 6.0),
-                                                        child: Container(
-                                                          height: 21,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            color: AppTheme.badgeBgSecond,
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                            child: Text('Refunded',
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.Colors.white
+                                                        padding: const EdgeInsets.only(left: 1.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              children: [
+                                                                Text('#' + item.split('^')[1],
+                                                                  style: TextStyle(
+                                                                      fontSize: 16,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 8),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 1.0),
+                                                                  child: Icon(Icons.access_time, size: 15, color: Colors.Colors.grey,),
+                                                                ),
+                                                                SizedBox(width: 4),
+                                                                Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                                  style: TextStyle(
+                                                                    fontSize: 13,
+                                                                    fontWeight: FontWeight.w400,
+                                                                    color: Colors.Colors.grey,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            // Padding(
+                                                            //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                                                            //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+                                                            // ),
+                                                            SizedBox(
+                                                              height: 6,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(item.split('^')[3].split('&')[0],
+                                                                  style: TextStyle(
+                                                                    fontSize: 15,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    color: Colors.Colors.grey,
+                                                                  ),),
+
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          if(item.split('^')[5] == '0.0')
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeBgSuccess,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                  child: Text('Paid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
 
-                                                    if(item.split('^')[4][0] == 's')
-                                                      Container(
-                                                        height: 21,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          color: AppTheme.badgeBgSecondLight,
-                                                        ),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                          child: Text('Partially refunded',
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.Colors.white
+                                                          if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeFgDangerLight,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                  child: Text('Partially paid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: AppTheme.badgeFgDanger
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    if(item.split('^')[5] == '0.0')
-                                                      Container(
-                                                        height: 21,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          color: AppTheme.badgeBgSuccess,
-                                                        ),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                          child: Text('Paid',
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.Colors.white
+                                                          if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 0.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeFgDanger,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                  child: Text('Unpaid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
+                                                          if(item.split('^')[4][0] == 'r')
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 6.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeBgSecond,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                  child: Text('Refunded',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
 
-                                                    if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
-                                                      Container(
-                                                        height: 21,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          color: AppTheme.badgeFgDangerLight,
-                                                        ),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                          child: Text('Partially paid',
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: AppTheme.badgeFgDanger
+                                                          if(item.split('^')[4][0] == 's')
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 6.0),
+                                                              child: Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeBgSecondLight,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                  child: Text('Partially refunded',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: AppTheme.badgeBgSecond
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
-                                                      Container(
-                                                        height: 21,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          color: AppTheme.badgeFgDanger,
-                                                        ),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                          child: Text('Unpaid',
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.Colors.white
-                                                            ),
-                                                          ),
-                                                        ),
+
+                                                        ],
                                                       )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 15.0, bottom: 1),
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: [
-                                              Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                fontSize: 15,fontWeight: FontWeight.w500,
-                                              )),
-                                              SizedBox(width: 10),
-                                              Icon(
-                                                Icons
-                                                    .arrow_forward_ios_rounded,
-                                                size: 16,
-                                                color: Colors
-                                                    .Colors.blueGrey
-                                                    .withOpacity(
-                                                    0.8),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                                              child: Align(
+                                                alignment: Alignment.centerRight,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w500,
+                                                    )),
+                                                    SizedBox(width: 10),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                                      child: Icon(
+                                                        Icons
+                                                            .arrow_forward_ios_rounded,
+                                                        size: 16,
+                                                        color: Colors
+                                                            .Colors.blueGrey
+                                                            .withOpacity(
+                                                            0.8),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
+                                      );
+                                    }
+                                  }
+
+                                },
+                              ),
                             ),
-                          ),
                           // SliverPersistentHeader(
                           //   pinned: true,
                           //   delegate: SliverAppBarDelegate2(
@@ -5767,938 +4992,939 @@ class HomeFragmentState extends State<HomeFragment>
                           //       )
                           //   ),
                           // ),
-                        // if(slidingSearch == 2)
-                        //   SliverList(
-                        //     delegate: SliverChildListDelegate(
-                        //       [
-                        //         Container(
-                        //           height: 100,
-                        //           color: AppTheme.lightBgColor,
-                        //           child: Padding(
-                        //             padding: const EdgeInsets.all(15.0),
-                        //             child: Text('Each buyorder'),
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
+                          // if(slidingSearch == 2)
+                          //   SliverList(
+                          //     delegate: SliverChildListDelegate(
+                          //       [
+                          //         Container(
+                          //           height: 100,
+                          //           color: AppTheme.lightBgColor,
+                          //           child: Padding(
+                          //             padding: const EdgeInsets.all(15.0),
+                          //             child: Text('Each buyorder'),
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
 
 
-                        // if(slidingSearch == 2)
-                        //   SliverPersistentHeader(
-                        //     pinned: true,
-                        //     delegate: SliverAppBarDelegate2(
-                        //         child: PreferredSize(
-                        //           preferredSize: Size.fromHeight(33.0),
-                        //           child: Container(
-                        //             width: double.infinity,
-                        //             height: 33,
-                        //             decoration: BoxDecoration(
-                        //                 color: Colors.Colors.white,
-                        //                 border: Border(
-                        //                   bottom: BorderSide(
-                        //                       color: AppTheme.skBorderColor2,
-                        //                       width: 1.0),
-                        //                 )
-                        //             ),
-                        //             child: Padding(
-                        //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                        //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                        //               child: Row(
-                        //                 children: [
-                        //                   Text(
-                        //                     'SELL ORDERS',
-                        //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                     style: TextStyle(
-                        //                         height: 0.8,
-                        //                         fontSize: 14,
-                        //                         fontWeight: FontWeight.w600,
-                        //                         letterSpacing: 1.2,
-                        //                         color: Colors.Colors.black
-                        //                     ),
-                        //                   ),
-                        //
-                        //                   Expanded(
-                        //                     child: Padding(
-                        //                       padding: const EdgeInsets.only(right: 15.0),
-                        //                       child: Text(
-                        //                         '0',
-                        //                         // '#' + sectionList[sectionIndex].items.length.toString(),
-                        //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        //                         style: TextStyle(
-                        //                           height: 0.8,
-                        //                           fontSize: 14,
-                        //                           fontWeight: FontWeight.w600,
-                        //                           letterSpacing: 1.2,
-                        //                           color: Colors.Colors.black,
-                        //                         ),
-                        //                         textAlign: TextAlign.right,
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         )
-                        //     ),
-                        //   ),
-                        // if(slidingSearch == 2)
-                        //   SliverList(
-                        //     delegate: SliverChildListDelegate(
-                        //       [
-                        //         Container(
-                        //           height: 100,
-                        //           color: AppTheme.lightBgColor,
-                        //           child: Padding(
-                        //             padding: const EdgeInsets.all(15.0),
-                        //             child: Text('Each sellorder'),
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
+                          // if(slidingSearch == 2)
+                          //   SliverPersistentHeader(
+                          //     pinned: true,
+                          //     delegate: SliverAppBarDelegate2(
+                          //         child: PreferredSize(
+                          //           preferredSize: Size.fromHeight(33.0),
+                          //           child: Container(
+                          //             width: double.infinity,
+                          //             height: 33,
+                          //             decoration: BoxDecoration(
+                          //                 color: Colors.Colors.white,
+                          //                 border: Border(
+                          //                   bottom: BorderSide(
+                          //                       color: AppTheme.skBorderColor2,
+                          //                       width: 1.0),
+                          //                 )
+                          //             ),
+                          //             child: Padding(
+                          //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
+                          //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
+                          //               child: Row(
+                          //                 children: [
+                          //                   Text(
+                          //                     'SELL ORDERS',
+                          //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                          //                     style: TextStyle(
+                          //                         height: 0.8,
+                          //                         fontSize: 14,
+                          //                         fontWeight: FontWeight.w600,
+                          //                         letterSpacing: 1.2,
+                          //                         color: Colors.Colors.black
+                          //                     ),
+                          //                   ),
+                          //
+                          //                   Expanded(
+                          //                     child: Padding(
+                          //                       padding: const EdgeInsets.only(right: 15.0),
+                          //                       child: Text(
+                          //                         '0',
+                          //                         // '#' + sectionList[sectionIndex].items.length.toString(),
+                          //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                          //                         style: TextStyle(
+                          //                           height: 0.8,
+                          //                           fontSize: 14,
+                          //                           fontWeight: FontWeight.w600,
+                          //                           letterSpacing: 1.2,
+                          //                           color: Colors.Colors.black,
+                          //                         ),
+                          //                         textAlign: TextAlign.right,
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         )
+                          //     ),
+                          //   ),
+                          // if(slidingSearch == 2)
+                          //   SliverList(
+                          //     delegate: SliverChildListDelegate(
+                          //       [
+                          //         Container(
+                          //           height: 100,
+                          //           color: AppTheme.lightBgColor,
+                          //           child: Padding(
+                          //             padding: const EdgeInsets.all(15.0),
+                          //             child: Text('Each sellorder'),
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
 
 
-                        // SliverFillRemaining(
-                        //   child: TabBarView(
-                        //     physics: NeverScrollableScrollPhysics(),
-                        //     controller: subTabController,
-                        //     children: <Widget>[
-                        //       Column(
-                        //         children: [
-                        //           Container(
-                        //             height: 100,
-                        //               color: Colors.Colors.green,
-                        //               child: Center(child: Text('Content of SubTab1'))
-                        //           ),
-                        //         ],
-                        //       ),
-                        //       Column(
-                        //         children: [
-                        //           Container(
-                        //               height: 100,
-                        //               color: Colors.Colors.blue,
-                        //               child: Center(child: Text('Content of SubTab1'))
-                        //           ),
-                        //         ],
-                        //       ),
-                        //       Column(
-                        //         children: [
-                        //           Container(
-                        //               height: 100,
-                        //               color: Colors.Colors.yellow,
-                        //               child: Center(child: Text('Content of SubTab1'))
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
+                          // SliverFillRemaining(
+                          //   child: TabBarView(
+                          //     physics: NeverScrollableScrollPhysics(),
+                          //     controller: subTabController,
+                          //     children: <Widget>[
+                          //       Column(
+                          //         children: [
+                          //           Container(
+                          //             height: 100,
+                          //               color: Colors.Colors.green,
+                          //               child: Center(child: Text('Content of SubTab1'))
+                          //           ),
+                          //         ],
+                          //       ),
+                          //       Column(
+                          //         children: [
+                          //           Container(
+                          //               height: 100,
+                          //               color: Colors.Colors.blue,
+                          //               child: Center(child: Text('Content of SubTab1'))
+                          //           ),
+                          //         ],
+                          //       ),
+                          //       Column(
+                          //         children: [
+                          //           Container(
+                          //               height: 100,
+                          //               color: Colors.Colors.yellow,
+                          //               child: Center(child: Text('Content of SubTab1'))
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
 
 
-                        // SliverFillRemaining(
-                        //   // 剩余补充内容TabBarView
-                        //   child: TabBarView(
-                        //     controller: this.tabController,
-                        //     children: <Widget>[
-                        //       Center(child: Text('Content of Home')),
-                        //       Center(child: Text('Content of Profile')),
-                        //     ],
-                        //   ),
-                        // ),
+                          // SliverFillRemaining(
+                          //   // 剩余补充内容TabBarView
+                          //   child: TabBarView(
+                          //     controller: this.tabController,
+                          //     children: <Widget>[
+                          //       Center(child: Text('Content of Home')),
+                          //       Center(child: Text('Content of Profile')),
+                          //     ],
+                          //   ),
+                          // ),
 
 
-                        // if(!searchingOverAll && noSearchData)
-                        //   SliverExpandableList(
-                        //     builder: SliverExpandableChildDelegate(
-                        //       sectionList: sectionListNo,
-                        //       headerBuilder: _buildHeader2,
-                        //       itemBuilder: (context, sectionIndex, itemIndex, index) {
-                        //         String item = sectionListNo[sectionIndex].items[itemIndex];
-                        //         int length = sectionListNo[sectionIndex].items.length;
-                        //         return Container(
-                        //           height: 0.1,
-                        //         );
-                        //       },
-                        //     ),
-                        //   ),
-                        // if(searchingOverAll)
-                        //   SliverExpandableList(
-                        //     builder: SliverExpandableChildDelegate(
-                        //       sectionList: sectionListNo,
-                        //       headerBuilder: _buildHeader3,
-                        //       itemBuilder: (context, sectionIndex, itemIndex, index) {
-                        //         String item = sectionListNo[sectionIndex].items[itemIndex];
-                        //         int length = sectionListNo[sectionIndex].items.length;
-                        //         return Container(
-                        //           height: 0.1,
-                        //         );
-                        //       },
-                        //     ),
-                        //   ),
+                          // if(!searchingOverAll && noSearchData)
+                          //   SliverExpandableList(
+                          //     builder: SliverExpandableChildDelegate(
+                          //       sectionList: sectionListNo,
+                          //       headerBuilder: _buildHeader2,
+                          //       itemBuilder: (context, sectionIndex, itemIndex, index) {
+                          //         String item = sectionListNo[sectionIndex].items[itemIndex];
+                          //         int length = sectionListNo[sectionIndex].items.length;
+                          //         return Container(
+                          //           height: 0.1,
+                          //         );
+                          //       },
+                          //     ),
+                          //   ),
+                          // if(searchingOverAll)
+                          //   SliverExpandableList(
+                          //     builder: SliverExpandableChildDelegate(
+                          //       sectionList: sectionListNo,
+                          //       headerBuilder: _buildHeader3,
+                          //       itemBuilder: (context, sectionIndex, itemIndex, index) {
+                          //         String item = sectionListNo[sectionIndex].items[itemIndex];
+                          //         int length = sectionListNo[sectionIndex].items.length;
+                          //         return Container(
+                          //           height: 0.1,
+                          //         );
+                          //       },
+                          //     ),
+                          //   ),
 
 
 
 
-                        // if(!noSearchData && !searchingOverAll)
+                          // if(!noSearchData && !searchingOverAll)
 
-                        // SliverExpandableList(
-                        //   builder: SliverExpandableChildDelegate(
-                        //     sectionList: sectionList,
-                        //     headerBuilder: _buildHeader,
-                        //     itemBuilder: (context, sectionIndex, itemIndex, index) {
-                        //       String item = sectionList[sectionIndex].items[itemIndex];
-                        //       int length = sectionList[sectionIndex].items.length;
-                        //       if(sectionIndex == 0) {
-                        //         return Container(
-                        //           height: 0.1,
-                        //         );
-                        //         // return SliverFillRemaining(
-                        //         //   child: new Container(
-                        //         //     color: Colors.Colors.red,
-                        //         //   ),
-                        //         // );
-                        //       }
-                        //
-                        //       if(slidingSearch == 0 && item.contains('^sps^')) {
-                        //         return GestureDetector(
-                        //           onTap: () {
-                        //             // Navigator.push(
-                        //             //   context,
-                        //             //   MaterialPageRoute(
-                        //             //       builder: (context) => ProductDetailsView2(
-                        //             //           idString: version, toggleCoinCallback:
-                        //             //       addProduct1, toggleCoinCallback3: addProduct3)),);
-                        //           },
-                        //           child: Padding(
-                        //             padding:
-                        //             EdgeInsets.only(top: index == 0? 10.0: 20.0),
-                        //             child: Container(
-                        //               width: MediaQuery.of(context).size.width,
-                        //               decoration: BoxDecoration(
-                        //                   border: Border(
-                        //                       bottom: index == length-1 ?
-                        //                       BorderSide(
-                        //                           color: Colors.Colors.transparent,
-                        //                           width: 1.0) :
-                        //
-                        //                       BorderSide(
-                        //                           color: Colors.Colors.grey
-                        //                               .withOpacity(0.3),
-                        //                           width: 1.0)
-                        //                   )),
-                        //               child: Padding(
-                        //                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        //                 child: Column(
-                        //                   children: [
-                        //                     Row(
-                        //                       children: [
-                        //                         Column(
-                        //                           children: [
-                        //                             ClipRRect(
-                        //                                 borderRadius: BorderRadius
-                        //                                     .circular(
-                        //                                     5.0),
-                        //                                 child: item.split('^sps^')[2] != ""
-                        //                                     ? CachedNetworkImage(
-                        //                                   imageUrl:
-                        //                                   'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                        //                                       item.split('^sps^')[2],
-                        //                                   width: 75,
-                        //                                   height: 75,
-                        //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                        //                                   errorWidget: (context,
-                        //                                       url,
-                        //                                       error) =>
-                        //                                       Icon(Icons
-                        //                                           .error),
-                        //                                   fadeInDuration:
-                        //                                   Duration(
-                        //                                       milliseconds:
-                        //                                       100),
-                        //                                   fadeOutDuration:
-                        //                                   Duration(
-                        //                                       milliseconds:
-                        //                                       10),
-                        //                                   fadeInCurve:
-                        //                                   Curves
-                        //                                       .bounceIn,
-                        //                                   fit: BoxFit
-                        //                                       .cover,
-                        //                                 )
-                        //                                     : CachedNetworkImage(
-                        //                                   imageUrl:
-                        //                                   'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
-                        //                                   width: 75,
-                        //                                   height: 75,
-                        //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                        //                                   errorWidget: (context,
-                        //                                       url,
-                        //                                       error) =>
-                        //                                       Icon(Icons
-                        //                                           .error),
-                        //                                   fadeInDuration:
-                        //                                   Duration(
-                        //                                       milliseconds:
-                        //                                       100),
-                        //                                   fadeOutDuration:
-                        //                                   Duration(
-                        //                                       milliseconds:
-                        //                                       10),
-                        //                                   fadeInCurve:
-                        //                                   Curves
-                        //                                       .bounceIn,
-                        //                                   fit: BoxFit
-                        //                                       .cover,
-                        //                                 )),
-                        //                           ],
-                        //                         ),
-                        //                         SizedBox(
-                        //                           width: 15,
-                        //                         ),
-                        //                         Column(
-                        //                           crossAxisAlignment:
-                        //                           CrossAxisAlignment
-                        //                               .start,
-                        //                           children: [
-                        //                             Text(
-                        //                               item.split('^sps^')[1],
-                        //                               style: TextStyle(
-                        //                                 fontSize: 18,
-                        //                                 fontWeight:
-                        //                                 FontWeight.w500,
-                        //                               ),
-                        //                             ),
-                        //                             SizedBox(
-                        //                               height: 10,
-                        //                             ),
-                        //                             Row(
-                        //                               children: [
-                        //                                 Text(
-                        //                                   'MMK ' + item.split('^sps^')[3].split('-')[0],
-                        //                                   style: TextStyle(
-                        //                                     fontSize: 15,
-                        //                                     fontWeight:
-                        //                                     FontWeight.w500,
-                        //                                   ),
-                        //                                 ),
-                        //                                 Text(
-                        //                                   item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == '' ? ' - ' + item.split('^sps^')[4].split('-')[0] : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? ' - ' + item.split('^sps^')[5].split('-')[0] : '',
-                        //                                   style: TextStyle(
-                        //                                     fontSize: 15,
-                        //                                     fontWeight:
-                        //                                     FontWeight.w500,
-                        //                                   ),
-                        //                                 ),
-                        //                               ],
-                        //                             ),
-                        //                             SizedBox(
-                        //                               height: 2,
-                        //                             ),
-                        //                             Row(
-                        //                               children: [
-                        //                                 Row(
-                        //                                   children: [
-                        //                                     Text(
-                        //                                         item.split('^sps^')[3].split('-')[1].toString()+ ' '  + item.split('^sps^')[3].split('-')[2] + ' ', style: TextStyle(
-                        //                                       fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
-                        //                                     )),
-                        //                                     Icon( SmartKyat_POS.prodm, size: 17, color: Colors.Colors.grey,),
-                        //                                     // sub1Name != '' ? Text(' | ', style: TextStyle(
-                        //                                     //   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                        //                                     // )) : Text(''),
-                        //                                   ],
-                        //                                 ),
-                        //
-                        //                                 item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == ''?
-                        //                                 Text(
-                        //                                     '  (+1 Sub item)', style: TextStyle(
-                        //                                   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
-                        //                                 )) : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? Text(
-                        //                                     '  (+2 Sub items)', style: TextStyle(
-                        //                                   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
-                        //                                 )): Container(),
-                        //
-                        //                                 // StreamBuilder(
-                        //                                 //     stream: FirebaseFirestore
-                        //                                 //         .instance
-                        //                                 //         .collection(
-                        //                                 //         'space')
-                        //                                 //         .doc(
-                        //                                 //         '0NHIS0Jbn26wsgCzVBKT')
-                        //                                 //         .collection(
-                        //                                 //         'shops')
-                        //                                 //         .doc(
-                        //                                 //         'PucvhZDuUz3XlkTgzcjb')
-                        //                                 //         .collection(
-                        //                                 //         'products')
-                        //                                 //         .doc(version)
-                        //                                 //         .collection(
-                        //                                 //         'versions')
-                        //                                 //         .where('type',
-                        //                                 //         isEqualTo:
-                        //                                 //         'sub3')
-                        //                                 //         .snapshots(),
-                        //                                 //     builder: (BuildContext
-                        //                                 //     context,
-                        //                                 //         AsyncSnapshot<
-                        //                                 //             QuerySnapshot>
-                        //                                 //         snapshot5) {
-                        //                                 //       if (snapshot5
-                        //                                 //           .hasData) {
-                        //                                 //         int quantity3 =
-                        //                                 //         0;
-                        //                                 //         var sub3Quantity;
-                        //                                 //         snapshot5
-                        //                                 //             .data!
-                        //                                 //             .docs
-                        //                                 //             .map((DocumentSnapshot
-                        //                                 //         document) {
-                        //                                 //           Map<String,
-                        //                                 //               dynamic>
-                        //                                 //           data4 =
-                        //                                 //           document.data()! as Map<
-                        //                                 //               String,
-                        //                                 //               dynamic>;
-                        //                                 //           if (data4[
-                        //                                 //           'unit_qtity'] !=
-                        //                                 //               '') {
-                        //                                 //             quantity3 +=
-                        //                                 //                 int.parse(
-                        //                                 //                     data4['unit_qtity']);
-                        //                                 //             sub3Quantity =
-                        //                                 //                 quantity3
-                        //                                 //                     .toString();
-                        //                                 //           } else
-                        //                                 //             return Container();
-                        //                                 //         }).toList();
-                        //                                 //         // print(sub1Quantity);
-                        //                                 //         // print(mainQuantity);
-                        //                                 //         if (sub3Quantity !=
-                        //                                 //             null) {
-                        //                                 //           return Text(
-                        //                                 //               '$sub3Quantity $sub3Name');
-                        //                                 //         }
-                        //                                 //         return Container();
-                        //                                 //       }
-                        //                                 //       return Container();
-                        //                                 //     }),
-                        //                               ],
-                        //                             ),
-                        //
-                        //                             // Text(
-                        //                             //   'MMK',
-                        //                             //   style:
-                        //                             //       TextStyle(
-                        //                             //     fontSize: 14,
-                        //                             //     fontWeight: FontWeight.w400,
-                        //                             //     color: Colors.blueGrey.withOpacity(1.0),
-                        //                             //   ),
-                        //                             // ),
-                        //                             // SizedBox(
-                        //                             //   height:
-                        //                             //       7,
-                        //                             // ),
-                        //                             // Text(
-                        //                             //   '55',
-                        //                             //   style:
-                        //                             //       TextStyle(
-                        //                             //     fontSize: 14,
-                        //                             //     fontWeight: FontWeight.w400,
-                        //                             //     color: Colors.blueGrey.withOpacity(1.0),
-                        //                             //   ),
-                        //                             // ),
-                        //                           ],
-                        //                         ),
-                        //                         // Padding(
-                        //                         //   padding:
-                        //                         //       const EdgeInsets.only(
-                        //                         //           bottom: 20.0),
-                        //                         //   child: IconButton(
-                        //                         //     icon: Icon(
-                        //                         //       Icons
-                        //                         //           .arrow_forward_ios_rounded,
-                        //                         //       size: 16,
-                        //                         //       color: Colors.blueGrey
-                        //                         //           .withOpacity(0.8),
-                        //                         //     ),
-                        //                         //     onPressed: () {
-                        //                         //       Navigator.push(
-                        //                         //         context,
-                        //                         //         MaterialPageRoute(
-                        //                         //             builder: (context) => ProductDetailsView(
-                        //                         //                 idString: version, toggleCoinCallback:
-                        //                         //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                        //                         //     },
-                        //                         //   ),
-                        //                         // ),
-                        //                         Spacer(),
-                        //                         Padding(
-                        //                           padding:
-                        //                           const EdgeInsets.only(
-                        //                               bottom: 12.0),
-                        //                           child: Icon(
-                        //                             Icons
-                        //                                 .arrow_forward_ios_rounded,
-                        //                             size: 16,
-                        //                             color: Colors.Colors.blueGrey
-                        //                                 .withOpacity(0.8),
-                        //                           ),),
-                        //                       ],
-                        //                     ),
-                        //                     SizedBox(height: 20),
-                        //                   ],
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         );
-                        //       } else if(slidingSearch == 1 && item.contains('^sps^')) {
-                        //         return GestureDetector(
-                        //           onTap: () {
-                        //             Navigator.push(
-                        //               context,
-                        //               MaterialPageRoute(
-                        //                   builder: (
-                        //                       context) =>
-                        //                       CustomerInfoSubs(
-                        //                           id: item.split('^sps^')[0],
-                        //                           toggleCoinCallback: addCustomer2Cart1)),
-                        //             );
-                        //           },
-                        //           child: Padding(
-                        //             padding:
-                        //             EdgeInsets.only(
-                        //                 top: index == 0
-                        //                     ? 10.0
-                        //                     : 15.0),
-                        //             child: Container(
-                        //               width: MediaQuery
-                        //                   .of(context)
-                        //                   .size
-                        //                   .width,
-                        //               decoration: BoxDecoration(
-                        //                   border: Border(
-                        //                       bottom: index ==
-                        //                           length -
-                        //                               1
-                        //                           ?
-                        //                       BorderSide(
-                        //                           color: Colors
-                        //                               .Colors.transparent,
-                        //                           width: 1.0)
-                        //                           :
-                        //
-                        //                       BorderSide(
-                        //                           color: Colors
-                        //                               .Colors.grey
-                        //                               .withOpacity(
-                        //                               0.3),
-                        //                           width: 1.0)
-                        //                   )),
-                        //               child: Column(
-                        //                 children: [
-                        //                   Padding(
-                        //                     padding: const EdgeInsets
-                        //                         .only(
-                        //                         bottom: 18.0),
-                        //                     child: ListTile(
-                        //                       title: Text(
-                        //                         item.split('^sps^')[1].toString(),
-                        //                         style: TextStyle(
-                        //                           fontSize: 18,
-                        //                           fontWeight:
-                        //                           FontWeight
-                        //                               .w500,
-                        //                         ),),
-                        //                       subtitle: Padding(
-                        //                         padding: const EdgeInsets
-                        //                             .only(
-                        //                             top: 8.0),
-                        //                         child: Column(
-                        //                           crossAxisAlignment: CrossAxisAlignment
-                        //                               .start,
-                        //                           children: [
-                        //                             Text(
-                        //                                 item.split('^sps^')[2].toString(),
-                        //                                 style: TextStyle(
-                        //                                   fontSize: 14,
-                        //                                   fontWeight: FontWeight
-                        //                                       .w500,
-                        //                                   color: Colors
-                        //                                       .Colors.grey,
-                        //                                 )),
-                        //                             SizedBox(
-                        //                               height: 5,),
-                        //                             Text(
-                        //                                 item.split('^sps^')[3].toString(),
-                        //                                 style: TextStyle(
-                        //                                   fontSize: 14,
-                        //                                   fontWeight: FontWeight
-                        //                                       .w500,
-                        //                                   color: Colors
-                        //                                       .Colors.grey,
-                        //                                 )),
-                        //                           ],
-                        //                         ),
-                        //                       ),
-                        //                       trailing: Padding(
-                        //                         padding: const EdgeInsets
-                        //                             .only(
-                        //                             top: 10.0),
-                        //                         child: Container(
-                        //                           child: Row(
-                        //                             mainAxisSize: MainAxisSize.min,
-                        //                             mainAxisAlignment: MainAxisAlignment.start,
-                        //                             crossAxisAlignment: CrossAxisAlignment.start,
-                        //                             children: [
-                        //                               StreamBuilder(
-                        //                                   stream: FirebaseFirestore.instance
-                        //                                       .collection('space')
-                        //                                       .doc('0NHIS0Jbn26wsgCzVBKT')
-                        //                                       .collection('shops')
-                        //                                       .doc('PucvhZDuUz3XlkTgzcjb')
-                        //                                       .collection('customers')
-                        //                                       .doc(item.split('^sps^')[0].toString())
-                        //                                       .collection('orders')
-                        //                                       .where('debt', isGreaterThan: 0)
-                        //                                       .snapshots(),
-                        //                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                        //                                     // orderList[index] = 0;
-                        //                                     int orderLength = 0;
-                        //                                     int i = 0;
-                        //                                     if(snapshot2.hasData) {
-                        //                                       return snapshot2.data!.docs.length > 0? Container(
-                        //                                         height: 21,
-                        //                                         decoration: BoxDecoration(
-                        //                                           borderRadius: BorderRadius.circular(20.0),
-                        //                                           color: AppTheme.badgeFgDanger,
-                        //                                         ),
-                        //                                         child: Padding(
-                        //                                           padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                        //                                           child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
-                        //                                             style: TextStyle(
-                        //                                                 fontSize: 13,
-                        //                                                 fontWeight: FontWeight.w500,
-                        //                                                 color: Colors.Colors.white
-                        //                                             ),
-                        //                                           ),
-                        //                                         ),
-                        //                                       ): Container(
-                        //                                       );
-                        //                                       // int quantity = 0;
-                        //                                       // snapshot2.data!.docs.map((DocumentSnapshot document2) {
-                        //                                       //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
-                        //                                       //   orders = data2['daily_order'];
-                        //                                       //   quantity += int.parse(orders.length.toString());
-                        //                                       //
-                        //                                       //   return Text(snapshot2.data!.docs[index].id);
-                        //                                       // }).toList();
-                        //                                     }
-                        //                                     return Container();
-                        //                                   }
-                        //                               ),
-                        //
-                        //                               // Container(
-                        //                               //   height: 21,
-                        //                               //   decoration: BoxDecoration(
-                        //                               //     borderRadius: BorderRadius.circular(20.0),
-                        //                               //     color: AppTheme.badgeFgDanger,
-                        //                               //   ),
-                        //                               //   child: Padding(
-                        //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                        //                               //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                        //                               //       style: TextStyle(
-                        //                               //           fontSize: 13,
-                        //                               //           fontWeight: FontWeight.w500,
-                        //                               //           color: Colors.white
-                        //                               //       ),
-                        //                               //     ),
-                        //                               //   ),
-                        //                               // ),
-                        //
-                        //                               // Text(orderList.toString()),
-                        //
-                        //                               // Container(
-                        //                               //   height: 21,
-                        //                               //   decoration: BoxDecoration(
-                        //                               //     borderRadius: BorderRadius.circular(20.0),
-                        //                               //     color: AppTheme.badgeFgDanger,
-                        //                               //   ),
-                        //                               //   child: Padding(
-                        //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                        //                               //     child: Text('2 unpaid',
-                        //                               //       style: TextStyle(
-                        //                               //           fontSize: 13,
-                        //                               //           fontWeight: FontWeight.w500,
-                        //                               //           color: Colors.white
-                        //                               //       ),
-                        //                               //     ),
-                        //                               //   ),
-                        //                               // )
-                        //
-                        //                               // Container(
-                        //                               //   height: 21,
-                        //                               //   decoration: BoxDecoration(
-                        //                               //     borderRadius: BorderRadius.circular(20.0),
-                        //                               //     color: AppTheme.badgeFgDanger,
-                        //                               //   ),
-                        //                               //   child: Padding(
-                        //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                        //                               //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                        //                               //       style: TextStyle(
-                        //                               //           fontSize: 13,
-                        //                               //           fontWeight: FontWeight.w500,
-                        //                               //           color: Colors.white
-                        //                               //       ),
-                        //                               //     ),
-                        //                               //   ),
-                        //                               // ),
-                        //                               SizedBox(
-                        //                                   width: 12),
-                        //                               Padding(
-                        //                                 padding: const EdgeInsets.only(top: 2.0),
-                        //                                 child: Icon(
-                        //                                   Icons
-                        //                                       .arrow_forward_ios_rounded,
-                        //                                   size: 16,
-                        //                                   color: Colors
-                        //                                       .Colors.blueGrey
-                        //                                       .withOpacity(
-                        //                                       0.8),
-                        //                                 ),
-                        //                               ),
-                        //                             ],
-                        //                           ),
-                        //                         ),
-                        //                       ),
-                        //
-                        //                     ),
-                        //                   )
-                        //
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         );
-                        //       }
-                        //       return GestureDetector(
-                        //         onTap: () {
-                        //           print('Items'+item);
-                        //           // Navigator.push(
-                        //           //   context,
-                        //           //   MaterialPageRoute(
-                        //           //       builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
-                        //           // );
-                        //         },
-                        //         child: Stack(
-                        //           alignment: Alignment.center,
-                        //
-                        //           children: [
-                        //             Padding(
-                        //               padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                        //               child: Container(
-                        //                 decoration: BoxDecoration(
-                        //                     color: AppTheme.lightBgColor,
-                        //                     border: Border(
-                        //                       bottom: BorderSide(
-                        //                           color: AppTheme.skBorderColor2,
-                        //                           width: 1.0),
-                        //                     )),
-                        //                 child: Padding(
-                        //                   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                        //                   child: Column(
-                        //                     mainAxisAlignment: MainAxisAlignment.start,
-                        //                     crossAxisAlignment: CrossAxisAlignment.start,
-                        //                     children: [
-                        //                       Padding(
-                        //                         padding: const EdgeInsets.only(left: 1.0),
-                        //                         child: Column(
-                        //                           mainAxisAlignment: MainAxisAlignment.start,
-                        //                           crossAxisAlignment: CrossAxisAlignment.start,
-                        //                           children: [
-                        //                             Row(
-                        //                               mainAxisAlignment: MainAxisAlignment.start,
-                        //                               children: [
-                        //                                 Text('#Text',
-                        //                                   style: TextStyle(
-                        //                                       fontSize: 16,
-                        //                                       fontWeight: FontWeight.w500
-                        //                                   ),
-                        //                                 ),
-                        //                                 SizedBox(width: 8),
-                        //                                 Padding(
-                        //                                   padding: const EdgeInsets.only(bottom: 1.0),
-                        //                                   child: Icon(Icons.access_time, size: 15, color: Colors.Colors.grey,),
-                        //                                 ),
-                        //                                 SizedBox(width: 4),
-                        //                                 Text('Text1',
-                        //                                   style: TextStyle(
-                        //                                     fontSize: 14,
-                        //                                     fontWeight: FontWeight.w500,
-                        //                                     color: Colors.Colors.grey,
-                        //                                   ),
-                        //                                 ),
-                        //                               ],
-                        //                             ),
-                        //                             SizedBox(
-                        //                               height: 6,
-                        //                             ),
-                        //                             Row(
-                        //                               children: [
-                        //                                 Text('Text2', style: TextStyle(
-                        //                                   fontSize: 15,
-                        //                                   fontWeight: FontWeight.w500,
-                        //                                   color: Colors.Colors.grey,
-                        //                                 )),
-                        //
-                        //                               ],
-                        //                             ),
-                        //                           ],
-                        //                         ),
-                        //                       ),
-                        //                       SizedBox(
-                        //                         height: 8,
-                        //                       ),
-                        //                       Row(
-                        //                         children: [
-                        //                           // if(item.split('^')[5] == '0.0')
-                        //                           Padding(
-                        //                             padding: const EdgeInsets.only(right: 6.0),
-                        //                             child: Container(
-                        //                               height: 21,
-                        //                               decoration: BoxDecoration(
-                        //                                 borderRadius: BorderRadius.circular(20.0),
-                        //                                 color: AppTheme.badgeBgSuccess,
-                        //                               ),
-                        //                               child: Padding(
-                        //                                 padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                        //                                 child: Text('Paid',
-                        //                                   style: TextStyle(
-                        //                                       fontSize: 13,
-                        //                                       fontWeight: FontWeight.w500,
-                        //                                       color: Colors.Colors.white
-                        //                                   ),
-                        //                                 ),
-                        //                               ),
-                        //                             ),
-                        //                           ),
-                        //
-                        //                           // if(item.split('^')[5] != '0.0')
-                        //                           //   Padding(
-                        //                           //     padding: const EdgeInsets.only(right: 6.0),
-                        //                           //     child: Container(
-                        //                           //       height: 21,
-                        //                           //       decoration: BoxDecoration(
-                        //                           //         borderRadius: BorderRadius.circular(20.0),
-                        //                           //         color: AppTheme.badgeFgDanger,
-                        //                           //       ),
-                        //                           //       child: Padding(
-                        //                           //         padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                        //                           //         child: Text('Unpaid',
-                        //                           //           style: TextStyle(
-                        //                           //               fontSize: 13,
-                        //                           //               fontWeight: FontWeight.w500,
-                        //                           //               color: Colors.Colors.white
-                        //                           //           ),
-                        //                           //         ),
-                        //                           //       ),
-                        //                           //     ),
-                        //                           //   ),
-                        //
-                        //                           // if(item.split('^')[4][0] == 'r')
-                        //                           //   Padding(
-                        //                           //     padding: const EdgeInsets.only(right: 6.0),
-                        //                           //     child: Container(
-                        //                           //       height: 21,
-                        //                           //       decoration: BoxDecoration(
-                        //                           //         borderRadius: BorderRadius.circular(20.0),
-                        //                           //         color: AppTheme.badgeBgSecond,
-                        //                           //       ),
-                        //                           //       child: Padding(
-                        //                           //         padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                        //                           //         child: Text('Refunded',
-                        //                           //           style: TextStyle(
-                        //                           //               fontSize: 13,
-                        //                           //               fontWeight: FontWeight.w500,
-                        //                           //               color: Colors.Colors.white
-                        //                           //           ),
-                        //                           //         ),
-                        //                           //       ),
-                        //                           //     ),
-                        //                           //   ),
-                        //
-                        //                           // if(item.split('^')[4][0] == 's')
-                        //                           //   Padding(
-                        //                           //     padding: const EdgeInsets.only(right: 6.0),
-                        //                           //     child: Container(
-                        //                           //       height: 21,
-                        //                           //       decoration: BoxDecoration(
-                        //                           //         borderRadius: BorderRadius.circular(20.0),
-                        //                           //         color: AppTheme.badgeBgSecond,
-                        //                           //       ),
-                        //                           //       child: Padding(
-                        //                           //         padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                        //                           //         child: Text('Partially refunded',
-                        //                           //           style: TextStyle(
-                        //                           //               fontSize: 13,
-                        //                           //               fontWeight: FontWeight.w500,
-                        //                           //               color: Colors.Colors.white
-                        //                           //           ),
-                        //                           //         ),
-                        //                           //       ),
-                        //                           //     ),
-                        //                           //   ),
-                        //
-                        //
-                        //                         ],
-                        //                       )
-                        //                     ],
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             Padding(
-                        //               padding: const EdgeInsets.only(right: 15.0, bottom: 1),
-                        //               child: Align(
-                        //                 alignment: Alignment.centerRight,
-                        //                 child: Row(
-                        //                   mainAxisAlignment: MainAxisAlignment.end,
-                        //                   children: [
-                        //                     Text('MMK ', style: TextStyle(
-                        //                       fontSize: 15,
-                        //                       fontWeight: FontWeight.w500,
-                        //                     )),
-                        //                     SizedBox(width: 10),
-                        //                     Icon(
-                        //                       Icons
-                        //                           .arrow_forward_ios_rounded,
-                        //                       size: 16,
-                        //                       color: Colors.Colors.blueGrey.withOpacity(0.8),
-                        //                     ),
-                        //                   ],
-                        //                 ),
-                        //               ),
-                        //             )
-                        //           ],
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-                      ],
+                          // SliverExpandableList(
+                          //   builder: SliverExpandableChildDelegate(
+                          //     sectionList: sectionList,
+                          //     headerBuilder: _buildHeader,
+                          //     itemBuilder: (context, sectionIndex, itemIndex, index) {
+                          //       String item = sectionList[sectionIndex].items[itemIndex];
+                          //       int length = sectionList[sectionIndex].items.length;
+                          //       if(sectionIndex == 0) {
+                          //         return Container(
+                          //           height: 0.1,
+                          //         );
+                          //         // return SliverFillRemaining(
+                          //         //   child: new Container(
+                          //         //     color: Colors.Colors.red,
+                          //         //   ),
+                          //         // );
+                          //       }
+                          //
+                          //       if(slidingSearch == 0 && item.contains('^sps^')) {
+                          //         return GestureDetector(
+                          //           onTap: () {
+                          //             // Navigator.push(
+                          //             //   context,
+                          //             //   MaterialPageRoute(
+                          //             //       builder: (context) => ProductDetailsView2(
+                          //             //           idString: version, toggleCoinCallback:
+                          //             //       addProduct1, toggleCoinCallback3: addProduct3)),);
+                          //           },
+                          //           child: Padding(
+                          //             padding:
+                          //             EdgeInsets.only(top: index == 0? 10.0: 20.0),
+                          //             child: Container(
+                          //               width: MediaQuery.of(context).size.width,
+                          //               decoration: BoxDecoration(
+                          //                   border: Border(
+                          //                       bottom: index == length-1 ?
+                          //                       BorderSide(
+                          //                           color: Colors.Colors.transparent,
+                          //                           width: 1.0) :
+                          //
+                          //                       BorderSide(
+                          //                           color: Colors.Colors.grey
+                          //                               .withOpacity(0.3),
+                          //                           width: 1.0)
+                          //                   )),
+                          //               child: Padding(
+                          //                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          //                 child: Column(
+                          //                   children: [
+                          //                     Row(
+                          //                       children: [
+                          //                         Column(
+                          //                           children: [
+                          //                             ClipRRect(
+                          //                                 borderRadius: BorderRadius
+                          //                                     .circular(
+                          //                                     5.0),
+                          //                                 child: item.split('^sps^')[2] != ""
+                          //                                     ? CachedNetworkImage(
+                          //                                   imageUrl:
+                          //                                   'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                          //                                       item.split('^sps^')[2],
+                          //                                   width: 75,
+                          //                                   height: 75,
+                          //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                          //                                   errorWidget: (context,
+                          //                                       url,
+                          //                                       error) =>
+                          //                                       Icon(Icons
+                          //                                           .error),
+                          //                                   fadeInDuration:
+                          //                                   Duration(
+                          //                                       milliseconds:
+                          //                                       100),
+                          //                                   fadeOutDuration:
+                          //                                   Duration(
+                          //                                       milliseconds:
+                          //                                       10),
+                          //                                   fadeInCurve:
+                          //                                   Curves
+                          //                                       .bounceIn,
+                          //                                   fit: BoxFit
+                          //                                       .cover,
+                          //                                 )
+                          //                                     : CachedNetworkImage(
+                          //                                   imageUrl:
+                          //                                   'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
+                          //                                   width: 75,
+                          //                                   height: 75,
+                          //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                          //                                   errorWidget: (context,
+                          //                                       url,
+                          //                                       error) =>
+                          //                                       Icon(Icons
+                          //                                           .error),
+                          //                                   fadeInDuration:
+                          //                                   Duration(
+                          //                                       milliseconds:
+                          //                                       100),
+                          //                                   fadeOutDuration:
+                          //                                   Duration(
+                          //                                       milliseconds:
+                          //                                       10),
+                          //                                   fadeInCurve:
+                          //                                   Curves
+                          //                                       .bounceIn,
+                          //                                   fit: BoxFit
+                          //                                       .cover,
+                          //                                 )),
+                          //                           ],
+                          //                         ),
+                          //                         SizedBox(
+                          //                           width: 15,
+                          //                         ),
+                          //                         Column(
+                          //                           crossAxisAlignment:
+                          //                           CrossAxisAlignment
+                          //                               .start,
+                          //                           children: [
+                          //                             Text(
+                          //                               item.split('^sps^')[1],
+                          //                               style: TextStyle(
+                          //                                 fontSize: 18,
+                          //                                 fontWeight:
+                          //                                 FontWeight.w500,
+                          //                               ),
+                          //                             ),
+                          //                             SizedBox(
+                          //                               height: 10,
+                          //                             ),
+                          //                             Row(
+                          //                               children: [
+                          //                                 Text(
+                          //                                   'MMK ' + item.split('^sps^')[3].split('-')[0],
+                          //                                   style: TextStyle(
+                          //                                     fontSize: 15,
+                          //                                     fontWeight:
+                          //                                     FontWeight.w500,
+                          //                                   ),
+                          //                                 ),
+                          //                                 Text(
+                          //                                   item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == '' ? ' - ' + item.split('^sps^')[4].split('-')[0] : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? ' - ' + item.split('^sps^')[5].split('-')[0] : '',
+                          //                                   style: TextStyle(
+                          //                                     fontSize: 15,
+                          //                                     fontWeight:
+                          //                                     FontWeight.w500,
+                          //                                   ),
+                          //                                 ),
+                          //                               ],
+                          //                             ),
+                          //                             SizedBox(
+                          //                               height: 2,
+                          //                             ),
+                          //                             Row(
+                          //                               children: [
+                          //                                 Row(
+                          //                                   children: [
+                          //                                     Text(
+                          //                                         item.split('^sps^')[3].split('-')[1].toString()+ ' '  + item.split('^sps^')[3].split('-')[2] + ' ', style: TextStyle(
+                          //                                       fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
+                          //                                     )),
+                          //                                     Icon( SmartKyat_POS.prodm, size: 17, color: Colors.Colors.grey,),
+                          //                                     // sub1Name != '' ? Text(' | ', style: TextStyle(
+                          //                                     //   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                          //                                     // )) : Text(''),
+                          //                                   ],
+                          //                                 ),
+                          //
+                          //                                 item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == ''?
+                          //                                 Text(
+                          //                                     '  (+1 Sub item)', style: TextStyle(
+                          //                                   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
+                          //                                 )) : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? Text(
+                          //                                     '  (+2 Sub items)', style: TextStyle(
+                          //                                   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.Colors.grey,
+                          //                                 )): Container(),
+                          //
+                          //                                 // StreamBuilder(
+                          //                                 //     stream: FirebaseFirestore
+                          //                                 //         .instance
+                          //                                 //         .collection(
+                          //                                 //         'space')
+                          //                                 //         .doc(
+                          //                                 //         '0NHIS0Jbn26wsgCzVBKT')
+                          //                                 //         .collection(
+                          //                                 //         'shops')
+                          //                                 //         .doc(
+                          //                                 //         'PucvhZDuUz3XlkTgzcjb')
+                          //                                 //         .collection(
+                          //                                 //         'products')
+                          //                                 //         .doc(version)
+                          //                                 //         .collection(
+                          //                                 //         'versions')
+                          //                                 //         .where('type',
+                          //                                 //         isEqualTo:
+                          //                                 //         'sub3')
+                          //                                 //         .snapshots(),
+                          //                                 //     builder: (BuildContext
+                          //                                 //     context,
+                          //                                 //         AsyncSnapshot<
+                          //                                 //             QuerySnapshot>
+                          //                                 //         snapshot5) {
+                          //                                 //       if (snapshot5
+                          //                                 //           .hasData) {
+                          //                                 //         int quantity3 =
+                          //                                 //         0;
+                          //                                 //         var sub3Quantity;
+                          //                                 //         snapshot5
+                          //                                 //             .data!
+                          //                                 //             .docs
+                          //                                 //             .map((DocumentSnapshot
+                          //                                 //         document) {
+                          //                                 //           Map<String,
+                          //                                 //               dynamic>
+                          //                                 //           data4 =
+                          //                                 //           document.data()! as Map<
+                          //                                 //               String,
+                          //                                 //               dynamic>;
+                          //                                 //           if (data4[
+                          //                                 //           'unit_qtity'] !=
+                          //                                 //               '') {
+                          //                                 //             quantity3 +=
+                          //                                 //                 int.parse(
+                          //                                 //                     data4['unit_qtity']);
+                          //                                 //             sub3Quantity =
+                          //                                 //                 quantity3
+                          //                                 //                     .toString();
+                          //                                 //           } else
+                          //                                 //             return Container();
+                          //                                 //         }).toList();
+                          //                                 //         // print(sub1Quantity);
+                          //                                 //         // print(mainQuantity);
+                          //                                 //         if (sub3Quantity !=
+                          //                                 //             null) {
+                          //                                 //           return Text(
+                          //                                 //               '$sub3Quantity $sub3Name');
+                          //                                 //         }
+                          //                                 //         return Container();
+                          //                                 //       }
+                          //                                 //       return Container();
+                          //                                 //     }),
+                          //                               ],
+                          //                             ),
+                          //
+                          //                             // Text(
+                          //                             //   'MMK',
+                          //                             //   style:
+                          //                             //       TextStyle(
+                          //                             //     fontSize: 14,
+                          //                             //     fontWeight: FontWeight.w400,
+                          //                             //     color: Colors.blueGrey.withOpacity(1.0),
+                          //                             //   ),
+                          //                             // ),
+                          //                             // SizedBox(
+                          //                             //   height:
+                          //                             //       7,
+                          //                             // ),
+                          //                             // Text(
+                          //                             //   '55',
+                          //                             //   style:
+                          //                             //       TextStyle(
+                          //                             //     fontSize: 14,
+                          //                             //     fontWeight: FontWeight.w400,
+                          //                             //     color: Colors.blueGrey.withOpacity(1.0),
+                          //                             //   ),
+                          //                             // ),
+                          //                           ],
+                          //                         ),
+                          //                         // Padding(
+                          //                         //   padding:
+                          //                         //       const EdgeInsets.only(
+                          //                         //           bottom: 20.0),
+                          //                         //   child: IconButton(
+                          //                         //     icon: Icon(
+                          //                         //       Icons
+                          //                         //           .arrow_forward_ios_rounded,
+                          //                         //       size: 16,
+                          //                         //       color: Colors.blueGrey
+                          //                         //           .withOpacity(0.8),
+                          //                         //     ),
+                          //                         //     onPressed: () {
+                          //                         //       Navigator.push(
+                          //                         //         context,
+                          //                         //         MaterialPageRoute(
+                          //                         //             builder: (context) => ProductDetailsView(
+                          //                         //                 idString: version, toggleCoinCallback:
+                          //                         //             addProduct1, toggleCoinCallback3: addProduct3)),);
+                          //                         //     },
+                          //                         //   ),
+                          //                         // ),
+                          //                         Spacer(),
+                          //                         Padding(
+                          //                           padding:
+                          //                           const EdgeInsets.only(
+                          //                               bottom: 12.0),
+                          //                           child: Icon(
+                          //                             Icons
+                          //                                 .arrow_forward_ios_rounded,
+                          //                             size: 16,
+                          //                             color: Colors.Colors.blueGrey
+                          //                                 .withOpacity(0.8),
+                          //                           ),),
+                          //                       ],
+                          //                     ),
+                          //                     SizedBox(height: 20),
+                          //                   ],
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         );
+                          //       } else if(slidingSearch == 1 && item.contains('^sps^')) {
+                          //         return GestureDetector(
+                          //           onTap: () {
+                          //             Navigator.push(
+                          //               context,
+                          //               MaterialPageRoute(
+                          //                   builder: (
+                          //                       context) =>
+                          //                       CustomerInfoSubs(
+                          //                           id: item.split('^sps^')[0],
+                          //                           toggleCoinCallback: addCustomer2Cart1)),
+                          //             );
+                          //           },
+                          //           child: Padding(
+                          //             padding:
+                          //             EdgeInsets.only(
+                          //                 top: index == 0
+                          //                     ? 10.0
+                          //                     : 15.0),
+                          //             child: Container(
+                          //               width: MediaQuery
+                          //                   .of(context)
+                          //                   .size
+                          //                   .width,
+                          //               decoration: BoxDecoration(
+                          //                   border: Border(
+                          //                       bottom: index ==
+                          //                           length -
+                          //                               1
+                          //                           ?
+                          //                       BorderSide(
+                          //                           color: Colors
+                          //                               .Colors.transparent,
+                          //                           width: 1.0)
+                          //                           :
+                          //
+                          //                       BorderSide(
+                          //                           color: Colors
+                          //                               .Colors.grey
+                          //                               .withOpacity(
+                          //                               0.3),
+                          //                           width: 1.0)
+                          //                   )),
+                          //               child: Column(
+                          //                 children: [
+                          //                   Padding(
+                          //                     padding: const EdgeInsets
+                          //                         .only(
+                          //                         bottom: 18.0),
+                          //                     child: ListTile(
+                          //                       title: Text(
+                          //                         item.split('^sps^')[1].toString(),
+                          //                         style: TextStyle(
+                          //                           fontSize: 18,
+                          //                           fontWeight:
+                          //                           FontWeight
+                          //                               .w500,
+                          //                         ),),
+                          //                       subtitle: Padding(
+                          //                         padding: const EdgeInsets
+                          //                             .only(
+                          //                             top: 8.0),
+                          //                         child: Column(
+                          //                           crossAxisAlignment: CrossAxisAlignment
+                          //                               .start,
+                          //                           children: [
+                          //                             Text(
+                          //                                 item.split('^sps^')[2].toString(),
+                          //                                 style: TextStyle(
+                          //                                   fontSize: 14,
+                          //                                   fontWeight: FontWeight
+                          //                                       .w500,
+                          //                                   color: Colors
+                          //                                       .Colors.grey,
+                          //                                 )),
+                          //                             SizedBox(
+                          //                               height: 5,),
+                          //                             Text(
+                          //                                 item.split('^sps^')[3].toString(),
+                          //                                 style: TextStyle(
+                          //                                   fontSize: 14,
+                          //                                   fontWeight: FontWeight
+                          //                                       .w500,
+                          //                                   color: Colors
+                          //                                       .Colors.grey,
+                          //                                 )),
+                          //                           ],
+                          //                         ),
+                          //                       ),
+                          //                       trailing: Padding(
+                          //                         padding: const EdgeInsets
+                          //                             .only(
+                          //                             top: 10.0),
+                          //                         child: Container(
+                          //                           child: Row(
+                          //                             mainAxisSize: MainAxisSize.min,
+                          //                             mainAxisAlignment: MainAxisAlignment.start,
+                          //                             crossAxisAlignment: CrossAxisAlignment.start,
+                          //                             children: [
+                          //                               StreamBuilder(
+                          //                                   stream: FirebaseFirestore.instance
+                          //                                       .collection('space')
+                          //                                       .doc('0NHIS0Jbn26wsgCzVBKT')
+                          //                                       .collection('shops')
+                          //                                       .doc('PucvhZDuUz3XlkTgzcjb')
+                          //                                       .collection('customers')
+                          //                                       .doc(item.split('^sps^')[0].toString())
+                          //                                       .collection('orders')
+                          //                                       .where('debt', isGreaterThan: 0)
+                          //                                       .snapshots(),
+                          //                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                          //                                     // orderList[index] = 0;
+                          //                                     int orderLength = 0;
+                          //                                     int i = 0;
+                          //                                     if(snapshot2.hasData) {
+                          //                                       return snapshot2.data!.docs.length > 0? Container(
+                          //                                         height: 21,
+                          //                                         decoration: BoxDecoration(
+                          //                                           borderRadius: BorderRadius.circular(20.0),
+                          //                                           color: AppTheme.badgeFgDanger,
+                          //                                         ),
+                          //                                         child: Padding(
+                          //                                           padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                          //                                           child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
+                          //                                             style: TextStyle(
+                          //                                                 fontSize: 13,
+                          //                                                 fontWeight: FontWeight.w500,
+                          //                                                 color: Colors.Colors.white
+                          //                                             ),
+                          //                                           ),
+                          //                                         ),
+                          //                                       ): Container(
+                          //                                       );
+                          //                                       // int quantity = 0;
+                          //                                       // snapshot2.data!.docs.map((DocumentSnapshot document2) {
+                          //                                       //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
+                          //                                       //   orders = data2['daily_order'];
+                          //                                       //   quantity += int.parse(orders.length.toString());
+                          //                                       //
+                          //                                       //   return Text(snapshot2.data!.docs[index].id);
+                          //                                       // }).toList();
+                          //                                     }
+                          //                                     return Container();
+                          //                                   }
+                          //                               ),
+                          //
+                          //                               // Container(
+                          //                               //   height: 21,
+                          //                               //   decoration: BoxDecoration(
+                          //                               //     borderRadius: BorderRadius.circular(20.0),
+                          //                               //     color: AppTheme.badgeFgDanger,
+                          //                               //   ),
+                          //                               //   child: Padding(
+                          //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                          //                               //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                          //                               //       style: TextStyle(
+                          //                               //           fontSize: 13,
+                          //                               //           fontWeight: FontWeight.w500,
+                          //                               //           color: Colors.white
+                          //                               //       ),
+                          //                               //     ),
+                          //                               //   ),
+                          //                               // ),
+                          //
+                          //                               // Text(orderList.toString()),
+                          //
+                          //                               // Container(
+                          //                               //   height: 21,
+                          //                               //   decoration: BoxDecoration(
+                          //                               //     borderRadius: BorderRadius.circular(20.0),
+                          //                               //     color: AppTheme.badgeFgDanger,
+                          //                               //   ),
+                          //                               //   child: Padding(
+                          //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                          //                               //     child: Text('2 unpaid',
+                          //                               //       style: TextStyle(
+                          //                               //           fontSize: 13,
+                          //                               //           fontWeight: FontWeight.w500,
+                          //                               //           color: Colors.white
+                          //                               //       ),
+                          //                               //     ),
+                          //                               //   ),
+                          //                               // )
+                          //
+                          //                               // Container(
+                          //                               //   height: 21,
+                          //                               //   decoration: BoxDecoration(
+                          //                               //     borderRadius: BorderRadius.circular(20.0),
+                          //                               //     color: AppTheme.badgeFgDanger,
+                          //                               //   ),
+                          //                               //   child: Padding(
+                          //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                          //                               //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                          //                               //       style: TextStyle(
+                          //                               //           fontSize: 13,
+                          //                               //           fontWeight: FontWeight.w500,
+                          //                               //           color: Colors.white
+                          //                               //       ),
+                          //                               //     ),
+                          //                               //   ),
+                          //                               // ),
+                          //                               SizedBox(
+                          //                                   width: 12),
+                          //                               Padding(
+                          //                                 padding: const EdgeInsets.only(top: 2.0),
+                          //                                 child: Icon(
+                          //                                   Icons
+                          //                                       .arrow_forward_ios_rounded,
+                          //                                   size: 16,
+                          //                                   color: Colors
+                          //                                       .Colors.blueGrey
+                          //                                       .withOpacity(
+                          //                                       0.8),
+                          //                                 ),
+                          //                               ),
+                          //                             ],
+                          //                           ),
+                          //                         ),
+                          //                       ),
+                          //
+                          //                     ),
+                          //                   )
+                          //
+                          //                 ],
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         );
+                          //       }
+                          //       return GestureDetector(
+                          //         onTap: () {
+                          //           print('Items'+item);
+                          //           // Navigator.push(
+                          //           //   context,
+                          //           //   MaterialPageRoute(
+                          //           //       builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                          //           // );
+                          //         },
+                          //         child: Stack(
+                          //           alignment: Alignment.center,
+                          //
+                          //           children: [
+                          //             Padding(
+                          //               padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                          //               child: Container(
+                          //                 decoration: BoxDecoration(
+                          //                     color: AppTheme.lightBgColor,
+                          //                     border: Border(
+                          //                       bottom: BorderSide(
+                          //                           color: AppTheme.skBorderColor2,
+                          //                           width: 1.0),
+                          //                     )),
+                          //                 child: Padding(
+                          //                   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                          //                   child: Column(
+                          //                     mainAxisAlignment: MainAxisAlignment.start,
+                          //                     crossAxisAlignment: CrossAxisAlignment.start,
+                          //                     children: [
+                          //                       Padding(
+                          //                         padding: const EdgeInsets.only(left: 1.0),
+                          //                         child: Column(
+                          //                           mainAxisAlignment: MainAxisAlignment.start,
+                          //                           crossAxisAlignment: CrossAxisAlignment.start,
+                          //                           children: [
+                          //                             Row(
+                          //                               mainAxisAlignment: MainAxisAlignment.start,
+                          //                               children: [
+                          //                                 Text('#Text',
+                          //                                   style: TextStyle(
+                          //                                       fontSize: 16,
+                          //                                       fontWeight: FontWeight.w500
+                          //                                   ),
+                          //                                 ),
+                          //                                 SizedBox(width: 8),
+                          //                                 Padding(
+                          //                                   padding: const EdgeInsets.only(bottom: 1.0),
+                          //                                   child: Icon(Icons.access_time, size: 15, color: Colors.Colors.grey,),
+                          //                                 ),
+                          //                                 SizedBox(width: 4),
+                          //                                 Text('Text1',
+                          //                                   style: TextStyle(
+                          //                                     fontSize: 14,
+                          //                                     fontWeight: FontWeight.w500,
+                          //                                     color: Colors.Colors.grey,
+                          //                                   ),
+                          //                                 ),
+                          //                               ],
+                          //                             ),
+                          //                             SizedBox(
+                          //                               height: 6,
+                          //                             ),
+                          //                             Row(
+                          //                               children: [
+                          //                                 Text('Text2', style: TextStyle(
+                          //                                   fontSize: 15,
+                          //                                   fontWeight: FontWeight.w500,
+                          //                                   color: Colors.Colors.grey,
+                          //                                 )),
+                          //
+                          //                               ],
+                          //                             ),
+                          //                           ],
+                          //                         ),
+                          //                       ),
+                          //                       SizedBox(
+                          //                         height: 8,
+                          //                       ),
+                          //                       Row(
+                          //                         children: [
+                          //                           // if(item.split('^')[5] == '0.0')
+                          //                           Padding(
+                          //                             padding: const EdgeInsets.only(right: 6.0),
+                          //                             child: Container(
+                          //                               height: 21,
+                          //                               decoration: BoxDecoration(
+                          //                                 borderRadius: BorderRadius.circular(20.0),
+                          //                                 color: AppTheme.badgeBgSuccess,
+                          //                               ),
+                          //                               child: Padding(
+                          //                                 padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                          //                                 child: Text('Paid',
+                          //                                   style: TextStyle(
+                          //                                       fontSize: 13,
+                          //                                       fontWeight: FontWeight.w500,
+                          //                                       color: Colors.Colors.white
+                          //                                   ),
+                          //                                 ),
+                          //                               ),
+                          //                             ),
+                          //                           ),
+                          //
+                          //                           // if(item.split('^')[5] != '0.0')
+                          //                           //   Padding(
+                          //                           //     padding: const EdgeInsets.only(right: 6.0),
+                          //                           //     child: Container(
+                          //                           //       height: 21,
+                          //                           //       decoration: BoxDecoration(
+                          //                           //         borderRadius: BorderRadius.circular(20.0),
+                          //                           //         color: AppTheme.badgeFgDanger,
+                          //                           //       ),
+                          //                           //       child: Padding(
+                          //                           //         padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                          //                           //         child: Text('Unpaid',
+                          //                           //           style: TextStyle(
+                          //                           //               fontSize: 13,
+                          //                           //               fontWeight: FontWeight.w500,
+                          //                           //               color: Colors.Colors.white
+                          //                           //           ),
+                          //                           //         ),
+                          //                           //       ),
+                          //                           //     ),
+                          //                           //   ),
+                          //
+                          //                           // if(item.split('^')[4][0] == 'r')
+                          //                           //   Padding(
+                          //                           //     padding: const EdgeInsets.only(right: 6.0),
+                          //                           //     child: Container(
+                          //                           //       height: 21,
+                          //                           //       decoration: BoxDecoration(
+                          //                           //         borderRadius: BorderRadius.circular(20.0),
+                          //                           //         color: AppTheme.badgeBgSecond,
+                          //                           //       ),
+                          //                           //       child: Padding(
+                          //                           //         padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                          //                           //         child: Text('Refunded',
+                          //                           //           style: TextStyle(
+                          //                           //               fontSize: 13,
+                          //                           //               fontWeight: FontWeight.w500,
+                          //                           //               color: Colors.Colors.white
+                          //                           //           ),
+                          //                           //         ),
+                          //                           //       ),
+                          //                           //     ),
+                          //                           //   ),
+                          //
+                          //                           // if(item.split('^')[4][0] == 's')
+                          //                           //   Padding(
+                          //                           //     padding: const EdgeInsets.only(right: 6.0),
+                          //                           //     child: Container(
+                          //                           //       height: 21,
+                          //                           //       decoration: BoxDecoration(
+                          //                           //         borderRadius: BorderRadius.circular(20.0),
+                          //                           //         color: AppTheme.badgeBgSecond,
+                          //                           //       ),
+                          //                           //       child: Padding(
+                          //                           //         padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                          //                           //         child: Text('Partially refunded',
+                          //                           //           style: TextStyle(
+                          //                           //               fontSize: 13,
+                          //                           //               fontWeight: FontWeight.w500,
+                          //                           //               color: Colors.Colors.white
+                          //                           //           ),
+                          //                           //         ),
+                          //                           //       ),
+                          //                           //     ),
+                          //                           //   ),
+                          //
+                          //
+                          //                         ],
+                          //                       )
+                          //                     ],
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             Padding(
+                          //               padding: const EdgeInsets.only(right: 15.0, bottom: 1),
+                          //               child: Align(
+                          //                 alignment: Alignment.centerRight,
+                          //                 child: Row(
+                          //                   mainAxisAlignment: MainAxisAlignment.end,
+                          //                   children: [
+                          //                     Text('MMK ', style: TextStyle(
+                          //                       fontSize: 15,
+                          //                       fontWeight: FontWeight.w500,
+                          //                     )),
+                          //                     SizedBox(width: 10),
+                          //                     Icon(
+                          //                       Icons
+                          //                           .arrow_forward_ios_rounded,
+                          //                       size: 16,
+                          //                       color: Colors.Colors.blueGrey.withOpacity(0.8),
+                          //                     ),
+                          //                   ],
+                          //                 ),
+                          //               ),
+                          //             )
+                          //           ],
+                          //         ),
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
+            );
+          }
+          return Container();
         }
-        return Container();
-      }
     );
   }
+
 
   String slidedTextFun() {
     if(slidingSearch == 1) {
@@ -6707,6 +5933,45 @@ class HomeFragmentState extends State<HomeFragment>
       return 'Buy orders';
     }
     return 'SOmething';
+  }
+
+  buySellOrderHeaders(String header) {
+
+    if(header.contains('GG')) {
+      return Text(
+        '0',
+        // '0',
+        // '#' + sectionList[sectionIndex].items.length.toString(),
+        // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+        style: TextStyle(
+          height: 0.8,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1.2,
+          color: Colors.Colors.black,
+        ),
+        textAlign: TextAlign.right,
+      );
+    } else {
+      return header != '' ? Text(
+        header.split('^')[1],
+        // '0',
+        // '#' + sectionList[sectionIndex].items.length.toString(),
+        // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+        style: TextStyle(
+          height: 0.8,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1.2,
+          color: Colors.Colors.black,
+        ),
+        textAlign: TextAlign.right,
+      ): Padding(
+        padding: const EdgeInsets.only(bottom: 1.0),
+        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+            child: CupertinoActivityIndicator(radius: 8,)),
+      );
+    }
   }
 }
 
