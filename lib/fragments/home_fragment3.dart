@@ -2624,7 +2624,7 @@ class HomeFragmentState extends State<HomeFragment>
                     isRef = 'sf';
                   }
                   setState(() {
-                    detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + '0.0');
+                    detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + doc['discount'].toString());
                   });
                 });
 
