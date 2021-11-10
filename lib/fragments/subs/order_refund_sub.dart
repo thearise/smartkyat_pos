@@ -707,7 +707,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                               'subs': prodList,
                                               'total': total.toString(),
                                               'refund' : refundAmount,
-                                              'debt' : total
+                                              'debt' : debt,
                                             }).then((value) =>
                                                 print('subs updated'));
 
@@ -725,7 +725,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   .doc(data.split('^')[0])
                                                   .update({
                                                 'refund': refundAmount,
-                                                'debt' : total
+                                                'debt' : debt,
+                                                'total' : total.toString(),
                                               }).then((value) =>
                                                   print('subs updated'));
                                             }

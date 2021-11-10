@@ -6,6 +6,7 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 
 import '../../app_theme.dart';
+import 'merchant_orders_info.dart';
 
 
 class MerchantInfoSubs extends StatefulWidget {
@@ -230,6 +231,12 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                               ),
                                             ),
                                             onPressed: () async {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => MerchantOrdersInfoSubs(id: widget.id)
+                                                ),
+                                              );
 
                                             },
                                             child: Container(

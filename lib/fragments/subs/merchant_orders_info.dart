@@ -2,21 +2,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 
 import '../../app_theme.dart';
 import 'customer_info.dart';
 import 'order_info.dart';
 
 
-class CustomerOrdersInfoSubs extends StatefulWidget {
-  const CustomerOrdersInfoSubs({Key? key, required this.id});
+class MerchantOrdersInfoSubs extends StatefulWidget {
+  const MerchantOrdersInfoSubs({Key? key, required this.id});
   final String id;
 
   @override
-  _CustomerOrdersInfoSubsState createState() => _CustomerOrdersInfoSubsState();
+  _MerchantOrdersInfoSubsState createState() => _MerchantOrdersInfoSubsState();
 }
 
-class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
+class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
   List<String> prodFieldsValue = [];
   static final _formKey = GlobalKey<FormState>();
 
@@ -39,15 +40,15 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                 .doc('0NHIS0Jbn26wsgCzVBKT')
                 .collection('shops')
                 .doc('PucvhZDuUz3XlkTgzcjb')
-                .collection('customers')
+                .collection('merchants')
                 .doc(widget.id.toString())
                 .snapshots(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
                 var output = snapshot.data!.data();
-                var customerName = output?['customer_name'];
-                var address = output?['customer_address'];
-                var phone = output?['customer_phone'];
+                var customerName = output?['merchant_name'];
+                var address = output?['merchant_address'];
+                var phone = output?['merchant_phone'];
                 return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                     // mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -133,9 +134,9 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 .doc('0NHIS0Jbn26wsgCzVBKT')
                                 .collection('shops')
                                 .doc('PucvhZDuUz3XlkTgzcjb')
-                                .collection('customers')
+                                .collection('merchants')
                                 .doc(widget.id)
-                                .collection('orders')
+                                .collection('buyOrders')
                                 .snapshots(),
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
@@ -322,14 +323,14 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                           if(dataP['refund'] == 'PART') {
                                             Refd = 'sf';
                                           }
-                                          String items = orderId.toString() + '^' + deviceIdNum.toString() + voucherId.toString() +'^'+ total.toString() +'^'+ customerName.toString() +'&' +widget.id.toString() +'^'+ Refd + '^'+ debt.toString() + '^' + discount.toString();
+                                          String items = orderId.toString() + '^' + deviceIdNum.toString() + voucherId.toString() +'^'+ total.toString() +'^'+ customerName.toString() +'&' +widget.id.toString() +'^'+ Refd+'^'+ debt.toString() + '^' + discount.toString();;
 
                                           return GestureDetector(
                                             onTap: () {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => OrderInfoSub(data: items, toggleCoinCallback: () {})),
+                                                    builder: (context) => BuyListInfo(data: items, toggleCoinCallback: () {})),
                                               );
                                               print('Items');
                                             },
@@ -386,11 +387,11 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                                   height: 6,
                                                                 ),
 
-                                                                    Text(customerName, style: TextStyle(
-                                                                      fontSize: 15,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: Colors.grey,
-                                                                    )),
+                                                                Text(customerName, style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.grey,
+                                                                )),
                                                               ],
                                                             ),
                                                           ),

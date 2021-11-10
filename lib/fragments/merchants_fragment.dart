@@ -22,6 +22,12 @@ class MerchantsFragment extends StatefulWidget {
 class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<MerchantsFragment>{
   @override
   bool get wantKeepAlive => true;
+
+  List<List> orderList = [];
+  var orders;
+  var docId;
+  var innerId;
+
   @override
   initState() {
     super.initState();
@@ -77,6 +83,12 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                               .snapshots(),
                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                             if(snapshot.hasData) {
+                              orderList = [];
+                              for(int i = 0; i < snapshot.data!.docs.length; i++) {
+                                // setState(() {
+                                orderList.add([]);
+                                // });
+                              }
                               return CustomScrollView(
                                 slivers: [
                                   // Add the app bar to the CustomScrollView.
@@ -299,17 +311,21 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                             .data()! as Map<String, dynamic>;
                                         var version = snapshot.data!.docs[index].id;
 
-                                        return Padding(
-                                          padding:
-                                          EdgeInsets.only(top: index == 0? 10.0: 15.0),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => MerchantInfoSubs(id: version, toggleCoinCallback: addMerchant2Cart)),
-                                              );
-                                            },
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (
+                                                      context) =>
+                                                      MerchantInfoSubs(
+                                                          id: version,
+                                                          toggleCoinCallback: addMerchant2Cart)),
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding:
+                                            EdgeInsets.only(top: index == 0? 10.0: 15.0),
                                             child: Container(
                                               width: MediaQuery.of(context)
                                                   .size
@@ -356,29 +372,124 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
                                                         child: Container(
                                                           child: Row(
                                                             mainAxisSize: MainAxisSize.min,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              Container(
-                                                                height: 21,
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(6.0),
-                                                                  color: AppTheme.badgeFgDanger,
-                                                                ),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(top: 1.0, left: 10.0, right: 10.0),
-                                                                  child: Text('2 Unpaid',
-                                                                    style: TextStyle(
-                                                                        fontSize: 13,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.white
-                                                                    ),
-                                                                  ),
-                                                                ),
+                                                              StreamBuilder(
+                                                                  stream: FirebaseFirestore.instance
+                                                                      .collection('space')
+                                                                      .doc('0NHIS0Jbn26wsgCzVBKT')
+                                                                      .collection('shops')
+                                                                      .doc('PucvhZDuUz3XlkTgzcjb')
+                                                                      .collection('merchants')
+                                                                      .doc(snapshot.data!.docs[index].id)
+                                                                      .collection('orders')
+                                                                      .where('debt', isGreaterThan: 0)
+                                                                      .snapshots(),
+                                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                                                                    // orderList[index] = 0;
+                                                                    int orderLength = 0;
+                                                                    int i = 0;
+                                                                    if(snapshot2.hasData) {
+                                                                      return snapshot2.data!.docs.length > 0? Container(
+                                                                        height: 21,
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(20.0),
+                                                                          color: AppTheme.badgeFgDanger,
+                                                                        ),
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                          child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
+                                                                            style: TextStyle(
+                                                                                fontSize: 13,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.white
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ): Container(
+                                                                      );
+                                                                      // int quantity = 0;
+                                                                      // snapshot2.data!.docs.map((DocumentSnapshot document2) {
+                                                                      //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
+                                                                      //   orders = data2['daily_order'];
+                                                                      //   quantity += int.parse(orders.length.toString());
+                                                                      //
+                                                                      //   return Text(snapshot2.data!.docs[index].id);
+                                                                      // }).toList();
+                                                                    }
+                                                                    return Container();
+                                                                  }
                                                               ),
-                                                              SizedBox(width: 12),
-                                                              Icon(
-                                                                Icons.arrow_forward_ios_rounded,
-                                                                size: 16,
-                                                                color: Colors.blueGrey.withOpacity(0.8),
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
+
+                                                              // Text(orderList.toString()),
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text('2 unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // )
+
+                                                              // Container(
+                                                              //   height: 21,
+                                                              //   decoration: BoxDecoration(
+                                                              //     borderRadius: BorderRadius.circular(20.0),
+                                                              //     color: AppTheme.badgeFgDanger,
+                                                              //   ),
+                                                              //   child: Padding(
+                                                              //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                              //     child: Text(unpaidCount(index).toString() + ' unpaid',
+                                                              //       style: TextStyle(
+                                                              //           fontSize: 13,
+                                                              //           fontWeight: FontWeight.w500,
+                                                              //           color: Colors.white
+                                                              //       ),
+                                                              //     ),
+                                                              //   ),
+                                                              // ),
+                                                              SizedBox(
+                                                                  width: 12),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios_rounded,
+                                                                  size: 16,
+                                                                  color: Colors
+                                                                      .blueGrey
+                                                                      .withOpacity(
+                                                                      0.8),
+                                                                ),
                                                               ),
                                                             ],
                                                           ),
