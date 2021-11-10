@@ -546,24 +546,28 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding: const EdgeInsets.only(right: 15.0, bottom: 1),
+                                                              padding: const EdgeInsets.only(right: 15.0, bottom: 5),
                                                               child: Align(
                                                                 alignment: Alignment.centerRight,
                                                                 child: Row(
                                                                   mainAxisAlignment: MainAxisAlignment.end,
                                                                   children: [
                                                                     Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                                      fontSize: 15,fontWeight: FontWeight.w500,
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w500,
                                                                     )),
                                                                     SizedBox(width: 10),
-                                                                    Icon(
-                                                                      Icons
-                                                                          .arrow_forward_ios_rounded,
-                                                                      size: 16,
-                                                                      color: Colors
-                                                                          .blueGrey
-                                                                          .withOpacity(
-                                                                          0.8),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 2.0),
+                                                                      child: Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios_rounded,
+                                                                        size: 16,
+                                                                        color: Colors
+                                                                            .blueGrey
+                                                                            .withOpacity(
+                                                                            0.8),
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -772,7 +776,7 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                             ),
                                                           ),
                                                           Padding(
-                                                            padding: const EdgeInsets.only(right: 15.0, bottom: 1),
+                                                            padding: const EdgeInsets.only(right: 15.0, bottom: 5),
                                                             child: Align(
                                                               alignment: Alignment.centerRight,
                                                               child: Row(
@@ -783,14 +787,17 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                     fontWeight: FontWeight.w500,
                                                                   )),
                                                                   SizedBox(width: 10),
-                                                                  Icon(
-                                                                    Icons
-                                                                        .arrow_forward_ios_rounded,
-                                                                    size: 16,
-                                                                    color: Colors
-                                                                        .blueGrey
-                                                                        .withOpacity(
-                                                                        0.8),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(bottom: 2.0),
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .arrow_forward_ios_rounded,
+                                                                      size: 16,
+                                                                      color: Colors
+                                                                          .blueGrey
+                                                                          .withOpacity(
+                                                                          0.8),
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),

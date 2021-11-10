@@ -329,42 +329,42 @@ class ProductsFragmentState extends State<ProductsFragment>
                                       // The builder function returns a ListTile with a title that
                                       // displays the index of the current item.
                                           (context, index) {
-                                        Map<String, dynamic> data = snapshot.data!.docs[index]
-                                            .data()! as Map<String, dynamic>;
-                                        var image = data['img_1'];
-                                        var prodName = data['prod_name'];
-                                        var mainName = data['unit_name'];
-                                        var sub1Name = data['sub1_name'];
-                                        var sub2Name = data['sub2_name'];
-                                        var mainsPrice = data['unit_sell'];
-                                        var mainQty = data['inStock1'].round();
-                                        var sub1Qty = data['inStock2'].round();
-                                        var sub2Qty = data['inStock3'].round();
-                                        var sub1Price = data['sub1_sell'];
-                                        var sub2Price = data['sub2_sell'];
-                                        var version = snapshot.data!.docs[index].id;
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => ProductDetailsView2(
-                                                      idString: version, toggleCoinCallback:
-                                                  addProduct1, toggleCoinCallback3: addProduct3)),);
-                                          },
-                                          child: Padding(
-                                            padding:
-                                            EdgeInsets.only(top: index == 0? 10.0: 19.0),
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: index == snapshot.data!.docs.length-1 ?
-                                                      BorderSide(
-                                                          color: Colors.transparent,
-                                                          width: 1.0) :
+                                            Map<String, dynamic> data = snapshot.data!.docs[index]
+                                                .data()! as Map<String, dynamic>;
+                                            var image = data['img_1'];
+                                            var prodName = data['prod_name'];
+                                            var mainName = data['unit_name'];
+                                            var sub1Name = data['sub1_name'];
+                                            var sub2Name = data['sub2_name'];
+                                            var mainsPrice = data['unit_sell'];
+                                            var mainQty = data['inStock1'].round();
+                                            var sub1Qty = data['inStock2'].round();
+                                            var sub2Qty = data['inStock3'].round();
+                                            var sub1Price = data['sub1_sell'];
+                                            var sub2Price = data['sub2_sell'];
+                                            var version = snapshot.data!.docs[index].id;
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => ProductDetailsView2(
+                                                          idString: version, toggleCoinCallback:
+                                                      addProduct1, toggleCoinCallback3: addProduct3)),);
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                EdgeInsets.only(top: index == 0? 10.0: 19.0),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: index == snapshot.data!.docs.length-1 ?
+                                                          BorderSide(
+                                                              color: Colors.transparent,
+                                                              width: 1.0) :
 
                                                       BorderSide(
                                                           color: Colors.grey

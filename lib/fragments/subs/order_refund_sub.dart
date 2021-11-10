@@ -316,7 +316,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                           )),
                                                       title: Text(
                                                         output2?[
-                                                        'prod_name'],
+                                                          'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16),
@@ -651,17 +651,17 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                             data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
 
                                         data = data.split('^')[0] +
-                                              '^' +
-                                              data.split('^')[1] +
-                                              '^' +
-                                              total.toString() +
-                                              '^' +
-                                              data
-                                                  .split('^')[3]
-                                                  .split('&')[1] +
-                                              '^' +
-                                              isRef +
-                                              data.split('^')[4][1] + '^' + debt.toString() + '^' + data.split('^')[6];
+                                            '^' +
+                                            data.split('^')[1] +
+                                            '^' +
+                                            total.toString() +
+                                            '^' +
+                                            data
+                                                .split('^')[3]
+                                                .split('&')[1] +
+                                            '^' +
+                                            isRef +
+                                            data.split('^')[4][1] + '^' + debt.toString() + '^' + data.split('^')[6];
 
 
 

@@ -386,11 +386,12 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                                   height: 6,
                                                                 ),
 
-                                                                    Text(customerName, style: TextStyle(
-                                                                      fontSize: 15,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: Colors.grey,
-                                                                    )),
+
+                                                                Text(customerName, style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.grey,
+                                                                )),
                                                               ],
                                                             ),
                                                           ),
