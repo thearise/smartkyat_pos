@@ -5,15 +5,18 @@ import 'dart:ui';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/api/pdf_api.dart';
 import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
 import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 // import 'package:smartkyat_pos/fragments/home_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment3.dart';
@@ -22,10 +25,12 @@ import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
 import 'package:smartkyat_pos/fragments/test.dart';
+import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 import 'package:smartkyat_pos/model/customer.dart';
 import 'package:smartkyat_pos/model/invoice.dart';
 import 'package:smartkyat_pos/model/supplier.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
+import 'package:smartkyat_pos/src/screens/loading.dart';
 import '../app_theme.dart';
 import 'TabItem.dart';
 
@@ -94,7 +99,7 @@ class HomePageState extends State<HomePage>
   }
   late TabController _controller;
   late TabController _controller2;
-  int _sliding =0;
+  int _sliding = 0;
 
   TextEditingController _textFieldController = TextEditingController();
   TextEditingController _textFieldController2 = TextEditingController();
@@ -288,8 +293,17 @@ class HomePageState extends State<HomePage>
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           // MainFragmentState().changeState(1);
+                          await FirebaseAuth.instance.signOut();
+                          setStoreId('');
+                          // Navigator.pop(context);
+                          // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                          // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                          Navigator.of(context).pushReplacement(
+                            FadeRoute(page: Welcome()),
+                          );
+
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -3576,6 +3590,17 @@ class HomePageState extends State<HomePage>
   //   print('BRmfo76jzim66dLrm9pj-1500-10-Phyo-unit_name-1-0-' + prodList2.toString());
   // }
 
+  setStoreId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+    prefs.setString('store', id);
+  }
+
+  getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('store');
+  }
+
   addDailyExp2(priContext) {
     var mainLoss = 0;
     var sub1Loss=0;
@@ -5893,4 +5918,31 @@ class HomePageState extends State<HomePage>
       }
     }
   }
+}
+
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  @override
+  bool get opaque => false;
+  FadeRoute({required this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+    transitionDuration: Duration(milliseconds: 100),
+    reverseTransitionDuration: Duration(milliseconds: 150),
+  );
 }
