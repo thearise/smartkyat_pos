@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartkyat_pos/fragments/add_shop_fragment.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
@@ -59,22 +58,22 @@ class chooseStoreState extends State<chooseStore> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-      body: SafeArea(
-        top: true,
-        bottom: true,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
-                        child: Container(
-                            child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
-                        ),
-                      ),
+        body: SafeArea(
+          top: true,
+          bottom: true,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
+                    child: Container(
+                        child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
                     ),
+                  ),
+                ),
                 SizedBox(height: 26.5,),
                 Text('REGISTERED SHOPS', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
                   color: Colors.grey,),),
@@ -86,7 +85,7 @@ class chooseStoreState extends State<chooseStore> {
                         var index = 0;
                         return Expanded(
                           child: ListView(
-                           // physics: NeverScrollableScrollPhysics(),
+                            // physics: NeverScrollableScrollPhysics(),
                             children: snapshot.data!.docs.map((DocumentSnapshot document) {
                               Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
                               index++;
@@ -105,25 +104,25 @@ class chooseStoreState extends State<chooseStore> {
                                       Radius.circular(10.0)),
                                 ),
                                 child: RadioListTile(
-                                  dense: true,
-                                  contentPadding: EdgeInsets.only(top: 1, bottom: 0, left: 10, right: 15),
-                                  title: Container(
-                                    // color: Colors.blue,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 0.0),
-                                      child: Text(data['shop_name'], style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500),),
+                                    dense: true,
+                                    contentPadding: EdgeInsets.only(top: 1, bottom: 0, left: 10, right: 15),
+                                    title: Container(
+                                      // color: Colors.blue,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 0.0),
+                                        child: Text(data['shop_name'], style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500),),
+                                      ),
                                     ),
-                                  ),
-                                  activeColor: AppTheme.themeColor,
-                                  value: document.id.toString(),
-                                  groupValue: _result,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _result = value;
-                                      _shop= data['shop_name'];
-                                      print(_result);
-                                    });
-                                  }
+                                    activeColor: AppTheme.themeColor,
+                                    value: document.id.toString(),
+                                    groupValue: _result,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _result = value;
+                                        _shop= data['shop_name'];
+                                        print(_result);
+                                      });
+                                    }
                                 ),
                               );
                             }
@@ -147,11 +146,7 @@ class chooseStoreState extends State<chooseStore> {
                         color: AppTheme.buttonColor2,
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddShop()),);
+                    onPressed: () async {
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -169,9 +164,8 @@ class chooseStoreState extends State<chooseStore> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 30,),
-                      Text('Set up some information about your shop later in shop settings.'),
-                  ],
+                    ),
+                  ),
                 ),
                 SizedBox(height: 20,),
                 Text('Set up some information about your shop later in shop settings.'),
@@ -228,11 +222,13 @@ class chooseStoreState extends State<chooseStore> {
                           ),
                         ),
                       ),
-
-            ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      )
+        )
     );
   }
 
