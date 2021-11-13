@@ -85,7 +85,7 @@ class _WelcomeState extends State<Welcome>
 
 
 
-      print('User is signed in!');
+        print('User is signed in!');
       }
     });
 
@@ -94,18 +94,6 @@ class _WelcomeState extends State<Welcome>
     _bottomTabBarCtl = TabController(length: 4, vsync: this);
     _bottomTabBarCtl.animateTo(1);
     super.initState();
-  }
-
-  void _toggle() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
-
-  void _toggle1() {
-    setState(() {
-      _obscureText1 = !_obscureText1;
-    });
   }
 
   @override
@@ -610,8 +598,8 @@ class _WelcomeState extends State<Welcome>
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
 //                           Padding(
@@ -1791,214 +1779,6 @@ class _WelcomeState extends State<Welcome>
                       child: Center(
                         child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                             child: CupertinoActivityIndicator(radius: 13,)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, top: 10.0, bottom: 10.0),
-              child: Container(
-                height: 40,
-                child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _bottomTabBarCtl,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 2.0),
-                            child: Text('New to smart kyat pos?',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.02
-                              ),),
-                          ),
-                          SizedBox(width: 15,),
-                          ButtonTheme(
-                            minWidth: 35,
-                            splashColor: Colors.transparent,
-                            height: 30,
-                            child: FlatButton(
-                              color: AppTheme.themeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(50.0),
-                                side: BorderSide(
-                                  color: AppTheme.themeColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                _signupController.animateTo(1);
-                                _bottomTabBarCtl.animateTo(3);
-                              },
-                              child: Container(
-                                child: Text(
-                                  'Sign up',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )],
-                      ),
-                    ),
-
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 2.0),
-                            child: Text('Have an account already?',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.02
-                              ),),
-                          ),
-                          SizedBox(width: 15,),
-                          ButtonTheme(
-                            minWidth: 35,
-                            splashColor: Colors.transparent,
-                            height: 30,
-                            child: FlatButton(
-                              color: AppTheme.themeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(50.0),
-                                side: BorderSide(
-                                  color: AppTheme.themeColor,
-                                ),
-                              ),
-                              onPressed: ()  {
-                                // _signupController.animateTo(1);
-
-                                if(pressedCreate) {
-                                  _loginTabController.animateTo(1);
-                                  _bottomTabBarCtl.animateTo(0);
-                                  _signupController.animateTo(0);
-                                } else {
-                                  _bottomTabBarCtl.animateTo(2);
-                                  _loginTabController.animateTo(1);
-                                }
-
-                              },
-                              child: Container(
-                                child: Text(
-                                  'Login',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 2.0),
-                            child: Text('New to smart kyat pos?',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.02
-                              ),),
-                          ),
-                          SizedBox(width: 15,),
-                          ButtonTheme(
-                            minWidth: 35,
-                            splashColor: Colors.transparent,
-                            height: 30,
-                            child: FlatButton(
-                              color: AppTheme.themeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(50.0),
-                                side: BorderSide(
-                                  color: AppTheme.themeColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                _signupController.animateTo(1);
-                                _bottomTabBarCtl.animateTo(3);
-                              },
-                              child: Container(
-                                child: Text(
-                                  'Sign up',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 2.0),
-                            child: Text('Have an account already?',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.02
-                              ),),
-                          ),
-                          SizedBox(width: 15,),
-                          ButtonTheme(
-                            minWidth: 35,
-                            splashColor: Colors.transparent,
-                            height: 30,
-                            child: FlatButton(
-                              color: AppTheme.themeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(50.0),
-                                side: BorderSide(
-                                  color: AppTheme.themeColor,
-                                ),
-                              ),
-                              onPressed: ()  {
-                                _signupController.animateTo(0);
-                                _bottomTabBarCtl.animateTo(2);
-                                _loginTabController.animateTo(1);
-                              },
-                              child: Container(
-                                child: Text(
-                                  'Login',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )],
                       ),
                     ),
                   ],
