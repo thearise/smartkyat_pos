@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/fragments/add_shop_fragment.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
@@ -146,7 +147,11 @@ class chooseStoreState extends State<chooseStore> {
                         color: AppTheme.buttonColor2,
                       ),
                     ),
-                    onPressed: () async {
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddShop()),);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -164,8 +169,9 @@ class chooseStoreState extends State<chooseStore> {
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                      SizedBox(height: 30,),
+                      Text('Set up some information about your shop later in shop settings.'),
+                  ],
                 ),
                 SizedBox(height: 20,),
                 Text('Set up some information about your shop later in shop settings.'),
@@ -222,9 +228,7 @@ class chooseStoreState extends State<chooseStore> {
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
+
             ],
           ),
         ),

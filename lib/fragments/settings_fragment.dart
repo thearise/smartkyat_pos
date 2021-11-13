@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 
+import '../app_theme.dart';
+
 class SettingsFragment extends StatefulWidget {
   SettingsFragment({Key? key}) : super(key: key);
 
@@ -89,101 +91,1046 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.only( left: 8.0, right: 8.0),
-          child: ListView(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 30, left: 16.5),
-                child: Text('Settings',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),),
-              ),
-              SizedBox(height: 20,),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom:
-                        BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-                child: FlatButton(
-                  height: 75,
-                  onPressed: () {  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => chooseStore()),
-                  );
-                  },
-                  child: Row(
-                    children: [
-                      Text('Shops',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios,
-                        color: Colors.blueGrey.withOpacity(0.8),
-                        size: 16,),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom:
-                        BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.0))),
-                child: FlatButton(
-                  height: 75,
-                  onPressed: () { },
-                  child: Row(
-                    children: [
-                      Text('Screen Lock',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios,
-                        color: Colors.blueGrey.withOpacity(0.8),
-                        size: 16,),
-                    ],
-                  ),
-                ),
-              ),
-              FlatButton(
-                height: 75,
-                onPressed: () { },
-                child: Row(
-                  children: [
-                    Text('Dark/light mode',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+        body: SafeArea(
+          bottom: true,
+          top: true,
+          child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 80,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Colors.grey.withOpacity(0.3),
+                                width: 1.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 18.0, left: 15.0 , right: 15),
+                      child: Row(
+                        children: [
+                          Text('Settings',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),),
+                          Spacer(),
+                          Container(
+                            height: 35,
+                            width: 110,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.0),
+                                ),
+                                color: Colors.grey.withOpacity(0.3)),
+                            child: Text('Free Version', style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ),
+                        ],
                       ),
                     ),
-                    Spacer(),
-                    Icon(Icons.arrow_forward_ios,
-                      color: Colors.blueGrey.withOpacity(0.8),
-                      size: 16,),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 15,),
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Text('INFORMATION', style: TextStyle(
+                                letterSpacing: 1.5,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,color: Colors.grey,
+                              ),),
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => accountSetting(context)),
+                                );
+                              },
+                              child: Container(
+                                height: 76,
+                                decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          color: AppTheme.skBorderColor2,
+                                          width: 1.0),
+                                    )),
+                                child: Center(
+                                  child: ListTile(
+                                    title: Text('Account', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text('Shwe Shwe' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.grey),),
+                                        SizedBox(width: 8,),
+                                        Icon(
+                                          Icons
+                                              .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => shopSetting()),
+                                );
+                              },
+                              child: Container(
+                                height: 76,
+                                child: Center(
+                                  child: ListTile(
+                                    title: Text('Shop settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        StreamBuilder<Object>(
+                                          stream: null,
+                                          builder: (context, snapshot) {
+                                            return Text('Ethereals Shop' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                          }
+                                        ),
+                                        SizedBox(width: 8,),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                        ),
+                                      ],
+                                    ),
+
+
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Text('DISPLAY', style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14, color: Colors.grey,
+                              ),),
+                            ),
+                            Container(
+                              height: 76,
+                              decoration: BoxDecoration(
+                                  color: AppTheme.white,
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        color: AppTheme.skBorderColor2,
+                                        width: 1.0),
+                                  )),
+                              child: Center(
+                                child: ListTile(
+                                  title: Text('Dark mode', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('Off' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.grey),),
+                                      SizedBox(width: 8,),
+                                      Icon(
+                                        Icons
+                                            .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 76,
+                              child: Center(
+                                child: ListTile(
+                                  title: Text('Languages', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('English' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                      SizedBox(width: 8,),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                      ),
+                                    ],
+                                  ),
+
+
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Text('ORDERS', style: TextStyle(
+                                letterSpacing: 1.5,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14, color: Colors.grey,
+                              ),),
+                            ),
+                            Container(
+                              height: 76,
+                              child: Center(
+                                child: ListTile(
+                                  title: Text('Print settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('Roll 55' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                      SizedBox(width: 8,),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                      ),
+                                    ],
+                                  ),
+
+
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
         )
-
-
     );
   }
 
+  final _formKey = GlobalKey<FormState>();
+ // final auth = FirebaseAuth.instance;
+  final _accountName = TextEditingController();
+  final _email = TextEditingController();
+  final _shopName = TextEditingController();
+  final _address = TextEditingController();
+  final _phone = TextEditingController();
+
+  accountSetting(priContext) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        bottom: true,
+        top: true,
+        child: Form(
+          key: _formKey,
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: 80,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                              width: 1.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Container(
+                            width: 37,
+                            height: 37,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(35.0),
+                                ),
+                                color: Colors.grey.withOpacity(0.3)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 3.0),
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back_ios_rounded,
+                                    size: 17,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'Information',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  'Account settings',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15,),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0,),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('INFORMATION', style: TextStyle(
+                              letterSpacing: 1.5,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,color: Colors.grey,
+                            ),),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: TextFormField(
+                                //obscureText: _obscureText,
+                                controller: _accountName,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return ' This field is required ';
+                                  }
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  height: 0.95,
+                                ),
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  suffixText: 'Required' ,
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                  ),
+                                 // errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+// errorText: 'Error message',
+                                  labelText: 'Account name',
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
+//filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: TextFormField(
+                                //obscureText: _obscureText,
+                                controller: _email,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return ' This field is required ';
+                                  }
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  height: 0.95,
+                                ),
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: const BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  suffixText: 'Required' ,
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                  ),
+                                  //errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+// errorText: 'Error message',
+                                  labelText: 'Email address',
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
+//filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 30,),
+                            ButtonTheme(
+                              minWidth: MediaQuery.of(context).size.width,
+                              splashColor: Colors.transparent,
+                              height: 50,
+                              child: FlatButton(
+                                color: AppTheme.themeColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: AppTheme.themeColor,
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+
+
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0,
+                                      right: 5.0,
+                                      bottom: 2.0),
+                                  child: Container(
+                                    child: Text(
+                                      'Save and exit',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing:-0.1
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ]
+          ),
+        ),
+      ),
+    );
+  }
+
+  shopSetting() {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        bottom: true,
+        top: true,
+        child: Form(
+          key: _formKey,
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: 80,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Colors.grey.withOpacity(0.3),
+                              width: 1.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Container(
+                            width: 37,
+                            height: 37,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(35.0),
+                                ),
+                                color: Colors.grey.withOpacity(0.3)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 3.0),
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back_ios_rounded,
+                                    size: 17,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'Information',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  'Shop settings',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15,),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Text('CURRENT SHOP', style: TextStyle(
+                              letterSpacing: 1.5,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,color: Colors.grey,
+                            ),),
+                          ),
+                          SizedBox(height: 15,),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => switchShop()),
+                              );
+
+                            },
+                            child: Container(
+                              height: 76,
+                              decoration: BoxDecoration(
+                                  color: AppTheme.lightBgColor,
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        color: AppTheme.skBorderColor2,
+                                        width: 1.0),
+                                  )),
+                              child: Center(
+                                child: ListTile(
+                                  title: Text('Switch shop',style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                  trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text('Ethereals Shop' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                    SizedBox(width: 8,),
+                                    Icon(
+                                      Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                                ),
+                              ),
+
+                            ),
+                          ),
+                          SizedBox(height: 15,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Text('SHOP INFORMATION', style: TextStyle(
+                              letterSpacing: 1.5,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,color: Colors.grey,
+                            ),),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0, left: 15, right: 15),
+                            child: TextFormField(
+                              //obscureText: _obscureText,
+                              controller: _shopName,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return ' This field is required ';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(
+                                height: 0.95,
+                              ),
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+
+                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                suffixText: 'Required' ,
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                // errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+// errorText: 'Error message',
+                                labelText: 'Shop name',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
+//filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0,left: 15, right: 15),
+                            child: TextFormField(
+                              //obscureText: _obscureText,
+                              controller: _address,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return ' This field is required ';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(
+                                height: 0.95,
+                              ),
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+
+                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                suffixText: 'Required' ,
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                //errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+// errorText: 'Error message',
+                                labelText: 'Shop address',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
+//filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0,left: 15, right: 15),
+                            child: TextFormField(
+                              //obscureText: _obscureText,
+                              controller: _phone,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return ' This field is required ';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(
+                                height: 0.95,
+                              ),
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+
+                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: const BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                suffixText: 'Required' ,
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                //errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+// errorText: 'Error message',
+                                labelText: 'Phone',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
+//filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 30,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: ButtonTheme(
+                              minWidth: MediaQuery.of(context).size.width,
+                              splashColor: Colors.transparent,
+                              height: 50,
+                              child: FlatButton(
+                                color: AppTheme.themeColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(10.0),
+                                  side: BorderSide(
+                                    color: AppTheme.themeColor,
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+
+
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0,
+                                      right: 5.0,
+                                      bottom: 2.0),
+                                  child: Container(
+                                    child: Text(
+                                      'Save and exit',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing:-0.1
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ]
+          ),
+        ),
+      ),
+    );
+  }
+
+  switchShop() {
+    return Scaffold(
+      body: SafeArea(
+        bottom: true,
+        top: true,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 80,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Colors.grey.withOpacity(0.3),
+                            width: 1.0))),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Container(
+                          width: 37,
+                          height: 37,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(35.0),
+                              ),
+                              color: Colors.grey.withOpacity(0.3)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 3.0),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_rounded,
+                                  size: 17,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Information',
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'Switch shop',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: Text('CURRENT SHOP', style: TextStyle(
+                              letterSpacing: 1.5,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,color: Colors.grey,
+                            ),),
+                          ),
+                          SizedBox(height: 30,),
+                          ButtonTheme(
+                            minWidth: MediaQuery.of(context).size.width,
+                            splashColor: Colors.transparent,
+                            height: 50,
+                            child: FlatButton(
+                              color: AppTheme.buttonColor2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                                side: BorderSide(
+                                  color: AppTheme.buttonColor2,
+                                ),
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+
+
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5.0,
+                                    right: 5.0,
+                                    bottom: 2.0),
+                                child: Container(
+                                  child: Text(
+                                    'New shop',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing:-0.1
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ]
+        ),
+      ),
+    );
+  }
 
   addDailyExp(priContext) {
     // myController.clear();
@@ -301,5 +1248,9 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
 
         });
   }
+
+
 }
+
+
 
