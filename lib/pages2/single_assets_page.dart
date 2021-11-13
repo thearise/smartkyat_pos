@@ -25,6 +25,8 @@ import '../constants/page_mixin.dart';
 import '../constants/picker_method.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
+import 'home_page3.dart';
+
 class SingleAssetPage extends StatefulWidget {
   final _callback;
 
@@ -54,6 +56,13 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   final mcostCtrl = TextEditingController();
 
   bool prodAdding = false;
+  String? shopId;
+
+  @override
+  initState() {
+    HomePageState().getStoreId().then((value) => shopId = value);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +190,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                         .collection('space')
                                         .doc('0NHIS0Jbn26wsgCzVBKT')
                                         .collection('shops')
-                                        .doc('PucvhZDuUz3XlkTgzcjb')
+                                        .doc(shopId)
                                         .collection('products')
                                         .where('prod_name',
                                             isEqualTo: prodFieldsValue[0])
@@ -347,7 +356,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   .collection('space')
                                                   .doc('0NHIS0Jbn26wsgCzVBKT')
                                                   .collection('shops')
-                                                  .doc('PucvhZDuUz3XlkTgzcjb')
+                                                  .doc(shopId)
                                                   .collection('products')
                                                   .where('prod_name',
                                                       isEqualTo:
@@ -378,7 +387,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                               '0NHIS0Jbn26wsgCzVBKT')
                                                           .collection('shops')
                                                           .doc(
-                                                              'PucvhZDuUz3XlkTgzcjb')
+                                                              shopId)
                                                           .collection(
                                                               'products');
                                                   return shops.add({
@@ -458,7 +467,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     //         '0NHIS0Jbn26wsgCzVBKT')
                                                     //     .collection('shops')
                                                     //     .doc(
-                                                    //         'PucvhZDuUz3XlkTgzcjb')
+                                                    //         shopId)
                                                     //     .collection('products')
                                                     //     .doc(value.id)
                                                     //     .collection('versions')
@@ -493,7 +502,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     //         '0NHIS0Jbn26wsgCzVBKT')
                                                     //     .collection('shops')
                                                     //     .doc(
-                                                    //         'PucvhZDuUz3XlkTgzcjb')
+                                                    //         shopId)
                                                     //     .collection('products')
                                                     //     .doc(value.id)
                                                     //     .collection('versions')
@@ -523,7 +532,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     //     .collection('space')
                                                     //     .doc('0NHIS0Jbn26wsgCzVBKT')
                                                     //     .collection('shops')
-                                                    //     .doc('PucvhZDuUz3XlkTgzcjb')
+                                                    //     .doc(shopId)
                                                     //     .collection('products')
                                                     //     .doc(value.id)
                                                     //     .collection('versions')

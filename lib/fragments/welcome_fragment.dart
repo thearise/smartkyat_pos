@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'package:smartkyat_pos/src/app.dart';
 import 'package:smartkyat_pos/src/screens/login.dart';
@@ -43,13 +44,73 @@ class _WelcomeState extends State<Welcome>
   String? weakPassword;
   String? emailExist;
 
+  bool isLoading = true;
+
   @override
   initState() {
+    // setStoreId('');
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          setState(() {
+            isLoading = false;
+          });
+        });
+
+        getStoreId().then((value) {
+          print('Out ID -> ' + value.toString());
+        });
+      } else {
+        getStoreId().then((value) {
+          print('ID -> ' + value.toString());
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            if(value.toString() != '') {
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.of(context).pushReplacement(
+                FadeRoute(page: HomePage()),
+              );
+            } else {
+              Future.delayed(const Duration(milliseconds: 1000), () {
+                setState(() {
+                  isLoading = false;
+                });
+              });
+            }
+          });
+
+        });
+
+
+
+      print('User is signed in!');
+      }
+    });
+
     _loginTabController = TabController(length: 2, vsync: this);
     _signupController = TabController(length: 2, vsync: this);
     _bottomTabBarCtl = TabController(length: 4, vsync: this);
     _bottomTabBarCtl.animateTo(1);
     super.initState();
+  }
+
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  void _toggle1() {
+    setState(() {
+      _obscureText1 = !_obscureText1;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _toggle() {
@@ -72,480 +133,487 @@ class _WelcomeState extends State<Welcome>
       body: SafeArea(
         bottom: true,
         top: true,
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
-                    child: Container(
-                        child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
-                    ),
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height/1.2,
-                      child: TabBarView(
-                        physics: NeverScrollableScrollPhysics(),
-                        controller: _signupController,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 40.0, left: 0, right: 0),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                  child: Container(
-                                      child: Image.asset('assets/system/retialshop.png',)
-                                  ),
-                                ),
-                                Container(
-                                  height: 342,
-                                  child: TabBarView(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    controller: _loginTabController,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 45.0, left: 15.0, right: 15.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text('All-in-one ',
-                                              style: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w700,
-                                                  letterSpacing: 0.02
-                                              ),),
-                                            SizedBox(height: 8),
-                                            Text('POS system mobile ',
-                                              style: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w700,
-                                                  letterSpacing: 0.02
-                                              ),),
-                                            SizedBox(height: 8),
-                                            Text('in your hands',
-                                              style: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w700,
-                                                  letterSpacing: 0.02
-                                              ),),
-                                            SizedBox(height: 50,),
-                                            ButtonTheme(
-                                              minWidth: MediaQuery.of(context).size.width,
-                                              splashColor: Colors.transparent,
-                                              height: 50,
-                                              child: FlatButton(
-                                                color: AppTheme.themeColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.themeColor,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  pressedCreate = true;
-                                                  _signupController.animateTo(1);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 5.0,
-                                                      right: 5.0,
-                                                      bottom: 3.0),
-                                                  child: Container(
-                                                    child: Text(
-                                                      'Create an account',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight: FontWeight.w600,
-                                                          letterSpacing:-0.1
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 22,),
-                                            RichText(
-                                              text: new TextSpan(
-                                                children: [
-                                                  new TextSpan(
-                                                    text: 'By signing up, you agree to our ',
-                                                    style: new TextStyle(
-                                                        fontSize: 12.5,
-                                                        color: Colors.grey,
-                                                        fontWeight: FontWeight.w500
-                                                    ),
-                                                  ),
-                                                  new TextSpan(
-                                                    text: 'Terms',
-                                                    style: new TextStyle(
-                                                        fontSize: 12.5,
-                                                        color: Colors.blue,
-                                                        fontWeight: FontWeight.w500
-                                                    ),
-                                                    recognizer: new TapGestureRecognizer()
-                                                      ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                      },
-                                                  ),
-                                                  new TextSpan(
-                                                    text: ', ',
-                                                    style: new TextStyle(
-                                                        fontSize: 12.5,
-                                                        color: Colors.grey,
-                                                        fontWeight: FontWeight.w500
-                                                    ),
-                                                  ),
-                                                  new TextSpan(
-                                                    text: 'Privacy Policy',
-                                                    style: new TextStyle(
-                                                        fontSize: 12.5,
-                                                        color: Colors.blue,
-                                                        fontWeight: FontWeight.w500
-                                                    ),
-                                                    recognizer: new TapGestureRecognizer()
-                                                      ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                      },
-                                                  ),
-                                                  new TextSpan(
-                                                    text: ', and ',
-                                                    style: new TextStyle(
-                                                        fontSize: 12.5,
-                                                        color: Colors.grey,
-                                                        fontWeight: FontWeight.w500
-                                                    ),
-                                                  ),
-                                                  new TextSpan(
-                                                    text: 'Cookie Use.',
-                                                    style: new TextStyle(
-                                                        fontSize: 12.5,
-                                                        color: Colors.blue,
-                                                        fontWeight: FontWeight.w500
-                                                    ),
-                                                    recognizer: new TapGestureRecognizer()
-                                                      ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                      },
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
+            Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
+                        child: Container(
+                            child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
+                        ),
+                      ),
+                      Form(
+                        key: _formKey,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height/1.2,
+                          child: TabBarView(
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: _signupController,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 40.0, left: 0, right: 0),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                      child: Container(
+                                          child: Image.asset('assets/system/retialshop.png',)
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 29.0, left: 15.0, right: 15.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Stack(
+                                    ),
+                                    Container(
+                                      height: 342,
+                                      child: TabBarView(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        controller: _loginTabController,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 45.0, left: 15.0, right: 15.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 4.0, bottom: 15.0),
-                                                  child: Container(
-                                                    child: TextFormField(
-//The validator receives the text that the user has entered.
-                                                      controller: _email,
-                                                      validator: (value) {
-                                                        if (value == null || value.isEmpty) {
-                                                          // return '';
-                                                          return ' This field is required ';
-                                                        }
-                                                        if (wrongEmail != '') {
-                                                          return wrongEmail;
-                                                        }
-
-                                                        return null;
-                                                      },
-                                                      style: TextStyle(
-                                                          height: 0.95
-                                                      ),
-                                                      maxLines: 1,
-                                                      decoration: InputDecoration(
-                                                        enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                            borderSide: const BorderSide(
-                                                                color: AppTheme.skBorderColor,
-                                                                width: 2.0),
-                                                            borderRadius: BorderRadius.all(
-                                                                Radius.circular(10.0))),
-
-                                                        focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                            borderSide: const BorderSide(
-                                                                color: AppTheme.themeColor,
-                                                                width: 2.0),
-                                                            borderRadius: BorderRadius.all(
-                                                                Radius.circular(10.0))),
-                                                        // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
-                                                        // isDense: true,
-                                                        contentPadding: const EdgeInsets.only(
-                                                            left: 15.0,
-                                                            right: 15.0,
-                                                            top: 20,
-                                                            bottom: 20.0),
-                                                        suffixText: 'Required',
-                                                        suffixStyle: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 12,
-                                                          fontFamily: 'capsulesans',
-                                                        ),
-                                                        errorText: wrongEmail,
-                                                        errorStyle: TextStyle(
-                                                            backgroundColor: Colors.white,
-                                                            fontSize: 12,
-                                                            fontFamily: 'capsulesans',
-                                                            height: 0.1
-                                                        ),
-                                                        labelStyle: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black,
-                                                        ),
-// errorText: 'Error message',
-                                                        labelText: 'Email address',
-                                                        floatingLabelBehavior:
-                                                        FloatingLabelBehavior.auto,
-//filled: true,
-                                                        border: OutlineInputBorder(
-                                                          borderRadius: BorderRadius.circular(10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 75.0),
-                                                  child: TextFormField(
-                                                    obscureText: _obscureText,
-                                                    controller: _password,
-                                                    validator: (value) {
-                                                      if (value == null || value.isEmpty) {
-                                                        return ' This field is required ';
-                                                      }
-                                                      if (wrongPassword != '') {
-                                                        return wrongPassword;
-                                                      }
-                                                      return null;
-                                                    },
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('All-in-one ',
                                                     style: TextStyle(
-                                                      height: 0.95,
+                                                        fontSize: 22,
+                                                        fontWeight: FontWeight.w700,
+                                                        letterSpacing: 0.02
+                                                    ),),
+                                                ),
+                                                SizedBox(height: 8),
+                                                Text('POS system mobile ',
+                                                  style: TextStyle(
+                                                      fontSize: 22,
+                                                      fontWeight: FontWeight.w700,
+                                                      letterSpacing: 0.02
+                                                  ),),
+                                                SizedBox(height: 8),
+                                                Text('in your hands',
+                                                  style: TextStyle(
+                                                      fontSize: 22,
+                                                      fontWeight: FontWeight.w700,
+                                                      letterSpacing: 0.02
+                                                  ),),
+                                                SizedBox(height: 50,),
+                                                ButtonTheme(
+                                                  minWidth: MediaQuery.of(context).size.width,
+                                                  splashColor: Colors.transparent,
+                                                  height: 50,
+                                                  child: FlatButton(
+                                                    color: AppTheme.themeColor,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(10.0),
+                                                      side: BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                      ),
                                                     ),
-                                                    decoration: InputDecoration(
-                                                      enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                          borderSide: const BorderSide(
-                                                              color: AppTheme.skBorderColor,
-                                                              width: 2.0),
-                                                          borderRadius: BorderRadius.all(
-                                                              Radius.circular(10.0))),
-
-                                                      focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                          borderSide: const BorderSide(
-                                                              color: AppTheme.themeColor,
-                                                              width: 2.0),
-                                                          borderRadius: BorderRadius.all(
-                                                              Radius.circular(10.0))),
-                                                      contentPadding: const EdgeInsets.only(
-                                                          left: 15.0,
-                                                          right: 15.0,
-                                                          top: 20.0,
-                                                          bottom: 20.0),
-                                                      suffixIcon: Padding(
-                                                        padding: const EdgeInsets.only(bottom: 3.0),
-                                                        child: IconButton(
-                                                          icon: _obscureText? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
-                                                          //tooltip: 'Increase volume by 10',
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              _toggle();
-                                                            });
-                                                          },
+                                                    onPressed: () {
+                                                      pressedCreate = true;
+                                                      _signupController.animateTo(1);
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(
+                                                          left: 5.0,
+                                                          right: 5.0,
+                                                          bottom: 3.0),
+                                                      child: Container(
+                                                        child: Text(
+                                                          'Create an account',
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight: FontWeight.w600,
+                                                              letterSpacing:-0.1
+                                                          ),
                                                         ),
-                                                      ),
-                                                      // suffixStyle: TextStyle(
-                                                      //   color: Colors.grey,
-                                                      //   fontSize: 12,
-                                                      //   fontFamily: 'capsulesans',
-                                                      // ),
-                                                      errorText: wrongPassword,
-                                                      errorStyle: TextStyle(
-                                                          backgroundColor: Colors.white,
-                                                          fontSize: 12,
-                                                          fontFamily: 'capsulesans',
-                                                          height: 0.1
-                                                      ),
-                                                      labelStyle: TextStyle(
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black,
-                                                      ),
-// errorText: 'Error message',
-                                                      labelText: 'Password',
-                                                      floatingLabelBehavior:
-                                                      FloatingLabelBehavior.auto,
-//filled: true,
-                                                      border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(10),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 160.0),
-                                                  child: Column(
+                                                SizedBox(height: 22,),
+                                                RichText(
+                                                  text: new TextSpan(
                                                     children: [
-                                                      ButtonTheme(
-                                                        minWidth: MediaQuery.of(context).size.width,
-                                                        splashColor: Colors.transparent,
-                                                        height: 50,
-                                                        child: FlatButton(
-                                                          color: AppTheme.themeColor,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                            BorderRadius.circular(10.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.themeColor,
-                                                            ),
-                                                          ),
-                                                          onPressed: () async {
-                                                            setState(() {
-                                                              wrongEmail = null;
-                                                              wrongPassword = null;
-                                                            });
-                                                            if (_formKey.currentState!.validate()) {
-                                                              try {
-                                                                await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                                                  email: _email.text,
-                                                                  password: _password.text,
-                                                                ).then((_){
-                                                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
-                                                                });
-                                                              } on FirebaseAuthException catch (e) {
-                                                                print(e.code.toString());
-                                                                if (e.code == 'user-not-found') {
-                                                                  setState(() {
-                                                                    wrongEmail = ' may be incorrect ';
-                                                                    wrongPassword = ' may be incorrect ';
-                                                                  });
-                                                                  print('No user found for that email.');
-                                                                } else if (e.code == 'wrong-password') {
-                                                                  setState(() {
-                                                                    wrongEmail = ' may be incorrect ';
-                                                                    wrongPassword = ' may be incorrect ';
-                                                                  });
-                                                                  print('Wrong password provided for that user.');
-                                                                } else if (e.code == 'invalid-email') {
-                                                                  setState(() {
-                                                                    wrongEmail = ' is invalid email ';
-                                                                    // wrongPassword = ' may be incorrect ';
-                                                                  });
-                                                                  print('Invalid email.');
-                                                                }
-                                                              }
-
-                                                            }
-                                                          },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(
-                                                                left: 5.0,
-                                                                right: 5.0,
-                                                                bottom: 2.0),
-                                                            child: Container(
-                                                              child: Text(
-                                                                'Login',
-                                                                textAlign: TextAlign.center,
-                                                                style: TextStyle(
-                                                                    fontSize: 18,
-                                                                    fontWeight: FontWeight.w600,
-                                                                    letterSpacing:-0.1
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
+                                                      new TextSpan(
+                                                        text: 'By signing up, you agree to our ',
+                                                        style: new TextStyle(
+                                                            fontSize: 12.5,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight.w500
                                                         ),
                                                       ),
-                                                      SizedBox(height: 22,),
-                                                      RichText(
-                                                        text: new TextSpan(
-                                                          children: [
-                                                            new TextSpan(
-                                                              text: 'By signing up, you agree to our ',
-                                                              style: new TextStyle(
-                                                                  fontSize: 12.5,
-                                                                  color: Colors.grey,
-                                                                  fontWeight: FontWeight.w500
-                                                              ),
-                                                            ),
-                                                            new TextSpan(
-                                                              text: 'Terms',
-                                                              style: new TextStyle(
-                                                                  fontSize: 12.5,
-                                                                  color: Colors.blue,
-                                                                  fontWeight: FontWeight.w500
-                                                              ),
-                                                              recognizer: new TapGestureRecognizer()
-                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                                },
-                                                            ),
-                                                            new TextSpan(
-                                                              text: ', ',
-                                                              style: new TextStyle(
-                                                                  fontSize: 12.5,
-                                                                  color: Colors.grey,
-                                                                  fontWeight: FontWeight.w500
-                                                              ),
-                                                            ),
-                                                            new TextSpan(
-                                                              text: 'Privacy Policy',
-                                                              style: new TextStyle(
-                                                                  fontSize: 12.5,
-                                                                  color: Colors.blue,
-                                                                  fontWeight: FontWeight.w500
-                                                              ),
-                                                              recognizer: new TapGestureRecognizer()
-                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                                },
-                                                            ),
-                                                            new TextSpan(
-                                                              text: ', and ',
-                                                              style: new TextStyle(
-                                                                  fontSize: 12.5,
-                                                                  color: Colors.grey,
-                                                                  fontWeight: FontWeight.w500
-                                                              ),
-                                                            ),
-                                                            new TextSpan(
-                                                              text: 'Cookie Use.',
-                                                              style: new TextStyle(
-                                                                  fontSize: 12.5,
-                                                                  color: Colors.blue,
-                                                                  fontWeight: FontWeight.w500
-                                                              ),
-                                                              recognizer: new TapGestureRecognizer()
-                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                                },
-                                                            ),
-                                                          ],
+                                                      new TextSpan(
+                                                        text: 'Terms',
+                                                        style: new TextStyle(
+                                                            fontSize: 12.5,
+                                                            color: Colors.blue,
+                                                            fontWeight: FontWeight.w500
                                                         ),
-                                                      )
+                                                        recognizer: new TapGestureRecognizer()
+                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                          },
+                                                      ),
+                                                      new TextSpan(
+                                                        text: ', ',
+                                                        style: new TextStyle(
+                                                            fontSize: 12.5,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight.w500
+                                                        ),
+                                                      ),
+                                                      new TextSpan(
+                                                        text: 'Privacy Policy',
+                                                        style: new TextStyle(
+                                                            fontSize: 12.5,
+                                                            color: Colors.blue,
+                                                            fontWeight: FontWeight.w500
+                                                        ),
+                                                        recognizer: new TapGestureRecognizer()
+                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                          },
+                                                      ),
+                                                      new TextSpan(
+                                                        text: ', and ',
+                                                        style: new TextStyle(
+                                                            fontSize: 12.5,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight.w500
+                                                        ),
+                                                      ),
+                                                      new TextSpan(
+                                                        text: 'Cookie Use.',
+                                                        style: new TextStyle(
+                                                            fontSize: 12.5,
+                                                            color: Colors.blue,
+                                                            fontWeight: FontWeight.w500
+                                                        ),
+                                                        recognizer: new TapGestureRecognizer()
+                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                          },
+                                                      ),
                                                     ],
                                                   ),
                                                 )
                                               ],
                                             ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 29.0, left: 15.0, right: 15.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Stack(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 4.0, bottom: 15.0),
+                                                      child: Container(
+                                                        child: TextFormField(
+//The validator receives the text that the user has entered.
+                                                          controller: _email,
+                                                          validator: (value) {
+                                                            if (value == null || value.isEmpty) {
+                                                              // return '';
+                                                              return ' This field is required ';
+                                                            }
+                                                            if (wrongEmail != '') {
+                                                              return wrongEmail;
+                                                            }
 
-                                          ],
-                                        ),
+                                                            return null;
+                                                          },
+                                                          style: TextStyle(
+                                                              height: 0.95
+                                                          ),
+                                                          maxLines: 1,
+                                                          decoration: InputDecoration(
+                                                            enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                borderSide: const BorderSide(
+                                                                    color: AppTheme.skBorderColor,
+                                                                    width: 2.0),
+                                                                borderRadius: BorderRadius.all(
+                                                                    Radius.circular(10.0))),
+
+                                                            focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                borderSide: const BorderSide(
+                                                                    color: AppTheme.themeColor,
+                                                                    width: 2.0),
+                                                                borderRadius: BorderRadius.all(
+                                                                    Radius.circular(10.0))),
+                                                            // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
+                                                            // isDense: true,
+                                                            contentPadding: const EdgeInsets.only(
+                                                                left: 15.0,
+                                                                right: 15.0,
+                                                                top: 20,
+                                                                bottom: 20.0),
+                                                            suffixText: 'Required',
+                                                            suffixStyle: TextStyle(
+                                                              color: Colors.grey,
+                                                              fontSize: 12,
+                                                              fontFamily: 'capsulesans',
+                                                            ),
+                                                            errorText: wrongEmail,
+                                                            errorStyle: TextStyle(
+                                                                backgroundColor: Colors.white,
+                                                                fontSize: 12,
+                                                                fontFamily: 'capsulesans',
+                                                                height: 0.1
+                                                            ),
+                                                            labelStyle: TextStyle(
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black,
+                                                            ),
+// errorText: 'Error message',
+                                                            labelText: 'Email address',
+                                                            floatingLabelBehavior:
+                                                            FloatingLabelBehavior.auto,
+//filled: true,
+                                                            border: OutlineInputBorder(
+                                                              borderRadius: BorderRadius.circular(10),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 75.0),
+                                                      child: TextFormField(
+                                                        obscureText: _obscureText,
+                                                        controller: _password,
+                                                        validator: (value) {
+                                                          if (value == null || value.isEmpty) {
+                                                            return ' This field is required ';
+                                                          }
+                                                          if (wrongPassword != '') {
+                                                            return wrongPassword;
+                                                          }
+                                                          return null;
+                                                        },
+                                                        style: TextStyle(
+                                                          height: 0.95,
+                                                        ),
+                                                        decoration: InputDecoration(
+                                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                              borderSide: const BorderSide(
+                                                                  color: AppTheme.skBorderColor,
+                                                                  width: 2.0),
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(10.0))),
+
+                                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                              borderSide: const BorderSide(
+                                                                  color: AppTheme.themeColor,
+                                                                  width: 2.0),
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(10.0))),
+                                                          contentPadding: const EdgeInsets.only(
+                                                              left: 15.0,
+                                                              right: 15.0,
+                                                              top: 20.0,
+                                                              bottom: 20.0),
+                                                          suffixIcon: Padding(
+                                                            padding: const EdgeInsets.only(bottom: 3.0),
+                                                            child: IconButton(
+                                                              icon: _obscureText? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
+                                                              //tooltip: 'Increase volume by 10',
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  _toggle();
+                                                                });
+                                                              },
+                                                            ),
+                                                          ),
+                                                          // suffixStyle: TextStyle(
+                                                          //   color: Colors.grey,
+                                                          //   fontSize: 12,
+                                                          //   fontFamily: 'capsulesans',
+                                                          // ),
+                                                          errorText: wrongPassword,
+                                                          errorStyle: TextStyle(
+                                                              backgroundColor: Colors.white,
+                                                              fontSize: 12,
+                                                              fontFamily: 'capsulesans',
+                                                              height: 0.1
+                                                          ),
+                                                          labelStyle: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.black,
+                                                          ),
+// errorText: 'Error message',
+                                                          labelText: 'Password',
+                                                          floatingLabelBehavior:
+                                                          FloatingLabelBehavior.auto,
+//filled: true,
+                                                          border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 160.0),
+                                                      child: Column(
+                                                        children: [
+                                                          ButtonTheme(
+                                                            minWidth: MediaQuery.of(context).size.width,
+                                                            splashColor: Colors.transparent,
+                                                            height: 50,
+                                                            child: FlatButton(
+                                                              color: AppTheme.themeColor,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius.circular(10.0),
+                                                                side: BorderSide(
+                                                                  color: AppTheme.themeColor,
+                                                                ),
+                                                              ),
+                                                              onPressed: () async {
+                                                                setState(() {
+                                                                  wrongEmail = null;
+                                                                  wrongPassword = null;
+                                                                });
+                                                                if (_formKey.currentState!.validate()) {
+                                                                  try {
+                                                                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                                                      email: _email.text,
+                                                                      password: _password.text,
+                                                                    ).then((_){
+                                                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => chooseStore()));
+                                                                    });
+                                                                  } on FirebaseAuthException catch (e) {
+                                                                    print(e.code.toString());
+                                                                    if (e.code == 'user-not-found') {
+                                                                      setState(() {
+                                                                        wrongEmail = ' may be incorrect ';
+                                                                        wrongPassword = ' may be incorrect ';
+                                                                      });
+                                                                      print('No user found for that email.');
+                                                                    } else if (e.code == 'wrong-password') {
+                                                                      setState(() {
+                                                                        wrongEmail = ' may be incorrect ';
+                                                                        wrongPassword = ' may be incorrect ';
+                                                                      });
+                                                                      print('Wrong password provided for that user.');
+                                                                    } else if (e.code == 'invalid-email') {
+                                                                      setState(() {
+                                                                        wrongEmail = ' is invalid email ';
+                                                                        // wrongPassword = ' may be incorrect ';
+                                                                      });
+                                                                      print('Invalid email.');
+                                                                    }
+                                                                  }
+
+                                                                }
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    left: 5.0,
+                                                                    right: 5.0,
+                                                                    bottom: 2.0),
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Login',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 18,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        letterSpacing:-0.1
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 22,),
+                                                          RichText(
+                                                            text: new TextSpan(
+                                                              children: [
+                                                                new TextSpan(
+                                                                  text: 'By signing up, you agree to our ',
+                                                                  style: new TextStyle(
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.grey,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                ),
+                                                                new TextSpan(
+                                                                  text: 'Terms',
+                                                                  style: new TextStyle(
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.blue,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                  recognizer: new TapGestureRecognizer()
+                                                                    ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                    },
+                                                                ),
+                                                                new TextSpan(
+                                                                  text: ', ',
+                                                                  style: new TextStyle(
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.grey,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                ),
+                                                                new TextSpan(
+                                                                  text: 'Privacy Policy',
+                                                                  style: new TextStyle(
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.blue,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                  recognizer: new TapGestureRecognizer()
+                                                                    ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                    },
+                                                                ),
+                                                                new TextSpan(
+                                                                  text: ', and ',
+                                                                  style: new TextStyle(
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.grey,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                ),
+                                                                new TextSpan(
+                                                                  text: 'Cookie Use.',
+                                                                  style: new TextStyle(
+                                                                      fontSize: 12.5,
+                                                                      color: Colors.blue,
+                                                                      fontWeight: FontWeight.w500
+                                                                  ),
+                                                                  recognizer: new TapGestureRecognizer()
+                                                                    ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                    },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
 //                           Padding(
 //                             padding: const EdgeInsets.only(top: 17),
 //                             child: Column(
@@ -1030,477 +1098,703 @@ class _WelcomeState extends State<Welcome>
 //                               ],
 //                             ),
 //                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 27.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: Text('REGISTRATION', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
-                                    color: Colors.grey,),),
-                                ),
-                                SizedBox(height: 8),
-                                Stack(
+                              Padding(
+                                padding: const EdgeInsets.only(top: 27.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 4.0, bottom: 15.0, left: 15.0, right: 15.0),
-                                      child: Container(
-                                        child: TextFormField(
-                                          //obscureText: _obscureText,
+                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                      child: Text('REGISTRATION', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
+                                        color: Colors.grey,),),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Stack(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 4.0, bottom: 15.0, left: 15.0, right: 15.0),
+                                          child: Container(
+                                            child: TextFormField(
+                                              //obscureText: _obscureText,
 //The validator receives the text that the user has entered.
-                                          controller: _name,
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return ' This field is required ';
-                                            }
-                                            return null;
-                                          },
-                                          style: TextStyle(
-                                              height: 0.95
-                                          ),
-                                          decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.skBorderColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-
-                                            focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.themeColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            contentPadding: const EdgeInsets.only(
-                                                left: 15.0,
-                                                right: 15.0,
-                                                top: 20.0,
-                                                bottom: 20.0),
-                                            suffixText: 'Required',
-                                            suffixStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                            ),
-                                            //errorText: wrongPassword,
-                                            errorStyle: TextStyle(
-                                                backgroundColor: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: 'capsulesans',
-                                                height: 0.1
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-// errorText: 'Error message',
-                                            labelText: 'Name',
-                                            floatingLabelBehavior:
-                                            FloatingLabelBehavior.auto,
-//filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 75.0, left: 15.0, right: 15.0),
-                                      child: TextFormField(
-                                        //obscureText: _obscureText,
-//The validator receives the text that the user has entered.
-                                        controller: _emails,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return ' This field is required ';
-                                          }
-                                          if (emailExist != '') {
-                                            return emailExist;
-                                          }
-                                          return null;
-                                        },
-                                        style: TextStyle(
-                                            height: 0.95
-                                        ),
-                                        decoration: InputDecoration(
-                                          enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.skBorderColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-
-                                          focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.themeColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 15.0,
-                                              right: 15.0,
-                                              top: 20.0,
-                                              bottom: 20.0),
-                                          suffixText: 'Required' ,
-                                          //tooltip: 'Increase volume by 10',
-                                          suffixStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,
-                                            fontFamily: 'capsulesans',
-                                          ),
-                                          errorText: emailExist,
-                                          errorStyle: TextStyle(
-                                              backgroundColor: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                              height: 0.1
-                                          ),
-                                          labelStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
-// errorText: 'Error message',
-                                          labelText: 'Email Address',
-                                          floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-//filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 150.0,),
-                                      child: Container(
-                                        height: 2,
-                                        width: MediaQuery.of(context).size.width,
-                                        color: AppTheme.skBorderColor,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 165.0, left: 15.0, right: 15.0),
-                                      child: Text('AUTHENTICATION',style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
-                                        color: Colors.grey,)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 195.0, left: 15.0, right: 15.0),
-                                      child: Container(
-                                        child: TextFormField(
-                                          obscureText: _obscureText1,
-//The validator receives the text that the user has entered.
-                                          controller: _passwords,
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return ' This field is required ';
-                                            }
-                                            if (weakPassword != '') {
-                                              return weakPassword;
-                                            }
-                                            return null;
-                                          },
-                                          style: TextStyle(
-                                              height: 0.95
-                                          ),
-                                          decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.skBorderColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-
-                                            focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                borderSide: const BorderSide(
-                                                    color: AppTheme.themeColor,
-                                                    width: 2.0),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0))),
-                                            contentPadding: const EdgeInsets.only(
-                                                left: 15.0,
-                                                right: 15.0,
-                                                top: 20.0,
-                                                bottom: 20.0),
-                                            suffixIcon: Padding(
-                                              padding: const EdgeInsets.only(bottom: 3.0),
-                                              child: IconButton(
-                                                icon: _obscureText1? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
-                                                //tooltip: 'Increase volume by 10',
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _toggle1();
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                            // suffixStyle: TextStyle(
-                                            //   color: Colors.grey,
-                                            //   fontSize: 12,
-                                            //   fontFamily: 'capsulesans',
-                                            // ),
-                                            errorText: weakPassword,
-                                            errorStyle: TextStyle(
-                                                backgroundColor: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: 'capsulesans',
-                                                height: 0.1
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-// errorText: 'Error message',
-                                            labelText: 'Password',
-                                            floatingLabelBehavior:
-                                            FloatingLabelBehavior.auto,
-//filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 266.0, left: 15.0, right: 15.0),
-                                      child: TextFormField(
-                                        obscureText: _obscureText1,
-//The validator receives the text that the user has entered.
-                                        controller: _confirm,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return ' This field is required ';
-                                          }
-                                          if (_passwords.text != _confirm.text) {
-                                            return ' Passwords are not match ';
-                                          }
-                                          return null;
-                                        },
-                                        style: TextStyle(
-                                            height: 0.95
-                                        ),
-                                        decoration: InputDecoration(
-                                          enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.skBorderColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-
-                                          focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.themeColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 15.0,
-                                              right: 15.0,
-                                              top: 20.0,
-                                              bottom: 20.0),
-                                          suffixIcon: Padding(
-                                            padding: const EdgeInsets.only(bottom: 3.0),
-                                            child: IconButton(
-                                              icon: _obscureText1? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
-                                              //tooltip: 'Increase volume by 10',
-                                              onPressed: () {
-                                                setState(() {
-                                                  _toggle1();
-                                                });
+                                              controller: _name,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return ' This field is required ';
+                                                }
+                                                return null;
                                               },
-                                            ),
-                                          ),
-                                          // suffixStyle: TextStyle(
-                                          //   color: Colors.grey,
-                                          //   fontSize: 12,
-                                          //   fontFamily: 'capsulesans',
-                                          // ),
-                                          //errorText: weakPassword,
-                                          errorStyle: TextStyle(
-                                              backgroundColor: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                              height: 0.1
-                                          ),
-                                          labelStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
+                                              style: TextStyle(
+                                                  height: 0.95
+                                              ),
+                                              decoration: InputDecoration(
+                                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.skBorderColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+
+                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding: const EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 20.0,
+                                                    bottom: 20.0),
+                                                suffixText: 'Required',
+                                                suffixStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
+                                                ),
+                                                //errorText: wrongPassword,
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily: 'capsulesans',
+                                                    height: 0.1
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
 // errorText: 'Error message',
-                                          labelText: 'Confirm Password',
-                                          floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
+                                                labelText: 'Name',
+                                                floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
 //filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 351.0, left: 15.0, right: 15.0),
-                                      child: Column(
-                                        children: [
-                                          ButtonTheme(
-                                            minWidth: MediaQuery.of(context).size.width,
-                                            splashColor: Colors.transparent,
-                                            height: 50,
-                                            child: FlatButton(
-                                              color: AppTheme.themeColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(10.0),
-                                                side: BorderSide(
-                                                  color: AppTheme.themeColor,
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
                                               ),
-                                              onPressed: () async {
-                                                emailExist = null;
-                                                weakPassword = null;
-                                                if (_formKey.currentState!.validate()) {
-                                                  try {
-                                                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                                        email: _emails.text,
-                                                        password: _passwords.text).then((_) {
-                                                      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
-                                                      //     VerifyScreen()));
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => VerifyScreen()),);
-                                                    });
-                                                  } on FirebaseAuthException catch (e) {
-                                                    if (e.code == 'weak-password') {
-                                                      setState(() {
-                                                        weakPassword = ' must be 6 characters long ';
-                                                      });
-                                                      print('The password provided is too weak.');
-                                                    } else if (e.code == 'email-already-in-use') {
-                                                      setState(() {
-                                                        emailExist = ' Account already exists ';
-                                                      });
-                                                      print('The account already exists for that email.');
-                                                    } else if (e.code == 'invalid-email') {
-                                                      setState(() {
-                                                        emailExist = ' is invalid email ';
-                                                        // wrongPassword = ' may be incorrect ';
-                                                      });
-                                                      print('Invalid email.');
-                                                    }
-                                                  } catch (e) {
-                                                    print(e);
-                                                  }
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 75.0, left: 15.0, right: 15.0),
+                                          child: TextFormField(
+                                            //obscureText: _obscureText,
+//The validator receives the text that the user has entered.
+                                            controller: _emails,
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return ' This field is required ';
+                                              }
+                                              if (emailExist != '') {
+                                                return emailExist;
+                                              }
+                                              return null;
+                                            },
+                                            style: TextStyle(
+                                                height: 0.95
+                                            ),
+                                            decoration: InputDecoration(
+                                              enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                  borderSide: const BorderSide(
+                                                      color: AppTheme.skBorderColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
+
+                                              focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                  borderSide: const BorderSide(
+                                                      color: AppTheme.themeColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
+                                              contentPadding: const EdgeInsets.only(
+                                                  left: 15.0,
+                                                  right: 15.0,
+                                                  top: 20.0,
+                                                  bottom: 20.0),
+                                              suffixText: 'Required' ,
+                                              //tooltip: 'Increase volume by 10',
+                                              suffixStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                                fontFamily: 'capsulesans',
+                                              ),
+                                              errorText: emailExist,
+                                              errorStyle: TextStyle(
+                                                  backgroundColor: Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
+                                                  height: 0.1
+                                              ),
+                                              labelStyle: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black,
+                                              ),
+// errorText: 'Error message',
+                                              labelText: 'Email Address',
+                                              floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+//filled: true,
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 150.0,),
+                                          child: Container(
+                                            height: 2,
+                                            width: MediaQuery.of(context).size.width,
+                                            color: AppTheme.skBorderColor,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 165.0, left: 15.0, right: 15.0),
+                                          child: Text('AUTHENTICATION',style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
+                                            color: Colors.grey,)),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 195.0, left: 15.0, right: 15.0),
+                                          child: Container(
+                                            child: TextFormField(
+                                              obscureText: _obscureText1,
+//The validator receives the text that the user has entered.
+                                              controller: _passwords,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return ' This field is required ';
                                                 }
+                                                if (weakPassword != '') {
+                                                  return weakPassword;
+                                                }
+                                                return null;
                                               },
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5.0,
-                                                    right: 5.0,
-                                                    bottom: 2.0),
-                                                child: Container(
-                                                  child: Text(
-                                                    'Sign up',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w600,
-                                                        letterSpacing:-0.1
+                                              style: TextStyle(
+                                                  height: 0.95
+                                              ),
+                                              decoration: InputDecoration(
+                                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.skBorderColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+
+                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding: const EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 20.0,
+                                                    bottom: 20.0),
+                                                suffixIcon: Padding(
+                                                  padding: const EdgeInsets.only(bottom: 3.0),
+                                                  child: IconButton(
+                                                    icon: _obscureText1? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
+                                                    //tooltip: 'Increase volume by 10',
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        _toggle1();
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                                // suffixStyle: TextStyle(
+                                                //   color: Colors.grey,
+                                                //   fontSize: 12,
+                                                //   fontFamily: 'capsulesans',
+                                                // ),
+                                                errorText: weakPassword,
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily: 'capsulesans',
+                                                    height: 0.1
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+// errorText: 'Error message',
+                                                labelText: 'Password',
+                                                floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 266.0, left: 15.0, right: 15.0),
+                                          child: TextFormField(
+                                            obscureText: _obscureText1,
+//The validator receives the text that the user has entered.
+                                            controller: _confirm,
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return ' This field is required ';
+                                              }
+                                              if (_passwords.text != _confirm.text) {
+                                                return ' Passwords are not match ';
+                                              }
+                                              return null;
+                                            },
+                                            style: TextStyle(
+                                                height: 0.95
+                                            ),
+                                            decoration: InputDecoration(
+                                              enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                  borderSide: const BorderSide(
+                                                      color: AppTheme.skBorderColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
+
+                                              focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                  borderSide: const BorderSide(
+                                                      color: AppTheme.themeColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
+                                              contentPadding: const EdgeInsets.only(
+                                                  left: 15.0,
+                                                  right: 15.0,
+                                                  top: 20.0,
+                                                  bottom: 20.0),
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(bottom: 3.0),
+                                                child: IconButton(
+                                                  icon: _obscureText1? Icon(Icons.remove_red_eye_outlined, size: 21,): Icon(Icons.remove_red_eye, size: 21,),
+                                                  //tooltip: 'Increase volume by 10',
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      _toggle1();
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                              // suffixStyle: TextStyle(
+                                              //   color: Colors.grey,
+                                              //   fontSize: 12,
+                                              //   fontFamily: 'capsulesans',
+                                              // ),
+                                              //errorText: weakPassword,
+                                              errorStyle: TextStyle(
+                                                  backgroundColor: Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
+                                                  height: 0.1
+                                              ),
+                                              labelStyle: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black,
+                                              ),
+// errorText: 'Error message',
+                                              labelText: 'Confirm Password',
+                                              floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+//filled: true,
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 351.0, left: 15.0, right: 15.0),
+                                          child: Column(
+                                            children: [
+                                              ButtonTheme(
+                                                minWidth: MediaQuery.of(context).size.width,
+                                                splashColor: Colors.transparent,
+                                                height: 50,
+                                                child: FlatButton(
+                                                  color: AppTheme.themeColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.themeColor,
+                                                    ),
+                                                  ),
+                                                  onPressed: () async {
+                                                    emailExist = null;
+                                                    weakPassword = null;
+                                                    if (_formKey.currentState!.validate()) {
+                                                      try {
+                                                        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                                            email: _emails.text,
+                                                            password: _passwords.text).then((_) {
+                                                          // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
+                                                          //     VerifyScreen()));
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => VerifyScreen()),);
+                                                        });
+                                                      } on FirebaseAuthException catch (e) {
+                                                        if (e.code == 'weak-password') {
+                                                          setState(() {
+                                                            weakPassword = ' must be 6 characters long ';
+                                                          });
+                                                          print('The password provided is too weak.');
+                                                        } else if (e.code == 'email-already-in-use') {
+                                                          setState(() {
+                                                            emailExist = ' Account already exists ';
+                                                          });
+                                                          print('The account already exists for that email.');
+                                                        } else if (e.code == 'invalid-email') {
+                                                          setState(() {
+                                                            emailExist = ' is invalid email ';
+                                                            // wrongPassword = ' may be incorrect ';
+                                                          });
+                                                          print('Invalid email.');
+                                                        }
+                                                      } catch (e) {
+                                                        print(e);
+                                                      }
+                                                    }
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 5.0,
+                                                        right: 5.0,
+                                                        bottom: 2.0),
+                                                    child: Container(
+                                                      child: Text(
+                                                        'Sign up',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight: FontWeight.w600,
+                                                            letterSpacing:-0.1
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                              SizedBox(height: 22,),
+                                              RichText(
+                                                text: new TextSpan(
+                                                  children: [
+                                                    new TextSpan(
+                                                      text: 'By signing up, you agree to our ',
+                                                      style: new TextStyle(
+                                                          fontSize: 12.5,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                    ),
+                                                    new TextSpan(
+                                                      text: 'Terms',
+                                                      style: new TextStyle(
+                                                          fontSize: 12.5,
+                                                          color: Colors.blue,
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                      recognizer: new TapGestureRecognizer()
+                                                        ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                        },
+                                                    ),
+                                                    new TextSpan(
+                                                      text: ', ',
+                                                      style: new TextStyle(
+                                                          fontSize: 12.5,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                    ),
+                                                    new TextSpan(
+                                                      text: 'Privacy Policy',
+                                                      style: new TextStyle(
+                                                          fontSize: 12.5,
+                                                          color: Colors.blue,
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                      recognizer: new TapGestureRecognizer()
+                                                        ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                        },
+                                                    ),
+                                                    new TextSpan(
+                                                      text: ', and ',
+                                                      style: new TextStyle(
+                                                          fontSize: 12.5,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                    ),
+                                                    new TextSpan(
+                                                      text: 'Cookie Use.',
+                                                      style: new TextStyle(
+                                                          fontSize: 12.5,
+                                                          color: Colors.blue,
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                      recognizer: new TapGestureRecognizer()
+                                                        ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                        },
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          SizedBox(height: 22,),
-                                          RichText(
-                                            text: new TextSpan(
-                                              children: [
-                                                new TextSpan(
-                                                  text: 'By signing up, you agree to our ',
-                                                  style: new TextStyle(
-                                                      fontSize: 12.5,
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.w500
-                                                  ),
-                                                ),
-                                                new TextSpan(
-                                                  text: 'Terms',
-                                                  style: new TextStyle(
-                                                      fontSize: 12.5,
-                                                      color: Colors.blue,
-                                                      fontWeight: FontWeight.w500
-                                                  ),
-                                                  recognizer: new TapGestureRecognizer()
-                                                    ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                    },
-                                                ),
-                                                new TextSpan(
-                                                  text: ', ',
-                                                  style: new TextStyle(
-                                                      fontSize: 12.5,
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.w500
-                                                  ),
-                                                ),
-                                                new TextSpan(
-                                                  text: 'Privacy Policy',
-                                                  style: new TextStyle(
-                                                      fontSize: 12.5,
-                                                      color: Colors.blue,
-                                                      fontWeight: FontWeight.w500
-                                                  ),
-                                                  recognizer: new TapGestureRecognizer()
-                                                    ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                    },
-                                                ),
-                                                new TextSpan(
-                                                  text: ', and ',
-                                                  style: new TextStyle(
-                                                      fontSize: 12.5,
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.w500
-                                                  ),
-                                                ),
-                                                new TextSpan(
-                                                  text: 'Cookie Use.',
-                                                  style: new TextStyle(
-                                                      fontSize: 12.5,
-                                                      color: Colors.blue,
-                                                      fontWeight: FontWeight.w500
-                                                  ),
-                                                  recognizer: new TapGestureRecognizer()
-                                                    ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                                                    },
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
+                                        )
+                                      ],
+                                    ),
+
                                   ],
                                 ),
+                              ),
 
-                              ],
-                            ),
+                            ],
                           ),
-
-                        ],
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0, top: 10.0, bottom: 10.0),
+                  child: Container(
+                    height: 40,
+                    child: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      controller: _bottomTabBarCtl,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 2.0),
+                                child: Text('New to smart kyat pos?',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.02
+                                  ),),
+                              ),
+                              SizedBox(width: 15,),
+                              ButtonTheme(
+                                minWidth: 35,
+                                splashColor: Colors.transparent,
+                                height: 30,
+                                child: FlatButton(
+                                  color: AppTheme.themeColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(50.0),
+                                    side: BorderSide(
+                                      color: AppTheme.themeColor,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    _signupController.animateTo(1);
+                                    _bottomTabBarCtl.animateTo(3);
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Sign up',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )],
+                          ),
+                        ),
+
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 2.0),
+                                child: Text('Have an account already?',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.02
+                                  ),),
+                              ),
+                              SizedBox(width: 15,),
+                              ButtonTheme(
+                                minWidth: 35,
+                                splashColor: Colors.transparent,
+                                height: 30,
+                                child: FlatButton(
+                                  color: AppTheme.themeColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(50.0),
+                                    side: BorderSide(
+                                      color: AppTheme.themeColor,
+                                    ),
+                                  ),
+                                  onPressed: ()  {
+                                    // _signupController.animateTo(1);
+
+                                    if(pressedCreate) {
+                                      _loginTabController.animateTo(1);
+                                      _bottomTabBarCtl.animateTo(0);
+                                      _signupController.animateTo(0);
+                                    } else {
+                                      _bottomTabBarCtl.animateTo(2);
+                                      _loginTabController.animateTo(1);
+                                    }
+
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Login',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 2.0),
+                                child: Text('New to smart kyat pos?',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.02
+                                  ),),
+                              ),
+                              SizedBox(width: 15,),
+                              ButtonTheme(
+                                minWidth: 35,
+                                splashColor: Colors.transparent,
+                                height: 30,
+                                child: FlatButton(
+                                  color: AppTheme.themeColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(50.0),
+                                    side: BorderSide(
+                                      color: AppTheme.themeColor,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    _signupController.animateTo(1);
+                                    _bottomTabBarCtl.animateTo(3);
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Sign up',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 2.0),
+                                child: Text('Have an account already?',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.02
+                                  ),),
+                              ),
+                              SizedBox(width: 15,),
+                              ButtonTheme(
+                                minWidth: 35,
+                                splashColor: Colors.transparent,
+                                height: 30,
+                                child: FlatButton(
+                                  color: AppTheme.themeColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(50.0),
+                                    side: BorderSide(
+                                      color: AppTheme.themeColor,
+                                    ),
+                                  ),
+                                  onPressed: ()  {
+                                    _signupController.animateTo(0);
+                                    _bottomTabBarCtl.animateTo(2);
+                                    _loginTabController.animateTo(1);
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Login',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+            Visibility(
+              visible: isLoading,
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                            child: CupertinoActivityIndicator(radius: 13,)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Padding(
@@ -1716,4 +2010,31 @@ class _WelcomeState extends State<Welcome>
       ),
     );
   }
+}
+
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  @override
+  bool get opaque => false;
+  FadeRoute({required this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+    transitionDuration: Duration(milliseconds: 100),
+    reverseTransitionDuration: Duration(milliseconds: 150),
+  );
 }

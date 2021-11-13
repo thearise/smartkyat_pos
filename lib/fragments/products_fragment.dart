@@ -43,11 +43,14 @@ class ProductsFragmentState extends State<ProductsFragment>
     with
         TickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<ProductsFragment> {
+  String? shopId;
+
   @override
   bool get wantKeepAlive => true;
 
   @override
   initState() {
+    HomePageState().getStoreId().then((value) => shopId = value);
     super.initState();
   }
 
@@ -110,7 +113,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                               .collection('space')
                               .doc('0NHIS0Jbn26wsgCzVBKT')
                               .collection('shops')
-                              .doc('PucvhZDuUz3XlkTgzcjb')
+                              .doc(shopId)
                               .collection('products')
                               .snapshots(),
                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

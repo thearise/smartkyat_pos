@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/fragments/home_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
+
+import '../../app_theme.dart';
 // import 'package:smartkyat_pos/src/screens/home.dart';
 
 class VerifyScreen extends StatefulWidget {
@@ -14,9 +17,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
   final auth = FirebaseAuth.instance;
   late User user;
   late Timer timer;
+  final JiggleController jiggleCtl = JiggleController();
 
   @override
   void initState() {
+    jiggleCtl.toggle();
     user = auth.currentUser!;
     user.sendEmailVerification();
 
@@ -36,8 +41,120 @@ class _VerifyScreenState extends State<VerifyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Text('An email has been sent to ${user.email} please verify'),
+      body: SafeArea(
+        bottom: true,
+        top: true,
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: ListView(
+                  children: [
+                    Jiggle(
+                      jiggleController: jiggleCtl,
+                      // useGestures: true,
+                      extent: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15, top: 60.0, bottom: 60),
+                        child: Container(
+                            child: Image.asset('assets/system/smartkyat.png', height: 100, width: 100,)
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0, bottom: 15.0),
+                      child: Text(
+                        'Waiting your verification...',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.black,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 30.0, bottom: 90.0),
+                      child: Text(
+                        'We have sent an email to thearise.sps@gmail.com so that you can activate your account.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0, bottom: 15.0),
+                        child: Text(
+                          'Exit & terminate the action',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ButtonTheme(
+                      minWidth: MediaQuery.of(context).size.width,
+                      splashColor: Colors.transparent,
+                      height: 50,
+                      child: FlatButton(
+                        color: AppTheme.buttonColor2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.circular(10.0),
+                          side: BorderSide(
+                            color: AppTheme.buttonColor2,
+                          ),
+                        ),
+                        onPressed: () {
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5.0,
+                              right: 5.0,
+                              bottom: 3.0),
+                          child: Container(
+                            child: Text(
+                              'Resend email',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing:-0.1
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text('After clicking the link or button in the email, you will be automatically directed to dashboard.',
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey,
+                      ),),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
