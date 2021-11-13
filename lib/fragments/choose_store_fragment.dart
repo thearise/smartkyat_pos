@@ -121,7 +121,6 @@ class chooseStoreState extends State<chooseStore> {
                                       _result = value;
                                       _shop= data['shop_name'];
                                       print(_result);
-                                      //
                                     });
                                   }
                                 ),
