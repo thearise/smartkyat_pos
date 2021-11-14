@@ -9,6 +9,7 @@ import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
 
 import '../app_theme.dart';
+import 'add_shop_fragment.dart';
 
 
 class chooseStore extends StatefulWidget {
@@ -192,6 +193,7 @@ class chooseStoreState extends State<chooseStore> {
                       ),
                     ),
                     onPressed: () async {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -229,26 +231,29 @@ class chooseStoreState extends State<chooseStore> {
                           color: AppTheme.themeColor,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
 
-                        showOkCancelAlertDialog(
-                          context: context,
-                          title: 'Are you sure to change $_shop ?',
-                          message: 'Click OK to Continue !',
-                          defaultType: OkCancelAlertDefaultType.cancel,
-                        ).then((result) async {
-                          if(result == OkCancelResult.ok) {
-                            setStoreId(_result);
-                            var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                            // if(resultPop == 'logout') {
-                            //   Future.delayed(const Duration(milliseconds: 1000), () {
-                            //     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Welcome()));
-                            //   });
-                            // }
-                          }
-                        }
-                        );
-                      },
+                  setStoreId(_result);
+                  var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+
+                  // showOkCancelAlertDialog(
+                  //   context: context,
+                  //   title: 'Are you sure to change $_shop ?',
+                  //   message: 'Click OK to Continue !',
+                  //   defaultType: OkCancelAlertDefaultType.cancel,
+                  // ).then((result) async {
+                  //   if(result == OkCancelResult.ok) {
+                  //     setStoreId(_result);
+                  //     var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                  //     // if(resultPop == 'logout') {
+                  //     //   Future.delayed(const Duration(milliseconds: 1000), () {
+                  //     //     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Welcome()));
+                  //     //   });
+                  //     // }
+                  //   }
+                  // }
+                  // );
+                  },
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0,

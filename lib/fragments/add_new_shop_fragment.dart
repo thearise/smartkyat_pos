@@ -7,16 +7,16 @@ import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../app_theme.dart';
 
-class AddShop extends StatefulWidget {
-  const AddShop({Key? key}) : super(key: key);
+class AddNewShop extends StatefulWidget {
+  const AddNewShop({Key? key}) : super(key: key);
 
   @override
-  _AddShopState createState() => _AddShopState();
+  _AddNewShopState createState() => _AddNewShopState();
 }
 
 
 
-class _AddShopState extends State<AddShop> {
+class _AddNewShopState extends State<AddNewShop> {
 
   static List<String> shopFieldsValue = [];
   final _formKey = GlobalKey<FormState>();
@@ -214,45 +214,8 @@ class _AddShopState extends State<AddShop> {
                   ),
                 ),
                 SizedBox(height: 30,),
-                Row(
-                  children: [
                     ButtonTheme(
-                      minWidth: (MediaQuery.of(context).size.width/2 )-22,
-                      splashColor: Colors.transparent,
-                      height: 53,
-                      child: FlatButton(
-                        color: AppTheme.buttonColor2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(10.0),
-                          side: BorderSide(
-                            color: AppTheme.buttonColor2,
-                          ),
-                        ),
-                        onPressed: () {
-                         Navigator.pop(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5.0,
-                              right: 5.0,
-                              bottom: 2.0),
-                          child: Container(
-                            child: Text(
-                            'Cancel',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    ButtonTheme(
-                      minWidth: (MediaQuery.of(context).size.width/2 )-22,
+                      minWidth: (MediaQuery.of(context).size.width),
                       splashColor: Colors.transparent,
                       height: 53,
                       child: FlatButton(
@@ -271,13 +234,13 @@ class _AddShopState extends State<AddShop> {
                           final uid = user!.uid;
                           if (_formKey.currentState!.validate()) {
                             await FirebaseFirestore.instance.collection('shops').add(
-                              {
-                                'owner_id' : uid.toString(),
-                                'shop_name': shopFieldsValue[0],
-                                'shop_address' : shopFieldsValue[1],
-                                'shop_phone': shopFieldsValue[2],
-                                'users': FieldValue.arrayUnion([uid.toString()]),
-                              }
+                                {
+                                  'owner_id' : uid.toString(),
+                                  'shop_name': shopFieldsValue[0],
+                                  'shop_address' : shopFieldsValue[1],
+                                  'shop_phone': shopFieldsValue[2],
+                                  'users': FieldValue.arrayUnion([uid.toString()]),
+                                }
                             ).then((value) async {
                               setStoreId(value.id.toString());
                               var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
@@ -303,8 +266,7 @@ class _AddShopState extends State<AddShop> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+
                 SizedBox(height: 30,),
                 Text('Set up some information about your shop later in shop settings.'),
                 Spacer(),
@@ -402,7 +364,6 @@ class _AddShopState extends State<AddShop> {
       ),
     );
   }
-
   setStoreId(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // return(prefs.getString('store'));
