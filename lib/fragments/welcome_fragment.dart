@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -11,6 +12,8 @@ import 'package:smartkyat_pos/src/screens/verify.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app_theme.dart';
+import 'add_new_shop_fragment.dart';
+import 'add_shop_fragment.dart';
 import 'choose_store_fragment.dart';
 
 class Welcome extends StatefulWidget {
@@ -467,6 +470,7 @@ class _WelcomeState extends State<Welcome>
                                                                 ),
                                                               ),
                                                               onPressed: () async {
+
                                                                 setState(() {
                                                                   wrongEmail = null;
                                                                   wrongPassword = null;
@@ -476,8 +480,21 @@ class _WelcomeState extends State<Welcome>
                                                                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                                                                       email: _email.text,
                                                                       password: _password.text,
-                                                                    ).then((_){
-                                                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
+                                                                    ).then((_) async {
+                                                                      bool shopExists = false;
+                                                                      await FirebaseFirestore.instance
+                                                                          .collection('shops')
+                                                                          .where('users', arrayContains: auth.currentUser!.uid.toString())
+                                                                          .get()
+                                                                          .then((QuerySnapshot querySnapshot) {
+                                                                        querySnapshot.docs.forEach((doc) {
+                                                                            shopExists = true;
+                                                                        });
+                                                                      });
+
+                                                                      if(shopExists) {
+                                                                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
+                                                                      } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
                                                                     });
                                                                   } on FirebaseAuthException catch (e) {
                                                                     print(e.code.toString());
@@ -1431,10 +1448,7 @@ class _WelcomeState extends State<Welcome>
                                                             password: _passwords.text).then((_) {
                                                           // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
                                                           //     VerifyScreen()));
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) => VerifyScreen()),);
+                                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
                                                         });
                                                       } on FirebaseAuthException catch (e) {
                                                         if (e.code == 'weak-password') {
