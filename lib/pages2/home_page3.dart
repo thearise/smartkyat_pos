@@ -54,13 +54,14 @@ class HomePageState extends State<HomePage>
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   static int currentTab = 0;
   var deviceIdNum = 0;
+  String? shopId;
 
   List<TabItem> tabs = [];
 
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
 
- // bool sellDone = true;
+  // bool sellDone = true;
   bool onChangeAmountTab = false;
 
   double homeBotPadding = 0;
@@ -141,6 +142,7 @@ class HomePageState extends State<HomePage>
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
+    HomePageState().getStoreId().then((value) => shopId = value);
     _controller = new TabController(length: 4, vsync: this);
     _controller2 = new TabController(length: 3, vsync: this);
     print('home_page' + 'sub1'.substring(3,4));
@@ -708,335 +710,335 @@ class HomePageState extends State<HomePage>
         ),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('shops')
-            .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid.toString())
-            .snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('shops')
+              .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid.toString())
+              .snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if(snapshot.hasData) {
-            List<bool> shopFound = [];
-            for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
-              Map<String, dynamic> data = snapshot.data!.docs[loop]
-                  .data()! as Map<String, dynamic>;
-              var shop_name = data['shop_name'];
-              print('SHOP LIST ' + shop_name);
-              getStoreId().then((value) async {
-                if(snapshot.data!.docs[loop].id == value) {
-                  shopFound.add(true);
-                } else {
-                  shopFound.add(false);
-                }
-                if(loop == snapshot.data!.docs.length-1) {
-                  print('SHOP LIST LIST ' + shopFound.toString());
-                  for(int i = 0; i < shopFound.length; i++) {
-                    if(shopFound[i]) {
-                      break;
-                    } else {
-                      if(i == shopFound.length-1) {
-                        await FirebaseAuth.instance.signOut();
-                        setStoreId('');
-                        // Navigator.pop(context);
-                        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-                        // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
-                        Navigator.of(context).pushReplacement(
-                          FadeRoute(page: Welcome()),
-                        );
+            if(snapshot.hasData) {
+              List<bool> shopFound = [];
+              for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
+                Map<String, dynamic> data = snapshot.data!.docs[loop]
+                    .data()! as Map<String, dynamic>;
+                var shop_name = data['shop_name'];
+                print('SHOP LIST ' + shop_name);
+                getStoreId().then((value) async {
+                  if(snapshot.data!.docs[loop].id == value) {
+                    shopFound.add(true);
+                  } else {
+                    shopFound.add(false);
+                  }
+                  if(loop == snapshot.data!.docs.length-1) {
+                    print('SHOP LIST LIST ' + shopFound.toString());
+                    for(int i = 0; i < shopFound.length; i++) {
+                      if(shopFound[i]) {
+                        break;
+                      } else {
+                        if(i == shopFound.length-1) {
+                          await FirebaseAuth.instance.signOut();
+                          setStoreId('');
+                          // Navigator.pop(context);
+                          // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                          // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                          Navigator.of(context).pushReplacement(
+                            FadeRoute(page: Welcome()),
+                          );
+                        }
                       }
                     }
                   }
-                }
-              });
+                });
 
 
-              // print(snapshot.data!.docs[loop].data()!['shop_name'].toString());
+                // print(snapshot.data!.docs[loop].data()!['shop_name'].toString());
 
+              }
+              // for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
+              //   Map<String, dynamic> data = snapshot.data!.docs[loop]
+              //       .data()! as Map<String, dynamic>;
+              //   var shop_name = data['shop_name'];
+              //   print('SHOP LIST ' + shop_name);
+              //   getStoreId().then((value) async {
+              //     if(snapshot.data!.docs[loop].id == value) {
+              //       shopFound.add(true);
+              //     } else {
+              //       shopFound.add(false);
+              //     }
+              //     if(loop == snapshot.data!.docs.length-1) {
+              //       print('SHOP LIST LIST ' + shopFound.toString());
+              //       for(int i = 0; i < shopFound.length; i++) {
+              //         if(shopFound[i]) {
+              //           break;
+              //         } else {
+              //           if(i == shopFound.length-1) {
+              //             await FirebaseAuth.instance.signOut();
+              //             setStoreId('');
+              //             // Navigator.pop(context);
+              //             // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+              //             // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+              //             Navigator.of(context).pushReplacement(
+              //               FadeRoute(page: Welcome()),
+              //             );
+              //           }
+              //         }
+              //       }
+              //     }
+              //   });
+              //
+              //
+              //   // print(snapshot.data!.docs[loop].data()!['shop_name'].toString());
+              //
+              // }
             }
-            // for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
-            //   Map<String, dynamic> data = snapshot.data!.docs[loop]
-            //       .data()! as Map<String, dynamic>;
-            //   var shop_name = data['shop_name'];
-            //   print('SHOP LIST ' + shop_name);
-            //   getStoreId().then((value) async {
-            //     if(snapshot.data!.docs[loop].id == value) {
-            //       shopFound.add(true);
-            //     } else {
-            //       shopFound.add(false);
-            //     }
-            //     if(loop == snapshot.data!.docs.length-1) {
-            //       print('SHOP LIST LIST ' + shopFound.toString());
-            //       for(int i = 0; i < shopFound.length; i++) {
-            //         if(shopFound[i]) {
-            //           break;
-            //         } else {
-            //           if(i == shopFound.length-1) {
-            //             await FirebaseAuth.instance.signOut();
-            //             setStoreId('');
-            //             // Navigator.pop(context);
-            //             // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-            //             // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
-            //             Navigator.of(context).pushReplacement(
-            //               FadeRoute(page: Welcome()),
-            //             );
-            //           }
-            //         }
-            //       }
-            //     }
-            //   });
-            //
-            //
-            //   // print(snapshot.data!.docs[loop].data()!['shop_name'].toString());
-            //
-            // }
-          }
-          return Stack(
-            children: [
-              WillPopScope(
-                onWillPop: () async {
-                  final isFirstRouteInCurrentTab =
-                  !await tabs[currentTab].key.currentState!.maybePop();
-                  if (isFirstRouteInCurrentTab) {
-                    // if not on the 'main' tab
-                    if (currentTab != 0) {
-                      // select 'main' tab
-                      _selectTab(0);
-                      // back button handled by app
-                      return false;
+            return Stack(
+              children: [
+                WillPopScope(
+                  onWillPop: () async {
+                    final isFirstRouteInCurrentTab =
+                    !await tabs[currentTab].key.currentState!.maybePop();
+                    if (isFirstRouteInCurrentTab) {
+                      // if not on the 'main' tab
+                      if (currentTab != 0) {
+                        // select 'main' tab
+                        _selectTab(0);
+                        // back button handled by app
+                        return false;
+                      }
                     }
-                  }
-                  // let system handle back button if we're on the first route
-                  return isFirstRouteInCurrentTab;
-                },
-                // this is the base scaffold
-                // don't put appbar in here otherwise you might end up
-                // with multiple appbars on one screen
-                // eventually breaking the app
+                    // let system handle back button if we're on the first route
+                    return isFirstRouteInCurrentTab;
+                  },
+                  // this is the base scaffold
+                  // don't put appbar in here otherwise you might end up
+                  // with multiple appbars on one screen
+                  // eventually breaking the app
 
-                child: Scaffold(
-                    resizeToAvoidBottomInset: false,
-                    // backgroundColor: Colors.white,
-                    // indexed stack shows only one child
-                    body: IndexedStack(
-                      index: currentTab,
-                      children: tabs.map((e) => e.page).toList(),
-                    ),
-                    bottomNavigationBar: Padding(
-                      padding: EdgeInsets.only(
-                          bottom: homeBotPadding
+                  child: Scaffold(
+                      resizeToAvoidBottomInset: false,
+                      // backgroundColor: Colors.white,
+                      // indexed stack shows only one child
+                      body: IndexedStack(
+                        index: currentTab,
+                        children: tabs.map((e) => e.page).toList(),
                       ),
-                      child: Container(
-                        color: Colors.white,
-                        height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
-                        child: Column(
-                          children: [
-                            if (MediaQuery.of(context).size.width > 900) Container() else Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border(
-                                    top: BorderSide(
-                                        color: AppTheme.skBorderColor2,
-                                        width: 1.0),
-                                  )
-                              ),
-                              child: Padding(
-                                padding:
-                                const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
-                                child: Container(
-                                  height: 50,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (prodList2.length != 0 || merchantId != 'name-name' ) {
-                                        addDailyExp2(context);
-                                      } else if(prodList.length != 0 || customerId != 'name-name') {
-                                        addDailyExp(context);
-                                      } else addDailyExp(context);
-                                      // if (prodList.length != 0 || customerId != 'name-name') {
-                                      //   addDailyExp(context);
-                                      // } else {
-                                      //   addDailyExp2(context);
-                                      // }
-                                    },
-                                    child: (prodList.length == 0) ? Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        color: customerId == 'name-name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
-                                        // color: Colors.blue
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 13.0, bottom: 15.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0,
-                                                    right: 8.0,
-                                                    bottom: 2.0),
-                                                child: Container(
-                                                  child: Text(
-                                                    'Go to cart',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                      bottomNavigationBar: Padding(
+                        padding: EdgeInsets.only(
+                            bottom: homeBotPadding
+                        ),
+                        child: Container(
+                          color: Colors.white,
+                          height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
+                          child: Column(
+                            children: [
+                              if (MediaQuery.of(context).size.width > 900) Container() else Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border(
+                                      top: BorderSide(
+                                          color: AppTheme.skBorderColor2,
+                                          width: 1.0),
+                                    )
+                                ),
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
+                                  child: Container(
+                                    height: 50,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if (prodList2.length != 0 || merchantId != 'name-name' ) {
+                                          addDailyExp2(context);
+                                        } else if(prodList.length != 0 || customerId != 'name-name') {
+                                          addDailyExp(context);
+                                        } else addDailyExp(context);
+                                        // if (prodList.length != 0 || customerId != 'name-name') {
+                                        //   addDailyExp(context);
+                                        // } else {
+                                        //   addDailyExp2(context);
+                                        // }
+                                      },
+                                      child: (prodList.length == 0) ? Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: customerId == 'name-name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
+                                          // color: Colors.blue
                                         ),
-                                      ),
-                                    ) : Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        color: AppTheme.themeColor,
-                                        // color: Colors.blue
-                                      ),
 
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 13.0, bottom: 15.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0,
-                                                    right: 8.0,
-                                                    bottom: 2.0),
-                                                child: int.parse(totalItems()) == 1? Container(
-                                                  child:
-                                                  Text(
-                                                    totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                ) : Container(
-                                                  child:
-                                                  Text(
-                                                    totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 13.0, bottom: 15.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 8.0,
+                                                      right: 8.0,
+                                                      bottom: 2.0),
+                                                  child: Container(
+                                                    child: Text(
+                                                      'Go to cart',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
+                                        ),
+                                      ) : Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: AppTheme.themeColor,
+                                          // color: Colors.blue
+                                        ),
+
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 13.0, bottom: 15.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 8.0,
+                                                      right: 8.0,
+                                                      bottom: 2.0),
+                                                  child: int.parse(totalItems()) == 1? Container(
+                                                    child:
+                                                    Text(
+                                                      totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ) : Container(
+                                                    child:
+                                                    Text(
+                                                      totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              height: 57,
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                    top: BorderSide(
-                                        color: AppTheme.skBorderColor2, width: 1.0),
-                                  )),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0,top:0.0
-                                      ),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          _scaffoldKey.currentState!.openDrawer();
-                                        },
-                                        child: selectedTab(
+                              Container(
+                                height: 57,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                          color: AppTheme.skBorderColor2, width: 1.0),
+                                    )),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15.0,top:0.0
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            _scaffoldKey.currentState!.openDrawer();
+                                          },
+                                          child: selectedTab(
 
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          child: Text(
-                                            '',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 16.5,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          )),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        homeGlobalKey.currentState!.closeSearch();
-                                        // print('sub ' + subList.toString());
-                                        // testLoopData();
-                                        // addDailyExp(context);
-                                        // _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                        // homeGlobalKey.currentState!.Testing();
-                                        // HomeFragmentState().Testing();
-                                      },
-                                      child: Row(
-                                        children: [
-                                          // StreamBuilder<
-                                          //     DocumentSnapshot<
-                                          //         Map<String, dynamic>>>(
-                                          //     stream: FirebaseFirestore.instance
-                                          //         .collection('test')
-                                          //         .doc('TtWFXrDF1feBVlUTPyQr')
-                                          //         .snapshots(),
-                                          //     builder:
-                                          //         (BuildContext context, snapshot2) {
-                                          //       if (snapshot2.hasData) {
-                                          //         var output1 = snapshot2.data!.data();
-                                          //         var mainUnit =
-                                          //         output1?['double'];
-                                          //         return Text(mainUnit.toString(),
-                                          //           style: TextStyle(
-                                          //             fontSize: 18,
-                                          //             fontWeight: FontWeight.bold,
-                                          //           ),
-                                          //         );
-                                          //       }
-                                          //       return Container();
-                                          //     }),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 13.0,top:2.0
-                                            ),
-                                            child: Container(
-                                                child: Image.asset('assets/system/menu.png', height: 33,)
-                                            ),
-                                          ),
-                                        ],
+                                      Expanded(
+                                        child: Container(
+                                            child: Text(
+                                              '',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 16.5,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black.withOpacity(0.6)),
+                                            )),
                                       ),
-                                    )
-                                  ],
+                                      GestureDetector(
+                                        onTap: () {
+                                          homeGlobalKey.currentState!.closeSearch();
+                                          // print('sub ' + subList.toString());
+                                          // testLoopData();
+                                          // addDailyExp(context);
+                                          // _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                          // homeGlobalKey.currentState!.Testing();
+                                          // HomeFragmentState().Testing();
+                                        },
+                                        child: Row(
+                                          children: [
+                                            // StreamBuilder<
+                                            //     DocumentSnapshot<
+                                            //         Map<String, dynamic>>>(
+                                            //     stream: FirebaseFirestore.instance
+                                            //         .collection('test')
+                                            //         .doc('TtWFXrDF1feBVlUTPyQr')
+                                            //         .snapshots(),
+                                            //     builder:
+                                            //         (BuildContext context, snapshot2) {
+                                            //       if (snapshot2.hasData) {
+                                            //         var output1 = snapshot2.data!.data();
+                                            //         var mainUnit =
+                                            //         output1?['double'];
+                                            //         return Text(mainUnit.toString(),
+                                            //           style: TextStyle(
+                                            //             fontSize: 18,
+                                            //             fontWeight: FontWeight.bold,
+                                            //           ),
+                                            //         );
+                                            //       }
+                                            //       return Container();
+                                            //     }),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 13.0,top:2.0
+                                              ),
+                                              child: Container(
+                                                  child: Image.asset('assets/system/menu.png', height: 33,)
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  // Bottom navigation
+                      )
+                    // Bottom navigation
 
+                  ),
                 ),
-              ),
-            ],
-          );
-        }
+              ],
+            );
+          }
       ),
     );
   }
@@ -1101,7 +1103,7 @@ class HomePageState extends State<HomePage>
   //       .collection(
   //       'shops')
   //       .doc(
-  //       'PucvhZDuUz3XlkTgzcjb')
+  //       shopId)
   //       .collection(
   //       'buyOrders');
   //   var length = 0;
@@ -1118,7 +1120,7 @@ class HomePageState extends State<HomePage>
   //       '0NHIS0Jbn26wsgCzVBKT')
   //       .collection('shops')
   //       .doc(
-  //       'PucvhZDuUz3XlkTgzcjb')
+  //       shopId)
   //       .collection(
   //       'buyOrders')
   //   // FirebaseFirestore.instance.collection('space')
@@ -1148,7 +1150,7 @@ class HomePageState extends State<HomePage>
   //         .collection(
   //         'shops')
   //         .doc(
-  //         'PucvhZDuUz3XlkTgzcjb')
+  //         shopId)
   //         .collection(
   //         'buyOrders')
   //     // FirebaseFirestore.instance.collection('space')
@@ -1229,7 +1231,7 @@ class HomePageState extends State<HomePage>
   //               .collection(
   //               'shops')
   //               .doc(
-  //               'PucvhZDuUz3XlkTgzcjb')
+  //               shopId)
   //               .collection(
   //               'buyOrders')
   //               .doc(dateId)
@@ -1325,7 +1327,7 @@ class HomePageState extends State<HomePage>
   //               .collection(
   //               'shops')
   //               .doc(
-  //               'PucvhZDuUz3XlkTgzcjb')
+  //               shopId)
   //               .collection(
   //               'buyOrders')
   //               .doc(value
@@ -1395,16 +1397,16 @@ class HomePageState extends State<HomePage>
     // if(sellDone == true) {
     //   _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
     // }
-         if(sellDone == true) {
-           _controller.animateTo(
-             0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
-           _textFieldController.clear();
-           paidAmount = 0;
-           debt = 0;
-           refund = 0;
-           totalAmount = double.parse(TtlProdListPrice());
-           sellDone = false;
-         }
+    if(sellDone == true) {
+      _controller.animateTo(
+        0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
+      _textFieldController.clear();
+      paidAmount = 0;
+      debt = 0;
+      refund = 0;
+      totalAmount = double.parse(TtlProdListPrice());
+      sellDone = false;
+    }
     // if(onChangeAmountTab == true) {
     //
     //   onChangeAmountTab = false;
@@ -1691,7 +1693,7 @@ class HomePageState extends State<HomePage>
                                                   height: 52,
                                                   width: MediaQuery.of(context).size.width,
                                                   color: AppTheme.lightBgColor,
-                                                child: Padding(
+                                                  child: Padding(
                                                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                                     child: Row(
                                                       children: [
@@ -1741,12 +1743,9 @@ class HomePageState extends State<HomePage>
                                                               dynamic>>>(
                                                     stream: FirebaseFirestore
                                                         .instance
-                                                        .collection('space')
-                                                        .doc(
-                                                        '0NHIS0Jbn26wsgCzVBKT')
                                                         .collection('shops')
                                                         .doc(
-                                                        'PucvhZDuUz3XlkTgzcjb')
+                                                        shopId)
                                                         .collection('products')
                                                         .doc(prodList[i]
                                                         .split('-')[0])
@@ -2469,11 +2468,11 @@ class HomePageState extends State<HomePage>
                                                                 subList = [];
                                                                 DateTime now = DateTime.now();
 
-                                                                CollectionReference daily_order = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+                                                                CollectionReference daily_order = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
                                                                 int length = 0;
                                                                 print('order creating');
 
-                                                                await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').get().then((QuerySnapshot querySnapshot) async {
+                                                                await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').get().then((QuerySnapshot querySnapshot) async {
                                                                   querySnapshot.docs.forEach((doc) {
                                                                     length += int.parse(doc['daily_order'].length.toString());
                                                                   });
@@ -2492,7 +2491,7 @@ class HomePageState extends State<HomePage>
                                                                     List<String> subName = [];
                                                                     List<double> subStock = [];
 
-                                                                    var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0])
+                                                                    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
                                                                         .get();
 
                                                                     if (docSnapshot10.exists) {
@@ -2521,7 +2520,7 @@ class HomePageState extends State<HomePage>
 
 
                                                                   //Order Add
-                                                                  await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+                                                                  await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
                                                                   // FirebaseFirestore.instance.collection('space')
                                                                       .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
                                                                       .get()
@@ -2541,7 +2540,7 @@ class HomePageState extends State<HomePage>
                                                                           orderLoading = false;
                                                                         });
 
-                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
+                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(dateId).collection('detail')
                                                                             .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                             .set({
                                                                           'total': TtlProdListPrice(),
@@ -2559,7 +2558,7 @@ class HomePageState extends State<HomePage>
 
                                                                         if(customerId.split('-')[0] != 'name') {
 
-                                                                          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                               .set({
                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
                                                                             'debt' : debt,
@@ -2580,7 +2579,7 @@ class HomePageState extends State<HomePage>
                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
                                                                       }).then((value) async  {
                                                                         print('order added');
-                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                             .set({
                                                                           'total': TtlProdListPrice(),
                                                                           'subs': subList,
@@ -2595,7 +2594,7 @@ class HomePageState extends State<HomePage>
                                                                           print('order added');
                                                                         });
                                                                         if(customerId.split('-')[0] != 'name') {
-                                                                          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
+                                                                          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
                                                                             'debt' : debt,
                                                                             'order_pid': value.id,
@@ -2714,13 +2713,13 @@ class HomePageState extends State<HomePage>
                                                                 });
 
 
-                                                                  // mystate(()  {
-                                                                  //   prodList = [];
-                                                                  //   discount = 0.0;
-                                                                  //   debt =0;
-                                                                  //   refund =0;
-                                                                  //   //customerId = 'name-name';
-                                                                  // });
+                                                                // mystate(()  {
+                                                                //   prodList = [];
+                                                                //   discount = 0.0;
+                                                                //   debt =0;
+                                                                //   refund =0;
+                                                                //   //customerId = 'name-name';
+                                                                // });
 
 
                                                                 _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
@@ -2985,7 +2984,7 @@ class HomePageState extends State<HomePage>
                                                       //       '0NHIS0Jbn26wsgCzVBKT')
                                                       //       .collection('shops')
                                                       //       .doc(
-                                                      //       'PucvhZDuUz3XlkTgzcjb')
+                                                      //       shopId)
                                                       //       .collection('products')
                                                       //       .doc(eachProd.split('-')[0])
                                                       //       .snapshots(),
@@ -4059,12 +4058,9 @@ class HomePageState extends State<HomePage>
                                                               dynamic>>>(
                                                     stream: FirebaseFirestore
                                                         .instance
-                                                        .collection('space')
-                                                        .doc(
-                                                        '0NHIS0Jbn26wsgCzVBKT')
                                                         .collection('shops')
                                                         .doc(
-                                                        'PucvhZDuUz3XlkTgzcjb')
+                                                        shopId)
                                                         .collection('products')
                                                         .doc(prodList2[i]
                                                         .split('-')[0])
@@ -4783,15 +4779,15 @@ class HomePageState extends State<HomePage>
                                                             Spacer(),
                                                             GestureDetector(
                                                               onTap: () async {
-                                                                 discountAmount2 = discount2;
+                                                                discountAmount2 = discount2;
                                                                 subList = [];
                                                                 DateTime now = DateTime.now();
 
-                                                                CollectionReference daily_order = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders');
+                                                                CollectionReference daily_order = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
                                                                 int length = 0;
                                                                 print('order creating');
 
-                                                                await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders').get().then((QuerySnapshot querySnapshot) async {
+                                                                await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').get().then((QuerySnapshot querySnapshot) async {
                                                                   querySnapshot.docs.forEach((doc) {
                                                                     length += int.parse(doc['daily_order'].length.toString());
                                                                   });
@@ -4810,7 +4806,7 @@ class HomePageState extends State<HomePage>
                                                                     List<String> subName = [];
                                                                     List<double> subStock = [];
 
-                                                                    var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(str.split('-')[0])
+                                                                    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
                                                                         .get();
 
                                                                     if (docSnapshot10.exists) {
@@ -4827,9 +4823,8 @@ class HomePageState extends State<HomePage>
                                                                     print(subStock.toString());
 
                                                                     if(str.split('-')[4]=='unit_name') {
-                                                                      await FirebaseFirestore.instance.collection('space').doc(
-                                                                          '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                          'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                      await FirebaseFirestore.instance.collection('shops').doc(
+                                                                          shopId).collection('products').doc(
                                                                           str.split('-')[0])
                                                                           .update({
                                                                         'inStock1': FieldValue.increment(double.parse(str.split('-')[2].toString())),
@@ -4839,9 +4834,8 @@ class HomePageState extends State<HomePage>
                                                                           .catchError((error) => print("Failed to update user: $error"));
                                                                     }
                                                                     else if (str.split('-')[4]=='sub1_name') {
-                                                                      await FirebaseFirestore.instance.collection('space').doc(
-                                                                          '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                          'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                      await FirebaseFirestore.instance.collection('shops').doc(
+                                                                          shopId).collection('products').doc(
                                                                           str.split('-')[0])
                                                                           .update({
                                                                         'inStock2': FieldValue.increment(double.parse(str.split('-')[2].toString())),
@@ -4851,9 +4845,8 @@ class HomePageState extends State<HomePage>
                                                                           .catchError((error) => print("Failed to update user: $error"));
 
                                                                     } else if (str.split('-')[4]=='sub2_name') {
-                                                                      await FirebaseFirestore.instance.collection('space').doc(
-                                                                          '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                                          'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                                      await FirebaseFirestore.instance.collection('shops').doc(
+                                                                          shopId).collection('products').doc(
                                                                           str.split('-')[0])
                                                                           .update({
                                                                         'inStock3': FieldValue.increment(double.parse(str.split('-')[2].toString())),
@@ -4863,7 +4856,7 @@ class HomePageState extends State<HomePage>
                                                                           .catchError((error) => print("Failed to update user: $error"));
                                                                     }
                                                                   }
-                                                                  await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders')
+                                                                  await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
                                                                   // FirebaseFirestore.instance.collection('space')
                                                                       .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
                                                                       .get()
@@ -4883,7 +4876,7 @@ class HomePageState extends State<HomePage>
                                                                           orderLoading = false;
                                                                         });
 
-                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders').doc(dateId).collection('expansion')
+                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(dateId).collection('expansion')
                                                                             .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                             .set({
                                                                           'total': TtlProdListPrice2(),
@@ -4901,7 +4894,7 @@ class HomePageState extends State<HomePage>
 
                                                                         if(merchantId.split('-')[0] != 'name') {
 
-                                                                          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                               .set({
                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
                                                                             'debt' : debt2,
@@ -4922,7 +4915,7 @@ class HomePageState extends State<HomePage>
                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
                                                                       }).then((value) async  {
                                                                         print('order added');
-                                                                        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('buyOrders').doc(value.id).collection('expansion').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(value.id).collection('expansion').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
                                                                             .set({
                                                                           'total': TtlProdListPrice2(),
                                                                           'subs': subList,
@@ -4937,7 +4930,7 @@ class HomePageState extends State<HomePage>
                                                                           print('order added');
                                                                         });
                                                                         if(merchantId.split('-')[0] != 'name') {
-                                                                          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
+                                                                          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
                                                                             'debt' : debt2,
                                                                             'order_pid': value.id,
@@ -4974,7 +4967,7 @@ class HomePageState extends State<HomePage>
                                                                 //_textFieldController2.clear();
                                                                 Navigator.pop(context);
                                                                 sellDone = true;
-                                                                },
+                                                              },
                                                               child: Container(
                                                                 width: (MediaQuery.of(context).size.width - 45)/2,
                                                                 height: 55,
@@ -5235,7 +5228,7 @@ class HomePageState extends State<HomePage>
                                                       //       '0NHIS0Jbn26wsgCzVBKT')
                                                       //       .collection('shops')
                                                       //       .doc(
-                                                      //       'PucvhZDuUz3XlkTgzcjb')
+                                                      //       shopId)
                                                       //       .collection('products')
                                                       //       .doc(eachProd.split('-')[0])
                                                       //       .snapshots(),
@@ -5448,9 +5441,9 @@ class HomePageState extends State<HomePage>
                                                                 setState((){
                                                                   mystate(() {
                                                                     _controller2.animateTo(0);
-                                                                   _textFieldController2.clear();
-                                                                   paidAmount2 = 0;
-                                                                   debt2 = 0;
+                                                                    _textFieldController2.clear();
+                                                                    paidAmount2 = 0;
+                                                                    debt2 = 0;
                                                                     refund2 = 0;
                                                                     totalAmount2 = double.parse(TtlProdListPrice2());
                                                                   });
@@ -5954,7 +5947,7 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> decStockFromInv(id, unit, num) async {
-    CollectionReference users = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products');
+    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 
@@ -5966,7 +5959,7 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> incStockFromInv(id, unit, num) async {
-    CollectionReference users = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products');
+    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 
@@ -5978,7 +5971,7 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> sub1Execution(subStock, subLink, id, num) async {
-    var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(id).get();
+    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
     if (docSnapshot10.exists) {
       Map<String, dynamic>? data10 = docSnapshot10.data();
       subStock[1] = double.parse((data10 ? ['inStock2']).toString());
@@ -5993,7 +5986,7 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> sub2Execution(subStock, subLink, id, num) async {
-    var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(id).get();
+    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
     if (docSnapshot10.exists) {
       Map<String, dynamic>? data10 = docSnapshot10.data();
       subStock[2] = double.parse((data10 ? ['inStock3']).toString());

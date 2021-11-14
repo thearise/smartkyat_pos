@@ -202,8 +202,7 @@ class HomeFragmentState extends State<HomeFragment>
 
     // print('each ');
     CollectionReference orders = FirebaseFirestore
-        .instance
-        .collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('orders');
+        .instance.collection('shops').doc(shopId).collection('orders');
 
     orders.get().then((QuerySnapshot
     querySnapshot) async {
@@ -1299,8 +1298,6 @@ class HomeFragmentState extends State<HomeFragment>
 
                               child: StreamBuilder(
                                   stream: FirebaseFirestore.instance
-                                      .collection('space')
-                                      .doc('0NHIS0Jbn26wsgCzVBKT')
                                       .collection('shops')
                                       .doc(shopId)
                                       .collection('products')
@@ -1488,7 +1485,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                     Expanded(
                                                                       child: GestureDetector(
                                                                         onTap: () {
-                                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
+                                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
                                                                         },
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.end,
@@ -1954,7 +1951,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                       Expanded(
                                                                         child: GestureDetector(
                                                                           onTap: () {
-                                                                            Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
+                                                                            Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
                                                                           },
                                                                           child: Text('Detail',
                                                                             textAlign: TextAlign.right,
@@ -2580,8 +2577,8 @@ class HomeFragmentState extends State<HomeFragment>
             // sections.add(buyOrders);
             sectionList2 = sections;
           });
-
-          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('buyOrders')
+          
+          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
           // FirebaseFirestore.instance.collection('space')
               .where('each_order',  arrayContains: searchValue)
               .limit(1)
@@ -2614,7 +2611,7 @@ class HomeFragmentState extends State<HomeFragment>
 
 
             querySnapshot1.docs.forEach((doc) async {
-              await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('buyOrders').doc(doc.id).collection('expansion')
+              await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(doc.id).collection('expansion')
                   .where('orderId',  isEqualTo: searchValue)
                   .get()
                   .then((QuerySnapshot querySnapshot2) async {
@@ -2631,8 +2628,7 @@ class HomeFragmentState extends State<HomeFragment>
                   });
                 });
 
-                await FirebaseFirestore.instance.collection('space').doc(
-                    '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                await FirebaseFirestore.instance.collection('shops').doc(
                     shopId).collection('merchants')
                     .get()
                     .then((QuerySnapshot querySnapshot3) {
@@ -2701,7 +2697,7 @@ class HomeFragmentState extends State<HomeFragment>
             sectionList2 = sections;
           });
 
-          await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('orders')
+          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
           // FirebaseFirestore.instance.collection('space')
               .where('each_order',  arrayContains: searchValue)
               .limit(1)
@@ -2734,7 +2730,7 @@ class HomeFragmentState extends State<HomeFragment>
 
 
             querySnapshot1.docs.forEach((doc) async {
-              await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('orders').doc(doc.id).collection('detail')
+              await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(doc.id).collection('detail')
                   .where('orderId',  isEqualTo: searchValue)
                   .get()
                   .then((QuerySnapshot querySnapshot2) async {
@@ -2751,8 +2747,7 @@ class HomeFragmentState extends State<HomeFragment>
                   });
                 });
 
-                await FirebaseFirestore.instance.collection('space').doc(
-                    '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
+                await FirebaseFirestore.instance.collection('shops').doc(
                     shopId).collection('customers')
                     .get()
                     .then((QuerySnapshot querySnapshot3) {
@@ -2823,7 +2818,7 @@ class HomeFragmentState extends State<HomeFragment>
         List<String> items = [];
         List<String> items1 = [];
 
-        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('customers')
+        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers')
             .get()
             .then((QuerySnapshot querySnapshot) {
 
@@ -2852,7 +2847,7 @@ class HomeFragmentState extends State<HomeFragment>
         });
 
 
-        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('merchants')
+        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants')
             .get()
             .then((QuerySnapshot querySnapshot) {
 
@@ -2923,7 +2918,7 @@ class HomeFragmentState extends State<HomeFragment>
         });
         List<String> items = [];
 
-        await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(shopId).collection('products')
+        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
             .get()
             .then((QuerySnapshot querySnapshot) {
 
@@ -3214,8 +3209,6 @@ class HomeFragmentState extends State<HomeFragment>
   overAllSearch() {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('space')
-            .doc('0NHIS0Jbn26wsgCzVBKT')
             .collection('shops')
             .doc(shopId)
             .collection('products')
@@ -3336,8 +3329,8 @@ class HomeFragmentState extends State<HomeFragment>
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => ProductDetailsView2(
-                                                idString: item.split('^sps^')[0], toggleCoinCallback:
-                                              addProduct1, toggleCoinCallback3: addProduct3,)),);
+                                                  idString: item.split('^sps^')[0], toggleCoinCallback:
+                                              addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(),)),);
                                       },
                                       child: Container(
                                         color: AppTheme.lightBgColor,
@@ -3402,7 +3395,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                               )
                                                                   : CachedNetworkImage(
                                                                 imageUrl:
-                                                                'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
                                                                 width: 75,
                                                                 height: 75,
                                                                 // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
@@ -3644,8 +3637,8 @@ class HomeFragmentState extends State<HomeFragment>
                                               builder: (
                                                   context) =>
                                                   CustomerInfoSubs(
-                                                    id: item.split('^sps^')[0],
-                                                    toggleCoinCallback: addCustomer2Cart1,)),
+                                                      id: item.split('^sps^')[0],
+                                                      toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(),)),
                                         );
                                       },
                                       child: Padding(
@@ -3736,8 +3729,6 @@ class HomeFragmentState extends State<HomeFragment>
                                                         children: [
                                                           StreamBuilder(
                                                               stream: FirebaseFirestore.instance
-                                                                  .collection('space')
-                                                                  .doc('0NHIS0Jbn26wsgCzVBKT')
                                                                   .collection('shops')
                                                                   .doc(shopId)
                                                                   .collection('customers')
@@ -3993,8 +3984,8 @@ class HomeFragmentState extends State<HomeFragment>
                                                 builder: (
                                                     context) =>
                                                     CustomerInfoSubs(
-                                                      id: item.split('^sps^')[0],
-                                                      toggleCoinCallback: addCustomer2Cart1,)),
+                                                        id: item.split('^sps^')[0],
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(),)),
                                           );
                                         },
                                         child: Container(
@@ -4088,8 +4079,6 @@ class HomeFragmentState extends State<HomeFragment>
                                                             children: [
                                                               StreamBuilder(
                                                                   stream: FirebaseFirestore.instance
-                                                                      .collection('space')
-                                                                      .doc('0NHIS0Jbn26wsgCzVBKT')
                                                                       .collection('shops')
                                                                       .doc(shopId)
                                                                       .collection('merchants')
@@ -4170,8 +4159,8 @@ class HomeFragmentState extends State<HomeFragment>
                                             builder: (
                                                 context) =>
                                                 MerchantInfoSubs(
-                                                  id: item.split('^sps^')[0],
-                                                  toggleCoinCallback: addMerchant2Cart,)),
+                                                    id: item.split('^sps^')[0],
+                                                    toggleCoinCallback: addMerchant2Cart, shopId: shopId.toString(),)),
                                       );
                                     },
                                     child: Container(
@@ -4265,8 +4254,6 @@ class HomeFragmentState extends State<HomeFragment>
                                                         children: [
                                                           StreamBuilder(
                                                               stream: FirebaseFirestore.instance
-                                                                  .collection('space')
-                                                                  .doc('0NHIS0Jbn26wsgCzVBKT')
                                                                   .collection('shops')
                                                                   .doc(shopId)
                                                                   .collection('merchants')
@@ -4448,7 +4435,7 @@ class HomeFragmentState extends State<HomeFragment>
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, )),
+                                                builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
                                           );
                                         },
                                         child: Stack(
@@ -4680,7 +4667,7 @@ class HomeFragmentState extends State<HomeFragment>
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {},)),
+                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
                                           );
                                         },
                                         child: Stack(

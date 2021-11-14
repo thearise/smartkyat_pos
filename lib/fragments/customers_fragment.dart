@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'package:smartkyat_pos/widgets/add_new_customer.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 
@@ -21,6 +22,8 @@ class CustomersFragment extends StatefulWidget {
 }
 
 class _CustomersFragmentState extends State<CustomersFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<CustomersFragment>{
+  String? shopId;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -30,6 +33,7 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
   var innerId;
   @override
   initState() {
+    HomePageState().getStoreId().then((value) => shopId = value);
     super.initState();
   }
 
@@ -69,10 +73,8 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                     color: Colors.white,
                     child: StreamBuilder(
                         stream: FirebaseFirestore.instance
-                            .collection('space')
-                            .doc('0NHIS0Jbn26wsgCzVBKT')
                             .collection('shops')
-                            .doc('PucvhZDuUz3XlkTgzcjb')
+                            .doc(shopId)
                             .collection('customers')
                             .where('customer_name', isNotEqualTo: 'Unknown')
                             .snapshots(),
@@ -314,7 +316,7 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                                                     context) =>
                                                     CustomerInfoSubs(
                                                         id: version,
-                                                        toggleCoinCallback: addCustomer2Cart1)),
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(),)),
                                           );
                                         },
                                         child: Padding(
@@ -408,10 +410,8 @@ class _CustomersFragmentState extends State<CustomersFragment> with TickerProvid
                                                           children: [
                                                             StreamBuilder(
                                                                 stream: FirebaseFirestore.instance
-                                                                    .collection('space')
-                                                                    .doc('0NHIS0Jbn26wsgCzVBKT')
                                                                     .collection('shops')
-                                                                    .doc('PucvhZDuUz3XlkTgzcjb')
+                                                                    .doc(shopId)
                                                                     .collection('customers')
                                                                     .doc(snapshot.data!.docs[index].id)
                                                                     .collection('orders')

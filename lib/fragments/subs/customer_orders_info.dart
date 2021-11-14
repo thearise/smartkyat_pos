@@ -9,8 +9,9 @@ import 'order_info.dart';
 
 
 class CustomerOrdersInfoSubs extends StatefulWidget {
-  const CustomerOrdersInfoSubs({Key? key, required this.id});
+  const CustomerOrdersInfoSubs({Key? key, required this.id, required this.shopId});
   final String id;
+  final String shopId;
 
   @override
   _CustomerOrdersInfoSubsState createState() => _CustomerOrdersInfoSubsState();
@@ -35,10 +36,8 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
         bottom: true,
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
-                .collection('space')
-                .doc('0NHIS0Jbn26wsgCzVBKT')
                 .collection('shops')
-                .doc('PucvhZDuUz3XlkTgzcjb')
+                .doc(widget.shopId)
                 .collection('customers')
                 .doc(widget.id.toString())
                 .snapshots(),
@@ -129,10 +128,8 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                       Expanded(
                         child: StreamBuilder(
                             stream: FirebaseFirestore.instance
-                                .collection('space')
-                                .doc('0NHIS0Jbn26wsgCzVBKT')
                                 .collection('shops')
-                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                .doc(widget.shopId)
                                 .collection('customers')
                                 .doc(widget.id)
                                 .collection('orders')
@@ -188,7 +185,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                             'All',
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
-                                                                fontSize: 14,
+                                                              fontSize: 14,
                                                                 fontWeight: FontWeight.w500,
                                                                 color: Colors.black),
                                                           ),
@@ -329,7 +326,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => OrderInfoSub(data: items, toggleCoinCallback: () {})),
+                                                    builder: (context) => OrderInfoSub(data: items, toggleCoinCallback: () {}, shopId: widget.shopId,)),
                                               );
                                               print('Items');
                                             },

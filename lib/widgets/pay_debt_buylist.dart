@@ -6,10 +6,11 @@ import 'package:flutter/services.dart';
 import '../app_theme.dart';
 
 class PayDebtBuyList extends StatefulWidget {
-  const PayDebtBuyList({Key? key, required this.debt, required this.data, required this.docId}) : super(key: key);
+  const PayDebtBuyList({Key? key, required this.debt, required this.shopId, required this.data, required this.docId}) : super(key: key);
   final String debt;
   final String data;
   final String docId;
+  final String shopId;
   @override
   _PayDebtBuyListState createState() => _PayDebtBuyListState();
 }
@@ -146,10 +147,8 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                       '^' +
                                       widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
                                   FirebaseFirestore.instance
-                                      .collection('space')
-                                      .doc('0NHIS0Jbn26wsgCzVBKT')
                                       .collection('shops')
-                                      .doc('PucvhZDuUz3XlkTgzcjb')
+                                      .doc(widget.shopId)
                                       .collection('buyOrders')
                                       .doc(widget.docId)
                                       .update({
@@ -159,10 +158,8 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                     print('array removed');
 
                                     FirebaseFirestore.instance
-                                        .collection('space')
-                                        .doc('0NHIS0Jbn26wsgCzVBKT')
                                         .collection('shops')
-                                        .doc('PucvhZDuUz3XlkTgzcjb')
+                                        .doc(widget.shopId)
                                         .collection('buyOrders')
                                         .doc(widget.docId)
                                         .update({
@@ -172,9 +169,8 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                       print('array updated');  });
                                   });
 
-                                  await FirebaseFirestore.instance.collection('space').doc(
-                                      '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                      'PucvhZDuUz3XlkTgzcjb').collection('buyOrders').doc(
+                                  await FirebaseFirestore.instance.collection('shops').doc(
+                                      widget.shopId).collection('buyOrders').doc(
                                       widget.docId).collection('expansion').doc(widget.data.split('^')[0])
                                       .update({
                                     'debt' : debtAmount
@@ -182,9 +178,8 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                       .then((value) => print("User Updated"))
                                       .catchError((error) => print("Failed to update user: $error"));
 
-                                  await FirebaseFirestore.instance.collection('space').doc(
-                                      '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                      'PucvhZDuUz3XlkTgzcjb').collection('merchants').doc(widget.data
+                                  await FirebaseFirestore.instance.collection('shops').doc(
+                                      widget.shopId).collection('merchants').doc(widget.data
                                       .split('^')[3]
                                       .split('&')[1]).collection('buyOrders').doc(widget.data.split('^')[0])
                                       .update({

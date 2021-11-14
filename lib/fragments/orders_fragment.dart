@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:intl/intl.dart';
 import '../app_theme.dart';
@@ -20,6 +21,8 @@ class _OrdersFragmentState extends State<OrdersFragment>
     with
         TickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<OrdersFragment> {
+
+  String? shopId;
   @override
   bool get wantKeepAlive => true;
   var sectionList;
@@ -42,6 +45,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
       }
     });
     print(convertToDate('20210904').toString());
+    HomePageState().getStoreId().then((value) => shopId = value);
     super.initState();
   }
 
@@ -49,6 +53,8 @@ class _OrdersFragmentState extends State<OrdersFragment>
   void dispose() {
     super.dispose();
   }
+
+
 
   final cateScCtler = ScrollController();
   final _width = 10.0;
@@ -80,17 +86,14 @@ class _OrdersFragmentState extends State<OrdersFragment>
                           width: MediaQuery.of(context).size.width,
                           color: Colors.white,
                           child: StreamBuilder(
-                              stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').orderBy('date', descending: true).snapshots(),
+                              stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').orderBy('date', descending: true).snapshots(),
                               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if(snapshot.hasData) {
                                   return StreamBuilder(
-                                      stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('customers').snapshots(),
+                                      stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').snapshots(),
                                       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
                                         if(snapshot2.hasData) {
                                           var sections = List<ExampleSection>.empty(growable: true);
-                                          // snapshot.data!.docs.map((document) {
-                                          // }).toList();
-
                                           snapshot.data!.docs.map((document) async {
 
                                             // print('herre ' + document.id);
@@ -335,7 +338,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                           Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
                                                           );
                                                         },
                                                         child: Stack(
@@ -566,7 +569,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
+                                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -813,10 +816,8 @@ class _OrdersFragmentState extends State<OrdersFragment>
                         color: AppTheme.lightBgColor,
                         child: StreamBuilder(
                             stream: FirebaseFirestore.instance
-                                .collection('space')
-                                .doc('0NHIS0Jbn26wsgCzVBKT')
                                 .collection('shops')
-                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                .doc(shopId)
                                 .collection('buyOrders')
                                 .orderBy('date', descending: true)
                                 .snapshots(),
@@ -825,10 +826,8 @@ class _OrdersFragmentState extends State<OrdersFragment>
                               if (snapshot.hasData) {
                                 return StreamBuilder(
                                     stream: FirebaseFirestore.instance
-                                        .collection('space')
-                                        .doc('0NHIS0Jbn26wsgCzVBKT')
                                         .collection('shops')
-                                        .doc('PucvhZDuUz3XlkTgzcjb')
+                                        .doc(shopId)
                                         .collection('merchants')
                                         .snapshots(),
                                     builder: (context,
@@ -903,7 +902,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                             data:
                                                                             item,
                                                                             toggleCoinCallback:
-                                                                                () {})),
+                                                                                () {}, shopId: shopId.toString(),)),
                                                               );
                                                             },
                                                             child: ListTile(
@@ -967,7 +966,7 @@ class _OrdersFragmentState extends State<OrdersFragment>
                                                                   BuyListInfo(
                                                                       data: item,
                                                                       toggleCoinCallback:
-                                                                          () {})),
+                                                                          () {}, shopId: shopId.toString(),)),
                                                         );
                                                       },
                                                       child: ListTile(

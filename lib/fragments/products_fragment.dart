@@ -110,8 +110,6 @@ class ProductsFragmentState extends State<ProductsFragment>
 
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
-                              .collection('space')
-                              .doc('0NHIS0Jbn26wsgCzVBKT')
                               .collection('shops')
                               .doc(shopId)
                               .collection('products')
@@ -353,7 +351,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                   MaterialPageRoute(
                                                       builder: (context) => ProductDetailsView2(
                                                           idString: version, toggleCoinCallback:
-                                                      addProduct1, toggleCoinCallback3: addProduct3)),);
+                                                      addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(),)),);
                                               },
                                               child: Padding(
                                                 padding:
