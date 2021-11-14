@@ -1436,7 +1436,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                   Expanded(
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: '',)),);
                                                       },
                                                       child: Row(
                                                         mainAxisAlignment: MainAxisAlignment.end,
@@ -1947,7 +1947,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                     Expanded(
                                                       child: GestureDetector(
                                                         onTap: () {
-                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail()),);
+                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: '',)),);
                                                         },
                                                         child: Text('Detail',
                                                           textAlign: TextAlign.right,

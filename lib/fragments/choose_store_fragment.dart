@@ -31,6 +31,7 @@ class chooseStoreState extends State<chooseStore> {
   void initState() {
     // jiggleCtl.toggle();
     // user = auth.currentUser!;
+    print('UID -> ' + auth.currentUser!.uid.toString());
     // user.sendEmailVerification();
 
     // timer = Timer.periodic(Duration(seconds: 5), (timer) {
@@ -79,7 +80,9 @@ class chooseStoreState extends State<chooseStore> {
                   color: Colors.grey,),),
                 SizedBox(height: 13,),
                 StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').snapshots(),
+                    stream: FirebaseFirestore.instance.collection('shops')
+                        .where('users', arrayContains: auth.currentUser!.uid.toString())
+                        .snapshots(),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if(snapshot.hasData) {
                         var index = 0;
@@ -105,12 +108,54 @@ class chooseStoreState extends State<chooseStore> {
                                 ),
                                 child: RadioListTile(
                                     dense: true,
-                                    contentPadding: EdgeInsets.only(top: 1, bottom: 0, left: 10, right: 15),
+                                    contentPadding: EdgeInsets.only(top: 1, bottom: 0, left: 5, right: 15),
+                                    // title: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
                                     title: Container(
                                       // color: Colors.blue,
                                       child: Padding(
                                         padding: const EdgeInsets.only(left: 0.0),
-                                        child: Text(data['shop_name'], style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500),),
+                                        child: Row(
+                                          children: [
+
+                                            Expanded(child: Transform.translate(
+                                              offset: Offset(-12, 0),
+                                              child: Container(
+                                                child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
+                                              ),
+                                            ),),
+                                            data['owner_id'] == auth.currentUser!.uid.toString()?
+                                            Container(
+                                              height: 23,
+                                              width: 55,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                    Radius.circular(6.0),
+                                                  ),
+                                                  color: AppTheme.badgeBgSuccess),
+                                              child: Text('Owner', style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  color: Colors.white
+                                              ),),
+                                            ):
+                                            Container(
+                                              height: 23,
+                                              width: 55,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                    Radius.circular(6.0),
+                                                  ),
+                                                  color: AppTheme.badgeBgSecond),
+                                              child: Text('Staff', style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  color: Colors.white
+                                              ),),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     activeColor: AppTheme.themeColor,

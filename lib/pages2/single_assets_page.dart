@@ -151,7 +151,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                               size: 20,
                               color: Colors.white,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               prodFieldsValue = [];
 
                               if (_formKey.currentState!.validate()) {
@@ -170,62 +170,44 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                 var photoArray = ['', '', '', '', ''];
 
                                 var prodExist = false;
-                                var spaceDocId = '';
 
-                                FirebaseFirestore.instance
-                                    .collection('space')
-                                    .where('user_id',
-                                        isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
-                                    .get()
-                                    .then((QuerySnapshot querySnapshot) {
-                                  querySnapshot.docs.forEach((doc) {
-                                    spaceDocId = doc.id;
-                                  });
+                                var productId = await FirebaseFirestore.instance
+                                    .collection('shops')
+                                    .doc(shopId)
+                                    .collection('products');
 
-                                  print('space shi p thar');
-                                  getStoreId().then((String result2) {
-                                    print('store id ' + result2.toString());
+                                   // productId.where('prod_name', isEqualTo: prodFieldsValue[0]).get().then((QuerySnapshot
+                                   //          querySnapshot) async {
+                                   //    querySnapshot.docs.forEach((doc) {
+                                   //      prodExist = true;
+                                   //    });
 
-                                    FirebaseFirestore.instance
-                                        .collection('space')
-                                        .doc('0NHIS0Jbn26wsgCzVBKT')
-                                        .collection('shops')
-                                        .doc(shopId)
-                                        .collection('products')
-                                        .where('prod_name',
-                                            isEqualTo: prodFieldsValue[0])
-                                        .get()
-                                        .then((QuerySnapshot
-                                            querySnapshot) async {
-                                      querySnapshot.docs.forEach((doc) {
-                                        prodExist = true;
-                                      });
-
-                                      if (prodExist) {
-                                        print('product already');
-                                        var result = await showOkAlertDialog(
-                                          context: context,
-                                          title: 'Warning',
-                                          message: 'Product name already!',
-                                          okLabel: 'OK',
-                                        );
-                                        setState(() {
-                                          prodAdding = false;
-                                        });
-                                      } else {
-                                        for (int i = 0;
-                                            i < assets.length;
-                                            i++) {
-                                          AssetEntity asset =
-                                              assets.elementAt(i);
-                                          asset.originFile.then((value) async {
-                                            addProduct(value!).then((value) {
-                                              photoArray[i] = value.toString();
-                                              photoUploaded(
-                                                  assets.length, photoArray);
-                                            });
-                                          });
-                                        }
+                                      // if (prodExist) {
+                                      //   print('product already');
+                                      //   var result = await showOkAlertDialog(
+                                      //     context: context,
+                                      //     title: 'Warning',
+                                      //     message: 'Product name already!',
+                                      //     okLabel: 'OK',
+                                      //   );
+                                      //   setState(() {
+                                      //     prodAdding = false;
+                                      //   });
+                                      // }
+                                      // else {
+                                      //   for (int i = 0;
+                                      //       i < assets.length;
+                                      //       i++) {
+                                      //     AssetEntity asset =
+                                      //         assets.elementAt(i);
+                                      //     asset.originFile.then((value) async {
+                                      //       addProduct(value!).then((value) {
+                                      //         photoArray[i] = value.toString();
+                                      //         photoUploaded(
+                                      //             assets.length, photoArray);
+                                      //       });
+                                      //     });
+                                      //   }
 
                                         if (assets.length == 0) {
                                           var subUnitFieldValue = [
@@ -262,26 +244,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           print('gg nothing' +
                                               subUnitFieldValue.toString());
 
-                                          CollectionReference spaces =
-                                              FirebaseFirestore.instance
-                                                  .collection('space');
-                                          var prodExist = false;
-                                          var spaceDocId = '';
-                                          FirebaseFirestore.instance
-                                              .collection('space')
-                                              .where('user_id',
-                                                  isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
-                                              .get()
-                                              .then((QuerySnapshot
-                                                  querySnapshot) {
-                                            querySnapshot.docs.forEach((doc) {
-                                              spaceDocId = doc.id;
-                                            });
-
-                                            print('space shi p thar');
-                                            getStoreId().then((String result2) {
-                                              print('store id ' +
-                                                  result2.toString());
 
                                               String sub1_buy;
                                               String sub2_buy;
@@ -352,12 +314,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                               }
 
-                                              FirebaseFirestore.instance
-                                                  .collection('space')
-                                                  .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                  .collection('shops')
-                                                  .doc(shopId)
-                                                  .collection('products')
+                                              productId
                                                   .where('prod_name',
                                                       isEqualTo:
                                                           prodFieldsValue[0])
@@ -380,13 +337,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     okLabel: 'OK',
                                                   );
                                                 } else {
-                                                  CollectionReference shops =
-                                                      FirebaseFirestore.instance
-                                                          .collection('space')
-                                                          .doc(
-                                                              '0NHIS0Jbn26wsgCzVBKT')
-                                                          .collection('shops')
-                                                          .doc(
+                                                  CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
                                                               shopId)
                                                           .collection(
                                                               'products');
@@ -636,13 +587,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   });
                                                 }
                                               });
-                                            });
-                                          });
                                         }
-                                      }
-                                    });
-                                  });
-                                });
                               }
 
 // print('here ' + nameController.text.toString());

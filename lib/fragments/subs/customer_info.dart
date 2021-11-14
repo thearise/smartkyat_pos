@@ -2,14 +2,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
 import '../../app_theme.dart';
 import 'customer_orders_info.dart';
 
 
 class CustomerInfoSubs extends StatefulWidget {
   final _callback;
-  const CustomerInfoSubs({Key? key, required this.id, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback;
+  const CustomerInfoSubs({Key? key, required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback;
   final String id;
+  final String shopId;
 
   @override
   _CustomerInfoSubsState createState() => _CustomerInfoSubsState();
@@ -20,6 +22,13 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
   static final _formKey = GlobalKey<FormState>();
 
   @override
+  initState() {
+    //HomePageState().getStoreId().then((value) => shopId = value);
+  super.initState();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -28,10 +37,8 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
         bottom: true,
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
-                .collection('space')
-                .doc('0NHIS0Jbn26wsgCzVBKT')
                 .collection('shops')
-                .doc('PucvhZDuUz3XlkTgzcjb')
+                .doc(widget.shopId)
                 .collection('customers')
                 .doc(widget.id.toString())
                 .snapshots(),
@@ -231,7 +238,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id)
+                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId,)
                                                 ),
                                               );
                                             },

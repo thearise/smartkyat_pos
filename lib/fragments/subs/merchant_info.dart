@@ -11,8 +11,9 @@ import 'merchant_orders_info.dart';
 
 class MerchantInfoSubs extends StatefulWidget {
   final _callback;
-  const MerchantInfoSubs({Key? key, required this.id, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback;
+  const MerchantInfoSubs({Key? key, required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback;
   final String id;
+  final String shopId;
 
   @override
   _MerchantInfoSubsState createState() => _MerchantInfoSubsState();
@@ -31,10 +32,8 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
         bottom: true,
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
-                .collection('space')
-                .doc('0NHIS0Jbn26wsgCzVBKT')
                 .collection('shops')
-                .doc('PucvhZDuUz3XlkTgzcjb')
+                .doc(widget.shopId)
                 .collection('merchants')
                 .doc(widget.id.toString())
                 .snapshots(),
@@ -234,7 +233,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => MerchantOrdersInfoSubs(id: widget.id)
+                                                    builder: (context) => MerchantOrdersInfoSubs(id: widget.id, shopId: widget.shopId.toString(),)
                                                 ),
                                               );
 

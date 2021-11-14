@@ -10,8 +10,9 @@ import 'order_info.dart';
 
 
 class MerchantOrdersInfoSubs extends StatefulWidget {
-  const MerchantOrdersInfoSubs({Key? key, required this.id});
+  const MerchantOrdersInfoSubs({Key? key, required this.id, required this.shopId});
   final String id;
+  final String shopId;
 
   @override
   _MerchantOrdersInfoSubsState createState() => _MerchantOrdersInfoSubsState();
@@ -36,10 +37,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
         bottom: true,
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
-                .collection('space')
-                .doc('0NHIS0Jbn26wsgCzVBKT')
                 .collection('shops')
-                .doc('PucvhZDuUz3XlkTgzcjb')
+                .doc(widget.shopId)
                 .collection('merchants')
                 .doc(widget.id.toString())
                 .snapshots(),
@@ -130,10 +129,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                       Expanded(
                         child: StreamBuilder(
                             stream: FirebaseFirestore.instance
-                                .collection('space')
-                                .doc('0NHIS0Jbn26wsgCzVBKT')
                                 .collection('shops')
-                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                .doc(widget.shopId)
                                 .collection('merchants')
                                 .doc(widget.id)
                                 .collection('buyOrders')
@@ -330,7 +327,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => BuyListInfo(data: items, toggleCoinCallback: () {})),
+                                                    builder: (context) => BuyListInfo(data: items, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
                                               );
                                               print('Items');
                                             },
