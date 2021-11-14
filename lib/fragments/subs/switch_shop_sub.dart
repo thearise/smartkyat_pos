@@ -244,7 +244,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
               SizedBox(height: 20,),
               StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('shops')
-                      .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid.toString())
+                      .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())
                       .snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if(snapshot.hasData) {
@@ -288,7 +288,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                 child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
                                               ),
                                             ),),
-                                            data['owner_id'] == FirebaseAuth.instance.currentUser!.uid.toString()?
+                                            data['owner_id'] == (FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())?
                                             Container(
                                               height: 23,
                                               width: 55,
@@ -1255,7 +1255,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                               child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
                                             ),
                                           ),),
-                                          data['owner_id'] == FirebaseAuth.instance.currentUser!.uid.toString()?
+                                          data['owner_id'] == (FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())?
                                           Container(
                                             height: 23,
                                             width: 55,
