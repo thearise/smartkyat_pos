@@ -31,10 +31,13 @@ class ProductsFragment extends StatefulWidget {
   ProductsFragment(
       {required void toggleCoinCallback(),
         required void toggleCoinCallback2(String str),
-        required void toggleCoinCallback3(String str)})
+        required void toggleCoinCallback3(String str),
+        required Key key,
+      })
       : _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2,
-        _callback3 = toggleCoinCallback3;
+        _callback3 = toggleCoinCallback3,
+        super(key: key);
   @override
   ProductsFragmentState createState() => ProductsFragmentState();
 }
@@ -52,6 +55,12 @@ class ProductsFragmentState extends State<ProductsFragment>
   initState() {
     HomePageState().getStoreId().then((value) => shopId = value);
     super.initState();
+  }
+
+  chgShopIdFrmHomePage() {
+    setState(() {
+      HomePageState().getStoreId().then((value) => shopId = value);
+    });
   }
 
   @override

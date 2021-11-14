@@ -14,13 +14,13 @@ import '../app_theme.dart';
 class MerchantsFragment extends StatefulWidget {
   final _callback3;
 
-  MerchantsFragment( {required void toggleCoinCallback3(String str)} ) :
-        _callback3 = toggleCoinCallback3;
+  MerchantsFragment( {required void toggleCoinCallback3(String str), Key? key} ) :
+        _callback3 = toggleCoinCallback3, super(key: key);
   @override
-  _MerchantsFragmentState createState() => _MerchantsFragmentState();
+  MerchantsFragmentState createState() => MerchantsFragmentState();
 }
 
-class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<MerchantsFragment>{
+class MerchantsFragmentState extends State<MerchantsFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<MerchantsFragment>{
   String? shopId;
 
   @override
@@ -35,6 +35,12 @@ class _MerchantsFragmentState extends State<MerchantsFragment> with TickerProvid
   initState() {
     HomePageState().getStoreId().then((value) => shopId = value);
     super.initState();
+  }
+
+  chgShopIdFrmHomePage() {
+    setState(() {
+      HomePageState().getStoreId().then((value) => shopId = value);
+    });
   }
 
   @override

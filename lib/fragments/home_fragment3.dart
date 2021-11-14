@@ -53,8 +53,17 @@ class HomeFragment extends StatefulWidget {
   final _callback3;
   final _callback4;
 
-  HomeFragment({required void toggleCoinCallback(String str), required void toggleCoinCallback2(String str),required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str) , required Key key,})
-      : _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2 , _callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, super(key: key);
+  HomeFragment({
+    required void toggleCoinCallback(String str),
+    required void toggleCoinCallback2(String str),
+    required void toggleCoinCallback3(String str),
+    required void toggleCoinCallback4(String str) ,
+    Key? key,
+  }) :  _callback = toggleCoinCallback,
+        _callback2 = toggleCoinCallback2 ,
+        _callback3 = toggleCoinCallback3,
+        _callback4 = toggleCoinCallback4,
+        super(key: key);
   @override
   HomeFragmentState createState() => HomeFragmentState();
 
@@ -167,6 +176,12 @@ class HomeFragmentState extends State<HomeFragment>
     super.initState();
   }
 
+  chgShopIdFrmHomePage() {
+    setState(() {
+      HomePageState().getStoreId().then((value) => shopId = value);
+    });
+  }
+
   addProduct1(data) {
     widget._callback3(data);
   }
@@ -201,165 +216,167 @@ class HomeFragmentState extends State<HomeFragment>
     DateTime monthAgo = today.subtract(const Duration(days: 31));
 
     // print('each ');
-    CollectionReference orders = FirebaseFirestore
-        .instance.collection('shops').doc(shopId).collection('orders');
+    HomePageState().getStoreId().then((shopValue) {
+      CollectionReference orders = FirebaseFirestore.instance.collection('shops').doc(shopValue).collection('orders');
 
-    orders.get().then((QuerySnapshot
-    querySnapshot) async {
-      // print(DateTime.now().subtract(duration))
-      //today = today.add(const Duration(hours: 1));
-      sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
-      monthAgo = monthAgo.add(const Duration(days: 1));
-      querySnapshot.docs
-          .forEach((doc) {
-        int week = 0;
-        int month = 0;
-        int year = 0;
-        sevenDaysAgo = today.subtract(const Duration(days: 8));
-        monthAgo = today.subtract(const Duration(days: 31));
+      orders.get().then((QuerySnapshot
+      querySnapshot) async {
+        // print(DateTime.now().subtract(duration))
+        //today = today.add(const Duration(hours: 1));
+        sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+        monthAgo = monthAgo.add(const Duration(days: 1));
+        querySnapshot.docs
+            .forEach((doc) {
+          print('DOC ID ' + doc.id);
+          int week = 0;
+          int month = 0;
+          int year = 0;
+          sevenDaysAgo = today.subtract(const Duration(days: 8));
+          monthAgo = today.subtract(const Duration(days: 31));
 
-        while(!(today.year.toString() == sevenDaysAgo.year.toString() && today.month.toString() == sevenDaysAgo.month.toString() && today.day.toString() == sevenDaysAgo.day.toString())) {
-          sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+          while(!(today.year.toString() == sevenDaysAgo.year.toString() && today.month.toString() == sevenDaysAgo.month.toString() && today.day.toString() == sevenDaysAgo.day.toString())) {
+            sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 
-          print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-          print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-
-          print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
-
-          if(doc['date'] == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
-            double total = 0;
-            // print(doc['daily_order'].toString());
-            for(String str in doc['daily_order']) {
-              // print(double.parse(str));
-              total += double.parse(str.split('^')[2]);
-            }
-            print('total ' + total.toString());
-            setState(() {
-              thisWeekOrdersChart[week] = total;
-            });
-
-          }
-          week = week + 1;
-
-        }
-
-        while(!(today.year.toString() == monthAgo.year.toString() && today.month.toString() == monthAgo.month.toString() && today.day.toString() == monthAgo.day.toString())) {
-          monthAgo = monthAgo.add(const Duration(days: 1));
-
-          print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-          print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+            print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
+            print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
 
-          print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+            print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
-          if(doc['date'] == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
-            double total = 0;
-            // print(doc['daily_order'].toString());
-            for(String str in doc['daily_order']) {
-              // print(double.parse(str));
-              print('testing ' + str.split('^')[2]);
-              total += double.parse(str.split('^')[2]);
-            }
-            print('tatoos ' + total.toString());
-            setState(() {
-              thisMonthOrdersChart[month] = total;
-            });
-
-          }
-          month = month + 1;
-        }
-        if (doc['date'].substring(0,8) == today.year.toString() +
-            zeroToTen(today.month.toString()) +
-            zeroToTen(today.day.toString())) {
-          double total = 0;
-          for (String str in doc['daily_order']) {
-            for(int i=0; i<=24 ; i++ ){
-              if(str.split('^')[0].substring(0, 10) == today.year.toString() +
-                  zeroToTen(today.month.toString()) +
-                  zeroToTen(today.day.toString()) +
-                  zeroToTen(i.toString()))
-              {
+            if(doc['date'] == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
+              double total = 0;
+              // print(doc['daily_order'].toString());
+              for(String str in doc['daily_order']) {
+                // print(double.parse(str));
                 total += double.parse(str.split('^')[2]);
-                setState(() {
-                  todayOrdersChart[i]+=double.parse(str.split('^')[2]);
-                });
               }
-              // print('laos ' + total.toString());
-              print('World ' +todayOrdersChart.toString());
-            }
-          }
-        }
-        if (doc['date'].substring(0,4) == today.year.toString()){
-          double total = 0;
-          for (String str in doc['daily_order']) {
-            for(int i=1; i<=12 ; i++ ){
-              // print('helloworld '+i.toString());
+              print('total ' + total.toString());
+              setState(() {
+                thisWeekOrdersChart[week] = total;
+              });
 
-              if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
-              {
+            }
+            week = week + 1;
+
+          }
+
+          while(!(today.year.toString() == monthAgo.year.toString() && today.month.toString() == monthAgo.month.toString() && today.day.toString() == monthAgo.day.toString())) {
+            monthAgo = monthAgo.add(const Duration(days: 1));
+
+            print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
+            print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+
+
+            print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+
+            if(doc['date'] == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
+              double total = 0;
+              // print(doc['daily_order'].toString());
+              for(String str in doc['daily_order']) {
+                // print(double.parse(str));
+                print('testing ' + str.split('^')[2]);
                 total += double.parse(str.split('^')[2]);
-                setState(() {
-                  thisYearOrdersChart[i]+=double.parse(str.split('^')[2]);
-                  print('fortune ' +thisYearOrdersChart.toString()); });
               }
-              //print('laos ' + total.toString());
+              print('tatoos ' + total.toString());
+              setState(() {
+                thisMonthOrdersChart[month] = total;
+              });
 
             }
+            month = month + 1;
           }
-        }
+          if (doc['date'].substring(0,8) == today.year.toString() +
+              zeroToTen(today.month.toString()) +
+              zeroToTen(today.day.toString())) {
+            double total = 0;
+            for (String str in doc['daily_order']) {
+              for(int i=0; i<=24 ; i++ ){
+                if(str.split('^')[0].substring(0, 10) == today.year.toString() +
+                    zeroToTen(today.month.toString()) +
+                    zeroToTen(today.day.toString()) +
+                    zeroToTen(i.toString()))
+                {
+                  total += double.parse(str.split('^')[2]);
+                  setState(() {
+                    todayOrdersChart[i]+=double.parse(str.split('^')[2]);
+                  });
+                }
+                // print('laos ' + total.toString());
+                print('World ' +todayOrdersChart.toString());
+              }
+            }
+          }
+          if (doc['date'].substring(0,4) == today.year.toString()){
+            double total = 0;
+            for (String str in doc['daily_order']) {
+              for(int i=1; i<=12 ; i++ ){
+                // print('helloworld '+i.toString());
 
-        // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
-        //   yearAgo = yearAgo.add(const Duration(days: 1));
-        //
-        //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
-        //     double total = 0;
-        //     // print(doc['daily_order'].toString());
-        //     for(String str in doc['daily_order']) {
-        //       // print(double.parse(str));
-        //       total += double.parse(str.split('^')[2]);
-        //     }
-        //     print('total ' + total.toString());
-        //     setState(() {
-        //       thisYearOrdersChart[year] = total;
-        //     });
-        //
-        //   }
-        //   year = year + 1;
-        //
-        // }
-        print('this year' + thisYearOrdersChart.toString());
-        print('this week ' + thisWeekOrdersChart.toString());
-        // for(int j = 20210909; j <= 20210915; j++) {
-        //
-        //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
-        //   print('here shwe 2 ' + j.toString());
-        //   // if(doc['date'] == j.toString()) {
-        //   //   double total = 0;
-        //   //   // print(doc['daily_order'].toString());
-        //   //   for(String str in doc['daily_order']) {
-        //   //     // print(double.parse(str));
-        //   //     total += double.parse(str.split('^')[2]);
-        //   //   }
-        //   //   print('total ' + total.toString());
-        //   //   setState(() {
-        //   //     thisWeekOrdersChart[ij] = total;
-        //   //   });
-        //   //
-        //   // }
-        //   // ij = ij + 1;
-        //   // print(ij);
-        // }
+                if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
+                {
+                  total += double.parse(str.split('^')[2]);
+                  setState(() {
+                    thisYearOrdersChart[i]+=double.parse(str.split('^')[2]);
+                    print('fortune ' +thisYearOrdersChart.toString()); });
+                }
+                //print('laos ' + total.toString());
+
+              }
+            }
+          }
+
+          // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
+          //   yearAgo = yearAgo.add(const Duration(days: 1));
+          //
+          //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
+          //     double total = 0;
+          //     // print(doc['daily_order'].toString());
+          //     for(String str in doc['daily_order']) {
+          //       // print(double.parse(str));
+          //       total += double.parse(str.split('^')[2]);
+          //     }
+          //     print('total ' + total.toString());
+          //     setState(() {
+          //       thisYearOrdersChart[year] = total;
+          //     });
+          //
+          //   }
+          //   year = year + 1;
+          //
+          // }
+          print('this year' + thisYearOrdersChart.toString());
+          print('this week ' + thisWeekOrdersChart.toString());
+          // for(int j = 20210909; j <= 20210915; j++) {
+          //
+          //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
+          //   print('here shwe 2 ' + j.toString());
+          //   // if(doc['date'] == j.toString()) {
+          //   //   double total = 0;
+          //   //   // print(doc['daily_order'].toString());
+          //   //   for(String str in doc['daily_order']) {
+          //   //     // print(double.parse(str));
+          //   //     total += double.parse(str.split('^')[2]);
+          //   //   }
+          //   //   print('total ' + total.toString());
+          //   //   setState(() {
+          //   //     thisWeekOrdersChart[ij] = total;
+          //   //   });
+          //   //
+          //   // }
+          //   // ij = ij + 1;
+          //   // print(ij);
+          // }
 
 
-        // print('this week 2' + thisWeekOrdersChart.toString());
+          // print('this week 2' + thisWeekOrdersChart.toString());
 
-        // print('each ' + doc.id.toString());
+          // print('each ' + doc.id.toString());
+        });
+        print('this month ' + thisMonthOrdersChart.toString());
+        // setState(() {
+        //   thisWeekOrdersChart
+        // });
       });
-      print('this month ' + thisMonthOrdersChart.toString());
-      // setState(() {
-      //   thisWeekOrdersChart
-      // });
     });
 
     // CollectionReference col1 = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
