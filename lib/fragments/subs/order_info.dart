@@ -14,9 +14,10 @@ import 'order_refund_sub.dart';
 class OrderInfoSub extends StatefulWidget {
   final _callback;
   const OrderInfoSub(
-      {Key? key, required this.data, required void toggleCoinCallback()})
+      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
+  final String shopId;
 
   @override
   _OrderInfoSubState createState() => _OrderInfoSubState();
@@ -49,10 +50,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
             .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
         .split('^')[6];
     FirebaseFirestore.instance
-        .collection('space')
-        .doc('0NHIS0Jbn26wsgCzVBKT')
         .collection('shops')
-        .doc('PucvhZDuUz3XlkTgzcjb')
+        .doc(widget.shopId)
         .collection('orders')
     // FirebaseFirestore.instance.collection('space')
         .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
@@ -132,10 +131,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                       DocumentSnapshot<
                                           Map<String, dynamic>>>(
                                       stream: FirebaseFirestore.instance
-                                          .collection('space')
-                                          .doc('0NHIS0Jbn26wsgCzVBKT')
                                           .collection('shops')
-                                          .doc('PucvhZDuUz3XlkTgzcjb')
+                                          .doc(widget.shopId)
                                           .collection('customers')
                                           .doc(widget.data
                                           .split('^')[3]
@@ -180,10 +177,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                 if (docId != null && docId != '')
                   StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                       stream: FirebaseFirestore.instance
-                          .collection('space')
-                          .doc('0NHIS0Jbn26wsgCzVBKT')
                           .collection('shops')
-                          .doc('PucvhZDuUz3XlkTgzcjb')
+                          .doc(widget.shopId)
                           .collection('orders')
                           .doc(docId)
                           .collection('detail')
@@ -328,7 +323,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                   data2: prodList,
                                                                   realPrice: totalRealPrice,
                                                                   toggleCoinCallback:
-                                                                      () {})),
+                                                                      () {}, shopId: widget.shopId,)),
                                                     );
 
                                                     print('result__2 ' + result.toString());
@@ -378,7 +373,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                        builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId,))
+                                                        builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId,))
                                                     );
                                                   },
                                                   child: Container(
@@ -429,10 +424,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                 // if (prodListView[i].split('-')[3] != prodListView[i].split('-')[7])
                                   StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                                     stream: FirebaseFirestore.instance
-                                        .collection('space')
-                                        .doc('0NHIS0Jbn26wsgCzVBKT')
                                         .collection('shops')
-                                        .doc('PucvhZDuUz3XlkTgzcjb')
+                                        .doc(widget.shopId)
                                         .collection('products')
                                         .doc(prodListView[i].split('-')[0])
                                         .snapshots(),
@@ -646,10 +639,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         DocumentSnapshot<
                                             Map<String, dynamic>>>(
                                       stream: FirebaseFirestore.instance
-                                          .collection('space')
-                                          .doc('0NHIS0Jbn26wsgCzVBKT')
                                           .collection('shops')
-                                          .doc('PucvhZDuUz3XlkTgzcjb')
+                                          .doc(widget.shopId)
                                           .collection('products')
                                           .doc(prodListView[i].split('-')[0])
                                           .snapshots(),

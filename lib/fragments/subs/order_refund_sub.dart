@@ -13,11 +13,12 @@ import '../../app_theme.dart';
 class OrderRefundsSub extends StatefulWidget {
   final _callback;
   const OrderRefundsSub(
-      {Key? key, required this.data, required this.data2, required this.realPrice, required void toggleCoinCallback()})
+      {Key? key, required this.data, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
   final List data2;
   final double realPrice;
+  final String shopId;
 
   @override
   _OrderRefundsSubState createState() => _OrderRefundsSubState();
@@ -36,10 +37,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   initState() {
     var innerId = '';
     FirebaseFirestore.instance
-        .collection('space')
-        .doc('0NHIS0Jbn26wsgCzVBKT')
         .collection('shops')
-        .doc('PucvhZDuUz3XlkTgzcjb')
+        .doc(widget.shopId)
         .collection('orders')
     // FirebaseFirestore.instance.collection('space')
         .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
@@ -60,7 +59,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   // Future orderDateId(data) async {
   //   // var docId = '';
-  //   FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+  //   FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(widget.shopId).collection('orders')
   //   // FirebaseFirestore.instance.collection('space')
   //       .where('date', isEqualTo: data.split('^')[0].substring(0,8))
   //       .get()
@@ -135,10 +134,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                       DocumentSnapshot<
                                           Map<String, dynamic>>>(
                                       stream: FirebaseFirestore.instance
-                                          .collection('space')
-                                          .doc('0NHIS0Jbn26wsgCzVBKT')
                                           .collection('shops')
-                                          .doc('PucvhZDuUz3XlkTgzcjb')
+                                          .doc(widget.shopId)
                                           .collection('customers')
                                           .doc(widget.data
                                           .split('^')[3]
@@ -182,10 +179,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                 if (docId != null && docId != '')
                   StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                       stream: FirebaseFirestore.instance
-                          .collection('space')
-                          .doc('0NHIS0Jbn26wsgCzVBKT')
                           .collection('shops')
-                          .doc('PucvhZDuUz3XlkTgzcjb')
+                          .doc(widget.shopId)
                           .collection('orders')
                           .doc(docId)
                           .collection('detail')
@@ -236,10 +231,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                   StreamBuilder<
                                       DocumentSnapshot<Map<String, dynamic>>>(
                                     stream: FirebaseFirestore.instance
-                                        .collection('space')
-                                        .doc('0NHIS0Jbn26wsgCzVBKT')
                                         .collection('shops')
-                                        .doc('PucvhZDuUz3XlkTgzcjb')
+                                        .doc(widget.shopId)
                                         .collection('products')
                                         .doc(prodListView[i].split('-')[0])
                                         .snapshots(),
@@ -602,13 +595,13 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           int refNum = int.parse(prodList[i].split('-')[7]) - int.parse(prodListBefore[i].split('-')[7]);
                                           if(refNum > 0) {
                                             print('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
-                                            var docSnapshot = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb')
+                                            var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
                                                 .collection('products').doc(prodList[i].split('-')[0]).get();
                                             if (docSnapshot.exists) {
                                               Map<String, dynamic>? data = docSnapshot.data();
                                               // String value = data?['unit_qtity'];
-                                              FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops')
-                                                  .doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(prodList[i].split('-')[0])
+                                              FirebaseFirestore.instance.collection('shops')
+                                                  .doc(widget.shopId).collection('products').doc(prodList[i].split('-')[0])
                                                   .update({changeUnitName2Stock(prodList[i].split('-')[5]): FieldValue.increment(double.parse(refNum.toString()))
                                               })
                                                   .then((value) =>
@@ -669,10 +662,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                         print('result___ ' + data + dataRm);
 
                                         FirebaseFirestore.instance
-                                            .collection('space')
-                                            .doc('0NHIS0Jbn26wsgCzVBKT')
                                             .collection('shops')
-                                            .doc('PucvhZDuUz3XlkTgzcjb')
+                                            .doc(widget.shopId)
                                             .collection('orders')
                                             .doc(docId)
                                             .update({
@@ -682,10 +673,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           print('array removed');
 
                                           FirebaseFirestore.instance
-                                              .collection('space')
-                                              .doc('0NHIS0Jbn26wsgCzVBKT')
                                               .collection('shops')
-                                              .doc('PucvhZDuUz3XlkTgzcjb')
+                                              .doc(widget.shopId)
                                               .collection('orders')
                                               .doc(docId)
                                               .update({
@@ -695,10 +684,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                             print('array updated');
 
                                             FirebaseFirestore.instance
-                                                .collection('space')
-                                                .doc('0NHIS0Jbn26wsgCzVBKT')
                                                 .collection('shops')
-                                                .doc('PucvhZDuUz3XlkTgzcjb')
+                                                .doc(widget.shopId)
                                                 .collection('orders')
                                                 .doc(docId)
                                                 .collection('detail')
@@ -713,10 +700,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
                                             if(widget.data.split('^')[3].split('&')[1].toString() != 'name') {
                                               FirebaseFirestore.instance
-                                                  .collection('space')
-                                                  .doc('0NHIS0Jbn26wsgCzVBKT')
                                                   .collection('shops')
-                                                  .doc('PucvhZDuUz3XlkTgzcjb')
+                                                  .doc(widget.shopId)
                                                   .collection('customers')
                                                   .doc(widget.data
                                                   .split('^')[3]
@@ -739,7 +724,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
 
 
-                                        // // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
+                                        // // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(widget.shopId).collection('orders').doc(dateId).collection('detail')
                                         // // .doc(item.split('^')[0])
                                         // //
                                         // //     .update({
@@ -787,7 +772,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                 //         .collection('space')
                 //         .doc('0NHIS0Jbn26wsgCzVBKT')
                 //         .collection('shops')
-                //         .doc('PucvhZDuUz3XlkTgzcjb')
+                //         .doc(widget.shopId)
                 //         .collection('products')
                 //         .doc(widget.idString)
                 //         .snapshots(),

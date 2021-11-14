@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../app_theme.dart';
 
@@ -21,6 +22,15 @@ class _AddMerchantState extends State<AddMerchant> {
   static List<String> merchFieldsValue = [];
   final _formKey = GlobalKey<FormState>();
   bool prodAdding = false;
+
+  String? shopId;
+
+  @override
+  void initState() {
+    HomePageState().getStoreId().then((value) => shopId = value);
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,37 +108,47 @@ class _AddMerchantState extends State<AddMerchant> {
                               size: 20,
                               color: Colors.white,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               merchFieldsValue = [];
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   prodAdding = true;
                                 });
+
+                                bool exist = false;
+                                var merchants =  await FirebaseFirestore.instance
+                                    .collection('shops')
+                                    .doc(shopId)
+                                    .collection('merchants');
+
                                 print(
                                     'validate ' + merchFieldsValue.toString());
-                                var spaceDocId = '';
+                                // var spaceDocId = '';
 
-                                FirebaseFirestore.instance
-                                    .collection('space')
-                                    .where('user_id',
-                                        isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
-                                    .get()
-                                    .then((QuerySnapshot querySnapshot) {
-                                  querySnapshot.docs.forEach((doc) {
-                                    spaceDocId = doc.id;
-                                  });
+                                // await FirebaseFirestore.instance
+                                //     .collection('space')
+                                //     .where('user_id',
+                                //         isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
+                                //     .get()
+                                //     .then((QuerySnapshot querySnapshot) {
+                                //   querySnapshot.docs.forEach((doc) {
+                                //     spaceDocId = doc.id;
+                                //   });
+                                //
+                                //   print('space shi p thar');
+                                //   getStoreId().then((String result2) async {
+                                //     print('store id ' + result2.toString());
 
-                                  print('space shi p thar');
-                                  getStoreId().then((String result2) {
-                                    print('store id ' + result2.toString());
 
-                                    FirebaseFirestore.instance
-                                        .collection('space')
-                                        .doc('0NHIS0Jbn26wsgCzVBKT')
-                                        .collection('shops')
-                                        .doc('PucvhZDuUz3XlkTgzcjb')
-                                        .collection('merchants')
-                                        .add({
+                                   merchants.doc('name').get().then((DocumentSnapshot documentSnapshot) {
+                                      if (documentSnapshot.exists) {
+                                        exist = true;
+                                        print('Document exists on the database');
+                                      }
+                                    });
+
+                                    if(exist) {
+                                    merchants.add({
                                       'merchant_name': merchFieldsValue[0],
                                       'merchant_address': merchFieldsValue[1],
                                       'merchant_phone': merchFieldsValue[2],
@@ -190,19 +210,82 @@ class _AddMerchantState extends State<AddMerchant> {
                                         },
                                       );
                                     });
+                                    } else
+                                       {
+                                         merchants.doc('name').set({
+                                           'merchant_name': 'Unknown',
+                                           'debt': 0, }).then((value) {
+                                             print('name created');
+                                         });
 
-                                    // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
-                                    // .add({
-                                    //   'prod_name': prodFieldsValue[0]
-                                    // }).then((value) {
-                                    //   print('product added 2');
-                                    // });
+                                       merchants.add({
+                                          'merchant_name': merchFieldsValue[0],
+                                          'merchant_address': merchFieldsValue[1],
+                                          'merchant_phone': merchFieldsValue[2],
+                                        }).then((value) {
+                                          print('product added 2');
 
-                                    // Navigator.pop(context);
-                                  });
-                                });
+                                          setState(() {
+                                            prodAdding = false;
+                                          });
+
+                                          Navigator.pop(context);
+
+                                          showFlash(
+                                            context: context,
+                                            duration: const Duration(seconds: 2),
+                                            persistent: true,
+                                            builder: (_, controller) {
+                                              return Flash(
+                                                controller: controller,
+                                                backgroundColor: Colors.transparent,
+                                                brightness: Brightness.light,
+                                                // boxShadows: [BoxShadow(blurRadius: 4)],
+                                                // barrierBlur: 3.0,
+                                                // barrierColor: Colors.black38,
+                                                barrierDismissible: true,
+                                                behavior: FlashBehavior.floating,
+                                                position: FlashPosition.top,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 80.0),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 15.0, right: 15.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                        color: Colors.green,
+                                                      ),
+                                                      child: FlashBar(
+                                                        title: Text('Title'),
+                                                        content:
+                                                        Text('Hello world!'),
+                                                        // showProgressIndicator: true,
+                                                        primaryAction: TextButton(
+                                                          onPressed: () =>
+                                                              controller.dismiss(),
+                                                          child: Text('DISMISS',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .amber)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        });}
+
+                                  // });
+                                // });
                               }
-                            }),
+                            }
+                            ),
                       )
                     ],
                   ),

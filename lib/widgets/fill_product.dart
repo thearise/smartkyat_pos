@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../app_theme.dart';
 
@@ -12,13 +13,14 @@ class FillProduct extends StatefulWidget {
   final _callback3;
   const FillProduct(
       {Key? key,
-      required this.idString, required this.unitname,
+      required this.idString, required this.unitname, required this.shopId,
       required void toggleCoinCallback(String str),
       required void toggleCoinCallback3(String str),})
       : _callback = toggleCoinCallback,
         _callback3 = toggleCoinCallback3;
   final String idString;
   final String unitname;
+  final String shopId;
 
   @override
   _FillProductState createState() => _FillProductState();
@@ -39,6 +41,14 @@ class _FillProductState extends State<FillProduct> {
   final msaleCtrl = TextEditingController();
   final mcostCtrl = TextEditingController();
   bool prodAdding = false;
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,10 +173,8 @@ class _FillProductState extends State<FillProduct> {
                       child: StreamBuilder<
                               DocumentSnapshot<Map<String, dynamic>>>(
                           stream: FirebaseFirestore.instance
-                              .collection('space')
-                              .doc('0NHIS0Jbn26wsgCzVBKT')
                               .collection('shops')
-                              .doc('PucvhZDuUz3XlkTgzcjb')
+                              .doc(widget.shopId)
                               .collection('products')
                               .doc(widget.idString)
                               .snapshots(),

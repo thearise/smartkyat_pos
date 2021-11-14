@@ -39,6 +39,8 @@ import 'package:one_context/one_context.dart';
 
 
 class TopSaleDetail extends StatefulWidget {
+  const TopSaleDetail({Key? key, required this.shopId});
+  final String shopId;
 
   @override
   _TopSaleDetailState createState() => _TopSaleDetailState();
@@ -94,8 +96,7 @@ class _TopSaleDetailState extends State<TopSaleDetail>   with TickerProviderStat
 
 
     CollectionReference orders = FirebaseFirestore
-        .instance
-        .collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+        .instance.collection('shops').doc(widget.shopId).collection('orders');
 
     orders.get().then((QuerySnapshot
     querySnapshot) async {
@@ -255,7 +256,7 @@ class _TopSaleDetailState extends State<TopSaleDetail>   with TickerProviderStat
       // });
     });
 
-    // CollectionReference col1 = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders');
+    // CollectionReference col1 = FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(widget.shopId).collection('orders');
     // final snapshots = col1.snapshots().map((snapshot) => snapshot.docs.where((doc) => doc['date'] == "20210914" || doc['date'] == "20210913"));
     //
     // print((await snapshots.first).toList());

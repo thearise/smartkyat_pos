@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../app_theme.dart';
 import 'fill_product.dart';
@@ -24,6 +25,7 @@ class ProductDetailsView2 extends StatefulWidget {
 
   const ProductDetailsView2(
       {Key? key,
+        required this.shopId,
         required this.idString,
         required void toggleCoinCallback(String str),
         required void toggleCoinCallback3(String str)})
@@ -31,6 +33,7 @@ class ProductDetailsView2 extends StatefulWidget {
         _callback3 = toggleCoinCallback3;
 
   final String idString;
+  final String shopId;
 
   @override
   _ProductDetailsViewState2 createState() => _ProductDetailsViewState2();
@@ -38,6 +41,8 @@ class ProductDetailsView2 extends StatefulWidget {
 
 class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     TickerProviderStateMixin <ProductDetailsView2> {
+
+
   addProduct2(data) {
     widget._callback(data);
   }
@@ -54,7 +59,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
               idString: widget.idString,
               toggleCoinCallback: addProduct2,
               toggleCoinCallback3: addProduct3,
-              unitname: res,
+              unitname: res, shopId: widget.shopId,
             )));
   }
 
@@ -101,10 +106,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
         bottom: true,
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
-                .collection('space')
-                .doc('0NHIS0Jbn26wsgCzVBKT')
                 .collection('shops')
-                .doc('PucvhZDuUz3XlkTgzcjb')
+                .doc(widget.shopId)
                 .collection('products')
                 .doc(widget.idString)
                 .snapshots(),
@@ -268,7 +271,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                   )
                                                       : CachedNetworkImage(
                                                     imageUrl:
-                                                    'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                    'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
                                                     width: 130,
                                                     height: 100,
                                                     // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
@@ -514,9 +517,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                   List<String> subLink = [];
                                                   List<String> subName = [];
                                                   List<double> subStock = [];
-                                                  var docSnapshot10 = await FirebaseFirestore.instance.collection('space')
-                                                      .doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                      'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                  var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(
+                                                      widget.shopId).collection('products').doc(
                                                       prodID.split('-')[0])
                                                       .get();
 
@@ -533,9 +535,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                                                     decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
 
-                                                    await FirebaseFirestore.instance.collection('space').doc(
-                                                        '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                        'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                    await FirebaseFirestore.instance.collection('shops').doc(
+                                                        widget.shopId).collection('products').doc(
                                                         prodID.split('-')[0])
                                                         .update({'Loss1': FieldValue.increment(double.parse(amount[0].toString()))})
                                                         .then((value) => print("User Updated"))
@@ -544,9 +545,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                                                   } else if (prodID.split('-')[3] == 'sub1_name') {
                                                     sub1Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
-                                                    await FirebaseFirestore.instance.collection('space').doc(
-                                                        '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                        'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                    await FirebaseFirestore.instance.collection('shops').doc(
+                                                        widget.shopId).collection('products').doc(
                                                         prodID.split('-')[0])
                                                         .update({'Loss2': FieldValue.increment(double.parse(amount[0].toString()))})
                                                         .then((value) => print("User Updated"))
@@ -555,9 +555,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                                                   } else if (prodID.split('-')[3] == 'sub2_name') {
                                                     sub2Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
-                                                    await FirebaseFirestore.instance.collection('space').doc(
-                                                        '0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(
-                                                        'PucvhZDuUz3XlkTgzcjb').collection('products').doc(
+                                                    await FirebaseFirestore.instance.collection('shops').doc(
+                                                        widget.shopId).collection('products').doc(
                                                         prodID.split('-')[0])
                                                         .update({'Loss3': FieldValue.increment(double.parse(amount[0].toString()))})
                                                         .then((value) => print("User Updated"))
@@ -1513,7 +1512,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   }
 
   Future<void> decStockFromInv(id, unit, num) async {
-    CollectionReference users = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products');
+    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 
     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 
@@ -1525,7 +1524,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   }
 
   Future<void> incStockFromInv(id, unit, num) async {
-    CollectionReference users = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products');
+    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 
     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
 
@@ -1537,7 +1536,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   }
 
   Future<void> sub1Execution(subStock, subLink, id, num) async {
-    var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(id).get();
+    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id).get();
     if (docSnapshot10.exists) {
       Map<String, dynamic>? data10 = docSnapshot10.data();
       subStock[1] = double.parse((data10 ? ['inStock2']).toString());
@@ -1552,7 +1551,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   }
 
   Future<void> sub2Execution(subStock, subLink, id, num) async {
-    var docSnapshot10 = await FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('products').doc(id).get();
+    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id).get();
     if (docSnapshot10.exists) {
       Map<String, dynamic>? data10 = docSnapshot10.data();
       subStock[2] = double.parse((data10 ? ['inStock3']).toString());
