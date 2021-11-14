@@ -352,9 +352,9 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                             context,
                                                             MaterialPageRoute(
                                                                 builder: (context) => BuyListInfo(
-                                                                  data: item,
-                                                                  toggleCoinCallback:
-                                                                      () {}, shopId: shopId.toString(),)),
+                                                                    data: item,
+                                                                    toggleCoinCallback:
+                                                                        () {}, shopId: shopId.toString(),)),
                                                           );
                                                         },
                                                         child: Stack(
@@ -587,9 +587,9 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) => BuyListInfo(
-                                                                data: item,
-                                                                toggleCoinCallback:
-                                                                    () {}, shopId: shopId.toString(),)),
+                                                                  data: item,
+                                                                  toggleCoinCallback:
+                                                                      () {}, shopId: shopId.toString(),)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -916,10 +916,10 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                                 MaterialPageRoute(
                                                                     builder: (context) =>
                                                                         BuyListInfo(
-                                                                          data:
-                                                                          item,
-                                                                          toggleCoinCallback:
-                                                                              () {}, shopId: shopId.toString(),)),
+                                                                            data:
+                                                                            item,
+                                                                            toggleCoinCallback:
+                                                                                () {}, shopId: shopId.toString(),)),
                                                               );
                                                             },
                                                             child: ListTile(
@@ -981,9 +981,9 @@ class _BuyListFragmentState extends State<BuyListFragment>
                                                           MaterialPageRoute(
                                                               builder: (context) =>
                                                                   BuyListInfo(
-                                                                    data: item,
-                                                                    toggleCoinCallback:
-                                                                        () {}, shopId: shopId.toString(),)),
+                                                                      data: item,
+                                                                      toggleCoinCallback:
+                                                                          () {}, shopId: shopId.toString(),)),
                                                         );
                                                       },
                                                       child: ListTile(
