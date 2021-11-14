@@ -138,6 +138,12 @@ class HomePageState extends State<HomePage>
   }
 
   GlobalKey<HomeFragmentState> homeGlobalKey = GlobalKey();
+  GlobalKey<ProductsFragmentState> prodGlobalKey = GlobalKey();
+  GlobalKey<BuyListFragmentState> bordGlobalKey = GlobalKey();
+  GlobalKey<OrdersFragmentState> sordGlobalKey = GlobalKey();
+  GlobalKey<CustomersFragmentState> custGlobalKey = GlobalKey();
+  GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
+  GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
 
   @override
   void initState() {
@@ -174,14 +180,16 @@ class HomePageState extends State<HomePage>
           icon: Icon(
             Icons.add,
           ),
-          page: OrdersFragment(),
+          page: OrdersFragment(
+            key: sordGlobalKey,
+          ),
         ),
         TabItem(
           tabName: "Settings",
           icon: Icon(
             Icons.add,
           ),
-          page: CustomersFragment(toggleCoinCallback2: addCustomer2Cart),
+          page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart,),
         ),
         TabItem(
           tabName: "Settings",
@@ -189,6 +197,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: ProductsFragment(
+              key: prodGlobalKey,
               toggleCoinCallback: addNewProd2,
               toggleCoinCallback2: addProduct,
               toggleCoinCallback3: addProduct3),
@@ -198,7 +207,7 @@ class HomePageState extends State<HomePage>
           icon: Icon(
             Icons.add,
           ),
-          page: MerchantsFragment(toggleCoinCallback3: addMerchant2Cart),
+          page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart),
         ),
         TabItem(
           tabName: "Settings",
@@ -214,7 +223,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           // page: BuyListFragment(),
-          page: SettingsFragment(),
+          page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting),
         ),
         TabItem(
           tabName: "Settings",
@@ -222,7 +231,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           // page: BuyListFragment(),
-          page: BuyListFragment(),
+          page: BuyListFragment(key: bordGlobalKey,),
         ),
       ];
     });
@@ -232,6 +241,17 @@ class HomePageState extends State<HomePage>
     });
 
     super.initState();
+  }
+
+  chgShopIdFromSetting() {
+    // print('gg');
+    homeGlobalKey.currentState!.chgShopIdFrmHomePage();
+    prodGlobalKey.currentState!.chgShopIdFrmHomePage();
+    bordGlobalKey.currentState!.chgShopIdFrmHomePage();
+    sordGlobalKey.currentState!.chgShopIdFrmHomePage();
+    mercGlobalKey.currentState!.chgShopIdFrmHomePage();
+    custGlobalKey.currentState!.chgShopIdFrmHomePage();
+    settGlobalKey.currentState!.chgShopIdFrmHomePage();
   }
 
   closeNewProduct() {
@@ -298,6 +318,7 @@ class HomePageState extends State<HomePage>
                       GestureDetector(
                         onTap: () async {
                           // MainFragmentState().changeState(1);
+                          _selectTab(0);
                           await FirebaseAuth.instance.signOut();
                           setStoreId('');
                           // Navigator.pop(context);
