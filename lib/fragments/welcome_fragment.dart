@@ -477,7 +477,7 @@ class _WelcomeState extends State<Welcome>
                                                                       email: _email.text,
                                                                       password: _password.text,
                                                                     ).then((_){
-                                                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => chooseStore()));
+                                                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
                                                                     });
                                                                   } on FirebaseAuthException catch (e) {
                                                                     print(e.code.toString());
