@@ -101,6 +101,9 @@ class _WelcomeState extends State<Welcome>
 
   @override
   void dispose() {
+    _loginTabController.dispose();
+    _signupController.dispose();
+    _bottomTabBarCtl.dispose();
     super.dispose();
   }
 

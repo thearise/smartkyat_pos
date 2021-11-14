@@ -733,7 +733,7 @@ class HomePageState extends State<HomePage>
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('shops')
-              .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid.toString())
+              .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if(snapshot.hasData) {
