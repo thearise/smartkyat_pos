@@ -707,249 +707,336 @@ class HomePageState extends State<HomePage>
           ),
         ),
       ),
-      body: WillPopScope(
-        onWillPop: () async {
-          final isFirstRouteInCurrentTab =
-          !await tabs[currentTab].key.currentState!.maybePop();
-          if (isFirstRouteInCurrentTab) {
-            // if not on the 'main' tab
-            if (currentTab != 0) {
-              // select 'main' tab
-              _selectTab(0);
-              // back button handled by app
-              return false;
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('shops')
+            .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid.toString())
+            .snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if(snapshot.hasData) {
+            List<bool> shopFound = [];
+            for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
+              Map<String, dynamic> data = snapshot.data!.docs[loop]
+                  .data()! as Map<String, dynamic>;
+              var shop_name = data['shop_name'];
+              print('SHOP LIST ' + shop_name);
+              getStoreId().then((value) async {
+                if(snapshot.data!.docs[loop].id == value) {
+                  shopFound.add(true);
+                } else {
+                  shopFound.add(false);
+                }
+                if(loop == snapshot.data!.docs.length-1) {
+                  print('SHOP LIST LIST ' + shopFound.toString());
+                  for(int i = 0; i < shopFound.length; i++) {
+                    if(shopFound[i]) {
+                      break;
+                    } else {
+                      if(i == shopFound.length-1) {
+                        await FirebaseAuth.instance.signOut();
+                        setStoreId('');
+                        // Navigator.pop(context);
+                        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                        // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                        Navigator.of(context).pushReplacement(
+                          FadeRoute(page: Welcome()),
+                        );
+                      }
+                    }
+                  }
+                }
+              });
+
+
+              // print(snapshot.data!.docs[loop].data()!['shop_name'].toString());
+
             }
+            // for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
+            //   Map<String, dynamic> data = snapshot.data!.docs[loop]
+            //       .data()! as Map<String, dynamic>;
+            //   var shop_name = data['shop_name'];
+            //   print('SHOP LIST ' + shop_name);
+            //   getStoreId().then((value) async {
+            //     if(snapshot.data!.docs[loop].id == value) {
+            //       shopFound.add(true);
+            //     } else {
+            //       shopFound.add(false);
+            //     }
+            //     if(loop == snapshot.data!.docs.length-1) {
+            //       print('SHOP LIST LIST ' + shopFound.toString());
+            //       for(int i = 0; i < shopFound.length; i++) {
+            //         if(shopFound[i]) {
+            //           break;
+            //         } else {
+            //           if(i == shopFound.length-1) {
+            //             await FirebaseAuth.instance.signOut();
+            //             setStoreId('');
+            //             // Navigator.pop(context);
+            //             // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+            //             // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+            //             Navigator.of(context).pushReplacement(
+            //               FadeRoute(page: Welcome()),
+            //             );
+            //           }
+            //         }
+            //       }
+            //     }
+            //   });
+            //
+            //
+            //   // print(snapshot.data!.docs[loop].data()!['shop_name'].toString());
+            //
+            // }
           }
-          // let system handle back button if we're on the first route
-          return isFirstRouteInCurrentTab;
-        },
-        // this is the base scaffold
-        // don't put appbar in here otherwise you might end up
-        // with multiple appbars on one screen
-        // eventually breaking the app
+          return Stack(
+            children: [
+              WillPopScope(
+                onWillPop: () async {
+                  final isFirstRouteInCurrentTab =
+                  !await tabs[currentTab].key.currentState!.maybePop();
+                  if (isFirstRouteInCurrentTab) {
+                    // if not on the 'main' tab
+                    if (currentTab != 0) {
+                      // select 'main' tab
+                      _selectTab(0);
+                      // back button handled by app
+                      return false;
+                    }
+                  }
+                  // let system handle back button if we're on the first route
+                  return isFirstRouteInCurrentTab;
+                },
+                // this is the base scaffold
+                // don't put appbar in here otherwise you might end up
+                // with multiple appbars on one screen
+                // eventually breaking the app
 
-        child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            // backgroundColor: Colors.white,
-            // indexed stack shows only one child
-            body: IndexedStack(
-              index: currentTab,
-              children: tabs.map((e) => e.page).toList(),
-            ),
-            bottomNavigationBar: Padding(
-              padding: EdgeInsets.only(
-                  bottom: homeBotPadding
-              ),
-              child: Container(
-                color: Colors.white,
-                height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
-                child: Column(
-                  children: [
-                    if (MediaQuery.of(context).size.width > 900) Container() else Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border(
-                            top: BorderSide(
-                                color: AppTheme.skBorderColor2,
-                                width: 1.0),
-                          )
-                      ),
-                      child: Padding(
-                        padding:
-                        const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
-                        child: Container(
-                          height: 50,
-                          child: GestureDetector(
-                            onTap: () {
-                              if (prodList2.length != 0 || merchantId != 'name-name' ) {
-                                addDailyExp2(context);
-                              } else if(prodList.length != 0 || customerId != 'name-name') {
-                                addDailyExp(context);
-                              } else addDailyExp(context);
-                              // if (prodList.length != 0 || customerId != 'name-name') {
-                              //   addDailyExp(context);
-                              // } else {
-                              //   addDailyExp2(context);
-                              // }
-                            },
-                            child: (prodList.length == 0) ? Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: customerId == 'name-name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
-                                // color: Colors.blue
-                              ),
-
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 13.0, bottom: 15.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                            right: 8.0,
-                                            bottom: 2.0),
-                                        child: Container(
-                                          child: Text(
-                                            'Go to cart',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ) : Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: AppTheme.themeColor,
-                                // color: Colors.blue
-                              ),
-
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 13.0, bottom: 15.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                            right: 8.0,
-                                            bottom: 2.0),
-                                        child: int.parse(totalItems()) == 1? Container(
-                                          child:
-                                          Text(
-                                            totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black),
-                                          ),
-                                        ) : Container(
-                                          child:
-                                          Text(
-                                            totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                child: Scaffold(
+                    resizeToAvoidBottomInset: false,
+                    // backgroundColor: Colors.white,
+                    // indexed stack shows only one child
+                    body: IndexedStack(
+                      index: currentTab,
+                      children: tabs.map((e) => e.page).toList(),
                     ),
-                    Container(
-                      height: 57,
-                      decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                                color: AppTheme.skBorderColor2, width: 1.0),
-                          )),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                    bottomNavigationBar: Padding(
+                      padding: EdgeInsets.only(
+                          bottom: homeBotPadding
+                      ),
+                      child: Container(
+                        color: Colors.white,
+                        height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
+                        child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0,top:0.0
+                            if (MediaQuery.of(context).size.width > 900) Container() else Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border(
+                                    top: BorderSide(
+                                        color: AppTheme.skBorderColor2,
+                                        width: 1.0),
+                                  )
                               ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  _scaffoldKey.currentState!.openDrawer();
-                                },
-                                child: selectedTab(
+                              child: Padding(
+                                padding:
+                                const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
+                                child: Container(
+                                  height: 50,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (prodList2.length != 0 || merchantId != 'name-name' ) {
+                                        addDailyExp2(context);
+                                      } else if(prodList.length != 0 || customerId != 'name-name') {
+                                        addDailyExp(context);
+                                      } else addDailyExp(context);
+                                      // if (prodList.length != 0 || customerId != 'name-name') {
+                                      //   addDailyExp(context);
+                                      // } else {
+                                      //   addDailyExp2(context);
+                                      // }
+                                    },
+                                    child: (prodList.length == 0) ? Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        color: customerId == 'name-name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
+                                        // color: Colors.blue
+                                      ),
 
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                  child: Text(
-                                    '',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16.5,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  )),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                homeGlobalKey.currentState!.closeSearch();
-                                // print('sub ' + subList.toString());
-                                // testLoopData();
-                                // addDailyExp(context);
-                                // _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                // homeGlobalKey.currentState!.Testing();
-                                // HomeFragmentState().Testing();
-                              },
-                              child: Row(
-                                children: [
-                                  // StreamBuilder<
-                                  //     DocumentSnapshot<
-                                  //         Map<String, dynamic>>>(
-                                  //     stream: FirebaseFirestore.instance
-                                  //         .collection('test')
-                                  //         .doc('TtWFXrDF1feBVlUTPyQr')
-                                  //         .snapshots(),
-                                  //     builder:
-                                  //         (BuildContext context, snapshot2) {
-                                  //       if (snapshot2.hasData) {
-                                  //         var output1 = snapshot2.data!.data();
-                                  //         var mainUnit =
-                                  //         output1?['double'];
-                                  //         return Text(mainUnit.toString(),
-                                  //           style: TextStyle(
-                                  //             fontSize: 18,
-                                  //             fontWeight: FontWeight.bold,
-                                  //           ),
-                                  //         );
-                                  //       }
-                                  //       return Container();
-                                  //     }),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 13.0,top:2.0
-                                    ),
-                                    child: Container(
-                                        child: Image.asset('assets/system/menu.png', height: 33,)
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 13.0, bottom: 15.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0,
+                                                    right: 8.0,
+                                                    bottom: 2.0),
+                                                child: Container(
+                                                  child: Text(
+                                                    'Go to cart',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ) : Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        color: AppTheme.themeColor,
+                                        // color: Colors.blue
+                                      ),
+
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 13.0, bottom: 15.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0,
+                                                    right: 8.0,
+                                                    bottom: 2.0),
+                                                child: int.parse(totalItems()) == 1? Container(
+                                                  child:
+                                                  Text(
+                                                    totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
+                                                ) : Container(
+                                                  child:
+                                                  Text(
+                                                    totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            )
+                            ),
+                            Container(
+                              height: 57,
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(
+                                        color: AppTheme.skBorderColor2, width: 1.0),
+                                  )),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0,top:0.0
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          _scaffoldKey.currentState!.openDrawer();
+                                        },
+                                        child: selectedTab(
+
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                          child: Text(
+                                            '',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 16.5,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          )),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        homeGlobalKey.currentState!.closeSearch();
+                                        // print('sub ' + subList.toString());
+                                        // testLoopData();
+                                        // addDailyExp(context);
+                                        // _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                        // homeGlobalKey.currentState!.Testing();
+                                        // HomeFragmentState().Testing();
+                                      },
+                                      child: Row(
+                                        children: [
+                                          // StreamBuilder<
+                                          //     DocumentSnapshot<
+                                          //         Map<String, dynamic>>>(
+                                          //     stream: FirebaseFirestore.instance
+                                          //         .collection('test')
+                                          //         .doc('TtWFXrDF1feBVlUTPyQr')
+                                          //         .snapshots(),
+                                          //     builder:
+                                          //         (BuildContext context, snapshot2) {
+                                          //       if (snapshot2.hasData) {
+                                          //         var output1 = snapshot2.data!.data();
+                                          //         var mainUnit =
+                                          //         output1?['double'];
+                                          //         return Text(mainUnit.toString(),
+                                          //           style: TextStyle(
+                                          //             fontSize: 18,
+                                          //             fontWeight: FontWeight.bold,
+                                          //           ),
+                                          //         );
+                                          //       }
+                                          //       return Container();
+                                          //     }),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 13.0,top:2.0
+                                            ),
+                                            child: Container(
+                                                child: Image.asset('assets/system/menu.png', height: 33,)
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                    )
+                  // Bottom navigation
+
                 ),
               ),
-            )
-          // Bottom navigation
-
-        ),
+            ],
+          );
+        }
       ),
     );
   }

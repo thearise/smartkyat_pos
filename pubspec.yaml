@@ -45,6 +45,7 @@ dependencies:
 #  printing:
   url_launcher: ^6.0.6
 
+  dropdown_plus: ^0.0.9
   flutter_switch: ^0.3.2
   wechat_camera_picker: ^2.3.0
   wechat_assets_picker:
