@@ -14,10 +14,10 @@ class OrdersFragment extends StatefulWidget {
   OrdersFragment({Key? key}) : super(key: key);
 
   @override
-  _OrdersFragmentState createState() => _OrdersFragmentState();
+  OrdersFragmentState createState() => OrdersFragmentState();
 }
 
-class _OrdersFragmentState extends State<OrdersFragment>
+class OrdersFragmentState extends State<OrdersFragment>
     with
         TickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<OrdersFragment> {
@@ -47,6 +47,12 @@ class _OrdersFragmentState extends State<OrdersFragment>
     print(convertToDate('20210904').toString());
     HomePageState().getStoreId().then((value) => shopId = value);
     super.initState();
+  }
+
+  chgShopIdFrmHomePage() {
+    setState(() {
+      HomePageState().getStoreId().then((value) => shopId = value);
+    });
   }
 
   @override

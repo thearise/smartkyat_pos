@@ -14,10 +14,10 @@ class BuyListFragment extends StatefulWidget {
   BuyListFragment({Key? key}) : super(key: key);
 
   @override
-  _BuyListFragmentState createState() => _BuyListFragmentState();
+  BuyListFragmentState createState() => BuyListFragmentState();
 }
 
-class _BuyListFragmentState extends State<BuyListFragment>
+class BuyListFragmentState extends State<BuyListFragment>
     with
         TickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<BuyListFragment> {
@@ -46,6 +46,12 @@ class _BuyListFragmentState extends State<BuyListFragment>
     });
     print(convertToDate('20210904').toString());
     super.initState();
+  }
+
+  chgShopIdFrmHomePage() {
+    setState(() {
+      HomePageState().getStoreId().then((value) => shopId = value);
+    });
   }
 
   @override
