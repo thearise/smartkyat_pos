@@ -99,7 +99,7 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 80,
+                    height: 81,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         border: Border(
@@ -107,36 +107,37 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
                                 color: Colors.grey.withOpacity(0.3),
                                 width: 1.0))),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 18.0, left: 15.0 , right: 15),
+                      padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
                       child: Row(
                         children: [
                           Text('Settings',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 26,
                               fontWeight: FontWeight.w600,
                             ),),
                           Spacer(),
                           Container(
-                            height: 35,
-                            width: 110,
+                            height: 30,
+                            width: 100,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0),
+                                  Radius.circular(8.0),
                                 ),
                                 color: Colors.grey.withOpacity(0.3)),
                             child: Text('Free Version', style: TextStyle(
                               fontWeight: FontWeight.w500,
+                              fontSize: 13
                             ),),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 15,),
                   Expanded(
                     child: ListView(
                       children: [
+                        SizedBox(height: 15,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -156,9 +157,8 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
                                 );
                               },
                               child: Container(
-                                height: 76,
+                                height: 72,
                                 decoration: BoxDecoration(
-                                    color: AppTheme.white,
                                     border: Border(
                                       bottom: BorderSide(
                                           color: AppTheme.skBorderColor2,
@@ -190,32 +190,35 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
                                 );
                               },
                               child: Container(
-                                height: 76,
+                                height: 72,
                                 child: Center(
-                                  child: ListTile(
-                                    title: Text('Shop settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        StreamBuilder<Object>(
-                                          stream: null,
-                                          builder: (context, snapshot) {
-                                            return Text('Ethereals Shop' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
-                                          }
-                                        ),
-                                        SizedBox(width: 8,),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                        ),
-                                      ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 4.0),
+                                    child: ListTile(
+                                      title: Text('Shop settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          StreamBuilder<Object>(
+                                            stream: null,
+                                            builder: (context, snapshot) {
+                                              return Text('Ethereals Shop' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                            }
+                                          ),
+                                          SizedBox(width: 8,),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                          ),
+                                        ],
+                                      ),
+
+
                                     ),
-
-
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(height: 15,),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Text('DISPLAY', style: TextStyle(
@@ -225,7 +228,7 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
                               ),),
                             ),
                             Container(
-                              height: 76,
+                              height: 72,
                               decoration: BoxDecoration(
                                   color: AppTheme.white,
                                   border: Border(
@@ -251,26 +254,29 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
                               ),
                             ),
                             Container(
-                              height: 76,
+                              height: 72,
                               child: Center(
-                                child: ListTile(
-                                  title: Text('Languages', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('English' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      SizedBox(width: 8,),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                      ),
-                                    ],
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 4.0),
+                                  child: ListTile(
+                                    title: Text('Languages', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text('English' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                        SizedBox(width: 8,),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                        ),
+                                      ],
+                                    ),
+
+
                                   ),
-
-
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(height: 15,),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Text('ORDERS', style: TextStyle(
@@ -280,7 +286,7 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
                               ),),
                             ),
                             Container(
-                              height: 76,
+                              height: 72,
                               child: Center(
                                 child: ListTile(
                                   title: Text('Print settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
@@ -597,6 +603,7 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
 
   shopSetting() {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         bottom: true,
@@ -607,7 +614,7 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                  height: 80,
+                  height: 81,
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
@@ -705,7 +712,7 @@ class _SettingsFragmentState extends State<SettingsFragment>  with TickerProvide
 
                             },
                             child: Container(
-                              height: 76,
+                              height: 72,
                               decoration: BoxDecoration(
                                   color: AppTheme.lightBgColor,
                                   border: Border(

@@ -2577,7 +2577,7 @@ class HomeFragmentState extends State<HomeFragment>
             // sections.add(buyOrders);
             sectionList2 = sections;
           });
-
+          
           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
           // FirebaseFirestore.instance.collection('space')
               .where('each_order',  arrayContains: searchValue)

@@ -965,7 +965,7 @@ class HomePageState extends State<HomePage>
                                           child: selectedTab(
 
                                           ),
-                                        ),
+                                        ],
                                       ),
                                       Expanded(
                                         child: Container(
