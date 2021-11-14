@@ -55,12 +55,13 @@ class HomePageState extends State<HomePage>
   static int currentTab = 0;
   var deviceIdNum = 0;
   String? shopId;
+
   List<TabItem> tabs = [];
 
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
 
- // bool sellDone = true;
+  // bool sellDone = true;
   bool onChangeAmountTab = false;
 
   double homeBotPadding = 0;
@@ -140,8 +141,8 @@ class HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    HomePageState().getStoreId().then((value) => shopId = value);
     SystemChannels.textInput.invokeMethod('TextInput.hide');
+    HomePageState().getStoreId().then((value) => shopId = value);
     _controller = new TabController(length: 4, vsync: this);
     _controller2 = new TabController(length: 3, vsync: this);
     print('home_page' + 'sub1'.substring(3,4));
@@ -965,7 +966,7 @@ class HomePageState extends State<HomePage>
                                           child: selectedTab(
 
                                           ),
-                                        ],
+                                        ),
                                       ),
                                       Expanded(
                                         child: Container(
@@ -1396,16 +1397,16 @@ class HomePageState extends State<HomePage>
     // if(sellDone == true) {
     //   _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
     // }
-         if(sellDone == true) {
-           _controller.animateTo(
-             0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
-           _textFieldController.clear();
-           paidAmount = 0;
-           debt = 0;
-           refund = 0;
-           totalAmount = double.parse(TtlProdListPrice());
-           sellDone = false;
-         }
+    if(sellDone == true) {
+      _controller.animateTo(
+        0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
+      _textFieldController.clear();
+      paidAmount = 0;
+      debt = 0;
+      refund = 0;
+      totalAmount = double.parse(TtlProdListPrice());
+      sellDone = false;
+    }
     // if(onChangeAmountTab == true) {
     //
     //   onChangeAmountTab = false;
@@ -1692,7 +1693,7 @@ class HomePageState extends State<HomePage>
                                                   height: 52,
                                                   width: MediaQuery.of(context).size.width,
                                                   color: AppTheme.lightBgColor,
-                                                child: Padding(
+                                                  child: Padding(
                                                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                                     child: Row(
                                                       children: [
@@ -2712,13 +2713,13 @@ class HomePageState extends State<HomePage>
                                                                 });
 
 
-                                                                  // mystate(()  {
-                                                                  //   prodList = [];
-                                                                  //   discount = 0.0;
-                                                                  //   debt =0;
-                                                                  //   refund =0;
-                                                                  //   //customerId = 'name-name';
-                                                                  // });
+                                                                // mystate(()  {
+                                                                //   prodList = [];
+                                                                //   discount = 0.0;
+                                                                //   debt =0;
+                                                                //   refund =0;
+                                                                //   //customerId = 'name-name';
+                                                                // });
 
 
                                                                 _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
@@ -4778,7 +4779,7 @@ class HomePageState extends State<HomePage>
                                                             Spacer(),
                                                             GestureDetector(
                                                               onTap: () async {
-                                                                 discountAmount2 = discount2;
+                                                                discountAmount2 = discount2;
                                                                 subList = [];
                                                                 DateTime now = DateTime.now();
 
@@ -4966,7 +4967,7 @@ class HomePageState extends State<HomePage>
                                                                 //_textFieldController2.clear();
                                                                 Navigator.pop(context);
                                                                 sellDone = true;
-                                                                },
+                                                              },
                                                               child: Container(
                                                                 width: (MediaQuery.of(context).size.width - 45)/2,
                                                                 height: 55,
@@ -5440,9 +5441,9 @@ class HomePageState extends State<HomePage>
                                                                 setState((){
                                                                   mystate(() {
                                                                     _controller2.animateTo(0);
-                                                                   _textFieldController2.clear();
-                                                                   paidAmount2 = 0;
-                                                                   debt2 = 0;
+                                                                    _textFieldController2.clear();
+                                                                    paidAmount2 = 0;
+                                                                    debt2 = 0;
                                                                     refund2 = 0;
                                                                     totalAmount2 = double.parse(TtlProdListPrice2());
                                                                   });
