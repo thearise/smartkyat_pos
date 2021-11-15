@@ -4098,9 +4098,9 @@ class HomeFragmentState extends State<HomeFragment>
                                                                   stream: FirebaseFirestore.instance
                                                                       .collection('shops')
                                                                       .doc(shopId)
-                                                                      .collection('merchants')
+                                                                      .collection('customers')
                                                                       .doc(item.split('^sps^')[0].toString())
-                                                                      .collection('buyOrders')
+                                                                      .collection('orders')
                                                                       .where('debt', isGreaterThan: 0)
                                                                       .snapshots(),
                                                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {

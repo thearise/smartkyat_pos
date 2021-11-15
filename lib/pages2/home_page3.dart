@@ -733,11 +733,25 @@ class HomePageState extends State<HomePage>
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('shops')
-              .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())
+              .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString())
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            print('current ' + FirebaseAuth.instance.currentUser.toString());
             if(snapshot.hasData) {
               List<bool> shopFound = [];
+              getStoreId().then((value) async {
+                if(snapshot.data!.docs.length == 0) {
+                  await FirebaseAuth.instance.signOut();
+                  setStoreId('');
+                  // Navigator.pop(context);
+                  // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                  // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                  Navigator.of(context).pushReplacement(
+                    FadeRoute(page: Welcome()),
+                  );
+                }
+              });
+
               for(int loop = 0; loop < snapshot.data!.docs.length; loop++) {
                 Map<String, dynamic> data = snapshot.data!.docs[loop]
                     .data()! as Map<String, dynamic>;

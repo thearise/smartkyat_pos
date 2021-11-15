@@ -389,7 +389,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                       .doc(shopId)
                                                                       .collection('merchants')
                                                                       .doc(snapshot.data!.docs[index].id)
-                                                                      .collection('orders')
+                                                                      .collection('buyOrders')
                                                                       .where('debt', isGreaterThan: 0)
                                                                       .snapshots(),
                                                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {

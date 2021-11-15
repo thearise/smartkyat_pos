@@ -232,6 +232,7 @@ class _AddNewShopState extends State<AddNewShop> {
 
                           final User? user = auth.currentUser;
                           final uid = user!.uid;
+                          final email = user.email;
                           if (_formKey.currentState!.validate()) {
                             await FirebaseFirestore.instance.collection('shops').add(
                                 {
@@ -239,13 +240,14 @@ class _AddNewShopState extends State<AddNewShop> {
                                   'shop_name': shopFieldsValue[0],
                                   'shop_address' : shopFieldsValue[1],
                                   'shop_phone': shopFieldsValue[2],
-                                  'users': FieldValue.arrayUnion([uid.toString()]),
+                                  'users': FieldValue.arrayUnion([email.toString()]),
                                 }
                             ).then((value) async {
                               setStoreId(value.id.toString());
                               var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
                               //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                              print('shop added'); });
+                              print('shop added');
+                            });
                           }
                         },
                         child: Padding(
