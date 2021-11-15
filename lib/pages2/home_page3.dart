@@ -422,6 +422,11 @@ class HomePageState extends State<HomePage>
                         GestureDetector(
                           onTap: () {
                             homeGlobalKey.currentState!.closeSearch();
+                            prodGlobalKey.currentState!.closeSearch();
+                            custGlobalKey.currentState!.closeSearch();
+                            mercGlobalKey.currentState!.closeSearch();
+                            sordGlobalKey.currentState!.closeSearch();
+                            bordGlobalKey.currentState!.closeSearch();
 
                             // Future.delayed(const Duration(milliseconds: 500), () {
                             setState(() {
@@ -1025,6 +1030,11 @@ class HomePageState extends State<HomePage>
                                       GestureDetector(
                                         onTap: () {
                                           homeGlobalKey.currentState!.closeSearch();
+                                          prodGlobalKey.currentState!.closeSearch();
+                                          custGlobalKey.currentState!.closeSearch();
+                                          mercGlobalKey.currentState!.closeSearch();
+                                          sordGlobalKey.currentState!.closeSearch();
+                                          bordGlobalKey.currentState!.closeSearch();
                                           // print('sub ' + subList.toString());
                                           // testLoopData();
                                           // addDailyExp(context);
