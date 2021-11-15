@@ -48,8 +48,8 @@ class ProductsFragment extends StatefulWidget {
       : _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2,
         _callback3 = toggleCoinCallback3,
-        _callback4 = toggleCoinCallback2,
-        _callback5 = toggleCoinCallback3,
+        _callback4 = toggleCoinCallback4,
+        _callback5 = toggleCoinCallback5,
         super(key: key);
   @override
   ProductsFragmentState createState() => ProductsFragmentState();

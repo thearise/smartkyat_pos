@@ -304,6 +304,7 @@ class HomePageState extends State<HomePage>
           custGlobalKey.currentState!.unfocusSearch();
           mercGlobalKey.currentState!.unfocusSearch();
           sordGlobalKey.currentState!.unfocusSearch();
+          bordGlobalKey.currentState!.unfocusSearch();
         }
       },
       resizeToAvoidBottomInset: false,
