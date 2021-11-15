@@ -2536,20 +2536,6 @@ class HomeFragmentState extends State<HomeFragment>
         });
   }
 
-
-  // Widget _buildHeader2(BuildContext context, int sectionIndex, int index) {
-  //   if(searchValue == '') {
-  //     return Container(
-  //         height: 50,
-  //         child: Center(child: Text('Search any word'))
-  //     );
-  //   }
-  //   return Container(
-  //       height: 50,
-  //       child: Center(child: Text('No data found'))
-  //   );
-  // }
-
   Widget _buildHeader3(BuildContext context, int sectionIndex, int index) {
     return Container(
         height: 50,
@@ -2594,7 +2580,7 @@ class HomeFragmentState extends State<HomeFragment>
             // sections.add(buyOrders);
             sectionList2 = sections;
           });
-          
+
           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
           // FirebaseFirestore.instance.collection('space')
               .where('each_order',  arrayContains: searchValue)
@@ -4098,9 +4084,9 @@ class HomeFragmentState extends State<HomeFragment>
                                                                   stream: FirebaseFirestore.instance
                                                                       .collection('shops')
                                                                       .doc(shopId)
-                                                                      .collection('merchants')
+                                                                      .collection('customers')
                                                                       .doc(item.split('^sps^')[0].toString())
-                                                                      .collection('buyOrders')
+                                                                      .collection('orders')
                                                                       .where('debt', isGreaterThan: 0)
                                                                       .snapshots(),
                                                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {

@@ -182,14 +182,15 @@ class HomePageState extends State<HomePage>
           ),
           page: OrdersFragment(
             key: sordGlobalKey,
-          ),
+      toggleCoinCallback2: addProduct,
+      toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
         ),
         TabItem(
           tabName: "Settings",
           icon: Icon(
             Icons.add,
           ),
-          page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart,),
+          page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3,),
         ),
         TabItem(
           tabName: "Settings",
@@ -200,14 +201,14 @@ class HomePageState extends State<HomePage>
               key: prodGlobalKey,
               toggleCoinCallback: addNewProd2,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
         ),
         TabItem(
           tabName: "Settings",
           icon: Icon(
             Icons.add,
           ),
-          page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart),
+          page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct,),
         ),
         TabItem(
           tabName: "Settings",
@@ -215,7 +216,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           // page: BuyListFragment(),
-          page: MerchantsFragment(toggleCoinCallback3: addMerchant2Cart),
+          page: SettingsFragment(changeShopCallback: chgShopIdFromSetting),
         ),
         TabItem(
           tabName: "Settings",
@@ -231,7 +232,9 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           // page: BuyListFragment(),
-          page: BuyListFragment(key: bordGlobalKey,),
+          page: BuyListFragment( key: bordGlobalKey,
+            toggleCoinCallback2: addProduct,
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
         ),
       ];
     });
@@ -297,6 +300,10 @@ class HomePageState extends State<HomePage>
       onDrawerChanged: (isOpened) {
         if(isOpened) {
           homeGlobalKey.currentState!.unfocusSearch();
+          prodGlobalKey.currentState!.unfocusSearch();
+          custGlobalKey.currentState!.unfocusSearch();
+          mercGlobalKey.currentState!.unfocusSearch();
+          sordGlobalKey.currentState!.unfocusSearch();
         }
       },
       resizeToAvoidBottomInset: false,
@@ -733,7 +740,7 @@ class HomePageState extends State<HomePage>
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('shops')
-              .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())
+              .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString())
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if(snapshot.hasData) {
@@ -1855,7 +1862,7 @@ class HomePageState extends State<HomePage>
                                                                             )
                                                                                 : CachedNetworkImage(
                                                                               imageUrl:
-                                                                              'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                              'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
                                                                               width: 58,
                                                                               height: 58,
                                                                               // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
@@ -4170,7 +4177,7 @@ class HomePageState extends State<HomePage>
                                                                             )
                                                                                 : CachedNetworkImage(
                                                                               imageUrl:
-                                                                              'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                                              'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
                                                                               width: 58,
                                                                               height: 58,
                                                                               // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
@@ -4180,7 +4187,7 @@ class HomePageState extends State<HomePage>
                                                                                   Icon(Icons
                                                                                       .error),
                                                                               fadeInDuration:
-                                                                              Duration(
+                                                                            -  Duration(
                                                                                   milliseconds:
                                                                                   100),
                                                                               fadeOutDuration:

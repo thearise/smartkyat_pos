@@ -7,6 +7,7 @@ import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../../app_theme.dart';
 import '../app_theme.dart';
+import 'staff_settings_sub.dart';
 import 'switch_shop_sub.dart';
 
 class ShopSettingsSub extends StatefulWidget {
@@ -234,7 +235,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                 child: Center(
                                   child: ListTile(
                                     contentPadding: const EdgeInsets.only(left: 0.0, right: 15),
-                                    title: Text('Switch shop', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    title: Text('Switch shopp', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
@@ -255,7 +256,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                             onTap: (){
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => addStaffPage()),
+                                MaterialPageRoute(builder: (context) => StaffSettingsSub()),
                               );
                             },
                             child: Container(

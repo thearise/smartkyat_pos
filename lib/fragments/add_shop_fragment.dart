@@ -230,7 +230,7 @@ class _AddShopState extends State<AddShop> {
                           ),
                         ),
                         onPressed: () {
-                         Navigator.pop(context);
+                          Navigator.pop(context);
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -239,7 +239,7 @@ class _AddShopState extends State<AddShop> {
                               bottom: 2.0),
                           child: Container(
                             child: Text(
-                            'Cancel',
+                              'Cancel',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18,
@@ -269,15 +269,16 @@ class _AddShopState extends State<AddShop> {
 
                           final User? user = auth.currentUser;
                           final uid = user!.uid;
+                          final email = user.email;
                           if (_formKey.currentState!.validate()) {
                             await FirebaseFirestore.instance.collection('shops').add(
-                              {
-                                'owner_id' : uid.toString(),
-                                'shop_name': shopFieldsValue[0],
-                                'shop_address' : shopFieldsValue[1],
-                                'shop_phone': shopFieldsValue[2],
-                                'users': FieldValue.arrayUnion([uid.toString()]),
-                              }
+                                {
+                                  'owner_id' : uid.toString(),
+                                  'shop_name': shopFieldsValue[0],
+                                  'shop_address' : shopFieldsValue[1],
+                                  'shop_phone': shopFieldsValue[2],
+                                  'users': FieldValue.arrayUnion([email.toString()]),
+                                }
                             ).then((value) async {
                               setStoreId(value.id.toString());
                               var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));

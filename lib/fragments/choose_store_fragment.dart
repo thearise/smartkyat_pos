@@ -82,7 +82,7 @@ class chooseStoreState extends State<chooseStore> {
                 SizedBox(height: 13,),
                 StreamBuilder(
                     stream: FirebaseFirestore.instance.collection('shops')
-                        .where('users', arrayContains: auth.currentUser!.uid.toString())
+                        .where('users', arrayContains: auth.currentUser == null? '' : auth.currentUser!.email.toString())
                         .snapshots(),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if(snapshot.hasData) {
@@ -233,27 +233,27 @@ class chooseStoreState extends State<chooseStore> {
                       ),
                       onPressed: () async {
 
-                  setStoreId(_result);
-                  var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                        setStoreId(_result);
+                        var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
 
-                  // showOkCancelAlertDialog(
-                  //   context: context,
-                  //   title: 'Are you sure to change $_shop ?',
-                  //   message: 'Click OK to Continue !',
-                  //   defaultType: OkCancelAlertDefaultType.cancel,
-                  // ).then((result) async {
-                  //   if(result == OkCancelResult.ok) {
-                  //     setStoreId(_result);
-                  //     var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                  //     // if(resultPop == 'logout') {
-                  //     //   Future.delayed(const Duration(milliseconds: 1000), () {
-                  //     //     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Welcome()));
-                  //     //   });
-                  //     // }
-                  //   }
-                  // }
-                  // );
-                  },
+                        // showOkCancelAlertDialog(
+                        //   context: context,
+                        //   title: 'Are you sure to change $_shop ?',
+                        //   message: 'Click OK to Continue !',
+                        //   defaultType: OkCancelAlertDefaultType.cancel,
+                        // ).then((result) async {
+                        //   if(result == OkCancelResult.ok) {
+                        //     setStoreId(_result);
+                        //     var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                        //     // if(resultPop == 'logout') {
+                        //     //   Future.delayed(const Duration(milliseconds: 1000), () {
+                        //     //     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Welcome()));
+                        //     //   });
+                        //     // }
+                        //   }
+                        // }
+                        // );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0,
