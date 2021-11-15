@@ -214,21 +214,21 @@ class _AddNewShopState extends State<AddNewShop> {
                   ),
                 ),
                 SizedBox(height: 30,),
-                    ButtonTheme(
-                      minWidth: (MediaQuery.of(context).size.width),
-                      splashColor: Colors.transparent,
-                      height: 53,
-                      child: FlatButton(
+                ButtonTheme(
+                  minWidth: (MediaQuery.of(context).size.width),
+                  splashColor: Colors.transparent,
+                  height: 53,
+                  child: FlatButton(
+                    color: AppTheme.themeColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(10.0),
+                      side: BorderSide(
                         color: AppTheme.themeColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(10.0),
-                          side: BorderSide(
-                            color: AppTheme.themeColor,
-                          ),
-                        ),
-                        onPressed: () async {
-                          shopFieldsValue = [];
+                      ),
+                    ),
+                    onPressed: () async {
+                      shopFieldsValue = [];
 
                           final User? user = auth.currentUser;
                           final uid = user!.uid;
@@ -268,6 +268,8 @@ class _AddNewShopState extends State<AddNewShop> {
                         ),
                       ),
                     ),
+                  ),
+                ),
 
                 SizedBox(height: 30,),
                 Text('Set up some information about your shop later in shop settings.'),
