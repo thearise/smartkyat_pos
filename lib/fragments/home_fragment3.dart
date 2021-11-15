@@ -2536,20 +2536,6 @@ class HomeFragmentState extends State<HomeFragment>
         });
   }
 
-
-  // Widget _buildHeader2(BuildContext context, int sectionIndex, int index) {
-  //   if(searchValue == '') {
-  //     return Container(
-  //         height: 50,
-  //         child: Center(child: Text('Search any word'))
-  //     );
-  //   }
-  //   return Container(
-  //       height: 50,
-  //       child: Center(child: Text('No data found'))
-  //   );
-  // }
-
   Widget _buildHeader3(BuildContext context, int sectionIndex, int index) {
     return Container(
         height: 50,
@@ -2594,7 +2580,7 @@ class HomeFragmentState extends State<HomeFragment>
             // sections.add(buyOrders);
             sectionList2 = sections;
           });
-          
+
           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
           // FirebaseFirestore.instance.collection('space')
               .where('each_order',  arrayContains: searchValue)

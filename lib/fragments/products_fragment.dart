@@ -25,7 +25,6 @@ import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'subs/customer_info.dart';
 
 import '../app_theme.dart';
@@ -35,16 +34,22 @@ class ProductsFragment extends StatefulWidget {
   final _callback;
   final _callback2;
   final _callback3;
+  final _callback4;
+  final _callback5;
 
   ProductsFragment(
       {required void toggleCoinCallback(),
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
+        required void toggleCoinCallback4(String str),
+        required void toggleCoinCallback5(String str),
         required Key key,
       })
       : _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2,
         _callback3 = toggleCoinCallback3,
+        _callback4 = toggleCoinCallback4,
+        _callback5 = toggleCoinCallback5,
         super(key: key);
   @override
   ProductsFragmentState createState() => ProductsFragmentState();
@@ -64,7 +69,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   String searchProdCount = '0';
 
   bool buySellerStatus = false;
-
+  
   @override
   bool get wantKeepAlive => true;
 
@@ -175,10 +180,10 @@ class ProductsFragmentState extends State<ProductsFragment>
   }
 
   addCustomer2Cart1(data) {
-    widget._callback2(data);
+    widget._callback4(data);
   }
   addMerchant2Cart(data) {
-    widget._callback(data);
+    widget._callback5(data);
   }
 
   void closeSearch() {
@@ -3866,752 +3871,763 @@ class ProductsFragmentState extends State<ProductsFragment>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
-        color: Colors.white,
-        child: SafeArea(
-          top: true,
-          bottom: true,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 81.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).padding.top -
-                        MediaQuery.of(context).padding.bottom -
-                        100,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 0.0, left: 0.0, right: 0.0),
+      appBar: AppBar(
+        brightness: Brightness.light,
+        toolbarHeight: 0,
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          color: Colors.white,
+          child: SafeArea(
+            top: true,
+            bottom: true,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 81.0),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).padding.top -
+                          MediaQuery.of(context).padding.bottom -
+                          100,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 0.0, left: 0.0, right: 0.0),
 
 
-                      child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('shops')
-                              .doc(shopId)
-                              .collection('products')
-                              .snapshots(),
-                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if(snapshot.hasData) {
-                              return CustomScrollView(
-                                slivers: [
-                                  // Add the app bar to the CustomScrollView.
-                                  SliverAppBar(
-                                    elevation: 0,
-                                    backgroundColor: Colors.white,
-                                    // Provide a standard title.
+                        child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('shops')
+                                .doc(shopId)
+                                .collection('products')
+                                .snapshots(),
+                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if(snapshot.hasData) {
+                                return CustomScrollView(
+                                  slivers: [
+                                    // Add the app bar to the CustomScrollView.
+                                    SliverAppBar(
+                                      elevation: 0,
+                                      backgroundColor: Colors.white,
+                                      // Provide a standard title.
 
-                                    // Allows the user to reveal the app bar if they begin scrolling
-                                    // back up the list of items.
-                                    floating: true,
-                                    flexibleSpace: Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                      child: Container(
-                                        height: 32,
-                                        width: MediaQuery.of(context).size.width,
-                                        // color: Colors.yellow,
-                                        child: Row(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                FlatButton(
-                                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                                  color: AppTheme.secButtonColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.skBorderColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    widget._callback();
-                                                  },
-                                                  child: Container(
-                                                    child: Row(
-                                                      // mainAxisAlignment: Main,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right: 6.0),
-                                                          child: Icon(
-                                                            SmartKyat_POS.add_plus,
-                                                            size: 17,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'New item',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 12),
-                                                Container(
-                                                  color: Colors.grey.withOpacity(0.2),
-                                                  width: 1.5,
-                                                  height: 30,
-                                                )
-                                              ],
-                                            ),
-                                            Expanded(
-                                              child: ListView(
-                                                controller: cateScCtler,
-                                                scrollDirection: Axis.horizontal,
+                                      // Allows the user to reveal the app bar if they begin scrolling
+                                      // back up the list of items.
+                                      floating: true,
+                                      flexibleSpace: Padding(
+                                        padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                                        child: Container(
+                                          height: 32,
+                                          width: MediaQuery.of(context).size.width,
+                                          // color: Colors.yellow,
+                                          child: Row(
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
+                                                  FlatButton(
+                                                    padding: EdgeInsets.only(left: 10, right: 10),
+                                                    color: AppTheme.secButtonColor,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(8.0),
+                                                      side: BorderSide(
+                                                        color: AppTheme.skBorderColor2,
                                                       ),
-                                                      onPressed: () {
-                                                        _animateToIndex(0);
-                                                        setState(() {
-                                                          cateScIndex = 0;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          'All',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
+                                                    ),
+                                                    onPressed: () {
+                                                      widget._callback();
+                                                    },
+                                                    child: Container(
+                                                      child: Row(
+                                                        // mainAxisAlignment: Main,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(right: 6.0),
+                                                            child: Icon(
+                                                              SmartKyat_POS.add_plus,
+                                                              size: 17,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'New item',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(5.4);
-                                                        setState(() {
-                                                          cateScIndex = 1;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          'Low stocks',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(16.4);
-                                                        setState(() {
-                                                          cateScIndex = 2;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          'Best sales',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(20);
-                                                        setState(() {
-                                                          cateScIndex = 3;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          'Low sales',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 11,
+                                                  SizedBox(width: 12),
+                                                  Container(
+                                                    color: Colors.grey.withOpacity(0.2),
+                                                    width: 1.5,
+                                                    height: 30,
                                                   )
                                                 ],
                                               ),
-                                            )
-                                          ],
-                                        ),
-
-                                      ),
-                                    ),
-                                    // Display a placeholder widget to visualize the shrinking size.
-                                    // Make the initial height of the SliverAppBar larger than normal.
-                                    expandedHeight: 20,
-                                  ),
-                                  // Next, create a SliverList
-                                  SliverList(
-                                    // Use a delegate to build items as they're scrolled on screen.
-                                    delegate: SliverChildBuilderDelegate(
-                                      // The builder function returns a ListTile with a title that
-                                      // displays the index of the current item.
-                                          (context, index) {
-                                        Map<String, dynamic> data = snapshot.data!.docs[index]
-                                            .data()! as Map<String, dynamic>;
-                                        var image = data['img_1'];
-                                        var prodName = data['prod_name'];
-                                        var mainName = data['unit_name'];
-                                        var sub1Name = data['sub1_name'];
-                                        var sub2Name = data['sub2_name'];
-                                        var mainsPrice = data['unit_sell'];
-                                        var mainQty = data['inStock1'].round();
-                                        var sub1Qty = data['inStock2'].round();
-                                        var sub2Qty = data['inStock3'].round();
-                                        var sub1Price = data['sub1_sell'];
-                                        var sub2Price = data['sub2_sell'];
-                                        var version = snapshot.data!.docs[index].id;
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => ProductDetailsView2(
-                                                    idString: version, toggleCoinCallback:
-                                                  addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(),)),);
-                                          },
-                                          child: Padding(
-                                            padding:
-                                            EdgeInsets.only(top: index == 0? 10.0: 19.0),
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: index == snapshot.data!.docs.length-1 ?
-                                                      BorderSide(
-                                                          color: Colors.transparent,
-                                                          width: 1.0) :
-
-                                                      BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.3),
-                                                          width: 1.0)
-                                                  )),
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                child: Column(
+                                              Expanded(
+                                                child: ListView(
+                                                  controller: cateScCtler,
+                                                  scrollDirection: Axis.horizontal,
                                                   children: [
-                                                    Row(
-                                                      children: [
-                                                        Column(
-                                                          children: [
-                                                            ClipRRect(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    5.0),
-                                                                child: image != ""
-                                                                    ? CachedNetworkImage(
-                                                                  imageUrl:
-                                                                  'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                      image,
-                                                                  width: 75,
-                                                                  height: 75,
-                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                  errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                                  fadeInDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      100),
-                                                                  fadeOutDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      10),
-                                                                  fadeInCurve:
-                                                                  Curves
-                                                                      .bounceIn,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )
-                                                                    : CachedNetworkImage(
-                                                                  imageUrl:
-                                                                  'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg'
-                                                                  ,
-                                                                  width: 75,
-                                                                  height: 75,
-                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                  errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                                  fadeInDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      100),
-                                                                  fadeOutDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      10),
-                                                                  fadeInCurve:
-                                                                  Curves
-                                                                      .bounceIn,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: 15,
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 2,
-                                                            ),
-                                                            Text(
-                                                              prodName,
-                                                              style: TextStyle(
-                                                                height: 1,
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                FontWeight.w500,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 12,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  'MMK ' + mainsPrice,
-                                                                  style: TextStyle(
-                                                                    height: 1.3,
-                                                                    fontSize: 15,
-                                                                    fontWeight:
-                                                                    FontWeight.w500,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  sub1Name != '' && sub2Name == '' ? ' - ' + sub1Price : sub1Name != '' && sub2Name != '' ? ' - ' + sub2Price : '',
-                                                                  style: TextStyle(
-                                                                    height: 1.3,
-                                                                    fontSize: 15,
-                                                                    fontWeight:
-                                                                    FontWeight.w500,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                              height: 2,
-                                                            ),
-                                                            Row(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              children: [
-                                                                Text(
-                                                                    mainQty.toString()+ ' '  + mainName + ' ',
-                                                                    textScaleFactor: 1.0,
-                                                                    style: TextStyle(
-                                                                      height: 1.3,
-                                                                      fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                    )),
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top: 2.0),
-                                                                  child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                ),
-
-                                                                sub1Name != '' && sub2Name == ''?
-                                                                Text(
-                                                                    '  +1 Sub item',
-                                                                    textScaleFactor: 1.0,
-                                                                    style: TextStyle(
-                                                                      height: 1.3,
-                                                                      fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                    )) : sub1Name != '' && sub2Name != '' ? Text(
-                                                                    '  +2 Sub items',
-                                                                    textScaleFactor: 1.0,
-                                                                    style: TextStyle(
-                                                                      height: 1.3,
-                                                                      fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                    )): Container(),
-
-                                                                // StreamBuilder(
-                                                                //     stream: FirebaseFirestore
-                                                                //         .instance
-                                                                //         .collection(
-                                                                //         'space')
-                                                                //         .doc(
-                                                                //         '0NHIS0Jbn26wsgCzVBKT')
-                                                                //         .collection(
-                                                                //         'shops')
-                                                                //         .doc(
-                                                                //         'PucvhZDuUz3XlkTgzcjb')
-                                                                //         .collection(
-                                                                //         'products')
-                                                                //         .doc(version)
-                                                                //         .collection(
-                                                                //         'versions')
-                                                                //         .where('type',
-                                                                //         isEqualTo:
-                                                                //         'sub3')
-                                                                //         .snapshots(),
-                                                                //     builder: (BuildContext
-                                                                //     context,
-                                                                //         AsyncSnapshot<
-                                                                //             QuerySnapshot>
-                                                                //         snapshot5) {
-                                                                //       if (snapshot5
-                                                                //           .hasData) {
-                                                                //         int quantity3 =
-                                                                //         0;
-                                                                //         var sub3Quantity;
-                                                                //         snapshot5
-                                                                //             .data!
-                                                                //             .docs
-                                                                //             .map((DocumentSnapshot
-                                                                //         document) {
-                                                                //           Map<String,
-                                                                //               dynamic>
-                                                                //           data4 =
-                                                                //           document.data()! as Map<
-                                                                //               String,
-                                                                //               dynamic>;
-                                                                //           if (data4[
-                                                                //           'unit_qtity'] !=
-                                                                //               '') {
-                                                                //             quantity3 +=
-                                                                //                 int.parse(
-                                                                //                     data4['unit_qtity']);
-                                                                //             sub3Quantity =
-                                                                //                 quantity3
-                                                                //                     .toString();
-                                                                //           } else
-                                                                //             return Container();
-                                                                //         }).toList();
-                                                                //         // print(sub1Quantity);
-                                                                //         // print(mainQuantity);
-                                                                //         if (sub3Quantity !=
-                                                                //             null) {
-                                                                //           return Text(
-                                                                //               '$sub3Quantity $sub3Name');
-                                                                //         }
-                                                                //         return Container();
-                                                                //       }
-                                                                //       return Container();
-                                                                //     }),
-                                                              ],
-                                                            ),
-
-                                                            // Text(
-                                                            //   'MMK',
-                                                            //   style:
-                                                            //       TextStyle(
-                                                            //     fontSize: 14,
-                                                            //     fontWeight: FontWeight.w400,
-                                                            //     color: Colors.blueGrey.withOpacity(1.0),
-                                                            //   ),
-                                                            // ),
-                                                            // SizedBox(
-                                                            //   height:
-                                                            //       7,
-                                                            // ),
-                                                            // Text(
-                                                            //   '55',
-                                                            //   style:
-                                                            //       TextStyle(
-                                                            //     fontSize: 14,
-                                                            //     fontWeight: FontWeight.w400,
-                                                            //     color: Colors.blueGrey.withOpacity(1.0),
-                                                            //   ),
-                                                            // ),
-                                                          ],
-                                                        ),
-                                                        // Padding(
-                                                        //   padding:
-                                                        //       const EdgeInsets.only(
-                                                        //           bottom: 20.0),
-                                                        //   child: IconButton(
-                                                        //     icon: Icon(
-                                                        //       Icons
-                                                        //           .arrow_forward_ios_rounded,
-                                                        //       size: 16,
-                                                        //       color: Colors.blueGrey
-                                                        //           .withOpacity(0.8),
-                                                        //     ),
-                                                        //     onPressed: () {
-                                                        //       Navigator.push(
-                                                        //         context,
-                                                        //         MaterialPageRoute(
-                                                        //             builder: (context) => ProductDetailsView(
-                                                        //                 idString: version, toggleCoinCallback:
-                                                        //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                                                        //     },
-                                                        //   ),
-                                                        // ),
-                                                        Spacer(),
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 6.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .arrow_forward_ios_rounded,
-                                                            size: 16,
-                                                            color: Colors.blueGrey
-                                                                .withOpacity(0.8),
-                                                          ),),
-                                                      ],
+                                                    SizedBox(
+                                                      width: 4,
                                                     ),
-                                                    SizedBox(height: 20),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                      child: FlatButton(
+                                                        minWidth: 0,
+                                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                                        color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          _animateToIndex(0);
+                                                          setState(() {
+                                                            cateScIndex = 0;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Text(
+                                                            'All',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                      child: FlatButton(
+                                                        minWidth: 0,
+                                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                                        color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          _animateToIndex(5.4);
+                                                          setState(() {
+                                                            cateScIndex = 1;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Text(
+                                                            'Low stocks',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                      child: FlatButton(
+                                                        minWidth: 0,
+                                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                                        color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          _animateToIndex(16.4);
+                                                          setState(() {
+                                                            cateScIndex = 2;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Text(
+                                                            'Best sales',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                      child: FlatButton(
+                                                        minWidth: 0,
+                                                        padding: EdgeInsets.only(left: 12, right: 12),
+                                                        color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(20.0),
+                                                          side: BorderSide(
+                                                            color: AppTheme.skBorderColor2,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          _animateToIndex(20);
+                                                          setState(() {
+                                                            cateScIndex = 3;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Text(
+                                                            'Low sales',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 11,
+                                                    )
                                                   ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+
+                                        ),
+                                      ),
+                                      // Display a placeholder widget to visualize the shrinking size.
+                                      // Make the initial height of the SliverAppBar larger than normal.
+                                      expandedHeight: 20,
+                                    ),
+                                    // Next, create a SliverList
+                                    SliverList(
+                                      // Use a delegate to build items as they're scrolled on screen.
+                                      delegate: SliverChildBuilderDelegate(
+                                        // The builder function returns a ListTile with a title that
+                                        // displays the index of the current item.
+                                            (context, index) {
+                                              Map<String, dynamic> data = snapshot.data!.docs[index]
+                                                  .data()! as Map<String, dynamic>;
+                                              var image = data['img_1'];
+                                              var prodName = data['prod_name'];
+                                              var mainName = data['unit_name'];
+                                              var sub1Name = data['sub1_name'];
+                                              var sub2Name = data['sub2_name'];
+                                              var mainsPrice = data['unit_sell'];
+                                              var mainQty = data['inStock1'].round();
+                                              var sub1Qty = data['inStock2'].round();
+                                              var sub2Qty = data['inStock3'].round();
+                                              var sub1Price = data['sub1_sell'];
+                                              var sub2Price = data['sub2_sell'];
+                                              var version = snapshot.data!.docs[index].id;
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => ProductDetailsView2(
+                                                            idString: version, toggleCoinCallback:
+                                                        addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(),)),);
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                  EdgeInsets.only(top: index == 0? 10.0: 19.0),
+                                                  child: Container(
+                                                    width: MediaQuery.of(context)
+                                                        .size
+                                                        .width,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: index == snapshot.data!.docs.length-1 ?
+                                                            BorderSide(
+                                                                color: Colors.transparent,
+                                                                width: 1.0) :
+
+                                                        BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.3),
+                                                            width: 1.0)
+                                                    )),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Column(
+                                                            children: [
+                                                              ClipRRect(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      5.0),
+                                                                  child: image != ""
+                                                                      ? CachedNetworkImage(
+                                                                    imageUrl:
+                                                                    'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                        image,
+                                                                    width: 75,
+                                                                    height: 75,
+                                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                    errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                        Icon(Icons
+                                                                            .error),
+                                                                    fadeInDuration:
+                                                                    Duration(
+                                                                        milliseconds:
+                                                                        100),
+                                                                    fadeOutDuration:
+                                                                    Duration(
+                                                                        milliseconds:
+                                                                        10),
+                                                                    fadeInCurve:
+                                                                    Curves
+                                                                        .bounceIn,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )
+                                                                      : CachedNetworkImage(
+                                                                    imageUrl:
+                                                                    'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg'
+                                                                    ,
+                                                                    width: 75,
+                                                                    height: 75,
+                                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                    errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                        Icon(Icons
+                                                                            .error),
+                                                                    fadeInDuration:
+                                                                    Duration(
+                                                                        milliseconds:
+                                                                        100),
+                                                                    fadeOutDuration:
+                                                                    Duration(
+                                                                        milliseconds:
+                                                                        10),
+                                                                    fadeInCurve:
+                                                                    Curves
+                                                                        .bounceIn,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            width: 15,
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              Text(
+                                                                prodName,
+                                                                style: TextStyle(
+                                                                  height: 1,
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                  FontWeight.w500,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 12,
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                    'MMK ' + mainsPrice,
+                                                                    style: TextStyle(
+                                                                      height: 1.3,
+                                                                      fontSize: 15,
+                                                                      fontWeight:
+                                                                      FontWeight.w500,
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    sub1Name != '' && sub2Name == '' ? ' - ' + sub1Price : sub1Name != '' && sub2Name != '' ? ' - ' + sub2Price : '',
+                                                                    style: TextStyle(
+                                                                      height: 1.3,
+                                                                      fontSize: 15,
+                                                                      fontWeight:
+                                                                      FontWeight.w500,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              Row(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                children: [
+                                                                  Text(
+                                                                      mainQty.toString()+ ' '  + mainName + ' ',
+                                                                      textScaleFactor: 1.0,
+                                                                      style: TextStyle(
+                                                                        height: 1.3,
+                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                      )),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top: 2.0),
+                                                                    child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                  ),
+
+                                                                  sub1Name != '' && sub2Name == ''?
+                                                                  Text(
+                                                                      '  +1 Sub item',
+                                                                      textScaleFactor: 1.0,
+                                                                      style: TextStyle(
+                                                                        height: 1.3,
+                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                      )) : sub1Name != '' && sub2Name != '' ? Text(
+                                                                      '  +2 Sub items',
+                                                                      textScaleFactor: 1.0,
+                                                                      style: TextStyle(
+                                                                        height: 1.3,
+                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                      )): Container(),
+
+                                                                  // StreamBuilder(
+                                                                  //     stream: FirebaseFirestore
+                                                                  //         .instance
+                                                                  //         .collection(
+                                                                  //         'space')
+                                                                  //         .doc(
+                                                                  //         '0NHIS0Jbn26wsgCzVBKT')
+                                                                  //         .collection(
+                                                                  //         'shops')
+                                                                  //         .doc(
+                                                                  //         'PucvhZDuUz3XlkTgzcjb')
+                                                                  //         .collection(
+                                                                  //         'products')
+                                                                  //         .doc(version)
+                                                                  //         .collection(
+                                                                  //         'versions')
+                                                                  //         .where('type',
+                                                                  //         isEqualTo:
+                                                                  //         'sub3')
+                                                                  //         .snapshots(),
+                                                                  //     builder: (BuildContext
+                                                                  //     context,
+                                                                  //         AsyncSnapshot<
+                                                                  //             QuerySnapshot>
+                                                                  //         snapshot5) {
+                                                                  //       if (snapshot5
+                                                                  //           .hasData) {
+                                                                  //         int quantity3 =
+                                                                  //         0;
+                                                                  //         var sub3Quantity;
+                                                                  //         snapshot5
+                                                                  //             .data!
+                                                                  //             .docs
+                                                                  //             .map((DocumentSnapshot
+                                                                  //         document) {
+                                                                  //           Map<String,
+                                                                  //               dynamic>
+                                                                  //           data4 =
+                                                                  //           document.data()! as Map<
+                                                                  //               String,
+                                                                  //               dynamic>;
+                                                                  //           if (data4[
+                                                                  //           'unit_qtity'] !=
+                                                                  //               '') {
+                                                                  //             quantity3 +=
+                                                                  //                 int.parse(
+                                                                  //                     data4['unit_qtity']);
+                                                                  //             sub3Quantity =
+                                                                  //                 quantity3
+                                                                  //                     .toString();
+                                                                  //           } else
+                                                                  //             return Container();
+                                                                  //         }).toList();
+                                                                  //         // print(sub1Quantity);
+                                                                  //         // print(mainQuantity);
+                                                                  //         if (sub3Quantity !=
+                                                                  //             null) {
+                                                                  //           return Text(
+                                                                  //               '$sub3Quantity $sub3Name');
+                                                                  //         }
+                                                                  //         return Container();
+                                                                  //       }
+                                                                  //       return Container();
+                                                                  //     }),
+                                                                ],
+                                                              ),
+
+                                                              // Text(
+                                                              //   'MMK',
+                                                              //   style:
+                                                              //       TextStyle(
+                                                              //     fontSize: 14,
+                                                              //     fontWeight: FontWeight.w400,
+                                                              //     color: Colors.blueGrey.withOpacity(1.0),
+                                                              //   ),
+                                                              // ),
+                                                              // SizedBox(
+                                                              //   height:
+                                                              //       7,
+                                                              // ),
+                                                              // Text(
+                                                              //   '55',
+                                                              //   style:
+                                                              //       TextStyle(
+                                                              //     fontSize: 14,
+                                                              //     fontWeight: FontWeight.w400,
+                                                              //     color: Colors.blueGrey.withOpacity(1.0),
+                                                              //   ),
+                                                              // ),
+                                                            ],
+                                                          ),
+                                                          // Padding(
+                                                          //   padding:
+                                                          //       const EdgeInsets.only(
+                                                          //           bottom: 20.0),
+                                                          //   child: IconButton(
+                                                          //     icon: Icon(
+                                                          //       Icons
+                                                          //           .arrow_forward_ios_rounded,
+                                                          //       size: 16,
+                                                          //       color: Colors.blueGrey
+                                                          //           .withOpacity(0.8),
+                                                          //     ),
+                                                          //     onPressed: () {
+                                                          //       Navigator.push(
+                                                          //         context,
+                                                          //         MaterialPageRoute(
+                                                          //             builder: (context) => ProductDetailsView(
+                                                          //                 idString: version, toggleCoinCallback:
+                                                          //             addProduct1, toggleCoinCallback3: addProduct3)),);
+                                                          //     },
+                                                          //   ),
+                                                          // ),
+                                                          Spacer(),
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets.only(
+                                                                bottom: 6.0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios_rounded,
+                                                              size: 16,
+                                                              color: Colors.blueGrey
+                                                                  .withOpacity(0.8),
+                                                            ),),
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 20),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                      // Builds 1000 ListTiles
-                                      childCount: snapshot.data!.docs.length,
+                                          );
+                                        },
+                                        // Builds 1000 ListTiles
+                                        childCount: snapshot.data!.docs.length,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              );
+                                  ],
+                                );
+                              }
+                              return Container();
                             }
-                            return Container();
-                          }
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                        bottom: BorderSide(
-                            color: AppTheme.skBorderColor2,
-                            width: 1.0),
-                      )
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 15.0, left: 15.0, right: 15.0, bottom: 15),
-                    child: GestureDetector(
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(nodeFirst);
-                        setState(() {
-                          loadingSearch = true;
-                        });
-                        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: loadingSearch? Colors.blue: Colors.transparent,
-                            style: BorderStyle.solid,
-                            width: 1.0,
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: BorderSide(
+                              color: AppTheme.skBorderColor2,
+                              width: 1.0),
+                        )
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+                      child: GestureDetector(
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(nodeFirst);
+                          setState(() {
+                            loadingSearch = true;
+                          });
+                          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: loadingSearch? Colors.blue: Colors.transparent,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: AppTheme.secButtonColor,
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                          color: AppTheme.secButtonColor,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        height: 50,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10.0, bottom: 11.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  if(loadingSearch) {
-                                    _searchController.clear();
-                                    FocusScope.of(context).unfocus();
-                                    setState(() {
-                                      loadingSearch = false;
-                                    });
-                                  } else {
-                                    FocusScope.of(context).requestFocus(nodeFirst);
-                                    setState(() {
-                                      loadingSearch = true;
-                                    });
-                                    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: Container(
-                                    child: Stack(
-                                      children: [
-                                        !loadingSearch? Padding(
-                                          padding: const EdgeInsets.only(left: 5.0),
-                                          child: Icon(
-                                            SmartKyat_POS.search,
-                                            size: 17,
-                                          ),
-                                        ): Padding(
-                                          padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                          child: Icon(
-                                            Icons.close_rounded,
-                                            size: 24,
-                                          ),
-                                        )
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0, bottom: 11.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    if(loadingSearch) {
+                                      _searchController.clear();
+                                      FocusScope.of(context).unfocus();
+                                      setState(() {
+                                        loadingSearch = false;
+                                      });
+                                    } else {
+                                      FocusScope.of(context).requestFocus(nodeFirst);
+                                      setState(() {
+                                        loadingSearch = true;
+                                      });
+                                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 12.0),
+                                    child: Container(
+                                      child: Stack(
+                                        children: [
+                                          !loadingSearch? Padding(
+                                            padding: const EdgeInsets.only(left: 5.0),
+                                            child: Icon(
+                                              SmartKyat_POS.search,
+                                              size: 17,
+                                            ),
+                                          ): Padding(
+                                            padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                                            child: Icon(
+                                              Icons.close_rounded,
+                                              size: 24,
+                                            ),
+                                          )
 
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: !loadingSearch? 8.0: 4,
-                                        right: 8.0,
-                                        top: 0.5),
-                                    child: TextField(
-                                      textInputAction: TextInputAction.search,
-                                      focusNode: nodeFirst,
-                                      controller: _searchController,
-                                      onSubmitted: (value) async {
-                                      },
-                                      maxLines: 1,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black
-                                      ),
-
-                                      decoration: InputDecoration(
-                                        hintText: 'Search',
-                                        isDense: true,
-                                        // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                        enabledBorder: const OutlineInputBorder(
-                                          // width: 0.0 produces a thin "hairline" border
-                                            borderSide: const BorderSide(
-                                                color: Colors.transparent, width: 2.0),
-                                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                                        focusedBorder: const OutlineInputBorder(
-                                          // width: 0.0 produces a thin "hairline" border
-                                            borderSide: const BorderSide(
-                                                color: Colors.transparent, width: 2.0),
-                                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                        contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                        //filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                Expanded(
+                                  child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: !loadingSearch? 8.0: 4,
+                                          right: 8.0,
+                                          top: 0.5),
+                                      child: TextField(
+                                        textInputAction: TextInputAction.search,
+                                        focusNode: nodeFirst,
+                                        controller: _searchController,
+                                        onSubmitted: (value) async {
+                                        },
+                                        maxLines: 1,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black
                                         ),
-                                      ),
-                                      keyboardType: TextInputType.text,
-                                      onChanged: (value) {
-                                        // setState(() {
-                                        //   quantity = int.parse(value);
-                                        // });
-                                      },
-                                      // controller: myController,
-                                    )
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  print('open barcode');
-                                  setState(() {
-                                    searchProdCount = '10';
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 15.0,
+
+                                        decoration: InputDecoration(
+                                          hintText: 'Search',
+                                          isDense: true,
+                                          // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                          enabledBorder: const OutlineInputBorder(
+                                            // width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: Colors.transparent, width: 2.0),
+                                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                                          focusedBorder: const OutlineInputBorder(
+                                            // width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: Colors.transparent, width: 2.0),
+                                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                          contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                          //filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        keyboardType: TextInputType.text,
+                                        onChanged: (value) {
+                                          // setState(() {
+                                          //   quantity = int.parse(value);
+                                          // });
+                                        },
+                                        // controller: myController,
+                                      )
                                   ),
-                                  // child: Icon(
-                                  //   SmartKyat_POS.barcode,
-                                  //   color: Colors.black,
-                                  //   size: 25,
-                                  // ),
-                                  child: Container(
-                                      child: Image.asset('assets/system/barcode.png', height: 28,)
-                                  ),
                                 ),
-                              )
-                            ],
+                                GestureDetector(
+                                  onTap: () {
+                                    print('open barcode');
+                                    setState(() {
+                                      searchProdCount = '10';
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 15.0,
+                                    ),
+                                    // child: Icon(
+                                    //   SmartKyat_POS.barcode,
+                                    //   color: Colors.black,
+                                    //   size: 25,
+                                    // ),
+                                    child: Container(
+                                        child: Image.asset('assets/system/barcode.png', height: 28,)
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              overAllSearch()
+                overAllSearch()
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -230,7 +230,7 @@ class _AddShopState extends State<AddShop> {
                           ),
                         ),
                         onPressed: () {
-                         Navigator.pop(context);
+                          Navigator.pop(context);
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -239,7 +239,7 @@ class _AddShopState extends State<AddShop> {
                               bottom: 2.0),
                           child: Container(
                             child: Text(
-                            'Cancel',
+                              'Cancel',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18,

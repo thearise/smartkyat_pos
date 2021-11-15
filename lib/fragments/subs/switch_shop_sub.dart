@@ -218,7 +218,6 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
 
-
                       }
                     },
                     child: Padding(
