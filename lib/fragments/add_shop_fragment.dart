@@ -272,13 +272,13 @@ class _AddShopState extends State<AddShop> {
                           final email = user.email;
                           if (_formKey.currentState!.validate()) {
                             await FirebaseFirestore.instance.collection('shops').add(
-                                {
-                                  'owner_id' : uid.toString(),
-                                  'shop_name': shopFieldsValue[0],
-                                  'shop_address' : shopFieldsValue[1],
-                                  'shop_phone': shopFieldsValue[2],
-                                  'users': FieldValue.arrayUnion([email.toString()]),
-                                }
+                              {
+                                'owner_id' : uid.toString(),
+                                'shop_name': shopFieldsValue[0],
+                                'shop_address' : shopFieldsValue[1],
+                                'shop_phone': shopFieldsValue[2],
+                                'users': FieldValue.arrayUnion([email.toString()]),
+                              }
                             ).then((value) async {
                               setStoreId(value.id.toString());
                               var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));

@@ -271,7 +271,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 4.0),
                                   child: ListTile(
-                                    title: Text('Staffs', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    title: Text('Staff settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [

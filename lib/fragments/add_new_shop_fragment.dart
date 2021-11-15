@@ -230,37 +230,40 @@ class _AddNewShopState extends State<AddNewShop> {
                     onPressed: () async {
                       shopFieldsValue = [];
 
-                      final User? user = auth.currentUser;
-                      final uid = user!.uid;
-                      final email = user.email;
-                      if (_formKey.currentState!.validate()) {
-                        await FirebaseFirestore.instance.collection('shops').add(
-                            {
-                              'owner_id' : uid.toString(),
-                              'shop_name': shopFieldsValue[0],
-                              'shop_address' : shopFieldsValue[1],
-                              'shop_phone': shopFieldsValue[2],
-                              'users': FieldValue.arrayUnion([email.toString()]),
-                            }
-                        ).then((value) async {
-                          setStoreId(value.id.toString());
-                          var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                          //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                          print('shop added'); });
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5.0,
-                          right: 5.0,
-                          bottom: 2.0),
-                      child: Container(
-                        child: Text(
-                          'Create shop',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                          final User? user = auth.currentUser;
+                          final uid = user!.uid;
+                          final email = user.email;
+                          if (_formKey.currentState!.validate()) {
+                            await FirebaseFirestore.instance.collection('shops').add(
+                                {
+                                  'owner_id' : uid.toString(),
+                                  'shop_name': shopFieldsValue[0],
+                                  'shop_address' : shopFieldsValue[1],
+                                  'shop_phone': shopFieldsValue[2],
+                                  'users': FieldValue.arrayUnion([email.toString()]),
+                                }
+                            ).then((value) async {
+                              setStoreId(value.id.toString());
+                              var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                              //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                              print('shop added');
+                            });
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5.0,
+                              right: 5.0,
+                              bottom: 2.0),
+                          child: Container(
+                            child: Text(
+                              'Create shop',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
