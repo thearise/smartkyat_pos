@@ -1449,6 +1449,7 @@ class _WelcomeState extends State<Welcome>
                                                         await FirebaseAuth.instance.createUserWithEmailAndPassword(
                                                             email: _emails.text,
                                                             password: _passwords.text).then((_) async {
+
                                                           final User? user = auth.currentUser;
                                                           final uid = user!.uid;
                                                           final mail = user.email;
@@ -1459,10 +1460,22 @@ class _WelcomeState extends State<Welcome>
                                                                 'email': mail.toString(),
                                                               }
                                                           );
+                                                          bool shopExists = false;
+                                                          await FirebaseFirestore.instance
+                                                              .collection('shops')
+                                                              .where('users', arrayContains: auth.currentUser!.email.toString())
+                                                              .get()
+                                                              .then((QuerySnapshot querySnapshot) {
+                                                            querySnapshot.docs.forEach((doc) {
+                                                              shopExists = true;
+                                                            });
+                                                          });
+
+                                                          if(shopExists) {
+                                                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
+                                                          } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
+
                                                           print('username' + mail.toString() + uid.toString());
-                                                          // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
-                                                          //     VerifyScreen()));
-                                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
                                                         });
                                                       } on FirebaseAuthException catch (e) {
                                                         if (e.code == 'weak-password') {
