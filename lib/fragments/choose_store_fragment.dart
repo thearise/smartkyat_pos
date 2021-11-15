@@ -82,7 +82,7 @@ class chooseStoreState extends State<chooseStore> {
                 SizedBox(height: 13,),
                 StreamBuilder(
                     stream: FirebaseFirestore.instance.collection('shops')
-                        .where('users', arrayContains: auth.currentUser!.uid.toString())
+                        .where('users', arrayContains: auth.currentUser == null? '' : auth.currentUser!.email.toString())
                         .snapshots(),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if(snapshot.hasData) {

@@ -269,6 +269,7 @@ class _AddShopState extends State<AddShop> {
 
                           final User? user = auth.currentUser;
                           final uid = user!.uid;
+                          final email = user.email;
                           if (_formKey.currentState!.validate()) {
                             await FirebaseFirestore.instance.collection('shops').add(
                               {
@@ -276,7 +277,7 @@ class _AddShopState extends State<AddShop> {
                                 'shop_name': shopFieldsValue[0],
                                 'shop_address' : shopFieldsValue[1],
                                 'shop_phone': shopFieldsValue[2],
-                                'users': FieldValue.arrayUnion([uid.toString()]),
+                                'users': FieldValue.arrayUnion([email.toString()]),
                               }
                             ).then((value) async {
                               setStoreId(value.id.toString());
