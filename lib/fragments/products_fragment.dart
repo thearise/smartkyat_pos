@@ -3865,6 +3865,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   final cateScCtler = ScrollController();
   final _width = 10.0;
   int cateScIndex = 0;
+  int filter = 0;
 
 
   @override
@@ -3905,7 +3906,26 @@ class ProductsFragmentState extends State<ProductsFragment>
 
 
                         child: StreamBuilder(
-                            stream: FirebaseFirestore.instance
+                            stream:  cateScIndex == 0 ? FirebaseFirestore.instance
+                                .collection('shops')
+                                .doc(shopId)
+                                .collection('products')
+                                .snapshots() : cateScIndex == 1 ? FirebaseFirestore.instance
+                                .collection('shops')
+                                .doc(shopId)
+                                .collection('products')
+                                .orderBy('inStock1', descending: false)
+                                .snapshots(): cateScIndex == 2 ? FirebaseFirestore.instance
+                                .collection('shops')
+                                .doc(shopId)
+                                .collection('products')
+                                .orderBy('mainSellUnit', descending: true)
+                                .snapshots() : cateScIndex == 3 ? FirebaseFirestore.instance
+                            .collection('shops')
+                            .doc(shopId)
+                            .collection('products')
+                            .orderBy('mainSellUnit', descending: false)
+                            .snapshots(): FirebaseFirestore.instance
                                 .collection('shops')
                                 .doc(shopId)
                                 .collection('products')
@@ -3919,7 +3939,6 @@ class ProductsFragmentState extends State<ProductsFragment>
                                       elevation: 0,
                                       backgroundColor: Colors.white,
                                       // Provide a standard title.
-
                                       // Allows the user to reveal the app bar if they begin scrolling
                                       // back up the list of items.
                                       floating: true,
@@ -4030,7 +4049,10 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                           _animateToIndex(5.4);
                                                           setState(() {
                                                             cateScIndex = 1;
+                                                            filter = 1;
                                                           });
+
+
                                                         },
                                                         child: Container(
                                                           child: Text(

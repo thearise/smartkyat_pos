@@ -278,6 +278,7 @@ class _AddShopState extends State<AddShop> {
                                 'shop_address' : shopFieldsValue[1],
                                 'shop_phone': shopFieldsValue[2],
                                 'users': FieldValue.arrayUnion([email.toString()]),
+                                'orders_length': 1000,
                               }
                             ).then((value) async {
                               setStoreId(value.id.toString());
