@@ -331,10 +331,10 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                               ),
                                                               Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.end, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
                                                               Container(
-                                                                // color: Colors.grey,
+                                                                color: Colors.grey,
                                                                 height: 45,
                                                                 child: Padding(
-                                                                  padding: const EdgeInsets.only(top: 0.0),
+                                                                  padding: const EdgeInsets.only(top: 2.0),
                                                                   child: IconButton(
                                                                       icon: Icon(
                                                                         Icons.remove_circle_rounded,
@@ -344,7 +344,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                       onPressed: () {
                                                                         showOkCancelAlertDialog(
                                                                           context: context,
-                                                                          title: 'Confirmation alert',
+                                                                          title: 'Confirmation alert!\n',
                                                                           message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
                                                                           defaultType: OkCancelAlertDefaultType.cancel,
                                                                         ).then((result) async {
@@ -395,7 +395,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                               // color: Colors.grey,
                                                               height: 45,
                                                               child: Padding(
-                                                                padding: const EdgeInsets.only(top: 0.0),
+                                                                padding: const EdgeInsets.only(top: 2.0),
                                                                 child: IconButton(
                                                                     icon: Icon(
                                                                       Icons.remove_circle_rounded,
@@ -405,7 +405,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                     onPressed: () {
                                                                       showOkCancelAlertDialog(
                                                                         context: context,
-                                                                        title: 'Confirmation alert',
+                                                                        title: 'Confirmation alert!\n',
                                                                         message: 'Are you sure you want to remove ' + data['name'] + ' (' + usersList[i].toString() + ') from current shop?',
                                                                         defaultType: OkCancelAlertDefaultType.cancel,
                                                                       ).then((result) async {
