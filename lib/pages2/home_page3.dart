@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/api/pdf_api.dart';
@@ -45,6 +46,7 @@ import 'package:image/image.dart' as imglib;
 import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
 
 class HomePage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() => HomePageState();
 }
@@ -92,8 +94,6 @@ class HomePageState extends State<HomePage>
   }
 
   testLoopData() {
-
-
     for(int i=0; i<1; i++) {
       testFunc();
     }
@@ -148,7 +148,11 @@ class HomePageState extends State<HomePage>
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    HomePageState().getStoreId().then((value) => shopId = value);
+    HomePageState().getStoreId().then((value) {
+      setState(() {
+        shopId = value;
+      });
+    });
     _controller = new TabController(length: 4, vsync: this);
     _controller2 = new TabController(length: 3, vsync: this);
     print('home_page' + 'sub1'.substring(3,4));
@@ -182,8 +186,8 @@ class HomePageState extends State<HomePage>
           ),
           page: OrdersFragment(
             key: sordGlobalKey,
-      toggleCoinCallback2: addProduct,
-      toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
+            toggleCoinCallback2: addProduct,
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
         ),
         TabItem(
           tabName: "Settings",
@@ -198,10 +202,10 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: ProductsFragment(
-              key: prodGlobalKey,
-              toggleCoinCallback: addNewProd2,
-              toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
+            key: prodGlobalKey,
+            toggleCoinCallback: addNewProd2,
+            toggleCoinCallback2: addProduct,
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
         ),
         TabItem(
           tabName: "Settings",
@@ -293,6 +297,8 @@ class HomePageState extends State<HomePage>
 
   String pageType = 'roll57';
 
+  final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     homeBotPadding = MediaQuery.of(context).padding.bottom;
@@ -316,433 +322,542 @@ class HomePageState extends State<HomePage>
           child: SafeArea(
             top: true,
             bottom: true,
-            child: new Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          // MainFragmentState().changeState(1);
-                          _selectTab(0);
-                          await FirebaseAuth.instance.signOut();
-                          setStoreId('');
-                          // Navigator.pop(context);
-                          // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-                          // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
-                          Navigator.of(context).pushReplacement(
-                            FadeRoute(page: Welcome()),
-                          );
 
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Ethereals Shop',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Yangon',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0),
-                      child: Container(
+            child: Column(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        height: 80,
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
                                     color: Colors.grey.withOpacity(0.3),
                                     width: 1.0))),
-                      ),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  // child: new Column(children: drawerOptions),
-                  child: Stack(
-                    children: [
-                      new Column(children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                          child: GestureDetector(
+                            onTap: () async {
+                              // MainFragmentState().changeState(1);
                               _selectTab(0);
-                              _selectIndex = 0;
-                            });
-                            _scaffoldKey.currentState!.openEndDrawer();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: _selectIndex == 0? AppTheme.secButtonColor: Colors.transparent),
-                              height: 50,
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, right: 15.0, bottom: 2.0),
-                                    child: Icon(
-                                      // Icons.home_filled,
-                                      SmartKyat_POS.home,
-                                      size: 20,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                    child: Text(
-                                      'Home',
-                                      style: TextStyle(
-                                          fontSize: 17, fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            homeGlobalKey.currentState!.closeSearch();
-                            prodGlobalKey.currentState!.closeSearch();
-                            custGlobalKey.currentState!.closeSearch();
-                            mercGlobalKey.currentState!.closeSearch();
-                            sordGlobalKey.currentState!.closeSearch();
-                            bordGlobalKey.currentState!.closeSearch();
+                              await FirebaseAuth.instance.signOut();
+                              setStoreId('');
+                              // Navigator.pop(context);
+                              // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
+                              // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
+                              Navigator.of(context).pushReplacement(
+                                FadeRoute(page: Welcome()),
+                              );
 
-                            // Future.delayed(const Duration(milliseconds: 500), () {
-                            setState(() {
-                              _selectTab(3);
-                              _selectIndex = 1;
-                            });
-                            // });
-
-
-                            _scaffoldKey.currentState!.openEndDrawer();
-
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: _selectIndex == 1? AppTheme.secButtonColor: Colors.transparent),
-                              height: 50,
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, right: 15.0, bottom: 1),
-                                    child: Icon(
-                                      SmartKyat_POS.product,
-                                      size: 21,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                    child: Text(
-                                      'Products',
-                                      style: TextStyle(
-                                          fontSize: 17, fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.transparent),
-                              height: 50,
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, right: 15.0, bottom: 2),
-                                    child: Icon(
-                                      SmartKyat_POS.order,
-                                      size: 23,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Orders',
-                                    style: TextStyle(
-                                        fontSize: 17, fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectTab(1);
-                              _selectIndex = 2;
-                            });
-
-                            _scaffoldKey.currentState!.openEndDrawer();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 58.0, right: 15.0),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: _selectIndex == 2? AppTheme.secButtonColor: Colors.transparent),
-                              height: 50,
-                              width: double.infinity,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 13.0),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 1.0),
-                                      child: Text(
-                                        'Sale orders',
-                                        style: TextStyle(
-                                            fontSize: 17, fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectTab(7);
-                              _selectIndex = 3;
-                            });
-
-                            _scaffoldKey.currentState!.openEndDrawer();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 58.0, right: 15.0),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: _selectIndex == 3? AppTheme.secButtonColor: Colors.transparent),
-                              height: 50,
-                              width: double.infinity,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 13.0),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 1.0),
-                                      child: Text(
-                                        'Buy orders',
-                                        style: TextStyle(
-                                            fontSize: 17, fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectTab(2);
-                              _selectIndex = 4;
-                            });
-
-                            _scaffoldKey.currentState!.openEndDrawer();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: _selectIndex == 4? AppTheme.secButtonColor: Colors.transparent),
-                              height: 50,
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, right: 15.0, bottom: 1.0),
-                                    child: Stack(
+                            },
+                            child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                stream: FirebaseFirestore.instance
+                                    .collection('shops')
+                                    .doc(shopId)
+                                    .snapshots(),
+                                builder: (BuildContext context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var output = snapshot.data!.data();
+                                    var shopName = output?['shop_name'];
+                                    var shopAddress = output?['shop_address'];
+                                    return Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 7.0),
-                                          child: Icon(
-                                            SmartKyat_POS.customer1,
-                                            size: 17.5,
-                                          ),
+                                        SizedBox(
+                                          height: 2,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 14.0, top: 11.0),
-                                          child: Icon(
-                                            SmartKyat_POS.customer2,
-                                            size: 9,
-                                          ),
+                                        Text(
+                                          shopName.toString(),overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              height: 1.4, fontSize: 18, fontWeight: FontWeight.w500),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 5.0, top: 5),
-                                          child: Container(
-                                            width: 8,
-                                            height: 7.5,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10.0),
-                                                color: Colors.black),
-                                          ),
+                                        SizedBox(
+                                          height: 3,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 14.5, top: 7.5),
-                                          child: Container(
-                                            width: 5,
-                                            height: 4.5,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10.0),
-                                                color: Colors.black),
-                                          ),
-                                        )
+                                        Text(
+                                          shopAddress.toString(),overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(height: 1, fontSize: 14),
+                                        ),
+                                        SizedBox(
+                                          height: 3,
+                                        ),
                                       ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                    child: Text(
-                                      'Customers',
-                                      style: TextStyle(
-                                          fontSize: 17, fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                    );
+                                  }
+                                  return Container();
+                                }
                             ),
                           ),
                         ),
-
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectTab(4);
-                              _selectIndex = 5;
-                            });
-
-                            _scaffoldKey.currentState!.openEndDrawer();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: _selectIndex == 5? AppTheme.secButtonColor: Colors.transparent),
-                              height: 50,
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, right: 15.0),
-                                    child: Icon(
-                                      SmartKyat_POS.merchant,
-                                      size: 20,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                    child: Text(
-                                      'Merchants',
-                                      style: TextStyle(
-                                          fontSize: 17, fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectTab(6);
-                              _selectIndex = 6;
-                            });
-
-                            _scaffoldKey.currentState!.openEndDrawer();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: new Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: _selectIndex == 6? AppTheme.secButtonColor: Colors.transparent),
-                              height: 50,
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, right: 15.0, top: 0.0),
-                                    child: Icon(
-                                      SmartKyat_POS.setting,
-                                      size: 22,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                    child: Text(
-                                      'Settings',
-                                      style: TextStyle(
-                                          fontSize: 17, fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ]),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0, top: 150.0),
-                        child: Icon(
-                          SmartKyat_POS.merge_arrow,
-                          size: 80,
-                          color: Colors.grey.withOpacity(0.3),
-                        ),
-                      )
+                      ),
                     ],
                   ),
-                ),
-              ],
-            ),
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                          // child: new Column(children: drawerOptions),
+                          child: Stack(
+                            children: [
+                              new Column(children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectTab(0);
+                                      _selectIndex = 0;
+                                    });
+                                    _scaffoldKey.currentState!.openEndDrawer();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: new Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: _selectIndex == 0? AppTheme.secButtonColor: Colors.transparent),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 18.0, right: 15.0, bottom: 2.0),
+                                            child: Icon(
+                                              // Icons.home_filled,
+                                              SmartKyat_POS.home,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 1.0),
+                                            child: Text(
+                                              'Home',
+                                              style: TextStyle(
+                                                  fontSize: 17, fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    homeGlobalKey.currentState!.closeSearch();
+                                    prodGlobalKey.currentState!.closeSearch();
+                                    custGlobalKey.currentState!.closeSearch();
+                                    mercGlobalKey.currentState!.closeSearch();
+                                    sordGlobalKey.currentState!.closeSearch();
+                                    bordGlobalKey.currentState!.closeSearch();
+
+                                    // Future.delayed(const Duration(milliseconds: 500), () {
+                                    setState(() {
+                                      _selectTab(3);
+                                      _selectIndex = 1;
+                                    });
+                                    // });
+
+
+                                    _scaffoldKey.currentState!.openEndDrawer();
+
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: new Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: _selectIndex == 1? AppTheme.secButtonColor: Colors.transparent),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 18.0, right: 15.0, bottom: 1),
+                                            child: Icon(
+                                              SmartKyat_POS.product,
+                                              size: 21,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 1.0),
+                                            child: Text(
+                                              'Products',
+                                              style: TextStyle(
+                                                  fontSize: 17, fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: new Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: Colors.transparent),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 18.0, right: 15.0, bottom: 2),
+                                            child: Icon(
+                                              SmartKyat_POS.order,
+                                              size: 23,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Orders',
+                                            style: TextStyle(
+                                                fontSize: 17, fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectTab(1);
+                                      _selectIndex = 2;
+                                    });
+
+                                    _scaffoldKey.currentState!.openEndDrawer();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 58.0, right: 15.0),
+                                    child: new Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: _selectIndex == 2? AppTheme.secButtonColor: Colors.transparent),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 13.0),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(bottom: 1.0),
+                                              child: Text(
+                                                'Sale orders',
+                                                style: TextStyle(
+                                                    fontSize: 17, fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectTab(7);
+                                      _selectIndex = 3;
+                                    });
+
+                                    _scaffoldKey.currentState!.openEndDrawer();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 58.0, right: 15.0),
+                                    child: new Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: _selectIndex == 3? AppTheme.secButtonColor: Colors.transparent),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 13.0),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(bottom: 1.0),
+                                              child: Text(
+                                                'Buy orders',
+                                                style: TextStyle(
+                                                    fontSize: 17, fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectTab(2);
+                                      _selectIndex = 4;
+                                    });
+
+                                    _scaffoldKey.currentState!.openEndDrawer();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: new Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: _selectIndex == 4? AppTheme.secButtonColor: Colors.transparent),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 18.0, right: 15.0, bottom: 1.0),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 7.0),
+                                                  child: Icon(
+                                                    SmartKyat_POS.customer1,
+                                                    size: 17.5,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 14.0, top: 11.0),
+                                                  child: Icon(
+                                                    SmartKyat_POS.customer2,
+                                                    size: 9,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 5.0, top: 5),
+                                                  child: Container(
+                                                    width: 8,
+                                                    height: 7.5,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(10.0),
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 14.5, top: 7.5),
+                                                  child: Container(
+                                                    width: 5,
+                                                    height: 4.5,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(10.0),
+                                                        color: Colors.black),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 1.0),
+                                            child: Text(
+                                              'Customers',
+                                              style: TextStyle(
+                                                  fontSize: 17, fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectTab(4);
+                                      _selectIndex = 5;
+                                    });
+
+                                    _scaffoldKey.currentState!.openEndDrawer();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: new Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: _selectIndex == 5? AppTheme.secButtonColor: Colors.transparent),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 18.0, right: 15.0),
+                                            child: Icon(
+                                              SmartKyat_POS.merchant,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 1.0),
+                                            child: Text(
+                                              'Merchants',
+                                              style: TextStyle(
+                                                  fontSize: 17, fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectTab(6);
+                                      _selectIndex = 6;
+                                    });
+
+                                    _scaffoldKey.currentState!.openEndDrawer();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: new Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: _selectIndex == 6? AppTheme.secButtonColor: Colors.transparent),
+                                      height: 50,
+                                      width: double.infinity,
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 18.0, right: 15.0, top: 0.0),
+                                            child: Icon(
+                                              SmartKyat_POS.setting,
+                                              size: 22,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 1.0),
+                                            child: Text(
+                                              'Settings',
+                                              style: TextStyle(
+                                                  fontSize: 17, fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0, top: 150.0),
+                                child: Icon(
+                                  SmartKyat_POS.merge_arrow,
+                                  size: 80,
+                                  color: Colors.grey.withOpacity(0.3),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 61,
+                        decoration: BoxDecoration(
+                            border: Border(
+                                top: BorderSide(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    width: 1.0))),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15, top: 15, bottom: 15),
+                          child: Row(
+                            children: [
+                              StreamBuilder(
+                                  stream: FirebaseFirestore.instance.collection('users')
+                                      .where('email', isEqualTo: auth.currentUser!.email.toString())
+                                      .snapshots(),
+                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    if(snapshot.hasData) {
+                                      return Expanded(
+                                        child: ListView(
+                                          physics: NeverScrollableScrollPhysics(),
+                                          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                            Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                            return  Container(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 3.0),
+                                                child: Text(data['name'], overflow: TextOverflow.ellipsis, style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w500,
+                                                ),),
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      );
+                                    }
+                                    return Container();
+                                  }
+                              ),
+                              ButtonTheme(
+                                minWidth: 35,
+                                splashColor: Colors.transparent,
+                                height: 35,
+                                child: FlatButton(
+                                  color: AppTheme.buttonColor2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(10.0),
+                                    side: BorderSide(
+                                      color: AppTheme.buttonColor2,
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    _selectTab(0);
+                                    await FirebaseAuth.instance.signOut();
+                                    setStoreId('');
+                                    Navigator.of(context).pushReplacement(
+                                      FadeRoute(page: Welcome()),
+                                    );
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Log out',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+
+                        ),
+                      ),
+                    ],
+                  ),
+
+                ]),
+
+
           ),
+
+
         ),
       ),
+
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('shops')
@@ -2525,148 +2640,166 @@ class HomePageState extends State<HomePage>
                                                                 int length = 0;
                                                                 print('order creating');
 
-                                                                await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').get().then((QuerySnapshot querySnapshot) async {
-                                                                  querySnapshot.docs.forEach((doc) {
-                                                                    length += int.parse(doc['daily_order'].length.toString());
-                                                                  });
-                                                                  length = 1000 + length + 1;
-                                                                  //Check new date or not
-                                                                  var dateExist = false;
-                                                                  var dateId = '';
+                                                                await FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                                                    .get().then((value) async {
+                                                                  length = int.parse(value.data()!['orders_length'].toString());
+                                                                  print('lengthsss' + length.toString());});
+                                                                length = length + 1;
+                                                                //Check new date or not
+                                                                var dateExist = false;
+                                                                var dateId = '';
 
+                                                                await FirebaseFirestore.instance.collection('shops').doc(shopId).update({
+                                                                  'orders_length': FieldValue.increment(1),
 
+                                                                });
 
-                                                                  for (String str in prodList) {
-                                                                    // List<String> subSell = [];
-                                                                    subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + 'date');
+                                                                for (String str in prodList) {
+                                                                  // List<String> subSell = [];
+                                                                  subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + 'date');
 
-                                                                    List<String> subLink = [];
-                                                                    List<String> subName = [];
-                                                                    List<double> subStock = [];
+                                                                  List<String> subLink = [];
+                                                                  List<String> subName = [];
+                                                                  List<double> subStock = [];
 
-                                                                    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
-                                                                        .get();
+                                                                  var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
+                                                                      .get();
 
-                                                                    if (docSnapshot10.exists) {
-                                                                      Map<String, dynamic>? data10 = docSnapshot10.data();
+                                                                  if (docSnapshot10.exists) {
+                                                                    Map<String, dynamic>? data10 = docSnapshot10.data();
 
-                                                                      for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                        subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                        subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                        print('inStock' + (i+1).toString());
-                                                                        subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                      }
-                                                                    }
-
-                                                                    print(subStock.toString());
-
-                                                                    if(str.split('-')[3] == 'unit_name') {
-                                                                      decStockFromInv(str.split('-')[0], 'main', str.split('-')[4]);
-                                                                    } else if(str.split('-')[3] == 'sub1_name') {
-                                                                      sub1Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                    } else if(str.split('-')[3] == 'sub2_name') {
-                                                                      sub2Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
+                                                                    for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                      subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                      subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                      print('inStock' + (i+1).toString());
+                                                                      subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
                                                                     }
                                                                   }
 
-                                                                  print('subList ' + subList.toString());
-
-
-                                                                  //Order Add
-                                                                  await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-                                                                  // FirebaseFirestore.instance.collection('space')
-                                                                      .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
-                                                                      .get()
-                                                                      .then((QuerySnapshot querySnapshot) {
-                                                                    querySnapshot.docs.forEach((doc) {
-                                                                      dateExist = true;
-                                                                      dateId = doc.id;
+                                                                  print(subStock.toString());
+                                                                  if(str.split('-')[3] == 'unit_name') {
+                                                                    decStockFromInv(str.split('-')[0], 'main', str.split('-')[4]);
+                                                                    await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0]).update({
+                                                                      'mainSellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
                                                                     });
 
-                                                                    if (dateExist) {
-                                                                      daily_order.doc(dateId).update({
-                                                                        'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
-                                                                        'each_order' : FieldValue.arrayUnion([length.toString()])
-                                                                      }).then((value) async {
-                                                                        print('User updated');
-                                                                        setState(() {
-                                                                          orderLoading = false;
-                                                                        });
+                                                                  } else if(str.split('-')[3] == 'sub1_name') {
+                                                                    sub1Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
+                                                                    await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0]).update({
+                                                                      'sub1SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                    });
 
-                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(dateId).collection('detail')
-                                                                            .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                            .set({
-                                                                          'total': TtlProdListPrice(),
-                                                                          'subs': subList,
-                                                                          'docId' : dateId,
-                                                                          'customerId' : customerId.split('-')[0],
-                                                                          'orderId' : length.toString(),
-                                                                          'debt' : debt,
-                                                                          'deviceId' : deviceIdNum.toString() + '-',
-                                                                          'refund' : 'FALSE',
-                                                                          'discount' : discountAmount.toString() + disText,
-                                                                        }).then((value) {
-                                                                          print('order added');
-                                                                        });
+                                                                  } else if(str.split('-')[3] == 'sub2_name') {
+                                                                    sub2Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
+                                                                    await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0]).update({
+                                                                      'sub2SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                    });
+                                                                  }
+                                                                }
 
-                                                                        if(customerId.split('-')[0] != 'name') {
+                                                                print('subList ' + subList.toString());
 
-                                                                          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                              .set({
-                                                                            'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
-                                                                            'debt' : debt,
-                                                                            'order_pid': dateId,
-                                                                            'refund' : 'FALSE',
-                                                                            'discount' : discountAmount.toString() + disText,
-                                                                            'total': TtlProdListPrice(),
-                                                                            'deviceId' : deviceIdNum.toString() + '-',
-                                                                            'voucherId' : length.toString(),
-                                                                          }).then((value) {
-                                                                            print('cus order added');
-                                                                          }); }
-                                                                      });
-                                                                    } else {
-                                                                      daily_order.add({
-                                                                        'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText],
-                                                                        'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()),
-                                                                        'each_order' : FieldValue.arrayUnion([length.toString()])
-                                                                      }).then((value) async  {
-                                                                        print('order added');
-                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                            .set({
-                                                                          'total': TtlProdListPrice(),
-                                                                          'subs': subList,
-                                                                          'docId' : value.id,
-                                                                          'customerId' : customerId.split('-')[0],
-                                                                          'orderId' : length.toString(),
-                                                                          'debt' : debt,
-                                                                          'deviceId' : deviceIdNum.toString() + '-',
-                                                                          'refund' : 'FALSE',
-                                                                          'discount' : discountAmount.toString() + disText,
-                                                                        }).then((value) {
-                                                                          print('order added');
-                                                                        });
-                                                                        if(customerId.split('-')[0] != 'name') {
-                                                                          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
-                                                                            'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
-                                                                            'debt' : debt,
-                                                                            'order_pid': value.id,
-                                                                            'refund' : 'FALSE',
-                                                                            'discount' : discountAmount.toString() + disText,
-                                                                            'total': TtlProdListPrice(),
-                                                                            'deviceId' : deviceIdNum.toString() + '-',
-                                                                            'voucherId' : length.toString(),
-                                                                          })
-                                                                              .then((
-                                                                              value) {
-                                                                            print(
-                                                                                'cus order added');
-                                                                          });
-                                                                        }
-                                                                      });
-                                                                    }
+
+                                                                //Order Add
+                                                                await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                                                                // FirebaseFirestore.instance.collection('space')
+                                                                //     .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
+                                                                    .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                    .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                                    .get()
+                                                                    .then((QuerySnapshot querySnapshot) {
+                                                                  querySnapshot.docs.forEach((doc) {
+                                                                    dateExist = true;
+                                                                    dateId = doc.id;
                                                                   });
+
+                                                                  if (dateExist) {
+                                                                    daily_order.doc(dateId).update({
+                                                                      'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
+                                                                      'each_order' : FieldValue.arrayUnion([length.toString()])
+                                                                    }).then((value) async {
+                                                                      print('User updated');
+                                                                      setState(() {
+                                                                        orderLoading = false;
+                                                                      });
+
+                                                                      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(dateId).collection('detail')
+                                                                          .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                          .set({
+                                                                        'total': TtlProdListPrice(),
+                                                                        'subs': subList,
+                                                                        'docId' : dateId,
+                                                                        'customerId' : customerId.split('-')[0],
+                                                                        'orderId' : length.toString(),
+                                                                        'debt' : debt,
+                                                                        'deviceId' : deviceIdNum.toString() + '-',
+                                                                        'refund' : 'FALSE',
+                                                                        'discount' : discountAmount.toString() + disText,
+                                                                      }).then((value) {
+                                                                        print('order added');
+                                                                      });
+
+
+                                                                      if(customerId.split('-')[0] != 'name') {
+
+                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                            .set({
+                                                                          'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+                                                                          'debt' : debt,
+                                                                          'order_pid': dateId,
+                                                                          'refund' : 'FALSE',
+                                                                          'discount' : discountAmount.toString() + disText,
+                                                                          'total': TtlProdListPrice(),
+                                                                          'deviceId' : deviceIdNum.toString() + '-',
+                                                                          'voucherId' : length.toString(),
+                                                                        }).then((value) {
+                                                                          print('cus order added');
+                                                                        }); }
+                                                                    });
+                                                                  } else {
+                                                                    daily_order.add({
+                                                                      'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText],
+                                                                      'date': FieldValue.serverTimestamp(),
+                                                                      'each_order' : FieldValue.arrayUnion([length.toString()])
+                                                                    }).then((value) async  {
+                                                                      print('order added');
+                                                                      await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                          .set({
+                                                                        'total': TtlProdListPrice(),
+                                                                        'subs': subList,
+                                                                        'docId' : value.id,
+                                                                        'customerId' : customerId.split('-')[0],
+                                                                        'orderId' : length.toString(),
+                                                                        'debt' : debt,
+                                                                        'deviceId' : deviceIdNum.toString() + '-',
+                                                                        'refund' : 'FALSE',
+                                                                        'discount' : discountAmount.toString() + disText,
+                                                                      }).then((value) {
+                                                                        print('order added');
+                                                                      });
+
+                                                                      if(customerId.split('-')[0] != 'name') {
+                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
+                                                                          'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+                                                                          'debt' : debt,
+                                                                          'order_pid': value.id,
+                                                                          'refund' : 'FALSE',
+                                                                          'discount' : discountAmount.toString() + disText,
+                                                                          'total': TtlProdListPrice(),
+                                                                          'deviceId' : deviceIdNum.toString() + '-',
+                                                                          'voucherId' : length.toString(),
+                                                                        })
+                                                                            .then((
+                                                                            value) {
+                                                                          print(
+                                                                              'cus order added');
+                                                                        });
+                                                                      }
+                                                                    });
+                                                                  }
                                                                 });
+
                                                                 final date = DateTime.now();
                                                                 final dueDate = date.add(Duration(days: 7));
                                                                 final invoice = Invoice(
@@ -4212,7 +4345,7 @@ class HomePageState extends State<HomePage>
                                                                                   Icon(Icons
                                                                                       .error),
                                                                               fadeInDuration:
-                                                                            -  Duration(
+                                                                              -  Duration(
                                                                                   milliseconds:
                                                                                   100),
                                                                               fadeOutDuration:
@@ -4911,7 +5044,8 @@ class HomePageState extends State<HomePage>
                                                                   }
                                                                   await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
                                                                   // FirebaseFirestore.instance.collection('space')
-                                                                      .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
+                                                                      .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
                                                                       .get()
                                                                       .then((QuerySnapshot querySnapshot) {
                                                                     querySnapshot.docs.forEach((doc) {
@@ -4964,7 +5098,7 @@ class HomePageState extends State<HomePage>
                                                                     } else {
                                                                       daily_order.add({
                                                                         'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2],
-                                                                        'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()),
+                                                                        'date': FieldValue.serverTimestamp(),
                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
                                                                       }).then((value) async  {
                                                                         print('order added');
@@ -6051,6 +6185,12 @@ class HomePageState extends State<HomePage>
         sub1Execution(subStock, subLink, id, ((int.parse(num)  - subStock[2])/int.parse(subLink[1])).ceil().toString());
       }
     }
+  }
+
+  todayToYearStart(DateTime now) {
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
   }
 }
 
