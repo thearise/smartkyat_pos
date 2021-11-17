@@ -3736,7 +3736,7 @@ class BuyListFragmentState extends State<BuyListFragment>
 
                                           // print('herre ' + document.id);
                                           var section = ExampleSection()
-                                            ..header = document['date']
+                                            ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
                                           // ..items = List.generate(int.parse(document['length']), (index) => document.id)
                                           //   ..items = listCreation(document.id, document['data'], document).cast<String>()
                                             ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
