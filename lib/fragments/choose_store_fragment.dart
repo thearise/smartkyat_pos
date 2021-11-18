@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -233,7 +236,17 @@ class chooseStoreState extends State<chooseStore> {
                       ),
                       onPressed: () async {
                         setStoreId(_result);
-                        var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                        _getId().then((value1) async {
+                          print('IDD ' + value1.toString());
+                          await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                            'devices': FieldValue.arrayUnion([value1.toString()]),
+                          }).then((value3) async {
+                            print('done');
+                            var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                          });
+                        });
+
+
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -272,6 +285,17 @@ class chooseStoreState extends State<chooseStore> {
   getStoreId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('store');
+  }
+
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
   }
 
 }
