@@ -7,7 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_items.dart';
-
+import 'package:intl/intl.dart';
 import '../../app_theme.dart';
 import 'order_refund_sub.dart';
 
@@ -33,6 +33,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
   @override
   initState() {
+    print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
     var innerId = '';
     result = widget.data
         .split('^')[0] +
@@ -54,7 +55,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         .doc(widget.shopId)
         .collection('orders')
     // FirebaseFirestore.instance.collection('space')
-        .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
+    //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
+    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
+        // .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
+        .where('daily_order', arrayContainsAny: [widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]])
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
