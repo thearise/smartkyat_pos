@@ -135,6 +135,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                 var sub1Qty = output?['inStock2'].round();
                 var sub2Qty = output?['inStock3'].round();
                 var image = output?['img_1'];
+                var totalSale = output?['mainSellUnit'];
+                var totalSale2 = output?['mainSellUnit'];
+                var totalSale3 = output?['mainSellUnit'];
+
                 List<String> subSell = [];
                 List<String> subLink = [];
                 List<String> subName = [];
@@ -894,7 +898,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 fontWeight: FontWeight.w500,
                                                               ),),
                                                               Spacer(),
-                                                              Text('1500 Far', style:
+                                                              Text(totalSale.toString() + ' $mainName', style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w500,
@@ -1146,7 +1150,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 fontWeight: FontWeight.w500,
                                                               ),),
                                                               Spacer(),
-                                                              Text('1500 Far', style:
+                                                              Text(totalSale2.toString() + ' $sub1Name', style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w500,
@@ -1398,7 +1402,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 fontWeight: FontWeight.w500,
                                                               ),),
                                                               Spacer(),
-                                                              Text('1500 Far', style:
+                                                              Text(totalSale3.toString() + ' $sub2Name', style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w500,

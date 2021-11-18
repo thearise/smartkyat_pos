@@ -1926,7 +1926,7 @@ class HomePageState extends State<HomePage>
                                                             .data!
                                                             .data();
                                                         var image = output2?[
-                                                          'img_1'];
+                                                        'img_1'];
                                                         prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                             prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                         return GestureDetector(
@@ -2027,7 +2027,7 @@ class HomePageState extends State<HomePage>
                                                                             )),
                                                                         title: Text(
                                                                           output2?[
-                                                                            'prod_name'],
+                                                                          'prod_name'],
                                                                           style:
                                                                           TextStyle(
                                                                               fontWeight: FontWeight.w500, fontSize: 16),
@@ -2644,7 +2644,8 @@ class HomePageState extends State<HomePage>
                                                                 // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
                                                                     .get().then((value) async {
                                                                   length = int.parse(value.data()!['orders_length'].toString());
-                                                                  print('lengthsss' + length.toString());});
+                                                                  print('lengthsss' + length.toString());
+                                                                });
                                                                 length = length + 1;
                                                                 //Check new date or not
                                                                 var dateExist = false;
@@ -2680,21 +2681,13 @@ class HomePageState extends State<HomePage>
                                                                   print(subStock.toString());
                                                                   if(str.split('-')[3] == 'unit_name') {
                                                                     decStockFromInv(str.split('-')[0], 'main', str.split('-')[4]);
-                                                                    await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0]).update({
-                                                                      'mainSellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
-                                                                    });
+                                                                    mainSell(str.split('-')[0], str.split('-')[4]);
 
                                                                   } else if(str.split('-')[3] == 'sub1_name') {
                                                                     sub1Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                    await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0]).update({
-                                                                      'sub1SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
-                                                                    });
 
                                                                   } else if(str.split('-')[3] == 'sub2_name') {
                                                                     sub2Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                    await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0]).update({
-                                                                      'sub2SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
-                                                                    });
                                                                   }
                                                                 }
 
@@ -4259,7 +4252,7 @@ class HomePageState extends State<HomePage>
                                                             .data!
                                                             .data();
                                                         var image = output2?[
-                                                          'img_1'];
+                                                        'img_1'];
                                                         prodList2[i] = prodList2[i].split('-')[0] + '-' + prodList2[i].split('-')[1] + '-' +
                                                             prodList2[i].split('-')[2] + '-' + prodList2[i].split('-')[3] + '-' + prodList2[i].split('-')[4] + '-' + prodList2[i].split('-')[5] +'-' + prodList2[i].split('-')[6];
                                                         return GestureDetector(
@@ -4360,7 +4353,7 @@ class HomePageState extends State<HomePage>
                                                                             )),
                                                                         title: Text(
                                                                           output2?[
-                                                                            'prod_name'],
+                                                                          'prod_name'],
                                                                           style:
                                                                           TextStyle(
                                                                               fontWeight: FontWeight.w500, fontSize: 16),
@@ -6131,6 +6124,18 @@ class HomePageState extends State<HomePage>
     } else {
       return 'inStock' + (int.parse(split[3]) + 1).toString();
     }
+  }
+
+  Future<void> mainSell(id, num) async {
+    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+
+    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+
+    users
+        .doc(id)
+        .update({'mainSellUnit': FieldValue.increment((int.parse(num.toString())))})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
   }
 
   Future<void> decStockFromInv(id, unit, num) async {
