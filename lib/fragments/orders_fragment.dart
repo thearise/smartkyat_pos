@@ -3729,21 +3729,63 @@ class OrdersFragmentState extends State<OrdersFragment>
                                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
                                       if(snapshot2.hasData) {
                                         var sections = List<ExampleSection>.empty(growable: true);
+                                        int docInc = 0;
                                         snapshot.data!.docs.map((document) async {
+                                          if(docInc>0) {
+                                            Map<String,dynamic> dataLow = snapshot.data!.docs[docInc-1].data()! as Map< String, dynamic>;
+                                            print('DATA LOW ' + dataLow['date'].toDate().toString());
+                                            if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+                                                ==
+                                                dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
+                                            ) {
+                                              var section = ExampleSection()
+                                                ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
 
-                                          // print('herre ' + document.id);
-                                          var section = ExampleSection()
-                                            ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
-                                          // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                          //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-                                          //   ..items = document['daily_order'].cast<String>()
+                                              //   ..items = document['daily_order'].cast<String>()
 
 
-                                            ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-                                          // ..items = orderItems(document.id)
-                                            ..expanded = true;
-                                          sections.add(section);
+                                                // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                                ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2) + changeData(document['daily_order'].cast<String>(), snapshot2))
+                                              // ..items = orderItems(document.id)
+                                                ..expanded = true;
+                                              // sections.add(section);
+                                              sections[sections.length-1] = section;
+                                            } else {
+                                              // print('herre ' + document.id);
+                                              var section = ExampleSection()
+                                                ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                              //   ..items = document['daily_order'].cast<String>()
+
+
+                                                ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                              // ..items = orderItems(document.id)
+                                                ..expanded = true;
+                                              sections.add(section);
+                                            }
+                                          } else {
+                                            // print('herre ' + document.id);
+                                            var section = ExampleSection()
+                                              ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+                                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                            //   ..items = document['daily_order'].cast<String>()
+
+
+                                              ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                            // ..items = orderItems(document.id)
+                                              ..expanded = true;
+                                            sections.add(section);
+                                          }
+
+
+
+                                          docInc++;
                                         }).toList();
                                         sectionList3 = sections;
 
