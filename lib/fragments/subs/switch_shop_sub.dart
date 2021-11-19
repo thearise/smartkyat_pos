@@ -378,8 +378,12 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                 }
 
                                                 setDeviceId(deviceIdNum.toString()).then((value) {
-                                                  Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                                  Navigator.of(context, rootNavigator: true).pushReplacement(
+                                                    FadeRoute(page: HomePage()),
+                                                  );
                                                 });
+
+
 
 
                                               });
