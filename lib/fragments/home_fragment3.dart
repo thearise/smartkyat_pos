@@ -2994,7 +2994,7 @@ class HomeFragmentState extends State<HomeFragment>
           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
           // FirebaseFirestore.instance.collection('space')
               .where('each_order',  arrayContains: searchValue)
-              .limit(1)
+              // .limit(1)
               .get()
               .then((QuerySnapshot querySnapshot1) {
             // print('leng ' + querySnapshot1.docs.length.toString());
