@@ -523,8 +523,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           total += (int.parse(prodListView[i]
                                               .split('-')[3]) -
                                               refundItems[i]) *
-                                              int.parse(
-                                                  prodListView[i].split('-')[4]);
+                                              int.parse(prodListView[i].split('-')[4]);
 
                                           if (refundItems[i] > 0) {
                                             refund = true;
@@ -601,15 +600,12 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 .collection('products').doc(prodList[i].split('-')[0]).get();
                                             if (docSnapshot.exists) {
                                               Map<String, dynamic>? data = docSnapshot.data();
-                                              // String value = data?['unit_qtity'];
-                                              FirebaseFirestore.instance.collection('shops')
-                                                  .doc(widget.shopId).collection('products').doc(prodList[i].split('-')[0])
+                                              CollectionReference prods = await  FirebaseFirestore.instance.collection('shops')
+                                                  .doc(widget.shopId).collection('products');
+                                              prods.doc(prodList[i].split('-')[0])
                                                   .update({changeUnitName2Stock(prodList[i].split('-')[5]): FieldValue.increment(double.parse(refNum.toString()))
-                                              })
-                                                  .then((value) =>
-                                                  print("User Updated"))
-                                                  .catchError((error) => print(
-                                                  "Failed to update user: $error"));
+                                              }).then((value) => print("User Updated"))
+                                                  .catchError((error) => print("Failed to update user: $error"));
                                             }
                                           }
                                         }
@@ -662,84 +658,41 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
 
                                         print('result___ ' + data + dataRm);
+                                        CollectionReference dOrder = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
+                                        CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders').doc(docId).collection('detail');
+                                        CollectionReference cusOrder = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').doc(widget.data.split('^')[3].split('&')[1]).collection('orders');
 
-                                        FirebaseFirestore.instance
-                                            .collection('shops')
-                                            .doc(widget.shopId)
-                                            .collection('orders')
-                                            .doc(docId)
-                                            .update({
+                                      dOrder.doc(docId).update({
                                           'daily_order':
                                           FieldValue.arrayRemove([dataRm])
-                                        }).then((value) {
-                                          print('array removed');
+                                        }).then((value) {print('array removed');})
+                                            .catchError((error) => print("Failed to update user: $error"));
 
-                                          FirebaseFirestore.instance
-                                              .collection('shops')
-                                              .doc(widget.shopId)
-                                              .collection('orders')
-                                              .doc(docId)
-                                              .update({
+                                         dOrder.doc(docId).update({
                                             'daily_order':
                                             FieldValue.arrayUnion([data])
-                                          }).then((value) {
-                                            print('array updated');
+                                          }).then((value) { print('array updated');})
+                                              .catchError((error) => print("Failed to update user: $error"));
 
-                                            FirebaseFirestore.instance
-                                                .collection('shops')
-                                                .doc(widget.shopId)
-                                                .collection('orders')
-                                                .doc(docId)
-                                                .collection('detail')
-                                                .doc(data.split('^')[0])
-                                                .update({
+                                           detail.doc(data.split('^')[0]).update({
                                               'subs': prodList,
                                               'total': total.toString(),
                                               'refund' : refundAmount,
                                               'debt' : debt,
-                                            }).then((value) =>
-                                                print('subs updated'));
+                                            }).then((value) { print('detail updated');})
+                                                .catchError((error) => print("Failed to update user: $error"));
 
                                             if(widget.data.split('^')[3].split('&')[1].toString() != 'name') {
-                                              FirebaseFirestore.instance
-                                                  .collection('shops')
-                                                  .doc(widget.shopId)
-                                                  .collection('customers')
-                                                  .doc(widget.data
-                                                  .split('^')[3]
-                                                  .split('&')[1])
-                                                  .collection('orders')
-                                                  .doc(data.split('^')[0])
-                                                  .update({
+                                              cusOrder.doc(data.split('^')[0]).update({
                                                 'refund': refundAmount,
                                                 'debt' : debt,
                                                 'total' : total.toString(),
-                                              }).then((value) =>
-                                                  print('subs updated'));
+                                              }).then((value) { print('custOrder updated');})
+                                                  .catchError((error) => print("Failed to update user: $error"));
                                             }
 
                                             Navigator.pop(context, data);
-                                          });
-                                        });
 
-
-
-
-
-                                        // // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc(widget.shopId).collection('orders').doc(dateId).collection('detail')
-                                        // // .doc(item.split('^')[0])
-                                        // //
-                                        // //     .update({
-                                        // //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
-                                        // // })
-                                        // //     .then((value) {
-                                        // //   print('array updated');
-                                        // // });
-                                        // // 2021081601575511001^1-1001^total^name^pf
-                                        //
-                                        // });
-                                        // });
-                                        // });
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.only(
