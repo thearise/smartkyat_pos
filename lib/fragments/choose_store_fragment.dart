@@ -242,7 +242,29 @@ class chooseStoreState extends State<chooseStore> {
                             'devices': FieldValue.arrayUnion([value1.toString()]),
                           }).then((value3) async {
                             print('done');
-                            var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                            await FirebaseFirestore.instance.collection('shops').doc(_result)
+                            // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                .get().then((value2) async {
+                              List devicesList = value2.data()!['devices'];
+                              int? deviceIdNum;
+                              for(int i = 0; i < devicesList.length; i++) {
+                                if(devicesList[i] == value1.toString()) {
+                                  print('DV LIST ' + devicesList[i].toString());
+                                  setState(() {
+                                    deviceIdNum = i;
+                                    print('DV LIST 2 ' + deviceIdNum.toString());
+                                  });
+                                }
+                              }
+
+                              setDeviceId(deviceIdNum.toString()).then((value) {
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                              });
+
+
+                            });
+
+
                           });
                         });
 
@@ -285,6 +307,17 @@ class chooseStoreState extends State<chooseStore> {
   getStoreId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('store');
+  }
+
+  setDeviceId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+    prefs.setString('device', id);
+  }
+
+  getDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('device');
   }
 
   Future<String?> _getId() async {

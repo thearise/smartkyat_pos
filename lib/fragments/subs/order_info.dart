@@ -33,6 +33,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
   @override
   initState() {
+    print('WIDGET-' + widget.data);
     print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
     var innerId = '';
     result = widget.data

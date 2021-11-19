@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 
@@ -282,9 +286,20 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                           children: [
 
                                             Expanded(child: Transform.translate(
-                                              offset: Offset(-12, 0),
+                                              offset: Offset(-12, -1.1),
                                               child: Container(
-                                                child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
+                                                child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, textScaleFactor: 1,
+                                                  style: TextStyle(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500,),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.5,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                  // strutStyle: StrutStyle(
+                                                  //   fontSize: 17.0,
+                                                  //   height: 2.1,
+                                                  // ),
+                                                ),
                                               ),
                                             ),),
                                             data['owner_id'] == (FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.uid.toString())?
@@ -340,6 +355,42 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                           });
                                           HomePageState().setStoreId(_result);
                                           widget._chgShopCB3();
+
+                                          _getId().then((value1) async {
+                                            print('IDD ' + value1.toString());
+                                            await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                              'devices': FieldValue.arrayUnion([value1.toString()]),
+                                            }).then((value3) async {
+                                              print('done');
+                                              await FirebaseFirestore.instance.collection('shops').doc(_result)
+                                              // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                                  .get().then((value2) async {
+                                                List devicesList = value2.data()!['devices'];
+                                                int? deviceIdNum;
+                                                for(int i = 0; i < devicesList.length; i++) {
+                                                  if(devicesList[i] == value1.toString()) {
+                                                    print('DV LIST ' + devicesList[i].toString());
+                                                    setState(() {
+                                                      deviceIdNum = i;
+                                                      print('DV LIST 2 ' + deviceIdNum.toString());
+                                                    });
+                                                  }
+                                                }
+
+                                                setDeviceId(deviceIdNum.toString()).then((value) {
+                                                  Navigator.of(context, rootNavigator: true).pushReplacement(
+                                                    FadeRoute(page: HomePage()),
+                                                  );
+                                                });
+
+
+
+
+                                              });
+
+
+                                            });
+                                          });
                                         }
                                       }
                                       );
@@ -914,6 +965,28 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
           );
 
         });
+  }
+
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
+  }
+
+  setDeviceId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+    prefs.setString('device', id);
+  }
+
+  getDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('device');
   }
 
 
