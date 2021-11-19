@@ -3522,7 +3522,6 @@ class HomePageState extends State<HomePage>
                                                             Spacer(),
                                                             GestureDetector(
                                                               onTap: () {
-
                                                                 print('eachProduct' +eachProd);
                                                                 for (int j = 0; j < prodList.length; j++)
                                                                   if( prodList[j].split('-')[0] == eachProd.split('-')[0] && prodList[j].split('-')[3] == eachProd.split('-')[3]){
@@ -3533,7 +3532,6 @@ class HomePageState extends State<HomePage>
                                                                       }); });
                                                                     print('leepae' + prodList[j]);
                                                                   } else print('leelar');
-
 
                                                                 _controller.animateTo(0);
                                                               },
