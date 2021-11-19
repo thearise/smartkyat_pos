@@ -5,11 +5,13 @@ import 'dart:ui';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/api/pdf_api.dart';
@@ -54,7 +56,7 @@ class HomePageState extends State<HomePage>
     with TickerProviderStateMixin<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   static int currentTab = 0;
-  var deviceIdNum = 0;
+  var deviceIdNum;
   String? shopId;
 
   List<TabItem> tabs = [];
@@ -124,7 +126,7 @@ class HomePageState extends State<HomePage>
 
   double discount2 =0.0;
   double discountAmount2 =0.0;
-  String disText2 ='';
+  String disText2 = '';
   String isDiscount2 = '';
   double totalAmount2 = 0.0;
 
@@ -144,10 +146,56 @@ class HomePageState extends State<HomePage>
   GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
   GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
 
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
+  }
+
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    HomePageState().getStoreId().then((value) => shopId = value);
+
+
+    getDeviceId().then((value) {
+      deviceIdNum = value;
+    });
+
+    HomePageState().getStoreId().then((value0) {
+      setState(() {
+        shopId = value0;
+      });
+
+      // _getId().then((value1) async {
+      //   print('IDD ' + value1.toString());
+      //
+      //   await FirebaseFirestore.instance.collection('shops').doc(shopId).update({
+      //     'devices': FieldValue.arrayUnion([value1.toString()]),
+      //   }).then((value3) async {
+      //     print('User updated');
+      //     await FirebaseFirestore.instance.collection('shops').doc(shopId)
+      //     // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+      //         .get().then((value2) async {
+      //       List devicesList = value2.data()!['devices'];
+      //
+      //       for(int i = 0; i < devicesList.length; i++) {
+      //         if(devicesList[i] == value1.toString()) {
+      //           print('DV LIST ' + devicesList[i].toString());
+      //           setState(() {
+      //             deviceIdNum = i;
+      //             print('DV LIST 2 ' + deviceIdNum.toString());
+      //           });
+      //         }
+      //       }
+      //     });
+      //   });
+      // });
+    });
     _controller = new TabController(length: 4, vsync: this);
     _controller2 = new TabController(length: 3, vsync: this);
     print('home_page' + 'sub1'.substring(3,4));
@@ -362,17 +410,20 @@ class HomePageState extends State<HomePage>
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+                                        SizedBox(
+                                          height: 2,
+                                        ),
                                         Text(
                                           shopName.toString(),overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              fontSize: 18, fontWeight: FontWeight.w500),
+                                              height: 1.4, fontSize: 18, fontWeight: FontWeight.w500),
                                         ),
                                         SizedBox(
-                                          height: 5,
+                                          height: 3,
                                         ),
                                         Text(
                                           shopAddress.toString(),overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 14),
+                                          style: TextStyle(height: 1, fontSize: 14),
                                         ),
                                         SizedBox(
                                           height: 3,
@@ -785,10 +836,13 @@ class HomePageState extends State<HomePage>
                                           children: snapshot.data!.docs.map((DocumentSnapshot document) {
                                             Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
                                             return  Container(
-                                              child: Text(data['name'], overflow: TextOverflow.ellipsis, style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w500,
-                                              ),),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 3.0),
+                                                child: Text(data['name'], overflow: TextOverflow.ellipsis, style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w500,
+                                                ),),
+                                              ),
                                             );
                                           }).toList(),
                                         ),
@@ -797,7 +851,6 @@ class HomePageState extends State<HomePage>
                                     return Container();
                                   }
                               ),
-                              Spacer(),
                               ButtonTheme(
                                 minWidth: 35,
                                 splashColor: Colors.transparent,
@@ -1548,13 +1601,10 @@ class HomePageState extends State<HomePage>
     var sub1Qty = 0;
     var sub2Qty = 0;
     totalAmount = double.parse(TtlProdListPrice());
+    disText = '';
     bool sellDone = true;
     TextEditingController myController = TextEditingController();
 
-
-    // if(sellDone == true) {
-    //   _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-    // }
     if(sellDone == true) {
       _controller.animateTo(
         0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
@@ -1565,10 +1615,6 @@ class HomePageState extends State<HomePage>
       totalAmount = double.parse(TtlProdListPrice());
       sellDone = false;
     }
-    // if(onChangeAmountTab == true) {
-    //
-    //   onChangeAmountTab = false;
-    // }
 
     showModalBottomSheet(
         enableDrag: true,
@@ -2625,262 +2671,329 @@ class HomePageState extends State<HomePage>
                                                                 discountAmount = discount;
                                                                 subList = [];
                                                                 DateTime now = DateTime.now();
-
-                                                                CollectionReference daily_order = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+                                                                CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
                                                                 int length = 0;
                                                                 print('order creating');
 
-                                                                await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').get().then((QuerySnapshot querySnapshot) async {
-                                                                  querySnapshot.docs.forEach((doc) {
-                                                                    length += int.parse(doc['daily_order'].length.toString());
-                                                                  });
-                                                                  length = 1000 + length + 1;
+                                                                FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                                                    .get().then((value) async {
+                                                                  length = int.parse(value.data()!['orders_length'].toString());
+                                                                  print('lengthsss' + length.toString());
+
+                                                                  length = length + 1;
                                                                   //Check new date or not
                                                                   var dateExist = false;
                                                                   var dateId = '';
-
-
+                                                                  print('CHECK POINT 0' + deviceIdNum.toString());
+                                                                  print('CHECK POINT 1');
+                                                                  orderLengthIncrease();
 
                                                                   for (String str in prodList) {
-                                                                    // List<String> subSell = [];
-                                                                    subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + 'date');
 
-                                                                    List<String> subLink = [];
-                                                                    List<String> subName = [];
-                                                                    List<double> subStock = [];
+                                                                    CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+                                                                    // print('DATA CHECK ' + )
+                                                                    productsFire.doc(str.split('-')[0])
+                                                                        .get().then((val22) async {
+                                                                      // List<String> subSell = [];
+                                                                      subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + 'date');
 
-                                                                    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
-                                                                        .get();
+                                                                      List<String> subLink = [];
+                                                                      List<String> subName = [];
+                                                                      List<double> subStock = [];
 
-                                                                    if (docSnapshot10.exists) {
-                                                                      Map<String, dynamic>? data10 = docSnapshot10.data();
+                                                                      var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
+                                                                          .get();
 
-                                                                      for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                        subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                        subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                        print('inStock' + (i+1).toString());
-                                                                        subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                                      if (docSnapshot10.exists) {
+                                                                        Map<String, dynamic>? data10 = docSnapshot10.data();
+
+                                                                        for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                          subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                          subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                          print('inStock' + (i+1).toString());
+                                                                          print(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                          subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                                        }
                                                                       }
-                                                                    }
 
-                                                                    print(subStock.toString());
+                                                                      print(subStock.toString());
 
-                                                                    if(str.split('-')[3] == 'unit_name') {
-                                                                      decStockFromInv(str.split('-')[0], 'main', str.split('-')[4]);
-                                                                    } else if(str.split('-')[3] == 'sub1_name') {
-                                                                      sub1Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                    } else if(str.split('-')[3] == 'sub2_name') {
-                                                                      sub2Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                    }
+                                                                      if(str.split('-')[3] == 'unit_name') {
+                                                                        decStockFromInv(str.split('-')[0], 'main', str.split('-')[4]);
+                                                                        prodSaleData(str.split('-')[0], int.parse(str.split('-')[4].toString()));
+                                                                        // await productsFire.update({
+                                                                        //   'mainSellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                        // });
+
+                                                                      } else if(str.split('-')[3] == 'sub1_name') {
+                                                                        sub1Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
+                                                                        productsFire.doc(str.split('-')[0]).update({
+                                                                          'sub1SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                        });
+
+                                                                      } else if(str.split('-')[3] == 'sub2_name') {
+                                                                        sub2Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
+                                                                        productsFire.doc(str.split('-')[0]).update({
+                                                                          'sub2SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                        });
+                                                                      }
+                                                                    });
                                                                   }
-
                                                                   print('subList ' + subList.toString());
 
-
-                                                                  //Order Add
-                                                                  await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-                                                                  // FirebaseFirestore.instance.collection('space')
-                                                                      .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
+                                                                  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                                                                      .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
                                                                       .get()
-                                                                      .then((QuerySnapshot querySnapshot) {
+                                                                      .then((QuerySnapshot querySnapshot)  async {
                                                                     querySnapshot.docs.forEach((doc) {
                                                                       dateExist = true;
                                                                       dateId = doc.id;
                                                                     });
 
+                                                                    print('dick exist - > ' + dateExist.toString());
+
                                                                     if (dateExist) {
-                                                                      daily_order.doc(dateId).update({
-                                                                        'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
-                                                                        'each_order' : FieldValue.arrayUnion([length.toString()])
-                                                                      }).then((value) async {
-                                                                        print('User updated');
-                                                                        setState(() {
-                                                                          orderLoading = false;
-                                                                        });
-
-                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(dateId).collection('detail')
-                                                                            .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                            .set({
-                                                                          'total': TtlProdListPrice(),
-                                                                          'subs': subList,
-                                                                          'docId' : dateId,
-                                                                          'customerId' : customerId.split('-')[0],
-                                                                          'orderId' : length.toString(),
-                                                                          'debt' : debt,
-                                                                          'deviceId' : deviceIdNum.toString() + '-',
-                                                                          'refund' : 'FALSE',
-                                                                          'discount' : discountAmount.toString() + disText,
-                                                                        }).then((value) {
-                                                                          print('order added');
-                                                                        });
-
-                                                                        if(customerId.split('-')[0] != 'name') {
-
-                                                                          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                              .set({
-                                                                            'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
-                                                                            'debt' : debt,
-                                                                            'order_pid': dateId,
-                                                                            'refund' : 'FALSE',
-                                                                            'discount' : discountAmount.toString() + disText,
-                                                                            'total': TtlProdListPrice(),
-                                                                            'deviceId' : deviceIdNum.toString() + '-',
-                                                                            'voucherId' : length.toString(),
-                                                                          }).then((value) {
-                                                                            print('cus order added');
-                                                                          }); }
-                                                                      });
+                                                                      addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                      Detail(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), length.toString(),);
+                                                                      if(customerId.split('-')[0] != 'name') {
+                                                                        CusOrder(dateId,
+                                                                          now.year.toString() + zeroToTen(now.month.toString()) +
+                                                                              zeroToTen(now.day.toString()) +
+                                                                              zeroToTen(now.hour.toString()) +
+                                                                              zeroToTen(now.minute.toString()) +
+                                                                              zeroToTen(now.second.toString()) +
+                                                                              deviceIdNum.toString() + length.toString(),
+                                                                          length.toString(),);
+                                                                      }
+                                                                      // daily_order.doc(dateId).update({
+                                                                      //   'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
+                                                                      //   'each_order' : FieldValue.arrayUnion([length.toString()])
+                                                                      // }).then((value) async {
+                                                                      //   print('User updated');
+                                                                      //   setState(() {
+                                                                      //     orderLoading = false;
+                                                                      //   });
+                                                                      //   await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(dateId).collection('detail')
+                                                                      //       .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                      //       .set({
+                                                                      //     'total': TtlProdListPrice(),
+                                                                      //     'subs': subList,
+                                                                      //     'docId' : dateId,
+                                                                      //     'customerId' : customerId.split('-')[0],
+                                                                      //     'orderId' : length.toString(),
+                                                                      //     'debt' : debt,
+                                                                      //     'deviceId' : deviceIdNum.toString() + '-',
+                                                                      //     'refund' : 'FALSE',
+                                                                      //     'discount' : discountAmount.toString() + disText,
+                                                                      //   }).then((value) {
+                                                                      //     print('order added');
+                                                                      //     print('totalPrice3 ' + TtlProdListPrice());
+                                                                      //   });
+                                                                      //
+                                                                      //
+                                                                      //   if(customerId.split('-')[0] != 'name') {
+                                                                      //
+                                                                      //     await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                      //         .set({
+                                                                      //       'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+                                                                      //       'debt' : debt,
+                                                                      //       'order_pid': dateId,
+                                                                      //       'refund' : 'FALSE',
+                                                                      //       'discount' : discountAmount.toString() + disText,
+                                                                      //       'total': TtlProdListPrice(),
+                                                                      //       'deviceId' : deviceIdNum.toString() + '-',
+                                                                      //       'voucherId' : length.toString(),
+                                                                      //     }).then((value) {
+                                                                      //       print('cus order added');
+                                                                      //     }); }
+                                                                      // });
                                                                     } else {
-                                                                      daily_order.add({
-                                                                        'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText],
-                                                                        'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()),
-                                                                        'each_order' : FieldValue.arrayUnion([length.toString()])
-                                                                      }).then((value) async  {
-                                                                        print('order added');
-                                                                        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-                                                                            .set({
-                                                                          'total': TtlProdListPrice(),
-                                                                          'subs': subList,
-                                                                          'docId' : value.id,
-                                                                          'customerId' : customerId.split('-')[0],
-                                                                          'orderId' : length.toString(),
-                                                                          'debt' : debt,
-                                                                          'deviceId' : deviceIdNum.toString() + '-',
-                                                                          'refund' : 'FALSE',
-                                                                          'discount' : discountAmount.toString() + disText,
-                                                                        }).then((value) {
-                                                                          print('order added');
-                                                                        });
-                                                                        if(customerId.split('-')[0] != 'name') {
-                                                                          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
-                                                                            'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
-                                                                            'debt' : debt,
-                                                                            'order_pid': value.id,
-                                                                            'refund' : 'FALSE',
-                                                                            'discount' : discountAmount.toString() + disText,
-                                                                            'total': TtlProdListPrice(),
-                                                                            'deviceId' : deviceIdNum.toString() + '-',
-                                                                            'voucherId' : length.toString(),
-                                                                          })
-                                                                              .then((
-                                                                              value) {
-                                                                            print(
-                                                                                'cus order added');
-                                                                          });
-                                                                        }
-                                                                      });
+                                                                      DatenotExist(prodList, value.id, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString(), now);
+                                                                      // CollectionReference daily_order2 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+
+                                                                      // daily_order2.add({
+                                                                      //   'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText],
+                                                                      //   'date' : now,
+                                                                      //   'each_order' : FieldValue.arrayUnion([length.toString()])
+                                                                      // }).then((value) async  {
+                                                                      //   print('totalPrice ' + TtlProdListPrice());
+                                                                      //
+                                                                      //   addDateExist(value.id, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                      //   Detail(value.id, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), length.toString(),);
+                                                                      //   if(customerId.split('-')[0] != 'name') {
+                                                                      //     CusOrder(value.id,
+                                                                      //       now.year.toString() + zeroToTen(now.month.toString()) +
+                                                                      //           zeroToTen(now.day.toString()) +
+                                                                      //           zeroToTen(now.hour.toString()) +
+                                                                      //           zeroToTen(now.minute.toString()) +
+                                                                      //           zeroToTen(now.second.toString()) +
+                                                                      //           deviceIdNum.toString() + length.toString(),
+                                                                      //       length.toString(),);
+                                                                      //   }
+                                                                      // });
+
+
+
+                                                                      // daily_order.add({
+                                                                      //   'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText],
+                                                                      //   'date' : now,
+                                                                      //   'each_order' : FieldValue.arrayUnion([length.toString()])
+                                                                      // }).then((value) async  {
+                                                                      //   print('totalPrice ' + TtlProdListPrice());
+                                                                      //   print('order added');
+                                                                      //   await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(value.id).collection('detail').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+                                                                      //       .set({
+                                                                      //     'total': TtlProdListPrice(),
+                                                                      //     'subs': subList,
+                                                                      //     'docId' : value.id,
+                                                                      //     'customerId' : customerId.split('-')[0],
+                                                                      //     'orderId' : length.toString(),
+                                                                      //     'debt' : debt,
+                                                                      //     'deviceId' : deviceIdNum.toString() + '-',
+                                                                      //     'refund' : 'FALSE',
+                                                                      //     'discount' : discountAmount.toString() + disText,
+                                                                      //   }).then((value) {
+                                                                      //     print('order added');
+                                                                      //   });
+                                                                      //
+                                                                      //   if(customerId.split('-')[0] != 'name') {
+                                                                      //     await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
+                                                                      //       'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+                                                                      //       'debt' : debt,
+                                                                      //       'order_pid': value.id,
+                                                                      //       'refund' : 'FALSE',
+                                                                      //       'discount' : discountAmount.toString() + disText,
+                                                                      //       'total': TtlProdListPrice(),
+                                                                      //       'deviceId' : deviceIdNum.toString() + '-',
+                                                                      //       'voucherId' : length.toString(),
+                                                                      //     })
+                                                                      //         .then((
+                                                                      //         value) {
+                                                                      //       print(
+                                                                      //           'cus order added');
+                                                                      //     });
+                                                                      //   }
+                                                                      // });
                                                                     }
                                                                   });
-                                                                });
-                                                                final date = DateTime.now();
-                                                                final dueDate = date.add(Duration(days: 7));
-                                                                final invoice = Invoice(
-                                                                  supplier: Supplier(
-                                                                    name: 'Sarah Field',
-                                                                    address: 'Sarah Street 9, Beijing, China',
-                                                                    paymentInfo: 'https://paypal.me/sarahfieldzz',
-                                                                  ),
-                                                                  customer: Customer(
-                                                                    name: 'Apple Inc.',
-                                                                    address: 'Apple Street, Cupertino, CA 95014',
-                                                                  ),
-                                                                  info: InvoiceInfo(
-                                                                    date: date,
-                                                                    dueDate: dueDate,
-                                                                    description: 'My description...',
-                                                                    number: '${DateTime.now().year}-9999',
-                                                                  ),
-                                                                  items: [
-                                                                    for(int i=0; i<prodList.length; i++)
-                                                                      InvoiceItem(
-                                                                        description: prodList[i].split('-')[1],
-                                                                        date: DateTime.now(),
-                                                                        quantity: int.parse(prodList[i].split('-')[4]),
-                                                                        vat: 0,
-                                                                        unitPrice: double.parse(prodList[i].split('-')[2]),
-                                                                      )
-
-                                                                    // InvoiceItem(
-                                                                    //   description: 'Water',
-                                                                    //   date: DateTime.now(),
-                                                                    //   quantity: 8,
-                                                                    //   vat: 0.19,
-                                                                    //   unitPrice: 0.99,
-                                                                    // ),
-                                                                    // InvoiceItem(
-                                                                    //   description: 'Orange',
-                                                                    //   date: DateTime.now(),
-                                                                    //   quantity: 3,
-                                                                    //   vat: 0.19,
-                                                                    //   unitPrice: 2.99,
-                                                                    // ),
-                                                                    // InvoiceItem(
-                                                                    //   description: 'Apple',
-                                                                    //   date: DateTime.now(),
-                                                                    //   quantity: 8,
-                                                                    //   vat: 0.19,
-                                                                    //   unitPrice: 3.99,
-                                                                    // ),
-                                                                    // InvoiceItem(
-                                                                    //   description: 'Mango',
-                                                                    //   date: DateTime.now(),
-                                                                    //   quantity: 1,
-                                                                    //   vat: 0.19,
-                                                                    //   unitPrice: 1.59,
-                                                                    // ),
-                                                                    // InvoiceItem(
-                                                                    //   description: 'Blue Berries',
-                                                                    //   date: DateTime.now(),
-                                                                    //   quantity: 5,
-                                                                    //   vat: 0.19,
-                                                                    //   unitPrice: 0.99,
-                                                                    // ),
-                                                                    // InvoiceItem(
-                                                                    //   description: 'Black',
-                                                                    //   date: DateTime.now(),
-                                                                    //   quantity: 4,
-                                                                    //   vat: 0.19,
-                                                                    //   unitPrice: 1.29,
-                                                                    // ),
-                                                                  ],
-                                                                );
 
 
+                                                                  final date = DateTime.now();
+                                                                  final dueDate = date.add(Duration(days: 7));
+                                                                  final invoice = Invoice(
+                                                                    supplier: Supplier(
+                                                                      name: 'Sarah Field',
+                                                                      address: 'Sarah Street 9, Beijing, China',
+                                                                      paymentInfo: 'https://paypal.me/sarahfieldzz',
+                                                                    ),
+                                                                    customer: Customer(
+                                                                      name: 'Apple Inc.',
+                                                                      address: 'Apple Street, Cupertino, CA 95014',
+                                                                    ),
+                                                                    info: InvoiceInfo(
+                                                                      date: date,
+                                                                      dueDate: dueDate,
+                                                                      description: 'My description...',
+                                                                      number: '${DateTime.now().year}-9999',
+                                                                    ),
+                                                                    items: [
+                                                                      for(int i=0; i<prodList.length; i++)
+                                                                        InvoiceItem(
+                                                                          description: prodList[i].split('-')[1],
+                                                                          date: DateTime.now(),
+                                                                          quantity: int.parse(prodList[i].split('-')[4]),
+                                                                          vat: 0,
+                                                                          unitPrice: double.parse(prodList[i].split('-')[2]),
+                                                                        )
 
-                                                                // mystate(()  {
-                                                                //   prodList = [];
-                                                                //   discount = 0.0;
-                                                                //   debt =0;
-                                                                //   refund =0;
-                                                                // });
-                                                                // // _controller.animateTo(0);
-                                                                // // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                //
-                                                                // _textFieldController.clear();
-                                                                // Navigator.pop(context);
-                                                                // sellDone = true;
-                                                                // //discountAmount =0.0;
+                                                                      // InvoiceItem(
+                                                                      //   description: 'Water',
+                                                                      //   date: DateTime.now(),
+                                                                      //   quantity: 8,
+                                                                      //   vat: 0.19,
+                                                                      //   unitPrice: 0.99,
+                                                                      // ),
+                                                                      // InvoiceItem(
+                                                                      //   description: 'Orange',
+                                                                      //   date: DateTime.now(),
+                                                                      //   quantity: 3,
+                                                                      //   vat: 0.19,
+                                                                      //   unitPrice: 2.99,
+                                                                      // ),
+                                                                      // InvoiceItem(
+                                                                      //   description: 'Apple',
+                                                                      //   date: DateTime.now(),
+                                                                      //   quantity: 8,
+                                                                      //   vat: 0.19,
+                                                                      //   unitPrice: 3.99,
+                                                                      // ),
+                                                                      // InvoiceItem(
+                                                                      //   description: 'Mango',
+                                                                      //   date: DateTime.now(),
+                                                                      //   quantity: 1,
+                                                                      //   vat: 0.19,
+                                                                      //   unitPrice: 1.59,
+                                                                      // ),
+                                                                      // InvoiceItem(
+                                                                      //   description: 'Blue Berries',
+                                                                      //   date: DateTime.now(),
+                                                                      //   quantity: 5,
+                                                                      //   vat: 0.19,
+                                                                      //   unitPrice: 0.99,
+                                                                      // ),
+                                                                      // InvoiceItem(
+                                                                      //   description: 'Black',
+                                                                      //   date: DateTime.now(),
+                                                                      //   quantity: 4,
+                                                                      //   vat: 0.19,
+                                                                      //   unitPrice: 1.29,
+                                                                      // ),
+                                                                    ],
+                                                                  );
 
 
 
-                                                                pdfFile = await PdfInvoiceApi.generate(invoice, pageType);
-                                                                mystate(() {
-                                                                  // setState(() {
-                                                                  pdfText = pdfFile!.path.toString();
+                                                                  // mystate(()  {
+                                                                  //   prodList = [];
+                                                                  //   discount = 0.0;
+                                                                  //   debt =0;
+                                                                  //   refund =0;
                                                                   // });
+                                                                  // // _controller.animateTo(0);
+                                                                  // // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                  //
+                                                                  // _textFieldController.clear();
+                                                                  // Navigator.pop(context);
+                                                                  // sellDone = true;
+                                                                  // //discountAmount =0.0;
+
+
+
+                                                                  pdfFile = await PdfInvoiceApi.generate(invoice, pageType);
+                                                                  mystate(() {
+                                                                    // setState(() {
+                                                                    pdfText = pdfFile!.path.toString();
+                                                                    // });
+                                                                  });
+
+
+                                                                  // mystate(()  {
+                                                                  //   prodList = [];
+                                                                  //   discount = 0.0;
+                                                                  //   debt =0;
+                                                                  //   refund =0;
+                                                                  //   //customerId = 'name-name';
+                                                                  // });
+
+
+                                                                  _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+
+
+
                                                                 });
 
-
-                                                                // mystate(()  {
-                                                                //   prodList = [];
-                                                                //   discount = 0.0;
-                                                                //   debt =0;
-                                                                //   refund =0;
-                                                                //   //customerId = 'name-name';
-                                                                // });
-
-
-                                                                _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                               },
                                                               child: Container(
                                                                 width: (MediaQuery.of(context).size.width - 45)/2,
@@ -3737,9 +3850,12 @@ class HomePageState extends State<HomePage>
                                                                   mystate(()  {
                                                                     prodList = [];
                                                                     discount = 0.0;
+                                                                    discountAmount =0.0;
                                                                     debt =0;
                                                                     refund =0;
                                                                     customerId = 'name-name';
+                                                                    disText = '';
+                                                                    isDiscount = '';
                                                                   });
                                                                 });
                                                                 // _controller.animateTo(0);
@@ -3748,7 +3864,8 @@ class HomePageState extends State<HomePage>
                                                                 _textFieldController.clear();
                                                                 Navigator.pop(context);
                                                                 sellDone = true;
-                                                                //discountAmount =0.0;
+
+
                                                               },
                                                               child: Container(
                                                                 width: (MediaQuery.of(context).size.width - 30),
@@ -3844,6 +3961,11 @@ class HomePageState extends State<HomePage>
   getStoreId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('store');
+  }
+
+  getDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('device');
   }
 
   addDailyExp2(priContext) {
@@ -4943,7 +5065,7 @@ class HomePageState extends State<HomePage>
 
                                                                 CollectionReference daily_order = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
                                                                 int length = 0;
-                                                                print('order creating');
+                                                                print('order creating here2');
 
                                                                 await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').get().then((QuerySnapshot querySnapshot) async {
                                                                   querySnapshot.docs.forEach((doc) {
@@ -5016,7 +5138,8 @@ class HomePageState extends State<HomePage>
                                                                   }
                                                                   await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
                                                                   // FirebaseFirestore.instance.collection('space')
-                                                                      .where('date', isEqualTo: now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()))
+                                                                      .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
                                                                       .get()
                                                                       .then((QuerySnapshot querySnapshot) {
                                                                     querySnapshot.docs.forEach((doc) {
@@ -5069,7 +5192,8 @@ class HomePageState extends State<HomePage>
                                                                     } else {
                                                                       daily_order.add({
                                                                         'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2],
-                                                                        'date': now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()),
+                                                                        // 'date': FieldValue.serverTimestamp(),
+                                                                        'date' : now,
                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
                                                                       }).then((value) async  {
                                                                         print('order added');
@@ -6104,6 +6228,234 @@ class HomePageState extends State<HomePage>
     }
   }
 
+  Future<void> DatenotExist(prodList, id1, id2, dOrder , length, date,) async {
+    print('PROD ' + prodList.toString());
+    double totalTOTAL = 0;
+    print(prodList.toString());
+    for (String str in prodList) {
+      totalTOTAL += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
+      disPercent = (double.parse(totalTOTAL.toString()) *
+          (discountAmount / 100)).round();
+    }
+    if(isDiscount == 'percent'){
+      discountAmount = discount;
+      print(discountAmount.toString());
+      disText = '-p';
+      totalTOTAL = (double.parse(totalTOTAL.toString()) -
+          (double.parse(totalTOTAL.toString()) *
+              (discountAmount / 100)));
+    } else if(isDiscount == 'amount'){
+      discountAmount = discount;
+      disText ='-d';
+      totalTOTAL = (double.parse(totalTOTAL.toString()) - discountAmount);
+    } else {
+      disText = '';
+      discountAmount = 0.0;
+      totalTOTAL = double.parse(totalTOTAL.toString());
+    }
+
+    print('CHECKING PRODSALE ORD DatenotExist');
+    // CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
+    CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+    CollectionReference cusOrder = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders');
+    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+
+    String custId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString();
+    // CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(custId).collection('detail');
+
+    daily.doc(custId).set({
+      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+      'each_order' : FieldValue.arrayUnion([length.toString()]),
+      'date' : date
+    }).then((value) {
+
+    })
+        .catchError((error) => print("Failed to update user: $error"));
+
+    print("order new Updated");
+    print('totalPrice ' + totalTOTAL.toString());
+
+    //addDateExist(value.id, date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString(), date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+    Detail(custId, date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString(), length.toString(),);
+    if(customerId.split('-')[0] != 'name') {
+      CusOrder(custId,
+        date.year.toString() + zeroToTen(date.month.toString()) +
+            zeroToTen(date.day.toString()) +
+            zeroToTen(date.hour.toString()) +
+            zeroToTen(date.minute.toString()) +
+            zeroToTen(date.second.toString()) +
+            deviceIdNum.toString() + length.toString(),
+        length.toString(),);
+    }
+
+
+    // daily.add({
+    //   'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+    //   'each_order' : FieldValue.arrayUnion([length.toString()]),
+    //   'date' : date
+    // }).then((value) async  {
+    //   print('totalPrice ' + totalTOTAL.toString());
+    //
+    //   //addDateExist(value.id, date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString(), date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+    //   Detail(value.id, date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString(), length.toString(),);
+    //   if(customerId.split('-')[0] != 'name') {
+    //     CusOrder(value.id,
+    //       date.year.toString() + zeroToTen(date.month.toString()) +
+    //           zeroToTen(date.day.toString()) +
+    //           zeroToTen(date.hour.toString()) +
+    //           zeroToTen(date.minute.toString()) +
+    //           zeroToTen(date.second.toString()) +
+    //           deviceIdNum.toString() + length.toString(),
+    //       length.toString(),);
+    //   }
+    //   // CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(value.id).collection('detail');
+    //   // detail.doc(id2).set({
+    //   //   'total': TtlProdListPrice(),
+    //   //   // 'debt' : debt,
+    //   //   // 'discount' : discountAmount.toString() + disText,
+    //   //   'docId' : value.id,
+    //   //   // 'refund': 'FALSE',
+    //   //   // 'subs': subList,
+    //   //   // 'customerId' : customerId.split('-')[0],
+    //   //   // 'deviceId' : deviceIdNum.toString() + '-',
+    //   //   //'orderId' : length.toString(),
+    //   // })
+    //   //     .then((value) => print("User Updated"))
+    //   //     .catchError((error) => print("Failed to update user: $error"));
+    // });
+
+    // detail.doc(id2).set({
+    //            'total': TtlProdListPrice(),
+    //            // 'debt' : debt,
+    //            // 'discount' : discountAmount.toString() + disText,
+    //            // 'docId' : id1,
+    //            // 'refund': 'FALSE',
+    //            // 'subs': subList,
+    //            // 'customerId' : customerId.split('-')[0],
+    //            // 'deviceId' : deviceIdNum.toString() + '-',
+    //            'orderId' : length.toString(),})
+    //     .then((value) => print("User Updated"))
+    //     .catchError((error) => print("Failed to update user: $error"));
+
+    // if(customerId.split('-')[0] != 'name') {
+    // cusOrder.doc(id2).set({
+    // 'order_id': id2,
+    // 'debt' : debt,
+    // 'order_pid': id1,
+    // 'refund' : 'FALSE',
+    // 'discount' : discountAmount.toString() + disText,
+    // 'total': TtlProdListPrice(),
+    // 'deviceId' : deviceIdNum.toString() + '-',
+    // 'voucherId' : length.toString(),})
+    //     .then((value) => print("User Updated"))
+    //     .catchError((error) => print("Failed to update user: $error")); }
+  }
+
+  Future<void> addDateExist(id1, id2, dOrder , length) async {
+    print('CHECKING PRODSALE ORD addDateExist');
+    //CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
+    CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+    // CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders');
+    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+
+    daily.doc(id1).update({
+      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+      'each_order' : FieldValue.arrayUnion([length.toString()])})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+
+    // detail.doc(id2).set({
+    //            'total': TtlProdListPrice(),
+    //            'debt' : debt,
+    //            'discount' : discountAmount.toString() + disText,
+    //            'docId' : id1,
+    //            'refund': 'FALSE',
+    //            'subs': subList,
+    //            'customerId' : customerId.split('-')[0],
+    //            'deviceId' : deviceIdNum.toString() + '-',
+    //            'orderId' : length.toString(),})
+    //     .then((value) => print("User Updated"))
+    //     .catchError((error) => print("Failed to update user: $error"));
+    //
+    // if(customerId.split('-')[0] != 'name') {
+    // cusOrder.doc(id2).set({
+    // 'order_id': id2,
+    // 'debt' : debt,
+    // 'order_pid': id1,
+    // 'refund' : 'FALSE',
+    // 'discount' : discountAmount.toString() + disText,
+    // 'total': TtlProdListPrice(),
+    // 'deviceId' : deviceIdNum.toString() + '-',
+    // 'voucherId' : length.toString(),})
+    //     .then((value) => print("User Updated"))
+    //     .catchError((error) => print("Failed to update user: $error")); }
+  }
+
+  Future<void> Detail(id1, id2 , length) async {
+    print('CHECKING PRODSALE ORD');
+    CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
+
+    detail.doc(id2).set({
+      'total': TtlProdListPrice(),
+      'debt' : debt,
+      'discount' : discountAmount.toString() + disText,
+      'docId' : id1,
+      'refund': 'FALSE',
+      'subs': subList,
+      'customerId' : customerId.split('-')[0],
+      'deviceId' : deviceIdNum.toString() + '-',
+      'orderId' : length.toString(),})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+  Future<void> CusOrder(id1, id2 , length) async {
+    print('CHECKING PRODSALE ORD');
+    // CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
+    //  CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders');
+    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+
+    cusOrder.doc(id2).set({
+      'order_id': id2,
+      'debt' : debt,
+      'order_pid': id1,
+      'refund' : 'FALSE',
+      'discount' : discountAmount.toString() + disText,
+      'total': TtlProdListPrice(),
+      'deviceId' : deviceIdNum.toString() + '-',
+      'voucherId' : length.toString(),})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+  Future<void> orderLengthIncrease() async {
+    print('CHECKING PRODSALE ORD');
+    CollectionReference users = await FirebaseFirestore.instance.collection('shops');
+
+    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+
+    users
+        .doc(shopId)
+        .update({'orders_length': FieldValue.increment(1)})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+
+  Future<void> prodSaleData(id, num) async {
+    print('CHECKING PRODSALE');
+    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+
+    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+
+    users
+        .doc(id)
+        .update({'mainSellUnit': FieldValue.increment(double.parse(num.toString()))})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
   Future<void> decStockFromInv(id, unit, num) async {
     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
@@ -6156,6 +6508,12 @@ class HomePageState extends State<HomePage>
         sub1Execution(subStock, subLink, id, ((int.parse(num)  - subStock[2])/int.parse(subLink[1])).ceil().toString());
       }
     }
+  }
+
+  todayToYearStart(DateTime now) {
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
   }
 }
 

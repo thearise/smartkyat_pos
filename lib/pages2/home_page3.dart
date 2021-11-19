@@ -162,36 +162,39 @@ class HomePageState extends State<HomePage>
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
+    getDeviceId().then((value) {
+      deviceIdNum = value;
+    });
 
     HomePageState().getStoreId().then((value0) {
       setState(() {
         shopId = value0;
       });
 
-      _getId().then((value1) async {
-        print('IDD ' + value1.toString());
-
-        await FirebaseFirestore.instance.collection('shops').doc(shopId).update({
-          'devices': FieldValue.arrayUnion([value1.toString()]),
-        }).then((value3) async {
-          print('User updated');
-          await FirebaseFirestore.instance.collection('shops').doc(shopId)
-          // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
-              .get().then((value2) async {
-            List devicesList = value2.data()!['devices'];
-
-            for(int i = 0; i < devicesList.length; i++) {
-              if(devicesList[i] == value1.toString()) {
-                print('DV LIST ' + devicesList[i].toString());
-                setState(() {
-                  deviceIdNum = i;
-                  print('DV LIST 2 ' + deviceIdNum.toString());
-                });
-              }
-            }
-          });
-        });
-      });
+      // _getId().then((value1) async {
+      //   print('IDD ' + value1.toString());
+      //
+      //   await FirebaseFirestore.instance.collection('shops').doc(shopId).update({
+      //     'devices': FieldValue.arrayUnion([value1.toString()]),
+      //   }).then((value3) async {
+      //     print('User updated');
+      //     await FirebaseFirestore.instance.collection('shops').doc(shopId)
+      //     // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+      //         .get().then((value2) async {
+      //       List devicesList = value2.data()!['devices'];
+      //
+      //       for(int i = 0; i < devicesList.length; i++) {
+      //         if(devicesList[i] == value1.toString()) {
+      //           print('DV LIST ' + devicesList[i].toString());
+      //           setState(() {
+      //             deviceIdNum = i;
+      //             print('DV LIST 2 ' + deviceIdNum.toString());
+      //           });
+      //         }
+      //       }
+      //     });
+      //   });
+      // });
     });
     _controller = new TabController(length: 4, vsync: this);
     _controller2 = new TabController(length: 3, vsync: this);
@@ -291,14 +294,18 @@ class HomePageState extends State<HomePage>
   }
 
   chgShopIdFromSetting() {
+    setState(() {
+      _selectTab(0);
+      _selectIndex = 0;
+    });
     // print('gg');
-    homeGlobalKey.currentState!.chgShopIdFrmHomePage();
-    prodGlobalKey.currentState!.chgShopIdFrmHomePage();
-    bordGlobalKey.currentState!.chgShopIdFrmHomePage();
-    sordGlobalKey.currentState!.chgShopIdFrmHomePage();
-    mercGlobalKey.currentState!.chgShopIdFrmHomePage();
-    custGlobalKey.currentState!.chgShopIdFrmHomePage();
-    settGlobalKey.currentState!.chgShopIdFrmHomePage();
+    // homeGlobalKey.currentState!.chgShopIdFrmHomePage();
+    // prodGlobalKey.currentState!.chgShopIdFrmHomePage();
+    // bordGlobalKey.currentState!.chgShopIdFrmHomePage();
+    // sordGlobalKey.currentState!.chgShopIdFrmHomePage();
+    // mercGlobalKey.currentState!.chgShopIdFrmHomePage();
+    // custGlobalKey.currentState!.chgShopIdFrmHomePage();
+    // settGlobalKey.currentState!.chgShopIdFrmHomePage();
   }
 
   closeNewProduct() {
@@ -370,7 +377,7 @@ class HomePageState extends State<HomePage>
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
-                        height: 80,
+                        height: 81,
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
@@ -381,16 +388,8 @@ class HomePageState extends State<HomePage>
                               left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
                           child: GestureDetector(
                             onTap: () async {
-                              // MainFragmentState().changeState(1);
-                              _selectTab(0);
-                              await FirebaseAuth.instance.signOut();
-                              setStoreId('');
-                              // Navigator.pop(context);
-                              // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-                              // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
-                              Navigator.of(context).pushReplacement(
-                                FadeRoute(page: Welcome()),
-                              );
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
 
                             },
                             child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -408,19 +407,32 @@ class HomePageState extends State<HomePage>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          height: 2,
+                                          height: 1,
                                         ),
                                         Text(
                                           shopName.toString(),overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              height: 1.4, fontSize: 18, fontWeight: FontWeight.w500),
+                                              height: 2, fontSize: 18, fontWeight: FontWeight.w500),
+                                          strutStyle: StrutStyle(
+                                            height: 2,
+                                            // fontSize:,
+                                            forceStrutHeight: true,
+                                          ),
                                         ),
                                         SizedBox(
-                                          height: 3,
+                                          height: 0,
                                         ),
-                                        Text(
-                                          shopAddress.toString(),overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(height: 1, fontSize: 14),
+                                        Transform.translate(
+                                          offset: Offset(0, -5),
+                                          child: Text(
+                                            shopAddress.toString(),overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(height: 2, fontSize: 14),
+                                            strutStyle: StrutStyle(
+                                              height: 2,
+                                              // fontSize:,
+                                              forceStrutHeight: true,
+                                            ),
+                                          ),
                                         ),
                                         SizedBox(
                                           height: 3,
@@ -856,7 +868,7 @@ class HomePageState extends State<HomePage>
                                   color: AppTheme.buttonColor2,
                                   shape: RoundedRectangleBorder(
                                     borderRadius:
-                                    BorderRadius.circular(10.0),
+                                    BorderRadius.circular(8.0),
                                     side: BorderSide(
                                       color: AppTheme.buttonColor2,
                                     ),
@@ -871,11 +883,11 @@ class HomePageState extends State<HomePage>
                                   },
                                   child: Container(
                                     child: Text(
-                                      'Log out',
+                                      'Logout',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ),
@@ -2739,7 +2751,7 @@ class HomePageState extends State<HomePage>
                                                                   }
                                                                   print('subList ' + subList.toString());
 
-                                                                       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                                                                  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
                                                                       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
                                                                       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
                                                                       .get()
@@ -3957,6 +3969,11 @@ class HomePageState extends State<HomePage>
     return prefs.getString('store');
   }
 
+  getDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('device');
+  }
+
   addDailyExp2(priContext) {
     var mainLoss = 0;
     var sub1Loss=0;
@@ -5095,7 +5112,7 @@ class HomePageState extends State<HomePage>
                                                                     print(subStock.toString());
 
                                                                     if(str.split('-')[4]=='unit_name') {
-                                                                     prods.doc(
+                                                                      prods.doc(
                                                                           str.split('-')[0])
                                                                           .update({
                                                                         'inStock1': FieldValue.increment(double.parse(str.split('-')[2].toString())),
@@ -5105,7 +5122,7 @@ class HomePageState extends State<HomePage>
                                                                           .catchError((error) => print("Failed to update user: $error"));
                                                                     }
                                                                     else if (str.split('-')[4]=='sub1_name') {
-                                                                     prods.doc(
+                                                                      prods.doc(
                                                                           str.split('-')[0])
                                                                           .update({
                                                                         'inStock2': FieldValue.increment(double.parse(str.split('-')[2].toString())),
@@ -6270,7 +6287,9 @@ class HomePageState extends State<HomePage>
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
       'each_order' : FieldValue.arrayUnion([length.toString()]),
       'date' : date
-    }).then((value) {})
+    }).then((value) {
+
+    })
         .catchError((error) => print("Failed to update user: $error"));
 
     print("order new Updated");
