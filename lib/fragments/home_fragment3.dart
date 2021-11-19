@@ -92,6 +92,8 @@ class HomeFragmentState extends State<HomeFragment>
   DateTime today = DateTime.now();
 
 
+
+
   @override
   bool get wantKeepAlive => true;
 
@@ -146,6 +148,7 @@ class HomeFragmentState extends State<HomeFragment>
 
   @override
   initState() {
+    _dateTime = DateTime.now();
     print('Timestamp ' + DateTime.now().toString() + ' --> ' + Timestamp.fromMillisecondsSinceEpoch(1599573193925).toString());
     HomePageState().getStoreId().then((value) {
       setState(() {
@@ -208,6 +211,7 @@ class HomeFragmentState extends State<HomeFragment>
       locale: DateTimePickerLocale.en_us,
       onClose: () {
         setState((){
+          _dateTime = _dateTime;
           today = today;
           // DateTime td = DateTime.now();
           print('closed 1 ' + today.toString());
@@ -217,15 +221,17 @@ class HomeFragmentState extends State<HomeFragment>
       },
       onCancel: () => print('onCancel'),
       onChange: (dateTime, List<int> index) {
-        // setState(() {
+         setState(() {
           today = dateTime;
-        // });
+          _dateTime = dateTime;
+         });
 
 
       },
       onConfirm: (dateTime, List<int> index) {
         setState(() {
           today = dateTime;
+          _dateTime = dateTime;
         });
       },
     );
@@ -511,17 +517,17 @@ class HomeFragmentState extends State<HomeFragment>
           getTitles: (value) {
             switch (value.toInt()) {
               case 0:
-                return today.subtract(Duration(hours: int.parse(subHours))).hour.toString()+ ' hr';
+                return _dateTime!.day.toString() + ' '+changeMonth2String(_dateTime!.subtract(Duration(days: 0)).month.toString());
               case 4:
-                return today.subtract(Duration(hours: (int.parse(subHours)-4))).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours: (int.parse(subHours)-4))).hour.toString() + ' hr';
               case 8:
-                return today.subtract(Duration(hours: int.parse(subHours)-8)).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours: int.parse(subHours)-8)).hour.toString()+ ' hr';
               case 12:
-                return today.subtract(Duration(hours: int.parse(subHours)-12)).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours: int.parse(subHours)-12)).hour.toString()+ ' hr';
               case 16:
-                return today.subtract(Duration(hours: int.parse(subHours)-16)).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours: int.parse(subHours)-16)).hour.toString()+ ' hr';
               case 20:
-                return today.subtract(Duration(hours: int.parse(subHours)-20)).hour.toString()+ ' hr';
+                return _dateTime!.subtract(Duration(hours: int.parse(subHours)-20)).hour.toString()+ ' hr';
               case 24:
                 return 'Next Day';
             }
@@ -693,19 +699,19 @@ class HomeFragmentState extends State<HomeFragment>
             // today.day.toString()
             switch (value.toInt()) {
               case 0:
-                return today.subtract(Duration(days: 30)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 29)).month.toString());
+                return _dateTime!.subtract(Duration(days: 30)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 29)).month.toString());
               case 5:
-                return today.subtract(Duration(days: 25)).day.toString();
+                return _dateTime!.subtract(Duration(days: 25)).day.toString();
               case 10:
-                return today.subtract(Duration(days: 20)).day.toString();
+                return _dateTime!.subtract(Duration(days: 20)).day.toString();
               case 15:
-                return today.subtract(Duration(days: 15)).day.toString();
+                return _dateTime!.subtract(Duration(days: 15)).day.toString();
               case 20:
-                return today.subtract(Duration(days: 10)).day.toString();
+                return _dateTime!.subtract(Duration(days: 10)).day.toString();
               case 25:
-                return today.subtract(Duration(days: 5)).day.toString();
+                return _dateTime!.subtract(Duration(days: 5)).day.toString();
               case 30:
-                return 'Today';
+                return _dateTime!.subtract(Duration(days: 0)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 0)).month.toString());
             // return today.day.toString() + ', ' + changeMonth2String(today.month.toString());
             }
             return '';
@@ -901,19 +907,19 @@ class HomeFragmentState extends State<HomeFragment>
             // today.day.toString()
             switch (value.toInt()) {
               case 0:
-                return today.subtract(Duration(days: 6)).day.toString() + ', ' + changeMonth2String(today.subtract(Duration(days: 6)).month.toString());
+                return _dateTime!.subtract(Duration(days: 6)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 6)).month.toString());
               case 1:
-                return today.subtract(Duration(days: 5)).day.toString();
+                return _dateTime!.subtract(Duration(days: 5)).day.toString();
               case 2:
-                return today.subtract(Duration(days: 4)).day.toString();
+                return _dateTime!.subtract(Duration(days: 4)).day.toString();
               case 3:
-                return today.subtract(Duration(days: 3)).day.toString();
+                return _dateTime!.subtract(Duration(days: 3)).day.toString();
               case 4:
-                return today.subtract(Duration(days: 2)).day.toString();
+                return _dateTime!.subtract(Duration(days: 2)).day.toString();
               case 5:
-                return today.subtract(Duration(days: 1)).day.toString();
+                return _dateTime!.subtract(Duration(days: 1)).day.toString();
               case 6:
-                return 'Today';
+                return _dateTime!.subtract(Duration(days: 0)).day.toString() + ', ' + changeMonth2String(_dateTime!.subtract(Duration(days: 0)).month.toString());
             // return today.day.toString() + ', ' + changeMonth2String(today.month.toString());
 
             }
@@ -1069,29 +1075,29 @@ class HomeFragmentState extends State<HomeFragment>
             // case 0:
             //   return (int.parse(today.month.toString()) - int.parse(subMonths)).toString();
               case 0:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+1).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+1).toString();
               case 1:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+2).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+2).toString();
               case 2:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+3).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+3).toString();
               case 3:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+4).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+4).toString();
               case 4:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+5).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+5).toString();
               case 5:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+6).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+6).toString();
               case 6:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+7).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+7).toString();
               case 7:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+8).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+8).toString();
               case 8:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+9).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+9).toString();
               case 9:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+10).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+10).toString();
               case 10:
-                return (int.parse(today.month.toString()) - int.parse(subMonths)+11).toString();
+                return (int.parse(_dateTime!.month.toString()) - int.parse(subMonths)+11).toString();
               case 11:
-                return today.year.toString();
+                return _dateTime!.year.toString();
             }
             return '';
           },
@@ -1375,7 +1381,6 @@ class HomeFragmentState extends State<HomeFragment>
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         top: 0.0, left: 0.0, right: 0.0),
-
 
                                     child: StreamBuilder(
                                         stream: FirebaseFirestore.instance
@@ -1761,12 +1766,12 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                 height: 25,
                                                                                 child: Center(
                                                                                   child: Text('12%',
-                                                                                    textAlign: TextAlign.right,
-                                                                                    style: TextStyle(
-                                                                                        fontSize: 15,
-                                                                                        fontWeight: FontWeight.w600,
-                                                                                        color: Colors.Colors.white),
-                                                                                  ),
+                                                                                   textAlign: TextAlign.right,
+                                                                                   style: TextStyle(
+                                                                                       fontSize: 15,
+                                                                                       fontWeight: FontWeight.w600,
+                                                                                       color: Colors.Colors.white),
+                                                                                    ),
                                                                                 ),
                                                                               ),
                                                                             )
