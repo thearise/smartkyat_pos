@@ -529,189 +529,208 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                   ),
                 ),
                 SizedBox(height: 15,),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0,),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('INFORMATION', style: TextStyle(
-                              letterSpacing: 1.5,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,color: Colors.grey,
-                            ),),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20.0),
-                              child: TextFormField(
-                                //obscureText: _obscureText,
-                                controller: _accountName,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return ' This field is required ';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(
-                                  height: 0.95,
-                                ),
-                                decoration: InputDecoration(
-                                  enabledBorder: const OutlineInputBorder(
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance.collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).snapshots(),
+                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if(snapshot.hasData) {
+                    return Expanded(
+                      child: ListView(
+                          children:
+                          snapshot.data!.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> data = document.data()! as Map<
+                              String, dynamic>;
+                          String cName = data['name'];
+                          String cEmail = data['email'];
+                          _accountName.text = cName;
+                          _email.text = cEmail;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0,),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('INFORMATION', style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14, color: Colors.grey,
+                                ),),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20.0),
+                                  child: TextFormField(
+                                    //obscureText: _obscureText,
+                                    controller: _accountName,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return ' This field is required ';
+                                      }
+                                      return null;
+                                    },
+                                    style: TextStyle(
+                                      height: 0.95,
+                                    ),
+                                    decoration: InputDecoration(
+                                      enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                      borderSide: const BorderSide(
-                                          color: AppTheme.skBorderColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
+                                          borderSide: const BorderSide(
+                                              color: AppTheme.skBorderColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
 
-                                  focusedBorder: const OutlineInputBorder(
+                                      focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                      borderSide: const BorderSide(
-                                          color: AppTheme.themeColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 15.0,
-                                      right: 15.0,
-                                      top: 20.0,
-                                      bottom: 20.0),
-                                  suffixText: 'Required' ,
-                                  suffixStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                  ),
-                                 // errorText: wrongPassword,
-                                  errorStyle: TextStyle(
-                                      backgroundColor: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'capsulesans',
-                                      height: 0.1
-                                  ),
-                                  labelStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  ),
+                                          borderSide: const BorderSide(
+                                              color: AppTheme.themeColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 15.0,
+                                          right: 15.0,
+                                          top: 20.0,
+                                          bottom: 20.0),
+                                      suffixText: 'Required',
+                                      suffixStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                        fontFamily: 'capsulesans',
+                                      ),
+                                      // errorText: wrongPassword,
+                                      errorStyle: TextStyle(
+                                          backgroundColor: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',
+                                          height: 0.1
+                                      ),
+                                      labelStyle: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
 // errorText: 'Error message',
-                                  labelText: 'Account name',
-                                  floatingLabelBehavior:
-                                  FloatingLabelBehavior.auto,
+                                      labelText: 'Account name',
+                                      floatingLabelBehavior:
+                                      FloatingLabelBehavior.auto,
 //filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20.0),
-                              child: TextFormField(
-                                //obscureText: _obscureText,
-                                controller: _email,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return ' This field is required ';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(
-                                  height: 0.95,
-                                ),
-                                decoration: InputDecoration(
-                                  enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                      borderSide: const BorderSide(
-                                          color: AppTheme.skBorderColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-
-                                  focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                      borderSide: const BorderSide(
-                                          color: AppTheme.themeColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 15.0,
-                                      right: 15.0,
-                                      top: 20.0,
-                                      bottom: 20.0),
-                                  suffixText: 'Required' ,
-                                  suffixStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                  ),
-                                  //errorText: wrongPassword,
-                                  errorStyle: TextStyle(
-                                      backgroundColor: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'capsulesans',
-                                      height: 0.1
-                                  ),
-                                  labelStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  ),
-// errorText: 'Error message',
-                                  labelText: 'Email address',
-                                  floatingLabelBehavior:
-                                  FloatingLabelBehavior.auto,
-//filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 30,),
-                            ButtonTheme(
-                              minWidth: MediaQuery.of(context).size.width,
-                              splashColor: Colors.transparent,
-                              height: 50,
-                              child: FlatButton(
-                                color: AppTheme.themeColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    color: AppTheme.themeColor,
-                                  ),
-                                ),
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-
-
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5.0,
-                                      right: 5.0,
-                                      bottom: 2.0),
-                                  child: Container(
-                                    child: Text(
-                                      'Save and exit',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing:-0.1
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20.0),
+                                  child: TextFormField(
+                                    //obscureText: _obscureText,
+                                    controller: _email,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return ' This field is required ';
+                                      }
+                                      return null;
+                                    },
+                                    style: TextStyle(
+                                      height: 0.95,
+                                    ),
+                                    decoration: InputDecoration(
+                                      enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                          borderSide: const BorderSide(
+                                              color: AppTheme.skBorderColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+
+                                      focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                          borderSide: const BorderSide(
+                                              color: AppTheme.themeColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 15.0,
+                                          right: 15.0,
+                                          top: 20.0,
+                                          bottom: 20.0),
+                                      suffixText: 'Required',
+                                      suffixStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                        fontFamily: 'capsulesans',
+                                      ),
+                                      //errorText: wrongPassword,
+                                      errorStyle: TextStyle(
+                                          backgroundColor: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',
+                                          height: 0.1
+                                      ),
+                                      labelStyle: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+// errorText: 'Error message',
+                                      labelText: 'Email address',
+                                      floatingLabelBehavior:
+                                      FloatingLabelBehavior.auto,
+//filled: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 30,),
+                                ButtonTheme(
+                                  minWidth: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width,
+                                  splashColor: Colors.transparent,
+                                  height: 50,
+                                  child: FlatButton(
+                                    color: AppTheme.themeColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: AppTheme.themeColor,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+
+
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0,
+                                          right: 5.0,
+                                          bottom: 2.0),
+                                      child: Container(
+                                        child: Text(
+                                          'Save and exit',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: -0.1
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        }).toList(),
                       ),
-                    ],
-                  ),
+                    );
+                   }
+                   return Container();
+                  }
                 )
               ]
           ),
