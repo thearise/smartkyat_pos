@@ -67,619 +67,628 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           SafeArea(
             top: true,
             bottom: true,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-// mainAxisAlignment: MainAxisAlignment.end,
+            child: Stack(
               children: [
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  height: 85,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              color: AppTheme.skBorderColor, width: 2.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 35,
-                          height: 35,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5.0),
-                              ),
-                              color: Colors.grey.withOpacity(0.3)),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.close,
-                              size: 20,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              if (pnameCtrl.text.length > 0 ||
-                                  mcostCtrl.text.length > 0 ||
-                                  msaleCtrl.text.length > 0 ||
-                                  munitCtrl.text.length > 0 ||
-                                  mnameCtrl.text.length > 0 ||
-                                  bcodeCtrl.text.length > 0) {
-                                showOkCancelAlertDialog(
-                                  context: context,
-                                  title: 'Are you sure?',
-                                  message: 'You added data in some inputs.',
-                                  defaultType: OkCancelAlertDefaultType.cancel,
-                                ).then((result) {
-                                  if (result == OkCancelResult.ok) {
-                                    Navigator.pop(context);
-                                  }
-                                });
-                              } else {
-                                Navigator.pop(context);
-                              }
-                            },
-                          ),
-                        ),
-                        Text(
-                          "Add new product",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontFamily: 'capsulesans',
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.left,
-                        ),
-                        Container(
-                          width: 35,
-                          height: 35,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5.0),
-                              ),
-                              color: AppTheme.skThemeColor2),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.check,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                            onPressed: () async {
-                              prodFieldsValue = [];
-
-                              if (_formKey.currentState!.validate()) {
-                                DateTime now = DateTime.now();
-                                setState(() {
-                                  prodAdding = true;
-                                });
-                                print('validate ' + prodFieldsValue.toString());
-
-                                List<PersonEntry> entries = [];
-
-                                print('shit ' + entries.toString());
-
-                                print('here ' + assets.length.toString());
-                                photoUploadCount = 0;
-                                var photoArray = ['', '', '', '', ''];
-
-                                var prodExist = false;
-
-                                var productId = await FirebaseFirestore.instance
-                                    .collection('shops')
-                                    .doc(shopId)
-                                    .collection('products');
-
-                                   // productId.where('prod_name', isEqualTo: prodFieldsValue[0]).get().then((QuerySnapshot
-                                   //          querySnapshot) async {
-                                   //    querySnapshot.docs.forEach((doc) {
-                                   //      prodExist = true;
-                                   //    });
-
-                                      // if (prodExist) {
-                                      //   print('product already');
-                                      //   var result = await showOkAlertDialog(
-                                      //     context: context,
-                                      //     title: 'Warning',
-                                      //     message: 'Product name already!',
-                                      //     okLabel: 'OK',
-                                      //   );
-                                      //   setState(() {
-                                      //     prodAdding = false;
-                                      //   });
-                                      // }
-                                      // else {
-                                      //   for (int i = 0;
-                                      //       i < assets.length;
-                                      //       i++) {
-                                      //     AssetEntity asset =
-                                      //         assets.elementAt(i);
-                                      //     asset.originFile.then((value) async {
-                                      //       addProduct(value!).then((value) {
-                                      //         photoArray[i] = value.toString();
-                                      //         photoUploaded(
-                                      //             assets.length, photoArray);
-                                      //       });
-                                      //     });
-                                      //   }
-
-                                        if (assets.length == 0) {
-                                          var subUnitFieldValue = [
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                            '',
-                                          ];
-                                          int j = -1;
-                                          for (int i = 0;
-                                              i < cards.length;
-                                              i++) {
-                                            subUnitFieldValue[++j] =
-                                                nameTECs[i].text;
-                                            subUnitFieldValue[++j] =
-                                                ageTECs[i].text;
-                                            subUnitFieldValue[++j] =
-                                                jobTECs[i].text;
-                                            subUnitFieldValue[++j] =
-                                                priceTECs[i].text;
-                                            // var name = nameTECs[i].text;
-                                            // var age = ageTECs[i].text;
-                                            // var job = jobTECs[i].text;
-                                            // entries.add(PersonEntry(name, age, job));
-                                          }
-                                          print('gg nothing' +
-                                              subUnitFieldValue.toString());
-
-
-                                              String sub1_buy;
-                                              String sub2_buy;
-                                              String sub3_buy;
-                                              String subExist;
-                                              double mainStock;
-                                              double sub1Stock;
-                                              double sub2Stock;
-                                              double sub3Stock;
-                                              String mTotal;
-
-                                              if( subUnitFieldValue[0] != ''){
-                                                sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
-                                              } else
-                                              {
-                                                sub1_buy = '0';
-                                              }
-                                              if( subUnitFieldValue[4] != ''){
-                                                sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
-                                              } else
-                                              {
-                                                sub2_buy = '0';
-                                              }
-
-                                              if( subUnitFieldValue[8] != ''){
-                                                sub3_buy= (double.parse(sub2_buy)/double.parse(subUnitFieldValue[8])).toString();
-                                              } else
-                                              {
-                                                sub3_buy = '0';
-                                              }
-
-                                              if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
-                                                subExist = '1';
-                                              } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] == ''){
-                                                subExist = '2';
-                                              } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
-                                                subExist = '3';
-                                              } else subExist ='0';
-
-                                              if( prodFieldsValue[2] != '') {
-                                                mainStock=  double.parse(prodFieldsValue[2]);
-                                              mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();
-                                               } else { mainStock = 0;
-                                              mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();}
-
-                                              if( subUnitFieldValue[3] != '') {
-                                                sub1Stock=  double.parse(subUnitFieldValue[3]);
-                                                //sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
-                                              }
-                                              else {sub1Stock = 0;
-                                              //sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
-                                              }
-
-                                              if( subUnitFieldValue[7] != '') {
-                                                sub2Stock=  double.parse(subUnitFieldValue[7]);
-                                                //sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
-                                              }
-                                              else { sub2Stock = 0;
-                                              //sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
-                                              }
-
-                                              if( subUnitFieldValue[11] != '') {
-                                                sub3Stock =  double.parse(subUnitFieldValue[11]);
-                                                //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
-                                              }
-                                              else {
-                                                sub3Stock = 0;
-                                                //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
-                                              }
-
-                                              productId
-                                                  .where('prod_name',
-                                                      isEqualTo:
-                                                          prodFieldsValue[0])
-                                                  .get()
-                                                  .then((QuerySnapshot
-                                                      querySnapshot) async {
-                                                querySnapshot.docs
-                                                    .forEach((doc) {
-                                                  prodExist = true;
-                                                });
-
-                                                if (prodExist) {
-                                                  print('product already');
-                                                  var result =
-                                                      await showOkAlertDialog(
-                                                    context: context,
-                                                    title: 'Warning',
-                                                    message:
-                                                        'Product name already!',
-                                                    okLabel: 'OK',
-                                                  );
-                                                } else {
-                                                  CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
-                                                              shopId)
-                                                          .collection(
-                                                              'products');
-                                                  return shops.add({
-                                                    'prod_name':
-                                                        prodFieldsValue[0],
-                                                    'bar_code':
-                                                        prodFieldsValue[1],
-                                                    'unit_name':
-                                                        prodFieldsValue[3],
-                                                    'unit_sell':
-                                                        prodFieldsValue[5],
-                                                    'inStock1' : mainStock,
-                                                    'inStock2'  : sub1Stock,
-                                                    'inStock3' : sub2Stock,
-                                                    'inStock4' : sub3Stock,
-                                                      'buyPrice1' : prodFieldsValue[4],
-                                                      'buyPrice2' : sub1_buy,
-                                                      'buyPrice3' : sub2_buy,
-                                                       'buyPrice4' : sub3_buy,
-                                                    'sub1_link':
-                                                    subUnitFieldValue[0],
-                                                    'sub1_name':
-                                                        subUnitFieldValue[1],
-                                                    'sub1_sell':
-                                                        subUnitFieldValue[2],
-                                                    'sub2_link':
-                                                    subUnitFieldValue[4],
-                                                    'sub2_name':
-                                                        subUnitFieldValue[5],
-                                                    'sub2_sell':
-                                                        subUnitFieldValue[6],
-                                                    'sub3_link':
-                                                    subUnitFieldValue[8],
-                                                    'sub3_name':
-                                                        subUnitFieldValue[9],
-                                                    'sub3_sell':
-                                                        subUnitFieldValue[10],
-                                                    'sub_exist': subExist,
-                                                    'Loss1' : 0,
-                                                    'Loss2' : 0,
-                                                    'Loss3' : 0,
-                                                    'Loss4' : 0,
-                                                    'mTotal' : mTotal,
-                                                    'mainSellUnit' : 0,
-                                                    'sub1SellUnit' : 0,
-                                                    'sub2SellUnit' : 0,
-                                                    // 's1Total' : sub1Total,
-                                                    // 's2Total' : sub2Total,
-                                                    // 's3Total' : sub3Total,
-
-                                                    // 'unit_qtity': prodFieldsValue[2],
-                                                    // 'unit_name': prodFieldsValue[3],
-                                                    // 'buy_price': prodFieldsValue[4],
-                                                    // 'sale_price': prodFieldsValue[5],
-                                                    // 'sub1_unit': subUnitFieldValue[0],
-                                                    // 'sub1_name': subUnitFieldValue[1],
-                                                    // 'sub1_sale': subUnitFieldValue[2],
-                                                    // 'sub2_unit': subUnitFieldValue[3],
-                                                    // 'sub2_name': subUnitFieldValue[4],
-                                                    // 'sub2_sale': subUnitFieldValue[5],
-                                                    // 'sub3_unit': subUnitFieldValue[6],
-                                                    // 'sub3_name': subUnitFieldValue[7],
-                                                    // 'sub3_sale': subUnitFieldValue[8],
-                                                    'img_1': '',
-                                                    'img_2': '',
-                                                    'img_3': '',
-                                                    'img_4': '',
-                                                    'img_5': '',
-                                                  }).then((value) {
-                                                    print('product added');
-                                                    // setState(() {
-                                                    //   prodAdding = false;
-                                                    // });
-
-
-
-                                                    // FirebaseFirestore.instance
-                                                    //     .collection('space')
-                                                    //     .doc(
-                                                    //         '0NHIS0Jbn26wsgCzVBKT')
-                                                    //     .collection('shops')
-                                                    //     .doc(
-                                                    //         shopId)
-                                                    //     .collection('products')
-                                                    //     .doc(value.id)
-                                                    //     .collection('versions')
-                                                    //     .add({
-                                                    //   'date': zeroToTen(now.day
-                                                    //           .toString()) +
-                                                    //       zeroToTen(now.month
-                                                    //           .toString()) +
-                                                    //       zeroToTen(now.year
-                                                    //           .toString()),
-                                                    //   'unit_qtity':
-                                                    //       prodFieldsValue[2],
-                                                    //   'buy_price':
-                                                    //       prodFieldsValue[4],
-                                                    //   'type': 'main',
-                                                    // }).then((value) {
-                                                    //   print('product added 2');
-                                                    // });
-                                                    // print('sub1'+ prodFieldsValue[4]);
-                                                    // print('unit1'+ subUnitFieldValue[0]);
-                                                    // print('unit2'+ subUnitFieldValue[8]);
-                                                    // print('unit3'+ subUnitFieldValue[4]);
-                                                    // var sub1Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[0]);
-                                                    // var sub2Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[4]);
-                                                    // var sub3Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[8]);
-
-
-
-                                                    // FirebaseFirestore.instance
-                                                    //     .collection('space')
-                                                    //     .doc(
-                                                    //         '0NHIS0Jbn26wsgCzVBKT')
-                                                    //     .collection('shops')
-                                                    //     .doc(
-                                                    //         shopId)
-                                                    //     .collection('products')
-                                                    //     .doc(value.id)
-                                                    //     .collection('versions')
-                                                    //     .add({
-                                                    //   'date': zeroToTen(now.day
-                                                    //           .toString()) +
-                                                    //       zeroToTen(now.month
-                                                    //           .toString()) +
-                                                    //       zeroToTen(now.year
-                                                    //           .toString()),
-                                                    //   // 'unit_qtity':
-                                                    //   // prodFieldsValue[2] +
-                                                    //   // ' 0',
-                                                    //   // prodFieldsValue[4],
-                                                    //   // 'sale_price':
-                                                    //   // prodFieldsValue[5],
-                                                    //   'unit_qtity':
-                                                    //       subUnitFieldValue[3],
-                                                    //   'buy_price': sub1_buy,
-                                                    //   'type': 'sub1',
-                                                    // }).then((value) {
-                                                    //   print('product added 3');
-
-                                                    // });
-
-                                                    // FirebaseFirestore.instance
-                                                    //     .collection('space')
-                                                    //     .doc('0NHIS0Jbn26wsgCzVBKT')
-                                                    //     .collection('shops')
-                                                    //     .doc(shopId)
-                                                    //     .collection('products')
-                                                    //     .doc(value.id)
-                                                    //     .collection('versions')
-                                                    //     .add({
-                                                    //   'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
-                                                    //   'unit_qtity': subUnitFieldValue[7],
-                                                    //   'buy_price': sub2_buy,
-                                                    //   'type': 'sub2',
-                                                    // }).then((value) {
-                                                    //   print('product added 4');
-                                                    // });
-                                                      setState(() {
-                                                        prodAdding = false;
-                                                      });
-
-                                                      Navigator.pop(context);
-
-                                                      showFlash(
-                                                        context: context,
-                                                        duration:
-                                                            const Duration(
-                                                                seconds: 2),
-                                                        persistent: true,
-                                                        builder:
-                                                            (_, controller) {
-                                                          return Flash(
-                                                            controller:
-                                                                controller,
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            brightness:
-                                                                Brightness
-                                                                    .light,
-                                                            // boxShadows: [BoxShadow(blurRadius: 4)],
-                                                            // barrierBlur: 3.0,
-                                                            // barrierColor: Colors.black38,
-                                                            barrierDismissible:
-                                                                true,
-                                                            behavior:
-                                                                FlashBehavior
-                                                                    .floating,
-                                                            position:
-                                                                FlashPosition
-                                                                    .top,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      top:
-                                                                          80.0),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets
-                                                                        .only(
-                                                                    left: 15.0,
-                                                                    right:
-                                                                        15.0),
-                                                                child:
-                                                                    Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10.0),
-                                                                    color: Colors
-                                                                        .green,
-                                                                  ),
-                                                                  child:
-                                                                      FlashBar(
-                                                                    title: Text(
-                                                                        'Title'),
-                                                                    content: Text(
-                                                                        'Hello world!'),
-                                                                    // showProgressIndicator: true,
-                                                                    primaryAction:
-                                                                        TextButton(
-                                                                      onPressed:
-                                                                          () =>
-                                                                              controller.dismiss(),
-                                                                      child: Text(
-                                                                          'DISMISS',
-                                                                          style:
-                                                                              TextStyle(color: Colors.amber)),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-
-                                                    // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
-                                                    // .add({
-                                                    //   'prod_name': prodFieldsValue[0]
-                                                    // }).then((value) {
-                                                    //   print('product added 2');
-                                                    // });
-
-                                                    // Navigator.pop(context);
-                                                  });
-                                                }
-                                              });
-                                        }
-                              }
-
-// print('here ' + nameController.text.toString());
-// Navigator.pop(context, entries);
-
-// if (_formKey.currentState!.validate()) {
-//   // If the form is valid, display a snackbar. In the real world,
-//   // you'd often call a server or save the information in a database.
-//   ScaffoldMessenger.of(context).showSnackBar(
-//     const SnackBar(content: Text('Processing Data')),
-//   );
-//   // print(prodFieldsValue);
-//
-//   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
-//   var prodExist = false;
-//   var spaceDocId = '';
-//   FirebaseFirestore.instance
-//       .collection('space')
-//       .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-//       .get()
-//       .then((QuerySnapshot querySnapshot) {
-//     querySnapshot.docs.forEach((doc) {
-//       spaceDocId = doc.id;
-//     });
-//
-//     print('space shi p thar');
-//     getStoreId().then((String result2) {
-//       print('store id ' + result2.toString());
-//
-//       FirebaseFirestore.instance
-//           .collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products')
-//           .where('prod_name', isEqualTo: prodFieldsValue[0])
-//           .get()
-//           .then((QuerySnapshot querySnapshot) async {
-//         querySnapshot.docs.forEach((doc) {
-//           prodExist = true;
-//         });
-//
-//         if(prodExist) {
-//           print('product already');
-//           var result = await showOkAlertDialog(
-//               context: context,
-//               title: 'Warning',
-//               message: 'Product name already!',
-//               okLabel: 'OK',
-//           );
-//
-//         } else {
-//           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products');
-//           return shops
-//               .add({
-//             'prod_name': prodFieldsValue[0]
-//           })
-//               .then((value) {
-//             print('product added');
-//
-//             Navigator.pop(context);
-//           });
-//         }
-//       });
-//     });
-//   });
-// }
-                            },
-                          ),
-                        )
-                      ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+// mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: ListView(
-                      children: [
-                        Container(
-// height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15.0),
-                              topRight: Radius.circular(15.0),
+//                 Container(
+//                   height: 85,
+//                   decoration: BoxDecoration(
+//                       border: Border(
+//                           bottom: BorderSide(
+//                               color: AppTheme.skBorderColor, width: 2.0))),
+//                   child: Padding(
+//                     padding: const EdgeInsets.only(
+//                         left: 15.0, right: 15.0, top: 20.0),
+//                     child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       children: [
+//                         Container(
+//                           width: 35,
+//                           height: 35,
+//                           decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.all(
+//                                 Radius.circular(5.0),
+//                               ),
+//                               color: Colors.grey.withOpacity(0.3)),
+//                           child: IconButton(
+//                             icon: Icon(
+//                               Icons.close,
+//                               size: 20,
+//                               color: Colors.black,
+//                             ),
+//                             onPressed: () {
+//                               if (pnameCtrl.text.length > 0 ||
+//                                   mcostCtrl.text.length > 0 ||
+//                                   msaleCtrl.text.length > 0 ||
+//                                   munitCtrl.text.length > 0 ||
+//                                   mnameCtrl.text.length > 0 ||
+//                                   bcodeCtrl.text.length > 0) {
+//                                 showOkCancelAlertDialog(
+//                                   context: context,
+//                                   title: 'Are you sure?',
+//                                   message: 'You added data in some inputs.',
+//                                   defaultType: OkCancelAlertDefaultType.cancel,
+//                                 ).then((result) {
+//                                   if (result == OkCancelResult.ok) {
+//                                     Navigator.pop(context);
+//                                   }
+//                                 });
+//                               } else {
+//                                 Navigator.pop(context);
+//                               }
+//                             },
+//                           ),
+//                         ),
+//                         Text(
+//                           "Add new product",
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 17,
+//                               fontFamily: 'capsulesans',
+//                               fontWeight: FontWeight.w600),
+//                           textAlign: TextAlign.left,
+//                         ),
+//                         Container(
+//                           width: 35,
+//                           height: 35,
+//                           decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.all(
+//                                 Radius.circular(5.0),
+//                               ),
+//                               color: AppTheme.themeColor),
+//                           child: IconButton(
+//                             icon: Icon(
+//                               Icons.check,
+//                               size: 20,
+//                               color: Colors.white,
+//                             ),
+//                             onPressed: () async {
+//                               prodFieldsValue = [];
+//
+//                               if (_formKey.currentState!.validate()) {
+//                                 DateTime now = DateTime.now();
+//                                 setState(() {
+//                                   prodAdding = true;
+//                                 });
+//                                 print('validate ' + prodFieldsValue.toString());
+//
+//                                 List<PersonEntry> entries = [];
+//
+//                                 print('shit ' + entries.toString());
+//
+//                                 print('here ' + assets.length.toString());
+//                                 photoUploadCount = 0;
+//                                 var photoArray = ['', '', '', '', ''];
+//
+//                                 var prodExist = false;
+//
+//                                 var productId = await FirebaseFirestore.instance
+//                                     .collection('shops')
+//                                     .doc(shopId)
+//                                     .collection('products');
+//
+//                                    // productId.where('prod_name', isEqualTo: prodFieldsValue[0]).get().then((QuerySnapshot
+//                                    //          querySnapshot) async {
+//                                    //    querySnapshot.docs.forEach((doc) {
+//                                    //      prodExist = true;
+//                                    //    });
+//
+//                                       // if (prodExist) {
+//                                       //   print('product already');
+//                                       //   var result = await showOkAlertDialog(
+//                                       //     context: context,
+//                                       //     title: 'Warning',
+//                                       //     message: 'Product name already!',
+//                                       //     okLabel: 'OK',
+//                                       //   );
+//                                       //   setState(() {
+//                                       //     prodAdding = false;
+//                                       //   });
+//                                       // }
+//                                       // else {
+//                                       //   for (int i = 0;
+//                                       //       i < assets.length;
+//                                       //       i++) {
+//                                       //     AssetEntity asset =
+//                                       //         assets.elementAt(i);
+//                                       //     asset.originFile.then((value) async {
+//                                       //       addProduct(value!).then((value) {
+//                                       //         photoArray[i] = value.toString();
+//                                       //         photoUploaded(
+//                                       //             assets.length, photoArray);
+//                                       //       });
+//                                       //     });
+//                                       //   }
+//
+//                                         if (assets.length == 0) {
+//                                           var subUnitFieldValue = [
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                             '',
+//                                           ];
+//                                           int j = -1;
+//                                           for (int i = 0;
+//                                               i < cards.length;
+//                                               i++) {
+//                                             subUnitFieldValue[++j] =
+//                                                 nameTECs[i].text;
+//                                             subUnitFieldValue[++j] =
+//                                                 ageTECs[i].text;
+//                                             subUnitFieldValue[++j] =
+//                                                 jobTECs[i].text;
+//                                             subUnitFieldValue[++j] =
+//                                                 priceTECs[i].text;
+//                                             // var name = nameTECs[i].text;
+//                                             // var age = ageTECs[i].text;
+//                                             // var job = jobTECs[i].text;
+//                                             // entries.add(PersonEntry(name, age, job));
+//                                           }
+//                                           print('gg nothing' +
+//                                               subUnitFieldValue.toString());
+//
+//
+//                                               String sub1_buy;
+//                                               String sub2_buy;
+//                                               String sub3_buy;
+//                                               String subExist;
+//                                               double mainStock;
+//                                               double sub1Stock;
+//                                               double sub2Stock;
+//                                               double sub3Stock;
+//                                               String mTotal;
+//
+//                                               if( subUnitFieldValue[0] != ''){
+//                                                 sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
+//                                               } else
+//                                               {
+//                                                 sub1_buy = '0';
+//                                               }
+//                                               if( subUnitFieldValue[4] != ''){
+//                                                 sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
+//                                               } else
+//                                               {
+//                                                 sub2_buy = '0';
+//                                               }
+//
+//                                               if( subUnitFieldValue[8] != ''){
+//                                                 sub3_buy= (double.parse(sub2_buy)/double.parse(subUnitFieldValue[8])).toString();
+//                                               } else
+//                                               {
+//                                                 sub3_buy = '0';
+//                                               }
+//
+//                                               if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
+//                                                 subExist = '1';
+//                                               } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] == ''){
+//                                                 subExist = '2';
+//                                               } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
+//                                                 subExist = '3';
+//                                               } else subExist ='0';
+//
+//                                               if( prodFieldsValue[2] != '') {
+//                                                 mainStock=  double.parse(prodFieldsValue[2]);
+//                                               mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();
+//                                                } else { mainStock = 0;
+//                                               mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();}
+//
+//                                               if( subUnitFieldValue[3] != '') {
+//                                                 sub1Stock=  double.parse(subUnitFieldValue[3]);
+//                                                 //sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+//                                               }
+//                                               else {sub1Stock = 0;
+//                                               //sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+//                                               }
+//
+//                                               if( subUnitFieldValue[7] != '') {
+//                                                 sub2Stock=  double.parse(subUnitFieldValue[7]);
+//                                                 //sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+//                                               }
+//                                               else { sub2Stock = 0;
+//                                               //sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+//                                               }
+//
+//                                               if( subUnitFieldValue[11] != '') {
+//                                                 sub3Stock =  double.parse(subUnitFieldValue[11]);
+//                                                 //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
+//                                               }
+//                                               else {
+//                                                 sub3Stock = 0;
+//                                                 //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
+//                                               }
+//
+//                                               productId
+//                                                   .where('prod_name',
+//                                                       isEqualTo:
+//                                                           prodFieldsValue[0])
+//                                                   .get()
+//                                                   .then((QuerySnapshot
+//                                                       querySnapshot) async {
+//                                                 querySnapshot.docs
+//                                                     .forEach((doc) {
+//                                                   prodExist = true;
+//                                                 });
+//
+//                                                 if (prodExist) {
+//                                                   print('product already');
+//                                                   var result =
+//                                                       await showOkAlertDialog(
+//                                                     context: context,
+//                                                     title: 'Warning',
+//                                                     message:
+//                                                         'Product name already!',
+//                                                     okLabel: 'OK',
+//                                                   );
+//                                                 } else {
+//                                                   CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
+//                                                               shopId)
+//                                                           .collection(
+//                                                               'products');
+//                                                   return shops.add({
+//                                                     'prod_name':
+//                                                         prodFieldsValue[0],
+//                                                     'bar_code':
+//                                                         prodFieldsValue[1],
+//                                                     'unit_name':
+//                                                         prodFieldsValue[3],
+//                                                     'unit_sell':
+//                                                         prodFieldsValue[5],
+//                                                     'inStock1' : mainStock,
+//                                                     'inStock2'  : sub1Stock,
+//                                                     'inStock3' : sub2Stock,
+//                                                     'inStock4' : sub3Stock,
+//                                                       'buyPrice1' : prodFieldsValue[4],
+//                                                       'buyPrice2' : sub1_buy,
+//                                                       'buyPrice3' : sub2_buy,
+//                                                        'buyPrice4' : sub3_buy,
+//                                                     'sub1_link':
+//                                                     subUnitFieldValue[0],
+//                                                     'sub1_name':
+//                                                         subUnitFieldValue[1],
+//                                                     'sub1_sell':
+//                                                         subUnitFieldValue[2],
+//                                                     'sub2_link':
+//                                                     subUnitFieldValue[4],
+//                                                     'sub2_name':
+//                                                         subUnitFieldValue[5],
+//                                                     'sub2_sell':
+//                                                         subUnitFieldValue[6],
+//                                                     'sub3_link':
+//                                                     subUnitFieldValue[8],
+//                                                     'sub3_name':
+//                                                         subUnitFieldValue[9],
+//                                                     'sub3_sell':
+//                                                         subUnitFieldValue[10],
+//                                                     'sub_exist': subExist,
+//                                                     'Loss1' : 0,
+//                                                     'Loss2' : 0,
+//                                                     'Loss3' : 0,
+//                                                     'Loss4' : 0,
+//                                                     'mTotal' : mTotal,
+//                                                     'mainSellUnit' : 0,
+//                                                     'sub1SellUnit' : 0,
+//                                                     'sub2SellUnit' : 0,
+//                                                     // 's1Total' : sub1Total,
+//                                                     // 's2Total' : sub2Total,
+//                                                     // 's3Total' : sub3Total,
+//
+//                                                     // 'unit_qtity': prodFieldsValue[2],
+//                                                     // 'unit_name': prodFieldsValue[3],
+//                                                     // 'buy_price': prodFieldsValue[4],
+//                                                     // 'sale_price': prodFieldsValue[5],
+//                                                     // 'sub1_unit': subUnitFieldValue[0],
+//                                                     // 'sub1_name': subUnitFieldValue[1],
+//                                                     // 'sub1_sale': subUnitFieldValue[2],
+//                                                     // 'sub2_unit': subUnitFieldValue[3],
+//                                                     // 'sub2_name': subUnitFieldValue[4],
+//                                                     // 'sub2_sale': subUnitFieldValue[5],
+//                                                     // 'sub3_unit': subUnitFieldValue[6],
+//                                                     // 'sub3_name': subUnitFieldValue[7],
+//                                                     // 'sub3_sale': subUnitFieldValue[8],
+//                                                     'img_1': '',
+//                                                     'img_2': '',
+//                                                     'img_3': '',
+//                                                     'img_4': '',
+//                                                     'img_5': '',
+//                                                   }).then((value) {
+//                                                     print('product added');
+//                                                     // setState(() {
+//                                                     //   prodAdding = false;
+//                                                     // });
+//
+//
+//
+//                                                     // FirebaseFirestore.instance
+//                                                     //     .collection('space')
+//                                                     //     .doc(
+//                                                     //         '0NHIS0Jbn26wsgCzVBKT')
+//                                                     //     .collection('shops')
+//                                                     //     .doc(
+//                                                     //         shopId)
+//                                                     //     .collection('products')
+//                                                     //     .doc(value.id)
+//                                                     //     .collection('versions')
+//                                                     //     .add({
+//                                                     //   'date': zeroToTen(now.day
+//                                                     //           .toString()) +
+//                                                     //       zeroToTen(now.month
+//                                                     //           .toString()) +
+//                                                     //       zeroToTen(now.year
+//                                                     //           .toString()),
+//                                                     //   'unit_qtity':
+//                                                     //       prodFieldsValue[2],
+//                                                     //   'buy_price':
+//                                                     //       prodFieldsValue[4],
+//                                                     //   'type': 'main',
+//                                                     // }).then((value) {
+//                                                     //   print('product added 2');
+//                                                     // });
+//                                                     // print('sub1'+ prodFieldsValue[4]);
+//                                                     // print('unit1'+ subUnitFieldValue[0]);
+//                                                     // print('unit2'+ subUnitFieldValue[8]);
+//                                                     // print('unit3'+ subUnitFieldValue[4]);
+//                                                     // var sub1Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[0]);
+//                                                     // var sub2Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[4]);
+//                                                     // var sub3Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[8]);
+//
+//
+//
+//                                                     // FirebaseFirestore.instance
+//                                                     //     .collection('space')
+//                                                     //     .doc(
+//                                                     //         '0NHIS0Jbn26wsgCzVBKT')
+//                                                     //     .collection('shops')
+//                                                     //     .doc(
+//                                                     //         shopId)
+//                                                     //     .collection('products')
+//                                                     //     .doc(value.id)
+//                                                     //     .collection('versions')
+//                                                     //     .add({
+//                                                     //   'date': zeroToTen(now.day
+//                                                     //           .toString()) +
+//                                                     //       zeroToTen(now.month
+//                                                     //           .toString()) +
+//                                                     //       zeroToTen(now.year
+//                                                     //           .toString()),
+//                                                     //   // 'unit_qtity':
+//                                                     //   // prodFieldsValue[2] +
+//                                                     //   // ' 0',
+//                                                     //   // prodFieldsValue[4],
+//                                                     //   // 'sale_price':
+//                                                     //   // prodFieldsValue[5],
+//                                                     //   'unit_qtity':
+//                                                     //       subUnitFieldValue[3],
+//                                                     //   'buy_price': sub1_buy,
+//                                                     //   'type': 'sub1',
+//                                                     // }).then((value) {
+//                                                     //   print('product added 3');
+//
+//                                                     // });
+//
+//                                                     // FirebaseFirestore.instance
+//                                                     //     .collection('space')
+//                                                     //     .doc('0NHIS0Jbn26wsgCzVBKT')
+//                                                     //     .collection('shops')
+//                                                     //     .doc(shopId)
+//                                                     //     .collection('products')
+//                                                     //     .doc(value.id)
+//                                                     //     .collection('versions')
+//                                                     //     .add({
+//                                                     //   'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
+//                                                     //   'unit_qtity': subUnitFieldValue[7],
+//                                                     //   'buy_price': sub2_buy,
+//                                                     //   'type': 'sub2',
+//                                                     // }).then((value) {
+//                                                     //   print('product added 4');
+//                                                     // });
+//                                                       setState(() {
+//                                                         prodAdding = false;
+//                                                       });
+//
+//                                                       Navigator.pop(context);
+//
+//                                                       showFlash(
+//                                                         context: context,
+//                                                         duration:
+//                                                             const Duration(
+//                                                                 seconds: 2),
+//                                                         persistent: true,
+//                                                         builder:
+//                                                             (_, controller) {
+//                                                           return Flash(
+//                                                             controller:
+//                                                                 controller,
+//                                                             backgroundColor:
+//                                                                 Colors
+//                                                                     .transparent,
+//                                                             brightness:
+//                                                                 Brightness
+//                                                                     .light,
+//                                                             // boxShadows: [BoxShadow(blurRadius: 4)],
+//                                                             // barrierBlur: 3.0,
+//                                                             // barrierColor: Colors.black38,
+//                                                             barrierDismissible:
+//                                                                 true,
+//                                                             behavior:
+//                                                                 FlashBehavior
+//                                                                     .floating,
+//                                                             position:
+//                                                                 FlashPosition
+//                                                                     .top,
+//                                                             child: Padding(
+//                                                               padding:
+//                                                                   const EdgeInsets
+//                                                                           .only(
+//                                                                       top:
+//                                                                           80.0),
+//                                                               child: Padding(
+//                                                                 padding: const EdgeInsets
+//                                                                         .only(
+//                                                                     left: 15.0,
+//                                                                     right:
+//                                                                         15.0),
+//                                                                 child:
+//                                                                     Container(
+//                                                                   decoration:
+//                                                                       BoxDecoration(
+//                                                                     borderRadius:
+//                                                                         BorderRadius.circular(
+//                                                                             10.0),
+//                                                                     color: Colors
+//                                                                         .green,
+//                                                                   ),
+//                                                                   child:
+//                                                                       FlashBar(
+//                                                                     title: Text(
+//                                                                         'Title'),
+//                                                                     content: Text(
+//                                                                         'Hello world!'),
+//                                                                     // showProgressIndicator: true,
+//                                                                     primaryAction:
+//                                                                         TextButton(
+//                                                                       onPressed:
+//                                                                           () =>
+//                                                                               controller.dismiss(),
+//                                                                       child: Text(
+//                                                                           'DISMISS',
+//                                                                           style:
+//                                                                               TextStyle(color: Colors.amber)),
+//                                                                     ),
+//                                                                   ),
+//                                                                 ),
+//                                                               ),
+//                                                             ),
+//                                                           );
+//                                                         },
+//                                                       );
+//
+//                                                     // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
+//                                                     // .add({
+//                                                     //   'prod_name': prodFieldsValue[0]
+//                                                     // }).then((value) {
+//                                                     //   print('product added 2');
+//                                                     // });
+//
+//                                                     // Navigator.pop(context);
+//                                                   });
+//                                                 }
+//                                               });
+//                                         }
+//                               }
+//
+// // print('here ' + nameController.text.toString());
+// // Navigator.pop(context, entries);
+//
+// // if (_formKey.currentState!.validate()) {
+// //   // If the form is valid, display a snackbar. In the real world,
+// //   // you'd often call a server or save the information in a database.
+// //   ScaffoldMessenger.of(context).showSnackBar(
+// //     const SnackBar(content: Text('Processing Data')),
+// //   );
+// //   // print(prodFieldsValue);
+// //
+// //   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
+// //   var prodExist = false;
+// //   var spaceDocId = '';
+// //   FirebaseFirestore.instance
+// //       .collection('space')
+// //       .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+// //       .get()
+// //       .then((QuerySnapshot querySnapshot) {
+// //     querySnapshot.docs.forEach((doc) {
+// //       spaceDocId = doc.id;
+// //     });
+// //
+// //     print('space shi p thar');
+// //     getStoreId().then((String result2) {
+// //       print('store id ' + result2.toString());
+// //
+// //       FirebaseFirestore.instance
+// //           .collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products')
+// //           .where('prod_name', isEqualTo: prodFieldsValue[0])
+// //           .get()
+// //           .then((QuerySnapshot querySnapshot) async {
+// //         querySnapshot.docs.forEach((doc) {
+// //           prodExist = true;
+// //         });
+// //
+// //         if(prodExist) {
+// //           print('product already');
+// //           var result = await showOkAlertDialog(
+// //               context: context,
+// //               title: 'Warning',
+// //               message: 'Product name already!',
+// //               okLabel: 'OK',
+// //           );
+// //
+// //         } else {
+// //           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products');
+// //           return shops
+// //               .add({
+// //             'prod_name': prodFieldsValue[0]
+// //           })
+// //               .then((value) {
+// //             print('product added');
+// //
+// //             Navigator.pop(context);
+// //           });
+// //         }
+// //       });
+// //     });
+// //   });
+// // }
+//                             },
+//                           ),
+//                         )
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+                    Expanded(
+                      child: Container(
+                        child: ListView(
+                          children: [
+                            SizedBox(
+                              height: 15,
                             ),
-                            color: Colors.white,
-                          ),
+                            Container(
+// height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15.0),
+                                  topRight: Radius.circular(15.0),
+                                ),
+                                color: Colors.white,
+                              ),
 
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
 // Row(
 //   mainAxisAlignment: MainAxisAlignment.start,
 //   children: [
@@ -710,512 +719,250 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //   ],
 // ),
 
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(top: 20, left: 15),
-                                  child: Text(
-                                    "PRODUCT INFORMATION",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13,
-                                      letterSpacing: 2,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-
-                                Container(
-                                  height: assets.isNotEmpty ? 200 : 100,
-                                  child: Column(
-                                    children: [
-                                      if (assets.isNotEmpty)
-                                        GestureDetector(
-                                          onTap: () {
-                                            widget._callback();
-                                            print('_waitUntilDone ' +
-                                                assets.length.toString());
-                                          },
-                                          child: SelectedAssetsListView(
-                                            assets: assets,
-                                            isDisplayingDetail:
-                                                isDisplayingDetail,
-                                            onResult: onResult,
-                                            onRemoveAsset: removeAsset,
-                                          ),
-                                        ),
-                                      Expanded(
-                                        child: MethodListView(
-                                          pickMethods: [
-                                            PickMethod.cameraAndStay(
-                                              maxAssetsCount: 5,
-                                            ),
-                                          ],
-                                          onSelectMethod: selectAssets,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, right: 15.0),
-                                  child: TextFormField(
-// The validator receives the text that the user has entered.
-                                    controller: pnameCtrl,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This field is required';
-                                      }
-                                      prodFieldsValue.add(value);
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skBorderColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skThemeColor2,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 15.0,
-                                          right: 15.0,
-                                          top: 18.0,
-                                          bottom: 18.0),
-                                      suffixText: 'Required',
-                                      suffixStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                        fontFamily: 'capsulesans',
-                                      ),
-                                      labelStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-// errorText: 'Error message',
-                                      labelText: 'Product name',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-//filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(top: 20, left: 15),
-                                  child: Text(
-                                    "OTHER INFORMATION",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13,
-                                      letterSpacing: 2,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, right: 15.0),
-                                  child: TextFormField(
-                                    controller: bcodeCtrl,
-// The validator receives the text that the user has entered.
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This field is required';
-                                      }
-                                      prodFieldsValue.add(value);
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skBorderColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skThemeColor2,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 15.0,
-                                          right: 15.0,
-                                          top: 18.0,
-                                          bottom: 18.0),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(
-                                          Icons.bar_chart,
-                                          color: Colors.green,
-                                          size: 30,
-                                        ),
-                                        onPressed: () async {
-                                          print("Barcode");
-                                          var code = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    QRViewExample()),
-                                          );
-                                          bcodeCtrl.text = code;
-                                          print('bar bar ' + code);
-                                        },
-                                      ),
-                                      suffixText: 'Required',
-                                      suffixStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                        fontFamily: 'capsulesans',
-                                      ),
-                                      labelStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-// errorText: 'Error message',
-                                      labelText: 'Barcode',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-//filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(top: 20, left: 15),
-                                  child: Text(
-                                    "MAIN UNIT QUANTITY",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13,
-                                      letterSpacing: 2,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                            (MediaQuery.of(context).size.width -
-                                                    30) *
-                                                (2.41 / 4),
-                                        // child: TextField(
-                                        //     controller: nameController,
-                                        //     decoration: InputDecoration(labelText: 'Full Name')
-                                        // ),
-                                        child: TextFormField(
-                                          controller: munitCtrl,
-// The validator receives the text that the user has entered.
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'This field is required';
-                                            }
-                                            prodFieldsValue.add(value);
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            enabledBorder:
-                                                const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                    borderSide:
-                                                        const BorderSide(
-                                                            color: AppTheme
-                                                                .skBorderColor,
-                                                            width: 2.0),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10.0))),
-
-                                            focusedBorder:
-                                                const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                    borderSide:
-                                                        const BorderSide(
-                                                            color: AppTheme
-                                                                .skThemeColor2,
-                                                            width: 2.0),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10.0))),
-                                            contentPadding:
-                                                const EdgeInsets.only(
-                                                    left: 15.0,
-                                                    right: 15.0,
-                                                    top: 18.0,
-                                                    bottom: 18.0),
-                                            suffixText: 'Required',
-                                            suffixStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-// errorText: 'Error message',
-                                            labelText: 'Unit quantity',
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.auto,
-//filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        width:
-                                            (MediaQuery.of(context).size.width -
-                                                    30) *
-                                                (1.41 / 4),
-                                        child: TextFormField(
-                                          controller: mnameCtrl,
-                                          // The validator receives the text that the user has entered.
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'This field is required';
-                                            }
-                                            prodFieldsValue.add(value);
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            enabledBorder:
-                                                const OutlineInputBorder(
-                                                    // width: 0.0 produces a thin "hairline" border
-                                                    borderSide:
-                                                        const BorderSide(
-                                                            color: AppTheme
-                                                                .skBorderColor,
-                                                            width: 2.0),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10.0))),
-
-                                            focusedBorder:
-                                                const OutlineInputBorder(
-                                                    // width: 0.0 produces a thin "hairline" border
-                                                    borderSide:
-                                                        const BorderSide(
-                                                            color: AppTheme
-                                                                .skThemeColor2,
-                                                            width: 2.0),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10.0))),
-                                            contentPadding:
-                                                const EdgeInsets.only(
-                                                    left: 15.0,
-                                                    right: 15.0,
-                                                    top: 18.0,
-                                                    bottom: 18.0),
-                                            suffixText: 'Required',
-                                            suffixStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                            // errorText: 'Error message',
-                                            labelText: 'Unit name',
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.auto,
-                                            //filled: true,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, right: 15.0),
-                                  child: TextFormField(
-                                    controller: msaleCtrl,
-// The validator receives the text that the user has entered.
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This field is required';
-                                      }
-                                      prodFieldsValue.add(value);
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skBorderColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skThemeColor2,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 15.0,
-                                          right: 15.0,
-                                          top: 18.0,
-                                          bottom: 18.0),
-                                      suffixText: 'MMK',
-                                      suffixStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
-                                        fontSize: 12,
-//fontFamily: 'capsulesans',
-                                      ),
-                                      labelStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-// errorText: 'Error message',
-                                      labelText: 'Buy price',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-//filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, right: 15.0),
-                                  child: TextFormField(
-                                    controller: mcostCtrl,
-// The validator receives the text that the user has entered.
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'This field is required';
-                                      }
-                                      prodFieldsValue.add(value);
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skBorderColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skThemeColor2,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 15.0,
-                                          right: 15.0,
-                                          top: 18.0,
-                                          bottom: 18.0),
-                                      suffixText: 'MMK',
-                                      suffixStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey,
-                                        fontSize: 12,
-//fontFamily: 'capsulesans',
-                                      ),
-                                      labelStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-// errorText: 'Error message',
-                                      labelText: 'Sale price',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-//filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Column(
-                                  children: <Widget>[
                                     Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15.0, right: 15.0),
-                                        child: ButtonTheme(
-                                          splashColor: Colors.transparent,
-                                          minWidth:
-                                              MediaQuery.of(context).size.width,
-                                          height: 54,
-                                          child: FlatButton(
-                                            color: AppTheme.secButtonColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                      child: Text('PRODUCT INFORMATION', style: TextStyle(
+                                        letterSpacing: 1.5,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,color: Colors.grey,
+                                      ),),
+                                    ),
+                                    SizedBox(
+                                      height: 1,
+                                    ),
+
+                                    Container(
+                                      height: assets.isNotEmpty ? 203 : 82,
+                                      child: Column(
+                                        children: [
+                                          if (assets.isNotEmpty)
+                                            GestureDetector(
+                                              onTap: () {
+                                                widget._callback();
+                                                print('_waitUntilDone ' +
+                                                    assets.length.toString());
+                                              },
+                                              child: SelectedAssetsListView(
+                                                assets: assets,
+                                                isDisplayingDetail:
+                                                    isDisplayingDetail,
+                                                onResult: onResult,
+                                                onRemoveAsset: removeAsset,
+                                              ),
                                             ),
+                                          Expanded(
+                                            child: MethodListView(
+                                              pickMethods: [
+                                                PickMethod.cameraAndStay(
+                                                  maxAssetsCount: 5,
+                                                ),
+                                              ],
+                                              onSelectMethod: selectAssets,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0),
+                                      child: TextFormField(
+// The validator receives the text that the user has entered.
+                                        controller: pnameCtrl,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return ' This field is required ';
+                                          }
+                                          prodFieldsValue.add(value);
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.skBorderColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+
+                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.themeColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 15.0,
+                                              right: 15.0,
+                                              top: 18.0,
+                                              bottom: 18.0),
+                                          suffixText: 'Required',
+                                          errorStyle: TextStyle(
+                                              backgroundColor: Colors.white,
+                                              fontSize: 12,
+                                              fontFamily: 'capsulesans',
+                                              height: 0.1
+                                          ),
+                                          suffixStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                            fontFamily: 'capsulesans',
+                                          ),
+                                          labelStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                          ),
+// errorText: 'Error message',
+                                          labelText: 'Product name',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+//filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   alignment: Alignment.topLeft,
+                                    //   padding: EdgeInsets.only(top: 20, left: 15),
+                                    //   child: Text(
+                                    //     "OTHER INFORMATION",
+                                    //     style: TextStyle(
+                                    //       fontWeight: FontWeight.bold,
+                                    //       fontSize: 13,
+                                    //       letterSpacing: 2,
+                                    //       color: Colors.grey,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0),
+                                      child: TextFormField(
+                                        controller: bcodeCtrl,
+// The validator receives the text that the user has entered.
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return ' This field is required ';
+                                          }
+                                          prodFieldsValue.add(value);
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.skBorderColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+
+                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.themeColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 15.0,
+                                              right: 15.0,
+                                              top: 18.0,
+                                              bottom: 18.0),
+                                          suffixIcon: IconButton(
+                                            icon: Image.asset('assets/system/barcode.png', height: 28,),
                                             onPressed: () async {
+                                              print("Barcode");
+                                              // var code = await Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           QRViewExample()),
+                                              // );
+
+                                              var code = await Navigator.of(context).push(
+                                                FadeRoute(page: QRViewExample()),
+                                              );
+                                              bcodeCtrl.text = code;
+                                              print('bar bar ' + code);
+                                            },
+                                          ),
+                                          suffixText: 'Required',
+                                          suffixStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                            fontFamily: 'capsulesans',
+                                          ),
+                                          errorStyle: TextStyle(
+                                              backgroundColor: Colors.white,
+                                              fontSize: 12,
+                                              fontFamily: 'capsulesans',
+                                              height: 0.1
+                                          ),
+                                          labelStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                          ),
+// errorText: 'Error message',
+                                          labelText: 'Barcode',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+//filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    // Container(
+                                    //   alignment: Alignment.topLeft,
+                                    //   padding: EdgeInsets.only(top: 20, left: 15),
+                                    //   child: Text(
+                                    //     "MAIN UNIT QUANTITY",
+                                    //     style: TextStyle(
+                                    //       fontWeight: FontWeight.bold,
+                                    //       fontSize: 13,
+                                    //       letterSpacing: 2,
+                                    //       color: Colors.grey,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    // SizedBox(height: 15),
+                                    // Container(
+                                    //   decoration: BoxDecoration(
+                                    //       color: Colors.white,
+                                    //       border: Border(
+                                    //         top: BorderSide(
+                                    //             color:
+                                    //             AppTheme.skBorderColor2,
+                                    //             width: 1.0),
+                                    //       )),
+                                    //   width: double.infinity,
+                                    // ),
+                                    SizedBox(height: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text('MAIN UNIT QUANTITY', style: TextStyle(
+                                              letterSpacing: 1.5,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,color: Colors.grey,
+                                            ),),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
                                               // final result =
                                               // await showModalActionSheet<String>(
                                               //     context: context,
-                                               //     actions: [
+                                              //     actions: [
                                               //      SheetAction(
                                               //           icon: Icons.info,
                                               //           label: 'Type One',
@@ -1228,43 +975,870 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               // );
 
                                               if (cards.length == 2) {
-                                        print('Cards limit reached');
-                                        } else
-                                            setState(() =>
-                              cards.add(createCard())); 
-                                        },
-                                            child: Text(
-                                              'Add sub unit',
-                                              style: TextStyle(
-                                                fontSize: 16.5,
-                                                fontWeight: FontWeight.w600,
+                                                print('Cards limit reached');
+                                              } else
+                                                setState(() => cards.add(createCard()));
+                                            },
+                                            child: Text('SUB UNIT?', style: TextStyle(
+                                              letterSpacing: 1.5,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,color: Colors.blue,
+                                            ),),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width:
+                                                (MediaQuery.of(context).size.width -
+                                                        30) *
+                                                    (2.41 / 4),
+                                            // child: TextField(
+                                            //     controller: nameController,
+                                            //     decoration: InputDecoration(labelText: 'Full Name')
+                                            // ),
+                                            child: TextFormField(
+                                              controller: munitCtrl,
+// The validator receives the text that the user has entered.
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return ' This field is required ';
+                                                }
+                                                prodFieldsValue.add(value);
+                                                return null;
+                                              },
+                                              decoration: InputDecoration(
+                                                enabledBorder:
+                                                    const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color: AppTheme
+                                                                    .skBorderColor,
+                                                                width: 2.0),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0))),
+
+                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding:
+                                                    const EdgeInsets.only(
+                                                        left: 15.0,
+                                                        right: 15.0,
+                                                        top: 18.0,
+                                                        bottom: 18.0),
+                                                suffixText: 'Required',
+                                                suffixStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
+                                                ),
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily: 'capsulesans',
+                                                    height: 0.1
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+// errorText: 'Error message',
+                                                labelText: 'Unit quantity',
+                                                floatingLabelBehavior:
+                                                    FloatingLabelBehavior.auto,
+//filled: true,
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        )
+                                          Spacer(),
+                                          Container(
+                                            width:
+                                                (MediaQuery.of(context).size.width -
+                                                        30) *
+                                                    (1.41 / 4),
+                                            child: TextFormField(
+                                              controller: mnameCtrl,
+                                              // The validator receives the text that the user has entered.
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return ' Required ';
+                                                }
+                                                prodFieldsValue.add(value);
+                                                return null;
+                                              },
+                                              decoration: InputDecoration(
+                                                enabledBorder:
+                                                    const OutlineInputBorder(
+                                                        // width: 0.0 produces a thin "hairline" border
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color: AppTheme
+                                                                    .skBorderColor,
+                                                                width: 2.0),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0))),
+
+                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding:
+                                                    const EdgeInsets.only(
+                                                        left: 15.0,
+                                                        right: 15.0,
+                                                        top: 18.0,
+                                                        bottom: 18.0),
+                                                suffixText: 'Required',
+                                                suffixStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
+                                                ),
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily: 'capsulesans',
+                                                    height: 0.1
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+                                                // errorText: 'Error message',
+                                                labelText: 'Unit name',
+                                                floatingLabelBehavior:
+                                                    FloatingLabelBehavior.auto,
+                                                //filled: true,
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: cards.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return cards[index];
-                                      },
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0),
+                                      child: TextFormField(
+                                        controller: msaleCtrl,
+// The validator receives the text that the user has entered.
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return ' This field is required ';
+                                          }
+                                          prodFieldsValue.add(value);
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.skBorderColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+
+                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.themeColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 15.0,
+                                              right: 15.0,
+                                              top: 18.0,
+                                              bottom: 18.0),
+                                          suffixText: 'MMK',
+                                          suffixStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                            fontSize: 12,
+//fontFamily: 'capsulesans',
+                                          ),
+                                          errorStyle: TextStyle(
+                                              backgroundColor: Colors.white,
+                                              fontSize: 12,
+                                              fontFamily: 'capsulesans',
+                                              height: 0.1
+                                          ),
+                                          labelStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                          ),
+// errorText: 'Error message',
+                                          labelText: 'Buy price',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+//filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0),
+                                      child: TextFormField(
+                                        controller: mcostCtrl,
+// The validator receives the text that the user has entered.
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return ' This field is required ';
+                                          }
+                                          prodFieldsValue.add(value);
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.skBorderColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+
+                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.themeColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 15.0,
+                                              right: 15.0,
+                                              top: 18.0,
+                                              bottom: 18.0),
+                                          suffixText: 'MMK',
+                                          suffixStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                            fontSize: 12,
+//fontFamily: 'capsulesans',
+                                          ),
+                                          errorStyle: TextStyle(
+                                              backgroundColor: Colors.white,
+                                              fontSize: 12,
+                                              fontFamily: 'capsulesans',
+                                              height: 0.1
+                                          ),
+                                          labelStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                          ),
+// errorText: 'Error message',
+                                          labelText: 'Sale price',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.auto,
+//filled: true,
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        // Padding(
+                                        //     padding: const EdgeInsets.only(
+                                        //         left: 15.0, right: 15.0),
+                                        //     child: ButtonTheme(
+                                        //       splashColor: Colors.transparent,
+                                        //       minWidth:
+                                        //           MediaQuery.of(context).size.width,
+                                        //       height: 54,
+                                        //       child: FlatButton(
+                                        //         color: AppTheme.secButtonColor,
+                                        //         shape: RoundedRectangleBorder(
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(10.0),
+                                        //         ),
+                                        //         onPressed: () async {
+                                        //           // final result =
+                                        //           // await showModalActionSheet<String>(
+                                        //           //     context: context,
+                                        //            //     actions: [
+                                        //           //      SheetAction(
+                                        //           //           icon: Icons.info,
+                                        //           //           label: 'Type One',
+                                        //           //           key: 'type_one'),
+                                        //           //       SheetAction(
+                                        //           //           icon: Icons.info,
+                                        //           //           label: 'Type Two',
+                                        //           //           key: 'type_two'),
+                                        //           //     ]
+                                        //           // );
+                                        //
+                                        //           if (cards.length == 2) {
+                                        //     print('Cards limit reached');
+                                        //     } else
+                                        //             setState(() => cards.add(createCard()));
+                                        //         },
+                                        //         child: Text(
+                                        //           'Add sub unit',
+                                        //           style: TextStyle(
+                                        //             fontSize: 16.5,
+                                        //             fontWeight: FontWeight.w600,
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     )
+                                        // ),
+                                        ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: cards.length,
+                                          itemBuilder:
+                                              (BuildContext context, int index) {
+                                            return cards[index];
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 50,
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 50,
+                              ),
+                            ),
+                            SizedBox(height: 350,)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    color: Colors.white,
+                    height: 91,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
+                      child: Column(
+                        children: [
+                          ButtonTheme(
+                            minWidth: MediaQuery.of(context).size.width,
+                            splashColor: Colors.transparent,
+                            height: 50,
+                            child: FlatButton(
+                              color: AppTheme.themeColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                                side: BorderSide(
+                                  color: AppTheme.themeColor,
                                 ),
-                              ],
+                              ),
+                              onPressed: () async {
+                                prodFieldsValue = [];
+
+                                if (_formKey.currentState!.validate()) {
+                                  DateTime now = DateTime.now();
+                                  setState(() {
+                                    prodAdding = true;
+                                  });
+                                  print('validate ' + prodFieldsValue.toString());
+
+                                  List<PersonEntry> entries = [];
+
+                                  print('shit ' + entries.toString());
+
+                                  print('here ' + assets.length.toString());
+                                  photoUploadCount = 0;
+                                  var photoArray = ['', '', '', '', ''];
+
+                                  var prodExist = false;
+
+                                  var productId = await FirebaseFirestore.instance
+                                      .collection('shops')
+                                      .doc(shopId)
+                                      .collection('products');
+
+// productId.where('prod_name', isEqualTo: prodFieldsValue[0]).get().then((QuerySnapshot
+//          querySnapshot) async {
+//    querySnapshot.docs.forEach((doc) {
+//      prodExist = true;
+//    });
+
+// if (prodExist) {
+//   print('product already');
+//   var result = await showOkAlertDialog(
+//     context: context,
+//     title: 'Warning',
+//     message: 'Product name already!',
+//     okLabel: 'OK',
+//   );
+//   setState(() {
+//     prodAdding = false;
+//   });
+// }
+// else {
+//   for (int i = 0;
+//       i < assets.length;
+//       i++) {
+//     AssetEntity asset =
+//         assets.elementAt(i);
+//     asset.originFile.then((value) async {
+//       addProduct(value!).then((value) {
+//         photoArray[i] = value.toString();
+//         photoUploaded(
+//             assets.length, photoArray);
+//       });
+//     });
+//   }
+
+                                  if (assets.length == 0) {
+                                    var subUnitFieldValue = [
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                      '',
+                                    ];
+                                    int j = -1;
+                                    for (int i = 0;
+                                    i < cards.length;
+                                    i++) {
+                                      subUnitFieldValue[++j] =
+                                          nameTECs[i].text;
+                                      subUnitFieldValue[++j] =
+                                          ageTECs[i].text;
+                                      subUnitFieldValue[++j] =
+                                          jobTECs[i].text;
+                                      subUnitFieldValue[++j] =
+                                          priceTECs[i].text;
+// var name = nameTECs[i].text;
+// var age = ageTECs[i].text;
+// var job = jobTECs[i].text;
+// entries.add(PersonEntry(name, age, job));
+                                    }
+                                    print('gg nothing' +
+                                        subUnitFieldValue.toString());
+
+
+                                    String sub1_buy;
+                                    String sub2_buy;
+                                    String sub3_buy;
+                                    String subExist;
+                                    double mainStock;
+                                    double sub1Stock;
+                                    double sub2Stock;
+                                    double sub3Stock;
+                                    String mTotal;
+
+                                    if( subUnitFieldValue[0] != ''){
+                                      sub1_buy= (double.parse(prodFieldsValue[4])/double.parse(subUnitFieldValue[0])).toString();
+                                    } else
+                                    {
+                                      sub1_buy = '0';
+                                    }
+                                    if( subUnitFieldValue[4] != ''){
+                                      sub2_buy= (double.parse(sub1_buy)/double.parse(subUnitFieldValue[4])).toString();
+                                    } else
+                                    {
+                                      sub2_buy = '0';
+                                    }
+
+                                    if( subUnitFieldValue[8] != ''){
+                                      sub3_buy= (double.parse(sub2_buy)/double.parse(subUnitFieldValue[8])).toString();
+                                    } else
+                                    {
+                                      sub3_buy = '0';
+                                    }
+
+                                    if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] == '' && subUnitFieldValue[8] == ''){
+                                      subExist = '1';
+                                    } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] == ''){
+                                      subExist = '2';
+                                    } else  if (subUnitFieldValue[0] != '' && subUnitFieldValue[4] != '' && subUnitFieldValue[8] != ''){
+                                      subExist = '3';
+                                    } else subExist ='0';
+
+                                    if( prodFieldsValue[2] != '') {
+                                      mainStock=  double.parse(prodFieldsValue[2]);
+                                      mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();
+                                    } else { mainStock = 0;
+                                    mTotal = (mainStock * double.parse(prodFieldsValue[4])).toString();}
+
+                                    if( subUnitFieldValue[3] != '') {
+                                      sub1Stock=  double.parse(subUnitFieldValue[3]);
+//sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+                                    }
+                                    else {sub1Stock = 0;
+//sub1Total = (sub1Stock * double.parse(sub1_buy)).toString();
+                                    }
+
+                                    if( subUnitFieldValue[7] != '') {
+                                      sub2Stock=  double.parse(subUnitFieldValue[7]);
+//sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+                                    }
+                                    else { sub2Stock = 0;
+//sub2Total = (sub2Stock * double.parse(sub2_buy)).toString();
+                                    }
+
+                                    if( subUnitFieldValue[11] != '') {
+                                      sub3Stock =  double.parse(subUnitFieldValue[11]);
+//sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
+                                    }
+                                    else {
+                                      sub3Stock = 0;
+//sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
+                                    }
+
+                                    productId
+                                        .where('prod_name',
+                                        isEqualTo:
+                                        prodFieldsValue[0])
+                                        .get()
+                                        .then((QuerySnapshot
+                                    querySnapshot) async {
+                                      querySnapshot.docs
+                                          .forEach((doc) {
+                                        prodExist = true;
+                                      });
+
+                                      if (prodExist) {
+                                        print('product already');
+                                        var result =
+                                        await showOkAlertDialog(
+                                          context: context,
+                                          title: 'Warning',
+                                          message:
+                                          'Product name already!',
+                                          okLabel: 'OK',
+                                        );
+                                      } else {
+                                        CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
+                                            shopId)
+                                            .collection(
+                                            'products');
+                                        return shops.add({
+                                          'prod_name':
+                                          prodFieldsValue[0],
+                                          'bar_code':
+                                          prodFieldsValue[1],
+                                          'unit_name':
+                                          prodFieldsValue[3],
+                                          'unit_sell':
+                                          prodFieldsValue[5],
+                                          'inStock1' : mainStock,
+                                          'inStock2'  : sub1Stock,
+                                          'inStock3' : sub2Stock,
+                                          'inStock4' : sub3Stock,
+                                          'buyPrice1' : prodFieldsValue[4],
+                                          'buyPrice2' : sub1_buy,
+                                          'buyPrice3' : sub2_buy,
+                                          'buyPrice4' : sub3_buy,
+                                          'sub1_link':
+                                          subUnitFieldValue[0],
+                                          'sub1_name':
+                                          subUnitFieldValue[1],
+                                          'sub1_sell':
+                                          subUnitFieldValue[2],
+                                          'sub2_link':
+                                          subUnitFieldValue[4],
+                                          'sub2_name':
+                                          subUnitFieldValue[5],
+                                          'sub2_sell':
+                                          subUnitFieldValue[6],
+                                          'sub3_link':
+                                          subUnitFieldValue[8],
+                                          'sub3_name':
+                                          subUnitFieldValue[9],
+                                          'sub3_sell':
+                                          subUnitFieldValue[10],
+                                          'sub_exist': subExist,
+                                          'Loss1' : 0,
+                                          'Loss2' : 0,
+                                          'Loss3' : 0,
+                                          'Loss4' : 0,
+                                          'mTotal' : mTotal,
+                                          'mainSellUnit' : 0,
+                                          'sub1SellUnit' : 0,
+                                          'sub2SellUnit' : 0,
+// 's1Total' : sub1Total,
+// 's2Total' : sub2Total,
+// 's3Total' : sub3Total,
+
+// 'unit_qtity': prodFieldsValue[2],
+// 'unit_name': prodFieldsValue[3],
+// 'buy_price': prodFieldsValue[4],
+// 'sale_price': prodFieldsValue[5],
+// 'sub1_unit': subUnitFieldValue[0],
+// 'sub1_name': subUnitFieldValue[1],
+// 'sub1_sale': subUnitFieldValue[2],
+// 'sub2_unit': subUnitFieldValue[3],
+// 'sub2_name': subUnitFieldValue[4],
+// 'sub2_sale': subUnitFieldValue[5],
+// 'sub3_unit': subUnitFieldValue[6],
+// 'sub3_name': subUnitFieldValue[7],
+// 'sub3_sale': subUnitFieldValue[8],
+                                          'img_1': '',
+                                          'img_2': '',
+                                          'img_3': '',
+                                          'img_4': '',
+                                          'img_5': '',
+                                        }).then((value) {
+                                          print('product added');
+// setState(() {
+//   prodAdding = false;
+// });
+
+
+
+// FirebaseFirestore.instance
+//     .collection('space')
+//     .doc(
+//         '0NHIS0Jbn26wsgCzVBKT')
+//     .collection('shops')
+//     .doc(
+//         shopId)
+//     .collection('products')
+//     .doc(value.id)
+//     .collection('versions')
+//     .add({
+//   'date': zeroToTen(now.day
+//           .toString()) +
+//       zeroToTen(now.month
+//           .toString()) +
+//       zeroToTen(now.year
+//           .toString()),
+//   'unit_qtity':
+//       prodFieldsValue[2],
+//   'buy_price':
+//       prodFieldsValue[4],
+//   'type': 'main',
+// }).then((value) {
+//   print('product added 2');
+// });
+// print('sub1'+ prodFieldsValue[4]);
+// print('unit1'+ subUnitFieldValue[0]);
+// print('unit2'+ subUnitFieldValue[8]);
+// print('unit3'+ subUnitFieldValue[4]);
+// var sub1Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[0]);
+// var sub2Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[4]);
+// var sub3Buy=double.parse(prodFieldsValue[4]) / double.parse(subUnitFieldValue[8]);
+
+
+
+// FirebaseFirestore.instance
+//     .collection('space')
+//     .doc(
+//         '0NHIS0Jbn26wsgCzVBKT')
+//     .collection('shops')
+//     .doc(
+//         shopId)
+//     .collection('products')
+//     .doc(value.id)
+//     .collection('versions')
+//     .add({
+//   'date': zeroToTen(now.day
+//           .toString()) +
+//       zeroToTen(now.month
+//           .toString()) +
+//       zeroToTen(now.year
+//           .toString()),
+//   // 'unit_qtity':
+//   // prodFieldsValue[2] +
+//   // ' 0',
+//   // prodFieldsValue[4],
+//   // 'sale_price':
+//   // prodFieldsValue[5],
+//   'unit_qtity':
+//       subUnitFieldValue[3],
+//   'buy_price': sub1_buy,
+//   'type': 'sub1',
+// }).then((value) {
+//   print('product added 3');
+
+// });
+
+// FirebaseFirestore.instance
+//     .collection('space')
+//     .doc('0NHIS0Jbn26wsgCzVBKT')
+//     .collection('shops')
+//     .doc(shopId)
+//     .collection('products')
+//     .doc(value.id)
+//     .collection('versions')
+//     .add({
+//   'date': zeroToTen(now.day.toString()) + zeroToTen(now.month.toString()) + zeroToTen(now.year.toString()),
+//   'unit_qtity': subUnitFieldValue[7],
+//   'buy_price': sub2_buy,
+//   'type': 'sub2',
+// }).then((value) {
+//   print('product added 4');
+// });
+                                          setState(() {
+                                            prodAdding = false;
+                                          });
+
+                                          Navigator.pop(context);
+
+                                          showFlash(
+                                            context: context,
+                                            duration:
+                                            const Duration(
+                                                seconds: 2),
+                                            persistent: true,
+                                            builder:
+                                                (_, controller) {
+                                              return Flash(
+                                                controller:
+                                                controller,
+                                                backgroundColor:
+                                                Colors
+                                                    .transparent,
+                                                brightness:
+                                                Brightness
+                                                    .light,
+// boxShadows: [BoxShadow(blurRadius: 4)],
+// barrierBlur: 3.0,
+// barrierColor: Colors.black38,
+                                                barrierDismissible:
+                                                true,
+                                                behavior:
+                                                FlashBehavior
+                                                    .floating,
+                                                position:
+                                                FlashPosition
+                                                    .top,
+                                                child: Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      top:
+                                                      80.0),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .only(
+                                                        left: 15.0,
+                                                        right:
+                                                        15.0),
+                                                    child:
+                                                    Container(
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                        color: Colors
+                                                            .green,
+                                                      ),
+                                                      child:
+                                                      FlashBar(
+                                                        title: Text(
+                                                            'Title'),
+                                                        content: Text(
+                                                            'Hello world!'),
+// showProgressIndicator: true,
+                                                        primaryAction:
+                                                        TextButton(
+                                                          onPressed:
+                                                              () =>
+                                                              controller.dismiss(),
+                                                          child: Text(
+                                                              'DISMISS',
+                                                              style:
+                                                              TextStyle(color: Colors.amber)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+
+// FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
+// .add({
+//   'prod_name': prodFieldsValue[0]
+// }).then((value) {
+//   print('product added 2');
+// });
+
+// Navigator.pop(context);
+                                        });
+                                      }
+                                    });
+                                  }
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5.0,
+                                    right: 5.0,
+                                    bottom: 3.0),
+                                child: Container(
+                                  child: Text(
+                                    'Add product',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing:-0.1
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ),
+                  )
+                )
               ],
             ),
           ),
@@ -1490,42 +2064,61 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          SizedBox(
+            height: 5,
+          ),
           Row(
             children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  "#${cards.length + 1} SUB UNIT QUANTITY",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    letterSpacing: 2,
-                    color: Colors.grey,
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(top: 0),
+                  child: Text(
+                    "#${cards.length + 1} SUB UNIT QUANTITY",
+                    style: TextStyle(
+                      letterSpacing: 1.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
-              Spacer(),
               Container(
-                padding: EdgeInsets.only(top: 15),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    size: 20,
-                    color: Colors.blue,
-                  ),
-                  onPressed: () {
+                padding: EdgeInsets.only(top: 0),
+                child: GestureDetector(
+                  onTap: () {
                     setState(() {
                       cards.length--;
                       cards.remove(cards);
                     });
                   },
+                  child: Text(
+                    "REMOVE",
+                    style: TextStyle(
+                      letterSpacing: 1.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,color: Colors.blue,
+                    ),
+                  ),
                 ),
+                // child: IconButton(
+                //   icon: Icon(
+                //     Icons.close,
+                //     size: 20,
+                //     color: Colors.blue,
+                //   ),
+                //   onPressed: () {
+                //     setState(() {
+                //       cards.length--;
+                //       cards.remove(cards);
+                //     });
+                //   },
+                // ),
               ),
             ],
           ),
           SizedBox(
-            height: 16,
+            height: 18,
           ),
           Row(
             children: [
@@ -1540,7 +2133,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'This field is required';
+                      return ' This field is required ';
                     }
                     // prodFieldsValue.add(value);
                     return null;
@@ -1555,7 +2148,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     focusedBorder: const OutlineInputBorder(
                         // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(
-                            color: AppTheme.skThemeColor2, width: 2.0),
+                            color: AppTheme.themeColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
@@ -1564,6 +2157,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                       color: Colors.grey,
                       fontSize: 12,
                       fontFamily: 'capsulesans',
+                    ),
+                    errorStyle: TextStyle(
+                        backgroundColor: Colors.white,
+                        fontSize: 12,
+                        fontFamily: 'capsulesans',
+                        height: 0.1
                     ),
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.w500,
@@ -1587,7 +2186,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'This field is required';
+                      return ' This field is required ';
                     }
                     // prodFieldsValue.add(value);
                     return null;
@@ -1602,7 +2201,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     focusedBorder: const OutlineInputBorder(
                         // width: 0.0 produces a thin "hairline" border
                         borderSide: const BorderSide(
-                            color: AppTheme.skThemeColor2, width: 2.0),
+                            color: AppTheme.themeColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
@@ -1611,6 +2210,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                       color: Colors.grey,
                       fontSize: 12,
                       fontFamily: 'capsulesans',
+                    ),
+                    errorStyle: TextStyle(
+                        backgroundColor: Colors.white,
+                        fontSize: 12,
+                        fontFamily: 'capsulesans',
+                        height: 0.1
                     ),
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.w500,
@@ -1636,7 +2241,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'This field is required';
+                return ' This field is required ';
               }
               // prodFieldsValue.add(value);
               return null;
@@ -1651,7 +2256,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               focusedBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
                   borderSide: const BorderSide(
-                      color: AppTheme.skThemeColor2, width: 2.0),
+                      color: AppTheme.themeColor, width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
               contentPadding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
@@ -1665,6 +2270,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               labelStyle: TextStyle(
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
+              ),
+              errorStyle: TextStyle(
+                  backgroundColor: Colors.white,
+                  fontSize: 12,
+                  fontFamily: 'capsulesans',
+                  height: 0.1
               ),
               // errorText: 'Error message',
               labelText: 'Unit Quantity',
@@ -1683,7 +2294,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'This field is required';
+                return ' This field is required ';
               }
               // prodFieldsValue.add(value);
               return null;
@@ -1698,7 +2309,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               focusedBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
                   borderSide: const BorderSide(
-                      color: AppTheme.skThemeColor2, width: 2.0),
+                      color: AppTheme.themeColor, width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
               contentPadding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
@@ -1708,6 +2319,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 color: Colors.grey,
                 fontSize: 12,
                 //fontFamily: 'capsulesans',
+              ),
+              errorStyle: TextStyle(
+                  backgroundColor: Colors.white,
+                  fontSize: 12,
+                  fontFamily: 'capsulesans',
+                  height: 0.1
               ),
               labelStyle: TextStyle(
                 fontWeight: FontWeight.w500,
@@ -1721,6 +2338,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
+          ),
+          SizedBox(
+            height: 16,
           ),
         ],
       ),
@@ -1808,7 +2428,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(5.0),),
-                                color: AppTheme.skThemeColor2),
+                                color: AppTheme.themeColor),
                             child: IconButton(
                                 icon: Icon(
                                   Icons.check,

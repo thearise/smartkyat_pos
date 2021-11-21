@@ -317,11 +317,126 @@ class HomePageState extends State<HomePage>
     final _formKey = GlobalKey<FormState>();
     // myController.clear();
     showModalBottomSheet(
-        enableDrag: false,
+        enableDrag: true,
         isScrollControlled: true,
         context: context,
+        backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
-          return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 60.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(18.0),
+                          topRight: Radius.circular(18.0),
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Container(
+                          color: Colors.white,
+                          height:
+                          MediaQuery.of(context).size.height -
+                              45,
+                          width: double.infinity,
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 67,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey
+                                                .withOpacity(0.3),
+                                            width: 1.0))),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 5.0,
+                                      bottom: 0.0
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Untitled', style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey,
+                                      )),
+                                      SizedBox(height: 2.5),
+                                      Text('New product creation', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 19
+                                      )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 57.0,
+                                    left: 0.0,
+                                    right: 0.0),
+                                child: SingleAssetPage(toggleCoinCallback: closeNewProduct),
+                              ),
+                              // Align(
+                              //   alignment: Alignment.bottomCenter,
+                              //   child: Padding(
+                              //     padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                              //     child: Container(
+                              //       decoration: BoxDecoration(
+                              //           color: Colors.white,
+                              //           border: Border(
+                              //             top: BorderSide(
+                              //                 color:
+                              //                 AppTheme.skBorderColor2,
+                              //                 width: 1.0),
+                              //           )),
+                              //       width: double.infinity,
+                              //       height: 158,
+                              //       child: Container(),
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 42,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 50,
+                          height: 5,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25.0),
+                              ),
+                              color: Colors.white.withOpacity(0.5)),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+          // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
         });
   }
 
@@ -887,7 +1002,7 @@ class HomePageState extends State<HomePage>
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
@@ -1660,8 +1775,8 @@ class HomePageState extends State<HomePage>
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15.0),
-                              topRight: Radius.circular(15.0),
+                              topLeft: Radius.circular(18.0),
+                              topRight: Radius.circular(18.0),
                             ),
                             color: Colors.white,
                           ),
@@ -1680,7 +1795,7 @@ class HomePageState extends State<HomePage>
                                   child: Stack(
                                     children: [
                                       Container(
-                                        height: 71,
+                                        height: 67,
                                         decoration: BoxDecoration(
                                             border: Border(
                                                 bottom: BorderSide(
@@ -1696,197 +1811,170 @@ class HomePageState extends State<HomePage>
                                           ),
                                           child: Row(
                                             children: [
-                                              Container(
-                                                width:
-                                                (MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                    2) -
-                                                    22.5,
-                                                height: 55,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius
-                                                        .circular(10.0),
-                                                    color: AppTheme.clearColor),
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets.only(
-                                                      top: 15.0,
-                                                      bottom: 15.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .center,
-                                                    children: [
-                                                      Expanded(
-                                                        child:
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            setState((){
-                                                              mystate(() {
-                                                                prodList = [];
-                                                                discount = 0.0;
-                                                                discountAmount = 0.0;
-                                                                debt =0;
-                                                                refund =0;
-                                                                customerId = 'name-name';
-                                                              });
-                                                            });
-                                                          },
-                                                          child: Padding(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left:
-                                                                8.0,
-                                                                right:
-                                                                8.0,
-                                                                bottom:
-                                                                3.0),
-                                                            child: Container(
-                                                                child: Text(
-                                                                  'Clear cart',
-                                                                  textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                      18,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                      color: Colors
-                                                                          .black),
-                                                                )),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState((){
+                                                    mystate(() {
+                                                      prodList = [];
+                                                      discount = 0.0;
+                                                      discountAmount = 0.0;
+                                                      debt =0;
+                                                      refund =0;
+                                                      customerId = 'name-name';
+                                                    });
+                                                  });
+                                                },
+                                                child: Container(
+                                                  width:
+                                                  (MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                      2) -
+                                                      22.5,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(10.0),
+                                                      color: AppTheme.clearColor),
+                                                  child: Center(
+                                                    child: Padding(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .only(
+                                                          left:
+                                                          8.0,
+                                                          right:
+                                                          8.0,
+                                                          bottom:
+                                                          2.0),
+                                                      child: Container(
+                                                          child: Text(
+                                                            'Clear cart',
+                                                            textAlign:
+                                                            TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                18,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w600,
+                                                                color: Colors
+                                                                    .black),
+                                                          )),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                               SizedBox(
                                                 width: 15.0,
                                               ),
-                                              Container(
-                                                width: (MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                    2) -
-                                                    22.5,
-                                                height: 55,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        10.0),
-                                                    color: Colors.grey
-                                                        .withOpacity(0.5)),
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets.only(
-                                                      top: 15.0,
-                                                      bottom: 15.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .center,
-                                                    children: [
-                                                      Expanded(
-                                                        child:
-                                                        GestureDetector(
-                                                          onTap: () async {
-                                                            final result = await showModalActionSheet<String>(
-                                                              context: context,
-                                                              actions: [
-                                                                SheetAction(
-                                                                  icon: Icons.info,
-                                                                  label: 'Amount',
-                                                                  key: 'amount',
-                                                                ),
-                                                                SheetAction(
-                                                                  icon: Icons.info,
-                                                                  label: 'Percent',
-                                                                  key: 'percent',
-                                                                ),
-                                                              ],
-                                                            );
-                                                            mystate(() {
-                                                              isDiscount = result.toString();
-                                                            });
-
-                                                            if (result == 'amount') {
-                                                              final amount = await showTextInputDialog(
-                                                                context: context,
-                                                                textFields: [
-                                                                  DialogTextField(
-                                                                    keyboardType: TextInputType.number,
-                                                                    hintText: '0',
-                                                                    suffixText: 'MMK',
-                                                                    // initialText: 'mono0926@gmail.com',
-                                                                  ),
-                                                                ],
-                                                                title: 'Discount',
-                                                                message: 'Add Discount Amount to Cart',
-                                                              );
-                                                              mystate(() {
-                                                                discount =double.parse(amount![0].toString());
-                                                                print('disss ' + discount.toString());
-                                                              });
-
-                                                            } else {
-                                                              final percentage = await showTextInputDialog(
-                                                                context: context,
-                                                                textFields: [
-                                                                  DialogTextField(
-                                                                    keyboardType: TextInputType.number,
-                                                                    hintText: '0.0',
-                                                                    suffixText: '%',
-                                                                    // initialText: 'mono0926@gmail.com',
-                                                                  ),
-                                                                ],
-                                                                title: 'Discount',
-                                                                message: 'Add Discount Percent to Cart',
-                                                              );
-                                                              mystate(() {
-                                                                discount =double.parse(percentage![0].toString());
-                                                                print('disss ' + discount.toString());
-                                                              });
-                                                            }
-                                                            print('dis' + result.toString());
-                                                            setState(() {
-                                                              print('do something');
-                                                            });
-
-                                                          },
-                                                          child: Padding(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left: 8.0,
-                                                                right:
-                                                                8.0,
-                                                                bottom:
-                                                                3.0),
-                                                            child: Container(
-                                                                child: Text(
-                                                                  'Discount',
-                                                                  textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                      18,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                      color: Colors
-                                                                          .black),
-                                                                )),
-                                                          ),
-                                                        ),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  final result = await showModalActionSheet<String>(
+                                                    context: context,
+                                                    actions: [
+                                                      SheetAction(
+                                                        icon: Icons.info,
+                                                        label: 'Amount',
+                                                        key: 'amount',
+                                                      ),
+                                                      SheetAction(
+                                                        icon: Icons.info,
+                                                        label: 'Percent',
+                                                        key: 'percent',
                                                       ),
                                                     ],
+                                                  );
+                                                  mystate(() {
+                                                    isDiscount = result.toString();
+                                                  });
+
+                                                  if (result == 'amount') {
+                                                    final amount = await showTextInputDialog(
+                                                      context: context,
+                                                      textFields: [
+                                                        DialogTextField(
+                                                          keyboardType: TextInputType.number,
+                                                          hintText: '0',
+                                                          suffixText: 'MMK',
+                                                          // initialText: 'mono0926@gmail.com',
+                                                        ),
+                                                      ],
+                                                      title: 'Discount',
+                                                      message: 'Add Discount Amount to Cart',
+                                                    );
+                                                    mystate(() {
+                                                      discount =double.parse(amount![0].toString());
+                                                      print('disss ' + discount.toString());
+                                                    });
+
+                                                  } else {
+                                                    final percentage = await showTextInputDialog(
+                                                      context: context,
+                                                      textFields: [
+                                                        DialogTextField(
+                                                          keyboardType: TextInputType.number,
+                                                          hintText: '0.0',
+                                                          suffixText: '%',
+                                                          // initialText: 'mono0926@gmail.com',
+                                                        ),
+                                                      ],
+                                                      title: 'Discount',
+                                                      message: 'Add Discount Percent to Cart',
+                                                    );
+                                                    mystate(() {
+                                                      discount =double.parse(percentage![0].toString());
+                                                      print('disss ' + discount.toString());
+                                                    });
+                                                  }
+                                                  print('dis' + result.toString());
+                                                  setState(() {
+                                                    print('do something');
+                                                  });
+
+                                                },
+                                                child: Container(
+                                                  width:
+                                                  (MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                      2) -
+                                                      22.5,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(10.0),
+                                                      color: AppTheme.buttonColor2),
+                                                  child: Center(
+                                                    child: Padding(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .only(
+                                                          left:
+                                                          8.0,
+                                                          right:
+                                                          8.0,
+                                                          bottom:
+                                                          2.0),
+                                                      child: Container(
+                                                          child: Text(
+                                                            'Discount',
+                                                            textAlign:
+                                                            TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                18,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w600,
+                                                                color: Colors
+                                                                    .black),
+                                                          )),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -1896,7 +1984,7 @@ class HomePageState extends State<HomePage>
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 71.0,
+                                            top: 67.0,
                                             left: 0.0,
                                             right: 0.0),
                                         child: Container(
@@ -1915,13 +2003,19 @@ class HomePageState extends State<HomePage>
                                                           size: 20,
                                                         ),
                                                         SizedBox(width: 5),
-                                                        Text('Customer', style: TextStyle(
-                                                          fontSize: 16, fontWeight: FontWeight.bold,
-                                                        )),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(bottom: 2.0),
+                                                          child: Text('Customer', style: TextStyle(
+                                                            fontSize: 16, fontWeight: FontWeight.w600,
+                                                          )),
+                                                        ),
                                                         Spacer(),
-                                                        Text(customerId.split('-')[1].toString() == 'name' ? 'Unknown' : customerId.split('-')[1], style: TextStyle(
-                                                          fontSize: 16, fontWeight: FontWeight.bold,
-                                                        )),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(bottom: 2.0),
+                                                          child: Text(customerId.split('-')[1].toString() == 'name' ? 'Unknown' : customerId.split('-')[1], style: TextStyle(
+                                                            fontSize: 16, fontWeight: FontWeight.w600,
+                                                          )),
+                                                        ),
                                                         SizedBox(width: 5),
                                                         GestureDetector(
                                                           onTap: (){
@@ -2256,7 +2350,7 @@ class HomePageState extends State<HomePage>
                                                       width: 1.0),
                                                 )),
                                             width: double.infinity,
-                                            height: 158,
+                                            height: 137,
                                             child: Column(
                                               mainAxisAlignment:
                                               MainAxisAlignment.end,
@@ -2272,13 +2366,13 @@ class HomePageState extends State<HomePage>
                                                         FontWeight
                                                             .w500),
                                                   ),
-                                                  subtitle: int.parse(totalItems()) == 1? Text(totalItems() + ' item',
-                                                      style: TextStyle(
-                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                      )) : Text(totalItems() + ' items',
-                                                      style: TextStyle(
-                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                      )),
+                                                  // subtitle: int.parse(totalItems()) == 1? Text(totalItems() + ' item',
+                                                  //     style: TextStyle(
+                                                  //       fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                  //     )) : Text(totalItems() + ' items',
+                                                  //     style: TextStyle(
+                                                  //       fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                  //     )),
                                                   trailing: Text('MMK '+
                                                       TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                     style: TextStyle(
@@ -2304,38 +2398,33 @@ class HomePageState extends State<HomePage>
                                                     },
                                                     child: Container(
                                                       width: MediaQuery.of(context).size.width - 30,
-                                                      height: 55,
+                                                      height: 50,
                                                       decoration: BoxDecoration(
                                                           borderRadius:
                                                           BorderRadius.circular(10.0),
                                                           color: AppTheme.themeColor),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(
-                                                            top: 15.0,
-                                                            bottom: 15.0),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                          children: [
-                                                            Expanded(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                child: Container(
-                                                                    child: Text(
-                                                                      'Checkout',
-                                                                      textAlign: TextAlign.center,
-                                                                      style: TextStyle(
-                                                                          fontSize: 18,
-                                                                          fontWeight: FontWeight.w600,
-                                                                          color: Colors.black
-                                                                      ),
-                                                                    )
-                                                                ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+                                                              child: Container(
+                                                                  child: Text(
+                                                                    'Checkout',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 18,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        color: Colors.black
+                                                                    ),
+                                                                  )
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
