@@ -82,7 +82,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     SizedBox(
                       height: 10,
                     ),
-//                 Container(
+                        //                 Container(
 //                   height: 85,
 //                   decoration: BoxDecoration(
 //                       border: Border(
@@ -665,30 +665,28 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //                   ),
 //                 ),
                     Expanded(
-                      child: Container(
-                        child: ListView(
-                          children: [
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Container(
+                      child: ListView(
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
 // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15.0),
-                                  topRight: Radius.circular(15.0),
-                                ),
-                                color: Colors.white,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15.0),
+                                topRight: Radius.circular(15.0),
                               ),
+                              color: Colors.white,
+                            ),
 
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
 // Row(
 //   mainAxisAlignment: MainAxisAlignment.start,
 //   children: [
@@ -718,317 +716,74 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //     ),
 //   ],
 // ),
-
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                      child: Text('PRODUCT INFORMATION', style: TextStyle(
-                                        letterSpacing: 1.5,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,color: Colors.grey,
-                                      ),),
-                                    ),
-                                    SizedBox(
-                                      height: 1,
-                                    ),
-
-                                    Container(
-                                      height: assets.isNotEmpty ? 203 : 82,
-                                      child: Column(
-                                        children: [
-                                          if (assets.isNotEmpty)
-                                            GestureDetector(
-                                              onTap: () {
-                                                widget._callback();
-                                                print('_waitUntilDone ' +
-                                                    assets.length.toString());
-                                              },
-                                              child: SelectedAssetsListView(
-                                                assets: assets,
-                                                isDisplayingDetail:
-                                                    isDisplayingDetail,
-                                                onResult: onResult,
-                                                onRemoveAsset: removeAsset,
-                                              ),
-                                            ),
-                                          Expanded(
-                                            child: MethodListView(
-                                              pickMethods: [
-                                                PickMethod.cameraAndStay(
-                                                  maxAssetsCount: 5,
-                                                ),
-                                              ],
-                                              onSelectMethod: selectAssets,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15.0),
-                                      child: TextFormField(
-// The validator receives the text that the user has entered.
-                                        controller: pnameCtrl,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return ' This field is required ';
-                                          }
-                                          prodFieldsValue.add(value);
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                          enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.skBorderColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-
-                                          focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.themeColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 15.0,
-                                              right: 15.0,
-                                              top: 18.0,
-                                              bottom: 18.0),
-                                          suffixText: 'Required',
-                                          errorStyle: TextStyle(
-                                              backgroundColor: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                              height: 0.1
-                                          ),
-                                          suffixStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,
-                                            fontFamily: 'capsulesans',
-                                          ),
-                                          labelStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
-// errorText: 'Error message',
-                                          labelText: 'Product name',
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
-//filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Container(
-                                    //   alignment: Alignment.topLeft,
-                                    //   padding: EdgeInsets.only(top: 20, left: 15),
-                                    //   child: Text(
-                                    //     "OTHER INFORMATION",
-                                    //     style: TextStyle(
-                                    //       fontWeight: FontWeight.bold,
-                                    //       fontSize: 13,
-                                    //       letterSpacing: 2,
-                                    //       color: Colors.grey,
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15.0),
-                                      child: TextFormField(
-                                        controller: bcodeCtrl,
-// The validator receives the text that the user has entered.
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return ' This field is required ';
-                                          }
-                                          prodFieldsValue.add(value);
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                          enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.skBorderColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-
-                                          focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.themeColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 15.0,
-                                              right: 15.0,
-                                              top: 18.0,
-                                              bottom: 18.0),
-                                          suffixIcon: IconButton(
-                                            icon: Image.asset('assets/system/barcode.png', height: 28,),
-                                            onPressed: () async {
-                                              print("Barcode");
-                                              // var code = await Navigator.push(
-                                              //   context,
-                                              //   MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           QRViewExample()),
-                                              // );
-
-                                              var code = await Navigator.of(context).push(
-                                                FadeRoute(page: QRViewExample()),
-                                              );
-                                              bcodeCtrl.text = code;
-                                              print('bar bar ' + code);
-                                            },
-                                          ),
-                                          suffixText: 'Required',
-                                          suffixStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,
-                                            fontFamily: 'capsulesans',
-                                          ),
-                                          errorStyle: TextStyle(
-                                              backgroundColor: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                              height: 0.1
-                                          ),
-                                          labelStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
-// errorText: 'Error message',
-                                          labelText: 'Barcode',
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
-//filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-
-                                    // Container(
-                                    //   alignment: Alignment.topLeft,
-                                    //   padding: EdgeInsets.only(top: 20, left: 15),
-                                    //   child: Text(
-                                    //     "MAIN UNIT QUANTITY",
-                                    //     style: TextStyle(
-                                    //       fontWeight: FontWeight.bold,
-                                    //       fontSize: 13,
-                                    //       letterSpacing: 2,
-                                    //       color: Colors.grey,
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    // SizedBox(height: 15),
-                                    // Container(
-                                    //   decoration: BoxDecoration(
-                                    //       color: Colors.white,
-                                    //       border: Border(
-                                    //         top: BorderSide(
-                                    //             color:
-                                    //             AppTheme.skBorderColor2,
-                                    //             width: 1.0),
-                                    //       )),
-                                    //   width: double.infinity,
-                                    // ),
-                                    SizedBox(height: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text('MAIN UNIT QUANTITY', style: TextStyle(
-                                              letterSpacing: 1.5,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,color: Colors.grey,
-                                            ),),
-                                          ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                    child: Text('PRODUCT INFORMATION', style: TextStyle(
+                                      letterSpacing: 1.5,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,color: Colors.grey,
+                                    ),),
+                                  ),
+                                  SizedBox(
+                                    height: 1,
+                                  ),
+                                  Container(
+                                    height: assets.isNotEmpty ? 203 : 82,
+                                    child: Column(
+                                      children: [
+                                        if (assets.isNotEmpty)
                                           GestureDetector(
                                             onTap: () {
-                                              // final result =
-                                              // await showModalActionSheet<String>(
-                                              //     context: context,
-                                              //     actions: [
-                                              //      SheetAction(
-                                              //           icon: Icons.info,
-                                              //           label: 'Type One',
-                                              //           key: 'type_one'),
-                                              //       SheetAction(
-                                              //           icon: Icons.info,
-                                              //           label: 'Type Two',
-                                              //           key: 'type_two'),
-                                              //     ]
-                                              // );
-
-                                              if (cards.length == 2) {
-                                                print('Cards limit reached');
-                                              } else
-                                                setState(() => cards.add(createCard()));
+                                              widget._callback();
+                                              print('_waitUntilDone ' +
+                                                  assets.length.toString());
                                             },
-                                            child: Text('SUB UNIT?', style: TextStyle(
-                                              letterSpacing: 1.5,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,color: Colors.blue,
-                                            ),),
-                                          )
-                                        ],
-                                      ),
+                                            child: SelectedAssetsListView(
+                                              assets: assets,
+                                              isDisplayingDetail:
+                                                  isDisplayingDetail,
+                                              onResult: onResult,
+                                              onRemoveAsset: removeAsset,
+                                            ),
+                                          ),
+                                        Expanded(
+                                          child: MethodListView(
+                                            pickMethods: [
+                                              PickMethod.cameraAndStay(
+                                                maxAssetsCount: 5,
+                                              ),
+                                            ],
+                                            onSelectMethod: selectAssets,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15.0),
-                                      child: Row(
+                                  ),
+                                  Column(
+                                    children: [
+                                      Stack(
                                         children: [
-                                          Container(
-                                            width:
-                                                (MediaQuery.of(context).size.width -
-                                                        30) *
-                                                    (2.41 / 4),
-                                            // child: TextField(
-                                            //     controller: nameController,
-                                            //     decoration: InputDecoration(labelText: 'Full Name')
-                                            // ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0, right: 15.0),
                                             child: TextFormField(
-                                              controller: munitCtrl,
 // The validator receives the text that the user has entered.
+                                              controller: pnameCtrl,
                                               validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
+                                                if (value == null || value.isEmpty) {
                                                   return ' This field is required ';
                                                 }
                                                 prodFieldsValue.add(value);
                                                 return null;
                                               },
                                               decoration: InputDecoration(
-                                                enabledBorder:
-                                                    const OutlineInputBorder(
+                                                enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                                        borderSide:
-                                                            const BorderSide(
-                                                                color: AppTheme
-                                                                    .skBorderColor,
-                                                                width: 2.0),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.0))),
+                                                    borderSide: const BorderSide(
+                                                        color: AppTheme.skBorderColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
 
                                                 focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -1037,316 +792,549 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         width: 2.0),
                                                     borderRadius: BorderRadius.all(
                                                         Radius.circular(10.0))),
-                                                contentPadding:
-                                                    const EdgeInsets.only(
-                                                        left: 15.0,
-                                                        right: 15.0,
-                                                        top: 18.0,
-                                                        bottom: 18.0),
+                                                contentPadding: const EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 18.0,
+                                                    bottom: 18.0),
                                                 suffixText: 'Required',
-                                                suffixStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontFamily: 'capsulesans',
-                                                ),
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
                                                     fontSize: 12,
                                                     fontFamily: 'capsulesans',
                                                     height: 0.1
+                                                ),
+                                                suffixStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
                                                 ),
                                                 labelStyle: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black,
                                                 ),
 // errorText: 'Error message',
-                                                labelText: 'Unit quantity',
+                                                labelText: 'Product name',
                                                 floatingLabelBehavior:
                                                     FloatingLabelBehavior.auto,
 //filled: true,
                                                 border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          Spacer(),
-                                          Container(
-                                            width:
-                                                (MediaQuery.of(context).size.width -
-                                                        30) *
-                                                    (1.41 / 4),
+                                          // Container(
+                                          //   alignment: Alignment.topLeft,
+                                          //   padding: EdgeInsets.only(top: 20, left: 15),
+                                          //   child: Text(
+                                          //     "OTHER INFORMATION",
+                                          //     style: TextStyle(
+                                          //       fontWeight: FontWeight.bold,
+                                          //       fontSize: 13,
+                                          //       letterSpacing: 2,
+                                          //       color: Colors.grey,
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15.0, top: 71),
                                             child: TextFormField(
-                                              controller: mnameCtrl,
-                                              // The validator receives the text that the user has entered.
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return ' Required ';
-                                                }
-                                                prodFieldsValue.add(value);
-                                                return null;
-                                              },
-                                              decoration: InputDecoration(
-                                                enabledBorder:
-                                                    const OutlineInputBorder(
-                                                        // width: 0.0 produces a thin "hairline" border
-                                                        borderSide:
-                                                            const BorderSide(
-                                                                color: AppTheme
-                                                                    .skBorderColor,
-                                                                width: 2.0),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.0))),
-
-                                                focusedBorder: const OutlineInputBorder(
+                                          controller: bcodeCtrl,
+// The validator receives the text that the user has entered.
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return ' This field is required ';
+                                            }
+                                            prodFieldsValue.add(value);
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                                    borderSide: const BorderSide(
-                                                        color: AppTheme.themeColor,
-                                                        width: 2.0),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(10.0))),
-                                                contentPadding:
-                                                    const EdgeInsets.only(
-                                                        left: 15.0,
-                                                        right: 15.0,
-                                                        top: 18.0,
-                                                        bottom: 18.0),
-                                                suffixText: 'Required',
-                                                suffixStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontFamily: 'capsulesans',
-                                                ),
-                                                errorStyle: TextStyle(
-                                                    backgroundColor: Colors.white,
+                                                borderSide: const BorderSide(
+                                                    color: AppTheme.skBorderColor,
+                                                    width: 2.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
+
+                                            focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                borderSide: const BorderSide(
+                                                    color: AppTheme.themeColor,
+                                                    width: 2.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
+                                            contentPadding: const EdgeInsets.only(
+                                                left: 15.0,
+                                                right: 15.0,
+                                                top: 18.0,
+                                                bottom: 18.0),
+                                            suffixIcon: IconButton(
+                                              icon: Image.asset('assets/system/barcode.png', height: 28,),
+                                              onPressed: () async {
+                                                print("Barcode");
+                                                // var code = await Navigator.push(
+                                                //   context,
+                                                //   MaterialPageRoute(
+                                                //       builder: (context) =>
+                                                //           QRViewExample()),
+                                                // );
+
+                                                var code = await Navigator.of(context).push(
+                                                  FadeRoute(page: QRViewExample()),
+                                                );
+                                                bcodeCtrl.text = code;
+                                                print('bar bar ' + code);
+                                              },
+                                            ),
+                                            suffixText: 'Required',
+                                            suffixStyle: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                              fontFamily: 'capsulesans',
+                                            ),
+                                            errorStyle: TextStyle(
+                                                backgroundColor: Colors.white,
+                                                fontSize: 12,
+                                                fontFamily: 'capsulesans',
+                                                height: 0.1
+                                            ),
+                                            labelStyle: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                            ),
+// errorText: 'Error message',
+                                            labelText: 'Barcode',
+                                            floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                            ),
+                                          ),
+                                          // Container(
+                                          //   alignment: Alignment.topLeft,
+                                          //   padding: EdgeInsets.only(top: 20, left: 15),
+                                          //   child: Text(
+                                          //     "MAIN UNIT QUANTITY",
+                                          //     style: TextStyle(
+                                          //       fontWeight: FontWeight.bold,
+                                          //       fontSize: 13,
+                                          //       letterSpacing: 2,
+                                          //       color: Colors.grey,
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          // SizedBox(height: 15),
+                                          // Container(
+                                          //   decoration: BoxDecoration(
+                                          //       color: Colors.white,
+                                          //       border: Border(
+                                          //         top: BorderSide(
+                                          //             color:
+                                          //             AppTheme.skBorderColor2,
+                                          //             width: 1.0),
+                                          //       )),
+                                          //   width: double.infinity,
+                                          // ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 147),
+                                            child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text('MAIN UNIT QUANTITY', style: TextStyle(
+                                                letterSpacing: 1.5,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,color: Colors.grey,
+                                              ),),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                // final result =
+                                                // await showModalActionSheet<String>(
+                                                //     context: context,
+                                                //     actions: [
+                                                //      SheetAction(
+                                                //           icon: Icons.info,
+                                                //           label: 'Type One',
+                                                //           key: 'type_one'),
+                                                //       SheetAction(
+                                                //           icon: Icons.info,
+                                                //           label: 'Type Two',
+                                                //           key: 'type_two'),
+                                                //     ]
+                                                // );
+                                                if (cards.length == 2) {
+                                                  print('Cards limit reached');
+                                                } else
+                                                  setState(() => cards.add(createCard()));
+                                              },
+                                              child: Text('SUB UNIT?', style: TextStyle(
+                                                letterSpacing: 1.5,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,color: Colors.blue,
+                                              ),),
+                                            )
+                                          ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15.0, top: 185),
+                                            child: Row(
+                                          children: [
+                                            Container(
+                                              width:
+                                                  (MediaQuery.of(context).size.width -
+                                                          30) *
+                                                      (2.41 / 4),
+                                              // child: TextField(
+                                              //     controller: nameController,
+                                              //     decoration: InputDecoration(labelText: 'Full Name')
+                                              // ),
+                                              child: TextFormField(
+                                                controller: munitCtrl,
+// The validator receives the text that the user has entered.
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return ' This field is required ';
+                                                  }
+                                                  prodFieldsValue.add(value);
+                                                  return null;
+                                                },
+                                                decoration: InputDecoration(
+                                                  enabledBorder:
+                                                      const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: AppTheme
+                                                                      .skBorderColor,
+                                                                  width: 2.0),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      10.0))),
+
+                                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                      borderSide: const BorderSide(
+                                                          color: AppTheme.themeColor,
+                                                          width: 2.0),
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(10.0))),
+                                                  contentPadding:
+                                                      const EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15.0,
+                                                          top: 18.0,
+                                                          bottom: 18.0),
+                                                  suffixText: 'Required',
+                                                  suffixStyle: TextStyle(
+                                                    color: Colors.grey,
                                                     fontSize: 12,
                                                     fontFamily: 'capsulesans',
-                                                    height: 0.1
-                                                ),
-                                                labelStyle: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                ),
-                                                // errorText: 'Error message',
-                                                labelText: 'Unit name',
-                                                floatingLabelBehavior:
-                                                    FloatingLabelBehavior.auto,
-                                                //filled: true,
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                  ),
+                                                  errorStyle: TextStyle(
+                                                      backgroundColor: Colors.white,
+                                                      fontSize: 12,
+                                                      fontFamily: 'capsulesans',
+                                                      height: 0.1
+                                                  ),
+                                                  labelStyle: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                  ),
+// errorText: 'Error message',
+                                                  labelText: 'Unit quantity',
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior.auto,
+//filled: true,
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                  ),
                                                 ),
                                               ),
+                                            ),
+                                            Spacer(),
+                                            Container(
+                                              width:
+                                                  (MediaQuery.of(context).size.width -
+                                                          30) *
+                                                      (1.41 / 4),
+                                              child: TextFormField(
+                                                controller: mnameCtrl,
+                                                // The validator receives the text that the user has entered.
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return ' Required ';
+                                                  }
+                                                  prodFieldsValue.add(value);
+                                                  return null;
+                                                },
+                                                decoration: InputDecoration(
+                                                  enabledBorder:
+                                                      const OutlineInputBorder(
+                                                          // width: 0.0 produces a thin "hairline" border
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: AppTheme
+                                                                      .skBorderColor,
+                                                                  width: 2.0),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      10.0))),
+
+                                                  focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                      borderSide: const BorderSide(
+                                                          color: AppTheme.themeColor,
+                                                          width: 2.0),
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(10.0))),
+                                                  contentPadding:
+                                                      const EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15.0,
+                                                          top: 18.0,
+                                                          bottom: 18.0),
+                                                  suffixText: 'Required',
+                                                  suffixStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 12,
+                                                    fontFamily: 'capsulesans',
+                                                  ),
+                                                  errorStyle: TextStyle(
+                                                      backgroundColor: Colors.white,
+                                                      fontSize: 12,
+                                                      fontFamily: 'capsulesans',
+                                                      height: 0.1
+                                                  ),
+                                                  labelStyle: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                  ),
+                                                  // errorText: 'Error message',
+                                                  labelText: 'Unit name',
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior.auto,
+                                                  //filled: true,
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15.0, top: 256),
+                                            child: TextFormField(
+                                          controller: msaleCtrl,
+// The validator receives the text that the user has entered.
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return ' This field is required ';
+                                            }
+                                            prodFieldsValue.add(value);
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                borderSide: const BorderSide(
+                                                    color: AppTheme.skBorderColor,
+                                                    width: 2.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
+
+                                            focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                borderSide: const BorderSide(
+                                                    color: AppTheme.themeColor,
+                                                    width: 2.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
+                                            contentPadding: const EdgeInsets.only(
+                                                left: 15.0,
+                                                right: 15.0,
+                                                top: 18.0,
+                                                bottom: 18.0),
+                                            suffixText: 'MMK',
+                                            suffixStyle: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey,
+                                              fontSize: 12,
+//fontFamily: 'capsulesans',
+                                            ),
+                                            errorStyle: TextStyle(
+                                                backgroundColor: Colors.white,
+                                                fontSize: 12,
+                                                fontFamily: 'capsulesans',
+                                                height: 0.1
+                                            ),
+                                            labelStyle: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                            ),
+// errorText: 'Error message',
+                                            labelText: 'Buy price',
+                                            floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15.0, top: 327),
+                                            child: TextFormField(
+                                          controller: mcostCtrl,
+// The validator receives the text that the user has entered.
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return ' This field is required ';
+                                            }
+                                            prodFieldsValue.add(value);
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                borderSide: const BorderSide(
+                                                    color: AppTheme.skBorderColor,
+                                                    width: 2.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
+
+                                            focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                borderSide: const BorderSide(
+                                                    color: AppTheme.themeColor,
+                                                    width: 2.0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
+                                            contentPadding: const EdgeInsets.only(
+                                                left: 15.0,
+                                                right: 15.0,
+                                                top: 18.0,
+                                                bottom: 18.0),
+                                            suffixText: 'MMK',
+                                            suffixStyle: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey,
+                                              fontSize: 12,
+//fontFamily: 'capsulesans',
+                                            ),
+                                            errorStyle: TextStyle(
+                                                backgroundColor: Colors.white,
+                                                fontSize: 12,
+                                                fontFamily: 'capsulesans',
+                                                height: 0.1
+                                            ),
+                                            labelStyle: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                            ),
+// errorText: 'Error message',
+                                            labelText: 'Sale price',
+                                            floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 398.0),
+                                            child: Column(
+                                              children: <Widget>[
+                                            // Padding(
+                                            //     padding: const EdgeInsets.only(
+                                            //         left: 15.0, right: 15.0),
+                                            //     child: ButtonTheme(
+                                            //       splashColor: Colors.transparent,
+                                            //       minWidth:
+                                            //           MediaQuery.of(context).size.width,
+                                            //       height: 54,
+                                            //       child: FlatButton(
+                                            //         color: AppTheme.secButtonColor,
+                                            //         shape: RoundedRectangleBorder(
+                                            //           borderRadius:
+                                            //               BorderRadius.circular(10.0),
+                                            //         ),
+                                            //         onPressed: () async {
+                                            //           // final result =
+                                            //           // await showModalActionSheet<String>(
+                                            //           //     context: context,
+                                            //            //     actions: [
+                                            //           //      SheetAction(
+                                            //           //           icon: Icons.info,
+                                            //           //           label: 'Type One',
+                                            //           //           key: 'type_one'),
+                                            //           //       SheetAction(
+                                            //           //           icon: Icons.info,
+                                            //           //           label: 'Type Two',
+                                            //           //           key: 'type_two'),
+                                            //           //     ]
+                                            //           // );
+                                            //
+                                            //           if (cards.length == 2) {
+                                            //     print('Cards limit reached');
+                                            //     } else
+                                            //             setState(() => cards.add(createCard()));
+                                            //         },
+                                            //         child: Text(
+                                            //           'Add sub unit',
+                                            //           style: TextStyle(
+                                            //             fontSize: 16.5,
+                                            //             fontWeight: FontWeight.w600,
+                                            //           ),
+                                            //         ),
+                                            //       ),
+                                            //     )
+                                            // ),
+                                            ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              itemCount: cards.length,
+                                              itemBuilder:
+                                                  (BuildContext context, int index) {
+                                                return cards[index];
+                                              },
+                                            ),
+                                              ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15.0),
-                                      child: TextFormField(
-                                        controller: msaleCtrl,
-// The validator receives the text that the user has entered.
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return ' This field is required ';
-                                          }
-                                          prodFieldsValue.add(value);
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                          enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.skBorderColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-
-                                          focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.themeColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 15.0,
-                                              right: 15.0,
-                                              top: 18.0,
-                                              bottom: 18.0),
-                                          suffixText: 'MMK',
-                                          suffixStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
-                                            fontSize: 12,
-//fontFamily: 'capsulesans',
-                                          ),
-                                          errorStyle: TextStyle(
-                                              backgroundColor: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                              height: 0.1
-                                          ),
-                                          labelStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
-// errorText: 'Error message',
-                                          labelText: 'Buy price',
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
-//filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15.0),
-                                      child: TextFormField(
-                                        controller: mcostCtrl,
-// The validator receives the text that the user has entered.
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return ' This field is required ';
-                                          }
-                                          prodFieldsValue.add(value);
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                          enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.skBorderColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-
-                                          focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.themeColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                          contentPadding: const EdgeInsets.only(
-                                              left: 15.0,
-                                              right: 15.0,
-                                              top: 18.0,
-                                              bottom: 18.0),
-                                          suffixText: 'MMK',
-                                          suffixStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
-                                            fontSize: 12,
-//fontFamily: 'capsulesans',
-                                          ),
-                                          errorStyle: TextStyle(
-                                              backgroundColor: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'capsulesans',
-                                              height: 0.1
-                                          ),
-                                          labelStyle: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
-// errorText: 'Error message',
-                                          labelText: 'Sale price',
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
-//filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        // Padding(
-                                        //     padding: const EdgeInsets.only(
-                                        //         left: 15.0, right: 15.0),
-                                        //     child: ButtonTheme(
-                                        //       splashColor: Colors.transparent,
-                                        //       minWidth:
-                                        //           MediaQuery.of(context).size.width,
-                                        //       height: 54,
-                                        //       child: FlatButton(
-                                        //         color: AppTheme.secButtonColor,
-                                        //         shape: RoundedRectangleBorder(
-                                        //           borderRadius:
-                                        //               BorderRadius.circular(10.0),
-                                        //         ),
-                                        //         onPressed: () async {
-                                        //           // final result =
-                                        //           // await showModalActionSheet<String>(
-                                        //           //     context: context,
-                                        //            //     actions: [
-                                        //           //      SheetAction(
-                                        //           //           icon: Icons.info,
-                                        //           //           label: 'Type One',
-                                        //           //           key: 'type_one'),
-                                        //           //       SheetAction(
-                                        //           //           icon: Icons.info,
-                                        //           //           label: 'Type Two',
-                                        //           //           key: 'type_two'),
-                                        //           //     ]
-                                        //           // );
-                                        //
-                                        //           if (cards.length == 2) {
-                                        //     print('Cards limit reached');
-                                        //     } else
-                                        //             setState(() => cards.add(createCard()));
-                                        //         },
-                                        //         child: Text(
-                                        //           'Add sub unit',
-                                        //           style: TextStyle(
-                                        //             fontSize: 16.5,
-                                        //             fontWeight: FontWeight.w600,
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //     )
-                                        // ),
-                                        ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemCount: cards.length,
-                                          itemBuilder:
-                                              (BuildContext context, int index) {
-                                            return cards[index];
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 50,
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(height: 350,)
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 30,),
+                        ],
                       ),
                     ),
                   ],
