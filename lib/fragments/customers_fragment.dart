@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_customer.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
@@ -3848,6 +3849,112 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   final _width = 10.0;
   int cateScIndex = 0;
 
+  addCust() {
+    showModalBottomSheet(
+        enableDrag: true,
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 60.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(18.0),
+                          topRight: Radius.circular(18.0),
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Container(
+                          color: Colors.white,
+                          height:
+                          MediaQuery.of(context).size.height -
+                              45,
+                          width: double.infinity,
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 67,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey
+                                                .withOpacity(0.3),
+                                            width: 1.0))),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 5.0,
+                                      bottom: 0.0
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Untitled', style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey,
+                                      )),
+                                      SizedBox(height: 2.5),
+                                      Text('New customer creation', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 19
+                                      )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 57.0,
+                                    left: 0.0,
+                                    right: 0.0),
+                                child: AddCustomer(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 42,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 50,
+                          height: 5,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25.0),
+                              ),
+                              color: Colors.white.withOpacity(0.5)),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+          // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -3925,13 +4032,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (
-                                                              context) =>
-                                                              AddCustomer()),
-                                                    );
+                                                   addCust();
                                                   },
                                                   child: Container(
                                                     child: Row(
