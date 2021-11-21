@@ -1818,8 +1818,11 @@ class _WelcomeState extends State<Welcome>
                   children: [
                     Expanded(
                       child: Center(
-                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                            child: CupertinoActivityIndicator(radius: 13,)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                              child: CupertinoActivityIndicator(radius: 15,)),
+                        ),
                       ),
                     ),
                   ],
