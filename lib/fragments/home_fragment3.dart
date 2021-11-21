@@ -55,17 +55,20 @@ class HomeFragment extends StatefulWidget {
   final _callback2;
   final _callback3;
   final _callback4;
+  final _barcodeBtn;
 
   HomeFragment({
     required void toggleCoinCallback(String str),
     required void toggleCoinCallback2(String str),
     required void toggleCoinCallback3(String str),
     required void toggleCoinCallback4(String str) ,
+    required void barcodeBtn() ,
     Key? key,
   }) :  _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2 ,
         _callback3 = toggleCoinCallback3,
         _callback4 = toggleCoinCallback4,
+        _barcodeBtn = barcodeBtn,
         super(key: key);
   @override
   HomeFragmentState createState() => HomeFragmentState();
@@ -2473,10 +2476,7 @@ class HomeFragmentState extends State<HomeFragment>
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          // print('open barcode');
-                                          setState(() {
-                                            searchProdCount = '10';
-                                          });
+                                          widget._barcodeBtn();
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.only(

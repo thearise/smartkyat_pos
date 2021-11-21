@@ -2,15 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 
 import '../app_theme.dart';
 
-class QRViewExample extends StatefulWidget {
+class QRSearchExample extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
+  State<StatefulWidget> createState() => _QRSearchExampleState();
 }
 
-class _QRViewExampleState extends State<QRViewExample> {
+class _QRSearchExampleState extends State<QRSearchExample> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -27,11 +28,11 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 142.0, bottom: 20.0),
+      padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 100.0),
+            padding: const EdgeInsets.only(top: 100.0),
             child: Container(
                 child: _buildQrView(context)),
           ),
@@ -64,7 +65,7 @@ class _QRViewExampleState extends State<QRViewExample> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 120, left: 20, right: 20),
+              padding: const EdgeInsets.only(bottom: 50, left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -167,105 +168,10 @@ class _QRViewExampleState extends State<QRViewExample> {
               ),
             ),
           ),
-          // Container(
-          //   color: Colors.transparent,
-          //   alignment: Alignment.topCenter,
-          //   margin:
-          //   EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
-          //   child: ElevatedButton(
-          //     onPressed: () async {
-          //       await controller?.flipCamera();
-          //       // setState(() {});
-          //     },
-          //     style: ElevatedButton.styleFrom(
-          //       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          //       shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(30.0)),
-          //       primary: Colors.white.withOpacity(0.5),
-          //     ),
-          //     child: FutureBuilder(
-          //       future: controller?.getCameraInfo(),
-          //       builder: (context, snapshot) {
-          //         if (snapshot.data != null) {
-          //           return Icon(
-          //             Icons.flip_camera_ios,
-          //             color: Colors.black,
-          //             size: 30,
-          //             //'Camera facing ${describeEnum(snapshot.data!)}'
-          //           );
-          //         } else {
-          //           return Icon(
-          //             Icons.flip_camera_ios,
-          //             color: Colors.black,
-          //             size: 40,
-          //           );
-          //         }
-          //       },
-          //     ),
-          //   ),
-          // ),
-          // Container(
-          //   alignment: Alignment.bottomCenter,
-          //   child: ElevatedButton(
-          //       onPressed: () async {
-          //         await controller?.toggleFlash();
-          //         // setState(() {});
-          //       },
-          //       child: FutureBuilder(
-          //         future: controller?.getFlashStatus(),
-          //         builder: (context, snapshot) {
-          //           return Text('Flash: ${snapshot.data}');
-          //         },
-          //       )),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 8.0, top: 10),
-          //   child: ButtonTheme(
-          //     minWidth: 35,
-          //     splashColor: Colors.transparent,
-          //     height: 35,
-          //     child: FlatButton(
-          //       height: 35,
-          //       minWidth: 35,
-          //       padding: const EdgeInsets.all(0),
-          //       color: AppTheme.buttonColor2,
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius:
-          //         BorderRadius.circular(20),
-          //         side: BorderSide(
-          //           color: AppTheme.buttonColor2,
-          //         ),
-          //       ),
-          //       onPressed: () async {
-          //         Navigator.of(context).pop();
-          //       },
-          //       child: Container(
-          //         child: Icon(
-          //           Icons.close_rounded,
-          //           size: 25,
-          //           color: Colors.blue,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          //   // child: IconButton(
-          //   //   icon: Container(
-          //   //
-          //   //     child: Icon(
-          //   //       Icons.close_rounded,
-          //   //       size: 20,
-          //   //       color: Colors.blue,
-          //   //     ),
-          //   //   ),
-          //   //   onPressed: () {
-          //   //     Navigator.of(context).pop();
-          //   //   },
-          //   // ),
-          // ),
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.all(0.0),
+              padding: const EdgeInsets.only(top: 125.0),
               child: Container(
                 height: 50,
                 decoration: BoxDecoration(
@@ -285,7 +191,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
                             letterSpacing:-0.1,
-                          color: Colors.white
+                            color: Colors.white
                         ),
                       ),
                       Expanded(
@@ -306,57 +212,106 @@ class _QRViewExampleState extends State<QRViewExample> {
               ),
             ),
           ),
+
           Align(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.topCenter,
             child: Container(
-              height: 100,
-              color: Colors.white,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 35.0, left: 15.0, right: 15.0),
-                    child: ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width,
-                      splashColor: Colors.transparent,
-                      height: 50,
-                      child: FlatButton(
-                        color: AppTheme.buttonColor2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(10.0),
-                          side: BorderSide(
-                            // color: AppTheme.themeColor,
-                              color: Colors.transparent
-                          ),
-                        ),
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5.0,
-                              right: 5.0,
-                              bottom: 3.0),
-                          child: Container(
-                            child: Text(
-                              'Close camera',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing:-0.1
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    bottom: BorderSide(
+                        color: AppTheme.skBorderColor2,
+                        width: 1.0),
+                  )
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top + 15, left: 15.0, right: 15.0, bottom: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.transparent,
+                        style: BorderStyle.solid,
+                        width: 1.0,
+                      ),
+                      color: AppTheme.secButtonColor,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    height: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10.0, bottom: 11.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Container(
+                                child: Stack(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5.0),
+                                      child: Icon(
+                                        SmartKyat_POS.search,
+                                        size: 17,
+                                      ),
+                                    )
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                                    //   child: Icon(
+                                    //     Icons.close_rounded,
+                                    //     size: 24,
+                                    //   ),
+                                    // )
+
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                          Expanded(
+                            child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 13,
+                                    bottom: 1.5),
+                                child: Text(
+                                  'Search',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black.withOpacity(0.55)
+                                  ),
+                                )
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 15, bottom: 1.0),
+                              child: Icon(
+                                Icons.close_rounded,
+                                size: 24,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
