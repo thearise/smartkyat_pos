@@ -33,6 +33,7 @@ import 'package:smartkyat_pos/model/invoice.dart';
 import 'package:smartkyat_pos/model/supplier.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
+import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import '../app_theme.dart';
 import 'TabItem.dart';
 
@@ -218,7 +219,7 @@ class HomePageState extends State<HomePage>
           icon: Icon(
             Icons.add,
           ),
-          page: HomeFragment(
+          page: HomeFragment(barcodeBtn: openBarcodeSearch,
             toggleCoinCallback:addMerchant2Cart, key: homeGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3,
           ),
         ),
@@ -1311,12 +1312,15 @@ class HomePageState extends State<HomePage>
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          homeGlobalKey.currentState!.closeSearch();
-                                          prodGlobalKey.currentState!.closeSearch();
-                                          custGlobalKey.currentState!.closeSearch();
-                                          mercGlobalKey.currentState!.closeSearch();
-                                          sordGlobalKey.currentState!.closeSearch();
-                                          bordGlobalKey.currentState!.closeSearch();
+                                          Navigator.of(context).push(
+                                            FadeRoute(page: QRSearchExample()),
+                                          );
+                                          // homeGlobalKey.currentState!.closeSearch();
+                                          // prodGlobalKey.currentState!.closeSearch();
+                                          // custGlobalKey.currentState!.closeSearch();
+                                          // mercGlobalKey.currentState!.closeSearch();
+                                          // sordGlobalKey.currentState!.closeSearch();
+                                          // bordGlobalKey.currentState!.closeSearch();
                                           // print('sub ' + subList.toString());
                                           // testLoopData();
                                           // addDailyExp(context);
@@ -1421,6 +1425,12 @@ class HomePageState extends State<HomePage>
 
   addMerchant2Cart(data) {
     merchantId = data.toString();
+  }
+
+  openBarcodeSearch() {
+    Navigator.of(context).push(
+      FadeRoute(page: QRSearchExample()),
+    );
   }
 
   // addString2Sub(data){
