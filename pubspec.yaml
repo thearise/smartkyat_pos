@@ -82,6 +82,7 @@ dependencies:
   image_save: ^5.0.0
   native_pdf_renderer: ^3.1.0
   esc_pos_utils:
+  dotted_line: ^3.1.0
 
 
 dev_dependencies:

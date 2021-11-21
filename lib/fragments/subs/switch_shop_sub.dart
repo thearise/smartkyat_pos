@@ -16,7 +16,7 @@ import '../app_theme.dart';
 class SwitchShopSub extends StatefulWidget {
   final _chgShopCB3;
 
-  SwitchShopSub( {required void changeShopCallback3()} ) :
+  SwitchShopSub( {required void changeShopCallback3()}) :
         _chgShopCB3 = changeShopCallback3;
 
   @override
@@ -197,11 +197,12 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                child: Text('CURRENT SHOPPP', style: TextStyle(
+                child: Text('CURRENT SHOP', style: TextStyle(
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,color: Colors.grey,
-                ),),
+                ),
+                ),
               ),
               SizedBox(height: 15,),
               Padding(
