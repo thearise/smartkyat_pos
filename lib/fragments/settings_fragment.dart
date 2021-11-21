@@ -12,7 +12,7 @@ import 'subs/switch_shop_sub.dart';
 class SettingsFragment extends StatefulWidget {
   final _chgShopCB;
 
-  SettingsFragment( {required void changeShopCallback(), Key? key,} ) :
+  SettingsFragment({required void changeShopCallback(), Key? key,}):
         _chgShopCB = changeShopCallback, super(key: key);
 
   @override
@@ -25,8 +25,14 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
   @override
   bool get wantKeepAlive => true;
   @override
+
   initState() {
-    HomePageState().getStoreId().then((value) => shopId = value);
+    HomePageState().getStoreId().then((value) {
+      setState(() {
+        shopId = value.toString();
+      });
+
+    });
     super.initState();
   }
 
@@ -44,6 +50,8 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
   void dispose() {
     super.dispose();
   }
+  final auth = FirebaseAuth.instance;
+
   addShop(shopName) {
     CollectionReference spaces = FirebaseFirestore.instance.collection('space');
     var exist = false;
@@ -116,7 +124,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
           bottom: true,
           top: true,
           child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
                     height: 81,
@@ -167,8 +175,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                 letterSpacing: 1.5,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,color: Colors.grey,
-                              ),),
-                            ),
+                              ),),),
                             GestureDetector(
                               onTap: (){
                                 Navigator.push(
@@ -184,24 +191,53 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                           color: AppTheme.skBorderColor2,
                                           width: 1.0),
                                     )),
-                                child: Center(
-                                  child: ListTile(
-                                    title: Text('Account', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text('Shwe Shwe' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.grey),),
-                                        SizedBox(width: 8,),
-                                        Icon(
-                                          Icons
-                                              .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        child: Text('Account',
+                                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                      ),
+                                      StreamBuilder(
+                                          stream: FirebaseFirestore.instance.collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).snapshots(),
+                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                            if(snapshot.hasData) {
+                                              return Expanded(
+                                                child: ListView(
+                                                  physics: NeverScrollableScrollPhysics(),
+                                                  children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                                    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                                    return Padding(
+                                                      padding: const EdgeInsets.only(top: 24),
+                                                      child: Container(
+                                                        width: MediaQuery.of(context).size.width/2,
+                                                        child: Text(data['name'],textAlign: TextAlign.right, overflow: TextOverflow.ellipsis,
+                                                          style: TextStyle(
+                                                            fontSize: 17,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors.grey),),
+                                                      ),
+                                                    );
+                                                        }).toList(),
+                                                        ),
+                                                      );
+                                                    }
+                                                        return Container();
+                                                      }
+                                                  ),
+                                                  SizedBox(width: 8,),
+                                                  Icon(
+                                                    Icons
+                                                        .arrow_forward_ios_rounded,
+                                                    size: 16,
+                                                    color: Colors.grey,
+                                                  ),
+                                             ]
+                                            ),
                                 ),
-                              ),
-                            ),
+                            ),),
                             GestureDetector(
                               onTap: (){
                                 Navigator.push(
@@ -211,33 +247,36 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                               },
                               child: Container(
                                 height: 72,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 4.0),
-                                    child: ListTile(
-                                      title: Text('Shop settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          StreamBuilder<Object>(
-                                            stream: null,
-                                            builder: (context, snapshot) {
-                                              return Text('Ethereals Shop' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
+                                  child: Row(
+                                   // mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                    Text('Shop settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                        Spacer(),
+                                        StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                                            builder: (BuildContext context, snapshot) {
+                                              if(snapshot.hasData) {
+                                                var output = snapshot.data!.data();
+                                                var shopName = output?['shop_name'];
+                                            return Container(
+                                              width: MediaQuery.of(context).size.width/2,
+                                                child: Text(shopName ,textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
+                                            );
+                                          }
+                                            return Container();
                                             }
-                                          ),
-                                          SizedBox(width: 8,),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                          ),
-                                        ],
-                                      ),
-
-
+                                        ),
+                                        SizedBox(width: 8,),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
                             SizedBox(height: 15,),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 15.0),

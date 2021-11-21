@@ -260,7 +260,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 20.0),
+                                      top: 15.0),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                     child: Column(
