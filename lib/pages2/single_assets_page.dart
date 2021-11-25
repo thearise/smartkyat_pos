@@ -23,7 +23,7 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart'
 import '../app_theme.dart';
 import '../constants/page_mixin.dart';
 import '../constants/picker_method.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+// import 'package:dropdown_search/dropdown_search.dart';
 
 import 'home_page3.dart';
 
