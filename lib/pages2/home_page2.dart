@@ -6,6 +6,7 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:device_info/device_info.dart';
+// import 'package:dropdown_below/dropdown_below.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
@@ -33,8 +34,10 @@
 // import 'package:smartkyat_pos/model/supplier.dart';
 // import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 // import 'package:smartkyat_pos/src/screens/loading.dart';
+// import 'package:smartkyat_pos/widgets/barcode_search.dart';
 // import '../app_theme.dart';
 // import 'TabItem.dart';
+// // import 'package:cool_dropdown/cool_dropdown.dart';
 //
 //
 // import 'package:image_save/image_save.dart';
@@ -81,6 +84,7 @@
 //   }
 //
 //   List<String> subList = [];
+//   List<String> subList2 = [];
 //   testFunc() async {
 //     print('hi');
 //     CollectionReference users = FirebaseFirestore.instance.collection('test');
@@ -101,6 +105,7 @@
 //   }
 //   late TabController _controller;
 //   late TabController _controller2;
+//   late TabController _controllerTabBarCode;
 //   int _sliding = 0;
 //
 //
@@ -157,10 +162,48 @@
 //     }
 //   }
 //
+//   List dropdownItemList = [];
+//
+//   List<String> fruits = [
+//     'apple',
+//     'banana',
+//     'grapes',
+//   ];
+//
+//   List _testList = [
+//     {'no': 1, 'keyword': 'blue'},
+//     {'no': 2, 'keyword': 'black'},
+//     {'no': 3, 'keyword': 'red'}
+//   ];
+//   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
+//   var _selectedTest;
+//
 //   @override
 //   void initState() {
-//     SystemChannels.textInput.invokeMethod('TextInput.hide');
+//     _dropdownTestItems = buildDropdownTestItems(_testList);
 //
+//     for (var i = 0; i < fruits.length; i++) {
+//       dropdownItemList.add(
+//         {
+//           'label': fruits[i] == 'melon' ? 'melon sugar high' : '${fruits[i]}',
+//           // 'label': '${fruits[i]}',
+//           'value': '${fruits[i]}',
+//           'icon': Container(
+//             key: UniqueKey(),
+//             height: 20,
+//             width: 20,
+//             child: Text('SVG'),
+//           ),
+//           'selectedIcon': Container(
+//             key: UniqueKey(),
+//             width: 20,
+//             height: 20,
+//             child: Text('SVG', style: TextStyle(color: Colors.blue),),
+//           ),
+//         },
+//       );
+//     }
+//     SystemChannels.textInput.invokeMethod('TextInput.hide');
 //
 //     getDeviceId().then((value) {
 //       deviceIdNum = value;
@@ -198,6 +241,7 @@
 //     });
 //     _controller = new TabController(length: 4, vsync: this);
 //     _controller2 = new TabController(length: 3, vsync: this);
+//     _controllerTabBarCode = new TabController(length: 1, vsync: this);
 //     print('home_page' + 'sub1'.substring(3,4));
 //
 //
@@ -218,7 +262,7 @@
 //           icon: Icon(
 //             Icons.add,
 //           ),
-//           page: HomeFragment(
+//           page: HomeFragment(barcodeBtn: openBarcodeSearch,
 //             toggleCoinCallback:addMerchant2Cart, key: homeGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3,
 //           ),
 //         ),
@@ -293,15 +337,39 @@
 //     super.initState();
 //   }
 //
+//   List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {
+//     List<DropdownMenuItem<Object?>> items = [];
+//     for (var i in _testList) {
+//       items.add(
+//         DropdownMenuItem(
+//           value: i,
+//           child: Text(i['keyword']),
+//         ),
+//       );
+//     }
+//     return items;
+//   }
+//
+//   onChangeDropdownTests(selectedTest) {
+//     print(selectedTest);
+//     setState(() {
+//       _selectedTest = selectedTest;
+//     });
+//   }
+//
 //   chgShopIdFromSetting() {
+//     setState(() {
+//       _selectTab(0);
+//       _selectIndex = 0;
+//     });
 //     // print('gg');
-//     homeGlobalKey.currentState!.chgShopIdFrmHomePage();
-//     prodGlobalKey.currentState!.chgShopIdFrmHomePage();
-//     bordGlobalKey.currentState!.chgShopIdFrmHomePage();
-//     sordGlobalKey.currentState!.chgShopIdFrmHomePage();
-//     mercGlobalKey.currentState!.chgShopIdFrmHomePage();
-//     custGlobalKey.currentState!.chgShopIdFrmHomePage();
-//     settGlobalKey.currentState!.chgShopIdFrmHomePage();
+//     // homeGlobalKey.currentState!.chgShopIdFrmHomePage();
+//     // prodGlobalKey.currentState!.chgShopIdFrmHomePage();
+//     // bordGlobalKey.currentState!.chgShopIdFrmHomePage();
+//     // sordGlobalKey.currentState!.chgShopIdFrmHomePage();
+//     // mercGlobalKey.currentState!.chgShopIdFrmHomePage();
+//     // custGlobalKey.currentState!.chgShopIdFrmHomePage();
+//     // settGlobalKey.currentState!.chgShopIdFrmHomePage();
 //   }
 //
 //   closeNewProduct() {
@@ -313,11 +381,126 @@
 //     final _formKey = GlobalKey<FormState>();
 //     // myController.clear();
 //     showModalBottomSheet(
-//         enableDrag: false,
+//         enableDrag: true,
 //         isScrollControlled: true,
 //         context: context,
+//         backgroundColor: Colors.transparent,
 //         builder: (BuildContext context) {
-//           return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+//           return Scaffold(
+//             resizeToAvoidBottomInset: false,
+//             body: GestureDetector(
+//               onTap: () {
+//                 FocusScope.of(context).unfocus();
+//               },
+//               child: Stack(
+//                 children: [
+//                   Padding(
+//                     padding: const EdgeInsets.only(top: 60.0),
+//                     child: Container(
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.only(
+//                           topLeft: Radius.circular(18.0),
+//                           topRight: Radius.circular(18.0),
+//                         ),
+//                         color: Colors.white,
+//                       ),
+//                       child: Padding(
+//                         padding: const EdgeInsets.only(top: 15.0),
+//                         child: Container(
+//                           color: Colors.white,
+//                           height:
+//                           MediaQuery.of(context).size.height -
+//                               45,
+//                           width: double.infinity,
+//                           child: Stack(
+//                             children: [
+//                               Container(
+//                                 height: 67,
+//                                 width: double.infinity,
+//                                 decoration: BoxDecoration(
+//                                     border: Border(
+//                                         bottom: BorderSide(
+//                                             color: Colors.grey
+//                                                 .withOpacity(0.3),
+//                                             width: 1.0))),
+//                                 child: Padding(
+//                                   padding: EdgeInsets.only(
+//                                       left: 15.0,
+//                                       right: 15.0,
+//                                       top: 5.0,
+//                                       bottom: 0.0
+//                                   ),
+//                                   child: Column(
+//                                     crossAxisAlignment: CrossAxisAlignment.start,
+//                                     children: [
+//                                       Text('Untitled', style: TextStyle(
+//                                         fontWeight: FontWeight.w500,
+//                                         color: Colors.grey,
+//                                       )),
+//                                       SizedBox(height: 2.5),
+//                                       Text('New product creation', style: TextStyle(
+//                                           fontWeight: FontWeight.w600,
+//                                           fontSize: 19
+//                                       )),
+//                                     ],
+//                                   ),
+//                                 ),
+//                               ),
+//                               Padding(
+//                                 padding: const EdgeInsets.only(
+//                                     top: 57.0,
+//                                     left: 0.0,
+//                                     right: 0.0),
+//                                 child: SingleAssetPage(toggleCoinCallback: closeNewProduct),
+//                               ),
+//                               // Align(
+//                               //   alignment: Alignment.bottomCenter,
+//                               //   child: Padding(
+//                               //     padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+//                               //     child: Container(
+//                               //       decoration: BoxDecoration(
+//                               //           color: Colors.white,
+//                               //           border: Border(
+//                               //             top: BorderSide(
+//                               //                 color:
+//                               //                 AppTheme.skBorderColor2,
+//                               //                 width: 1.0),
+//                               //           )),
+//                               //       width: double.infinity,
+//                               //       height: 158,
+//                               //       child: Container(),
+//                               //     ),
+//                               //   ),
+//                               // ),
+//                             ],
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   Positioned(
+//                     top: 42,
+//                     child: Container(
+//                       width: MediaQuery.of(context).size.width,
+//                       child: Align(
+//                         alignment: Alignment.center,
+//                         child: Container(
+//                           width: 50,
+//                           height: 5,
+//                           decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.all(
+//                                 Radius.circular(25.0),
+//                               ),
+//                               color: Colors.white.withOpacity(0.5)),
+//                         ),
+//                       ),
+//                     ),
+//                   )
+//                 ],
+//               ),
+//             ),
+//           );
+//           // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
 //         });
 //   }
 //
@@ -373,7 +556,7 @@
 //                     crossAxisAlignment: CrossAxisAlignment.stretch,
 //                     children: [
 //                       Container(
-//                         height: 80,
+//                         height: 81,
 //                         decoration: BoxDecoration(
 //                             border: Border(
 //                                 bottom: BorderSide(
@@ -384,16 +567,8 @@
 //                               left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
 //                           child: GestureDetector(
 //                             onTap: () async {
-//                               // MainFragmentState().changeState(1);
-//                               _selectTab(0);
-//                               await FirebaseAuth.instance.signOut();
-//                               setStoreId('');
-//                               // Navigator.pop(context);
-//                               // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoadingScreen()));
-//                               // Navigator.of(context).pushReplacement(FadeRoute(builder: (context) => Welcome()));
-//                               Navigator.of(context).pushReplacement(
-//                                 FadeRoute(page: Welcome()),
-//                               );
+//                               Navigator.of(context).pop();
+//                               Navigator.of(context).pop();
 //
 //                             },
 //                             child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -411,19 +586,32 @@
 //                                       crossAxisAlignment: CrossAxisAlignment.start,
 //                                       children: [
 //                                         SizedBox(
-//                                           height: 2,
+//                                           height: 1,
 //                                         ),
 //                                         Text(
 //                                           shopName.toString(),overflow: TextOverflow.ellipsis,
 //                                           style: TextStyle(
-//                                               height: 1.4, fontSize: 18, fontWeight: FontWeight.w500),
+//                                               height: 2, fontSize: 18, fontWeight: FontWeight.w500),
+//                                           strutStyle: StrutStyle(
+//                                             height: 2,
+//                                             // fontSize:,
+//                                             forceStrutHeight: true,
+//                                           ),
 //                                         ),
 //                                         SizedBox(
-//                                           height: 3,
+//                                           height: 0,
 //                                         ),
-//                                         Text(
-//                                           shopAddress.toString(),overflow: TextOverflow.ellipsis,
-//                                           style: TextStyle(height: 1, fontSize: 14),
+//                                         Transform.translate(
+//                                           offset: Offset(0, -5),
+//                                           child: Text(
+//                                             shopAddress.toString(),overflow: TextOverflow.ellipsis,
+//                                             style: TextStyle(height: 2, fontSize: 14),
+//                                             strutStyle: StrutStyle(
+//                                               height: 2,
+//                                               // fontSize:,
+//                                               forceStrutHeight: true,
+//                                             ),
+//                                           ),
 //                                         ),
 //                                         SizedBox(
 //                                           height: 3,
@@ -859,7 +1047,7 @@
 //                                   color: AppTheme.buttonColor2,
 //                                   shape: RoundedRectangleBorder(
 //                                     borderRadius:
-//                                     BorderRadius.circular(10.0),
+//                                     BorderRadius.circular(8.0),
 //                                     side: BorderSide(
 //                                       color: AppTheme.buttonColor2,
 //                                     ),
@@ -874,11 +1062,11 @@
 //                                   },
 //                                   child: Container(
 //                                     child: Text(
-//                                       'Log out',
+//                                       'Logout',
 //                                       textAlign: TextAlign.center,
 //                                       style: TextStyle(
 //                                         fontSize: 13,
-//                                         fontWeight: FontWeight.bold,
+//                                         fontWeight: FontWeight.w500,
 //                                       ),
 //                                     ),
 //                                   ),
@@ -1187,12 +1375,15 @@
 //                                       ),
 //                                       GestureDetector(
 //                                         onTap: () {
-//                                           homeGlobalKey.currentState!.closeSearch();
-//                                           prodGlobalKey.currentState!.closeSearch();
-//                                           custGlobalKey.currentState!.closeSearch();
-//                                           mercGlobalKey.currentState!.closeSearch();
-//                                           sordGlobalKey.currentState!.closeSearch();
-//                                           bordGlobalKey.currentState!.closeSearch();
+//                                           Navigator.of(context).push(
+//                                             FadeRoute(page: QRSearchExample()),
+//                                           );
+//                                           // homeGlobalKey.currentState!.closeSearch();
+//                                           // prodGlobalKey.currentState!.closeSearch();
+//                                           // custGlobalKey.currentState!.closeSearch();
+//                                           // mercGlobalKey.currentState!.closeSearch();
+//                                           // sordGlobalKey.currentState!.closeSearch();
+//                                           // bordGlobalKey.currentState!.closeSearch();
 //                                           // print('sub ' + subList.toString());
 //                                           // testLoopData();
 //                                           // addDailyExp(context);
@@ -1297,6 +1488,30 @@
 //
 //   addMerchant2Cart(data) {
 //     merchantId = data.toString();
+//   }
+//
+//   openBarcodeSearch() async {
+//     String result = '';
+//     result = await Navigator.of(context).push(
+//       FadeRoute(page: QRSearchExample()),
+//     );
+//
+//     // print('resut got ' + result);
+//     if(result != null && result != '') {
+//       scannedResult(result);
+//
+//       await FirebaseFirestore.instance
+//           .collection('shops')
+//           .doc(shopId)
+//           .collection('products')
+//           .where('qr_codes', arrayContains: result)
+//           .limit(1)
+//           .get()
+//           .then((QuerySnapshot querySnapshot) {
+//         querySnapshot.docs.forEach((doc) {
+//         });
+//       });
+//     }
 //   }
 //
 //   // addString2Sub(data){
@@ -1584,6 +1799,489 @@
 //   //
 //   // }
 //
+//   scannedResult(String result) {
+//     showModalBottomSheet(
+//         enableDrag: true,
+//         isScrollControlled: true,
+//         context: context,
+//         backgroundColor: Colors.transparent,
+//         builder: (BuildContext context) {
+//           return StatefulBuilder(
+//             builder: (BuildContext context, StateSetter mystate) {
+//               return Scaffold(
+//                 resizeToAvoidBottomInset: false,
+//                 body: GestureDetector(
+//                   onTap: () {
+//                     FocusScope.of(context).unfocus();
+//                   },
+//                   child: Stack(
+//                     children: [
+//                       Padding(
+//                         padding: const EdgeInsets.only(top: 60.0),
+//                         child: Container(
+//                           decoration: BoxDecoration(
+//                             borderRadius: BorderRadius.only(
+//                               topLeft: Radius.circular(18.0),
+//                               topRight: Radius.circular(18.0),
+//                             ),
+//                             color: Colors.white,
+//                           ),
+//                           child: Padding(
+//                             padding: const EdgeInsets.only(top: 15.0),
+//                             child: TabBarView(
+//                               physics: NeverScrollableScrollPhysics(),
+//                               controller: _controllerTabBarCode,
+//                               children: [
+//                                 Container(
+//                                   // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+//                                   width: double.infinity,
+//                                   decoration: BoxDecoration(
+//                                     borderRadius: BorderRadius.only(
+//                                       topLeft: Radius.circular(20.0),
+//                                       topRight: Radius.circular(20.0),
+//                                     ),
+//                                     color: Colors.white,
+//                                   ),
+//                                   child: Container(
+//                                     width: double.infinity,
+//                                     child: Stack(
+//                                       children: [
+//                                         Container(
+//                                           width: double.infinity,
+//                                           height: 67,
+//                                           decoration: BoxDecoration(
+//                                               border: Border(
+//                                                   bottom: BorderSide(
+//                                                       color: Colors.blue
+//                                                           .withOpacity(0.1),
+//                                                       width: 1.0))),
+//                                           child:
+//
+//                                           Padding(
+//                                             padding: EdgeInsets.only(
+//                                                 left: 15.0,
+//                                                 right: 15.0,
+//                                                 top: 4),
+//                                             child:
+//                                             Column(
+//                                               crossAxisAlignment: CrossAxisAlignment.start,
+//                                               children: [
+//                                                 Row(
+//                                                   children: [
+//                                                     Text('MMK ', style: TextStyle(
+//                                                       fontWeight: FontWeight.w500,
+//                                                       color: Colors.grey,
+//                                                     )),
+//                                                   ],
+//                                                 ),
+//                                                 SizedBox(height: 3),
+//                                                 Text('productName', style: TextStyle(
+//                                                     fontWeight: FontWeight.w600,
+//                                                     fontSize: 19
+//                                                 )),
+//                                               ],
+//                                             ),
+//                                           ),
+//                                         ),
+//                                         Padding(
+//                                           padding: const EdgeInsets.only(
+//                                               top: 67.0,
+//                                               left: 15.0,
+//                                               right: 15.0,
+//                                               bottom: 192),
+//                                           child: Container(
+//                                               child: ListView(
+//                                                 children: [
+//                                                   SizedBox(
+//                                                       height: 15
+//                                                   ),
+//                                                   Text('CHOOSE UNIT', style: TextStyle(
+//                                                     fontWeight: FontWeight.bold,
+//                                                     fontSize: 14,
+//                                                     letterSpacing: 2,
+//                                                     color: Colors.grey,
+//                                                   ),),
+//                                                   SizedBox(
+//                                                       height: 15
+//                                                   ),
+//                                                   DropdownBelow(
+//                                                     itemWidth: MediaQuery.of(context).size.width-30,
+//                                                     itemTextstyle: TextStyle(
+//                                                         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+//                                                     boxTextstyle: TextStyle(
+//                                                         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+//                                                     boxPadding: EdgeInsets.fromLTRB(15, 12, 13, 12),
+//                                                     boxWidth: double.infinity,
+//                                                     boxHeight: 50,
+//                                                     boxDecoration: BoxDecoration(
+//                                                         borderRadius:
+//                                                         BorderRadius.circular(10.0),
+//                                                         color: AppTheme.buttonColor2,
+//                                                         border: Border.all(width: 1, color: Colors.transparent)),
+//                                                     icon: Icon(
+//                                                       Icons.keyboard_arrow_down_rounded, size: 20, color: Colors.black,
+//                                                     ),
+//                                                     hint: Text('Filter'),
+//                                                     value: _selectedTest,
+//                                                     items: _dropdownTestItems,
+//                                                     onChanged: onChangeDropdownTests,
+//                                                   ),
+//                                                   SizedBox(height: 15),
+//                                                   Column(
+//                                                     crossAxisAlignment: CrossAxisAlignment.start,
+//                                                     children: [
+//                                                       Text('QUANTITY', style: TextStyle(
+//                                                         fontWeight: FontWeight.bold,
+//                                                         fontSize: 14,
+//                                                         letterSpacing: 2,
+//                                                         color: Colors.grey,
+//                                                       ),),
+//                                                       SizedBox(height: 15),
+//                                                       Row(
+//                                                         children: [
+//                                                           GestureDetector(
+//                                                             onTap: () {
+//                                                             },
+//                                                             child: Container(
+//                                                               width: (MediaQuery.of(context).size.width - 60)/3,
+//                                                               height: 48,
+//                                                               decoration: BoxDecoration(
+//                                                                   borderRadius:
+//                                                                   BorderRadius.circular(10.0),
+//                                                                   color: AppTheme.themeColor),
+//                                                               child: Container(
+//                                                                   child: Icon(
+//                                                                     Icons.remove, size: 25,
+//                                                                   )
+//                                                               ),
+//                                                             ),
+//                                                           ),
+//                                                           SizedBox(width: 15),
+//                                                           Padding(
+//                                                             padding: const EdgeInsets.only(top: 2.5),
+//                                                             child: Container(
+//                                                               width: (MediaQuery.of(context).size.width - 60)/3,
+//                                                               height: 50,
+//                                                               child: TextField(
+//                                                                 textAlign: TextAlign.center,
+//                                                                 decoration: InputDecoration(
+//                                                                   enabledBorder: const OutlineInputBorder(
+//                                                                     // width: 0.0 produces a thin "hairline" border
+//                                                                       borderSide: const BorderSide(
+//                                                                           color: AppTheme.skBorderColor, width: 2.0),
+//                                                                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//
+//                                                                   focusedBorder: const OutlineInputBorder(
+//                                                                     // width: 0.0 produces a thin "hairline" border
+//                                                                       borderSide: const BorderSide(
+//                                                                           color: AppTheme.skThemeColor2, width: 2.0),
+//                                                                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//                                                                   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+//                                                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
+//                                                                   //filled: true,
+//                                                                   border: OutlineInputBorder(
+//                                                                     borderRadius: BorderRadius.circular(10),
+//                                                                   ),
+//                                                                 ),
+//                                                                 keyboardType: TextInputType.number,
+//                                                                 onChanged: (value) {
+//                                                                 },
+//                                                                 // controller: myController,
+//                                                               ),
+//                                                             ),
+//                                                           ),
+//                                                           SizedBox(width: 15),
+//                                                           GestureDetector(
+//                                                             onTap: () {
+//                                                             },
+//                                                             child: Container(
+//                                                               width: (MediaQuery.of(context).size.width - 60)/3,
+//                                                               height: 48,
+//                                                               decoration: BoxDecoration(
+//                                                                   borderRadius:
+//                                                                   BorderRadius.circular(10.0),
+//                                                                   color: AppTheme.themeColor),
+//                                                               child: Container(
+//                                                                   child: Icon(
+//                                                                     Icons.add, size: 25,
+//                                                                   )
+//                                                               ),
+//                                                             ),
+//                                                           ),
+//                                                         ],
+//                                                       ),
+//                                                       SizedBox(height: 15,),
+//                                                       Text('MAIN UNIT PRICING', style: TextStyle(
+//                                                         fontWeight: FontWeight.bold,
+//                                                         fontSize: 14,
+//                                                         letterSpacing: 2,
+//                                                         color: Colors.grey,
+//                                                       ),),
+//                                                       SizedBox(height: 15,),
+//                                                       // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+//                                                       //   stream: FirebaseFirestore
+//                                                       //       .instance
+//                                                       //       .collection('space')
+//                                                       //       .doc(
+//                                                       //       '0NHIS0Jbn26wsgCzVBKT')
+//                                                       //       .collection('shops')
+//                                                       //       .doc(
+//                                                       //       shopId)
+//                                                       //       .collection('products')
+//                                                       //       .doc(eachProd.split('-')[0])
+//                                                       //       .snapshots(),
+//                                                       //   builder: (BuildContext context, snapshot2) {
+//                                                       //     if (snapshot2.hasData) {
+//                                                       // var output = snapshot2.data!.data();
+//                                                       // // var prodName = output?['prod_name'];
+//                                                       // var mainName = output?['unit_name'];
+//                                                       // var sub1Name = output?['sub1_name'];
+//                                                       // var sub2Name = output?['sub2_name'];
+//                                                       // // var sub3Name = output?['sub3_name'];
+//                                                       // var barcode = output?['bar_code'];
+//                                                       // // var mainPrice = output?['unit_sell'];
+//                                                       // // var sub1Price = output?['sub1_sell'];
+//                                                       // // var sub2Price = output?['sub2_sell'];
+//                                                       // // var sub3Price = output?['sub3_sell'];
+//                                                       // // var sub1Unit = output?['sub1_link'];
+//                                                       // // var sub2Unit = output?['sub2_link'];
+//                                                       // // var sub3Unit = output?['sub3_link'];
+//                                                       // // var subExist = output?['sub_exist'];
+//                                                       // var mainLoss = output?['Loss1'].round();
+//                                                       // var sub1Loss = output?['Loss2'].round();
+//                                                       // var sub2Loss = output?['Loss3'].round();
+//                                                       // var mainQty = output?['inStock1'].round();
+//                                                       // var sub1Qty = output?['inStock2'].round();
+//                                                       // var sub2Qty = output?['inStock3'].round();
+//                                                       // var image = output?['img_1'];
+//                                                       //return
+//                                                       Container(
+//                                                         height: 220,
+//                                                         decoration: BoxDecoration(
+//                                                           borderRadius: BorderRadius.circular(20.0),
+//                                                           color: AppTheme.lightBgColor,
+//                                                         ),
+//                                                         child: Padding(
+//                                                           padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+//                                                           child: Column(
+//                                                             crossAxisAlignment: CrossAxisAlignment.start,
+//                                                             children: [
+//                                                               Container(
+//                                                                 height: 55,
+//                                                                 decoration: BoxDecoration(border: Border(bottom: BorderSide(
+//                                                                     color: Colors.grey
+//                                                                         .withOpacity(0.2),
+//                                                                     width: 1.0))),
+//                                                                 child: Row(
+//                                                                   children: [
+//                                                                     Text('Sell price', style:
+//                                                                     TextStyle(
+//                                                                       fontSize: 15,
+//                                                                       fontWeight: FontWeight.w500,
+//                                                                     ),),
+//                                                                     Spacer(),
+//                                                                     Text('MMK ', style:
+//                                                                     TextStyle(
+//                                                                       fontSize: 15,
+//                                                                       fontWeight: FontWeight.w500,
+//                                                                       color: Colors.grey,
+//                                                                     ),),
+//                                                                   ],
+//                                                                 ),
+//                                                               ),
+//                                                               Container(
+//                                                                 height: 55,
+//                                                                 decoration: BoxDecoration(
+//                                                                     border: Border(
+//                                                                         bottom: BorderSide(
+//                                                                             color: Colors.grey
+//                                                                                 .withOpacity(0.2),
+//                                                                             width: 1.0))),
+//                                                                 child: Row(
+//                                                                   children: [
+//                                                                     Text('In stock', style:
+//                                                                     TextStyle(
+//                                                                       fontSize: 15,
+//                                                                       fontWeight: FontWeight.w500,
+//                                                                     ),),
+//                                                                     Spacer(),
+//                                                                     Text('Maing', style:
+//                                                                     TextStyle(
+//                                                                       fontSize: 15,
+//                                                                       fontWeight: FontWeight.w500,
+//                                                                       color: Colors.grey,
+//                                                                     ),),
+//                                                                   ],
+//                                                                 ),
+//                                                               ),
+//                                                               Container(
+//                                                                 height: 55,
+//                                                                 decoration: BoxDecoration(
+//                                                                     border: Border(
+//                                                                         bottom: BorderSide(
+//                                                                             color: Colors.grey
+//                                                                                 .withOpacity(0.2),
+//                                                                             width: 1.0))),
+//                                                                 child: Row(
+//                                                                   children: [
+//                                                                     Text('Loss', style:
+//                                                                     TextStyle(
+//                                                                       fontSize: 15,
+//                                                                       fontWeight: FontWeight.w500,
+//                                                                     ),),
+//                                                                     Spacer(),
+//                                                                     Text('Maing', style:
+//                                                                     TextStyle(
+//                                                                       fontSize: 15,
+//                                                                       fontWeight: FontWeight.w500,
+//                                                                       color: Colors.grey,
+//                                                                     ),)
+//                                                                   ],
+//                                                                 ),
+//                                                               ),
+//                                                               Container(
+//                                                                 height: 55,
+//                                                                 child: Row(
+//                                                                   children: [
+//                                                                     Text('Barcode', style:
+//                                                                     TextStyle(
+//                                                                       fontSize: 15,
+//                                                                       fontWeight: FontWeight.w500,
+//                                                                     ),),
+//                                                                     Spacer(),
+//                                                                     Text('barcode', style:
+//                                                                     TextStyle(
+//                                                                       fontSize: 15,
+//                                                                       fontWeight: FontWeight.w500,
+//                                                                       color: Colors.grey,
+//                                                                     ),),
+//                                                                   ],
+//                                                                 ),
+//                                                               ),
+//                                                             ],
+//                                                           ),
+//                                                         ),
+//                                                       ),
+//                                                       //     }
+//                                                       //     return Container();
+//                                                       //   },
+//                                                       // ),
+//                                                     ],
+//                                                   ),
+//                                                 ],
+//                                               )),
+//                                         ),
+//                                         Align(
+//                                           alignment: Alignment.bottomCenter,
+//                                           child: Padding(
+//                                             padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+//                                             child: Container(
+//                                               decoration: BoxDecoration(
+//                                                   border: Border(
+//                                                     top: BorderSide(
+//                                                         color:
+//                                                         AppTheme.skBorderColor2,
+//                                                         width: 1.0),
+//                                                   )),
+//                                               width: double.infinity,
+//                                               height: 158,
+//                                               child: Column(
+//                                                 mainAxisAlignment:
+//                                                 MainAxisAlignment.end,
+//                                                 crossAxisAlignment:
+//                                                 CrossAxisAlignment.end,
+//                                                 children: [
+//                                                   ListTile(
+//                                                     title: Text(
+//                                                       'Total',
+//                                                       style: TextStyle(
+//                                                           fontSize: 17,
+//                                                           fontWeight:
+//                                                           FontWeight
+//                                                               .w500),
+//                                                     ),
+//                                                     trailing: Text('MMK ',
+//                                                       style: TextStyle(
+//                                                           fontSize: 17,
+//                                                           fontWeight:
+//                                                           FontWeight
+//                                                               .w500),
+//                                                     ),
+//                                                   ),
+//                                                   SizedBox(height: 10),
+//                                                   Padding(
+//                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+//                                                       child: GestureDetector(
+//                                                         onTap: () {
+//                                                         },
+//                                                         child: Container(
+//                                                           width: double.infinity,
+//                                                           height: 50,
+//                                                           decoration: BoxDecoration(
+//                                                               borderRadius:
+//                                                               BorderRadius.circular(10.0),
+//                                                               color: AppTheme.themeColor),
+//                                                           child: Center(
+//                                                             child: Padding(
+//                                                               padding: const EdgeInsets.only(bottom: 3.0),
+//                                                               child: Container(
+//                                                                   child: Text(
+//                                                                     'Add to cart',
+//                                                                     textAlign: TextAlign.center,
+//                                                                     style: TextStyle(
+//                                                                         fontSize: 18,
+//                                                                         fontWeight: FontWeight.w600,
+//                                                                         color: Colors.black
+//                                                                     ),
+//                                                                   )
+//                                                               ),
+//                                                             ),
+//                                                           ),
+//                                                         ),
+//                                                       )
+//                                                   )
+//                                                 ],
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//
+//                                       ],
+//                                     ),
+//                                   ),
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       Positioned(
+//                         top: 42,
+//                         child: Container(
+//                           width: MediaQuery.of(context).size.width,
+//                           child: Align(
+//                             alignment: Alignment.center,
+//                             child: Container(
+//                               width: 50,
+//                               height: 5,
+//                               decoration: BoxDecoration(
+//                                   borderRadius: BorderRadius.all(
+//                                     Radius.circular(25.0),
+//                                   ),
+//                                   color: Colors.white.withOpacity(0.5)),
+//                             ),
+//                           ),
+//                         ),
+//                       )
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             },
+//           );
+//         });
+//   }
+//
 //   addDailyExp(priContext) {
 //     var mainLoss = 0;
 //     var sub1Loss=0;
@@ -1651,8 +2349,8 @@
 //                         child: Container(
 //                           decoration: BoxDecoration(
 //                             borderRadius: BorderRadius.only(
-//                               topLeft: Radius.circular(15.0),
-//                               topRight: Radius.circular(15.0),
+//                               topLeft: Radius.circular(18.0),
+//                               topRight: Radius.circular(18.0),
 //                             ),
 //                             color: Colors.white,
 //                           ),
@@ -1671,7 +2369,7 @@
 //                                   child: Stack(
 //                                     children: [
 //                                       Container(
-//                                         height: 71,
+//                                         height: 67,
 //                                         decoration: BoxDecoration(
 //                                             border: Border(
 //                                                 bottom: BorderSide(
@@ -1687,197 +2385,170 @@
 //                                           ),
 //                                           child: Row(
 //                                             children: [
-//                                               Container(
-//                                                 width:
-//                                                 (MediaQuery.of(context)
-//                                                     .size
-//                                                     .width /
-//                                                     2) -
-//                                                     22.5,
-//                                                 height: 55,
-//                                                 decoration: BoxDecoration(
-//                                                     borderRadius:
-//                                                     BorderRadius
-//                                                         .circular(10.0),
-//                                                     color: AppTheme.clearColor),
-//                                                 child: Padding(
-//                                                   padding:
-//                                                   const EdgeInsets.only(
-//                                                       top: 15.0,
-//                                                       bottom: 15.0),
-//                                                   child: Row(
-//                                                     mainAxisAlignment:
-//                                                     MainAxisAlignment
-//                                                         .center,
-//                                                     children: [
-//                                                       Expanded(
-//                                                         child:
-//                                                         GestureDetector(
-//                                                           onTap: () {
-//                                                             setState((){
-//                                                               mystate(() {
-//                                                                 prodList = [];
-//                                                                 discount = 0.0;
-//                                                                 discountAmount = 0.0;
-//                                                                 debt =0;
-//                                                                 refund =0;
-//                                                                 customerId = 'name-name';
-//                                                               });
-//                                                             });
-//                                                           },
-//                                                           child: Padding(
-//                                                             padding:
-//                                                             const EdgeInsets
-//                                                                 .only(
-//                                                                 left:
-//                                                                 8.0,
-//                                                                 right:
-//                                                                 8.0,
-//                                                                 bottom:
-//                                                                 3.0),
-//                                                             child: Container(
-//                                                                 child: Text(
-//                                                                   'Clear cart',
-//                                                                   textAlign:
-//                                                                   TextAlign
-//                                                                       .center,
-//                                                                   style: TextStyle(
-//                                                                       fontSize:
-//                                                                       18,
-//                                                                       fontWeight:
-//                                                                       FontWeight
-//                                                                           .w600,
-//                                                                       color: Colors
-//                                                                           .black),
-//                                                                 )),
-//                                                           ),
-//                                                         ),
-//                                                       ),
-//                                                     ],
+//                                               GestureDetector(
+//                                                 onTap: () {
+//                                                   setState((){
+//                                                     mystate(() {
+//                                                       prodList = [];
+//                                                       discount = 0.0;
+//                                                       discountAmount = 0.0;
+//                                                       debt =0;
+//                                                       refund =0;
+//                                                       customerId = 'name-name';
+//                                                     });
+//                                                   });
+//                                                 },
+//                                                 child: Container(
+//                                                   width:
+//                                                   (MediaQuery.of(context)
+//                                                       .size
+//                                                       .width /
+//                                                       2) -
+//                                                       22.5,
+//                                                   height: 50,
+//                                                   decoration: BoxDecoration(
+//                                                       borderRadius:
+//                                                       BorderRadius
+//                                                           .circular(10.0),
+//                                                       color: AppTheme.clearColor),
+//                                                   child: Center(
+//                                                     child: Padding(
+//                                                       padding:
+//                                                       const EdgeInsets
+//                                                           .only(
+//                                                           left:
+//                                                           8.0,
+//                                                           right:
+//                                                           8.0,
+//                                                           bottom:
+//                                                           2.0),
+//                                                       child: Container(
+//                                                           child: Text(
+//                                                             'Clear cart',
+//                                                             textAlign:
+//                                                             TextAlign
+//                                                                 .center,
+//                                                             style: TextStyle(
+//                                                                 fontSize:
+//                                                                 18,
+//                                                                 fontWeight:
+//                                                                 FontWeight
+//                                                                     .w600,
+//                                                                 color: Colors
+//                                                                     .black),
+//                                                           )),
+//                                                     ),
 //                                                   ),
 //                                                 ),
 //                                               ),
 //                                               SizedBox(
 //                                                 width: 15.0,
 //                                               ),
-//                                               Container(
-//                                                 width: (MediaQuery.of(context)
-//                                                     .size
-//                                                     .width /
-//                                                     2) -
-//                                                     22.5,
-//                                                 height: 55,
-//                                                 decoration: BoxDecoration(
-//                                                     borderRadius:
-//                                                     BorderRadius.circular(
-//                                                         10.0),
-//                                                     color: Colors.grey
-//                                                         .withOpacity(0.5)),
-//                                                 child: Padding(
-//                                                   padding:
-//                                                   const EdgeInsets.only(
-//                                                       top: 15.0,
-//                                                       bottom: 15.0),
-//                                                   child: Row(
-//                                                     mainAxisAlignment:
-//                                                     MainAxisAlignment
-//                                                         .center,
-//                                                     children: [
-//                                                       Expanded(
-//                                                         child:
-//                                                         GestureDetector(
-//                                                           onTap: () async {
-//                                                             final result = await showModalActionSheet<String>(
-//                                                               context: context,
-//                                                               actions: [
-//                                                                 SheetAction(
-//                                                                   icon: Icons.info,
-//                                                                   label: 'Amount',
-//                                                                   key: 'amount',
-//                                                                 ),
-//                                                                 SheetAction(
-//                                                                   icon: Icons.info,
-//                                                                   label: 'Percent',
-//                                                                   key: 'percent',
-//                                                                 ),
-//                                                               ],
-//                                                             );
-//                                                             mystate(() {
-//                                                               isDiscount = result.toString();
-//                                                             });
-//
-//                                                             if (result == 'amount') {
-//                                                               final amount = await showTextInputDialog(
-//                                                                 context: context,
-//                                                                 textFields: [
-//                                                                   DialogTextField(
-//                                                                     keyboardType: TextInputType.number,
-//                                                                     hintText: '0',
-//                                                                     suffixText: 'MMK',
-//                                                                     // initialText: 'mono0926@gmail.com',
-//                                                                   ),
-//                                                                 ],
-//                                                                 title: 'Discount',
-//                                                                 message: 'Add Discount Amount to Cart',
-//                                                               );
-//                                                               mystate(() {
-//                                                                 discount =double.parse(amount![0].toString());
-//                                                                 print('disss ' + discount.toString());
-//                                                               });
-//
-//                                                             } else {
-//                                                               final percentage = await showTextInputDialog(
-//                                                                 context: context,
-//                                                                 textFields: [
-//                                                                   DialogTextField(
-//                                                                     keyboardType: TextInputType.number,
-//                                                                     hintText: '0.0',
-//                                                                     suffixText: '%',
-//                                                                     // initialText: 'mono0926@gmail.com',
-//                                                                   ),
-//                                                                 ],
-//                                                                 title: 'Discount',
-//                                                                 message: 'Add Discount Percent to Cart',
-//                                                               );
-//                                                               mystate(() {
-//                                                                 discount =double.parse(percentage![0].toString());
-//                                                                 print('disss ' + discount.toString());
-//                                                               });
-//                                                             }
-//                                                             print('dis' + result.toString());
-//                                                             setState(() {
-//                                                               print('do something');
-//                                                             });
-//
-//                                                           },
-//                                                           child: Padding(
-//                                                             padding:
-//                                                             const EdgeInsets
-//                                                                 .only(
-//                                                                 left: 8.0,
-//                                                                 right:
-//                                                                 8.0,
-//                                                                 bottom:
-//                                                                 3.0),
-//                                                             child: Container(
-//                                                                 child: Text(
-//                                                                   'Discount',
-//                                                                   textAlign:
-//                                                                   TextAlign
-//                                                                       .center,
-//                                                                   style: TextStyle(
-//                                                                       fontSize:
-//                                                                       18,
-//                                                                       fontWeight:
-//                                                                       FontWeight
-//                                                                           .w600,
-//                                                                       color: Colors
-//                                                                           .black),
-//                                                                 )),
-//                                                           ),
-//                                                         ),
+//                                               GestureDetector(
+//                                                 onTap: () async {
+//                                                   final result = await showModalActionSheet<String>(
+//                                                     context: context,
+//                                                     actions: [
+//                                                       SheetAction(
+//                                                         icon: Icons.info,
+//                                                         label: 'Amount',
+//                                                         key: 'amount',
+//                                                       ),
+//                                                       SheetAction(
+//                                                         icon: Icons.info,
+//                                                         label: 'Percent',
+//                                                         key: 'percent',
 //                                                       ),
 //                                                     ],
+//                                                   );
+//                                                   mystate(() {
+//                                                     isDiscount = result.toString();
+//                                                   });
+//
+//                                                   if (result == 'amount') {
+//                                                     final amount = await showTextInputDialog(
+//                                                       context: context,
+//                                                       textFields: [
+//                                                         DialogTextField(
+//                                                           keyboardType: TextInputType.number,
+//                                                           hintText: '0',
+//                                                           suffixText: 'MMK',
+//                                                           // initialText: 'mono0926@gmail.com',
+//                                                         ),
+//                                                       ],
+//                                                       title: 'Discount',
+//                                                       message: 'Add Discount Amount to Cart',
+//                                                     );
+//                                                     mystate(() {
+//                                                       discount =double.parse(amount![0].toString());
+//                                                       print('disss ' + discount.toString());
+//                                                     });
+//
+//                                                   } else {
+//                                                     final percentage = await showTextInputDialog(
+//                                                       context: context,
+//                                                       textFields: [
+//                                                         DialogTextField(
+//                                                           keyboardType: TextInputType.number,
+//                                                           hintText: '0.0',
+//                                                           suffixText: '%',
+//                                                           // initialText: 'mono0926@gmail.com',
+//                                                         ),
+//                                                       ],
+//                                                       title: 'Discount',
+//                                                       message: 'Add Discount Percent to Cart',
+//                                                     );
+//                                                     mystate(() {
+//                                                       discount =double.parse(percentage![0].toString());
+//                                                       print('disss ' + discount.toString());
+//                                                     });
+//                                                   }
+//                                                   print('dis' + result.toString());
+//                                                   setState(() {
+//                                                     print('do something');
+//                                                   });
+//
+//                                                 },
+//                                                 child: Container(
+//                                                   width:
+//                                                   (MediaQuery.of(context)
+//                                                       .size
+//                                                       .width /
+//                                                       2) -
+//                                                       22.5,
+//                                                   height: 50,
+//                                                   decoration: BoxDecoration(
+//                                                       borderRadius:
+//                                                       BorderRadius
+//                                                           .circular(10.0),
+//                                                       color: AppTheme.buttonColor2),
+//                                                   child: Center(
+//                                                     child: Padding(
+//                                                       padding:
+//                                                       const EdgeInsets
+//                                                           .only(
+//                                                           left:
+//                                                           8.0,
+//                                                           right:
+//                                                           8.0,
+//                                                           bottom:
+//                                                           2.0),
+//                                                       child: Container(
+//                                                           child: Text(
+//                                                             'Discount',
+//                                                             textAlign:
+//                                                             TextAlign
+//                                                                 .center,
+//                                                             style: TextStyle(
+//                                                                 fontSize:
+//                                                                 18,
+//                                                                 fontWeight:
+//                                                                 FontWeight
+//                                                                     .w600,
+//                                                                 color: Colors
+//                                                                     .black),
+//                                                           )),
+//                                                     ),
 //                                                   ),
 //                                                 ),
 //                                               ),
@@ -1887,7 +2558,7 @@
 //                                       ),
 //                                       Padding(
 //                                         padding: const EdgeInsets.only(
-//                                             top: 71.0,
+//                                             top: 67.0,
 //                                             left: 0.0,
 //                                             right: 0.0),
 //                                         child: Container(
@@ -1906,13 +2577,19 @@
 //                                                           size: 20,
 //                                                         ),
 //                                                         SizedBox(width: 5),
-//                                                         Text('Customer', style: TextStyle(
-//                                                           fontSize: 16, fontWeight: FontWeight.bold,
-//                                                         )),
+//                                                         Padding(
+//                                                           padding: const EdgeInsets.only(bottom: 2.0),
+//                                                           child: Text('Customer', style: TextStyle(
+//                                                             fontSize: 16, fontWeight: FontWeight.w600,
+//                                                           )),
+//                                                         ),
 //                                                         Spacer(),
-//                                                         Text(customerId.split('-')[1].toString() == 'name' ? 'Unknown' : customerId.split('-')[1], style: TextStyle(
-//                                                           fontSize: 16, fontWeight: FontWeight.bold,
-//                                                         )),
+//                                                         Padding(
+//                                                           padding: const EdgeInsets.only(bottom: 2.0),
+//                                                           child: Text(customerId.split('-')[1].toString() == 'name' ? 'Unknown' : customerId.split('-')[1], style: TextStyle(
+//                                                             fontSize: 16, fontWeight: FontWeight.w600,
+//                                                           )),
+//                                                         ),
 //                                                         SizedBox(width: 5),
 //                                                         GestureDetector(
 //                                                           onTap: (){
@@ -2247,7 +2924,7 @@
 //                                                       width: 1.0),
 //                                                 )),
 //                                             width: double.infinity,
-//                                             height: 158,
+//                                             height: 137,
 //                                             child: Column(
 //                                               mainAxisAlignment:
 //                                               MainAxisAlignment.end,
@@ -2263,13 +2940,13 @@
 //                                                         FontWeight
 //                                                             .w500),
 //                                                   ),
-//                                                   subtitle: int.parse(totalItems()) == 1? Text(totalItems() + ' item',
-//                                                       style: TextStyle(
-//                                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-//                                                       )) : Text(totalItems() + ' items',
-//                                                       style: TextStyle(
-//                                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-//                                                       )),
+//                                                   // subtitle: int.parse(totalItems()) == 1? Text(totalItems() + ' item',
+//                                                   //     style: TextStyle(
+//                                                   //       fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+//                                                   //     )) : Text(totalItems() + ' items',
+//                                                   //     style: TextStyle(
+//                                                   //       fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+//                                                   //     )),
 //                                                   trailing: Text('MMK '+
 //                                                       TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
 //                                                     style: TextStyle(
@@ -2295,38 +2972,33 @@
 //                                                     },
 //                                                     child: Container(
 //                                                       width: MediaQuery.of(context).size.width - 30,
-//                                                       height: 55,
+//                                                       height: 50,
 //                                                       decoration: BoxDecoration(
 //                                                           borderRadius:
 //                                                           BorderRadius.circular(10.0),
 //                                                           color: AppTheme.themeColor),
-//                                                       child: Padding(
-//                                                         padding: const EdgeInsets.only(
-//                                                             top: 15.0,
-//                                                             bottom: 15.0),
-//                                                         child: Row(
-//                                                           mainAxisAlignment:
-//                                                           MainAxisAlignment
-//                                                               .center,
-//                                                           children: [
-//                                                             Expanded(
-//                                                               child: Padding(
-//                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-//                                                                 child: Container(
-//                                                                     child: Text(
-//                                                                       'Checkout',
-//                                                                       textAlign: TextAlign.center,
-//                                                                       style: TextStyle(
-//                                                                           fontSize: 18,
-//                                                                           fontWeight: FontWeight.w600,
-//                                                                           color: Colors.black
-//                                                                       ),
-//                                                                     )
-//                                                                 ),
+//                                                       child: Row(
+//                                                         mainAxisAlignment:
+//                                                         MainAxisAlignment
+//                                                             .center,
+//                                                         children: [
+//                                                           Expanded(
+//                                                             child: Padding(
+//                                                               padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+//                                                               child: Container(
+//                                                                   child: Text(
+//                                                                     'Checkout',
+//                                                                     textAlign: TextAlign.center,
+//                                                                     style: TextStyle(
+//                                                                         fontSize: 18,
+//                                                                         fontWeight: FontWeight.w600,
+//                                                                         color: Colors.black
+//                                                                     ),
+//                                                                   )
 //                                                               ),
 //                                                             ),
-//                                                           ],
-//                                                         ),
+//                                                           ),
+//                                                         ],
 //                                                       ),
 //                                                     ),
 //                                                   ),
@@ -2968,9 +3640,6 @@
 //                                                                   // Navigator.pop(context);
 //                                                                   // sellDone = true;
 //                                                                   // //discountAmount =0.0;
-//
-//
-//
 //                                                                   pdfFile = await PdfInvoiceApi.generate(invoice, pageType);
 //                                                                   mystate(() {
 //                                                                     // setState(() {
@@ -3516,7 +4185,6 @@
 //                                                             Spacer(),
 //                                                             GestureDetector(
 //                                                               onTap: () {
-//
 //                                                                 print('eachProduct' +eachProd);
 //                                                                 for (int j = 0; j < prodList.length; j++)
 //                                                                   if( prodList[j].split('-')[0] == eachProd.split('-')[0] && prodList[j].split('-')[3] == eachProd.split('-')[3]){
@@ -3527,7 +4195,6 @@
 //                                                                       }); });
 //                                                                     print('leepae' + prodList[j]);
 //                                                                   } else print('leelar');
-//
 //
 //                                                                 _controller.animateTo(0);
 //                                                               },
@@ -5060,27 +5727,30 @@
 //                                                             GestureDetector(
 //                                                               onTap: () async {
 //                                                                 discountAmount2 = discount2;
-//                                                                 subList = [];
+//                                                                 subList2 = [];
 //                                                                 DateTime now = DateTime.now();
 //
 //                                                                 CollectionReference daily_order = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
+//                                                                 CollectionReference prods =  await FirebaseFirestore.instance.collection('shops').doc(
+//                                                                     shopId).collection('products');
 //                                                                 int length = 0;
 //                                                                 print('order creating here2');
 //
-//                                                                 await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').get().then((QuerySnapshot querySnapshot) async {
-//                                                                   querySnapshot.docs.forEach((doc) {
-//                                                                     length += int.parse(doc['daily_order'].length.toString());
-//                                                                   });
-//                                                                   length = 1000 + length + 1;
+//                                                                 FirebaseFirestore.instance.collection('shops').doc(shopId)
+//                                                                 // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+//                                                                     .get().then((value) async {
+//                                                                   length = int.parse(value.data()!['buyOrders_length'].toString());
+//                                                                   print('lengthsss' + length.toString());
+//                                                                   length = length + 1;
 //                                                                   //Check new date or not
 //                                                                   var dateExist = false;
 //                                                                   var dateId = '';
-//
+//                                                                   buyOrderLengthIncrease();
 //
 //
 //                                                                   for (String str in prodList2) {
 //                                                                     // List<String> subSell = [];
-//                                                                     subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[2] +'-' + str.split('-')[1] + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-0-' + 'date');
+//                                                                     subList2.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[2] +'-' + str.split('-')[1] + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-0-' + 'date');
 //
 //                                                                     List<String> subLink = [];
 //                                                                     List<String> subName = [];
@@ -5103,8 +5773,7 @@
 //                                                                     print(subStock.toString());
 //
 //                                                                     if(str.split('-')[4]=='unit_name') {
-//                                                                       await FirebaseFirestore.instance.collection('shops').doc(
-//                                                                           shopId).collection('products').doc(
+//                                                                       prods.doc(
 //                                                                           str.split('-')[0])
 //                                                                           .update({
 //                                                                         'inStock1': FieldValue.increment(double.parse(str.split('-')[2].toString())),
@@ -5114,8 +5783,7 @@
 //                                                                           .catchError((error) => print("Failed to update user: $error"));
 //                                                                     }
 //                                                                     else if (str.split('-')[4]=='sub1_name') {
-//                                                                       await FirebaseFirestore.instance.collection('shops').doc(
-//                                                                           shopId).collection('products').doc(
+//                                                                       prods.doc(
 //                                                                           str.split('-')[0])
 //                                                                           .update({
 //                                                                         'inStock2': FieldValue.increment(double.parse(str.split('-')[2].toString())),
@@ -5125,8 +5793,7 @@
 //                                                                           .catchError((error) => print("Failed to update user: $error"));
 //
 //                                                                     } else if (str.split('-')[4]=='sub2_name') {
-//                                                                       await FirebaseFirestore.instance.collection('shops').doc(
-//                                                                           shopId).collection('products').doc(
+//                                                                       prods.doc(
 //                                                                           str.split('-')[0])
 //                                                                           .update({
 //                                                                         'inStock3': FieldValue.increment(double.parse(str.split('-')[2].toString())),
@@ -5148,87 +5815,101 @@
 //                                                                     });
 //
 //                                                                     if (dateExist) {
-//                                                                       daily_order.doc(dateId).update({
-//                                                                         'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2]),
-//                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
-//                                                                       }).then((value) async {
-//                                                                         print('User updated');
-//                                                                         setState(() {
-//                                                                           orderLoading = false;
-//                                                                         });
-//
-//                                                                         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(dateId).collection('expansion')
-//                                                                             .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-//                                                                             .set({
-//                                                                           'total': TtlProdListPrice2(),
-//                                                                           'subs': subList,
-//                                                                           'docId' : dateId,
-//                                                                           'merchantId' : merchantId.split('-')[0],
-//                                                                           'orderId' : length.toString(),
-//                                                                           'debt' : debt2,
-//                                                                           'deviceId' : deviceIdNum.toString() + '-',
-//                                                                           'refund' : 'FALSE',
-//                                                                           'discount' : discountAmount2.toString() + disText2,
-//                                                                         }).then((value) {
-//                                                                           print('order added');
-//                                                                         });
-//
-//                                                                         if(merchantId.split('-')[0] != 'name') {
-//
-//                                                                           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-//                                                                               .set({
-//                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
-//                                                                             'debt' : debt2,
-//                                                                             'order_pid': dateId,
-//                                                                             'refund' : 'FALSE',
-//                                                                             'discount' : discountAmount2.toString() + disText2,
-//                                                                             'total': TtlProdListPrice2(),
-//                                                                             'deviceId' : deviceIdNum.toString() + '-',
-//                                                                             'voucherId' : length.toString(),
-//                                                                           }).then((value) {
-//                                                                             print('cus order added');
-//                                                                           }); }
-//                                                                       });
+//                                                                       addDateExist2(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+//                                                                       Detail2(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), length.toString(),);
+//                                                                       if(merchantId.split('-')[0] != 'name') {
+//                                                                         merchOrder(dateId,
+//                                                                           now.year.toString() + zeroToTen(now.month.toString()) +
+//                                                                               zeroToTen(now.day.toString()) +
+//                                                                               zeroToTen(now.hour.toString()) +
+//                                                                               zeroToTen(now.minute.toString()) +
+//                                                                               zeroToTen(now.second.toString()) +
+//                                                                               deviceIdNum.toString() + length.toString(),
+//                                                                           length.toString(),);
+//                                                                       }
+//                                                                       // daily_order.doc(dateId).update({
+//                                                                       //   'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2]),
+//                                                                       //   'each_order' : FieldValue.arrayUnion([length.toString()])
+//                                                                       // }).then((value) async {
+//                                                                       //   print('User updated');
+//                                                                       //   setState(() {
+//                                                                       //     orderLoading = false;
+//                                                                       //   });
+//                                                                       //
+//                                                                       //   await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(dateId).collection('expansion')
+//                                                                       //       .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+//                                                                       //       .set({
+//                                                                       //     'total': TtlProdListPrice2(),
+//                                                                       //     'subs': subList2,
+//                                                                       //     'docId' : dateId,
+//                                                                       //     'merchantId' : merchantId.split('-')[0],
+//                                                                       //     'orderId' : length.toString(),
+//                                                                       //     'debt' : debt2,
+//                                                                       //     'deviceId' : deviceIdNum.toString() + '-',
+//                                                                       //     'refund' : 'FALSE',
+//                                                                       //     'discount' : discountAmount2.toString() + disText2,
+//                                                                       //   }).then((value) {
+//                                                                       //     print('order added');
+//                                                                       //   });
+//                                                                       //
+//                                                                       //   if(merchantId.split('-')[0] != 'name') {
+//                                                                       //
+//                                                                       //     await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+//                                                                       //         .set({
+//                                                                       //       'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+//                                                                       //       'debt' : debt2,
+//                                                                       //       'order_pid': dateId,
+//                                                                       //       'refund' : 'FALSE',
+//                                                                       //       'discount' : discountAmount2.toString() + disText2,
+//                                                                       //       'total': TtlProdListPrice2(),
+//                                                                       //       'deviceId' : deviceIdNum.toString() + '-',
+//                                                                       //       'voucherId' : length.toString(),
+//                                                                       //     }).then((value) {
+//                                                                       //       print('cus order added');
+//                                                                       //     }); }
+//                                                                       // });
 //                                                                     } else {
-//                                                                       daily_order.add({
-//                                                                         'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2],
-//                                                                         // 'date': FieldValue.serverTimestamp(),
-//                                                                         'date' : now,
-//                                                                         'each_order' : FieldValue.arrayUnion([length.toString()])
-//                                                                       }).then((value) async  {
-//                                                                         print('order added');
-//                                                                         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(value.id).collection('expansion').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-//                                                                             .set({
-//                                                                           'total': TtlProdListPrice2(),
-//                                                                           'subs': subList,
-//                                                                           'docId' : value.id,
-//                                                                           'merchantId' : merchantId.split('-')[0],
-//                                                                           'orderId' : length.toString(),
-//                                                                           'debt' : debt2,
-//                                                                           'deviceId' : deviceIdNum.toString() + '-',
-//                                                                           'refund' : 'FALSE',
-//                                                                           'discount' : discountAmount2.toString() + disText2,
-//                                                                         }).then((value) {
-//                                                                           print('order added');
-//                                                                         });
-//                                                                         if(merchantId.split('-')[0] != 'name') {
-//                                                                           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
-//                                                                             'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
-//                                                                             'debt' : debt2,
-//                                                                             'order_pid': value.id,
-//                                                                             'refund' : 'FALSE',
-//                                                                             'discount' : discountAmount2.toString() + disText2,
-//                                                                             'total': TtlProdListPrice2(),
-//                                                                             'deviceId' : deviceIdNum.toString() + '-',
-//                                                                             'voucherId' : length.toString(),
-//                                                                           })
-//                                                                               .then((
-//                                                                               value) {
-//                                                                             print(
-//                                                                                 'cus order added');
-//                                                                           });
-//                                                                         }
-//                                                                       });
+//                                                                       DatenotExist2(prodList2, value.id, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString(), now);
+//
+//                                                                       // daily_order.add({
+//                                                                       //   'daily_order': [now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + merchantId.split('-')[0] + '^pf' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2],
+//                                                                       //   // 'date': FieldValue.serverTimestamp(),
+//                                                                       //   'date' : now,
+//                                                                       //   'each_order' : FieldValue.arrayUnion([length.toString()])
+//                                                                       // }).then((value) async  {
+//                                                                       //   print('order added');
+//                                                                       //   await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(value.id).collection('expansion').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
+//                                                                       //       .set({
+//                                                                       //     'total': TtlProdListPrice2(),
+//                                                                       //     'subs': subList2,
+//                                                                       //     'docId' : value.id,
+//                                                                       //     'merchantId' : merchantId.split('-')[0],
+//                                                                       //     'orderId' : length.toString(),
+//                                                                       //     'debt' : debt2,
+//                                                                       //     'deviceId' : deviceIdNum.toString() + '-',
+//                                                                       //     'refund' : 'FALSE',
+//                                                                       //     'discount' : discountAmount2.toString() + disText2,
+//                                                                       //   }).then((value) {
+//                                                                       //     print('order added');
+//                                                                       //   });
+//                                                                       //   if(merchantId.split('-')[0] != 'name') {
+//                                                                       //     await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()).set({
+//                                                                       //       'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
+//                                                                       //       'debt' : debt2,
+//                                                                       //       'order_pid': value.id,
+//                                                                       //       'refund' : 'FALSE',
+//                                                                       //       'discount' : discountAmount2.toString() + disText2,
+//                                                                       //       'total': TtlProdListPrice2(),
+//                                                                       //       'deviceId' : deviceIdNum.toString() + '-',
+//                                                                       //       'voucherId' : length.toString(),
+//                                                                       //     })
+//                                                                       //         .then((
+//                                                                       //         value) {
+//                                                                       //       print(
+//                                                                       //           'cus order added');
+//                                                                       //     });
+//                                                                       //   }
+//                                                                       // });
 //                                                                     }
 //                                                                   });
 //
@@ -6228,7 +6909,7 @@
 //     }
 //   }
 //
-//   Future<void> DatenotExist(prodList, id1, id2, dOrder , length, date,) async {
+//   Future<void> DatenotExist(prodList2, id1, id2, dOrder , length, date,) async {
 //     print('PROD ' + prodList.toString());
 //     double totalTOTAL = 0;
 //     print(prodList.toString());
@@ -6351,6 +7032,63 @@
 //     //     .catchError((error) => print("Failed to update user: $error")); }
 //   }
 //
+//   Future<void> DatenotExist2(prodList2, id1, id2, dOrder , length, date,) async {
+//     print('PROD ' + prodList.toString());
+//     double totalTOTAL = 0;
+//     for (String str in prodList2) {
+//       totalTOTAL += int.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
+//       disPercent2 = (double.parse(totalTOTAL.toString()) *
+//           (discountAmount2 / 100)).round();
+//     }
+//     if(isDiscount2 == 'percent'){
+//       discountAmount2 = discount2;
+//       print(discountAmount2.toString());
+//       disText2 = '-p';
+//       totalTOTAL = (double.parse(totalTOTAL.toString()) -
+//           (double.parse(totalTOTAL.toString()) *
+//               (discountAmount2 / 100)));
+//     } else if(isDiscount2 == 'amount'){
+//       discountAmount2 = discount2;
+//       disText2 ='-d';
+//       totalTOTAL = (double.parse(totalTOTAL.toString()) - discountAmount2);
+//     } else {
+//       disText2 = '';
+//       discountAmount2 = 0.0;
+//       totalTOTAL = double.parse(totalTOTAL.toString());
+//     }
+//
+//     print('CHECKING PRODSALE ORD DatenotExist');
+//     CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
+//     CollectionReference cusOrder = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders');
+//
+//     String custId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString();
+//
+//     daily.doc(custId).set({
+//       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+//       'each_order' : FieldValue.arrayUnion([length.toString()]),
+//       'date' : date
+//     }).then((value) {
+//
+//     })
+//         .catchError((error) => print("Failed to update user: $error"));
+//
+//     print("order new Updated");
+//     print('totalPrice ' + totalTOTAL.toString());
+//
+//     //addDateExist(value.id, date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString(), date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+//     Detail2(custId, date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.hour.toString()) + zeroToTen(date.minute.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString() + length.toString(), length.toString(),);
+//     if(merchantId.split('-')[0] != 'name') {
+//       merchOrder(custId,
+//         date.year.toString() + zeroToTen(date.month.toString()) +
+//             zeroToTen(date.day.toString()) +
+//             zeroToTen(date.hour.toString()) +
+//             zeroToTen(date.minute.toString()) +
+//             zeroToTen(date.second.toString()) +
+//             deviceIdNum.toString() + length.toString(),
+//         length.toString(),);
+//     }
+//   }
+//
 //   Future<void> addDateExist(id1, id2, dOrder , length) async {
 //     print('CHECKING PRODSALE ORD addDateExist');
 //     //CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
@@ -6391,6 +7129,16 @@
 //     //     .catchError((error) => print("Failed to update user: $error")); }
 //   }
 //
+//   Future<void> addDateExist2(id1, id2, dOrder , length) async {
+//     print('CHECKING PRODSALE ORD addDateExist');
+//     CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
+//     daily.doc(id1).update({
+//       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+//       'each_order' : FieldValue.arrayUnion([length.toString()])})
+//         .then((value) => print("User Updated"))
+//         .catchError((error) => print("Failed to update user: $error"));
+//   }
+//
 //   Future<void> Detail(id1, id2 , length) async {
 //     print('CHECKING PRODSALE ORD');
 //     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(id1).collection('detail');
@@ -6403,6 +7151,24 @@
 //       'refund': 'FALSE',
 //       'subs': subList,
 //       'customerId' : customerId.split('-')[0],
+//       'deviceId' : deviceIdNum.toString() + '-',
+//       'orderId' : length.toString(),})
+//         .then((value) => print("User Updated"))
+//         .catchError((error) => print("Failed to update user: $error"));
+//   }
+//
+//   Future<void> Detail2(id1, id2 , length) async {
+//     print('CHECKING PRODSALE ORD');
+//     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(id1).collection('expansion');
+//
+//     detail.doc(id2).set({
+//       'total': TtlProdListPrice2(),
+//       'debt' : debt2,
+//       'discount' : discountAmount2.toString() + disText2,
+//       'docId' : id1,
+//       'refund': 'FALSE',
+//       'subs': subList2,
+//       'customerId' : merchantId.split('-')[0],
 //       'deviceId' : deviceIdNum.toString() + '-',
 //       'orderId' : length.toString(),})
 //         .then((value) => print("User Updated"))
@@ -6429,6 +7195,23 @@
 //         .catchError((error) => print("Failed to update user: $error"));
 //   }
 //
+//   Future<void> merchOrder(id1, id2 , length) async {
+//     print('CHECKING PRODSALE ORD');
+//     CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders');
+//
+//     cusOrder.doc(id2).set({
+//       'order_id': id2,
+//       'debt' : debt2,
+//       'order_pid': id1,
+//       'refund' : 'FALSE',
+//       'discount' : discountAmount2.toString() + disText2,
+//       'total': TtlProdListPrice2(),
+//       'deviceId' : deviceIdNum.toString() + '-',
+//       'voucherId' : length.toString(),})
+//         .then((value) => print("User Updated"))
+//         .catchError((error) => print("Failed to update user: $error"));
+//   }
+//
 //   Future<void> orderLengthIncrease() async {
 //     print('CHECKING PRODSALE ORD');
 //     CollectionReference users = await FirebaseFirestore.instance.collection('shops');
@@ -6438,6 +7221,19 @@
 //     users
 //         .doc(shopId)
 //         .update({'orders_length': FieldValue.increment(1)})
+//         .then((value) => print("User Updated"))
+//         .catchError((error) => print("Failed to update user: $error"));
+//   }
+//
+//   Future<void> buyOrderLengthIncrease() async {
+//     print('CHECKING PRODSALE ORD');
+//     CollectionReference users = await FirebaseFirestore.instance.collection('shops');
+//
+//     // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+//
+//     users
+//         .doc(shopId)
+//         .update({'buyOrders_length': FieldValue.increment(1)})
 //         .then((value) => print("User Updated"))
 //         .catchError((error) => print("Failed to update user: $error"));
 //   }

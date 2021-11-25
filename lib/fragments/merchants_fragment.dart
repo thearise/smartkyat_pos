@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:one_context/one_context.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
@@ -3919,7 +3920,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                       ),
                                                     ),
                                                     onPressed: () {
-                                                     addMerch();
+                                                     addMerch(OneContext().context);
                                                     },
                                                     child: Container(
                                                       child: Row(
@@ -4494,11 +4495,11 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     return orderList;
   }
 
-  addMerch() {
+  addMerch(BuildContext? context) {
     showModalBottomSheet(
         enableDrag: true,
         isScrollControlled: true,
-        context: context,
+        context: context!,
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return Scaffold(
