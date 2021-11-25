@@ -35,7 +35,7 @@ class _AddCustomerState extends State<AddCustomer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           SafeArea(
@@ -291,7 +291,7 @@ class _AddCustomerState extends State<AddCustomer> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30,),
+                          SizedBox(height: 50,),
                         ],
                       ),
                     ),
