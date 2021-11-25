@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
+import 'package:smartkyat_pos/fragments/subs/forgot_password.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 import 'package:smartkyat_pos/src/app.dart';
 import 'package:smartkyat_pos/src/screens/login.dart';
@@ -459,89 +460,130 @@ class _WelcomeState extends State<Welcome>
                                                       padding: const EdgeInsets.only(top: 160.0),
                                                       child: Column(
                                                         children: [
-                                                          ButtonTheme(
-                                                            minWidth: MediaQuery.of(context).size.width,
-                                                            splashColor: Colors.transparent,
-                                                            height: 50,
-                                                            child: FlatButton(
-                                                              color: AppTheme.themeColor,
-                                                              shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                BorderRadius.circular(10.0),
-                                                                side: BorderSide(
-                                                                  color: AppTheme.themeColor,
-                                                                ),
-                                                              ),
-                                                              onPressed: () async {
-
-                                                                setState(() {
-                                                                  wrongEmail = null;
-                                                                  wrongPassword = null;
-                                                                });
-                                                                if (_formKey.currentState!.validate()) {
-                                                                  try {
-                                                                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                                                      email: _email.text,
-                                                                      password: _password.text,
-                                                                    ).then((_) async {
-                                                                      bool shopExists = false;
-                                                                      await FirebaseFirestore.instance
-                                                                          .collection('shops')
-                                                                          .where('users', arrayContains: auth.currentUser!.email.toString())
-                                                                          .get()
-                                                                          .then((QuerySnapshot querySnapshot) {
-                                                                        querySnapshot.docs.forEach((doc) {
-                                                                          shopExists = true;
-                                                                        });
-                                                                      });
-
-                                                                      if(shopExists) {
-                                                                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
-                                                                      } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
-                                                                    });
-                                                                  } on FirebaseAuthException catch (e) {
-                                                                    print(e.code.toString());
-                                                                    if (e.code == 'user-not-found') {
-                                                                      setState(() {
-                                                                        wrongEmail = ' may be incorrect ';
-                                                                        wrongPassword = ' may be incorrect ';
-                                                                      });
-                                                                      print('No user found for that email.');
-                                                                    } else if (e.code == 'wrong-password') {
-                                                                      setState(() {
-                                                                        wrongEmail = ' may be incorrect ';
-                                                                        wrongPassword = ' may be incorrect ';
-                                                                      });
-                                                                      print('Wrong password provided for that user.');
-                                                                    } else if (e.code == 'invalid-email') {
-                                                                      setState(() {
-                                                                        wrongEmail = ' is invalid email ';
-                                                                        // wrongPassword = ' may be incorrect ';
-                                                                      });
-                                                                      print('Invalid email.');
-                                                                    }
-                                                                  }
-
-                                                                }
-                                                              },
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(
-                                                                    left: 5.0,
-                                                                    right: 5.0,
-                                                                    bottom: 2.0),
-                                                                child: Container(
-                                                                  child: Text(
-                                                                    'Login',
-                                                                    textAlign: TextAlign.center,
-                                                                    style: TextStyle(
-                                                                        fontSize: 18,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        letterSpacing:-0.1
+                                                          Row(
+                                                            children: [
+                                                              ButtonTheme(
+                                                                minWidth: MediaQuery.of(context).size.width/3 - 22.5,
+                                                                splashColor: Colors.transparent,
+                                                                height: 50,
+                                                                child: FlatButton(
+                                                                  color: AppTheme.buttonColor2,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(10.0),
+                                                                    side: BorderSide(
+                                                                      color: AppTheme.buttonColor2,
+                                                                    ),
+                                                                  ),
+                                                                  onPressed: ()  {
+                                                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                                                                  },
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(
+                                                                        left: 5.0,
+                                                                        right: 5.0,
+                                                                        bottom: 2.0),
+                                                                    child: Container(
+                                                                      child: Text(
+                                                                        'Forgot?',
+                                                                        textAlign: TextAlign.center,
+                                                                        style: TextStyle(
+                                                                            fontSize: 18,
+                                                                            fontWeight: FontWeight.w600,
+                                                                            letterSpacing:-0.1
+                                                                        ),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
+                                                              SizedBox(width: 15),
+                                                              ButtonTheme(
+                                                                minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
+                                                                splashColor: Colors.transparent,
+                                                                height: 50,
+                                                                child: FlatButton(
+                                                                  color: AppTheme.themeColor,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(10.0),
+                                                                    side: BorderSide(
+                                                                      color: AppTheme.themeColor,
+                                                                    ),
+                                                                  ),
+                                                                  onPressed: () async {
+
+                                                                    setState(() {
+                                                                      wrongEmail = null;
+                                                                      wrongPassword = null;
+                                                                    });
+                                                                    if (_formKey.currentState!.validate()) {
+                                                                      try {
+                                                                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                                                          email: _email.text,
+                                                                          password: _password.text,
+                                                                        ).then((_) async {
+                                                                          bool shopExists = false;
+                                                                          await FirebaseFirestore.instance
+                                                                              .collection('shops')
+                                                                              .where('users', arrayContains: auth.currentUser!.email.toString())
+                                                                              .get()
+                                                                              .then((QuerySnapshot querySnapshot) {
+                                                                            querySnapshot.docs.forEach((doc) {
+                                                                              shopExists = true;
+                                                                            });
+                                                                          });
+
+                                                                          if(shopExists) {
+                                                                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
+                                                                          } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
+                                                                        });
+                                                                      } on FirebaseAuthException catch (e) {
+                                                                        print(e.code.toString());
+                                                                        if (e.code == 'user-not-found') {
+                                                                          setState(() {
+                                                                            wrongEmail = ' may be incorrect ';
+                                                                            wrongPassword = ' may be incorrect ';
+                                                                          });
+                                                                          print('No user found for that email.');
+                                                                        } else if (e.code == 'wrong-password') {
+                                                                          setState(() {
+                                                                            wrongEmail = ' may be incorrect ';
+                                                                            wrongPassword = ' may be incorrect ';
+                                                                          });
+                                                                          print('Wrong password provided for that user.');
+                                                                        } else if (e.code == 'invalid-email') {
+                                                                          setState(() {
+                                                                            wrongEmail = ' is invalid email ';
+                                                                            // wrongPassword = ' may be incorrect ';
+                                                                          });
+                                                                          print('Invalid email.');
+                                                                        }
+                                                                      }
+
+                                                                    }
+                                                                  },
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(
+                                                                        left: 5.0,
+                                                                        right: 5.0,
+                                                                        bottom: 2.0),
+                                                                    child: Container(
+                                                                      child: Text(
+                                                                        'Login',
+                                                                        textAlign: TextAlign.center,
+                                                                        style: TextStyle(
+                                                                            fontSize: 18,
+                                                                            fontWeight: FontWeight.w600,
+                                                                            letterSpacing:-0.1
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+
+                                                            ],
                                                           ),
                                                           SizedBox(height: 22,),
                                                           RichText(

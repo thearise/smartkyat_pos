@@ -221,6 +221,12 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                           },
                           child:  Container(
                             height: 72,
+                            decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                      color: AppTheme.skBorderColor2,
+                                      width: 1.0),
+                                )),
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
                               child: Row(

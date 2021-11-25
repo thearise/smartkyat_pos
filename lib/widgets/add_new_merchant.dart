@@ -292,7 +292,7 @@ class _AddMerchantState extends State<AddMerchant> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30,),
+                          SizedBox(height: 50,),
                         ],
                       ),
                     ),

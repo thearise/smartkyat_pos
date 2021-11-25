@@ -83,9 +83,9 @@ dependencies:
   native_pdf_renderer: ^3.1.0
   esc_pos_utils:
   dotted_line: ^3.1.0
-#  dropdown_below: ^1.0.1
-#  cool_dropdown: ^1.4.1
   dropdown_below: ^1.0.1
+
+
 
 dev_dependencies:
   flutter_test:
