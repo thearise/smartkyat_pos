@@ -67,7 +67,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           SafeArea(
@@ -2108,227 +2108,224 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
           SizedBox(
             height: 18,
           ),
-          Row(
+          Stack(
             children: [
-              Container(
-                width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
-                // child: TextField(
-                //     controller: nameController,
-                //     decoration: InputDecoration(labelText: 'Full Name')
+              Row(
+                children: [
+                  Container(
+                    width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+                    child: TextFormField(
+                      controller: nameController,
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return ' This field is required ';
+                        }
+                        // prodFieldsValue.add(value);
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                            // width: 0.0 produces a thin "hairline" border
+                            borderSide: const BorderSide(
+                                color: AppTheme.skBorderColor, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                        focusedBorder: const OutlineInputBorder(
+                            // width: 0.0 produces a thin "hairline" border
+                            borderSide: const BorderSide(
+                                color: AppTheme.themeColor, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                        contentPadding: const EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                        suffixText: 'Required',
+                        suffixStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontFamily: 'capsulesans',
+                        ),
+                        errorStyle: TextStyle(
+                            backgroundColor: Colors.white,
+                            fontSize: 12,
+                            fontFamily: 'capsulesans',
+                            height: 0.1
+                        ),
+                        labelStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                        // errorText: 'Error message',
+                        labelText: 'Units / main unit',
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                        //filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
+                    child: TextFormField(
+                      controller: ageController,
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return ' Required ';
+                        }
+                        // prodFieldsValue.add(value);
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                            // width: 0.0 produces a thin "hairline" border
+                            borderSide: const BorderSide(
+                                color: AppTheme.skBorderColor, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                        focusedBorder: const OutlineInputBorder(
+                            // width: 0.0 produces a thin "hairline" border
+                            borderSide: const BorderSide(
+                                color: AppTheme.themeColor, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                        contentPadding: const EdgeInsets.only(
+                            left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                        suffixText: 'Required',
+                        suffixStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontFamily: 'capsulesans',
+                        ),
+                        errorStyle: TextStyle(
+                            backgroundColor: Colors.white,
+                            fontSize: 12,
+                            fontFamily: 'capsulesans',
+                            height: 0.1
+                        ),
+                        labelStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                        // errorText: 'Error message',
+                        labelText: 'Unit name',
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                        //filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+          Padding(
+            padding: const EdgeInsets.only(top: 71.0),
+            child: TextFormField(
+              controller: priceController,
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return ' This field is required ';
+                }
+                // prodFieldsValue.add(value);
+                return null;
+              },
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                    // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.skBorderColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                focusedBorder: const OutlineInputBorder(
+                    // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.themeColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                //suffixText: 'MMK',
+                // suffixStyle: TextStyle(
+                //   fontWeight: FontWeight.w500,
+                //   color: Colors.grey,
+                //   fontSize: 12,
+                //   //fontFamily: 'capsulesans',
                 // ),
-                child: TextFormField(
-                  controller: nameController,
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return ' This field is required ';
-                    }
-                    // prodFieldsValue.add(value);
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                    focusedBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.themeColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontFamily: 'capsulesans',
-                    ),
-                    errorStyle: TextStyle(
-                        backgroundColor: Colors.white,
-                        fontSize: 12,
-                        fontFamily: 'capsulesans',
-                        height: 0.1
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Units / main unit',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+                errorStyle: TextStyle(
+                    backgroundColor: Colors.white,
+                    fontSize: 12,
+                    fontFamily: 'capsulesans',
+                    height: 0.1
+                ),
+                // errorText: 'Error message',
+                labelText: 'Unit Quantity',
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                //filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              Spacer(),
-              Container(
-                width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
-                child: TextFormField(
-                  controller: ageController,
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return ' This field is required ';
-                    }
-                    // prodFieldsValue.add(value);
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 142.0, bottom: 13),
+            child: TextFormField(
+              controller: jobController,
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return ' This field is required ';
+                }
+                // prodFieldsValue.add(value);
+                return null;
+              },
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                    // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.skBorderColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
 
-                    focusedBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.themeColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontFamily: 'capsulesans',
-                    ),
-                    errorStyle: TextStyle(
-                        backgroundColor: Colors.white,
-                        fontSize: 12,
-                        fontFamily: 'capsulesans',
-                        height: 0.1
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Unit name',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                focusedBorder: const OutlineInputBorder(
+                    // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.themeColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                suffixText: 'MMK',
+                suffixStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                  fontSize: 12,
+                  //fontFamily: 'capsulesans',
+                ),
+                errorStyle: TextStyle(
+                    backgroundColor: Colors.white,
+                    fontSize: 12,
+                    fontFamily: 'capsulesans',
+                    height: 0.1
+                ),
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+                // errorText: 'Error message',
+                labelText: 'Sale price',
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                //filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
+            ),
+          ),
             ],
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            controller: priceController,
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return ' This field is required ';
-              }
-              // prodFieldsValue.add(value);
-              return null;
-            },
-            decoration: InputDecoration(
-              enabledBorder: const OutlineInputBorder(
-                  // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.skBorderColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-              focusedBorder: const OutlineInputBorder(
-                  // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.themeColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              contentPadding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-              //suffixText: 'MMK',
-              // suffixStyle: TextStyle(
-              //   fontWeight: FontWeight.w500,
-              //   color: Colors.grey,
-              //   fontSize: 12,
-              //   //fontFamily: 'capsulesans',
-              // ),
-              labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-              errorStyle: TextStyle(
-                  backgroundColor: Colors.white,
-                  fontSize: 12,
-                  fontFamily: 'capsulesans',
-                  height: 0.1
-              ),
-              // errorText: 'Error message',
-              labelText: 'Unit Quantity',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              //filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            controller: jobController,
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return ' This field is required ';
-              }
-              // prodFieldsValue.add(value);
-              return null;
-            },
-            decoration: InputDecoration(
-              enabledBorder: const OutlineInputBorder(
-                  // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.skBorderColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-              focusedBorder: const OutlineInputBorder(
-                  // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.themeColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              contentPadding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-              suffixText: 'MMK',
-              suffixStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.grey,
-                fontSize: 12,
-                //fontFamily: 'capsulesans',
-              ),
-              errorStyle: TextStyle(
-                  backgroundColor: Colors.white,
-                  fontSize: 12,
-                  fontFamily: 'capsulesans',
-                  height: 0.1
-              ),
-              labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-              // errorText: 'Error message',
-              labelText: 'Sale price',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              //filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 16,
           ),
         ],
       ),

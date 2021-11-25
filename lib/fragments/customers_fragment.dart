@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:one_context/one_context.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
@@ -3849,11 +3850,11 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   final _width = 10.0;
   int cateScIndex = 0;
 
-  addCust() {
+  addCust(BuildContext? context) {
     showModalBottomSheet(
         enableDrag: true,
         isScrollControlled: true,
-        context: context,
+        context: context!,
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return Scaffold(
@@ -4032,7 +4033,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                   addCust();
+                                                    addCust(OneContext().context);
                                                   },
                                                   child: Container(
                                                     child: Row(

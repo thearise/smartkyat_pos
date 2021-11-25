@@ -36,7 +36,7 @@ class _AddMerchantState extends State<AddMerchant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           SafeArea(
@@ -292,7 +292,7 @@ class _AddMerchantState extends State<AddMerchant> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30,),
+                          SizedBox(height: 50,),
                         ],
                       ),
                     ),

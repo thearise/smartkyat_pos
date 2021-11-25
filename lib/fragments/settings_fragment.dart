@@ -3,6 +3,7 @@ import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
+import 'package:smartkyat_pos/fragments/subs/change_password.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../app_theme.dart';
@@ -238,6 +239,34 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                             ),
                                 ),
                             ),),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ChangePassword()),
+                                );
+
+                              },
+                              child: Container(
+                                height: 72,
+                                decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          color: AppTheme.skBorderColor2,
+                                          width: 1.0),
+                                    )),
+                                child: Center(
+                                  child: ListTile(
+                                    title: Text('Change Password', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    trailing: Icon(
+                                      Icons
+                                          .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             GestureDetector(
                               onTap: (){
                                 Navigator.push(
