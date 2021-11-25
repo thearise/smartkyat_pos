@@ -46,7 +46,7 @@ dependencies:
 #  printing:
   url_launcher: ^6.0.6
 
-  dropdown_plus: ^0.0.9
+#  dropdown_plus: ^0.0.9
   flutter_switch: ^0.3.2
   wechat_camera_picker: ^2.3.0
   wechat_assets_picker:
@@ -58,7 +58,7 @@ dependencies:
   flutter_image_compress: ^1.0.0-nullsafety
   heic_to_jpg: ^0.2.0
   cached_network_image:
-  dropdown_search:
+#  dropdown_search:
   ai_awesome_message:
   flash: ^2.0.1
   carousel_slider: ^4.0.0
@@ -83,7 +83,9 @@ dependencies:
   native_pdf_renderer: ^3.1.0
   esc_pos_utils:
   dotted_line: ^3.1.0
-
+#  dropdown_below: ^1.0.1
+#  cool_dropdown: ^1.4.1
+  dropdown_below: ^1.0.1
 
 dev_dependencies:
   flutter_test:

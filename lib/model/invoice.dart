@@ -33,7 +33,7 @@ class InvoiceInfo {
 
 class InvoiceItem {
   final String description;
-  final DateTime date;
+  final String date;
   final int quantity;
   final double vat;
   final double unitPrice;

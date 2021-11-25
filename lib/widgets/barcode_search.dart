@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 
 import '../app_theme.dart';
+import 'barcode_search_result.dart';
 
 class QRSearchExample extends StatefulWidget {
   @override
@@ -32,7 +34,7 @@ class _QRSearchExampleState extends State<QRSearchExample> {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 100.0),
+            padding: const EdgeInsets.only(top: 125.0),
             child: Container(
                 child: _buildQrView(context)),
           ),
@@ -355,6 +357,8 @@ class _QRSearchExampleState extends State<QRSearchExample> {
             controller.toggleFlash();
           }
         });
+        print(scanData.code);
+        // _onQRViewCreated(controller);
         Navigator.pop(context, scanData.code);
 
       } else {
