@@ -3920,7 +3920,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                       ),
                                                     ),
                                                     onPressed: () {
-                                                      addMerch(OneContext().context);
+                                                     addMerch(OneContext().context);
                                                     },
                                                     child: Container(
                                                       child: Row(

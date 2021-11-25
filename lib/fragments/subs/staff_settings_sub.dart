@@ -1,6 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_plus/dropdown_plus.dart';
+// import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -21,7 +21,6 @@ class StaffSettingsSub extends StatefulWidget {
 class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<StaffSettingsSub>{
   var _searchUserMail;
 
-  DropdownEditingController<String> _staffSearchCtl = DropdownEditingController<String>();
 
   @override
   bool get wantKeepAlive => true;
@@ -37,15 +36,6 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
         _result = value.toString();
       });
 
-    });
-
-    _staffSearchCtl.addListener((){
-      // setState(() {
-      //   gloSearchText = _searchController.text;
-      //   searchValue = _searchController.text;
-      // });
-      // searchKeyChanged();
-      print('GG STAFF ' + _staffSearchCtl.value.toString());
     });
     super.initState();
   }

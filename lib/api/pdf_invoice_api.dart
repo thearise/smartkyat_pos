@@ -37,13 +37,23 @@ class PdfInvoiceApi {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 1 * PdfPageFormat.cm),
+                  SizedBox(height: 0.5 * PdfPageFormat.cm),
 
-                  pw.Text(Rabbit.uni2zg("SHOP NAME ဒိုးလုံး"),style: pw.TextStyle(fontSize: fontSizeDesc+5,font: ttfBold)),
-                  // pw.Text(Rabbit.uni2zg("ဘာတွေလဲ ဘာေတွလဲ ဘာတွေဖြစ်နေတာလဲလို့ ပြောကြပါဦး Whatting?"),style: pw.TextStyle(fontSize: fontSizeDesc-4,font: ttfReg, fontWeight: FontWeight.bold)),
-                  // ahttps://riftplus.info/dist/img/riftplus-fg.pnga
-                  pw.Text(Rabbit.uni2zg("သဇင်လမ်း၊ အောင်သပြေရပ်ကွက်၊ မုံရွာမြို့"),style: pw.TextStyle(fontSize: fontSizeDesc-5,font: ttfReg, color: PdfColors.grey900)),
-                  pw.Text(Rabbit.uni2zg("(+959) 751133553"),style: pw.TextStyle(fontSize: fontSizeDesc-5,font: ttfReg, color: PdfColors.grey900)),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                        children: [
+                          pw.Text(Rabbit.uni2zg(invoice.supplier.name),
+                            textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc+5,font: ttfBold),
+                          ),
+                          SizedBox(height: 0.2 * PdfPageFormat.cm),
+                          // pw.Text(Rabbit.uni2zg("ဘာတွေလဲ ဘာေတွလဲ ဘာတွေဖြစ်နေတာလဲလို့ ပြောကြပါဦး Whatting?"),style: pw.TextStyle(fontSize: fontSizeDesc-4,font: ttfReg, fontWeight: FontWeight.bold)),
+                          // ahttps://riftplus.info/dist/img/riftplus-fg.pnga
+                          pw.Text(Rabbit.uni2zg(invoice.supplier.address),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-5,font: ttfReg, color: PdfColors.grey900)),
+                          pw.Text(Rabbit.uni2zg(invoice.supplier.phone),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-5,font: ttfReg, color: PdfColors.grey900)),
+                        ]
+                    ),
+                  ),
                   SizedBox(height: 0.3 * PdfPageFormat.cm),
 
                   Container(decoration: BoxDecoration(
@@ -67,24 +77,26 @@ class PdfInvoiceApi {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: pw.MainAxisAlignment.start,
                   children: [
-                    Text('RECEIPT INFO',
+                    Text('RECEIPT INFO: ' + invoice.info.number,
                         style: TextStyle(
                           fontSize: fontSizeDesc-4,
                           fontWeight: FontWeight.bold,)
                     ),
                     SizedBox(height: 0.1 * PdfPageFormat.cm),
-                    pw.Text(Rabbit.uni2zg("CUSTOMER: ဦးပြောင်ကြီး"),style: pw.TextStyle(fontSize: fontSizeDesc-6,font: ttfReg, color: PdfColors.grey600)),
-                    pw.Text(Rabbit.uni2zg("ADDRESS: အဝေရာလမ်း၊ ထ(၁) ထောင့်"),style: pw.TextStyle(fontSize: fontSizeDesc-6,font: ttfReg, color: PdfColors.grey600)),
+                    invoice.customer.name != 'name'?
+                    pw.Text(Rabbit.uni2zg('NAME: ' + invoice.customer.name),style: pw.TextStyle(fontSize: fontSizeDesc-6,font: ttfReg, color: PdfColors.grey600)) :
+                    pw.Text(Rabbit.uni2zg('NAME: UNKNOWN'),style: pw.TextStyle(fontSize: fontSizeDesc-6,font: ttfReg, color: PdfColors.grey600)),
+                    pw.Text(Rabbit.uni2zg('DATE: ' + invoice.info.date.day.toString() + '-' + invoice.info.date.month.toString() + '-' + invoice.info.date.year.toString()),style: pw.TextStyle(fontSize: fontSizeDesc-6,font: ttfReg, color: PdfColors.grey600)),
                     // Text('ADDRESS: Sanfran cisco', style: TextStyle(
                     //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
-                    Text('PHONE: (+959) 751133553', style: TextStyle(
-                        fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
+                    // Text('PHONE: (+959) 751133553', style: TextStyle(
+                    //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
                     SizedBox(height: 0.2 * PdfPageFormat.cm),
                   ],
                 )
             )
           ),
-          buildInvoice(invoice),
+          buildInvoice(invoice, ttfReg),
           Padding(
             padding: new EdgeInsets.only(top: 5.0),
             child: Container(decoration: BoxDecoration(
@@ -276,12 +288,13 @@ class PdfInvoiceApi {
     )
   );
 
-  static Widget buildInvoice(Invoice invoice) {
+  static Widget buildInvoice(Invoice invoice, ttfReg) {
+
     final headers = [
       'NAME',
       // 'Date',
       'QTITY',
-      'UNIT PRICE',
+      // 'UNIT PRICE',
       // 'VAT',
       'TOTAL'
     ];
@@ -289,40 +302,41 @@ class PdfInvoiceApi {
       final total = item.unitPrice * item.quantity * (1 + item.vat);
 
       return [
-        item.description,
+        // item.date.split('-')[0] == 'unit_name' ?
+        Rabbit.uni2zg(item.description + ' (' + item.date + ')'),
         // Utils.formatDate(item.date),
         '${item.quantity}',
-        '\$ ${item.unitPrice}',
+        // '\$ ${item.unitPrice}',
         // '${item.vat} %',
-        '\$ ${total.toStringAsFixed(2)}',
+        'K ${total.toStringAsFixed(2)}',
       ];
     }).toList();
 
     return Padding(
-      padding: new EdgeInsets.symmetric(horizontal: 5.0),
-      child: Table.fromTextArray(
-        headers: headers,
-        data: data,
-        border: null,
-        headerStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-5),
-        cellStyle: TextStyle(fontSize: fontSizeDesc-5),
-        // headerDecoration: BoxDecoration(color: PdfColors.grey200),
-        cellHeight: 0,
-        headerAlignments: {
-          0: Alignment.centerLeft,
-          1: Alignment.centerRight,
-          2: Alignment.centerRight,
-          // 3: Alignment.centerRight,
-          3: Alignment.centerRight,
-        },
-        cellAlignments: {
-          0: Alignment.centerLeft,
-          1: Alignment.centerRight,
-          2: Alignment.centerRight,
-          // 3: Alignment.centerRight,
-          3: Alignment.centerRight,
-        },
-      )
+        padding: new EdgeInsets.symmetric(horizontal: 5.0),
+        child: Table.fromTextArray(
+          headers: headers,
+          data: data,
+          border: null,
+          headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-5, font: ttfReg),
+          cellStyle: pw.TextStyle(fontSize: fontSizeDesc-5, font: ttfReg),
+          // headerDecoration: BoxDecoration(color: PdfColors.grey200),
+          cellHeight: 0,
+          headerAlignments: {
+            0: Alignment.centerLeft,
+            1: Alignment.centerRight,
+            // 2: Alignment.centerRight,
+            // 3: Alignment.centerRight,
+            2: Alignment.centerRight,
+          },
+          cellAlignments: {
+            0: Alignment.centerLeft,
+            1: Alignment.centerRight,
+            // 2: Alignment.centerRight,
+            // 3: Alignment.centerRight,
+            2: Alignment.centerRight,
+          },
+        )
     );
   }
 
