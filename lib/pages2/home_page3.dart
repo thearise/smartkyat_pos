@@ -61,6 +61,7 @@ class HomePageState extends State<HomePage>
   static int currentTab = 0;
   var deviceIdNum;
   String? shopId;
+  String merchantId = 'name-name';
 
   List<TabItem> tabs = [];
 
@@ -1514,20 +1515,24 @@ class HomePageState extends State<HomePage>
   late final SlidableController slidableController1;
   addProduct3(data) {
     if (data != 'null') {
-      prodList2.add(data + '-0-');
+      setState(() {
+        prodList2.add(data + '-0-');
+      });
     }
   }
 
   String customerId = 'name-name';
 
   addCustomer2Cart(data) {
-    customerId = data.toString();
+    setState(() {
+      customerId = data.toString();
+    });
   }
 
-  String merchantId = 'name-name';
-
   addMerchant2Cart(data) {
-    merchantId = data.toString();
+    setState(() {
+      merchantId = data.toString();
+    });
   }
 
   openBarcodeSearch() async {
