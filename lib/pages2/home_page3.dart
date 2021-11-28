@@ -3813,7 +3813,27 @@ class HomePageState extends State<HomePage>
                                                                           // });
 
 
-                                                                          _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                          getPaperId().then((value) async {
+                                                                            print('VVAALLUUEE ' + value.toString());
+                                                                            pdfFile = await PdfInvoiceApi.generate(invoice, value);
+                                                                            mystate(() {
+                                                                              // setState(() {
+                                                                              pdfText = pdfFile!.path.toString();
+                                                                              // });
+                                                                            });
+
+
+                                                                            // mystate(()  {
+                                                                            //   prodList = [];
+                                                                            //   discount = 0.0;
+                                                                            //   debt =0;
+                                                                            //   refund =0;
+                                                                            //   //customerId = 'name-name';
+                                                                            // });
+
+
+                                                                            _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                          });
 
                                                                         }
                                                                       }
@@ -7471,6 +7491,11 @@ class HomePageState extends State<HomePage>
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-00-00 00:00:00');
     print('DDDD ' + yearStart.toString());
     return yearStart;
+  }
+
+  getPaperId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('paper');
   }
 
   // merchantCart(priContext) {
