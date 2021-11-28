@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/change_password.dart';
+import 'package:smartkyat_pos/fragments/subs/print_settings_sub.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../app_theme.dart';
@@ -275,6 +276,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                 );
                               },
                               child: Container(
+                                color: Colors.white,
                                 height: 72,
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
@@ -430,23 +432,31 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                 fontSize: 14, color: Colors.grey,
                               ),),
                             ),
-                            Container(
-                              height: 72,
-                              child: Center(
-                                child: ListTile(
-                                  title: Text('Print settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('Roll 55' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                      SizedBox(width: 8,),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                      ),
-                                    ],
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => PrintSettingsSub(changeShopCallback3: () {  },)),
+                                );
+                              },
+                              child: Container(
+                                height: 72,
+                                child: Center(
+                                  child: ListTile(
+                                    title: Text('Print settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text('Roll 55' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                        SizedBox(width: 8,),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                        ),
+                                      ],
+                                    ),
+
+
                                   ),
-
-
                                 ),
                               ),
                             ),
