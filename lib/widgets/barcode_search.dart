@@ -332,6 +332,7 @@ class _QRSearchExampleState extends State<QRSearchExample> {
       child: QRView(
         key: qrKey,
         onQRViewCreated: _onQRViewCreated,
+        // formatsAllowed: [BarcodeFormat.aztec, BarcodeFormat.codabar, BarcodeFormat.upcE, BarcodeFormat.code128, BarcodeFormat.code39, BarcodeFormat.upcA, BarcodeFormat.dataMatrix, BarcodeFormat.code93, BarcodeFormat.ean8,  BarcodeFormat.ean13, BarcodeFormat.itf, BarcodeFormat.maxicode, BarcodeFormat.pdf417, BarcodeFormat.qrcode, BarcodeFormat.rss14, BarcodeFormat.rssExpanded],
         overlay: QrScannerOverlayShape(
             borderColor: Colors.black,
             borderRadius: 10,
