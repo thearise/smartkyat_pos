@@ -78,6 +78,9 @@ class MerchantCartState extends State<MerchantCart>
   var mainQty= 0;
   var sub1Qty = 0;
   var sub2Qty = 0;
+  String buy1 = '';
+  String buy2 = '';
+  String buy3 = '';
   int disPercent2 =0;
 
   TextEditingController myController = TextEditingController();
@@ -462,6 +465,8 @@ class MerchantCartState extends State<MerchantCart>
                                 .data();
                             var image = output2?[
                             'img_1'];
+                            salePrice = output2?['buyPrice1'];
+
                             widget.prodList2[i] = widget.prodList2[i].split('-')[0] + '-' + widget.prodList2[i].split('-')[1] + '-' +
                                 widget.prodList2[i].split('-')[2] + '-' + widget.prodList2[i].split('-')[3] + '-' + widget.prodList2[i].split('-')[4] + '-' + widget.prodList2[i].split('-')[5] +'-' + widget.prodList2[i].split('-')[6];
                             return GestureDetector(
@@ -475,7 +480,7 @@ class MerchantCartState extends State<MerchantCart>
                                   mainName =  output2?['unit_name'];
                                   sub1Name = output2?['sub1_name'];
                                   sub2Name = output2?['sub2_name'];
-                                  salePrice = widget.prodList2[i].split('-')[1];
+                                  //salePrice = widget.prodList2[i].split('-')[1];
                                   mainLoss = output2?['Loss1'].round();
                                   sub1Loss = output2?['Loss2'].round();
                                   sub2Loss = output2?['Loss3'].round();
@@ -484,6 +489,9 @@ class MerchantCartState extends State<MerchantCart>
                                   sub1Qty = output2?['inStock2'].round();
                                   sub2Qty = output2?['inStock3'].round();
                                   productName = output2?['prod_name'];
+                                  buy1 = output2?['buyPrice1'];
+                                  buy2 = output2?['buyPrice2'];
+                                  buy3 = output2?['buyPrice3'];
                                   myController.text = widget.prodList2[i].split('-')[2];
                                   buyPriceController.text =  widget.prodList2[i].split('-')[1];
                                 });
@@ -1022,16 +1030,20 @@ class MerchantCartState extends State<MerchantCart>
           myController.addListener((){
             setState(() {
               mystate((){
-              totalFixAmount =int.parse(myController.text) * double.parse(buyPriceController.text);
-            });});
+                (myController.text != '' && buyPriceController.text != '') ? totalFixAmount =int.parse(myController.text) * double.parse(buyPriceController.text) : totalFixAmount = 0.0;
+              });});
           });
 
           buyPriceController.addListener((){
             setState(() {
               mystate((){
-                totalFixAmount =int.parse(myController.text) * double.parse(buyPriceController.text);
-                titlePrice = double.parse(buyPriceController.text);
-                price2 = int.parse(buyPriceController.text);
+                (myController.text != '' && buyPriceController.text != '') ? totalFixAmount =int.parse(myController.text) * double.parse(buyPriceController.text) : totalFixAmount = 0.0;
+                if( buyPriceController.text != '') {
+                  titlePrice = double.parse(buyPriceController.text);
+                  price2 = int.parse(buyPriceController.text); } else {
+                  titlePrice = 0.0;
+                  price2 = 0;
+                }
               });});
           });
     return Scaffold(
@@ -1357,7 +1369,7 @@ class MerchantCartState extends State<MerchantCart>
                                 ),
                               ),
                               SizedBox(height: 15,),
-                              Text('MAIN UNIT PRICING', style: TextStyle(
+                              Text('UNIT PRICING', style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                                 letterSpacing: 2,
@@ -1389,7 +1401,18 @@ class MerchantCartState extends State<MerchantCart>
                                               fontWeight: FontWeight.w500,
                                             ),),
                                             Spacer(),
-                                            Text('MMK ' + salePrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                            eachProd.split('-')[4]== 'unit_name' ? Text('MMK ' +  buy1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                            TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey,
+                                            ),) :
+                                            eachProd.split('-')[4]== 'sub1_name' ? Text('MMK ' +  buy2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                            TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey,
+                                            ),) :  Text('MMK ' +  buy3.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                             TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
