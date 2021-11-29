@@ -27,7 +27,6 @@ class PdfInvoiceApi {
     final ttfReg = pw.Font.ttf(font2);
 
     PdfPageFormat pageFormat = PdfPageFormat.roll57;
-
     if(size == 'roll57') {
       pageFormat = PdfPageFormat.roll57;
     } else if(size == 'legal') {
@@ -84,8 +83,8 @@ class PdfInvoiceApi {
             child: Container(
                 width: double.infinity,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: pw.MainAxisAlignment.start,
+                  crossAxisAlignment: size=='roll57'? CrossAxisAlignment.start: CrossAxisAlignment.end,
+                  mainAxisAlignment: size=='roll57'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
                   children: [
                     Text('RECEIPT INFO: ' + invoice.info.number,
                         style: TextStyle(
@@ -106,7 +105,7 @@ class PdfInvoiceApi {
                 )
             )
           ),
-          buildInvoice(invoice, ttfReg),
+          buildInvoice(invoice, ttfReg, size),
           SizedBox(height: 0.2 * PdfPageFormat.cm),
           Padding(
             padding: new EdgeInsets.only(top: 5.0),
@@ -116,8 +115,8 @@ class PdfInvoiceApi {
                       width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
                 )),height: 1),
           ),
-          buildTotal(invoice),
-          Row(
+          buildTotal(invoice, size, pageFormat),
+          size == 'roll57' ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: pw.CrossAxisAlignment.center,
             children: [
@@ -132,7 +131,7 @@ class PdfInvoiceApi {
                 ),
               ),
             ],
-          ),
+          ): Container(),
           SizedBox(height: 0.5 * PdfPageFormat.cm),
           pw.Text('THANK YOU',style: pw.TextStyle(fontSize: fontSizeDesc+5, fontWeight: pw.FontWeight.bold)),
           SizedBox(height: 0.6 * PdfPageFormat.cm),
@@ -299,60 +298,112 @@ class PdfInvoiceApi {
     )
   );
 
-  static Widget buildInvoice(Invoice invoice, ttfReg) {
-
-    final headers = [
-      'NAME',
-      // 'Date',
-      'QTITY',
-      // 'UNIT PRICE',
-      // 'VAT',
-      'TOTAL'
-    ];
-    final data = invoice.items.map((item) {
-      final total = item.unitPrice * item.quantity * (1 + item.vat);
-
-      return [
-        // item.date.split('-')[0] == 'unit_name' ?
-        Rabbit.uni2zg(item.description + ' (' + item.date + ')'),
-        // Utils.formatDate(item.date),
-        '${item.quantity}',
-        // '\$ ${item.unitPrice}',
-        // '${item.vat} %',
-        '${total.toStringAsFixed(2)} K',
+  static Widget buildInvoice(Invoice invoice, ttfReg, String size) {
+    if(size!='roll57') {
+      final headers = [
+        'NAME',
+        // 'Date',
+        'QTITY',
+        'UNIT PRICE',
+        // 'VAT',
+        'TOTAL'
       ];
-    }).toList();
+      final data = invoice.items.map((item) {
+        final total = item.unitPrice * item.quantity * (1 + item.vat);
 
-    return Padding(
-        padding: new EdgeInsets.symmetric(horizontal: 5.0),
-        child: Table.fromTextArray(
-          headers: headers,
-          data: data,
-          border: null,
-          headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-5),
-          cellStyle: pw.TextStyle(fontSize: fontSizeDesc-5, font: ttfReg),
-          // headerDecoration: BoxDecoration(color: PdfColors.grey200),
-          cellHeight: 0,
-          cellPadding: const EdgeInsets.only(left: 5, right: 5, bottom: 2, top: 2),
-          headerAlignments: {
-            0: Alignment.centerLeft,
-            1: Alignment.centerRight,
-            // 2: Alignment.centerRight,
-            // 3: Alignment.centerRight,
-            2: Alignment.centerRight,
-          },
-          cellAlignments: {
-            0: Alignment.centerLeft,
-            1: Alignment.centerRight,
-            // 2: Alignment.centerRight,
-            // 3: Alignment.centerRight,
-            2: Alignment.centerRight,
-          },
-        )
-    );
+        return [
+          // item.date.split('-')[0] == 'unit_name' ?
+          Rabbit.uni2zg(item.description + ' (' + item.date + ')'),
+          // Utils.formatDate(item.date),
+          '${item.quantity}',
+          '${item.unitPrice} K',
+          // '${item.vat} %',
+          '${total.toStringAsFixed(2)} K',
+        ];
+      }).toList();
+
+      return Padding(
+          padding: new EdgeInsets.symmetric(horizontal: 5.0),
+          child: Table.fromTextArray(
+            headers: headers,
+            data: data,
+            border: null,
+            headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-5),
+            cellStyle: pw.TextStyle(fontSize: fontSizeDesc-5, font: ttfReg),
+            // headerDecoration: BoxDecoration(color: PdfColors.grey200),
+            cellHeight: 0,
+            cellPadding: const EdgeInsets.only(left: 5, right: 5, bottom: 2, top: 2),
+            headerAlignments: {
+              0: Alignment.centerLeft,
+              1: Alignment.centerRight,
+              2: Alignment.centerRight,
+              // 3: Alignment.centerRight,
+              3: Alignment.centerRight,
+            },
+            cellAlignments: {
+              0: Alignment.centerLeft,
+              1: Alignment.centerRight,
+              2: Alignment.centerRight,
+              // 3: Alignment.centerRight,
+              3: Alignment.centerRight,
+            },
+          )
+      );
+    } else {
+      final headers = [
+        'NAME',
+        // 'Date',
+        'QTITY',
+        // 'UNIT PRICE',
+        // 'VAT',
+        'TOTAL'
+      ];
+      final data = invoice.items.map((item) {
+        final total = item.unitPrice * item.quantity * (1 + item.vat);
+
+        return [
+          // item.date.split('-')[0] == 'unit_name' ?
+          Rabbit.uni2zg(item.description + ' (' + item.date + ')'),
+          // Utils.formatDate(item.date),
+          '${item.quantity}',
+          // '\$ ${item.unitPrice}',
+          // '${item.vat} %',
+          '${total.toStringAsFixed(2)} K',
+        ];
+      }).toList();
+
+      return Padding(
+          padding: new EdgeInsets.symmetric(horizontal: 5.0),
+          child: Table.fromTextArray(
+            headers: headers,
+            data: data,
+            border: null,
+            headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-5),
+            cellStyle: pw.TextStyle(fontSize: fontSizeDesc-5, font: ttfReg),
+            // headerDecoration: BoxDecoration(color: PdfColors.grey200),
+            cellHeight: 0,
+            cellPadding: const EdgeInsets.only(left: 5, right: 5, bottom: 2, top: 2),
+            headerAlignments: {
+              0: Alignment.centerLeft,
+              1: Alignment.centerRight,
+              // 2: Alignment.centerRight,
+              // 3: Alignment.centerRight,
+              2: Alignment.centerRight,
+            },
+            cellAlignments: {
+              0: Alignment.centerLeft,
+              1: Alignment.centerRight,
+              // 2: Alignment.centerRight,
+              // 3: Alignment.centerRight,
+              2: Alignment.centerRight,
+            },
+          )
+      );
+    }
+
   }
 
-  static Widget buildTotal(Invoice invoice) {
+  static Widget buildTotal(Invoice invoice, String size, PdfPageFormat pageFormat) {
     final netTotal = invoice.items
         .map((item) => item.unitPrice * item.quantity)
         .reduce((item1, item2) => item1 + item2);
@@ -360,13 +411,28 @@ class PdfInvoiceApi {
     final vat = netTotal * vatPercent;
     final total = netTotal + vat;
 
-    return Padding(
+    return size != 'roll57' ?
+    Padding(
       padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
       child: Container(
         alignment: Alignment.centerRight,
         child: Row(
           children: [
-            Expanded(
+            Padding(
+              padding: EdgeInsets.only(left: 4 * PdfPageFormat.mm),
+              child: Container(
+                height: 30,
+                width: 90,
+                child: BarcodeWidget(
+                    barcode: Barcode.code128(),
+                    data: invoice.info.number,
+                    drawText: false
+                ),
+              ),
+            ),
+            Spacer(),
+            Container(
+              width: pageFormat.width/2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -428,11 +494,85 @@ class PdfInvoiceApi {
                   // Container(height: 1, color: PdfColors.grey400),
                   // SizedBox(height: 1 * PdfPageFormat.cm),
                 ],
-              ),
+              )
             ),
           ],
         ),
       )
+    ):
+    Padding(
+        padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+        child: Container(
+          alignment: Alignment.centerRight,
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 2.5 * PdfPageFormat.mm),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: buildText(
+                          title: 'SUB TOTAL',
+                          value: Utils.formatPrice(netTotal),
+                          unite: true,
+                          titleStyle: TextStyle(
+                              fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 1.5 * PdfPageFormat.mm),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: buildText(
+                          title: 'DISCOUNT ${vatPercent * 100} %',
+                          value: Utils.formatPrice(vat),
+                          unite: true,
+                          titleStyle: TextStyle(
+                              fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 1.5 * PdfPageFormat.mm),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: buildText(
+                          title: 'TOTAL PRICE',
+                          value: Utils.formatPrice(total),
+                          unite: true,
+                          titleStyle: TextStyle(
+                              fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                          )
+                      ),
+                    ),
+                    SizedBox(height: .5 * PdfPageFormat.cm),
+
+
+                    // Container(decoration: BoxDecoration(
+                    //     border: Border(
+                    //       bottom: BorderSide(
+                    //           width: 1, color: PdfColors.grey800),
+                    //     )),height: 1),
+                    // buildText(
+                    //   title: 'Total amount due',
+                    //   titleStyle: TextStyle(
+                    //       fontSize: fontSizeDesc-6, fontWeight: FontWeight.bold
+                    //   ),
+                    //   value: Utils.formatPrice(total),
+                    //   unite: true,
+                    // ),
+                    // SizedBox(height: 2 * PdfPageFormat.mm),
+                    // Container(height: 1, color: PdfColors.grey400),
+                    // SizedBox(height: 0.5 * PdfPageFormat.mm),
+                    // Container(height: 1, color: PdfColors.grey400),
+                    // SizedBox(height: 1 * PdfPageFormat.cm),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
     );
   }
 
