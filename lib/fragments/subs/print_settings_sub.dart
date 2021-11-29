@@ -28,7 +28,7 @@ class PrintSettingsSub extends StatefulWidget {
 }
 
 class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<PrintSettingsSub>{
-  String paperType = 'Loading';
+  String paperType = 'Roll-57';
 
   @override
   bool get wantKeepAlive => true;
@@ -38,7 +38,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
   bool firstTime = true;
 
   List _testList = [
-    {'no': 1, 'keyword': 'Roll-58'},
+    {'no': 1, 'keyword': 'Roll-57'},
     {'no': 2, 'keyword': 'Legal'},
     {'no': 3, 'keyword': 'A4'}
   ];
