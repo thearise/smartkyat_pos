@@ -15,7 +15,7 @@ class PdfInvoiceApi {
   static double fontSizeDesc = 0;
 
   static Future<File> generate(Invoice invoice, String size) async {
-    if(size == 'roll57') {
+    if(size == 'Roll-57') {
       fontSizeDesc = 11.0;
     }
     final pdf = Document();
@@ -27,9 +27,9 @@ class PdfInvoiceApi {
     final ttfReg = pw.Font.ttf(font2);
 
     PdfPageFormat pageFormat = PdfPageFormat.roll57;
-    if(size == 'roll57') {
+    if(size == 'Roll-57') {
       pageFormat = PdfPageFormat.roll57;
-    } else if(size == 'legal') {
+    } else if(size == 'Legal') {
       pageFormat = PdfPageFormat.legal;
     } else if(size == 'A4') {
       pageFormat = PdfPageFormat.a4;
@@ -83,8 +83,8 @@ class PdfInvoiceApi {
             child: Container(
                 width: double.infinity,
                 child: Column(
-                  crossAxisAlignment: size=='roll57'? CrossAxisAlignment.start: CrossAxisAlignment.end,
-                  mainAxisAlignment: size=='roll57'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
+                  crossAxisAlignment: size=='Roll-57'? CrossAxisAlignment.start: CrossAxisAlignment.end,
+                  mainAxisAlignment: size=='Roll-57'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
                   children: [
                     Text('RECEIPT INFO: ' + invoice.info.number,
                         style: TextStyle(
@@ -116,7 +116,7 @@ class PdfInvoiceApi {
                 )),height: 1),
           ),
           buildTotal(invoice, size, pageFormat),
-          size == 'roll57' ? Row(
+          size == 'Roll-57' ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: pw.CrossAxisAlignment.center,
             children: [
@@ -299,7 +299,7 @@ class PdfInvoiceApi {
   );
 
   static Widget buildInvoice(Invoice invoice, ttfReg, String size) {
-    if(size!='roll57') {
+    if(size!='Roll-57') {
       final headers = [
         'NAME',
         // 'Date',
@@ -411,7 +411,7 @@ class PdfInvoiceApi {
     final vat = netTotal * vatPercent;
     final total = netTotal + vat;
 
-    return size != 'roll57' ?
+    return size != 'Roll-57' ?
     Padding(
       padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
       child: Container(

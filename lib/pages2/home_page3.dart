@@ -6,6 +6,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -3089,7 +3090,7 @@ class HomePageState extends State<HomePage>
                                                         width: 1.0),
                                                   )),
                                               width: double.infinity,
-                                              height: 158,
+                                              height: 150,
                                               child: Column(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.end,
@@ -3107,10 +3108,10 @@ class HomePageState extends State<HomePage>
                                                     ),
                                                     subtitle: int.parse(totalItems()) == 1? Text(totalItems() + ' item set',
                                                         style: TextStyle(
-                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                         )) : Text(totalItems() + ' item sets',
                                                         style: TextStyle(
-                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                         )),
                                                     trailing: Text('MMK '+
                                                         TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -3122,7 +3123,7 @@ class HomePageState extends State<HomePage>
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 27.0),
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         setState(() {
@@ -3130,6 +3131,71 @@ class HomePageState extends State<HomePage>
                                                             totalAmount = double.parse(TtlProdListPrice());
 
                                                           }); });
+
+                                                        // List<double> cashMM = [500, 1000, 5000, 10000];
+                                                        // int i = 0;
+                                                        // String totalCashCal = totalAmount.toInt().toString();
+                                                        // print('CCC 0--> ' + totalAmount.toInt().toString());
+                                                        //
+                                                        // for(i = totalCashCal.toString().length-1; i>=0; i--) {
+                                                        //   if(totalCashCal.toString()[i] == '0') {
+                                                        //
+                                                        //   } else {
+                                                        //     break;
+                                                        //   }
+                                                        // }
+                                                        //
+                                                        // print('CCC 1--> ' + (totalCashCal.length - i).toString());
+                                                        // // int j = 0;
+                                                        //
+                                                        // List<String> cashMMUI = [];
+                                                        // cashMMUI.add(totalCashCal);
+                                                        // for(int j = 0; j < cashMM.length; j++) {
+                                                        //   int k = 0;
+                                                        //   int iii = 0;
+                                                        //   for(int k = cashMM[j].toInt().toString().length-1; k>=0; k--) {
+                                                        //     if(cashMM[j].toInt().toString()[k] == '0') {
+                                                        //
+                                                        //     } else {
+                                                        //       break;
+                                                        //     }
+                                                        //   }
+                                                        //   print('TEST TESET ' + i.toString() + ' ' + cashMM[j].toInt().toString() + ' ' + (cashMM[j].toInt().toString().length - k).toString());
+                                                        //
+                                                        //   String totalCashCalMod = totalCashCal;
+                                                        //   totalCashCalMod = replaceCharAt(totalCashCalMod, i, "0");
+                                                        //
+                                                        //   print('CCCC' + totalCashCal.length.toString() + ' ' + i.toString());
+                                                        //   if(totalCashCal.length-1 == i+1) {
+                                                        //     print('CHECKKK');
+                                                        //     totalCashCalMod = replaceCharAt(totalCashCalMod, i-1, "0");
+                                                        //   }
+                                                        //
+                                                        //   print('totalCashCalMod ' + totalCashCalMod + ' ' + i.toString());
+                                                        //
+                                                        //
+                                                        //
+                                                        //   if(totalCashCal.length - i <= cashMM[j].toInt().toString().length - k) {
+                                                        //     print('nyi nyi ' + cashMM[j].toInt().toString() + ' ' + totalCashCal.substring(i, totalCashCal.length));
+                                                        //     if(cashMM[j] > double.parse(totalCashCal.substring(i, totalCashCal.length))) {
+                                                        //       if(totalCashCalMod.substring(totalCashCalMod.length - i, totalCashCalMod.length).length == cashMM[j].toInt().toString().length) {
+                                                        //         iii++;
+                                                        //         if(double.parse(totalCashCalMod) < cashMM[j]) {
+                                                        //           totalCashCalMod = '0';
+                                                        //         }
+                                                        //         print('HEHRE ' + cashMM[j].toInt().toString());
+                                                        //       }
+                                                        //
+                                                        //       cashMMUI.add((double.parse(totalCashCalMod) + cashMM[j]).toInt().toString());
+                                                        //       print('NYI ' + cashMM[j].toInt().toString());
+                                                        //     }
+                                                        //   }
+                                                        //
+                                                        //
+                                                        //
+                                                        // }
+                                                        //
+                                                        // print('NYIII ' + cashMMUI.toString());
 
                                                         print('totalAmount '+ totalAmount.toString());
                                                         _controller.animateTo(1);
@@ -3149,13 +3215,13 @@ class HomePageState extends State<HomePage>
                                                           children: [
                                                             Expanded(
                                                               child: Padding(
-                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                                 child: Container(
                                                                     child: Text(
                                                                       'Checkout',
                                                                       textAlign: TextAlign.center,
                                                                       style: TextStyle(
-                                                                          fontSize: 18,
+                                                                          fontSize: 17,
                                                                           fontWeight: FontWeight.w600,
                                                                           color: Colors.black
                                                                       ),
@@ -3191,35 +3257,37 @@ class HomePageState extends State<HomePage>
                                       child: Stack(
                                         children: [
                                           Container(
-                                            width: double.infinity,
-                                            height: 71,
-                                            decoration: BoxDecoration(
-                                                border: Border(
-                                                    bottom: BorderSide(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.3),
-                                                        width: 1.0))),
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 15.0,
-                                                  right: 15.0,
-                                                  top: 6),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(customerId.split('-')[1], style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey,
-                                                  )),
-                                                  SizedBox(height: 3.5),
-                                                  Text('Cash acceptance', style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 21
-                                                  )),
-                                                ],
-                                              ),
-                                            ),
+                                        height: 67,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    width: 1.0))),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15.0,
+                                              right: 15.0,
+                                              top: 5.0,
+                                              bottom: 0.0
                                           ),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(customerId.split('-')[1] == 'name'? 'Customer':customerId.split('-')[1], style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey,
+                                              )),
+                                              SizedBox(height: 2.5),
+                                              Text('Cash acceptance', style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 19
+                                              )),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 71.0,
@@ -3236,37 +3304,112 @@ class HomePageState extends State<HomePage>
                                                       child: Column(
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
+                                                            SizedBox(height: 30),
                                                             Container(
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.all(
-                                                                      Radius.circular(10.0),
-                                                                    ),
-                                                                    border: Border.all(
-                                                                        color: Colors.grey.withOpacity(0.2),
-                                                                        width: 1.0),
-                                                                    color: AppTheme.lightBgColor),
-                                                                height:  100,
+                                                                // decoration: BoxDecoration(
+                                                                //     // borderRadius: BorderRadius.all(
+                                                                //     //   Radius.circular(10.0),
+                                                                //     // ),
+                                                                //     // border: Border.all(
+                                                                //     //     color: Colors.grey.withOpacity(0.2),
+                                                                //     //     width: 1.0),
+                                                                //     color: AppTheme.lightBgColor),
+                                                                // height:  100,
                                                                 width: MediaQuery.of(context).size.width,
                                                                 child: Column(
                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                                   children: [
-                                                                    Text('Total sale', style: TextStyle(
-                                                                      fontSize: 20,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: Colors.grey,
-                                                                    )),
+                                                                    Text('Total sale - MMK',
+                                                                        textAlign: TextAlign.center,
+                                                                        style: TextStyle(
+                                                                            fontSize: 30, fontWeight: FontWeight.w700
+                                                                        )),
                                                                     SizedBox(height: 3),
-                                                                    Text('MMK ' + TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
-                                                                      fontSize: 23, fontWeight: FontWeight.w500,
+                                                                    Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                        textAlign: TextAlign.center,
+                                                                        style: TextStyle(
+                                                                      fontSize: 30, fontWeight: FontWeight.w700
                                                                     )),
                                                                   ],
                                                                 )),
+                                                            SizedBox(height: 40),
+                                                            Text('CASH RECEIVED', style: TextStyle(
+                                                              letterSpacing: 2,
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 14,color: Colors.grey,
+                                                            ),),
+                                                            SizedBox(height: 13),
+                                                            TextField(
+                                                              style: TextStyle(
+                                                                  height: 0.95
+                                                              ),
+                                                              decoration: InputDecoration(
+                                                                enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                    borderSide: const BorderSide(
+                                                                        color: AppTheme.skBorderColor,
+                                                                        width: 2.0),
+                                                                    borderRadius: BorderRadius.all(
+                                                                        Radius.circular(10.0))),
+
+                                                                focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                    borderSide: const BorderSide(
+                                                                        color: AppTheme.themeColor,
+                                                                        width: 2.0),
+                                                                    borderRadius: BorderRadius.all(
+                                                                        Radius.circular(10.0))),
+                                                                contentPadding: const EdgeInsets.only(
+                                                                    left: 15.0,
+                                                                    right: 15.0,
+                                                                    top: 20.0,
+                                                                    bottom: 20.0),
+                                                                suffixText: 'MMK' ,
+                                                                // tooltip: 'Increase volume by 10',
+                                                                suffixStyle: TextStyle(
+                                                                  color: Colors.grey,
+                                                                  fontSize: 15,
+                                                                  fontFamily: 'capsulesans',
+                                                                ),
+                                                                errorStyle: TextStyle(
+                                                                    backgroundColor: Colors.white,
+                                                                    fontSize: 12,
+                                                                    fontFamily: 'capsulesans',
+                                                                    height: 0.1
+                                                                ),
+                                                                labelStyle: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.black,
+                                                                ),
+// errorText: 'Error message',
+                                                                labelText: 'Custom price',
+                                                                floatingLabelBehavior:
+                                                                FloatingLabelBehavior.auto,
+//filled: true,
+                                                                border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                ),
+                                                              ),
+                                                              keyboardType: TextInputType.number,
+                                                              onChanged: (value) {
+                                                                mystate(() {
+                                                                  totalAmount = double.parse(TtlProdListPrice());
+                                                                  value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                                                                  if((totalAmount - paidAmount).isNegative){
+                                                                    debt = 0;
+                                                                  } else { debt = (totalAmount - paidAmount);
+                                                                  }
+                                                                  if((paidAmount - totalAmount).isNegative){
+                                                                    refund = 0;
+                                                                  } else { refund = (paidAmount - totalAmount);
+                                                                  }
+                                                                });
+                                                              },
+                                                              controller: _textFieldController,
+                                                            ),
                                                             SizedBox(height: 20),
-                                                            Text('MMK: Amount received', style: TextStyle(
-                                                              fontSize: 16, fontWeight: FontWeight.w500,
-                                                            )),
-                                                            SizedBox(height: 20),
+
                                                             ButtonTheme(
                                                               minWidth: double.infinity,
                                                               //minWidth: 50,
@@ -3276,9 +3419,6 @@ class HomePageState extends State<HomePage>
                                                                 color: AppTheme.buttonColor2,
                                                                 shape: RoundedRectangleBorder(
                                                                   borderRadius: BorderRadius.circular(7.0),
-                                                                  side: BorderSide(
-                                                                    color: Colors.grey.withOpacity(0.85),
-                                                                  ),
                                                                 ),
                                                                 onPressed: () async {
                                                                   setState(() {
@@ -3319,71 +3459,14 @@ class HomePageState extends State<HomePage>
                                                                   child: Text( 'MMK ' +
                                                                       TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                     style: TextStyle(
-                                                                      fontWeight: FontWeight.bold,
-                                                                      fontSize: 16,
+                                                                      fontWeight: FontWeight.w600,
+                                                                      fontSize: 17,
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
                                                             ),
                                                             SizedBox(height: 20),
-                                                            Text('(OR)', style: TextStyle(
-                                                              fontSize: 16, fontWeight: FontWeight.w500,
-                                                            )),
-                                                            SizedBox(height: 20),
-                                                            Text('Type other amount', style: TextStyle(
-                                                              fontSize: 16, fontWeight: FontWeight.w500,
-                                                            )),
-                                                            SizedBox(height: 20),
-                                                            TextField(
-                                                              decoration: InputDecoration(
-                                                                enabledBorder: const OutlineInputBorder(
-                                                                  // width: 0.0 produces a thin "hairline" border
-                                                                    borderSide: const BorderSide(
-                                                                        color: AppTheme.skBorderColor, width: 2.0),
-                                                                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                                                                focusedBorder: const OutlineInputBorder(
-                                                                  // width: 0.0 produces a thin "hairline" border
-                                                                    borderSide: const BorderSide(
-                                                                        color: AppTheme.skThemeColor2, width: 2.0),
-                                                                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                                                contentPadding: const EdgeInsets.only(
-                                                                    left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                                                                suffixText: 'MMK',
-                                                                suffixStyle: TextStyle(
-                                                                  color: Colors.grey,
-                                                                  fontSize: 12,
-                                                                ),
-                                                                labelStyle: TextStyle(
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.grey,
-                                                                ),
-                                                                // errorText: 'Error message',
-                                                                labelText: 'other  amount',
-                                                                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                                                //filled: true,
-                                                                border: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(10),
-                                                                ),
-                                                              ),
-                                                              keyboardType: TextInputType.number,
-                                                              onChanged: (value) {
-                                                                mystate(() {
-                                                                  totalAmount = double.parse(TtlProdListPrice());
-                                                                  value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                                                                  if((totalAmount - paidAmount).isNegative){
-                                                                    debt = 0;
-                                                                  } else { debt = (totalAmount - paidAmount);
-                                                                  }
-                                                                  if((paidAmount - totalAmount).isNegative){
-                                                                    refund = 0;
-                                                                  } else { refund = (paidAmount - totalAmount);
-                                                                  }
-                                                                });
-                                                              },
-                                                              controller: _textFieldController,
-                                                            ),
                                                           ]
                                                       ),
                                                     ),
@@ -3405,7 +3488,7 @@ class HomePageState extends State<HomePage>
                                                           width: 1.0),
                                                     )),
                                                 width: double.infinity,
-                                                height: 158,
+                                                height: 150,
                                                 child: Column(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -3449,7 +3532,7 @@ class HomePageState extends State<HomePage>
                                                     ),
                                                     SizedBox(height: 10),
                                                     Padding(
-                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 27.0),
                                                         child: Row(
                                                             children: [
                                                               GestureDetector(
@@ -3467,38 +3550,33 @@ class HomePageState extends State<HomePage>
                                                                 },
                                                                 child: Container(
                                                                   width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                  height: 55,
+                                                                  height: 50,
                                                                   decoration: BoxDecoration(
                                                                       borderRadius:
                                                                       BorderRadius.circular(10.0),
                                                                       color: AppTheme.secButtonColor),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        top: 15.0,
-                                                                        bottom: 15.0),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                            child: Container(
-                                                                                child: Text(
-                                                                                  'Back',
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      color: Colors.black
-                                                                                  ),
-                                                                                )
-                                                                            ),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                          child: Container(
+                                                                              child: Text(
+                                                                                'Back',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 18,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              )
                                                                           ),
                                                                         ),
-                                                                      ],
-                                                                    ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
                                                               ),
@@ -3886,38 +3964,33 @@ class HomePageState extends State<HomePage>
                                                                 },
                                                                 child: Container(
                                                                   width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                  height: 55,
+                                                                  height: 50,
                                                                   decoration: BoxDecoration(
                                                                       borderRadius:
                                                                       BorderRadius.circular(10.0),
                                                                       color: AppTheme.themeColor),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        top: 15.0,
-                                                                        bottom: 15.0),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                            child: Container(
-                                                                                child: Text(
-                                                                                  'Done',
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      color: Colors.black
-                                                                                  ),
-                                                                                )
-                                                                            ),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                          child: Container(
+                                                                              child: Text(
+                                                                                'Done',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 17,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              )
                                                                           ),
                                                                         ),
-                                                                      ],
-                                                                    ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
                                                               ),
@@ -4507,38 +4580,33 @@ class HomePageState extends State<HomePage>
                                                                 },
                                                                 child: Container(
                                                                   width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                  height: 55,
+                                                                  height: 50,
                                                                   decoration: BoxDecoration(
                                                                       borderRadius:
                                                                       BorderRadius.circular(10.0),
                                                                       color: AppTheme.themeColor),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        top: 15.0,
-                                                                        bottom: 15.0),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                            child: Container(
-                                                                                child: Text(
-                                                                                  'Done',
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      color: Colors.black
-                                                                                  ),
-                                                                                )
-                                                                            ),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                          child: Container(
+                                                                              child: Text(
+                                                                                'Done',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 17,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              )
                                                                           ),
                                                                         ),
-                                                                      ],
-                                                                    ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
                                                               ),
@@ -4570,8 +4638,8 @@ class HomePageState extends State<HomePage>
                                       child: Stack(
                                         children: [
                                           Container(
+                                            height: 67,
                                             width: double.infinity,
-                                            height: 71,
                                             decoration: BoxDecoration(
                                                 border: Border(
                                                     bottom: BorderSide(
@@ -4582,18 +4650,20 @@ class HomePageState extends State<HomePage>
                                               padding: EdgeInsets.only(
                                                   left: 15.0,
                                                   right: 15.0,
-                                                  top: 6),
+                                                  top: 5.0,
+                                                  bottom: 0.0
+                                              ),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(customerId.split('-')[1], style: TextStyle(
+                                                  Text(customerId.split('-')[1] == 'name'? 'Customer':customerId.split('-')[1], style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
                                                   )),
-                                                  SizedBox(height: 3.5),
+                                                  SizedBox(height: 2.5),
                                                   Text('Invoice receipt', style: TextStyle(
                                                       fontWeight: FontWeight.w600,
-                                                      fontSize: 21
+                                                      fontSize: 19
                                                   )),
                                                 ],
                                               ),
@@ -4605,6 +4675,8 @@ class HomePageState extends State<HomePage>
                                                 left: 0.0,
                                                 right: 0.0),
                                             child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   child: Padding(
@@ -4679,7 +4751,7 @@ class HomePageState extends State<HomePage>
                                                                                 'Save as image',
                                                                                 textAlign: TextAlign.center,
                                                                                 style: TextStyle(
-                                                                                    fontSize: 18,
+                                                                                    fontSize: 17,
                                                                                     fontWeight: FontWeight.w600,
                                                                                     color: Colors.black
                                                                                 ),
@@ -4743,7 +4815,7 @@ class HomePageState extends State<HomePage>
                                                       )
                                                   ),
                                                 ),
-
+                                                SizedBox(height: 5),
                                                 // Container(
                                                 //   height: 500,
                                                 //   width: 200,
@@ -4755,6 +4827,23 @@ class HomePageState extends State<HomePage>
                                                 //       child: PdfViewer.openFile(pdfText)
                                                 //   ),
                                                 // )
+                                                // SizedBox(
+                                                //   height: 10,
+                                                // ),
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                  child: Text('RECEIPT VOUCHER',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    letterSpacing: 2,
+                                                    color: Colors.grey,
+                                                  ),),
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
                                                 pdfText == '' ? Container() :
                                                 Expanded(
                                                     child: GestureDetector(
@@ -4769,7 +4858,7 @@ class HomePageState extends State<HomePage>
                                                     )
                                                 ),
                                                 SizedBox(
-                                                  height: 200,
+                                                  height: 150,
                                                 )
                                               ],
                                             ),
@@ -4788,7 +4877,7 @@ class HomePageState extends State<HomePage>
                                                           width: 1.0),
                                                     )),
                                                 width: double.infinity,
-                                                height: 158,
+                                                height: 150,
                                                 child: Column(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -4815,7 +4904,7 @@ class HomePageState extends State<HomePage>
                                                     ),
                                                     SizedBox(height: 10),
                                                     Padding(
-                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 27.0),
                                                         child: Row(
                                                             children: [
                                                               GestureDetector(
@@ -4843,38 +4932,33 @@ class HomePageState extends State<HomePage>
                                                                 },
                                                                 child: Container(
                                                                   width: (MediaQuery.of(context).size.width - 30),
-                                                                  height: 55,
+                                                                  height: 50,
                                                                   decoration: BoxDecoration(
                                                                       borderRadius:
                                                                       BorderRadius.circular(10.0),
                                                                       color: AppTheme.themeColor),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        top: 15.0,
-                                                                        bottom: 15.0),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                            child: Container(
-                                                                                child: Text(
-                                                                                  'Done',
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      color: Colors.black
-                                                                                  ),
-                                                                                )
-                                                                            ),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                          child: Container(
+                                                                              child: Text(
+                                                                                'Done',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                    fontSize: 17,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    color: Colors.black
+                                                                                ),
+                                                                              )
                                                                           ),
                                                                         ),
-                                                                      ],
-                                                                    ),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
                                                               ),
@@ -7215,6 +7299,10 @@ class HomePageState extends State<HomePage>
     }
   }
 
+  String replaceCharAt(String oldString, int index, String newChar) {
+    return oldString.substring(0, index) + newChar + oldString.substring(index + 1);
+  }
+
   Future<void> DatenotExist(prodList2, id1, id2, dOrder , length, date,) async {
     print('PROD ' + prodList.toString());
     double totalTOTAL = 0;
@@ -7620,6 +7708,9 @@ class HomePageState extends State<HomePage>
 
   getPaperId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('paper') == null) {
+      return 'roll57';
+    }
     return prefs.getString('paper');
   }
 
