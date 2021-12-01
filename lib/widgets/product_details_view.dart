@@ -272,32 +272,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         .bounceIn,
                                                     fit: BoxFit
                                                         .cover,
-                                                  )
-                                                      : CachedNetworkImage(
-                                                    imageUrl:
-                                                    'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
-                                                    width: 130,
+                                                  ): Container(
                                                     height: 100,
-                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                    errorWidget: (context,
-                                                        url,
-                                                        error) =>
-                                                        Icon(Icons
-                                                            .error),
-                                                    fadeInDuration:
-                                                    Duration(
-                                                        milliseconds:
-                                                        100),
-                                                    fadeOutDuration:
-                                                    Duration(
-                                                        milliseconds:
-                                                        10),
-                                                    fadeInCurve:
-                                                    Curves
-                                                        .bounceIn,
-                                                    fit: BoxFit
-                                                        .cover,
-                                                  )),
+                                                    width: 130,
+                                                    color: AppTheme.themeColor
+                                                  )
+                                                      // : Image.asset('assets/system/default-product.png', height: 100, width: 130)
+                                              ),
                                               ButtonTheme(
                                                 minWidth: 133,
                                                 //minWidth: 50,

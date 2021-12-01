@@ -1836,20 +1836,18 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                   child: Text(
                                                                                     'TOTAL SALES',
                                                                                     style: TextStyle(
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                      fontSize: 13,
                                                                                       letterSpacing: 2,
-                                                                                      color: Colors.Colors.black,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                      fontSize: 14,color: Colors.Colors.black,
                                                                                     ),
                                                                                   ),
                                                                                 ),
                                                                                 Text(
                                                                                   titleTextBySlide(),
                                                                                   style: TextStyle(
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    fontSize: 13,
                                                                                     letterSpacing: 2,
-                                                                                    color: Colors.Colors.grey,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 14,color: Colors.Colors.grey,
                                                                                   ),
                                                                                 )
                                                                               ],
@@ -2119,14 +2117,14 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                         ),
 
                                                                                         Positioned(
-                                                                                            right: 0,
-                                                                                            bottom: 2,
-                                                                                            child: Text('+2%',
-                                                                                              style: TextStyle(
-                                                                                                  fontSize: 13,
-                                                                                                  fontWeight: FontWeight.w500,
-                                                                                                  color: Colors.Colors.red),
-                                                                                            )
+                                                                                          right: 0,
+                                                                                          bottom: 2,
+                                                                                          child: Text('+2%',
+                                                                                            style: TextStyle(
+                                                                                                fontSize: 13,
+                                                                                                fontWeight: FontWeight.w500,
+                                                                                                color: Colors.Colors.red),
+                                                                                          )
                                                                                         ),
                                                                                         Positioned(
                                                                                           left: 0,
@@ -2318,7 +2316,49 @@ class HomeFragmentState extends State<HomeFragment>
                                                                             ),
                                                                           ),
                                                                           SizedBox(
-                                                                              height: 0.0
+                                                                              height: 15.0
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                            child: Row(
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  child: Text(
+                                                                                    'CHART DATA',
+                                                                                    style: TextStyle(
+                                                                                      letterSpacing: 2,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                      fontSize: 14,color: Colors.Colors.black,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+
+
+                                                                                Text(
+                                                                                  'Total sales',
+                                                                                  style: TextStyle(
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    fontSize: 14,color: Colors.Colors.grey,
+                                                                                    letterSpacing: 0.8
+                                                                                  ),
+                                                                                ),
+                                                                                SizedBox(width: 5),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(bottom: 0.0),
+                                                                                  child: Container(
+                                                                                    width: 8,
+                                                                                    height: 8,
+                                                                                    decoration: const BoxDecoration(
+                                                                                        borderRadius: BorderRadius.all(
+                                                                                          Radius.circular(10),
+                                                                                        ),
+                                                                                        color: Colors.Colors.blue
+                                                                                    ),
+
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
                                                                           ),
                                                                           Stack(
                                                                             children: [
@@ -2349,13 +2389,13 @@ class HomeFragmentState extends State<HomeFragment>
                                                                               // ),
                                                                             ],
                                                                           ),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
-                                                                            child: Container(
-                                                                              height: 2,
-                                                                              color: Colors.Colors.grey.withOpacity(0.1),
-                                                                            ),
-                                                                          ),
+                                                                          // Padding(
+                                                                          //   padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
+                                                                          //   child: Container(
+                                                                          //     height: 2,
+                                                                          //     color: Colors.Colors.grey.withOpacity(0.1),
+                                                                          //   ),
+                                                                          // ),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -2363,77 +2403,77 @@ class HomeFragmentState extends State<HomeFragment>
                                                                     SizedBox(
                                                                       height: 0,
                                                                     ),
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                      child: Container(
-                                                                        decoration: BoxDecoration(
-                                                                            borderRadius: BorderRadius.all(
-                                                                              Radius.circular(10.0),
-                                                                            ),
-                                                                            border: Border(
-                                                                              bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                              top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                              left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                              right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                            ),
-                                                                            color: AppTheme.lightBgColor
-                                                                        ),
-                                                                        child: Column(
-                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  Text('Top sale categories',
-                                                                                    textAlign: TextAlign.left,
-                                                                                    style: TextStyle(
-                                                                                        fontSize: 15,
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        color: Colors.Colors.black),
-                                                                                  ),
-                                                                                  Expanded(
-                                                                                    child: GestureDetector(
-                                                                                      onTap: () {
-                                                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
-                                                                                      },
-                                                                                      child: Text('Detail',
-                                                                                        textAlign: TextAlign.right,
-                                                                                        style: TextStyle(
-                                                                                            fontSize: 15,
-                                                                                            fontWeight: FontWeight.w500,
-                                                                                            color: Colors.Colors.blue),
-                                                                                      ),
-                                                                                    ),
-                                                                                  )
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.only(top: 15.0),
-                                                                              child: Container(
-                                                                                height: 1,
-                                                                                color: AppTheme.skBorderColor2,
-                                                                              ),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.only(top: 15.0, bottom: 10),
-                                                                              child: Container(
-                                                                                width: double.infinity,
-                                                                                height: 150,
-                                                                                child: Container(
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.all(0.0),
-                                                                                    child: new SimplePieChart.withRandomData(),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
+                                                                    // Padding(
+                                                                    //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                    //   child: Container(
+                                                                    //     decoration: BoxDecoration(
+                                                                    //         borderRadius: BorderRadius.all(
+                                                                    //           Radius.circular(10.0),
+                                                                    //         ),
+                                                                    //         border: Border(
+                                                                    //           bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                    //           top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                    //           left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                    //           right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                    //         ),
+                                                                    //         color: AppTheme.lightBgColor
+                                                                    //     ),
+                                                                    //     child: Column(
+                                                                    //       mainAxisAlignment: MainAxisAlignment.start,
+                                                                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    //       children: [
+                                                                    //         Padding(
+                                                                    //           padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                                                                    //           child: Row(
+                                                                    //             children: [
+                                                                    //               Text('Top sale categories',
+                                                                    //                 textAlign: TextAlign.left,
+                                                                    //                 style: TextStyle(
+                                                                    //                     fontSize: 15,
+                                                                    //                     fontWeight: FontWeight.w500,
+                                                                    //                     color: Colors.Colors.black),
+                                                                    //               ),
+                                                                    //               Expanded(
+                                                                    //                 child: GestureDetector(
+                                                                    //                   onTap: () {
+                                                                    //                     Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
+                                                                    //                   },
+                                                                    //                   child: Text('Detail',
+                                                                    //                     textAlign: TextAlign.right,
+                                                                    //                     style: TextStyle(
+                                                                    //                         fontSize: 15,
+                                                                    //                         fontWeight: FontWeight.w500,
+                                                                    //                         color: Colors.Colors.blue),
+                                                                    //                   ),
+                                                                    //                 ),
+                                                                    //               )
+                                                                    //             ],
+                                                                    //           ),
+                                                                    //         ),
+                                                                    //         Padding(
+                                                                    //           padding: const EdgeInsets.only(top: 15.0),
+                                                                    //           child: Container(
+                                                                    //             height: 1,
+                                                                    //             color: AppTheme.skBorderColor2,
+                                                                    //           ),
+                                                                    //         ),
+                                                                    //         Padding(
+                                                                    //           padding: const EdgeInsets.only(top: 15.0, bottom: 10),
+                                                                    //           child: Container(
+                                                                    //             width: double.infinity,
+                                                                    //             height: 150,
+                                                                    //             child: Container(
+                                                                    //               child: Padding(
+                                                                    //                 padding: const EdgeInsets.all(0.0),
+                                                                    //                 child: new SimplePieChart.withRandomData(),
+                                                                    //               ),
+                                                                    //             ),
+                                                                    //           ),
+                                                                    //         ),
+                                                                    //       ],
+                                                                    //     ),
+                                                                    //   ),
+                                                                    // ),
                                                                     SizedBox(
                                                                       height: 20,
                                                                     ),
