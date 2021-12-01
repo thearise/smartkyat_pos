@@ -148,7 +148,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                   subName.add(output?['sub' + (i+1).toString() + '_name']);
                 }
                 print(subSell.toString() + subLink.toString() + subName.toString());
-                return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     // mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
@@ -273,11 +274,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                     fit: BoxFit
                                                         .cover,
                                                   ): Container(
-                                                    height: 100,
-                                                    width: 130,
-                                                    color: AppTheme.themeColor
+                                                      height: 100,
+                                                      width: 130,
+                                                      color: AppTheme.themeColor
                                                   )
-                                                      // : Image.asset('assets/system/default-product.png', height: 100, width: 130)
+                                                // : Image.asset('assets/system/default-product.png', height: 100, width: 130)
                                               ),
                                               ButtonTheme(
                                                 minWidth: 133,
@@ -479,7 +480,6 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 subSell[i] +
                                                                 '-sub' + (i+1).toString() + '_name',
                                                           ),
-
                                                     ],
                                                   );
                                                   prodID =result.toString();
@@ -516,40 +516,96 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                       subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
                                                     }
                                                   }
-                                                  if (prodID.split('-')[3] == 'unit_name') {
+                                                  bool loss1Exist = false;
+                                                  bool loss2Exist = false;
+                                                  bool loss3Exist = false;
+                                                  DateTime now = DateTime.now();
+                                                  CollectionReference lossProduct1 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss1');
+                                                  CollectionReference lossProduct2 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss2');
+                                                  CollectionReference lossProduct3 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss3');
 
-                                                    decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
+                                                  var buyPrice1 = '';
+                                                  var buyPrice2 = '';
+                                                  var buyPrice3 = '';
 
-                                                    await FirebaseFirestore.instance.collection('shops').doc(
-                                                        widget.shopId).collection('products').doc(
-                                                        prodID.split('-')[0])
-                                                        .update({'Loss1': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                        .then((value) => print("User Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).get().then((value) async {
+                                                    buyPrice1 = value.data()!["buyPrice1"].toString();
+                                                    buyPrice2 = value.data()!["buyPrice2"].toString();
+                                                    buyPrice3 = value.data()!["buyPrice3"].toString();
+
+                                                    if (prodID.split('-')[3] == 'unit_name') {
+                                                      decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
+                                                      lossProduct1.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString())).set({
+                                                        'count': FieldValue.increment(double.parse(amount[0].toString())),
+                                                        'buy_price': buyPrice1,
+                                                        'date': now,
+                                                      }).then((value) => print("User Updated"))
+                                                          .catchError((error) => print("Failed to update user: $error"));
+
+                                                      // await FirebaseFirestore.instance.collection('shops').doc(
+                                                      //     widget.shopId).collection('products').doc(
+                                                      //     prodID.split('-')[0])
+                                                      //     .update({'Loss1': FieldValue.increment(double.parse(amount[0].toString()))})
+                                                      //     .then((value) => print("User Updated"))
+                                                      //     .catchError((error) => print("Failed to update user: $error"));
 
 
-                                                  } else if (prodID.split('-')[3] == 'sub1_name') {
-                                                    sub1Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
-                                                    await FirebaseFirestore.instance.collection('shops').doc(
-                                                        widget.shopId).collection('products').doc(
-                                                        prodID.split('-')[0])
-                                                        .update({'Loss2': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                        .then((value) => print("User Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                    } else if (prodID.split('-')[3] == 'sub1_name') {
+                                                      sub1Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
+
+                                                      lossProduct2.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString())).set({
+                                                        'count': FieldValue.increment(double.parse(amount[0].toString())),
+                                                        'buy_price': buyPrice2,
+                                                        'date': now,
+                                                      }).then((value) => print("User Updated"))
+                                                          .catchError((error) => print("Failed to update user: $error"));
+
+                                                      // await FirebaseFirestore.instance.collection('shops').doc(
+                                                      //     widget.shopId).collection('products').doc(
+                                                      //     prodID.split('-')[0])
+                                                      //     .update({'Loss2': FieldValue.increment(double.parse(amount[0].toString()))})
+                                                      //     .then((value) => print("User Updated"))
+                                                      //     .catchError((error) => print("Failed to update user: $error"));
 
 
-                                                  } else if (prodID.split('-')[3] == 'sub2_name') {
-                                                    sub2Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
-                                                    await FirebaseFirestore.instance.collection('shops').doc(
-                                                        widget.shopId).collection('products').doc(
-                                                        prodID.split('-')[0])
-                                                        .update({'Loss3': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                        .then((value) => print("User Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
+                                                    } else if (prodID.split('-')[3] == 'sub2_name') {
+                                                      sub2Execution(
+                                                          subStock, subLink,
+                                                          prodID.split('-')[0],
+                                                          amount[0].toString());
 
-                                                  } else
-                                                    Container();
-                                                });
+                                                      lossProduct3.doc(
+                                                          now.year.toString() +
+                                                              zeroToTen(now.month
+                                                                  .toString()) +
+                                                              zeroToTen(now.day
+                                                                  .toString()) +
+                                                              zeroToTen(now.hour
+                                                                  .toString()) +
+                                                              zeroToTen(now.minute
+                                                                  .toString()) +
+                                                              zeroToTen(now.second
+                                                                  .toString()))
+                                                          .set({
+                                                        'count': FieldValue
+                                                            .increment(
+                                                            double.parse(amount[0]
+                                                                .toString())),
+                                                        'buy_price': buyPrice3,
+                                                        'date': now,
+                                                      }).then((value) =>
+                                                          print("User Updated"))
+                                                          .catchError((error) =>
+                                                          print(
+                                                              "Failed to update user: $error"));
+
+                                                      // await FirebaseFirestore.instance.collection('shops').doc(
+                                                      //     widget.shopId).collection('products').doc(
+                                                      //     prodID.split('-')[0])
+                                                      //     .update({'Loss3': FieldValue.increment(double.parse(amount[0].toString()))})
+                                                      //     .then((value) => print("User Updated"))
+                                                      //     .catchError((error) => print("Failed to update user: $error"));
+                                                    }}); });
                                               },
                                               child: Container(
                                                 width: 100,
@@ -1478,10 +1534,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
                           ],
                         ),
-                      )
-
-                    ]
-                );
+                      ),
+                    ]);
               }
               return Container();
             }),

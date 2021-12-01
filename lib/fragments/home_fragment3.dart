@@ -2339,18 +2339,18 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                   style: TextStyle(
                                                                                     fontWeight: FontWeight.w500,
                                                                                     fontSize: 14,color: Colors.Colors.grey,
-                                                                                    letterSpacing: 0.8
+                                                                                    letterSpacing: 0.6
                                                                                   ),
                                                                                 ),
                                                                                 SizedBox(width: 5),
                                                                                 Padding(
-                                                                                  padding: const EdgeInsets.only(bottom: 0.0),
+                                                                                  padding: const EdgeInsets.only(bottom: 1.0),
                                                                                   child: Container(
-                                                                                    width: 8,
-                                                                                    height: 8,
+                                                                                    width: 12,
+                                                                                    height: 12,
                                                                                     decoration: const BoxDecoration(
                                                                                         borderRadius: BorderRadius.all(
-                                                                                          Radius.circular(10),
+                                                                                          Radius.circular(2),
                                                                                         ),
                                                                                         color: Colors.Colors.blue
                                                                                     ),
