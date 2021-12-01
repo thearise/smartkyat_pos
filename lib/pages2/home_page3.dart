@@ -63,7 +63,6 @@ class HomePageState extends State<HomePage>
   var deviceIdNum;
   String? shopId;
   String merchantId = 'name-name';
-
   List<TabItem> tabs = [];
 
   Animation<double>? _rotationAnimation;
