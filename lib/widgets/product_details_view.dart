@@ -569,14 +569,35 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
 
                                                   } else if (prodID.split('-')[3] == 'sub2_name') {
-                                                    sub2Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
+                                                    sub2Execution(
+                                                        subStock, subLink,
+                                                        prodID.split('-')[0],
+                                                        amount[0].toString());
 
-                                                    lossProduct3.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString())).set({
-                                                      'count': FieldValue.increment(double.parse(amount[0].toString())),
+                                                    lossProduct3.doc(
+                                                        now.year.toString() +
+                                                            zeroToTen(now.month
+                                                                .toString()) +
+                                                            zeroToTen(now.day
+                                                                .toString()) +
+                                                            zeroToTen(now.hour
+                                                                .toString()) +
+                                                            zeroToTen(now.minute
+                                                                .toString()) +
+                                                            zeroToTen(now.second
+                                                                .toString()))
+                                                        .set({
+                                                      'count': FieldValue
+                                                          .increment(
+                                                          double.parse(amount[0]
+                                                              .toString())),
                                                       'buy_price': buyPrice3,
                                                       'date': now,
-                                                    }).then((value) => print("User Updated"))
-                                                        .catchError( (error) => print("Failed to update user: $error"));
+                                                    }).then((value) =>
+                                                        print("User Updated"))
+                                                        .catchError((error) =>
+                                                        print(
+                                                            "Failed to update user: $error"));
 
                                                     // await FirebaseFirestore.instance.collection('shops').doc(
                                                     //     widget.shopId).collection('products').doc(
@@ -584,7 +605,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                     //     .update({'Loss3': FieldValue.increment(double.parse(amount[0].toString()))})
                                                     //     .then((value) => print("User Updated"))
                                                     //     .catchError((error) => print("Failed to update user: $error"));
-                                                }); });
+                                                  }}); });
                                               },
                                               child: Container(
                                                 width: 100,
