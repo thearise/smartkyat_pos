@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/change_password.dart';
@@ -240,34 +241,34 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                             ),
                                 ),
                             ),),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ChangePassword()),
-                                );
-
-                              },
-                              child: Container(
-                                height: 72,
-                                decoration: BoxDecoration(
-                                    color: AppTheme.white,
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          color: AppTheme.skBorderColor2,
-                                          width: 1.0),
-                                    )),
-                                child: Center(
-                                  child: ListTile(
-                                    title: Text('Change Password', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                    trailing: Icon(
-                                      Icons
-                                          .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(builder: (context) => ChangePassword()),
+                            //     );
+                            //
+                            //   },
+                            //   child: Container(
+                            //     height: 72,
+                            //     decoration: BoxDecoration(
+                            //         color: AppTheme.white,
+                            //         border: Border(
+                            //           bottom: BorderSide(
+                            //               color: AppTheme.skBorderColor2,
+                            //               width: 1.0),
+                            //         )),
+                            //     child: Center(
+                            //       child: ListTile(
+                            //         title: Text('Change Password', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                            //         trailing: Icon(
+                            //           Icons
+                            //               .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             GestureDetector(
                               onTap: (){
                                 Navigator.push(
@@ -476,11 +477,11 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
 
   final _formKey = GlobalKey<FormState>();
  // final auth = FirebaseAuth.instance;
-  final _accountName = TextEditingController();
-  final _email = TextEditingController();
+
   final _shopName = TextEditingController();
   final _address = TextEditingController();
   final _phone = TextEditingController();
+  String? version;
 
   accountSetting(priContext) {
     return Scaffold(
@@ -579,148 +580,161 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                           Map<String, dynamic> data = document.data()! as Map<
                               String, dynamic>;
                           String cName = data['name'];
-                          String cEmail = data['email'];
-                          _accountName.text = cName;
-                          _email.text = cEmail;
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0,),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('INFORMATION', style: TextStyle(
+                          String emailAddress = data['email'];
+                          //_accountName.text = cName;
+                           version = document.id;
+                          final _accountName = TextEditingController(text: cName);
+                          print('Version' + version.toString());
+                          _accountName.addListener((){
+                            setState(() {
+
+                            });
+                          });
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                child: Text('INFORMATION', style: TextStyle(
                                   letterSpacing: 1.5,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14, color: Colors.grey,
                                 ),),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 20.0),
-                                  child: TextFormField(
-                                    //obscureText: _obscureText,
-                                    controller: _accountName,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return ' This field is required ';
-                                      }
-                                      return null;
-                                    },
-                                    style: TextStyle(
-                                      height: 0.95,
-                                    ),
-                                    decoration: InputDecoration(
-                                      enabledBorder: const OutlineInputBorder(
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
+                                child: TextFormField(
+                                  controller: _accountName,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return ' This field is required ';
+                                    }
+                                    return null;
+                                  },
+                                  style: TextStyle(
+                                    height: 0.95,
+                                  ),
+                                  decoration: InputDecoration(
+                                    enabledBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skBorderColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
+                                        borderSide: const BorderSide(
+                                            color: AppTheme.skBorderColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
 
-                                      focusedBorder: const OutlineInputBorder(
+                                    focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.themeColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 15.0,
-                                          right: 15.0,
-                                          top: 20.0,
-                                          bottom: 20.0),
-                                      suffixText: 'Required',
-                                      suffixStyle: TextStyle(
-                                        color: Colors.grey,
+                                        borderSide: const BorderSide(
+                                            color: AppTheme.themeColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 15.0,
+                                        right: 15.0,
+                                        top: 20.0,
+                                        bottom: 20.0),
+                                    suffixText: 'Required',
+                                    suffixStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                    ),
+                                    // errorText: wrongPassword,
+                                    errorStyle: TextStyle(
+                                        backgroundColor: Colors.white,
                                         fontSize: 12,
                                         fontFamily: 'capsulesans',
-                                      ),
-                                      // errorText: wrongPassword,
-                                      errorStyle: TextStyle(
-                                          backgroundColor: Colors.white,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',
-                                          height: 0.1
-                                      ),
-                                      labelStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
+                                        height: 0.1
+                                    ),
+                                    labelStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
 // errorText: 'Error message',
-                                      labelText: 'Account name',
-                                      floatingLabelBehavior:
-                                      FloatingLabelBehavior.auto,
+                                    labelText: 'Account Name',
+                                    floatingLabelBehavior:
+                                    FloatingLabelBehavior.auto,
 //filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 20.0),
-                                  child: TextFormField(
-                                    //obscureText: _obscureText,
-                                    controller: _email,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return ' This field is required ';
-                                      }
-                                      return null;
-                                    },
-                                    style: TextStyle(
-                                      height: 0.95,
-                                    ),
-                                    decoration: InputDecoration(
-                                      enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.skBorderColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-
-                                      focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                          borderSide: const BorderSide(
-                                              color: AppTheme.themeColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 15.0,
-                                          right: 15.0,
-                                          top: 20.0,
-                                          bottom: 20.0),
-                                      suffixText: 'Required',
-                                      suffixStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                        fontFamily: 'capsulesans',
-                                      ),
-                                      //errorText: wrongPassword,
-                                      errorStyle: TextStyle(
-                                          backgroundColor: Colors.white,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',
-                                          height: 0.1
-                                      ),
-                                      labelStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-// errorText: 'Error message',
-                                      labelText: 'Email address',
-                                      floatingLabelBehavior:
-                                      FloatingLabelBehavior.auto,
-//filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 30,),
-                                ButtonTheme(
+                              ),
+                              SizedBox(height: 10,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                child: Text('Choose the paper size correctly to work well with the printer'),
+                              ),
+//                                 Padding(
+//                                   padding: const EdgeInsets.only(top: 20.0),
+//                                   child: TextFormField(
+//                                     //obscureText: _obscureText,
+//                                     controller: _email,
+//                                     validator: (value) {
+//                                       if (value == null || value.isEmpty) {
+//                                         return ' This field is required ';
+//                                       }
+//                                       return null;
+//                                     },
+//                                     style: TextStyle(
+//                                       height: 0.95,
+//                                     ),
+//                                     decoration: InputDecoration(
+//                                       enabledBorder: const OutlineInputBorder(
+// // width: 0.0 produces a thin "hairline" border
+//                                           borderSide: const BorderSide(
+//                                               color: AppTheme.skBorderColor,
+//                                               width: 2.0),
+//                                           borderRadius: BorderRadius.all(
+//                                               Radius.circular(10.0))),
+//
+//                                       focusedBorder: const OutlineInputBorder(
+// // width: 0.0 produces a thin "hairline" border
+//                                           borderSide: const BorderSide(
+//                                               color: AppTheme.themeColor,
+//                                               width: 2.0),
+//                                           borderRadius: BorderRadius.all(
+//                                               Radius.circular(10.0))),
+//                                       contentPadding: const EdgeInsets.only(
+//                                           left: 15.0,
+//                                           right: 15.0,
+//                                           top: 20.0,
+//                                           bottom: 20.0),
+//                                       suffixText: 'Required',
+//                                       suffixStyle: TextStyle(
+//                                         color: Colors.grey,
+//                                         fontSize: 12,
+//                                         fontFamily: 'capsulesans',
+//                                       ),
+//                                       //errorText: wrongPassword,
+//                                       errorStyle: TextStyle(
+//                                           backgroundColor: Colors.white,
+//                                           fontSize: 12,
+//                                           fontFamily: 'capsulesans',
+//                                           height: 0.1
+//                                       ),
+//                                       labelStyle: TextStyle(
+//                                         fontWeight: FontWeight.w500,
+//                                         color: Colors.black,
+//                                       ),
+// // errorText: 'Error message',
+//                                       labelText: 'Email address',
+//                                       floatingLabelBehavior:
+//                                       FloatingLabelBehavior.auto,
+// //filled: true,
+//                                       border: OutlineInputBorder(
+//                                         borderRadius: BorderRadius.circular(10),
+//                                       ),
+//                                     ),
+//                                   ),
+//
+                              SizedBox(height: 15,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                child: ButtonTheme(
                                   minWidth: MediaQuery
                                       .of(context)
                                       .size
@@ -737,9 +751,12 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                       ),
                                     ),
                                     onPressed: () async {
+                                      CollectionReference accountName = await FirebaseFirestore.instance.collection('users');
                                       if (_formKey.currentState!.validate()) {
-
-
+                                        accountName.doc(version).update({
+                                          'name': _accountName.text,
+                                        });
+                                        Navigator.pop(context);
                                       }
                                     },
                                     child: Padding(
@@ -761,8 +778,97 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 20,),
+                              Container(
+                                height: 1,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey.withOpacity(0.3),
+                                            width: 1.0))),
+                              ),
+                              SizedBox(height: 15,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                child: Text('EMAIL ADDRESS', style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14, color: Colors.grey,
+                                ),),
+                              ),
+                              SizedBox(height: 15,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(5.0),
+                                    color: AppTheme.lightBgColor,
+                                    ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15.0),
+                                    child: Text(
+                                      emailAddress, style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                    ),
+                                    ),
+                                  ),
+                                  ),
+                              ),
+                              SizedBox(height: 10.0,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                child: Text('You can\'t change email address by yourside. If you are sure want to change it, you need to contact us.', textAlign: TextAlign.left,),
+                              ),
+                              SizedBox(height: 15.0,),
+                              Container(
+                                height: 1,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey.withOpacity(0.3),
+                                            width: 1.0))),
+                              ),
+                              SizedBox(height: 15.0,),
+                              GestureDetector(
+                                onTap : () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ChangePassword()),
+                                  );
+                             },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                  child: Row(
+                                    children: [
+                                      Text('Authentication', style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),),
+                                      Spacer(),
+                                      Text('change password', style: TextStyle(
+                                        fontSize: 15, fontWeight: FontWeight.w500, color: Colors.grey,
+                                      ),),
+                                      SizedBox(width: 5,),
+                                      Icon(
+                                        Icons
+                                            .arrow_forward_ios_rounded,
+                                        size: 16,
+                                        color: Colors.blueGrey
+                                            .withOpacity(
+                                            0.8),
+                                      ),
+                                    ],
+                                  ),
+
+                                ),
+                              ),
+                            ],
                           );
                         }).toList(),
                       ),

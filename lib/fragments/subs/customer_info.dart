@@ -1,11 +1,9 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 import '../../app_theme.dart';
 import 'customer_orders_info.dart';
-
 
 class CustomerInfoSubs extends StatefulWidget {
   final _callback;
