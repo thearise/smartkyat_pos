@@ -4173,7 +4173,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                 },
                                                 child: Padding(
                                                   padding:
-                                                  EdgeInsets.only(top: index == 0? 10.0: 19.0),
+                                                  EdgeInsets.only(top: index == 0? 7.0: 13.0),
                                                   child: Container(
                                                     width: MediaQuery.of(context)
                                                         .size
@@ -4230,32 +4230,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                     fit: BoxFit
                                                                         .cover,
                                                                   )
-                                                                      : CachedNetworkImage(
-                                                                    imageUrl:
-                                                                    'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg'
-                                                                    ,
-                                                                    width: 75,
-                                                                    height: 75,
-                                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                    errorWidget: (context,
-                                                                        url,
-                                                                        error) =>
-                                                                        Icon(Icons
-                                                                            .error),
-                                                                    fadeInDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                        100),
-                                                                    fadeOutDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                        10),
-                                                                    fadeInCurve:
-                                                                    Curves
-                                                                        .bounceIn,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  )),
+                                                                      : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
                                                             ],
                                                           ),
                                                           SizedBox(
@@ -4265,17 +4240,21 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             crossAxisAlignment:
                                                             CrossAxisAlignment
                                                                 .start,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
                                                               SizedBox(
-                                                                height: 2,
+                                                                height: 0,
                                                               ),
-                                                              Text(
-                                                                prodName,
-                                                                style: TextStyle(
-                                                                  height: 1,
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                  FontWeight.w500,
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 4.0),
+                                                                child: Text(
+                                                                  prodName,
+                                                                  style: TextStyle(
+                                                                    height: 1,
+                                                                    fontSize: 18,
+                                                                    fontWeight:
+                                                                    FontWeight.w500,
+                                                                  ),
                                                                 ),
                                                               ),
                                                               SizedBox(
@@ -4464,7 +4443,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             ),),
                                                         ],
                                                       ),
-                                                      SizedBox(height: 20),
+                                                      SizedBox(height: 15),
                                                     ],
                                                   ),
                                                 ),

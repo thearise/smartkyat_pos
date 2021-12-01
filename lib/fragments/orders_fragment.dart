@@ -3688,6 +3688,14 @@ class OrdersFragmentState extends State<OrdersFragment>
   final _width = 10.0;
   int cateScIndex = 0;
 
+  zeroToTen(String string) {
+    if (int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0' + string;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // CollectionReference daily_exps = ;
@@ -3739,7 +3747,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                 dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
                                             ) {
                                               var section = ExampleSection()
-                                                ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+                                                ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
                                               // ..items = List.generate(int.parse(document['length']), (index) => document.id)
                                               //   ..items = listCreation(document.id, document['data'], document).cast<String>()
 
@@ -3755,7 +3763,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                             } else {
                                               // print('herre ' + document.id);
                                               var section = ExampleSection()
-                                                ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+                                                ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
                                               // ..items = List.generate(int.parse(document['length']), (index) => document.id)
                                               //   ..items = listCreation(document.id, document['data'], document).cast<String>()
 
@@ -3770,7 +3778,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                           } else {
                                             // print('herre ' + document.id);
                                             var section = ExampleSection()
-                                              ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+                                              ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
                                             // ..items = List.generate(int.parse(document['length']), (index) => document.id)
                                             //   ..items = listCreation(document.id, document['data'], document).cast<String>()
 
@@ -4678,6 +4686,10 @@ class OrdersFragmentState extends State<OrdersFragment>
     }
   }
 
+  checkTest(String input) {
+    print("CHECK TEST " + input);
+  }
+
   convertToAMPM(String input){
     switch (input.substring(8,10)) {
       case '00':
@@ -4962,6 +4974,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                     children: [
                       Text(
                         // "TODAY",
+                        // checkTest(section.header),
                         covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         style: TextStyle(
                             height: 0.8,
