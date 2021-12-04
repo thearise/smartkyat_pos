@@ -5,19 +5,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/loss_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/widgets/edit_product.dart';
 
 import '../app_theme.dart';
 import 'fill_product.dart';
-
-final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-];
 
 class ProductDetailsView2 extends StatefulWidget {
   final _callback;
@@ -28,12 +24,14 @@ class ProductDetailsView2 extends StatefulWidget {
         required this.shopId,
         required this.idString,
         required void toggleCoinCallback(String str),
-        required void toggleCoinCallback3(String str)})
+        required void toggleCoinCallback3(String str),
+      })
       : _callback = toggleCoinCallback,
         _callback3 = toggleCoinCallback3;
 
   final String idString;
   final String shopId;
+
 
   @override
   _ProductDetailsViewState2 createState() => _ProductDetailsViewState2();
@@ -43,12 +41,26 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     TickerProviderStateMixin <ProductDetailsView2> {
 
 
+  var deviceIdNum;
+
   addProduct2(data) {
     widget._callback(data);
   }
 
   addProduct3(data) {
     widget._callback3(data);
+  }
+
+  getDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('device');
+  }
+
+  routeLoss(res, buyPrice1, buyPrice2, buyPrice3) {
+    Navigator.push(
+      context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: res, shopId: widget.shopId, price1: buyPrice1, price2: buyPrice2, price3: buyPrice3,
+    )
+    ));
   }
 
   routeFill(res) {
@@ -76,6 +88,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
   @override
   void initState() {
+    getDeviceId().then((value) {
+      deviceIdNum = value;
+    });
     _controller = new TabController(length: 3, vsync: this);
     _controller.addListener((){
       print('my index is'+ _controller.index.toString());
@@ -128,9 +143,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                 var sub2Unit = output?['sub2_link'];
                 var sub3Unit = output?['sub3_link'];
                 var subExist = output?['sub_exist'];
-                var mainLoss = output?['Loss1'].round();
-                var sub1Loss = output?['Loss2'].round();
-                var sub2Loss = output?['Loss3'].round();
+                // var mainLoss = output?['Loss1'].round();
+                // var sub1Loss = output?['Loss2'].round();
+                // var sub2Loss = output?['Loss3'].round();
                 var mainQty = output?['inStock1'].round();
                 var sub1Qty = output?['inStock2'].round();
                 var sub2Qty = output?['inStock3'].round();
@@ -138,6 +153,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                 var totalSale = output?['mainSellUnit'];
                 var totalSale2 = output?['mainSellUnit'];
                 var totalSale3 = output?['mainSellUnit'];
+                var buyPrice1 =  output?['buyPrice1'];
+                var buyPrice2 =  output?['buyPrice2'];
+                var buyPrice3 =  output?['buyPrice3'];
 
                 List<String> subSell = [];
                 List<String> subLink = [];
@@ -274,11 +292,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                     fit: BoxFit
                                                         .cover,
                                                   ): Container(
-                                                    height: 100,
-                                                    width: 130,
-                                                    color: AppTheme.themeColor
+                                                      height: 100,
+                                                      width: 130,
+                                                      color: AppTheme.themeColor
                                                   )
-                                                      // : Image.asset('assets/system/default-product.png', height: 100, width: 130)
+                                                // : Image.asset('assets/system/default-product.png', height: 100, width: 130)
                                               ),
                                               ButtonTheme(
                                                 minWidth: 133,
@@ -453,8 +471,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                               ),
                                               onPressed: () async {
                                                 if (subExist == '0') {
-                                                  prodID = widget.idString + '-' + '-' + output?['unit_sell'] +
-                                                      '-unit_name';
+                                                  routeLoss(widget.idString + '-' + '-' + output?['unit_sell'] +
+                                                      '-unit_name', buyPrice1, buyPrice2, buyPrice3);
                                                 } else {
                                                   final result =
                                                   await showModalActionSheet<String>(
@@ -482,130 +500,117 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           ),
                                                     ],
                                                   );
-                                                  prodID =result.toString();
-                                                }
-                                                final amount = await showTextInputDialog(
-                                                  context: context,
-                                                  textFields: [
-                                                    DialogTextField(
-                                                      keyboardType: TextInputType.number,
-                                                      hintText: '0',
-                                                      suffixText:  prodID.split('-')[3] == 'unit_name' ? mainName : prodID.split('-')[3] == 'sub1_name' ? sub1Name : sub2Name,
-                                                      // initialText: 'mono0926@gmail.com',
-                                                    ),
-                                                  ],
-                                                  title: 'Loss Unit',
-                                                  message: 'Type Loss Amount',
-                                                );
-                                                setState(() async {
-                                                  codeDialog = int.parse(amount![0]);
-                                                  List<String> subLink = [];
-                                                  List<String> subName = [];
-                                                  List<double> subStock = [];
-                                                  var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(
-                                                      widget.shopId).collection('products').doc(
-                                                      prodID.split('-')[0])
-                                                      .get();
-
-                                                  if (docSnapshot10.exists) {
-                                                    Map<String, dynamic>? data10 = docSnapshot10.data();
-                                                    for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                      subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                      subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                      print('inStock' + (i+1).toString());
-                                                      subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                    }
+                                                  if (result != null) {
+                                                    routeLoss(result, buyPrice1, buyPrice2, buyPrice3);
                                                   }
-                                                  bool loss1Exist = false;
-                                                  bool loss2Exist = false;
-                                                  bool loss3Exist = false;
-                                                  DateTime now = DateTime.now();
-                                                  CollectionReference lossProduct1 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss1');
-                                                  CollectionReference lossProduct2 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss2');
-                                                  CollectionReference lossProduct3 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss3');
 
-                                                  var buyPrice1 = '';
-                                                  var buyPrice2 = '';
-                                                  var buyPrice3 = '';
-
-                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).get().then((value) async {
-                                                    buyPrice1 = value.data()!["buyPrice1"].toString();
-                                                    buyPrice2 = value.data()!["buyPrice2"].toString();
-                                                    buyPrice3 = value.data()!["buyPrice3"].toString();
-
-                                                  if (prodID.split('-')[3] == 'unit_name') {
-                                                    decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
-                                                    lossProduct1.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString())).set({
-                                                     'count': FieldValue.increment(double.parse(amount[0].toString())),
-                                                      'buy_price': buyPrice1,
-                                                      'date': now,
-                                                    }).then((value) => print("User Updated"))
-                                                      .catchError((error) => print("Failed to update user: $error"));
-
-                                                    // await FirebaseFirestore.instance.collection('shops').doc(
-                                                    //     widget.shopId).collection('products').doc(
-                                                    //     prodID.split('-')[0])
-                                                    //     .update({'Loss1': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                    //     .then((value) => print("User Updated"))
-                                                    //     .catchError((error) => print("Failed to update user: $error"));
-
-
-                                                  } else if (prodID.split('-')[3] == 'sub1_name') {
-                                                    sub1Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
-
-                                                    lossProduct2.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString())).set({
-                                                      'count': FieldValue.increment(double.parse(amount[0].toString())),
-                                                      'buy_price': buyPrice2,
-                                                      'date': now,
-                                                    }).then((value) => print("User Updated"))
-                                                        .catchError((error) => print("Failed to update user: $error"));
-
-                                                    // await FirebaseFirestore.instance.collection('shops').doc(
-                                                    //     widget.shopId).collection('products').doc(
-                                                    //     prodID.split('-')[0])
-                                                    //     .update({'Loss2': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                    //     .then((value) => print("User Updated"))
-                                                    //     .catchError((error) => print("Failed to update user: $error"));
-
-
-                                                  } else if (prodID.split('-')[3] == 'sub2_name') {
-                                                    sub2Execution(
-                                                        subStock, subLink,
-                                                        prodID.split('-')[0],
-                                                        amount[0].toString());
-
-                                                    lossProduct3.doc(
-                                                        now.year.toString() +
-                                                            zeroToTen(now.month
-                                                                .toString()) +
-                                                            zeroToTen(now.day
-                                                                .toString()) +
-                                                            zeroToTen(now.hour
-                                                                .toString()) +
-                                                            zeroToTen(now.minute
-                                                                .toString()) +
-                                                            zeroToTen(now.second
-                                                                .toString()))
-                                                        .set({
-                                                      'count': FieldValue
-                                                          .increment(
-                                                          double.parse(amount[0]
-                                                              .toString())),
-                                                      'buy_price': buyPrice3,
-                                                      'date': now,
-                                                    }).then((value) =>
-                                                        print("User Updated"))
-                                                        .catchError((error) =>
-                                                        print(
-                                                            "Failed to update user: $error"));
-
-                                                    // await FirebaseFirestore.instance.collection('shops').doc(
-                                                    //     widget.shopId).collection('products').doc(
-                                                    //     prodID.split('-')[0])
-                                                    //     .update({'Loss3': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                    //     .then((value) => print("User Updated"))
-                                                    //     .catchError((error) => print("Failed to update user: $error"));
-                                                  }}); });
+                                                }
+                                                // final amount = await showTextInputDialog(
+                                                //   context: context,
+                                                //   textFields: [
+                                                //     DialogTextField(
+                                                //       keyboardType: TextInputType.number,
+                                                //       hintText: '0',
+                                                //       suffixText: prodID.split('-')[3] == 'unit_name' ? mainName : prodID.split('-')[3] == 'sub1_name' ? sub1Name : sub2Name,
+                                                //     ),
+                                                //   ],
+                                                //   title: 'Loss Unit',
+                                                //   message: 'Type Loss Amount',
+                                                // );
+                                                //
+                                                //
+                                                // var dateExist = false;
+                                                // codeDialog = int.parse(amount![0]);
+                                                // List<String> subLink1 = [];
+                                                // List<String> subName1 = [];
+                                                // List<double> subStock1 = [];
+                                                // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(
+                                                //     widget.shopId).collection('products').doc(
+                                                //     prodID.split('-')[0])
+                                                //     .get();
+                                                //
+                                                // if (docSnapshot10.exists) {
+                                                //   Map<String, dynamic>? data10 = docSnapshot10.data();
+                                                //   for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                //     subLink1.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                //     subName1.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                //     print('inStock' + (i+1).toString());
+                                                //     subStock1.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                //   }
+                                                // }
+                                                // DateTime now = DateTime.now();
+                                                // String buyPriceUnit = '';
+                                                // String buyPrice = '';
+                                                // String unit = '';
+                                                //
+                                                // if (prodID.split('-')[3] == 'unit_name') {
+                                                //   decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
+                                                //   unit = 'loss1';
+                                                //   buyPriceUnit = 'buyPrice1';
+                                                // }
+                                                // else if (prodID.split('-')[3] == 'sub1_name') {
+                                                //   sub1Execution(subStock1, subLink1, prodID.split('-')[0], amount[0].toString());
+                                                //   // setState(() {
+                                                //   unit = 'loss2';
+                                                //   buyPriceUnit = 'buyPrice2';
+                                                //   // });
+                                                // }
+                                                // else if (prodID.split('-')[3] == 'sub2_name') {
+                                                //   sub2Execution(
+                                                //       subStock1, subLink1,
+                                                //       prodID.split('-')[0],
+                                                //       amount[0].toString());
+                                                //   unit = 'loss3';
+                                                //   buyPriceUnit = 'buyPrice3';
+                                                // }
+                                                // var dateId = '';
+                                                //
+                                                // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).get().then((value) async {
+                                                //   buyPrice = value.data()![buyPriceUnit].toString();
+                                                //
+                                                //   print("SHOP ID " + widget.shopId + ' ' + prodID.split('-')[0]);
+                                                //   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit)
+                                                //       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                //       .get()
+                                                //       .then((QuerySnapshot qsNew)  async {
+                                                //
+                                                //     print("LENGTH " + qsNew.docs.length.toString());
+                                                //
+                                                //     qsNew.docs.forEach((doc) {
+                                                //       dateExist = true;
+                                                //       dateId = doc.id;
+                                                //       print('UNIT ' + doc.id.toString());
+                                                //     });
+                                                //
+                                                //     print('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
+                                                //     print('dick exist - > ' + dateExist.toString());
+                                                //     CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit);
+                                                //     //
+                                                //     if(dateExist){
+                                                //       lossProduct.doc(dateId).update({
+                                                //         'count': FieldValue.increment(double.parse(amount[0].toString())),
+                                                //         'buy_price': buyPrice,
+                                                //       }).then((value) => print("User Updated"))
+                                                //           .catchError((error) => print("Failed to update dateexist: $error"));
+                                                //     }
+                                                //     else {
+                                                //       lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum).set({
+                                                //         'count': FieldValue
+                                                //             .increment(
+                                                //             double.parse(
+                                                //                 amount[0]
+                                                //                     .toString())),
+                                                //         'buy_price': buyPrice,
+                                                //         'date': now,
+                                                //       }).then((value) =>
+                                                //           print("User Updated"))
+                                                //           .catchError((error) =>
+                                                //           print(
+                                                //               "Failed to update datenotexist: $error"));
+                                                //     }
+                                                //   });
+                                                // });
                                               },
                                               child: Container(
                                                 width: 100,
@@ -773,14 +778,32 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  'MAIN UNIT PRICING',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14,
-                                                    letterSpacing: 2,
-                                                    color: Colors.grey,
-                                                  ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'MAIN UNIT PRICING',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 14,
+                                                        letterSpacing: 2,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                    Spacer(),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                            context, MaterialPageRoute( builder: (context) => EditProduct(prodName: prodName, barcode: barcode, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, shopId: widget.shopId, prodId: widget.idString,)
+                                                        ));
+                                                      },
+                                                      child: Text('EDIT', style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                          fontSize: 14,
+                                                        color: Colors.blue,
+                                                        letterSpacing: 2,
+                                                      )),
+                                                    )
+                                                  ],
                                                 ),
                                                 SizedBox(height: 15,),
                                                 Container(
@@ -851,22 +874,22 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           .withOpacity(0.2),
                                                                       width: 1.0))),
                                                           child: Row(
-                                                            children: [
-                                                              Text('Loss', style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(mainLoss.toString() + ' ' + mainName, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
+                                                                      children: [
+                                                                        Text('Loss', style:
+                                                                        TextStyle(
+                                                                          fontSize: 15,
+                                                                          fontWeight: FontWeight.w500,
+                                                                        ),),
+                                                                        Spacer(),
+                                                                        Text('mainLoss'.toString() + ' ' + mainName, style:
+                                                                        TextStyle(
+                                                                          fontSize: 15,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.grey,
+                                                                        ),),
+                                                                      ],
+                                                                    ),
+                                                                ),
                                                         Container(
                                                           height: 55,
                                                           child: Row(
@@ -1103,21 +1126,21 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           .withOpacity(0.2),
                                                                       width: 1.0))),
                                                           child: Row(
-                                                            children: [
-                                                              Text('Loss', style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(sub1Loss.toString() + ' ' + sub1Name, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
+                                                                      children: [
+                                                                        Text('Loss', style:
+                                                                        TextStyle(
+                                                                          fontSize: 15,
+                                                                          fontWeight: FontWeight.w500,
+                                                                        ),),
+                                                                        Spacer(),
+                                                                        Text('sub1Loss'.toString() + ' ' + sub1Name, style:
+                                                                        TextStyle(
+                                                                          fontSize: 15,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.grey,
+                                                                        ),),
+                                                                      ],
+                                                                    ),
                                                         ),
                                                         Container(
                                                           height: 55,
@@ -1355,21 +1378,19 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           .withOpacity(0.2),
                                                                       width: 1.0))),
                                                           child: Row(
-                                                            children: [
-                                                              Text('Loss', style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(sub2Loss.toString() + ' ' + sub2Name, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
+                                                            children: [Text('Loss',
+                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500,),),
+                                                                        Spacer(),
+                                                                        Text('sub2Loss'.toString() + ' ' + sub2Name,
+                                                                          style: TextStyle(
+                                                                            fontSize: 15,
+                                                                            fontWeight: FontWeight
+                                                                                .w500,
+                                                                            color: Colors
+                                                                                .grey,
+                                                                          ),),
+                                                                      ],
+                                                                    ),
                                                         ),
                                                         Container(
                                                           height: 55,
@@ -1542,67 +1563,77 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
       ),
     );
   }
-  changeUnitName2Stock(String split) {
-    if(split == 'main') {
-      return 'inStock1';
-    } else {
-      return 'inStock' + (int.parse(split[3]) + 1).toString();
-    }
-  }
+  // changeUnitName2Stock(String split) {
+  //   if(split == 'main') {
+  //     return 'inStock1';
+  //   } else {
+  //     return 'inStock' + (int.parse(split[3]) + 1).toString();
+  //   }
+  // }
 
-  Future<void> decStockFromInv(id, unit, num) async {
-    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+  // Future<void> addDateExist(prodId, unit , buyPrice, amount, date) async {
+  //   print('CHECKING PRODSALE ORD');
+  //   CollectionReference lossProduct = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID).collection(unit);
+  //   lossProduct.doc(date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString())+ '0' + deviceIdNum).update({
+  //     'count': FieldValue.increment(double.parse(amount.toString())),
+  //     'buy_price': buyPrice,
+  //   }).then((value) => print("User Updated"))
+  //       .catchError((error) => print("Failed to update user: $error"));
+  // }
 
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
-
-    users
-        .doc(id)
-        .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
-  }
-
-  Future<void> incStockFromInv(id, unit, num) async {
-    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
-
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
-
-    users
-        .doc(id)
-        .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
-  }
-
-  Future<void> sub1Execution(subStock, subLink, id, num) async {
-    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id).get();
-    if (docSnapshot10.exists) {
-      Map<String, dynamic>? data10 = docSnapshot10.data();
-      subStock[1] = double.parse((data10 ? ['inStock2']).toString());
-      if(subStock[1] > double.parse(num)) {
-        decStockFromInv(id, 'sub1', num);
-      } else {
-        decStockFromInv(id, 'main', ((int.parse(num)  - subStock[1])/int.parse(subLink[0])).ceil());
-        incStockFromInv(id, 'sub1', ((int.parse(num)-subStock[1].round()) % int.parse(subLink[0])) == 0? 0: (int.parse(subLink[0]) - (int.parse(num)-subStock[1].round()) % int.parse(subLink[0])));
-        decStockFromInv(id, 'sub1', subStock[1]);
-      }
-    }
-  }
-
-  Future<void> sub2Execution(subStock, subLink, id, num) async {
-    var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id).get();
-    if (docSnapshot10.exists) {
-      Map<String, dynamic>? data10 = docSnapshot10.data();
-      subStock[2] = double.parse((data10 ? ['inStock3']).toString());
-      if(subStock[2] > double.parse(num)) {
-        decStockFromInv(id, 'sub2', num);
-      } else {
-        await incStockFromInv(id, 'sub2', ((int.parse(num)-subStock[2].round()) % int.parse(subLink[1])) == 0? 0: (int.parse(subLink[1]) - (int.parse(num)-subStock[2].round()) % int.parse(subLink[1])));
-        await decStockFromInv(id, 'sub2', subStock[2]);
-        sub1Execution(subStock, subLink, id, ((int.parse(num)  - subStock[2])/int.parse(subLink[1])).ceil().toString());
-      }
-    }
-  }
+  // Future<void> decStockFromInv(id, unit, num) async {
+  //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+  //
+  //   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+  //
+  //   users
+  //       .doc(id)
+  //       .update({changeUnitName2Stock(unit): FieldValue.increment(0 - (double.parse(num.toString())))})
+  //       .then((value) => print("User Updated"))
+  //       .catchError((error) => print("Failed to update user: $error"));
+  // }
+  //
+  // Future<void> incStockFromInv(id, unit, num) async {
+  //   CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+  //
+  //   // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+  //
+  //   users
+  //       .doc(id)
+  //       .update({changeUnitName2Stock(unit): FieldValue.increment(double.parse(num.toString()))})
+  //       .then((value) => print("User Updated"))
+  //       .catchError((error) => print("Failed to update user: $error"));
+  // }
+  //
+  // Future<void> sub1Execution(subStock, subLink, id, num) async {
+  //   var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id).get();
+  //   if (docSnapshot10.exists) {
+  //     Map<String, dynamic>? data10 = docSnapshot10.data();
+  //     subStock[1] = double.parse((data10 ? ['inStock2']).toString());
+  //     if(subStock[1] > double.parse(num)) {
+  //       decStockFromInv(id, 'sub1', num);
+  //     } else {
+  //       decStockFromInv(id, 'main', ((int.parse(num)  - subStock[1])/int.parse(subLink[0])).ceil());
+  //       incStockFromInv(id, 'sub1', ((int.parse(num)-subStock[1].round()) % int.parse(subLink[0])) == 0? 0: (int.parse(subLink[0]) - (int.parse(num)-subStock[1].round()) % int.parse(subLink[0])));
+  //       decStockFromInv(id, 'sub1', subStock[1]);
+  //     }
+  //   }
+  // }
+  //
+  // Future<void> sub2Execution(subStock, subLink, id, num) async {
+  //   var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(id).get();
+  //   if (docSnapshot10.exists) {
+  //     Map<String, dynamic>? data10 = docSnapshot10.data();
+  //     subStock[2] = double.parse((data10 ? ['inStock3']).toString());
+  //     if(subStock[2] > double.parse(num)) {
+  //       decStockFromInv(id, 'sub2', num);
+  //     } else {
+  //       await incStockFromInv(id, 'sub2', ((int.parse(num)-subStock[2].round()) % int.parse(subLink[1])) == 0? 0: (int.parse(subLink[1]) - (int.parse(num)-subStock[2].round()) % int.parse(subLink[1])));
+  //       await decStockFromInv(id, 'sub2', subStock[2]);
+  //       sub1Execution(subStock, subLink, id, ((int.parse(num)  - subStock[2])/int.parse(subLink[1])).ceil().toString());
+  //     }
+  //   }
+  // }
 
 }
 

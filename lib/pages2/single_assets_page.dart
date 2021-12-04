@@ -1384,7 +1384,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                   var prodExist = false;
 
-                                  var productId = await FirebaseFirestore.instance
+                                  CollectionReference productId = await FirebaseFirestore.instance
                                       .collection('shops')
                                       .doc(shopId)
                                       .collection('products');
