@@ -4011,67 +4011,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         },
                                                         child: Container(
                                                           child: Text(
-                                                            'Low stocks',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                      child: FlatButton(
-                                                        minWidth: 0,
-                                                        padding: EdgeInsets.only(left: 12, right: 12),
-                                                        color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          side: BorderSide(
-                                                            color: AppTheme.skBorderColor2,
-                                                          ),
-                                                        ),
-                                                        onPressed: () {
-                                                          _animateToIndex(16.4);
-                                                          setState(() {
-                                                            cateScIndex = 2;
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          child: Text(
-                                                            'Best sales',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                      child: FlatButton(
-                                                        minWidth: 0,
-                                                        padding: EdgeInsets.only(left: 12, right: 12),
-                                                        color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          side: BorderSide(
-                                                            color: AppTheme.skBorderColor2,
-                                                          ),
-                                                        ),
-                                                        onPressed: () {
-                                                          _animateToIndex(20);
-                                                          setState(() {
-                                                            cateScIndex = 3;
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          child: Text(
-                                                            'Low sales',
+                                                            'Debts',
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,

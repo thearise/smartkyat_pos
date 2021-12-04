@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 
@@ -28,12 +30,14 @@ class ProductDetailsView2 extends StatefulWidget {
         required this.shopId,
         required this.idString,
         required void toggleCoinCallback(String str),
-        required void toggleCoinCallback3(String str)})
+        required void toggleCoinCallback3(String str),
+      })
       : _callback = toggleCoinCallback,
         _callback3 = toggleCoinCallback3;
 
   final String idString;
   final String shopId;
+
 
   @override
   _ProductDetailsViewState2 createState() => _ProductDetailsViewState2();
@@ -43,12 +47,19 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     TickerProviderStateMixin <ProductDetailsView2> {
 
 
+  var deviceIdNum;
+
   addProduct2(data) {
     widget._callback(data);
   }
 
   addProduct3(data) {
     widget._callback3(data);
+  }
+
+  getDeviceId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('device');
   }
 
   routeFill(res) {
@@ -76,6 +87,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
   @override
   void initState() {
+    getDeviceId().then((value) {
+      deviceIdNum = value;
+    });
     _controller = new TabController(length: 3, vsync: this);
     _controller.addListener((){
       print('my index is'+ _controller.index.toString());
@@ -497,115 +511,141 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                   title: 'Loss Unit',
                                                   message: 'Type Loss Amount',
                                                 );
-                                                setState(() async {
-                                                  codeDialog = int.parse(amount![0]);
-                                                  List<String> subLink = [];
-                                                  List<String> subName = [];
-                                                  List<double> subStock = [];
-                                                  var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(
-                                                      widget.shopId).collection('products').doc(
-                                                      prodID.split('-')[0])
-                                                      .get();
 
-                                                  if (docSnapshot10.exists) {
-                                                    Map<String, dynamic>? data10 = docSnapshot10.data();
-                                                    for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                      subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                      subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                      print('inStock' + (i+1).toString());
-                                                      subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                    }
+
+                                                var dateExist = false;
+                                                codeDialog = int.parse(amount![0]);
+                                                List<String> subLink1 = [];
+                                                List<String> subName1 = [];
+                                                List<double> subStock1 = [];
+                                                var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(
+                                                    widget.shopId).collection('products').doc(
+                                                    prodID.split('-')[0])
+                                                    .get();
+
+                                                if (docSnapshot10.exists) {
+                                                  Map<String, dynamic>? data10 = docSnapshot10.data();
+                                                  for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                    subLink1.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                    subName1.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                    print('inStock' + (i+1).toString());
+                                                    subStock1.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
                                                   }
-                                                  bool loss1Exist = false;
-                                                  bool loss2Exist = false;
-                                                  bool loss3Exist = false;
-                                                  DateTime now = DateTime.now();
-                                                  CollectionReference lossProduct1 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss1');
-                                                  CollectionReference lossProduct2 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss2');
-                                                  CollectionReference lossProduct3 = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection('loss3');
+                                                }
+                                                DateTime now = DateTime.now();
+                                                String buyPriceUnit = '';
+                                                String buyPrice = '';
+                                                String unit = '';
 
-                                                  var buyPrice1 = '';
-                                                  var buyPrice2 = '';
-                                                  var buyPrice3 = '';
+                                                if (prodID.split('-')[3] == 'unit_name') {
+                                                  decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
+                                                  // setState(() {
+                                                    unit = 'loss1';
+                                                    buyPriceUnit = 'buyPrice1';
+                                                  // });
+                                                }
+                                                else if (prodID.split('-')[3] == 'sub1_name') {
+                                                  sub1Execution(subStock1, subLink1, prodID.split('-')[0], amount[0].toString());
+                                                  // setState(() {
+                                                    unit = 'loss2';
+                                                    buyPriceUnit = 'buyPrice2';
+                                                  // });
+                                                }
+                                                else if (prodID.split('-')[3] == 'sub2_name') {
+                                                  sub2Execution(
+                                                      subStock1, subLink1,
+                                                      prodID.split('-')[0],
+                                                      amount[0].toString());
+                                                  // setState(() {
+                                                    unit = 'loss3';
+                                                    buyPriceUnit = 'buyPrice3';
+                                                  // });
+                                                }
 
-                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).get().then((value) async {
-                                                    buyPrice1 = value.data()!["buyPrice1"].toString();
-                                                    buyPrice2 = value.data()!["buyPrice2"].toString();
-                                                    buyPrice3 = value.data()!["buyPrice3"].toString();
+                                                // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit)
+                                                //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                //     .get()
+                                                //     .then((QuerySnapshot qsNew)  async {
+                                                //
+                                                //   print("LENGTH " + qsNew.docs.length.toString());
+                                                //
+                                                //
+                                                //
+                                                //   qsNew.docs.forEach((doc) {
+                                                //     dateExist = true;
+                                                //     print('UNIT ' + doc.id.toString());
+                                                //   });
+                                                //
+                                                // });
 
-                                                    if (prodID.split('-')[3] == 'unit_name') {
-                                                      decStockFromInv(prodID.split('-')[0], 'main', amount[0].toString());
-                                                      lossProduct1.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString())).set({
+
+                                                FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).get().then((value) async {
+                                                  buyPrice = value.data()![buyPriceUnit].toString();
+
+                                                  print("SHOP ID " + widget.shopId + ' ' + prodID.split('-')[0]);
+                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit)
+                                                      .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                      .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                      .get()
+                                                      .then((QuerySnapshot qsNew)  async {
+
+                                                    print("LENGTH " + qsNew.docs.length.toString());
+
+
+
+                                                    qsNew.docs.forEach((doc) {
+                                                      dateExist = true;
+                                                      print('UNIT ' + doc.id.toString());
+                                                    });
+
+                                                    // Map<String, dynamic> data = qsNew.docs[0]
+                                                    //     .data()! as Map<String, dynamic>;
+                                                    //
+                                                    // print(data.toString());
+
+                                                    print('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
+                                                    print('dick exist - > ' + dateExist.toString());
+                                                    CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit);
+                                                    //
+                                                    if(dateExist){
+                                                      lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())+ '0' + deviceIdNum).update({
                                                         'count': FieldValue.increment(double.parse(amount[0].toString())),
-                                                        'buy_price': buyPrice1,
-                                                        'date': now,
+                                                        'buy_price': buyPrice,
                                                       }).then((value) => print("User Updated"))
-                                                          .catchError((error) => print("Failed to update user: $error"));
-
-                                                      // await FirebaseFirestore.instance.collection('shops').doc(
-                                                      //     widget.shopId).collection('products').doc(
-                                                      //     prodID.split('-')[0])
-                                                      //     .update({'Loss1': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                      //     .then((value) => print("User Updated"))
-                                                      //     .catchError((error) => print("Failed to update user: $error"));
-
-
-                                                    } else if (prodID.split('-')[3] == 'sub1_name') {
-                                                      sub1Execution(subStock, subLink, prodID.split('-')[0], amount[0].toString());
-
-                                                      lossProduct2.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString())).set({
-                                                        'count': FieldValue.increment(double.parse(amount[0].toString())),
-                                                        'buy_price': buyPrice2,
-                                                        'date': now,
-                                                      }).then((value) => print("User Updated"))
-                                                          .catchError((error) => print("Failed to update user: $error"));
-
-                                                      // await FirebaseFirestore.instance.collection('shops').doc(
-                                                      //     widget.shopId).collection('products').doc(
-                                                      //     prodID.split('-')[0])
-                                                      //     .update({'Loss2': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                      //     .then((value) => print("User Updated"))
-                                                      //     .catchError((error) => print("Failed to update user: $error"));
-
-
-                                                    } else if (prodID.split('-')[3] == 'sub2_name') {
-                                                      sub2Execution(
-                                                          subStock, subLink,
-                                                          prodID.split('-')[0],
-                                                          amount[0].toString());
-
-                                                      lossProduct3.doc(
-                                                          now.year.toString() +
-                                                              zeroToTen(now.month
-                                                                  .toString()) +
-                                                              zeroToTen(now.day
-                                                                  .toString()) +
-                                                              zeroToTen(now.hour
-                                                                  .toString()) +
-                                                              zeroToTen(now.minute
-                                                                  .toString()) +
-                                                              zeroToTen(now.second
-                                                                  .toString()))
-                                                          .set({
+                                                          .catchError((error) => print("Failed to update dateexist: $error"));
+                                                    }
+                                                    else {
+                                                      lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum).set({
                                                         'count': FieldValue
                                                             .increment(
-                                                            double.parse(amount[0]
-                                                                .toString())),
-                                                        'buy_price': buyPrice3,
+                                                            double.parse(
+                                                                amount[0]
+                                                                    .toString())),
+                                                        'buy_price': buyPrice,
                                                         'date': now,
                                                       }).then((value) =>
                                                           print("User Updated"))
                                                           .catchError((error) =>
                                                           print(
-                                                              "Failed to update user: $error"));
+                                                              "Failed to update datenotexist: $error"));
+                                                    }
 
-                                                      // await FirebaseFirestore.instance.collection('shops').doc(
-                                                      //     widget.shopId).collection('products').doc(
-                                                      //     prodID.split('-')[0])
-                                                      //     .update({'Loss3': FieldValue.increment(double.parse(amount[0].toString()))})
-                                                      //     .then((value) => print("User Updated"))
-                                                      //     .catchError((error) => print("Failed to update user: $error"));
-                                                    }}); });
+                                                  });
+
+                                                  // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID.split('-')[0]).collection(unit).doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(deviceIdNum)).get()
+                                                  //     .then((DocumentSnapshot documentSnapshot) async {
+                                                  //   if (documentSnapshot.exists) {
+                                                  //     dateExist = true;
+                                                  //     print('Document exists on the database');
+                                                  //   }
+                                                  //
+                                                  // });
+                                                });
+                                                // setState(() async {
+                                                //
+                                                //
+                                                // });
                                               },
                                               child: Container(
                                                 width: 100,
@@ -1549,6 +1589,16 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
       return 'inStock' + (int.parse(split[3]) + 1).toString();
     }
   }
+
+  // Future<void> addDateExist(prodId, unit , buyPrice, amount, date) async {
+  //   print('CHECKING PRODSALE ORD');
+  //   CollectionReference lossProduct = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(prodID).collection(unit);
+  //   lossProduct.doc(date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString())+ '0' + deviceIdNum).update({
+  //     'count': FieldValue.increment(double.parse(amount.toString())),
+  //     'buy_price': buyPrice,
+  //   }).then((value) => print("User Updated"))
+  //       .catchError((error) => print("Failed to update user: $error"));
+  // }
 
   Future<void> decStockFromInv(id, unit, num) async {
     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
