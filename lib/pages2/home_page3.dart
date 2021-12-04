@@ -10149,8 +10149,7 @@ class HomePageState extends State<HomePage>
     CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
     daily.doc(id1).update({
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
-      'each_order' : FieldValue.arrayUnion([length.toString()])})
-        .then((value) => print("User Updated"))
+      'each_order' : FieldValue.arrayUnion([length.toString()])}).then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
 
