@@ -74,8 +74,7 @@ class _WelcomeState extends State<Welcome>
             if(value.toString() != '') {
               // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
               Navigator.of(context).pushReplacement(
-                FadeRoute(page: HomePage()),
-              );
+                FadeRoute(page: HomePage()),);
             } else {
               Future.delayed(const Duration(milliseconds: 1000), () {
                 setState(() {

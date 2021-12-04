@@ -193,6 +193,7 @@ class _FillProductState extends State<FillProduct> {
                                           width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                                           child: TextFormField(
                                             controller: munitCtrl,
+                                            keyboardType: TextInputType.number,
 // The validator receives the text that the user has entered.
                                             validator: (value) {
                                               if (value == null ||
@@ -277,7 +278,7 @@ class _FillProductState extends State<FillProduct> {
                                         left: 15.0, right: 15.0, top: 118),
                                     child: TextFormField(
                                       controller: msaleCtrl,
-// The validator receives the text that the user has entered.
+                                      keyboardType: TextInputType.number,
                                       validator: (value) {
                                         if (value == null ||
                                             value.isEmpty) {
