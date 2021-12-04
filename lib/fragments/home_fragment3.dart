@@ -301,7 +301,7 @@ class HomeFragmentState extends State<HomeFragment>
       Map<String, dynamic> data = snapshot0.data!.docs[loopOrd].data()! as Map<String, dynamic>;
 
       DateTime dateTimeOrders = data['date'].toDate();
-      String dataDate = dateTimeOrders.year.toString() + dateTimeOrders.month.toString() + dateTimeOrders.day.toString();
+      String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
       print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
       int week = 0;
@@ -310,7 +310,7 @@ class HomeFragmentState extends State<HomeFragment>
       sevenDaysAgo = today.subtract(const Duration(days: 8));
       monthAgo = today.subtract(const Duration(days: 31));
 
-      while(!(today.year.toString() == sevenDaysAgo.year.toString() && today.month.toString() == sevenDaysAgo.month.toString() && today.day.toString() == sevenDaysAgo.day.toString())) {
+      while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
         sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 
         // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
@@ -326,13 +326,14 @@ class HomeFragmentState extends State<HomeFragment>
             // print(double.parse(str));
             total += double.parse(str.split('^')[2]);
           }
+          thisWeekOrdersChart[week] = total;
 
         }
         week = week + 1;
 
       }
 
-      while(!(today.year.toString() == monthAgo.year.toString() && today.month.toString() == monthAgo.month.toString() && today.day.toString() == monthAgo.day.toString())) {
+      while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
         monthAgo = monthAgo.add(const Duration(days: 1));
 
         // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
@@ -412,7 +413,7 @@ class HomeFragmentState extends State<HomeFragment>
       Map<String, dynamic> data = snapshot1.data!.docs[loopOrd].data()! as Map<String, dynamic>;
 
       DateTime dateTimeOrders = data['date'].toDate();
-      String dataDate = dateTimeOrders.year.toString() + dateTimeOrders.month.toString() + dateTimeOrders.day.toString();
+      String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
       print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
       int week = 0;
@@ -421,7 +422,7 @@ class HomeFragmentState extends State<HomeFragment>
       sevenDaysAgo = today.subtract(const Duration(days: 8));
       monthAgo = today.subtract(const Duration(days: 31));
 
-      while(!(today.year.toString() == sevenDaysAgo.year.toString() && today.month.toString() == sevenDaysAgo.month.toString() && today.day.toString() == sevenDaysAgo.day.toString())) {
+      while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
         sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 
         // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
@@ -443,7 +444,7 @@ class HomeFragmentState extends State<HomeFragment>
 
       }
 
-      while(!(today.year.toString() == monthAgo.year.toString() && today.month.toString() == monthAgo.month.toString() && today.day.toString() == monthAgo.day.toString())) {
+      while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
         monthAgo = monthAgo.add(const Duration(days: 1));
 
         // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
@@ -1465,1237 +1466,1218 @@ class HomeFragmentState extends State<HomeFragment>
           child: SafeArea(
             top: true,
             bottom: true,
-            child: Row(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width > 900
-                      ? MediaQuery.of(context).size.width * (2 / 3.5)
-                      : MediaQuery.of(context).size.width,
-                  child: Stack(
-                    children: [
-                      StreamBuilder(
+            child: Container(
+              // width: MediaQuery.of(context).size.width > 900
+              //     ? MediaQuery.of(context).size.width * (2 / 3.5)
+              //     : MediaQuery.of(context).size.width,
+              child: Stack(
+                children: [
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('shops')
+                          .doc(shopId)
+                          .collection('orders')
+                          .where('date', isGreaterThanOrEqualTo: todayToYearStart())
+                          // .where('date', isGreaterThanOrEqualTo: today.subtract(Duration(days: 300)))
+                          .snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot0) {
+                      if(snapshot0.hasData) {
+
+                        return StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection('shops')
                               .doc(shopId)
-                              .collection('orders')
+                              .collection('buyOrders')
                               .where('date', isGreaterThanOrEqualTo: todayToYearStart())
-                              // .where('date', isGreaterThanOrEqualTo: today.subtract(Duration(days: 300)))
+                          // .where('date', isGreaterThanOrEqualTo: today.subtract(Duration(days: 300)))
                               .snapshots(),
-                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot0) {
-                          if(snapshot0.hasData) {
+                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
+                              // print('LEN ' + snapshot0.data!.docs.length.toString());
+                              // fetchOrders(snapshot0);
 
-                            return StreamBuilder(
-                              stream: FirebaseFirestore.instance
-                                  .collection('shops')
-                                  .doc(shopId)
-                                  .collection('buyOrders')
-                                  .where('date', isGreaterThanOrEqualTo: todayToYearStart())
-                              // .where('date', isGreaterThanOrEqualTo: today.subtract(Duration(days: 300)))
-                                  .snapshots(),
-                                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot1) {
-                                  // print('LEN ' + snapshot0.data!.docs.length.toString());
-                                  // fetchOrders(snapshot0);
+                              // today = DateTime.now();
+                              DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
+                              DateTime monthAgo = today.subtract(const Duration(days: 31));
 
-                                  // today = DateTime.now();
-                                  DateTime sevenDaysAgo = today.subtract(const Duration(days: 8));
-                                  DateTime monthAgo = today.subtract(const Duration(days: 31));
+                              // print('each ');
+                              fetchOrders(snapshot0, snapshot1);
 
-                                  // print('each ');
-                                  fetchOrders(snapshot0, snapshot1);
-
-                                  return Align(
-                                    alignment: Alignment.centerLeft,
+                              return Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 81.0),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height -
+                                        MediaQuery.of(context).padding.top -
+                                        MediaQuery.of(context).padding.bottom -
+                                        100,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Colors.Colors.white,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(top: 81.0),
-                                      child: Container(
-                                        height: MediaQuery.of(context).size.height -
-                                            MediaQuery.of(context).padding.top -
-                                            MediaQuery.of(context).padding.bottom -
-                                            100,
-                                        width: MediaQuery.of(context).size.width,
-                                        color: Colors.Colors.white,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 0.0, left: 0.0, right: 0.0),
+                                      padding: const EdgeInsets.only(
+                                          top: 0.0, left: 0.0, right: 0.0),
 
-                                          child: StreamBuilder(
-                                              stream: FirebaseFirestore.instance
-                                                  .collection('shops')
-                                                  .doc(shopId)
-                                                  .collection('products')
-                                                  .snapshots(),
-                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                                if(snapshot.hasData) {
-                                                  return CustomScrollView(
-                                                    slivers: [
+                                      child: StreamBuilder(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('shops')
+                                              .doc(shopId)
+                                              .collection('products')
+                                              .snapshots(),
+                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                            if(snapshot.hasData) {
+                                              return CustomScrollView(
+                                                slivers: [
 
-                                                      // Add the app bar to the CustomScrollView.
-                                                      SliverAppBar(
-                                                        elevation: 0,
-                                                        backgroundColor: Colors.Colors.white,
-                                                        bottom: PreferredSize(                       // Add this code
-                                                          preferredSize: Size.fromHeight(0.0),      // Add this code
-                                                          child: Container(),                           // Add this code
-                                                        ),
-                                                        // Provide a standard title.
+                                                  // Add the app bar to the CustomScrollView.
+                                                  SliverAppBar(
+                                                    elevation: 0,
+                                                    backgroundColor: Colors.Colors.white,
+                                                    bottom: PreferredSize(                       // Add this code
+                                                      preferredSize: Size.fromHeight(0.0),      // Add this code
+                                                      child: Container(),                           // Add this code
+                                                    ),
+                                                    // Provide a standard title.
 
-                                                        // Allows the user to reveal the app bar if they begin scrolling
-                                                        // back up the list of items.
-                                                        floating: true,
-                                                        flexibleSpace: Padding(
-                                                          padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
-                                                          child: Container(
-                                                            height: 32,
-                                                            width: MediaQuery.of(context).size.width,
-                                                            // color: Colors.yellow,
-                                                            child: Row(
+                                                    // Allows the user to reveal the app bar if they begin scrolling
+                                                    // back up the list of items.
+                                                    floating: true,
+                                                    flexibleSpace: Padding(
+                                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+                                                      child: Container(
+                                                        height: 32,
+                                                        width: MediaQuery.of(context).size.width,
+                                                        // color: Colors.yellow,
+                                                        child: Row(
+                                                          children: [
+                                                            Row(
                                                               children: [
-                                                                Row(
-                                                                  children: [
-                                                                    FlatButton(
-                                                                      padding: EdgeInsets.only(left: 10, right: 10),
-                                                                      color: AppTheme.secButtonColor,
+                                                                FlatButton(
+                                                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                                                  color: AppTheme.secButtonColor,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(8.0),
+                                                                    side: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                    ),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    // widget._callback();
+                                                                    _showDatePicker(OneContext().context);
+                                                                  },
+                                                                  child: Container(
+                                                                    child: Row(
+                                                                      // mainAxisAlignment: Main,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(right: 3.0),
+                                                                          child: Icon(
+                                                                            Icons.calendar_view_day_rounded,
+                                                                            size: 18,
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          selectDaysCast(),
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.Colors.black),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 12),
+                                                                Container(
+                                                                  color: Colors.Colors.grey.withOpacity(0.2),
+                                                                  width: 1.5,
+                                                                  height: 30,
+                                                                )
+                                                              ],
+                                                            ),
+                                                            Expanded(
+                                                              child: ListView(
+                                                                controller: cateScCtler,
+                                                                scrollDirection: Axis.horizontal,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: 4,
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                                    child: FlatButton(
+                                                                      minWidth: 0,
+                                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.Colors.white,
                                                                       shape: RoundedRectangleBorder(
-                                                                        borderRadius: BorderRadius.circular(8.0),
+                                                                        borderRadius: BorderRadius.circular(20.0),
                                                                         side: BorderSide(
                                                                           color: AppTheme.skBorderColor2,
                                                                         ),
                                                                       ),
                                                                       onPressed: () {
-                                                                        // widget._callback();
-                                                                        _showDatePicker(OneContext().context);
+                                                                        _animateToIndex(0);
+                                                                        setState(() {
+                                                                          cateScIndex = 0;
+                                                                          _sliding = 0;
+                                                                        });
                                                                       },
                                                                       child: Container(
+                                                                        child: Text(
+                                                                          'Day',
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.Colors.black),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                                    child: FlatButton(
+                                                                      minWidth: 0,
+                                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.Colors.white,
+                                                                      shape: RoundedRectangleBorder(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        side: BorderSide(
+                                                                          color: AppTheme.skBorderColor2,
+                                                                        ),
+                                                                      ),
+                                                                      onPressed: () {
+                                                                        _animateToIndex(5.9);
+                                                                        setState(() {
+                                                                          cateScIndex = 1;
+                                                                          _sliding = 1;
+                                                                        });
+                                                                      },
+                                                                      child: Container(
+                                                                        child: Text(
+                                                                          'Last week',
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.Colors.black),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                                    child: FlatButton(
+                                                                      minWidth: 0,
+                                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.Colors.white,
+                                                                      shape: RoundedRectangleBorder(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        side: BorderSide(
+                                                                          color: AppTheme.skBorderColor2,
+                                                                        ),
+                                                                      ),
+                                                                      onPressed: () {
+                                                                        _animateToIndex(15.5);
+                                                                        setState(() {
+                                                                          cateScIndex = 2;
+                                                                          _sliding = 2;
+                                                                        });
+                                                                      },
+                                                                      child: Container(
+                                                                        child: Text(
+                                                                          'Last month',
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.Colors.black),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                                    child: FlatButton(
+                                                                      minWidth: 0,
+                                                                      padding: EdgeInsets.only(left: 12, right: 12),
+                                                                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.Colors.white,
+                                                                      shape: RoundedRectangleBorder(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        side: BorderSide(
+                                                                          color: AppTheme.skBorderColor2,
+                                                                        ),
+                                                                      ),
+                                                                      onPressed: () {
+                                                                        _animateToIndex(20);
+                                                                        setState(() {
+                                                                          cateScIndex = 3;
+                                                                          _sliding = 3;
+                                                                        });
+                                                                      },
+                                                                      child: Container(
+                                                                        child: Text(
+                                                                          'Last year',
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.Colors.black),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 11,
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+
+                                                      ),
+                                                    ),
+                                                    // flexibleSpace: Padding(
+                                                    //   padding: const EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0),
+                                                    //   child: Container(
+                                                    //     height: 58,
+                                                    //     width: MediaQuery.of(context).size.width,
+                                                    //     // color: Colors.yellow,
+                                                    //     child: Container(
+                                                    //       decoration: BoxDecoration(
+                                                    //           color: Colors.Colors.white,
+                                                    //           border: Border(
+                                                    //             bottom: BorderSide(
+                                                    //               // color: AppTheme.skBorderColor2,
+                                                    //                 color: Colors.Colors.white,
+                                                    //                 width: 1.0),
+                                                    //           )),
+                                                    //       child: Container(
+                                                    //         decoration: BoxDecoration(
+                                                    //             color: Colors.Colors.white,
+                                                    //             border: Border(
+                                                    //               bottom: BorderSide(
+                                                    //                 // color: AppTheme.skBorderColor2,
+                                                    //                   color: Colors.Colors.white,
+                                                    //                   width: 1.0),
+                                                    //             )),
+                                                    //         child: Padding(
+                                                    //           padding: const EdgeInsets.only(top: 12.0, bottom: 11.0, left: 15.0, right: 15.0),
+                                                    //           child: SizedBox(
+                                                    //             width: double.infinity,
+                                                    //             child: CupertinoSlidingSegmentedControl(
+                                                    //                 children: {
+                                                    //                   0: Text('Today'),
+                                                    //                   1: Text('Week'),
+                                                    //                   2: Text('Month'),
+                                                    //                   3: Text('Year'),
+                                                    //                 },
+                                                    //                 groupValue: _sliding,
+                                                    //                 onValueChanged: (newValue) {
+                                                    //                   setState(() {
+                                                    //                     _sliding = int.parse(newValue.toString());
+                                                    //                   });
+                                                    //                 }),
+                                                    //           ),
+                                                    //         ),
+                                                    //       ),
+                                                    //     ),
+                                                    //
+                                                    //   ),
+                                                    // ),
+                                                    // Display a placeholder widget to visualize the shrinking size.
+                                                    // Make the initial height of the SliverAppBar larger than normal.
+                                                    expandedHeight: 25,
+                                                  ),
+                                                  // Next, create a SliverList
+
+                                                  SliverList(
+                                                    // Use a delegate to build items as they're scrolled on screen.
+                                                    delegate: SliverChildBuilderDelegate(
+                                                      // The builder function returns a ListTile with a title that
+                                                      // displays the index of the current item.
+                                                          (context, index) {
+                                                        return Container(
+                                                          // height: MediaQuery.of(context).size.height-353,
+                                                          width: MediaQuery.of(context).size.width,
+                                                          color: Colors.Colors.white,
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(left: 0.0, right: 0.0,),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              children: [
+                                                                SizedBox(height: 10,),
+                                                                Container(
+                                                                  decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.all(
+                                                                      Radius.circular(10.0),
+                                                                    ),
+                                                                  ),
+                                                                  child: Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+
+                                                                      // Padding(
+                                                                      //   padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
+                                                                      //   child: Container(
+                                                                      //     height: 1,
+                                                                      //     color: AppTheme.skBorderColor2,
+                                                                      //   ),
+                                                                      // ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                                                         child: Row(
-                                                                          // mainAxisAlignment: Main,
                                                                           children: [
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.only(right: 3.0),
-                                                                              child: Icon(
-                                                                                Icons.calendar_view_day_rounded,
-                                                                                size: 18,
+                                                                            Expanded(
+                                                                              child: Text(
+                                                                                'TOTAL SALES',
+                                                                                style: TextStyle(
+                                                                                  letterSpacing: 2,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  fontSize: 14,color: Colors.Colors.black,
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                             Text(
-                                                                              selectDaysCast(),
-                                                                              textAlign: TextAlign.center,
+                                                                              titleTextBySlide(),
                                                                               style: TextStyle(
-                                                                                  fontSize: 14,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.Colors.black),
+                                                                                letterSpacing: 2,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 14,color: Colors.Colors.grey,
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(height: 6,),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
+                                                                        child: Container(
+                                                                          child: Row(
+                                                                            children: [
+                                                                              Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                textAlign: TextAlign.left,
+                                                                                style: GoogleFonts.lato(
+                                                                                    textStyle: TextStyle(
+                                                                                        letterSpacing: 1,
+                                                                                        fontSize: 30,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        color: Colors.Colors.black
+                                                                                    )
+                                                                                ),
+                                                                              ),
+                                                                              Padding(
+                                                                                padding: const EdgeInsets.only(top: 12.0),
+                                                                                child: Text(' MMK',
+                                                                                  textAlign: TextAlign.left,
+                                                                                  style: GoogleFonts.roboto(
+                                                                                      textStyle: TextStyle(
+                                                                                          letterSpacing: 1,
+                                                                                          fontSize: 16,
+                                                                                          fontWeight: FontWeight.w600,
+                                                                                          color: Colors.Colors.black
+                                                                                      )
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Container(),
+                                                                              ),
+                                                                              Padding(
+                                                                                padding: const EdgeInsets.only(top: 3.0),
+                                                                                child: Container(
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.all(
+                                                                                      Radius.circular(5.0),
+                                                                                    ),
+                                                                                    color: Colors.Colors.green,
+                                                                                  ),
+                                                                                  width: 50,
+                                                                                  height: 25,
+                                                                                  child: Center(
+                                                                                    child: Text('12%',
+                                                                                     textAlign: TextAlign.right,
+                                                                                     style: TextStyle(
+                                                                                         fontSize: 15,
+                                                                                         fontWeight: FontWeight.w600,
+                                                                                         color: Colors.Colors.white),
+                                                                                      ),
+                                                                                  ),
+                                                                                ),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(height: 6,),
+                                                                      // Padding(
+                                                                      //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
+                                                                      //   child: Row(
+                                                                      //     children: [
+                                                                      //       Text('Total sales',
+                                                                      //         textAlign: TextAlign.left,
+                                                                      //         style: TextStyle(
+                                                                      //             fontSize: 15,
+                                                                      //             fontWeight: FontWeight.w500,
+                                                                      //             color: Colors.Colors.black),
+                                                                      //       ),
+                                                                      //       Expanded(
+                                                                      //         child: GestureDetector(
+                                                                      //           onTap: () {
+                                                                      //             Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
+                                                                      //           },
+                                                                      //           child: Row(
+                                                                      //             mainAxisAlignment: MainAxisAlignment.end,
+                                                                      //             // crossAxisAlignment: CrossAxisAlignment.end,
+                                                                      //             children: [
+                                                                      //               Text('View detail',
+                                                                      //                 textAlign: TextAlign.right,
+                                                                      //                 style: TextStyle(
+                                                                      //                     fontSize: 15,
+                                                                      //                     fontWeight: FontWeight.w500,
+                                                                      //                     color: Colors.Colors.blue),
+                                                                      //               ),
+                                                                      //               Padding(
+                                                                      //                 padding: const EdgeInsets.only(bottom: 4.5),
+                                                                      //                 child: Container(
+                                                                      //                   width: 25,
+                                                                      //                   height: 25,
+                                                                      //                   child: IconButton(
+                                                                      //                       icon: Icon(
+                                                                      //                         Icons.arrow_forward_ios_rounded,
+                                                                      //                         size: 13,
+                                                                      //                         color: Colors.Colors.blue,
+                                                                      //                       ),
+                                                                      //                       onPressed: () {
+                                                                      //                       }),
+                                                                      //                 ),
+                                                                      //               )
+                                                                      //             ],
+                                                                      //           ),
+                                                                      //         ),
+                                                                      //       )
+                                                                      //     ],
+                                                                      //   ),
+                                                                      // ),
+                                                                      SizedBox(
+                                                                        height: 8,
+                                                                      ),
+                                                                      Container(
+                                                                        height: 100,
+                                                                        child: ListView(
+
+                                                                          scrollDirection: Axis.horizontal,
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              width: 15,
+                                                                            ),
+                                                                            Container(
+                                                                              // width: 100,
+                                                                              height: 108,
+
+                                                                              constraints: BoxConstraints(
+                                                                                  maxWidth: double.infinity, minWidth: 120),
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                  border: Border(
+                                                                                    bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                  ),
+                                                                                  color: AppTheme.lightBgColor
+                                                                              ),
+
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                                                                child: Stack(
+                                                                                  children: [
+                                                                                    Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        SizedBox(
+                                                                                            height:26
+                                                                                        ),
+                                                                                        Padding(
+                                                                                          padding: const EdgeInsets.only(right:30.0),
+                                                                                          child: Text(totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                            textAlign: TextAlign.left,
+                                                                                            style: GoogleFonts.lato(
+                                                                                                textStyle: TextStyle(
+                                                                                                    letterSpacing: 1,
+                                                                                                    fontSize: 20,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    color: Colors.Colors.black
+                                                                                                )
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                        right: 0,
+                                                                                        top: 0,
+                                                                                        child: Text('?')
+                                                                                    ),
+                                                                                    Text('Stock costs',
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 13,
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          color: Colors.Colors.black.withOpacity(0.6)),
+                                                                                    ),
+
+                                                                                    Positioned(
+                                                                                        right: 0,
+                                                                                        bottom: 2,
+                                                                                        child: Text('+20%',
+                                                                                          style: TextStyle(
+                                                                                              fontSize: 13,
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                              color: Colors.Colors.blue),
+                                                                                        )
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                      left: 0,
+                                                                                      bottom: 2,
+                                                                                      child: Text('MMK',
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 13,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            color: Colors.Colors.black.withOpacity(0.6)),
+                                                                                      ),
+                                                                                    ),
+
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 15,
+                                                                            ),
+
+                                                                            Container(
+                                                                              // width: 100,
+                                                                              height: 108,
+
+                                                                              constraints: BoxConstraints(
+                                                                                  maxWidth: double.infinity, minWidth: 120),
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                  border: Border(
+                                                                                    bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                  ),
+                                                                                  color: AppTheme.lightBgColor
+                                                                              ),
+
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                                                                child: Stack(
+                                                                                  children: [
+                                                                                    Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        SizedBox(
+                                                                                            height:26
+                                                                                        ),
+                                                                                        Padding(
+                                                                                          padding: const EdgeInsets.only(right:30.0),
+                                                                                          child: Text(totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                            textAlign: TextAlign.left,
+                                                                                            style: GoogleFonts.lato(
+                                                                                                textStyle: TextStyle(
+                                                                                                    letterSpacing: 1,
+                                                                                                    fontSize: 20,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    color: Colors.Colors.black
+                                                                                                )
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                        right: 0,
+                                                                                        top: 0,
+                                                                                        child: Text('?')
+                                                                                    ),
+                                                                                    Text('Unpaid',
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 13,
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          color: Colors.Colors.black.withOpacity(0.6)),
+                                                                                    ),
+
+                                                                                    Positioned(
+                                                                                      right: 0,
+                                                                                      bottom: 2,
+                                                                                      child: Text('+2%',
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 13,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            color: Colors.Colors.red),
+                                                                                      )
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                      left: 0,
+                                                                                      bottom: 2,
+                                                                                      child: Text('MMK',
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 13,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            color: Colors.Colors.black.withOpacity(0.6)),
+                                                                                      ),
+                                                                                    ),
+
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 15,
+                                                                            ),
+
+                                                                            Container(
+                                                                              // width: 100,
+                                                                              height: 108,
+
+                                                                              constraints: BoxConstraints(
+                                                                                  maxWidth: double.infinity, minWidth: 120),
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                  border: Border(
+                                                                                    bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                  ),
+                                                                                  color: AppTheme.lightBgColor
+                                                                              ),
+
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                                                                child: Stack(
+                                                                                  children: [
+                                                                                    Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        SizedBox(
+                                                                                            height:26
+                                                                                        ),
+                                                                                        Padding(
+                                                                                          padding: const EdgeInsets.only(right:30.0),
+                                                                                          child: Text('1,903,230',
+                                                                                            textAlign: TextAlign.left,
+                                                                                            style: GoogleFonts.lato(
+                                                                                                textStyle: TextStyle(
+                                                                                                    letterSpacing: 1,
+                                                                                                    fontSize: 20,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    color: Colors.Colors.black
+                                                                                                )
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                        right: 0,
+                                                                                        top: 0,
+                                                                                        child: Text('?')
+                                                                                    ),
+                                                                                    Text('Buys',
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 13,
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          color: Colors.Colors.black.withOpacity(0.6)),
+                                                                                    ),
+
+                                                                                    Positioned(
+                                                                                        right: 0,
+                                                                                        bottom: 2,
+                                                                                        child: Text('+20%',
+                                                                                          style: TextStyle(
+                                                                                              fontSize: 13,
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                              color: Colors.Colors.green),
+                                                                                        )
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                      left: 0,
+                                                                                      bottom: 2,
+                                                                                      child: Text('MMK',
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 13,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            color: Colors.Colors.black.withOpacity(0.6)),
+                                                                                      ),
+                                                                                    ),
+
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 15,
+                                                                            ),
+
+                                                                            Container(
+                                                                              // width: 100,
+                                                                              height: 100,
+                                                                              constraints: BoxConstraints(
+                                                                                  maxWidth: double.infinity, minWidth: 120),
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                  border: Border(
+                                                                                    bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                    right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                                  ),
+                                                                                  color: Colors.Colors.white
+                                                                              ),
+
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                                                                                child: Stack(
+                                                                                  children: [
+                                                                                    Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        SizedBox(
+                                                                                            height:26
+                                                                                        ),
+                                                                                        Padding(
+                                                                                          padding: const EdgeInsets.only(right:30.0),
+                                                                                          child: Text('230',
+                                                                                            textAlign: TextAlign.left,
+                                                                                            style: GoogleFonts.lato(
+                                                                                                textStyle: TextStyle(
+                                                                                                    letterSpacing: 1,
+                                                                                                    fontSize: 20,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    color: Colors.Colors.black
+                                                                                                )
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                        right: 0,
+                                                                                        top: 0,
+                                                                                        child: Text('?')
+                                                                                    ),
+                                                                                    Text('Refunds',
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 13,
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          color: Colors.Colors.black.withOpacity(0.6)),
+                                                                                    ),
+
+                                                                                    Positioned(
+                                                                                        right: 0,
+                                                                                        bottom: 2,
+                                                                                        child: Text('+20%',
+                                                                                          style: TextStyle(
+                                                                                              fontSize: 13,
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                              color: Colors.Colors.blue),
+                                                                                        )
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                      left: 0,
+                                                                                      bottom: 2,
+                                                                                      child: Text('MMK',
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 13,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            color: Colors.Colors.black.withOpacity(0.6)),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 15,
                                                                             ),
                                                                           ],
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    SizedBox(width: 12),
-                                                                    Container(
-                                                                      color: Colors.Colors.grey.withOpacity(0.2),
-                                                                      width: 1.5,
-                                                                      height: 30,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                Expanded(
-                                                                  child: ListView(
-                                                                    controller: cateScCtler,
-                                                                    scrollDirection: Axis.horizontal,
-                                                                    children: [
                                                                       SizedBox(
-                                                                        width: 4,
+                                                                          height: 15.0
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                                        child: FlatButton(
-                                                                          minWidth: 0,
-                                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                                          color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.Colors.white,
-                                                                          shape: RoundedRectangleBorder(
-                                                                            borderRadius: BorderRadius.circular(20.0),
-                                                                            side: BorderSide(
-                                                                              color: AppTheme.skBorderColor2,
-                                                                            ),
-                                                                          ),
-                                                                          onPressed: () {
-                                                                            _animateToIndex(0);
-                                                                            setState(() {
-                                                                              cateScIndex = 0;
-                                                                              _sliding = 0;
-                                                                            });
-                                                                          },
-                                                                          child: Container(
-                                                                            child: Text(
-                                                                              'Day',
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(
-                                                                                  fontSize: 14,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.Colors.black),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                                        child: FlatButton(
-                                                                          minWidth: 0,
-                                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                                          color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.Colors.white,
-                                                                          shape: RoundedRectangleBorder(
-                                                                            borderRadius: BorderRadius.circular(20.0),
-                                                                            side: BorderSide(
-                                                                              color: AppTheme.skBorderColor2,
-                                                                            ),
-                                                                          ),
-                                                                          onPressed: () {
-                                                                            _animateToIndex(5.9);
-                                                                            setState(() {
-                                                                              cateScIndex = 1;
-                                                                              _sliding = 1;
-                                                                            });
-                                                                          },
-                                                                          child: Container(
-                                                                            child: Text(
-                                                                              'Last week',
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(
-                                                                                  fontSize: 14,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.Colors.black),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                                        child: FlatButton(
-                                                                          minWidth: 0,
-                                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                                          color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.Colors.white,
-                                                                          shape: RoundedRectangleBorder(
-                                                                            borderRadius: BorderRadius.circular(20.0),
-                                                                            side: BorderSide(
-                                                                              color: AppTheme.skBorderColor2,
-                                                                            ),
-                                                                          ),
-                                                                          onPressed: () {
-                                                                            _animateToIndex(15.5);
-                                                                            setState(() {
-                                                                              cateScIndex = 2;
-                                                                              _sliding = 2;
-                                                                            });
-                                                                          },
-                                                                          child: Container(
-                                                                            child: Text(
-                                                                              'Last month',
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(
-                                                                                  fontSize: 14,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.Colors.black),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                                        child: FlatButton(
-                                                                          minWidth: 0,
-                                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                                          color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.Colors.white,
-                                                                          shape: RoundedRectangleBorder(
-                                                                            borderRadius: BorderRadius.circular(20.0),
-                                                                            side: BorderSide(
-                                                                              color: AppTheme.skBorderColor2,
-                                                                            ),
-                                                                          ),
-                                                                          onPressed: () {
-                                                                            _animateToIndex(20);
-                                                                            setState(() {
-                                                                              cateScIndex = 3;
-                                                                              _sliding = 3;
-                                                                            });
-                                                                          },
-                                                                          child: Container(
-                                                                            child: Text(
-                                                                              'Last year',
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(
-                                                                                  fontSize: 14,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.Colors.black),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: 11,
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
+                                                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                        child: Row(
+                                                                          children: [
+                                                                            // Expanded(
+                                                                            //   child: Text(
+                                                                            //     'CHART DATA',
+                                                                            //     style: TextStyle(
+                                                                            //       letterSpacing: 2,
+                                                                            //       fontWeight: FontWeight.bold,
+                                                                            //       fontSize: 14,color: Colors.Colors.black,
+                                                                            //     ),
+                                                                            //   ),
+                                                                            // ),
 
-                                                          ),
-                                                        ),
-                                                        // flexibleSpace: Padding(
-                                                        //   padding: const EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0),
-                                                        //   child: Container(
-                                                        //     height: 58,
-                                                        //     width: MediaQuery.of(context).size.width,
-                                                        //     // color: Colors.yellow,
-                                                        //     child: Container(
-                                                        //       decoration: BoxDecoration(
-                                                        //           color: Colors.Colors.white,
-                                                        //           border: Border(
-                                                        //             bottom: BorderSide(
-                                                        //               // color: AppTheme.skBorderColor2,
-                                                        //                 color: Colors.Colors.white,
-                                                        //                 width: 1.0),
-                                                        //           )),
-                                                        //       child: Container(
-                                                        //         decoration: BoxDecoration(
-                                                        //             color: Colors.Colors.white,
-                                                        //             border: Border(
-                                                        //               bottom: BorderSide(
-                                                        //                 // color: AppTheme.skBorderColor2,
-                                                        //                   color: Colors.Colors.white,
-                                                        //                   width: 1.0),
-                                                        //             )),
-                                                        //         child: Padding(
-                                                        //           padding: const EdgeInsets.only(top: 12.0, bottom: 11.0, left: 15.0, right: 15.0),
-                                                        //           child: SizedBox(
-                                                        //             width: double.infinity,
-                                                        //             child: CupertinoSlidingSegmentedControl(
-                                                        //                 children: {
-                                                        //                   0: Text('Today'),
-                                                        //                   1: Text('Week'),
-                                                        //                   2: Text('Month'),
-                                                        //                   3: Text('Year'),
-                                                        //                 },
-                                                        //                 groupValue: _sliding,
-                                                        //                 onValueChanged: (newValue) {
-                                                        //                   setState(() {
-                                                        //                     _sliding = int.parse(newValue.toString());
-                                                        //                   });
-                                                        //                 }),
-                                                        //           ),
-                                                        //         ),
-                                                        //       ),
-                                                        //     ),
-                                                        //
-                                                        //   ),
-                                                        // ),
-                                                        // Display a placeholder widget to visualize the shrinking size.
-                                                        // Make the initial height of the SliverAppBar larger than normal.
-                                                        expandedHeight: 25,
-                                                      ),
-                                                      // Next, create a SliverList
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(bottom: 1.0),
+                                                                              child: Container(
+                                                                                width: 7,
+                                                                                height: 7,
+                                                                                decoration: const BoxDecoration(
+                                                                                    borderRadius: BorderRadius.all(
+                                                                                      Radius.circular(6),
+                                                                                    ),
+                                                                                    color: Colors.Colors.blue
+                                                                                ),
 
-                                                      SliverList(
-                                                        // Use a delegate to build items as they're scrolled on screen.
-                                                        delegate: SliverChildBuilderDelegate(
-                                                          // The builder function returns a ListTile with a title that
-                                                          // displays the index of the current item.
-                                                              (context, index) {
-                                                            return Container(
-                                                              // height: MediaQuery.of(context).size.height-353,
-                                                              width: MediaQuery.of(context).size.width,
-                                                              color: Colors.Colors.white,
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(left: 0.0, right: 0.0,),
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  children: [
-                                                                    SizedBox(height: 10,),
-                                                                    Container(
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.all(
-                                                                          Radius.circular(10.0),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(width: 5),
+                                                                            Text(
+                                                                              'Total sales',
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 14,color: Colors.Colors.grey,
+                                                                                letterSpacing: 0.6
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(width: 0),
+
+                                                                          ],
                                                                         ),
                                                                       ),
-                                                                      child: Column(
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      Stack(
                                                                         children: [
 
-                                                                          // Padding(
-                                                                          //   padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
-                                                                          //   child: Container(
-                                                                          //     height: 1,
-                                                                          //     color: AppTheme.skBorderColor2,
-                                                                          //   ),
-                                                                          // ),
                                                                           Padding(
-                                                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                            child: Row(
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: Text(
-                                                                                    'TOTAL SALES',
-                                                                                    style: TextStyle(
-                                                                                      letterSpacing: 2,
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                      fontSize: 14,color: Colors.Colors.black,
-                                                                                    ),
+                                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                                            child: AspectRatio(
+                                                                              aspectRatio: MediaQuery.of(context).size.width > 700? 2.0: 1.5,
+                                                                              child: Container(
+                                                                                decoration: const BoxDecoration(
+                                                                                  borderRadius: BorderRadius.all(
+                                                                                    Radius.circular(15),
                                                                                   ),
+                                                                                  // color: Color(0xffFFFFFF)),
+                                                                                  // color: Colors.Colors.white,
                                                                                 ),
-                                                                                Text(
-                                                                                  titleTextBySlide(),
-                                                                                  style: TextStyle(
-                                                                                    letterSpacing: 2,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    fontSize: 14,color: Colors.Colors.grey,
-                                                                                  ),
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(height: 6,),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
-                                                                            child: Container(
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                    textAlign: TextAlign.left,
-                                                                                    style: GoogleFonts.lato(
-                                                                                        textStyle: TextStyle(
-                                                                                            letterSpacing: 1,
-                                                                                            fontSize: 30,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            color: Colors.Colors.black
-                                                                                        )
-                                                                                    ),
-                                                                                  ),
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsets.only(top: 12.0),
-                                                                                    child: Text(' MMK',
-                                                                                      textAlign: TextAlign.left,
-                                                                                      style: GoogleFonts.roboto(
-                                                                                          textStyle: TextStyle(
-                                                                                              letterSpacing: 1,
-                                                                                              fontSize: 16,
-                                                                                              fontWeight: FontWeight.w600,
-                                                                                              color: Colors.Colors.black
-                                                                                          )
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Expanded(
-                                                                                    child: Container(),
-                                                                                  ),
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsets.only(top: 3.0),
-                                                                                    child: Container(
-                                                                                      decoration: BoxDecoration(
-                                                                                        borderRadius: BorderRadius.all(
-                                                                                          Radius.circular(5.0),
-                                                                                        ),
-                                                                                        color: Colors.Colors.green,
-                                                                                      ),
-                                                                                      width: 50,
-                                                                                      height: 25,
-                                                                                      child: Center(
-                                                                                        child: Text('12%',
-                                                                                         textAlign: TextAlign.right,
-                                                                                         style: TextStyle(
-                                                                                             fontSize: 15,
-                                                                                             fontWeight: FontWeight.w600,
-                                                                                             color: Colors.Colors.white),
-                                                                                          ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  )
-                                                                                ],
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(right: 18.0, left: 8.0, top: 10, bottom: 10),
+                                                                                  child: lineChartByTab(),
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                          SizedBox(height: 6,),
-                                                                          // Padding(
-                                                                          //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
-                                                                          //   child: Row(
-                                                                          //     children: [
-                                                                          //       Text('Total sales',
-                                                                          //         textAlign: TextAlign.left,
-                                                                          //         style: TextStyle(
-                                                                          //             fontSize: 15,
-                                                                          //             fontWeight: FontWeight.w500,
-                                                                          //             color: Colors.Colors.black),
-                                                                          //       ),
-                                                                          //       Expanded(
-                                                                          //         child: GestureDetector(
-                                                                          //           onTap: () {
-                                                                          //             Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
-                                                                          //           },
-                                                                          //           child: Row(
-                                                                          //             mainAxisAlignment: MainAxisAlignment.end,
-                                                                          //             // crossAxisAlignment: CrossAxisAlignment.end,
-                                                                          //             children: [
-                                                                          //               Text('View detail',
-                                                                          //                 textAlign: TextAlign.right,
-                                                                          //                 style: TextStyle(
-                                                                          //                     fontSize: 15,
-                                                                          //                     fontWeight: FontWeight.w500,
-                                                                          //                     color: Colors.Colors.blue),
-                                                                          //               ),
-                                                                          //               Padding(
-                                                                          //                 padding: const EdgeInsets.only(bottom: 4.5),
-                                                                          //                 child: Container(
-                                                                          //                   width: 25,
-                                                                          //                   height: 25,
-                                                                          //                   child: IconButton(
-                                                                          //                       icon: Icon(
-                                                                          //                         Icons.arrow_forward_ios_rounded,
-                                                                          //                         size: 13,
-                                                                          //                         color: Colors.Colors.blue,
-                                                                          //                       ),
-                                                                          //                       onPressed: () {
-                                                                          //                       }),
-                                                                          //                 ),
-                                                                          //               )
-                                                                          //             ],
-                                                                          //           ),
-                                                                          //         ),
-                                                                          //       )
-                                                                          //     ],
-                                                                          //   ),
-                                                                          // ),
-                                                                          SizedBox(
-                                                                            height: 8,
-                                                                          ),
-                                                                          Container(
-                                                                            height: 100,
-                                                                            child: ListView(
-
-                                                                              scrollDirection: Axis.horizontal,
-                                                                              children: [
-                                                                                SizedBox(
-                                                                                  width: 15,
-                                                                                ),
-                                                                                Container(
-                                                                                  // width: 100,
-                                                                                  height: 108,
-
-                                                                                  constraints: BoxConstraints(
-                                                                                      maxWidth: double.infinity, minWidth: 120),
-                                                                                  decoration: BoxDecoration(
-                                                                                      borderRadius: BorderRadius.circular(8),
-                                                                                      border: Border(
-                                                                                        bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                      ),
-                                                                                      color: AppTheme.lightBgColor
-                                                                                  ),
-
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                                                                    child: Stack(
-                                                                                      children: [
-                                                                                        Column(
-                                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                          children: [
-                                                                                            SizedBox(
-                                                                                                height:26
-                                                                                            ),
-                                                                                            Padding(
-                                                                                              padding: const EdgeInsets.only(right:30.0),
-                                                                                              child: Text(totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                                textAlign: TextAlign.left,
-                                                                                                style: GoogleFonts.lato(
-                                                                                                    textStyle: TextStyle(
-                                                                                                        letterSpacing: 1,
-                                                                                                        fontSize: 20,
-                                                                                                        fontWeight: FontWeight.w600,
-                                                                                                        color: Colors.Colors.black
-                                                                                                    )
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                        Positioned(
-                                                                                            right: 0,
-                                                                                            top: 0,
-                                                                                            child: Text('?')
-                                                                                        ),
-                                                                                        Text('Stock costs',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 13,
-                                                                                              fontWeight: FontWeight.w500,
-                                                                                              color: Colors.Colors.black.withOpacity(0.6)),
-                                                                                        ),
-
-                                                                                        Positioned(
-                                                                                            right: 0,
-                                                                                            bottom: 2,
-                                                                                            child: Text('+20%',
-                                                                                              style: TextStyle(
-                                                                                                  fontSize: 13,
-                                                                                                  fontWeight: FontWeight.w500,
-                                                                                                  color: Colors.Colors.blue),
-                                                                                            )
-                                                                                        ),
-                                                                                        Positioned(
-                                                                                          left: 0,
-                                                                                          bottom: 2,
-                                                                                          child: Text('MMK',
-                                                                                            style: TextStyle(
-                                                                                                fontSize: 13,
-                                                                                                fontWeight: FontWeight.w500,
-                                                                                                color: Colors.Colors.black.withOpacity(0.6)),
-                                                                                          ),
-                                                                                        ),
-
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 15,
-                                                                                ),
-
-                                                                                Container(
-                                                                                  // width: 100,
-                                                                                  height: 108,
-
-                                                                                  constraints: BoxConstraints(
-                                                                                      maxWidth: double.infinity, minWidth: 120),
-                                                                                  decoration: BoxDecoration(
-                                                                                      borderRadius: BorderRadius.circular(8),
-                                                                                      border: Border(
-                                                                                        bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                      ),
-                                                                                      color: AppTheme.lightBgColor
-                                                                                  ),
-
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                                                                    child: Stack(
-                                                                                      children: [
-                                                                                        Column(
-                                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                          children: [
-                                                                                            SizedBox(
-                                                                                                height:26
-                                                                                            ),
-                                                                                            Padding(
-                                                                                              padding: const EdgeInsets.only(right:30.0),
-                                                                                              child: Text(totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                                textAlign: TextAlign.left,
-                                                                                                style: GoogleFonts.lato(
-                                                                                                    textStyle: TextStyle(
-                                                                                                        letterSpacing: 1,
-                                                                                                        fontSize: 20,
-                                                                                                        fontWeight: FontWeight.w600,
-                                                                                                        color: Colors.Colors.black
-                                                                                                    )
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                        Positioned(
-                                                                                            right: 0,
-                                                                                            top: 0,
-                                                                                            child: Text('?')
-                                                                                        ),
-                                                                                        Text('Unpaid',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 13,
-                                                                                              fontWeight: FontWeight.w500,
-                                                                                              color: Colors.Colors.black.withOpacity(0.6)),
-                                                                                        ),
-
-                                                                                        Positioned(
-                                                                                          right: 0,
-                                                                                          bottom: 2,
-                                                                                          child: Text('+2%',
-                                                                                            style: TextStyle(
-                                                                                                fontSize: 13,
-                                                                                                fontWeight: FontWeight.w500,
-                                                                                                color: Colors.Colors.red),
-                                                                                          )
-                                                                                        ),
-                                                                                        Positioned(
-                                                                                          left: 0,
-                                                                                          bottom: 2,
-                                                                                          child: Text('MMK',
-                                                                                            style: TextStyle(
-                                                                                                fontSize: 13,
-                                                                                                fontWeight: FontWeight.w500,
-                                                                                                color: Colors.Colors.black.withOpacity(0.6)),
-                                                                                          ),
-                                                                                        ),
-
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 15,
-                                                                                ),
-
-                                                                                Container(
-                                                                                  // width: 100,
-                                                                                  height: 108,
-
-                                                                                  constraints: BoxConstraints(
-                                                                                      maxWidth: double.infinity, minWidth: 120),
-                                                                                  decoration: BoxDecoration(
-                                                                                      borderRadius: BorderRadius.circular(8),
-                                                                                      border: Border(
-                                                                                        bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                      ),
-                                                                                      color: AppTheme.lightBgColor
-                                                                                  ),
-
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                                                                    child: Stack(
-                                                                                      children: [
-                                                                                        Column(
-                                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                          children: [
-                                                                                            SizedBox(
-                                                                                                height:26
-                                                                                            ),
-                                                                                            Padding(
-                                                                                              padding: const EdgeInsets.only(right:30.0),
-                                                                                              child: Text('1,903,230',
-                                                                                                textAlign: TextAlign.left,
-                                                                                                style: GoogleFonts.lato(
-                                                                                                    textStyle: TextStyle(
-                                                                                                        letterSpacing: 1,
-                                                                                                        fontSize: 20,
-                                                                                                        fontWeight: FontWeight.w600,
-                                                                                                        color: Colors.Colors.black
-                                                                                                    )
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                        Positioned(
-                                                                                            right: 0,
-                                                                                            top: 0,
-                                                                                            child: Text('?')
-                                                                                        ),
-                                                                                        Text('Buys',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 13,
-                                                                                              fontWeight: FontWeight.w500,
-                                                                                              color: Colors.Colors.black.withOpacity(0.6)),
-                                                                                        ),
-
-                                                                                        Positioned(
-                                                                                            right: 0,
-                                                                                            bottom: 2,
-                                                                                            child: Text('+20%',
-                                                                                              style: TextStyle(
-                                                                                                  fontSize: 13,
-                                                                                                  fontWeight: FontWeight.w500,
-                                                                                                  color: Colors.Colors.green),
-                                                                                            )
-                                                                                        ),
-                                                                                        Positioned(
-                                                                                          left: 0,
-                                                                                          bottom: 2,
-                                                                                          child: Text('MMK',
-                                                                                            style: TextStyle(
-                                                                                                fontSize: 13,
-                                                                                                fontWeight: FontWeight.w500,
-                                                                                                color: Colors.Colors.black.withOpacity(0.6)),
-                                                                                          ),
-                                                                                        ),
-
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 15,
-                                                                                ),
-
-                                                                                Container(
-                                                                                  // width: 100,
-                                                                                  height: 100,
-                                                                                  constraints: BoxConstraints(
-                                                                                      maxWidth: double.infinity, minWidth: 120),
-                                                                                  decoration: BoxDecoration(
-                                                                                      borderRadius: BorderRadius.circular(8),
-                                                                                      border: Border(
-                                                                                        bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                        right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                                      ),
-                                                                                      color: Colors.Colors.white
-                                                                                  ),
-
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                                                                    child: Stack(
-                                                                                      children: [
-                                                                                        Column(
-                                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                          children: [
-                                                                                            SizedBox(
-                                                                                                height:26
-                                                                                            ),
-                                                                                            Padding(
-                                                                                              padding: const EdgeInsets.only(right:30.0),
-                                                                                              child: Text('230',
-                                                                                                textAlign: TextAlign.left,
-                                                                                                style: GoogleFonts.lato(
-                                                                                                    textStyle: TextStyle(
-                                                                                                        letterSpacing: 1,
-                                                                                                        fontSize: 20,
-                                                                                                        fontWeight: FontWeight.w600,
-                                                                                                        color: Colors.Colors.black
-                                                                                                    )
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                        Positioned(
-                                                                                            right: 0,
-                                                                                            top: 0,
-                                                                                            child: Text('?')
-                                                                                        ),
-                                                                                        Text('Refunds',
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 13,
-                                                                                              fontWeight: FontWeight.w500,
-                                                                                              color: Colors.Colors.black.withOpacity(0.6)),
-                                                                                        ),
-
-                                                                                        Positioned(
-                                                                                            right: 0,
-                                                                                            bottom: 2,
-                                                                                            child: Text('+20%',
-                                                                                              style: TextStyle(
-                                                                                                  fontSize: 13,
-                                                                                                  fontWeight: FontWeight.w500,
-                                                                                                  color: Colors.Colors.blue),
-                                                                                            )
-                                                                                        ),
-                                                                                        Positioned(
-                                                                                          left: 0,
-                                                                                          bottom: 2,
-                                                                                          child: Text('MMK',
-                                                                                            style: TextStyle(
-                                                                                                fontSize: 13,
-                                                                                                fontWeight: FontWeight.w500,
-                                                                                                color: Colors.Colors.black.withOpacity(0.6)),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 15,
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(
-                                                                              height: 15.0
-                                                                          ),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                            child: Row(
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: Text(
-                                                                                    'CHART DATA',
-                                                                                    style: TextStyle(
-                                                                                      letterSpacing: 2,
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                      fontSize: 14,color: Colors.Colors.black,
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-
-
-                                                                                Text(
-                                                                                  'Total sales',
-                                                                                  style: TextStyle(
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    fontSize: 14,color: Colors.Colors.grey,
-                                                                                    letterSpacing: 0.6
-                                                                                  ),
-                                                                                ),
-                                                                                SizedBox(width: 5),
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets.only(bottom: 1.0),
-                                                                                  child: Container(
-                                                                                    width: 12,
-                                                                                    height: 12,
-                                                                                    decoration: const BoxDecoration(
-                                                                                        borderRadius: BorderRadius.all(
-                                                                                          Radius.circular(2),
-                                                                                        ),
-                                                                                        color: Colors.Colors.blue
-                                                                                    ),
-
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          Stack(
-                                                                            children: [
-
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.only(right: 10.0),
-                                                                                child: AspectRatio(
-                                                                                  aspectRatio: 1.5,
-                                                                                  child: Container(
-                                                                                    decoration: const BoxDecoration(
-                                                                                      borderRadius: BorderRadius.all(
-                                                                                        Radius.circular(15),
-                                                                                      ),
-                                                                                      // color: Color(0xffFFFFFF)),
-                                                                                      // color: Colors.Colors.white,
-                                                                                    ),
-                                                                                    child: Padding(
-                                                                                      padding: const EdgeInsets.only(right: 18.0, left: 8.0, top: 10, bottom: 10),
-                                                                                      child: lineChartByTab(),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              // Container(
-                                                                              //     width: double.infinity,
-                                                                              //     height: 15,
-                                                                              //     color: AppTheme.skBorderColor
-                                                                              // ),
-                                                                            ],
-                                                                          ),
-                                                                          // Padding(
-                                                                          //   padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
-                                                                          //   child: Container(
-                                                                          //     height: 2,
-                                                                          //     color: Colors.Colors.grey.withOpacity(0.1),
-                                                                          //   ),
+                                                                          // Container(
+                                                                          //     width: double.infinity,
+                                                                          //     height: 15,
+                                                                          //     color: AppTheme.skBorderColor
                                                                           // ),
                                                                         ],
                                                                       ),
-                                                                    ),
-
-                                                                    SizedBox(
-                                                                      height: 0,
-                                                                    ),
-                                                                    // Padding(
-                                                                    //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                    //   child: Container(
-                                                                    //     decoration: BoxDecoration(
-                                                                    //         borderRadius: BorderRadius.all(
-                                                                    //           Radius.circular(10.0),
-                                                                    //         ),
-                                                                    //         border: Border(
-                                                                    //           bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                    //           top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                    //           left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                    //           right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                                    //         ),
-                                                                    //         color: AppTheme.lightBgColor
-                                                                    //     ),
-                                                                    //     child: Column(
-                                                                    //       mainAxisAlignment: MainAxisAlignment.start,
-                                                                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    //       children: [
-                                                                    //         Padding(
-                                                                    //           padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-                                                                    //           child: Row(
-                                                                    //             children: [
-                                                                    //               Text('Top sale categories',
-                                                                    //                 textAlign: TextAlign.left,
-                                                                    //                 style: TextStyle(
-                                                                    //                     fontSize: 15,
-                                                                    //                     fontWeight: FontWeight.w500,
-                                                                    //                     color: Colors.Colors.black),
-                                                                    //               ),
-                                                                    //               Expanded(
-                                                                    //                 child: GestureDetector(
-                                                                    //                   onTap: () {
-                                                                    //                     Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
-                                                                    //                   },
-                                                                    //                   child: Text('Detail',
-                                                                    //                     textAlign: TextAlign.right,
-                                                                    //                     style: TextStyle(
-                                                                    //                         fontSize: 15,
-                                                                    //                         fontWeight: FontWeight.w500,
-                                                                    //                         color: Colors.Colors.blue),
-                                                                    //                   ),
-                                                                    //                 ),
-                                                                    //               )
-                                                                    //             ],
-                                                                    //           ),
-                                                                    //         ),
-                                                                    //         Padding(
-                                                                    //           padding: const EdgeInsets.only(top: 15.0),
-                                                                    //           child: Container(
-                                                                    //             height: 1,
-                                                                    //             color: AppTheme.skBorderColor2,
-                                                                    //           ),
-                                                                    //         ),
-                                                                    //         Padding(
-                                                                    //           padding: const EdgeInsets.only(top: 15.0, bottom: 10),
-                                                                    //           child: Container(
-                                                                    //             width: double.infinity,
-                                                                    //             height: 150,
-                                                                    //             child: Container(
-                                                                    //               child: Padding(
-                                                                    //                 padding: const EdgeInsets.all(0.0),
-                                                                    //                 child: new SimplePieChart.withRandomData(),
-                                                                    //               ),
-                                                                    //             ),
-                                                                    //           ),
-                                                                    //         ),
-                                                                    //       ],
-                                                                    //     ),
-                                                                    //   ),
-                                                                    // ),
-                                                                    SizedBox(
-                                                                      height: 20,
-                                                                    ),
-                                                                    // SizedBox(
-                                                                    //   width: 60,
-                                                                    //   height: 34,
-                                                                    //   child: TextButton(
-                                                                    //     onPressed: () {
-                                                                    //       setState(() {
-                                                                    //         showAvg = !showAvg;
-                                                                    //       });
-                                                                    //     },
-                                                                    //     child: Text(
-                                                                    //       'avg',
-                                                                    //       style: TextStyle(
-                                                                    //           fontSize: 12, color: showAvg ? Colors.Colors.white.withOpacity(0.5) : Colors.Colors.white),
-                                                                    //     ),
-                                                                    //   ),
-                                                                    // ),
-                                                                  ],
+                                                                      // Padding(
+                                                                      //   padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
+                                                                      //   child: Container(
+                                                                      //     height: 2,
+                                                                      //     color: Colors.Colors.grey.withOpacity(0.1),
+                                                                      //   ),
+                                                                      // ),
+                                                                    ],
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            );
-                                                          },
-                                                          // Builds 1000 ListTiles
-                                                          childCount: 1,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                }
-                                                return Container();
-                                              }
-                                          ),
+
+                                                                SizedBox(
+                                                                  height: 0,
+                                                                ),
+                                                                // Padding(
+                                                                //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                //   child: Container(
+                                                                //     decoration: BoxDecoration(
+                                                                //         borderRadius: BorderRadius.all(
+                                                                //           Radius.circular(10.0),
+                                                                //         ),
+                                                                //         border: Border(
+                                                                //           bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                //           top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                //           left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                //           right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                                                                //         ),
+                                                                //         color: AppTheme.lightBgColor
+                                                                //     ),
+                                                                //     child: Column(
+                                                                //       mainAxisAlignment: MainAxisAlignment.start,
+                                                                //       crossAxisAlignment: CrossAxisAlignment.start,
+                                                                //       children: [
+                                                                //         Padding(
+                                                                //           padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                                                                //           child: Row(
+                                                                //             children: [
+                                                                //               Text('Top sale categories',
+                                                                //                 textAlign: TextAlign.left,
+                                                                //                 style: TextStyle(
+                                                                //                     fontSize: 15,
+                                                                //                     fontWeight: FontWeight.w500,
+                                                                //                     color: Colors.Colors.black),
+                                                                //               ),
+                                                                //               Expanded(
+                                                                //                 child: GestureDetector(
+                                                                //                   onTap: () {
+                                                                //                     Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
+                                                                //                   },
+                                                                //                   child: Text('Detail',
+                                                                //                     textAlign: TextAlign.right,
+                                                                //                     style: TextStyle(
+                                                                //                         fontSize: 15,
+                                                                //                         fontWeight: FontWeight.w500,
+                                                                //                         color: Colors.Colors.blue),
+                                                                //                   ),
+                                                                //                 ),
+                                                                //               )
+                                                                //             ],
+                                                                //           ),
+                                                                //         ),
+                                                                //         Padding(
+                                                                //           padding: const EdgeInsets.only(top: 15.0),
+                                                                //           child: Container(
+                                                                //             height: 1,
+                                                                //             color: AppTheme.skBorderColor2,
+                                                                //           ),
+                                                                //         ),
+                                                                //         Padding(
+                                                                //           padding: const EdgeInsets.only(top: 15.0, bottom: 10),
+                                                                //           child: Container(
+                                                                //             width: double.infinity,
+                                                                //             height: 150,
+                                                                //             child: Container(
+                                                                //               child: Padding(
+                                                                //                 padding: const EdgeInsets.all(0.0),
+                                                                //                 child: new SimplePieChart.withRandomData(),
+                                                                //               ),
+                                                                //             ),
+                                                                //           ),
+                                                                //         ),
+                                                                //       ],
+                                                                //     ),
+                                                                //   ),
+                                                                // ),
+                                                                SizedBox(
+                                                                  height: 20,
+                                                                ),
+                                                                // SizedBox(
+                                                                //   width: 60,
+                                                                //   height: 34,
+                                                                //   child: TextButton(
+                                                                //     onPressed: () {
+                                                                //       setState(() {
+                                                                //         showAvg = !showAvg;
+                                                                //       });
+                                                                //     },
+                                                                //     child: Text(
+                                                                //       'avg',
+                                                                //       style: TextStyle(
+                                                                //           fontSize: 12, color: showAvg ? Colors.Colors.white.withOpacity(0.5) : Colors.Colors.white),
+                                                                //     ),
+                                                                //   ),
+                                                                // ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      // Builds 1000 ListTiles
+                                                      childCount: 1,
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            }
+                                            return Container();
+                                          }
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                          }
+                        );
+                      }
+                      return Container();
+                    }
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.Colors.white,
+                          border: Border(
+                            bottom: BorderSide(
+                                color: AppTheme.skBorderColor2,
+                                width: 1.0),
+                          )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+                        child: GestureDetector(
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(nodeFirst);
+                            setState(() {
+                              loadingSearch = true;
+                            });
+                            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: loadingSearch? Colors.Colors.blue: Colors.Colors.transparent,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                              color: AppTheme.secButtonColor,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            height: 50,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, bottom: 11.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      if(loadingSearch) {
+                                        _searchController.clear();
+                                        FocusScope.of(context).unfocus();
+                                        setState(() {
+                                          loadingSearch = false;
+                                        });
+                                      } else {
+                                        FocusScope.of(context).requestFocus(nodeFirst);
+                                        setState(() {
+                                          loadingSearch = true;
+                                        });
+                                        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 12.0),
+                                      child: Container(
+                                        child: Stack(
+                                          children: [
+                                            !loadingSearch? Padding(
+                                              padding: const EdgeInsets.only(left: 5.0),
+                                              child: Icon(
+                                                SmartKyat_POS.search,
+                                                size: 17,
+                                              ),
+                                            ): Padding(
+                                              padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                                              child: Icon(
+                                                Icons.close_rounded,
+                                                size: 24,
+                                              ),
+                                            )
+
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  );
-                              }
-                            );
-                          }
-                          return Container();
-                        }
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.Colors.white,
-                              border: Border(
-                                bottom: BorderSide(
-                                    color: AppTheme.skBorderColor2,
-                                    width: 1.0),
-                              )
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 15.0, left: 15.0, right: 15.0, bottom: 15),
-                            child: GestureDetector(
-                              onTap: () {
-                                FocusScope.of(context).requestFocus(nodeFirst);
-                                setState(() {
-                                  loadingSearch = true;
-                                });
-                                SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: loadingSearch? Colors.Colors.blue: Colors.Colors.transparent,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
                                   ),
-                                  color: AppTheme.secButtonColor,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                height: 50,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10.0, bottom: 11.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          if(loadingSearch) {
-                                            _searchController.clear();
-                                            FocusScope.of(context).unfocus();
-                                            setState(() {
-                                              loadingSearch = false;
-                                            });
-                                          } else {
-                                            FocusScope.of(context).requestFocus(nodeFirst);
-                                            setState(() {
-                                              loadingSearch = true;
-                                            });
-                                            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 12.0),
-                                          child: Container(
-                                            child: Stack(
-                                              children: [
-                                                !loadingSearch? Padding(
-                                                  padding: const EdgeInsets.only(left: 5.0),
-                                                  child: Icon(
-                                                    SmartKyat_POS.search,
-                                                    size: 17,
-                                                  ),
-                                                ): Padding(
-                                                  padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                                  child: Icon(
-                                                    Icons.close_rounded,
-                                                    size: 24,
-                                                  ),
-                                                )
+                                  Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: !loadingSearch? 8.0: 4,
+                                            right: 8.0,
+                                            top: 0.5),
+                                        child: TextField(
+                                          textInputAction: TextInputAction.search,
+                                          focusNode: nodeFirst,
+                                          controller: _searchController,
+                                          onSubmitted: (value) async {
+                                          },
+                                          maxLines: 1,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.Colors.black
+                                          ),
 
-                                              ],
+                                          decoration: InputDecoration(
+                                            hintText: 'Search',
+                                            isDense: true,
+                                            // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                            enabledBorder: const OutlineInputBorder(
+                                              // width: 0.0 produces a thin "hairline" border
+                                                borderSide: const BorderSide(
+                                                    color: Colors.Colors.transparent, width: 2.0),
+                                                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                                            focusedBorder: const OutlineInputBorder(
+                                              // width: 0.0 produces a thin "hairline" border
+                                                borderSide: const BorderSide(
+                                                    color: Colors.Colors.transparent, width: 2.0),
+                                                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                            contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                            //filled: true,
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: !loadingSearch? 8.0: 4,
-                                                right: 8.0,
-                                                top: 0.5),
-                                            child: TextField(
-                                              textInputAction: TextInputAction.search,
-                                              focusNode: nodeFirst,
-                                              controller: _searchController,
-                                              onSubmitted: (value) async {
-                                              },
-                                              maxLines: 1,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.Colors.black
-                                              ),
-
-                                              decoration: InputDecoration(
-                                                hintText: 'Search',
-                                                isDense: true,
-                                                // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                                enabledBorder: const OutlineInputBorder(
-                                                  // width: 0.0 produces a thin "hairline" border
-                                                    borderSide: const BorderSide(
-                                                        color: Colors.Colors.transparent, width: 2.0),
-                                                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                                                focusedBorder: const OutlineInputBorder(
-                                                  // width: 0.0 produces a thin "hairline" border
-                                                    borderSide: const BorderSide(
-                                                        color: Colors.Colors.transparent, width: 2.0),
-                                                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                                contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                                //filled: true,
-                                                border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              keyboardType: TextInputType.text,
-                                              onChanged: (value) {
-                                                // setState(() {
-                                                //   quantity = int.parse(value);
-                                                // });
-                                              },
-                                              // controller: myController,
-                                            )
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          widget._barcodeBtn();
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 15.0,
-                                          ),
-                                          // child: Icon(
-                                          //   SmartKyat_POS.barcode,
-                                          //   color: Colors.Colors.black,
-                                          //   size: 25,
-                                          // ),
-                                          child: Container(
-                                              child: Image.asset('assets/system/barcode.png', height: 28,)
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                          keyboardType: TextInputType.text,
+                                          onChanged: (value) {
+                                            // setState(() {
+                                            //   quantity = int.parse(value);
+                                            // });
+                                          },
+                                          // controller: myController,
+                                        )
+                                    ),
                                   ),
-                                ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      widget._barcodeBtn();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 15.0,
+                                      ),
+                                      // child: Icon(
+                                      //   SmartKyat_POS.barcode,
+                                      //   color: Colors.Colors.black,
+                                      //   size: 25,
+                                      // ),
+                                      child: Container(
+                                          child: Image.asset('assets/system/barcode.png', height: 28,)
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           ),
                         ),
                       ),
-                      overAllSearch()
-                    ],
+                    ),
                   ),
-                ),
-
-                MediaQuery.of(context).size.width > 900
-                    ? Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 57.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            left: BorderSide(
-                                color: Colors.Colors.grey.withOpacity(0.3),
-                                width: 1.0))),
-                    width: MediaQuery.of(context).size.width * (1.5 / 3.5),
-                  ),
-                )
-                    : Container(),
-
-
-              ],
+                  overAllSearch()
+                ],
+              ),
             ),
           ),
         ),

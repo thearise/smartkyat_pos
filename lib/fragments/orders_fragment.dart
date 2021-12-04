@@ -3739,8 +3739,50 @@ class OrdersFragmentState extends State<OrdersFragment>
                                         var sections = List<ExampleSection>.empty(growable: true);
                                         int docInc = 0;
                                         snapshot.data!.docs.map((document) async {
+
+                                          // List<String> dailyOrders = document['daily_order'].cast<String>();
+                                          List<String> dailyOrders = [];
+                                          for(String str in document['daily_order']) {
+                                            if(cateScIndex == 2) {
+                                              if(str.split('^')[4][0] == 's' || str.split('^')[4][0] == 'r') {
+                                                dailyOrders.add(str);
+                                              }
+                                            } else if(cateScIndex == 1) {
+                                              if(str.split('^')[5] != '0.0') {
+                                                dailyOrders.add(str);
+                                              }
+                                            } else if(cateScIndex == 3) {
+                                              if(str.split('^')[5] == '0.0') {
+                                                dailyOrders.add(str);
+                                              }
+                                            } else if(cateScIndex == 0) {
+                                              dailyOrders.add(str);
+                                            }
+
+                                          }
                                           if(docInc>0) {
                                             Map<String,dynamic> dataLow = snapshot.data!.docs[docInc-1].data()! as Map< String, dynamic>;
+                                            List<String> dataLowDailyOrder = [];
+                                            for(String str in dataLow['daily_order']) {
+                                              if(cateScIndex == 2) {
+                                                if(str.split('^')[4][0] == 's' || str.split('^')[4][0] == 'r') {
+                                                  dataLowDailyOrder.add(str);
+                                                }
+                                              } else if(cateScIndex == 1) {
+                                                if(str.split('^')[5] != '0.0') {
+                                                  dataLowDailyOrder.add(str);
+                                                }
+                                              } else if(cateScIndex == 3) {
+                                                if(str.split('^')[5] == '0.0') {
+                                                  dataLowDailyOrder.add(str);
+                                                }
+                                              } else if(cateScIndex == 0) {
+                                                dataLowDailyOrder.add(str);
+                                              }
+
+                                            }
+
+
                                             print('DATA LOW ' + dataLow['date'].toDate().toString());
                                             if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
                                                 ==
@@ -3755,7 +3797,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
 
                                                 // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-                                                ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2) + changeData(document['daily_order'].cast<String>(), snapshot2))
+                                                ..items = sortList(changeData(dataLowDailyOrder.cast<String>(), snapshot2) + changeData(dailyOrders.cast<String>(), snapshot2))
                                               // ..items = orderItems(document.id)
                                                 ..expanded = true;
                                               // sections.add(section);
@@ -3770,7 +3812,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                               //   ..items = document['daily_order'].cast<String>()
 
 
-                                                ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                                ..items = sortList(changeData(dailyOrders.cast<String>(), snapshot2))
                                               // ..items = orderItems(document.id)
                                                 ..expanded = true;
                                               sections.add(section);
@@ -3785,7 +3827,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                             //   ..items = document['daily_order'].cast<String>()
 
 
-                                              ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                              ..items = sortList(changeData(dailyOrders.cast<String>(), snapshot2))
                                             // ..items = orderItems(document.id)
                                               ..expanded = true;
                                             sections.add(section);
@@ -3923,7 +3965,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Low stocks',
+                                                                    'Unpaids',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -3953,7 +3995,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Best sales',
+                                                                    'Refunds',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -3983,7 +4025,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Low sales',
+                                                                    'Paids',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4951,6 +4993,10 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
+    // print('section check '+ sectionList3[sectionIndex].items.length.toString());
+    if(sectionList3[sectionIndex].items.length == 0) {
+      return Container();
+    }
     return InkWell(
         child: Container(
             decoration: BoxDecoration(

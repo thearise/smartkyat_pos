@@ -40,24 +40,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                 Expanded(
                   child: ListView(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
-                        child: Container(
-                            child: Image.asset('assets/system/smartkyat.png', height: 63, width: 63,)
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 40),
-                        child: Container(
-                            child: Image.asset('assets/system/retialshop.png',)
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 43),
-                        child: Text(text, style: TextStyle(
-                          color: Colors.red,
-                        ),),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 43),
+                      //   child: Text(text, style: TextStyle(
+                      //     color: Colors.red,
+                      //   ),),
+                      // ),
                       Form(
                         key: _formKey,
                         child: Column(
@@ -278,10 +266,26 @@ class _ChangePasswordState extends State<ChangePassword> {
                               ),
                             ),
                             onPressed: () async {
-                            checkCurrentPasswordValid = await validateCurrentPassword(_password.text);
-                            setState(() {
+                            // checkCurrentPasswordValid = await validateCurrentPassword(_password.text);
+                            // setState(() {
+                            //
+                            // });
 
-                            });
+                              final user = await FirebaseAuth.instance.currentUser;
+                              final cred = EmailAuthProvider.credential(
+                                  email: 'thearise.sps@gmail.com', password: _password.text);
+
+                              user!.reauthenticateWithCredential(cred).then((value) {
+                                user.updatePassword(_newPassword.text).then((success) {
+                                  //Success, do something
+                                  print('success changed');
+                                }).catchError((error) {
+                                  //Error, show something
+                                  print('error changed');
+                                });
+                              }).catchError((err) {
+                                print('current password is wrong. ');
+                              });
 
                             },
                             child: Padding(
