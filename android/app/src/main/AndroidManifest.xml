@@ -2,7 +2,7 @@
     package="com.ethereals.smartkyat_pos">
    <application
        android:usesCleartextTraffic="true"
-        android:label="smartkyat_pos"
+        android:label="Smart Kyat"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
