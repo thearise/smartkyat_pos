@@ -731,7 +731,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                     height: 1,
                                   ),
                                   Container(
-                                    height: assets.isNotEmpty ? 203 : 82,
+                                    height: assets.isNotEmpty ?  120 : 82,
                                     child: Column(
                                       children: [
                                         if (assets.isNotEmpty)
@@ -971,11 +971,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 //           key: 'type_two'),
                                                 //     ]
                                                 // );
-                                                if (cards.length == 2) {
-                                                  print('Cards limit reached');
-                                                } else
-                                                  setState(() => cards.add(createCard()));
-                                              },
+                                                if(cards.length == 0) {
+                                                  setState(() => cards.add(createCard('main')));
+                                              } else if(cards.length == 1) {
+                                                  setState(() => cards.add(createCard('sub1')));
+                                                } else print('sub limit reached');
+                                                },
                                               child: Text('SUB UNIT?', style: TextStyle(
                                                 letterSpacing: 1.5,
                                                 fontWeight: FontWeight.bold,
@@ -1709,11 +1710,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           showFlash(
                                             context: context,
                                             duration:
-                                            const Duration(
-                                                seconds: 2),
+                                            const Duration(seconds: 2),
                                             persistent: true,
-                                            builder:
-                                                (_, controller) {
+                                            builder: (_, controller) {
                                               return Flash(
                                                 controller:
                                                 controller,
@@ -2215,35 +2214,35 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
         ],
       ),
     );
-    return Column(
-      children: <Widget>[
-        if (assets.isNotEmpty)
-          GestureDetector(
-            onTap: () {
-              widget._callback();
-
-              // _waitUntilDone();
-              print('_waitUntilDone ' + assets.length.toString());
-            },
-            child: SelectedAssetsListView(
-              assets: assets,
-              isDisplayingDetail: isDisplayingDetail,
-              onResult: onResult,
-              onRemoveAsset: removeAsset,
-            ),
-          ),
-        Expanded(
-          child: MethodListView(
-            pickMethods: [
-              PickMethod.cameraAndStay(
-                maxAssetsCount: 5,
-              ),
-            ],
-            onSelectMethod: selectAssets,
-          ),
-        ),
-      ],
-    );
+    // return Column(
+    //   children: <Widget>[
+    //     if (assets.isNotEmpty)
+    //       GestureDetector(
+    //         onTap: () {
+    //           widget._callback();
+    //
+    //           // _waitUntilDone();
+    //           print('_waitUntilDone ' + assets.length.toString());
+    //         },
+    //         child: SelectedAssetsListView(
+    //           assets: assets,
+    //           isDisplayingDetail: isDisplayingDetail,
+    //           onResult: onResult,
+    //           onRemoveAsset: removeAsset,
+    //         ),
+    //       ),
+    //     Expanded(
+    //       child: MethodListView(
+    //         pickMethods: [
+    //           PickMethod.cameraAndStay(
+    //             maxAssetsCount: 5,
+    //           ),
+    //         ],
+    //         onSelectMethod: selectAssets,
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 
   int photoUploadCount = 0;
@@ -2256,124 +2255,124 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     }
   }
 
-  photoUploaded(length, photoArray) {
-    print('upload ' + photoUploadCount.toString());
-    photoUploadCount++;
-
-    if (length == photoUploadCount) {
-      print('all fking done' + photoArray.toString());
-
-      var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', ''];
-      int j = -1;
-      for (int i = 0; i < cards.length; i++) {
-        subUnitFieldValue[++j] = nameTECs[i].text;
-        subUnitFieldValue[++j] = ageTECs[i].text;
-        subUnitFieldValue[++j] = jobTECs[i].text;
-        subUnitFieldValue[++j] =
-            priceTECs[i].text; // var name = nameTECs[i].text;
-        // var age = ageTECs[i].text;
-        // var job = jobTECs[i].text;
-        // entries.add(PersonEntry(name, age, job));
-      }
-      print('gg nothing' + subUnitFieldValue.toString());
-      setState(() {
-        prodAdding = true;
-      });
-
-      CollectionReference spaces =
-          FirebaseFirestore.instance.collection('space');
-      var prodExist = false;
-      var spaceDocId = '';
-      FirebaseFirestore.instance
-          .collection('space')
-          .where('user_id', isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          spaceDocId = doc.id;
-        });
-
-        print('space shi p thar');
-        getStoreId().then((String result2) {
-          print('store id ' + result2.toString());
-
-          FirebaseFirestore.instance
-              .collection('space')
-              .doc(spaceDocId)
-              .collection('shops')
-              .doc(result2)
-              .collection('products')
-              .where('prod_name', isEqualTo: prodFieldsValue[0])
-              .get()
-              .then((QuerySnapshot querySnapshot) async {
-            querySnapshot.docs.forEach((doc) {
-              prodExist = true;
-            });
-
-            if (prodExist) {
-              print('product already');
-              var result = await showOkAlertDialog(
-                context: context,
-                title: 'Warning',
-                message: 'Product name already!',
-                okLabel: 'OK',
-              );
-            } else {
-              CollectionReference shops = FirebaseFirestore.instance
-                  .collection('space')
-                  .doc(spaceDocId)
-                  .collection('shops')
-                  .doc(result2)
-                  .collection('products');
-              return shops.add({
-                'prod_name': prodFieldsValue[0],
-                'bar_code': prodFieldsValue[1],
-                'unit_qtity': prodFieldsValue[2],
-                'unit_name': prodFieldsValue[3],
-                'buy_price': prodFieldsValue[4],
-                'sale_price': prodFieldsValue[5],
-                'sub1_unit': subUnitFieldValue[0],
-                'sub1_name': subUnitFieldValue[1],
-                'sub1_sale': subUnitFieldValue[2],
-                'sub2_unit': subUnitFieldValue[3],
-                'sub2_name': subUnitFieldValue[4],
-                'sub2_sale': subUnitFieldValue[5],
-                'sub3_unit': subUnitFieldValue[6],
-                'sub3_name': subUnitFieldValue[7],
-                'sub3_sale': subUnitFieldValue[8],
-                'sub1_qtity': subUnitFieldValue[9],
-                'sub2_qtity': subUnitFieldValue[10],
-                'sub3_qtity': subUnitFieldValue[11],
-                'img_1': photoArray[0],
-                // 'img_2': photoArray[1],
-                // 'img_3': photoArray[2],
-                // 'img_4': photoArray[3],
-                // 'img_5': photoArray[4],
-              }).then((value) {
-                print('product added');
-                setState(() {
-                  prodAdding = false;
-                });
-
-                Navigator.pop(context);
-
-                // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
-                // .add({
-                //   'prod_name': prodFieldsValue[0]
-                // }).then((value) {
-                //   print('product added 2');
-                // });
-
-                // Navigator.pop(context);
-              });
-            }
-          });
-        });
-      });
-
-      // prodFieldsValue = [];
-    }
-  }
+  // photoUploaded(length, photoArray) {
+  //   print('upload ' + photoUploadCount.toString());
+  //   photoUploadCount++;
+  //
+  //   if (length == photoUploadCount) {
+  //     print('all fking done' + photoArray.toString());
+  //
+  //     var subUnitFieldValue = ['', '', '', '', '', '', '', '', '', '', '', ''];
+  //     int j = -1;
+  //     for (int i = 0; i < cards.length; i++) {
+  //       subUnitFieldValue[++j] = nameTECs[i].text;
+  //       subUnitFieldValue[++j] = ageTECs[i].text;
+  //       subUnitFieldValue[++j] = jobTECs[i].text;
+  //       subUnitFieldValue[++j] =
+  //           priceTECs[i].text; // var name = nameTECs[i].text;
+  //       // var age = ageTECs[i].text;
+  //       // var job = jobTECs[i].text;
+  //       // entries.add(PersonEntry(name, age, job));
+  //     }
+  //     print('gg nothing' + subUnitFieldValue.toString());
+  //     setState(() {
+  //       prodAdding = true;
+  //     });
+  //
+  //     CollectionReference spaces =
+  //         FirebaseFirestore.instance.collection('space');
+  //     var prodExist = false;
+  //     var spaceDocId = '';
+  //     FirebaseFirestore.instance
+  //         .collection('space')
+  //         .where('user_id', isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
+  //         .get()
+  //         .then((QuerySnapshot querySnapshot) {
+  //       querySnapshot.docs.forEach((doc) {
+  //         spaceDocId = doc.id;
+  //       });
+  //
+  //       print('space shi p thar');
+  //       getStoreId().then((String result2) {
+  //         print('store id ' + result2.toString());
+  //
+  //         FirebaseFirestore.instance
+  //             .collection('space')
+  //             .doc(spaceDocId)
+  //             .collection('shops')
+  //             .doc(result2)
+  //             .collection('products')
+  //             .where('prod_name', isEqualTo: prodFieldsValue[0])
+  //             .get()
+  //             .then((QuerySnapshot querySnapshot) async {
+  //           querySnapshot.docs.forEach((doc) {
+  //             prodExist = true;
+  //           });
+  //
+  //           if (prodExist) {
+  //             print('product already');
+  //             var result = await showOkAlertDialog(
+  //               context: context,
+  //               title: 'Warning',
+  //               message: 'Product name already!',
+  //               okLabel: 'OK',
+  //             );
+  //           } else {
+  //             CollectionReference shops = FirebaseFirestore.instance
+  //                 .collection('space')
+  //                 .doc(spaceDocId)
+  //                 .collection('shops')
+  //                 .doc(result2)
+  //                 .collection('products');
+  //             return shops.add({
+  //               'prod_name': prodFieldsValue[0],
+  //               'bar_code': prodFieldsValue[1],
+  //               'unit_qtity': prodFieldsValue[2],
+  //               'unit_name': prodFieldsValue[3],
+  //               'buy_price': prodFieldsValue[4],
+  //               'sale_price': prodFieldsValue[5],
+  //               'sub1_unit': subUnitFieldValue[0],
+  //               'sub1_name': subUnitFieldValue[1],
+  //               'sub1_sale': subUnitFieldValue[2],
+  //               'sub2_unit': subUnitFieldValue[3],
+  //               'sub2_name': subUnitFieldValue[4],
+  //               'sub2_sale': subUnitFieldValue[5],
+  //               'sub3_unit': subUnitFieldValue[6],
+  //               'sub3_name': subUnitFieldValue[7],
+  //               'sub3_sale': subUnitFieldValue[8],
+  //               'sub1_qtity': subUnitFieldValue[9],
+  //               'sub2_qtity': subUnitFieldValue[10],
+  //               'sub3_qtity': subUnitFieldValue[11],
+  //               'img_1': photoArray[0],
+  //               // 'img_2': photoArray[1],
+  //               // 'img_3': photoArray[2],
+  //               // 'img_4': photoArray[3],
+  //               // 'img_5': photoArray[4],
+  //             }).then((value) {
+  //               print('product added');
+  //               setState(() {
+  //                 prodAdding = false;
+  //               });
+  //
+  //               Navigator.pop(context);
+  //
+  //               // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
+  //               // .add({
+  //               //   'prod_name': prodFieldsValue[0]
+  //               // }).then((value) {
+  //               //   print('product added 2');
+  //               // });
+  //
+  //               // Navigator.pop(context);
+  //             });
+  //           }
+  //         });
+  //       });
+  //     });
+  //
+  //     // prodFieldsValue = [];
+  //   }
+  // }
 
   Future addProduct(File imageFile) async {
 // ignore: deprecated_member_use
@@ -2405,7 +2404,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     return respStr.toString();
   }
 
-  Padding createCard() {
+  Padding createCard(unit) {
     var nameController = TextEditingController();
     var ageController = TextEditingController();
     var jobController = TextEditingController();
@@ -2522,7 +2521,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                           color: Colors.black,
                         ),
                         // errorText: 'Error message',
-                        labelText: 'Units / main unit',
+                        labelText: 'Units / $unit unit',
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                         //filled: true,
                         border: OutlineInputBorder(
@@ -2822,75 +2821,75 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     }
   }
 
-  pickMethods() {
-    return <PickMethod>[
-      // PickMethod.image(maxAssetsCount),
-      // PickMethod.video(maxAssetsCount),
-      // PickMethod.audio(maxAssetsCount),
-      // PickMethod.camera(
-      //   maxAssetsCount: maxAssetsCount,
-      //   handleResult: (BuildContext context, AssetEntity result) =>
-      //       Navigator.of(context).pop(<AssetEntity>[...assets, result]),
-      // ),
-
-      PickMethod.cameraAndStay(
-        maxAssetsCount: 5,
-      ),
-
-      // PickMethod.common(maxAssetsCount),
-      // PickMethod.threeItemsGrid(maxAssetsCount),
-      // PickMethod.customFilterOptions(maxAssetsCount),
-      // PickMethod.prependItem(maxAssetsCount),
-      // PickMethod(
-      //   icon: '🎭',
-      //   name: 'WeChat Moment',
-      //   description: 'Pick assets like the WeChat Moment pattern.',
-      //   method: (BuildContext context, List<AssetEntity> assets) {
-      //     return AssetPicker.pickAssets(
-      //       context,
-      //       maxAssets: maxAssetsCount,
-      //       specialPickerType: SpecialPickerType.wechatMoment,
-      //     );
-      //   },
-      // ),
-      // PickMethod.noPreview(maxAssetsCount),
-      // PickMethod.keepScrollOffset(
-      //   provider: () => keepScrollProvider,
-      //   delegate: () => keepScrollDelegate!,
-      //   onPermission: (PermissionState state) {
-      //     keepScrollDelegate ??= DefaultAssetPickerBuilderDelegate(
-      //       provider: keepScrollProvider,
-      //       initialPermission: state,
-      //       keepScrollOffset: true,
-      //     );
-      //   },
-      //   onLongPress: () {
-      //     keepScrollProvider.dispose();
-      //     keepScrollProvider = DefaultAssetPickerProvider();
-      //     keepScrollDelegate?.dispose();
-      //     keepScrollDelegate = null;
-      //     ScaffoldMessenger.of(context).showSnackBar(
-      //       const SnackBar(content: Text('Resources have been released')),
-      //     );
-      //   },
-      // ),
-      // PickMethod(
-      //   icon: '🎚',
-      //   name: 'Custom image preview thumb size',
-      //   description: 'You can reduce the thumb size to get faster load speed.',
-      //   method: (BuildContext context, List<AssetEntity> assets) {
-      //     return AssetPicker.pickAssets(
-      //       context,
-      //       maxAssets: maxAssetsCount,
-      //       selectedAssets: assets,
-      //       requestType: RequestType.image,
-      //       previewThumbSize: const <int>[150, 150],
-      //       gridThumbSize: 80,
-      //     );
-      //   },
-      // ),
-    ];
-  }
+  // pickMethods() {
+  //   return <PickMethod>[
+  //     // PickMethod.image(maxAssetsCount),
+  //     // PickMethod.video(maxAssetsCount),
+  //     // PickMethod.audio(maxAssetsCount),
+  //     // PickMethod.camera(
+  //     //   maxAssetsCount: maxAssetsCount,
+  //     //   handleResult: (BuildContext context, AssetEntity result) =>
+  //     //       Navigator.of(context).pop(<AssetEntity>[...assets, result]),
+  //     // ),
+  //
+  //     PickMethod.cameraAndStay(
+  //       maxAssetsCount: 5,
+  //     ),
+  //
+  //     // PickMethod.common(maxAssetsCount),
+  //     // PickMethod.threeItemsGrid(maxAssetsCount),
+  //     // PickMethod.customFilterOptions(maxAssetsCount),
+  //     // PickMethod.prependItem(maxAssetsCount),
+  //     // PickMethod(
+  //     //   icon: '🎭',
+  //     //   name: 'WeChat Moment',
+  //     //   description: 'Pick assets like the WeChat Moment pattern.',
+  //     //   method: (BuildContext context, List<AssetEntity> assets) {
+  //     //     return AssetPicker.pickAssets(
+  //     //       context,
+  //     //       maxAssets: maxAssetsCount,
+  //     //       specialPickerType: SpecialPickerType.wechatMoment,
+  //     //     );
+  //     //   },
+  //     // ),
+  //     // PickMethod.noPreview(maxAssetsCount),
+  //     // PickMethod.keepScrollOffset(
+  //     //   provider: () => keepScrollProvider,
+  //     //   delegate: () => keepScrollDelegate!,
+  //     //   onPermission: (PermissionState state) {
+  //     //     keepScrollDelegate ??= DefaultAssetPickerBuilderDelegate(
+  //     //       provider: keepScrollProvider,
+  //     //       initialPermission: state,
+  //     //       keepScrollOffset: true,
+  //     //     );
+  //     //   },
+  //     //   onLongPress: () {
+  //     //     keepScrollProvider.dispose();
+  //     //     keepScrollProvider = DefaultAssetPickerProvider();
+  //     //     keepScrollDelegate?.dispose();
+  //     //     keepScrollDelegate = null;
+  //     //     ScaffoldMessenger.of(context).showSnackBar(
+  //     //       const SnackBar(content: Text('Resources have been released')),
+  //     //     );
+  //     //   },
+  //     // ),
+  //     // PickMethod(
+  //     //   icon: '🎚',
+  //     //   name: 'Custom image preview thumb size',
+  //     //   description: 'You can reduce the thumb size to get faster load speed.',
+  //     //   method: (BuildContext context, List<AssetEntity> assets) {
+  //     //     return AssetPicker.pickAssets(
+  //     //       context,
+  //     //       maxAssets: maxAssetsCount,
+  //     //       selectedAssets: assets,
+  //     //       requestType: RequestType.image,
+  //     //       previewThumbSize: const <int>[150, 150],
+  //     //       gridThumbSize: 80,
+  //     //     );
+  //     //   },
+  //     // ),
+  //   ];
+  // }
 }
 
 class PersonEntry {

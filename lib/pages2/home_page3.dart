@@ -152,6 +152,8 @@ class HomePageState extends State<HomePage>
     _textFieldController2.dispose();
     myController.dispose();
     sellPriceController.dispose();
+    buyPriceController.dispose();
+    barcodeCtrl.dispose();
     super.dispose();
   }
 
@@ -174,19 +176,15 @@ class HomePageState extends State<HomePage>
     }
   }
 
-  List dropdownItemList = [];
+  // List dropdownItemList = [];
+  //
+  // List<String> fruits = [
+  //   'apple',
+  //   'banana',
+  //   'grapes',
+  // ];
 
-  List<String> fruits = [
-    'apple',
-    'banana',
-    'grapes',
-  ];
-
-  List _testList = [
-    {'no': 1, 'keyword': 'blue'},
-    {'no': 2, 'keyword': 'black'},
-    {'no': 3, 'keyword': 'red'}
-  ];
+  List _testList = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   var _selectedTest;
 
@@ -210,7 +208,7 @@ class HomePageState extends State<HomePage>
     myControllerTablet.addListener((){
       setState(() {
         // mystate((){
-          (myControllerTablet.text != '' && sellPriceControllerTablet.text != '') ? totalFixAmount =int.parse(myControllerTablet.text) * double.parse(sellPriceControllerTablet.text) : totalFixAmount = 0.0;
+        (myControllerTablet.text != '' && sellPriceControllerTablet.text != '') ? totalFixAmount =int.parse(myControllerTablet.text) * double.parse(sellPriceControllerTablet.text) : totalFixAmount = 0.0;
         // });
       });
     });
@@ -227,29 +225,29 @@ class HomePageState extends State<HomePage>
       });
     });
 
-    _dropdownTestItems = buildDropdownTestItems(_testList);
 
-    for (var i = 0; i < fruits.length; i++) {
-      dropdownItemList.add(
-        {
-          'label': fruits[i] == 'melon' ? 'melon sugar high' : '${fruits[i]}',
-          // 'label': '${fruits[i]}',
-          'value': '${fruits[i]}',
-          'icon': Container(
-            key: UniqueKey(),
-            height: 20,
-            width: 20,
-            child: Text('SVG'),
-          ),
-          'selectedIcon': Container(
-            key: UniqueKey(),
-            width: 20,
-            height: 20,
-            child: Text('SVG', style: TextStyle(color: Colors.blue),),
-          ),
-        },
-      );
-    }
+
+    // for (var i = 0; i < fruits.length; i++) {
+    //   dropdownItemList.add(
+    //     {
+    //       'label': fruits[i] == 'melon' ? 'melon sugar high' : '${fruits[i]}',
+    //       // 'label': '${fruits[i]}',
+    //       'value': '${fruits[i]}',
+    //       'icon': Container(
+    //         key: UniqueKey(),
+    //         height: 20,
+    //         width: 20,
+    //         child: Text('SVG'),
+    //       ),
+    //       'selectedIcon': Container(
+    //         key: UniqueKey(),
+    //         width: 20,
+    //         height: 20,
+    //         child: Text('SVG', style: TextStyle(color: Colors.blue),),
+    //       ),
+    //     },
+    //   );
+    // }
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
     getDeviceId().then((value) {
@@ -398,12 +396,6 @@ class HomePageState extends State<HomePage>
     return items;
   }
 
-  onChangeDropdownTests(selectedTest) {
-    print(selectedTest);
-    setState(() {
-      _selectedTest = selectedTest;
-    });
-  }
 
   chgShopIdFromSetting() {
     setState(() {
@@ -1349,12 +1341,12 @@ class HomePageState extends State<HomePage>
                                                                   onTap: () {
                                                                     setState((){
                                                                       // mystate(() {
-                                                                        prodList = [];
-                                                                        discount = 0.0;
-                                                                        discountAmount = 0.0;
-                                                                        debt =0;
-                                                                        refund =0;
-                                                                        customerId = 'name-name';
+                                                                      prodList = [];
+                                                                      discount = 0.0;
+                                                                      discountAmount = 0.0;
+                                                                      debt =0;
+                                                                      refund =0;
+                                                                      customerId = 'name-name';
                                                                       // });
                                                                     });
                                                                   },
@@ -1641,7 +1633,7 @@ class HomePageState extends State<HomePage>
                                                                                       .data!
                                                                                       .data();
                                                                                   var image = output2?[
-                                                                                    'img_1'];
+                                                                                  'img_1'];
                                                                                   prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                                                       prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                                                   return GestureDetector(
@@ -1724,7 +1716,7 @@ class HomePageState extends State<HomePage>
                                                                                                           : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                                   title: Text(
                                                                                                     output2?[
-                                                                                                      'prod_name'],
+                                                                                                    'prod_name'],
                                                                                                     style:
                                                                                                     TextStyle(
                                                                                                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -1734,7 +1726,7 @@ class HomePageState extends State<HomePage>
                                                                                                     child: Row(
                                                                                                       children: [
                                                                                                         Text(output2?[prodList[i].split('-')[3]] + ' ', style: TextStyle(
-                                                                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                                                                         )),
                                                                                                         if (prodList[i].split('-')[3] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                                                                         else if(prodList[i].split('-')[3] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
@@ -1800,9 +1792,9 @@ class HomePageState extends State<HomePage>
                                                                                             (actionType) {
                                                                                           setState((){
                                                                                             // mystate(() {
-                                                                                              prodList
-                                                                                                  .removeAt(
-                                                                                                  i);
+                                                                                            prodList
+                                                                                                .removeAt(
+                                                                                                i);
                                                                                             // });
                                                                                           });
                                                                                         },
@@ -1817,9 +1809,9 @@ class HomePageState extends State<HomePage>
                                                                                           onTap: () {
                                                                                             setState((){
                                                                                               // mystate(() {
-                                                                                                prodList
-                                                                                                    .removeAt(
-                                                                                                    i);
+                                                                                              prodList
+                                                                                                  .removeAt(
+                                                                                                  i);
                                                                                               // });
                                                                                             });
                                                                                           },
@@ -1871,10 +1863,10 @@ class HomePageState extends State<HomePage>
                                                                                 //   discountAmount = 0.0;
                                                                                 //   discount = 0.0;
                                                                                 // });
-                                                                                  setState(() {
-                                                                                    discountAmount = 0.0;
-                                                                                    discount = 0.0;
-                                                                                  });
+                                                                                setState(() {
+                                                                                  discountAmount = 0.0;
+                                                                                  discount = 0.0;
+                                                                                });
                                                                               },
                                                                             ),
                                                                             secondaryActions: <
@@ -3334,12 +3326,12 @@ class HomePageState extends State<HomePage>
                                                                                 onTap: () {
                                                                                   setState((){
                                                                                     // mystate(() {
-                                                                                      _controllerTablet.animateTo(0);
-                                                                                      _textFieldControllerTablet.clear();
-                                                                                      paidAmount = 0;
-                                                                                      debt = 0;
-                                                                                      refund = 0;
-                                                                                      totalAmount = double.parse(TtlProdListPrice());
+                                                                                    _controllerTablet.animateTo(0);
+                                                                                    _textFieldControllerTablet.clear();
+                                                                                    paidAmount = 0;
+                                                                                    debt = 0;
+                                                                                    refund = 0;
+                                                                                    totalAmount = double.parse(TtlProdListPrice());
                                                                                     // });
                                                                                   });
 
@@ -3730,14 +3722,14 @@ class HomePageState extends State<HomePage>
                                                                                 onTap: () async {
                                                                                   setState(() {
                                                                                     // mystate(()  {
-                                                                                      prodList = [];
-                                                                                      discount = 0.0;
-                                                                                      discountAmount =0.0;
-                                                                                      debt =0;
-                                                                                      refund =0;
-                                                                                      customerId = 'name-name';
-                                                                                      disText = '';
-                                                                                      isDiscount = '';
+                                                                                    prodList = [];
+                                                                                    discount = 0.0;
+                                                                                    discountAmount =0.0;
+                                                                                    debt =0;
+                                                                                    refund =0;
+                                                                                    customerId = 'name-name';
+                                                                                    disText = '';
+                                                                                    isDiscount = '';
                                                                                     // });
                                                                                   });
                                                                                   // _controller.animateTo(0);
@@ -4160,10 +4152,7 @@ class HomePageState extends State<HomePage>
       FadeRoute(page: QRSearchExample()),
     );
 
-    // print('resut got ' + result);
     if(result != null && result != '') {
-
-
       await FirebaseFirestore.instance
           .collection('shops')
           .doc(shopId)
@@ -4175,9 +4164,19 @@ class HomePageState extends State<HomePage>
         // print()
         querySnapshot.docs.forEach((doc) {
           print('CHECK ' + doc['prod_name'].toString());
-          scannedResult(doc.id + '^' + doc['prod_name'] + '^' + doc['unit_sell']);
+          scannedResult(doc.id + '^' + doc['prod_name'] + '^' + doc['unit_sell'] + '^' + doc['sub1_sell']
+              + '^' + doc['sub2_sell'] + '^' + doc['inStock1'].toString() + '^' + doc['inStock2'].toString() + '^' + doc['inStock3'].toString() + '^' + doc['sub_exist'] + '^' +
+              doc['unit_name'] + '^' + doc['sub1_name'] + '^' + doc['sub2_name'] + '^' + doc['bar_code']);
+          setState(() {
+            doc['sub1_name'] != ''  && doc['sub2_name'] == '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}]:
+            doc['sub1_name'] != ''  && doc['sub2_name'] != '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}, {'no': 3, 'keyword': doc['sub2_name']}] :
+            _testList = [{'no': 1, 'keyword': doc['unit_name']}];
+          });
+
+          _dropdownTestItems = buildDropdownTestItems(_testList);
         });
       });
+
     }
   }
 
@@ -4465,7 +4464,11 @@ class HomePageState extends State<HomePage>
   //   });
   //
   // }
-
+  TextEditingController buyPriceController = TextEditingController();
+  int qty = 1;
+  double totalFixAmount2 = 0;
+  double titlePrice2 = 0;
+  TextEditingController barcodeCtrl = TextEditingController();
   scannedResult(String result) {
     showModalBottomSheet(
         enableDrag: true,
@@ -4473,8 +4476,36 @@ class HomePageState extends State<HomePage>
         context: context,
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
+          barcodeCtrl.text = qty.toString();
+          buyPriceController.text = '0';
+          //titlePrice2 = double.parse(buyPriceController.text);
+          totalFixAmount2 = int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text);
+          String sellprice = '';
+          String instock = '';
+          String loss = '5';
+          String barcode = result.split('^')[12];
+          String name = '';
           return StatefulBuilder(
-            builder: (BuildContext context, StateSetter mystate) {
+            builder: (BuildContext context, StateSetter stateful) {
+              barcodeCtrl.addListener((){
+                  stateful((){
+                    (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
+                  });
+              });
+
+              buyPriceController.addListener((){
+                  stateful((){
+                    (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
+                    if( buyPriceController.text != '') {
+                     // titlePrice2 = double.parse(buyPriceController.text);
+                      price2 = int.parse(buyPriceController.text); } else {
+                      //titlePrice2 = 0.0;
+                      price2 = 0;
+                    }
+                  });
+              });
+
+
               return Scaffold(
                 resizeToAvoidBottomInset: false,
                 body: GestureDetector(
@@ -4579,7 +4610,7 @@ class HomePageState extends State<HomePage>
                                                         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
                                                     boxPadding: EdgeInsets.fromLTRB(15, 12, 13, 12),
                                                     boxWidth: double.infinity,
-                                                    boxHeight: 50,
+                                                    boxHeight: 60,
                                                     boxDecoration: BoxDecoration(
                                                         borderRadius:
                                                         BorderRadius.circular(10.0),
@@ -4593,8 +4624,43 @@ class HomePageState extends State<HomePage>
                                                     items: _dropdownTestItems,
                                                     onChanged: (value) {
                                                       setState(() {
+                                                        stateful((){
                                                         _selectedTest = value;
-                                                      });
+
+                                                      });});
+                                                      if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
+                                                        setState(() {
+                                                          stateful((){
+                                                            buyPriceController.text = result.split('^')[2];
+                                                            sellprice = result.split('^')[2];
+                                                            instock = result.split('^')[5];
+                                                            name = result.split('^')[9];
+                                                          });
+                                                        });
+
+                                                        print('selected test is true');
+                                                      } else  if(_selectedTest.toString() == '{no: 2, keyword: ' + result.split('^')[10] + '}') {
+                                                        setState(() {
+                                                          stateful((){
+                                                            buyPriceController.text = result.split('^')[3];
+                                                            sellprice = result.split('^')[3];
+                                                            instock = result.split('^')[6];
+                                                            name = result.split('^')[10];
+                                                          });
+                                                        });
+
+                                                        print('selected test is false');
+                                                      } else{
+                                                        setState(() {
+                                                          stateful((){
+                                                            buyPriceController.text = result.split('^')[4];
+                                                            sellprice = result.split('^')[4];
+                                                            instock = result.split('^')[7];
+                                                            name = result.split('^')[11];
+                                                          });
+                                                        });
+                                                      print('selected test is tf');}
+                                                      print('dropdown' +_selectedTest .toString());
                                                     },
                                                   ),
                                                   SizedBox(height: 15),
@@ -4612,6 +4678,12 @@ class HomePageState extends State<HomePage>
                                                         children: [
                                                           GestureDetector(
                                                             onTap: () {
+                                                              setState(() {
+                                                                stateful((){
+                                                                  qty = int.parse(barcodeCtrl.text) - 1;
+                                                                  barcodeCtrl.text = qty.toString();
+                                                                  print('qqq' + qty.toString());
+                                                                });});
                                                             },
                                                             child: Container(
                                                               width: (MediaQuery.of(context).size.width - 60)/3,
@@ -4656,14 +4728,25 @@ class HomePageState extends State<HomePage>
                                                                 ),
                                                                 keyboardType: TextInputType.number,
                                                                 onChanged: (value) {
+                                                                  setState(() {
+                                                                    setState((){
+                                                                      qty = int.parse(value);
+                                                                    });
+                                                                  });
                                                                 },
-                                                                // controller: myController,
+                                                                controller: barcodeCtrl,
                                                               ),
                                                             ),
                                                           ),
                                                           SizedBox(width: 15),
                                                           GestureDetector(
                                                             onTap: () {
+                                                              setState(() {
+                                                                stateful((){
+                                                                  qty = int.parse(barcodeCtrl.text) + 1;
+                                                                  barcodeCtrl.text = qty.toString();
+                                                                  print('qqq' + qty.toString());
+                                                                });});
                                                             },
                                                             child: Container(
                                                               width: (MediaQuery.of(context).size.width - 60)/3,
@@ -4682,50 +4765,78 @@ class HomePageState extends State<HomePage>
                                                         ],
                                                       ),
                                                       SizedBox(height: 15,),
-                                                      Text('MAIN UNIT PRICING', style: TextStyle(
+                                                      TextFormField(
+                                                        controller: buyPriceController,
+                                                        validator: (value) {
+                                                          if (value == null || value.isEmpty) {
+                                                            // return '';
+                                                            return ' This field is required ';
+                                                          }
+
+                                                          return null;
+                                                        },
+                                                        style: TextStyle(
+                                                            height: 0.95
+                                                        ),
+                                                        maxLines: 1,
+                                                        decoration: InputDecoration(
+                                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                              borderSide: const BorderSide(
+                                                                  color: AppTheme.skBorderColor,
+                                                                  width: 2.0),
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(10.0))),
+
+                                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                              borderSide: const BorderSide(
+                                                                  color: AppTheme.themeColor,
+                                                                  width: 2.0),
+                                                              borderRadius: BorderRadius.all(
+                                                                  Radius.circular(10.0))),
+                                                          // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
+                                                          // isDense: true,
+                                                          contentPadding: const EdgeInsets.only(
+                                                              left: 15.0,
+                                                              right: 15.0,
+                                                              top: 20,
+                                                              bottom: 20.0),
+                                                          suffixText: 'Required',
+                                                          suffixStyle: TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 12,
+                                                            fontFamily: 'capsulesans',
+                                                          ),
+                                                          //errorText: wrongEmail,
+                                                          errorStyle: TextStyle(
+                                                              backgroundColor: Colors.white,
+                                                              fontSize: 12,
+                                                              fontFamily: 'capsulesans',
+                                                              height: 0.1
+                                                          ),
+                                                          labelStyle: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.black,
+                                                          ),
+// errorText: 'Error message',
+                                                          labelText: 'Custom sale price',
+                                                          floatingLabelBehavior:
+                                                          FloatingLabelBehavior.auto,
+//filled: true,
+                                                          border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 15,),
+                                                      Text('UNIT PRICING', style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 14,
                                                         letterSpacing: 2,
                                                         color: Colors.grey,
                                                       ),),
                                                       SizedBox(height: 15,),
-                                                      // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                                      //   stream: FirebaseFirestore
-                                                      //       .instance
-                                                      //       .collection('space')
-                                                      //       .doc(
-                                                      //       '0NHIS0Jbn26wsgCzVBKT')
-                                                      //       .collection('shops')
-                                                      //       .doc(
-                                                      //       shopId)
-                                                      //       .collection('products')
-                                                      //       .doc(eachProd.split('-')[0])
-                                                      //       .snapshots(),
-                                                      //   builder: (BuildContext context, snapshot2) {
-                                                      //     if (snapshot2.hasData) {
-                                                      // var output = snapshot2.data!.data();
-                                                      // // var prodName = output?['prod_name'];
-                                                      // var mainName = output?['unit_name'];
-                                                      // var sub1Name = output?['sub1_name'];
-                                                      // var sub2Name = output?['sub2_name'];
-                                                      // // var sub3Name = output?['sub3_name'];
-                                                      // var barcode = output?['bar_code'];
-                                                      // // var mainPrice = output?['unit_sell'];
-                                                      // // var sub1Price = output?['sub1_sell'];
-                                                      // // var sub2Price = output?['sub2_sell'];
-                                                      // // var sub3Price = output?['sub3_sell'];
-                                                      // // var sub1Unit = output?['sub1_link'];
-                                                      // // var sub2Unit = output?['sub2_link'];
-                                                      // // var sub3Unit = output?['sub3_link'];
-                                                      // // var subExist = output?['sub_exist'];
-                                                      // var mainLoss = output?['Loss1'].round();
-                                                      // var sub1Loss = output?['Loss2'].round();
-                                                      // var sub2Loss = output?['Loss3'].round();
-                                                      // var mainQty = output?['inStock1'].round();
-                                                      // var sub1Qty = output?['inStock2'].round();
-                                                      // var sub2Qty = output?['inStock3'].round();
-                                                      // var image = output?['img_1'];
-                                                      //return
                                                       Container(
                                                         height: 220,
                                                         decoration: BoxDecoration(
@@ -4751,7 +4862,7 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                    Text('MMK ', style:
+                                                                    Text('MMK ' +  sellprice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
@@ -4776,7 +4887,7 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                    Text('Maing', style:
+                                                                   Text(instock.toString() + ' ' + name, style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
@@ -4801,12 +4912,12 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                    Text('Maing', style:
+                                                                    Text(loss.toString() + ' ' + name, style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
                                                                       color: Colors.grey,
-                                                                    ),)
+                                                                    ),),
                                                                   ],
                                                                 ),
                                                               ),
@@ -4820,7 +4931,7 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                    Text('barcode', style:
+                                                                    Text(barcode, style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
@@ -4833,10 +4944,6 @@ class HomePageState extends State<HomePage>
                                                           ),
                                                         ),
                                                       ),
-                                                      //     }
-                                                      //     return Container();
-                                                      //   },
-                                                      // ),
                                                     ],
                                                   ),
                                                 ],
@@ -4871,7 +4978,7 @@ class HomePageState extends State<HomePage>
                                                           FontWeight
                                                               .w500),
                                                     ),
-                                                    trailing: Text('MMK ',
+                                                    trailing: Text('MMK ' + (totalFixAmount2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                       style: TextStyle(
                                                           fontSize: 17,
                                                           fontWeight:
@@ -5421,7 +5528,7 @@ class HomePageState extends State<HomePage>
                                                                       .data!
                                                                       .data();
                                                                   var image = output2?[
-                                                                    'img_1'];
+                                                                  'img_1'];
                                                                   prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                                       prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                                   return GestureDetector(
@@ -5504,7 +5611,7 @@ class HomePageState extends State<HomePage>
                                                                                           : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                   title: Text(
                                                                                     output2?[
-                                                                                      'prod_name'],
+                                                                                    'prod_name'],
                                                                                     style:
                                                                                     TextStyle(
                                                                                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -5514,7 +5621,7 @@ class HomePageState extends State<HomePage>
                                                                                     child: Row(
                                                                                       children: [
                                                                                         Text(output2?[prodList[i].split('-')[3]] + ' ', style: TextStyle(
-                                                                                          fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                                                         )),
                                                                                         if (prodList[i].split('-')[3] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                                                         else if(prodList[i].split('-')[3] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
@@ -7613,14 +7720,14 @@ class HomePageState extends State<HomePage>
       if(sellDone) {
         setState(() {
           // mystate(()  {
-            prodList = [];
-            discount = 0.0;
-            discountAmount =0.0;
-            debt =0;
-            refund =0;
-            customerId = 'name-name';
-            disText = '';
-            isDiscount = '';
+          prodList = [];
+          discount = 0.0;
+          discountAmount =0.0;
+          debt =0;
+          refund =0;
+          customerId = 'name-name';
+          disText = '';
+          isDiscount = '';
           // });
         });
         // _controller.animateTo(0);
