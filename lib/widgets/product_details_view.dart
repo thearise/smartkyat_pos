@@ -789,20 +789,23 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         color: Colors.grey,
                                                       ),
                                                     ),
-                                                    Spacer(),
                                                     GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                            context, MaterialPageRoute( builder: (context) => EditProduct(prodName: prodName, barcode: barcode, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, shopId: widget.shopId, prodId: widget.idString,)
-                                                        ));
-                                                      },
-                                                      child: Text('EDIT', style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
+                                                         onTap: (){
+                                                           Navigator.push(
+                                                               context,
+                                                               MaterialPageRoute(
+                                                                   builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist)));
+                                                         },
+                                                      child: Text(
+                                                        'EDIT ALL',
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.bold,
                                                           fontSize: 14,
-                                                        color: Colors.blue,
-                                                        letterSpacing: 2,
-                                                      )),
-                                                    )
+                                                          letterSpacing: 2,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                                 SizedBox(height: 15,),
