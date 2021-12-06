@@ -4591,7 +4591,11 @@ class HomePageState extends State<HomePage>
                                                     hint: Text('Filter'),
                                                     value: _selectedTest,
                                                     items: _dropdownTestItems,
-                                                    onChanged: onChangeDropdownTests,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        _selectedTest = value;
+                                                      });
+                                                    },
                                                   ),
                                                   SizedBox(height: 15),
                                                   Column(

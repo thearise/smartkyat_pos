@@ -84,12 +84,19 @@ dependencies:
   esc_pos_utils:
   dotted_line: ^3.1.0
   dropdown_below: ^1.0.1
+#  flutter_launcher_icons: "^0.9.2"
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.9.2"
+
+flutter_icons:
+  image_path: "assets/app-logov2.png"
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

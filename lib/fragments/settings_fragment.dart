@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/account_setting.dart';
 import 'package:smartkyat_pos/fragments/subs/change_password.dart';
+import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/print_settings_sub.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 
@@ -26,6 +27,8 @@ class SettingsFragment extends StatefulWidget {
 class SettingsFragmentState extends State<SettingsFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SettingsFragment>{
   String? shopId;
 
+  String textSetTitle = 'Settings';
+
   @override
   bool get wantKeepAlive => true;
   @override
@@ -36,6 +39,17 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
         shopId = value.toString();
       });
 
+    });
+    LanguageSettingsState().getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetTitle = 'စက်တင်း';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetTitle = 'Settings';
+        });
+      }
     });
     super.initState();
   }
@@ -144,7 +158,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                       padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
                       child: Row(
                         children: [
-                          Text('Settings',
+                          Text(textSetTitle,
                             style: TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.w600,
@@ -354,25 +368,33 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 72,
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 4.0),
-                                  child: ListTile(
-                                    title: Text('Languages', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text('English' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        SizedBox(width: 8,),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                        ),
-                                      ],
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => LanguageSettings(changeShopCallback3: () {  },)),
+                                );
+                              },
+                              child: Container(
+                                height: 72,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 4.0),
+                                    child: ListTile(
+                                      title: Text('Languages', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text('English' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                          SizedBox(width: 8,),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                          ),
+                                        ],
+                                      ),
+
+
                                     ),
-
-
                                   ),
                                 ),
                               ),
