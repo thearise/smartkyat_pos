@@ -1633,7 +1633,7 @@ class HomePageState extends State<HomePage>
                                                                                       .data!
                                                                                       .data();
                                                                                   var image = output2?[
-                                                                                  'img_1'];
+                                                                                    'img_1'];
                                                                                   prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                                                       prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                                                   return GestureDetector(
@@ -1716,7 +1716,7 @@ class HomePageState extends State<HomePage>
                                                                                                           : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                                   title: Text(
                                                                                                     output2?[
-                                                                                                    'prod_name'],
+                                                                                                      'prod_name'],
                                                                                                     style:
                                                                                                     TextStyle(
                                                                                                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -4488,21 +4488,21 @@ class HomePageState extends State<HomePage>
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter stateful) {
               barcodeCtrl.addListener((){
-                  stateful((){
-                    (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
-                  });
+                stateful((){
+                  (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
+                });
               });
 
               buyPriceController.addListener((){
-                  stateful((){
-                    (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
-                    if( buyPriceController.text != '') {
-                     // titlePrice2 = double.parse(buyPriceController.text);
-                      price2 = int.parse(buyPriceController.text); } else {
-                      //titlePrice2 = 0.0;
-                      price2 = 0;
-                    }
-                  });
+                stateful((){
+                  (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
+                  if( buyPriceController.text != '') {
+                    // titlePrice2 = double.parse(buyPriceController.text);
+                    price2 = int.parse(buyPriceController.text); } else {
+                    //titlePrice2 = 0.0;
+                    price2 = 0;
+                  }
+                });
               });
 
 
@@ -4625,9 +4625,9 @@ class HomePageState extends State<HomePage>
                                                     onChanged: (value) {
                                                       setState(() {
                                                         stateful((){
-                                                        _selectedTest = value;
+                                                          _selectedTest = value;
 
-                                                      });});
+                                                        });});
                                                       if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
                                                         setState(() {
                                                           stateful((){
@@ -4659,7 +4659,7 @@ class HomePageState extends State<HomePage>
                                                             name = result.split('^')[11];
                                                           });
                                                         });
-                                                      print('selected test is tf');}
+                                                        print('selected test is tf');}
                                                       print('dropdown' +_selectedTest .toString());
                                                     },
                                                   ),
@@ -4887,7 +4887,7 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                   Text(instock.toString() + ' ' + name, style:
+                                                                    Text(instock.toString() + ' ' + name, style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
@@ -5528,7 +5528,7 @@ class HomePageState extends State<HomePage>
                                                                       .data!
                                                                       .data();
                                                                   var image = output2?[
-                                                                  'img_1'];
+                                                                    'img_1'];
                                                                   prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                                       prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                                   return GestureDetector(
@@ -5611,7 +5611,7 @@ class HomePageState extends State<HomePage>
                                                                                           : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                   title: Text(
                                                                                     output2?[
-                                                                                    'prod_name'],
+                                                                                      'prod_name'],
                                                                                     style:
                                                                                     TextStyle(
                                                                                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),

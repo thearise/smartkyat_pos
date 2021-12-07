@@ -738,7 +738,7 @@ int addSubUnit = 0;
                                       AssetEntity asset =
                                       assets.elementAt(i);
                                       asset.originFile.then((value) async {
-                                        addProduct(value!).then((value) {
+                                        addProduct(value!, photoArray).then((value) {
                                           photoArray = value.toString();
                                           productId.doc(widget.prodId).update({
                                             'prod_name' : prodNameCtrl.text,
@@ -797,17 +797,19 @@ int addSubUnit = 0;
       ),
     );
   }
-  Future addProduct(File imageFile) async {
+  Future addProduct(File imageFile, String rm_image) async {
+    print('RM path ' + rm_image.toString());
 // ignore: deprecated_member_use
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-    var uri = Uri.parse("https://riftplus.me/smartkyat_pos/api/images_upload.php");
+    var uri = Uri.parse("https://riftplus.me/smartkyat_pos/api/images_reup.php");
     var request = new http.MultipartRequest("POST", uri);
 
     var multipartFile = new http.MultipartFile("image", stream, length,
         filename: Path.basename(imageFile.path));
 
     request.files.add(multipartFile);
+    request.fields['rm_image'] = rm_image;
     // request.fields['productname'] = controllerName.text;
     // request.fields['productprice'] = controllerPrice.text;
     // request.fields['producttype'] = controllerType.text;

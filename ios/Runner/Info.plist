@@ -42,6 +42,8 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-1852458366311882~1706370350</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to scan QR codes</string>
 	<key>NSMicrophoneUsageDescription</key>
