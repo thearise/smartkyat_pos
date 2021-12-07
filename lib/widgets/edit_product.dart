@@ -6,6 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/constants/picker_method.dart';
+import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
+import 'package:smartkyat_pos/widgets/qr_edit.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';
 import 'package:smartkyat_pos/widgets2/selected_assets_list_view.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart'
@@ -68,31 +71,31 @@ class _EditProductState extends State<EditProduct> {
 
 
   @override
- void initState() {
-   prodNameCtrl.text = widget.prodName;
-   barCodeCtrl.text = widget.barcode;
-   mainQtyCtrl.text = widget.mainQty;
-   mainUnitNameCtrl.text = widget.mainName;
-   mainBuyCtrl.text = widget.mainBuy;
-   mainSellCtrl.text = widget.mainSell;
-   sub1perUnitCtrl.text = widget.sub1perUnit;
-   sub1UnitNameCtrl.text = widget.sub1UnitName;
-   sub1QtyCtrl.text = widget.sub1Qty;
-   sub1SellCtrl.text = widget.sub1Sell;
-   sub2perUnitCtrl.text = widget.sub2perUnit;
-   sub2UnitNameCtrl.text = widget.sub2UnitName;
-   sub2QtyCtrl.text = widget.sub2Qty;
-   sub2SellCtrl.text = widget.sub2Sell;
-   subExist = widget.subExist;
-   photoArray = widget.image;
-   super.initState();
+  void initState() {
+    prodNameCtrl.text = widget.prodName;
+    barCodeCtrl.text = widget.barcode;
+    mainQtyCtrl.text = widget.mainQty;
+    mainUnitNameCtrl.text = widget.mainName;
+    mainBuyCtrl.text = widget.mainBuy;
+    mainSellCtrl.text = widget.mainSell;
+    sub1perUnitCtrl.text = widget.sub1perUnit;
+    sub1UnitNameCtrl.text = widget.sub1UnitName;
+    sub1QtyCtrl.text = widget.sub1Qty;
+    sub1SellCtrl.text = widget.sub1Sell;
+    sub2perUnitCtrl.text = widget.sub2perUnit;
+    sub2UnitNameCtrl.text = widget.sub2UnitName;
+    sub2QtyCtrl.text = widget.sub2Qty;
+    sub2SellCtrl.text = widget.sub2Sell;
+    subExist = widget.subExist;
+    photoArray = widget.image;
+    super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
   }
-int addSubUnit = 0;
+  int addSubUnit = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -184,7 +187,7 @@ int addSubUnit = 0;
                   Form(
                     key: _formKey,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
@@ -322,6 +325,19 @@ int addSubUnit = 0;
                                   top: 20.0,
                                   bottom: 20.0),
                               //suffixText: 'Required',
+                              suffixIcon: IconButton(
+                                icon: Image.asset('assets/system/barcode.png', height: 28,),
+                                onPressed: () async {
+                                  print("Barcode");
+                                  var code = await  Navigator.of(context).push(
+                                      FadeRoute(page:
+                                      QREditExample(prodName: widget.prodName,),
+                                        )
+                                    );
+                                  barCodeCtrl.text = code;
+                                  print('bar bar ' + code);
+                                },
+                              ),
                               suffixStyle: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 12,
@@ -362,14 +378,14 @@ int addSubUnit = 0;
                               Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                 if(addSubUnit == 2 || subExist== '2') {
-                                   setState(() {
-                                     addSubUnit = 2;
-                                   });
-                                 } else { setState(() {
-                                   addSubUnit++;
-                                   //subExist = (int.parse(subExist) +1 ).toString();
-                                 }); }
+                                  if(addSubUnit == 2 || subExist== '2') {
+                                    setState(() {
+                                      addSubUnit = 2;
+                                    });
+                                  } else { setState(() {
+                                    addSubUnit++;
+                                    //subExist = (int.parse(subExist) +1 ).toString();
+                                  }); }
 
                                 },
                                 child: Text('SUB UNIT?', style: TextStyle(
@@ -640,7 +656,7 @@ int addSubUnit = 0;
                         ),
                         (sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1QtyCtrl.text != '0' && sub1SellCtrl.text != '') && (sub2perUnitCtrl.text == '' && sub2UnitNameCtrl.text == '' && sub2QtyCtrl.text == '0' && sub2SellCtrl.text == '')? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) :Container(),
                         sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1QtyCtrl.text != '0' && sub1SellCtrl.text != '' &&
-                        sub2perUnitCtrl.text != '' && sub2UnitNameCtrl.text != '' && sub2QtyCtrl.text != '0' && sub2SellCtrl.text != ''? Column(
+                            sub2perUnitCtrl.text != '' && sub2UnitNameCtrl.text != '' && sub2QtyCtrl.text != '0' && sub2SellCtrl.text != ''? Column(
                           children: [
                             createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
                             createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
@@ -710,35 +726,35 @@ int addSubUnit = 0;
                                   //     );
                                   //   } else {
                                   if (assets.length == 0) {
-                                      productId.doc(widget.prodId).update({
-                                        'prod_name' : prodNameCtrl.text,
-                                        'bar_code' : barCodeCtrl.text,
-                                        'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                                        'unit_name' : mainUnitNameCtrl.text,
-                                        'buyPrice1' : mainBuyCtrl.text,
-                                        'unit_sell' : mainSellCtrl.text,
-                                        'sub_exist' : subExistChange,
-                                        'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                                        'sub1_link' : sub1perUnitCtrl.text,
-                                        'sub1_name' : sub1UnitNameCtrl.text,
-                                        'sub1_sell' : sub1SellCtrl.text,
-                                        'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                                        'sub2_link' : sub2perUnitCtrl.text,
-                                        'sub2_name' : sub2UnitNameCtrl.text,
-                                        'sub2_sell' : sub2SellCtrl.text,
-                                        'buyPrice2' : sub1Buy,
-                                        'buyPrice3' : sub2Buy,
-                                      }).then((value) => Navigator.pop(context)).catchError((error) => print("Failed to update: $error"));
+                                    productId.doc(widget.prodId).update({
+                                      'prod_name' : prodNameCtrl.text,
+                                      'bar_code' : barCodeCtrl.text,
+                                      'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                                      'unit_name' : mainUnitNameCtrl.text,
+                                      'buyPrice1' : mainBuyCtrl.text,
+                                      'unit_sell' : mainSellCtrl.text,
+                                      'sub_exist' : subExistChange,
+                                      'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                                      'sub1_link' : sub1perUnitCtrl.text,
+                                      'sub1_name' : sub1UnitNameCtrl.text,
+                                      'sub1_sell' : sub1SellCtrl.text,
+                                      'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                                      'sub2_link' : sub2perUnitCtrl.text,
+                                      'sub2_name' : sub2UnitNameCtrl.text,
+                                      'sub2_sell' : sub2SellCtrl.text,
+                                      'buyPrice2' : sub1Buy,
+                                      'buyPrice3' : sub2Buy,
+                                    }).then((value) => Navigator.pop(context)).catchError((error) => print("Failed to update: $error"));
 
-                                // });
-                                } else {
+                                    // });
+                                  } else {
                                     for (int i = 0;
                                     i < assets.length;
                                     i++) {
                                       AssetEntity asset =
                                       assets.elementAt(i);
                                       asset.originFile.then((value) async {
-                                        addProduct(value!).then((value) {
+                                        addProduct(value!, photoArray).then((value) {
                                           photoArray = value.toString();
                                           productId.doc(widget.prodId).update({
                                             'prod_name' : prodNameCtrl.text,
@@ -797,17 +813,19 @@ int addSubUnit = 0;
       ),
     );
   }
-  Future addProduct(File imageFile) async {
+  Future addProduct(File imageFile, String rm_image) async {
+    print('RM path ' + rm_image.toString());
 // ignore: deprecated_member_use
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-    var uri = Uri.parse("https://riftplus.me/smartkyat_pos/api/images_upload.php");
+    var uri = Uri.parse("https://riftplus.me/smartkyat_pos/api/images_reup.php");
     var request = new http.MultipartRequest("POST", uri);
 
     var multipartFile = new http.MultipartFile("image", stream, length,
         filename: Path.basename(imageFile.path));
 
     request.files.add(multipartFile);
+    request.fields['rm_image'] = rm_image;
     // request.fields['productname'] = controllerName.text;
     // request.fields['productprice'] = controllerPrice.text;
     // request.fields['producttype'] = controllerType.text;
@@ -852,7 +870,7 @@ int addSubUnit = 0;
 //     return respStr.toString();
 //   }
 
-   createCard(length, unit, controller1, controller2, controller3, controller4) {
+  createCard(length, unit, controller1, controller2, controller3, controller4) {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
       child: Column(
@@ -878,24 +896,24 @@ int addSubUnit = 0;
                 child: GestureDetector(
                   onTap: () {
                     if(addSubUnit == 2) {
-                    setState(() {
-                      sub2perUnitCtrl.clear();
-                      sub2QtyCtrl.text = '0';
-                      sub2SellCtrl.clear();
-                      sub2UnitNameCtrl.clear();
-                      subExist = '0';
-                      addSubUnit = 1;
-                    });
-                    } else if(addSubUnit == 0) {
-                      if(subExist == '2') {
                       setState(() {
                         sub2perUnitCtrl.clear();
                         sub2QtyCtrl.text = '0';
                         sub2SellCtrl.clear();
                         sub2UnitNameCtrl.clear();
-                        subExist = '1';
-                        addSubUnit = 0;
-                      });} else
+                        subExist = '0';
+                        addSubUnit = 1;
+                      });
+                    } else if(addSubUnit == 0) {
+                      if(subExist == '2') {
+                        setState(() {
+                          sub2perUnitCtrl.clear();
+                          sub2QtyCtrl.text = '0';
+                          sub2SellCtrl.clear();
+                          sub2UnitNameCtrl.clear();
+                          subExist = '1';
+                          addSubUnit = 0;
+                        });} else
                       if(subExist == '1') {
                         setState(() {
                           sub1perUnitCtrl.clear();
@@ -907,15 +925,15 @@ int addSubUnit = 0;
                         });}
                     } else if(addSubUnit == 1){
                       if(subExist == '1') {
-                      setState(() {
-                        sub2perUnitCtrl.clear();
-                        sub2QtyCtrl.text = '0';
-                        sub2SellCtrl.clear();
-                        sub2UnitNameCtrl.clear();
-                        subExist = '1';
-                        addSubUnit = 0;
-                      });
-                    }
+                        setState(() {
+                          sub2perUnitCtrl.clear();
+                          sub2QtyCtrl.text = '0';
+                          sub2SellCtrl.clear();
+                          sub2UnitNameCtrl.clear();
+                          subExist = '1';
+                          addSubUnit = 0;
+                        });
+                      }
                       if(subExist == '0') {
                         setState(() {
                           sub1perUnitCtrl.clear();

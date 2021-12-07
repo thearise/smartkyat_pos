@@ -392,74 +392,106 @@ class _LossProductState extends State<LossProduct> {
                                   String buyPriceUnit = '';
                                   String buyPrice = '';
                                   String unit = '';
+                                  CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('loss');
 
                                   if (widget.prodID.split('-')[3] == 'unit_name') {
                                     decStockFromInv(widget.prodID.split('-')[0], 'main', lossAmount.text.toString());
-                                    unit = 'loss1';
-                                    buyPriceUnit = 'buyPrice1';
+                                    lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                      'date': now,
+                                      'prod_id' : widget.prodID.split('-')[0],
+                                       'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                      'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
+                                      'type': 'loss1',
+                                    }).then((value) =>
+                                        print("User Updated"))
+                                        .catchError((error) =>
+                                        print(
+                                            "Failed to update datenotexist: $error"));
+                                    // unit = 'loss1';
+                                    // buyPriceUnit = 'buyPrice1';
                                   }
                                   else if (widget.prodID.split('-')[3] == 'sub1_name') {
                                     sub1Execution(subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString());
-                                    unit = 'loss2';
-                                    buyPriceUnit = 'buyPrice2';
+                                    // unit = 'loss2';
+                                    // buyPriceUnit = 'buyPrice2';
+                                    lossProduct.add({
+                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                      'date': now,
+                                      'prod_id' : widget.prodID.split('-')[0],
+                                      'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                      'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
+                                      'type': 'loss2',
+                                    }).then((value) =>
+                                        print("User Updated"))
+                                        .catchError((error) =>
+                                        print(
+                                            "Failed to update datenotexist: $error"));
                                   }
                                   else if (widget.prodID.split('-')[3] == 'sub2_name') {
-                                    sub2Execution(
-                                        subStock1, subLink1,
-                                        widget.prodID.split('-')[0],
-                                        lossAmount.text.toString());
-                                    unit = 'loss3';
-                                    buyPriceUnit = 'buyPrice3';
+                                    sub2Execution(subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString());
+                                    lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                      'date': now,
+                                      'prod_id' : widget.prodID.split('-')[0],
+                                      'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                      'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
+                                      'type': 'loss3',
+                                    }).then((value) =>
+                                        print("User Updated"))
+                                        .catchError((error) =>
+                                        print(
+                                            "Failed to update datenotexist: $error"));
+                                    // unit = 'loss3';
+                                    // buyPriceUnit = 'buyPrice3';
                                   }
-                                  var dateId = '';
-
-                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).get().then((value) async {
-                                    buyPrice = value.data()![buyPriceUnit].toString();
-
-                                    print("SHOP ID " + widget.shopId + ' ' + widget.prodID.split('-')[0]);
-                                    FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).collection(unit)
-                                        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                        .get()
-                                        .then((QuerySnapshot qsNew)  async {
-
-                                      print("LENGTH " + qsNew.docs.length.toString());
-
-                                      qsNew.docs.forEach((doc) {
-                                        dateExist = true;
-                                        dateId = doc.id;
-                                        print('UNIT ' + doc.id.toString());
-                                      });
-
-                                      print('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
-                                      print('dick exist - > ' + dateExist.toString());
-                                      CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).collection(unit);
-                                      //
-                                      if(dateExist){
-                                        lossProduct.doc(dateId).update({
-                                          'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                          // 'count': FieldValue.increment(double.parse(lossAmount.text.toString())),
-                                          // 'buy_price': buyPrice,
-                                        }).then((value) => print("User Updated"))
-                                            .catchError((error) => print("Failed to update dateexist: $error"));
-                                      }
-                                      else {
-                                        lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum).set({
-                                          // 'count': FieldValue
-                                          //     .increment(
-                                          //     double.parse(
-                                          //         lossAmount.text.toString())),
-                                          // 'buy_price': buyPrice,
-                                          'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                          'date': now,
-                                        }).then((value) =>
-                                            print("User Updated"))
-                                            .catchError((error) =>
-                                            print(
-                                                "Failed to update datenotexist: $error"));
-                                      }
-                                    });
-                                  });
+                                  // var dateId = '';
+                                  //
+                                  // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).get().then((value) async {
+                                  //   buyPrice = value.data()![buyPriceUnit].toString();
+                                  //
+                                  //   print("SHOP ID " + widget.shopId + ' ' + widget.prodID.split('-')[0]);
+                                  //   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).collection(unit)
+                                  //       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                  //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                  //       .get()
+                                  //       .then((QuerySnapshot qsNew)  async {
+                                  //
+                                  //     print("LENGTH " + qsNew.docs.length.toString());
+                                  //
+                                  //     qsNew.docs.forEach((doc) {
+                                  //       dateExist = true;
+                                  //       dateId = doc.id;
+                                  //       print('UNIT ' + doc.id.toString());
+                                  //     });
+                                  //
+                                  //     print('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
+                                  //     print('dick exist - > ' + dateExist.toString());
+                                  //
+                                  //     //
+                                  //     if(dateExist){
+                                  //       lossProduct.doc(dateId).update({
+                                  //         'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                  //         // 'count': FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                  //         // 'buy_price': buyPrice,
+                                  //       }).then((value) => print("User Updated"))
+                                  //           .catchError((error) => print("Failed to update dateexist: $error"));
+                                  //     }
+                                  //     else {
+                                  //       lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum).set({
+                                  //         // 'count': FieldValue
+                                  //         //     .increment(
+                                  //         //     double.parse(
+                                  //         //         lossAmount.text.toString())),
+                                  //         // 'buy_price': buyPrice,
+                                  //         'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                  //         'date': now,
+                                  //       }).then((value) =>
+                                  //           print("User Updated"))
+                                  //           .catchError((error) =>
+                                  //           print(
+                                  //               "Failed to update datenotexist: $error"));
+                                  //     }
+                                  //   });
+                                  // });
                                   Navigator.pop(context);
                                 }
                                 },

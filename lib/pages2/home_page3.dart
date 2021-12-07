@@ -184,12 +184,13 @@ class HomePageState extends State<HomePage>
   //   'grapes',
   // ];
 
-  List _testList = [];
+  List _testList =  [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   var _selectedTest;
 
   @override
   void initState() {
+   // _testList =  [{'no': 1, 'keyword': unitName1}, {'no': 2, 'keyword': unitName2}, {'no': 3, 'keyword': unitName3}];
     _textFieldControllerTablet.addListener((){
       print("value: ${_textFieldControllerTablet.text}");
       setState(() {
@@ -4167,12 +4168,14 @@ class HomePageState extends State<HomePage>
           scannedResult(doc.id + '^' + doc['prod_name'] + '^' + doc['unit_sell'] + '^' + doc['sub1_sell']
               + '^' + doc['sub2_sell'] + '^' + doc['inStock1'].toString() + '^' + doc['inStock2'].toString() + '^' + doc['inStock3'].toString() + '^' + doc['sub_exist'] + '^' +
               doc['unit_name'] + '^' + doc['sub1_name'] + '^' + doc['sub2_name'] + '^' + doc['bar_code']);
-          setState(() {
+
             doc['sub1_name'] != ''  && doc['sub2_name'] == '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}]:
             doc['sub1_name'] != ''  && doc['sub2_name'] != '' ? _testList = [{'no': 1, 'keyword': doc['unit_name']}, {'no': 2, 'keyword': doc['sub1_name']}, {'no': 3, 'keyword': doc['sub2_name']}] :
             _testList = [{'no': 1, 'keyword': doc['unit_name']}];
-          });
-
+            qty = 1;
+            price4 = 0;
+            buyPriceController.text = price4.toString();
+            barcodeCtrl.text = qty.toString();
           _dropdownTestItems = buildDropdownTestItems(_testList);
         });
       });
@@ -4465,9 +4468,16 @@ class HomePageState extends State<HomePage>
   //
   // }
   TextEditingController buyPriceController = TextEditingController();
-  int qty = 1;
+  int qty = 0;
   double totalFixAmount2 = 0;
   double titlePrice2 = 0;
+  int price4 = 0;
+  String sellprice5 = '0';
+  String instock = '';
+  String loss5 = '5';
+  String barcode5 = '';
+  String name5 = '';
+  String data = '';
   TextEditingController barcodeCtrl = TextEditingController();
   scannedResult(String result) {
     showModalBottomSheet(
@@ -4476,33 +4486,48 @@ class HomePageState extends State<HomePage>
         context: context,
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
-          barcodeCtrl.text = qty.toString();
-          buyPriceController.text = '0';
-          //titlePrice2 = double.parse(buyPriceController.text);
-          totalFixAmount2 = int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text);
-          String sellprice = '';
-          String instock = '';
-          String loss = '5';
-          String barcode = result.split('^')[12];
-          String name = '';
+          barcode5 = result.split('^')[12];
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter stateful) {
-              barcodeCtrl.addListener((){
+              if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
                   stateful((){
-                    (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
+                    sellprice5 = result.split('^')[2];
+                    instock = result.split('^')[5];
+                    name5 = result.split('^')[9];
+                    data ='-unit_name-';
+                });
+                print('selected test is true');
+              } else  if(_selectedTest.toString() == '{no: 2, keyword: ' + result.split('^')[10] + '}') {
+                  stateful((){
+                    sellprice5 = result.split('^')[3];
+                    instock = result.split('^')[6];
+                    name5 = result.split('^')[10];
+                    data ='-sub1_name-';
+                });
+
+                print('selected test is false');
+              } else{
+                  stateful((){
+                    sellprice5 = result.split('^')[4];
+                    instock = result.split('^')[7];
+                    name5 = result.split('^')[11];
+                    data ='-sub2_name-';
                   });
+                print('selected test is tf');}
+
+              barcodeCtrl.addListener((){
+
+                    (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
               });
 
               buyPriceController.addListener((){
-                  stateful((){
+
                     (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
                     if( buyPriceController.text != '') {
-                     // titlePrice2 = double.parse(buyPriceController.text);
-                      price2 = int.parse(buyPriceController.text); } else {
-                      //titlePrice2 = 0.0;
-                      price2 = 0;
+                      price4 = int.parse(buyPriceController.text); } else {
+                      price4 = 0;
                     }
-                  });
+
               });
 
 
@@ -4629,38 +4654,19 @@ class HomePageState extends State<HomePage>
 
                                                       });});
                                                       if(_selectedTest.toString() == '{no: 1, keyword: ' + result.split('^')[9] + '}') {
-                                                        setState(() {
-                                                          stateful((){
-                                                            buyPriceController.text = result.split('^')[2];
-                                                            sellprice = result.split('^')[2];
-                                                            instock = result.split('^')[5];
-                                                            name = result.split('^')[9];
-                                                          });
+                                                        stateful((){
+                                                          buyPriceController.text = result.split('^')[2];
                                                         });
-
-                                                        print('selected test is true');
                                                       } else  if(_selectedTest.toString() == '{no: 2, keyword: ' + result.split('^')[10] + '}') {
-                                                        setState(() {
-                                                          stateful((){
+                                                        stateful((){
                                                             buyPriceController.text = result.split('^')[3];
-                                                            sellprice = result.split('^')[3];
-                                                            instock = result.split('^')[6];
-                                                            name = result.split('^')[10];
-                                                          });
-                                                        });
 
-                                                        print('selected test is false');
-                                                      } else{
-                                                        setState(() {
-                                                          stateful((){
-                                                            buyPriceController.text = result.split('^')[4];
-                                                            sellprice = result.split('^')[4];
-                                                            instock = result.split('^')[7];
-                                                            name = result.split('^')[11];
-                                                          });
                                                         });
-                                                      print('selected test is tf');}
-                                                      print('dropdown' +_selectedTest .toString());
+                                                      } else{
+                                                        stateful((){
+                                                          buyPriceController.text = result.split('^')[4];
+                                                        });
+                                                        }
                                                     },
                                                   ),
                                                   SizedBox(height: 15),
@@ -4862,7 +4868,7 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                    Text('MMK ' +  sellprice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                    Text('MMK ' +  sellprice5.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
@@ -4887,7 +4893,7 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                   Text(instock.toString() + ' ' + name, style:
+                                                                   Text(instock.toString() + ' ' + name5, style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
@@ -4912,7 +4918,7 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                    Text(loss.toString() + ' ' + name, style:
+                                                                    Text(loss5.toString() + ' ' + name5, style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
@@ -4931,7 +4937,7 @@ class HomePageState extends State<HomePage>
                                                                       fontWeight: FontWeight.w500,
                                                                     ),),
                                                                     Spacer(),
-                                                                    Text(barcode, style:
+                                                                    Text(barcode5, style:
                                                                     TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight.w500,
@@ -4990,7 +4996,18 @@ class HomePageState extends State<HomePage>
                                                   Padding(
                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
                                                       child: GestureDetector(
-                                                        onTap: () {
+                                                        onTap: () async {
+                                                          addProduct(result.split('^')[0] + '-' + '-' + price4.toString() + data + qty.toString());
+                                                          print('addData' + result.split('^')[0] + '-' + '-' + price4.toString() + data + qty.toString());
+                                                          // setState((){
+                                                          //   stateful((){
+                                                          //     _testList =  [{'no': 1, 'keyword': 'unit_name'}, {'no': 2, 'keyword': 'sub1_name'}, {'no': 3, 'keyword': 'sub2_name'}];
+                                                          //
+                                                          //     // _dropdownTestItems = [];
+                                                          //     // _selectedTest = [];
+                                                          //   });  });
+                                                          Navigator.pop(context);
+
                                                         },
                                                         child: Container(
                                                           width: double.infinity,

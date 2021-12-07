@@ -3687,6 +3687,14 @@ class BuyListFragmentState extends State<BuyListFragment>
   final _width = 10.0;
   int cateScIndex = 0;
 
+  zeroToTen(String string) {
+    if (int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0' + string;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // CollectionReference daily_exps = ;
@@ -3729,23 +3737,107 @@ class BuyListFragmentState extends State<BuyListFragment>
                                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
                                       if(snapshot2.hasData) {
                                         var sections = List<ExampleSection>.empty(growable: true);
-                                        // snapshot.data!.docs.map((document) {
-                                        // }).toList();
-
+                                        int docInc = 0;
                                         snapshot.data!.docs.map((document) async {
 
-                                          // print('herre ' + document.id);
-                                          var section = ExampleSection()
-                                            ..header = document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
-                                          // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                          //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-                                            ..items = sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-                                          //   ..items = document['daily_order'].cast<String>()
-                                            ..expanded = true;
-                                          sections.add(section);
+                                          // List<String> dailyOrders = document['daily_order'].cast<String>();
+                                          List<String> dailyOrders = [];
+                                          for(String str in document['daily_order']) {
+                                            if(cateScIndex == 2) {
+                                              if(str.split('^')[4][0] == 's' || str.split('^')[4][0] == 'r') {
+                                                dailyOrders.add(str);
+                                              }
+                                            } else if(cateScIndex == 1) {
+                                              if(str.split('^')[5] != '0.0') {
+                                                dailyOrders.add(str);
+                                              }
+                                            } else if(cateScIndex == 3) {
+                                              if(str.split('^')[5] == '0.0') {
+                                                dailyOrders.add(str);
+                                              }
+                                            } else if(cateScIndex == 0) {
+                                              dailyOrders.add(str);
+                                            }
+
+                                          }
+                                          if(docInc>0) {
+                                            Map<String,dynamic> dataLow = snapshot.data!.docs[docInc-1].data()! as Map< String, dynamic>;
+                                            List<String> dataLowDailyOrder = [];
+                                            for(String str in dataLow['daily_order']) {
+                                              if(cateScIndex == 2) {
+                                                if(str.split('^')[4][0] == 's' || str.split('^')[4][0] == 'r') {
+                                                  dataLowDailyOrder.add(str);
+                                                }
+                                              } else if(cateScIndex == 1) {
+                                                if(str.split('^')[5] != '0.0') {
+                                                  dataLowDailyOrder.add(str);
+                                                }
+                                              } else if(cateScIndex == 3) {
+                                                if(str.split('^')[5] == '0.0') {
+                                                  dataLowDailyOrder.add(str);
+                                                }
+                                              } else if(cateScIndex == 0) {
+                                                dataLowDailyOrder.add(str);
+                                              }
+
+                                            }
+
+
+                                            print('DATA LOW ' + dataLow['date'].toDate().toString());
+                                            if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
+                                                ==
+                                                dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
+                                            ) {
+                                              var section = ExampleSection()
+                                                ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                              //   ..items = document['daily_order'].cast<String>()
+
+
+                                              // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                                ..items = sortList(changeData(dataLowDailyOrder.cast<String>(), snapshot2) + changeData(dailyOrders.cast<String>(), snapshot2))
+                                              // ..items = orderItems(document.id)
+                                                ..expanded = true;
+                                              // sections.add(section);
+                                              sections[sections.length-1] = section;
+                                            } else {
+                                              // print('herre ' + document.id);
+                                              var section = ExampleSection()
+                                                ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                              //   ..items = document['daily_order'].cast<String>()
+
+
+                                                ..items = sortList(changeData(dailyOrders.cast<String>(), snapshot2))
+                                              // ..items = orderItems(document.id)
+                                                ..expanded = true;
+                                              sections.add(section);
+                                            }
+                                          } else {
+                                            // print('herre ' + document.id);
+                                            var section = ExampleSection()
+                                              ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
+                                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                            //   ..items = document['daily_order'].cast<String>()
+
+
+                                              ..items = sortList(changeData(dailyOrders.cast<String>(), snapshot2))
+                                            // ..items = orderItems(document.id)
+                                              ..expanded = true;
+                                            sections.add(section);
+                                          }
+
+
+
+                                          docInc++;
                                         }).toList();
                                         sectionList3 = sections;
-
                                         return CustomScrollView(
                                           slivers: <Widget>[
                                             SliverAppBar(
@@ -3872,7 +3964,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Low stocks',
+                                                                    'Unpaids',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -3902,7 +3994,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Best sales',
+                                                                    'Refunds',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -3932,7 +4024,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Low sales',
+                                                                    'Paids',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4916,6 +5008,10 @@ class BuyListFragmentState extends State<BuyListFragment>
 
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
+    // print('section check '+ sectionList3[sectionIndex].items.length.toString());
+    if(sectionList3[sectionIndex].items.length == 0) {
+      return Container();
+    }
     return InkWell(
         child: Container(
             decoration: BoxDecoration(
@@ -4939,6 +5035,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                     children: [
                       Text(
                         // "TODAY",
+                        // checkTest(section.header),
                         covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         style: TextStyle(
                             height: 0.8,
@@ -4973,6 +5070,7 @@ class BuyListFragmentState extends State<BuyListFragment>
               ),
             )),
         onTap: () {
+
           //toggle section expand state
           // setState(() {
           //   section.setSectionExpanded(!section.isSectionExpanded());
