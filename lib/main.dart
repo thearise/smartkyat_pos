@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
@@ -13,6 +14,7 @@ final themeMode = ValueNotifier(2);
 PackageInfo? packageInfo;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Firebase.initializeApp();
   runApp(MyApp());
 }

@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:rxdart/rxdart.dart';
@@ -47,6 +48,7 @@ import '../axes/axes_gallery.dart' as axes show buildGallery;
 import '../behaviors/behaviors_gallery.dart' as behaviors show buildGallery;
 import '../i18n/i18n_gallery.dart' as i18n show buildGallery;
 import '../legends/legends_gallery.dart' as legends show buildGallery;
+import 'ad_helper.dart';
 import 'subs/customer_info.dart';
 
 
@@ -149,8 +151,29 @@ class HomeFragmentState extends State<HomeFragment>
   DateTime? _dateTime;
   String _format = 'yyyy-MMMM-dd';
 
+
+  late BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+
   @override
   initState() {
+    // super.initState();
+    _bannerAd = BannerAd(
+      // Change Banner Size According to Ur Need
+        size: AdSize.fullBanner,
+        adUnitId: AdHelper.bannerAdUnitId,
+        listener: BannerAdListener(onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        }, onAdFailedToLoad: (ad, LoadAdError error) {
+          print("Failed to Load A Banner Ad${error.message}");
+          _isBannerAdReady = false;
+          ad.dispose();
+        }),
+        request: AdRequest())
+      ..load();
+
     _dateTime = DateTime.now();
     print('Timestamp ' + DateTime.now().toString() + ' --> ' + Timestamp.fromMillisecondsSinceEpoch(1599573193925).toString());
     HomePageState().getStoreId().then((value) {
@@ -325,6 +348,7 @@ class HomeFragmentState extends State<HomeFragment>
           for(String str in data['daily_order']) {
             // print(double.parse(str));
             total += double.parse(str.split('^')[2]);
+            weekCostsTotal += double.parse(str.split('^')[5]);
           }
           thisWeekOrdersChart[week] = total;
 
@@ -408,149 +432,152 @@ class HomeFragmentState extends State<HomeFragment>
     }
 
     // print('each ');
-    for(int loopOrd = 0; loopOrd < snapshot1.data!.docs.length; loopOrd++) {
-      // print('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
-      Map<String, dynamic> data = snapshot1.data!.docs[loopOrd].data()! as Map<String, dynamic>;
+    if(snapshot1.data != null) {
+      for(int loopOrd = 0; loopOrd < snapshot1.data!.docs.length; loopOrd++) {
+        // print('DOC IIDD ' + snapshot0.data!.docs[loopOrd].id.toString());
+        Map<String, dynamic> data = snapshot1.data!.docs[loopOrd].data()! as Map<String, dynamic>;
 
-      DateTime dateTimeOrders = data['date'].toDate();
-      String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
-      print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
+        DateTime dateTimeOrders = data['date'].toDate();
+        String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
+        print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
-      int week = 0;
-      int month = 0;
-      int year = 0;
-      sevenDaysAgo = today.subtract(const Duration(days: 8));
-      monthAgo = today.subtract(const Duration(days: 31));
+        int week = 0;
+        int month = 0;
+        int year = 0;
+        sevenDaysAgo = today.subtract(const Duration(days: 8));
+        monthAgo = today.subtract(const Duration(days: 31));
 
-      while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
-        sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
+        while(!(today.year.toString() == sevenDaysAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(sevenDaysAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(sevenDaysAgo.day.toString()))) {
+          sevenDaysAgo = sevenDaysAgo.add(const Duration(days: 1));
 
-        // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
-        // print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+          // print('seven Days Ago ' + sevenDaysAgo.day.toString() + ' ' + week.toString());
+          // print('here shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
 
-        // print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
+          // print('shwe shwe ' + sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString()));
 
-        if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
-          double total = 0;
-          // print(doc['daily_order'].toString());
-          for(String str in data['daily_order']) {
-            // print(double.parse(str));
-            weekCostsTotalR += double.parse(str.split('^')[2]);
+          if(dataDate == sevenDaysAgo.year.toString() + zeroToTen(sevenDaysAgo.month.toString()) + zeroToTen(sevenDaysAgo.day.toString())) {
+            double total = 0;
+            // print(doc['daily_order'].toString());
+            for(String str in data['daily_order']) {
+              // print(double.parse(str));
+              weekCostsTotalR += double.parse(str.split('^')[2]);
+            }
+
           }
+          week = week + 1;
 
         }
-        week = week + 1;
 
-      }
+        while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
+          monthAgo = monthAgo.add(const Duration(days: 1));
 
-      while(!(today.year.toString() == monthAgo.year.toString() && zeroToTen(today.month.toString()) == zeroToTen(monthAgo.month.toString()) && zeroToTen(today.day.toString()) == zeroToTen(monthAgo.day.toString()))) {
-        monthAgo = monthAgo.add(const Duration(days: 1));
-
-        // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
-        // print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+          // print('month Days Ago ' + monthAgo.day.toString() + ' ' + month.toString());
+          // print('here shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 
 
-        // print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
+          // print('shwe shwe ' + monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString()));
 
-        if(dataDate == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
+          if(dataDate == monthAgo.year.toString() + zeroToTen(monthAgo.month.toString()) + zeroToTen(monthAgo.day.toString())) {
+            double total = 0;
+            // print(doc['daily_order'].toString());
+            for(String str in data['daily_order']) {
+              monthCostsTotalR += double.parse(str.split('^')[2]);
+            }
+
+          }
+          month = month + 1;
+        }
+        if (dataDate.substring(0,8) == today.year.toString() +
+            zeroToTen(today.month.toString()) +
+            zeroToTen(today.day.toString())) {
           double total = 0;
-          // print(doc['daily_order'].toString());
-          for(String str in data['daily_order']) {
-            monthCostsTotalR += double.parse(str.split('^')[2]);
+          for (String str in data['daily_order']) {
+            for(int i=0; i<=24 ; i++ ){
+              if(str.split('^')[0].substring(0, 10) == today.year.toString() +
+                  zeroToTen(today.month.toString()) +
+                  zeroToTen(today.day.toString()) +
+                  zeroToTen(i.toString()))
+              {
+                todayCostsTotalR += double.parse(str.split('^')[2]);
+              }
+            }
           }
 
+
         }
-        month = month + 1;
-      }
-      if (dataDate.substring(0,8) == today.year.toString() +
-          zeroToTen(today.month.toString()) +
-          zeroToTen(today.day.toString())) {
-        double total = 0;
-        for (String str in data['daily_order']) {
-          for(int i=0; i<=24 ; i++ ){
-            if(str.split('^')[0].substring(0, 10) == today.year.toString() +
-                zeroToTen(today.month.toString()) +
-                zeroToTen(today.day.toString()) +
-                zeroToTen(i.toString()))
-            {
-              todayCostsTotalR += double.parse(str.split('^')[2]);
+        if (dataDate.substring(0,4) == today.year.toString()){
+          double total = 0;
+          for (String str in data['daily_order']) {
+            // print('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
+            for(int i=1; i<=12 ; i++ ) {
+              // print('helloworld '+i.toString());
+
+              if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
+              {
+                yearCostsTotalR += double.parse(str.split('^')[2]);
+                // print('fortune ' +thisYearOrdersChart.toString());
+                // });
+              }
+              //print('laos ' + total.toString());
+
             }
           }
         }
 
+        // setState(() {
+        //   // print('CHECK todayCOSTS ' + todayCostsTotal.toString());
+        // });
 
+        // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
+        //   yearAgo = yearAgo.add(const Duration(days: 1));
+        //
+        //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
+        //     double total = 0;
+        //     // print(doc['daily_order'].toString());
+        //     for(String str in doc['daily_order']) {
+        //       // print(double.parse(str));
+        //       total += double.parse(str.split('^')[2]);
+        //     }
+        //     print('total ' + total.toString());
+        //     setState(() {
+        //       thisYearOrdersChart[year] = total;
+        //     });
+        //
+        //   }
+        //   year = year + 1;
+        //
+        // }
+        // print('this year' + thisYearOrdersChart.toString());
+        // print('this week ' + thisWeekOrdersChart.toString());
+        // for(int j = 20210909; j <= 20210915; j++) {
+        //
+        //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
+        //   print('here shwe 2 ' + j.toString());
+        //   // if(doc['date'] == j.toString()) {
+        //   //   double total = 0;
+        //   //   // print(doc['daily_order'].toString());
+        //   //   for(String str in doc['daily_order']) {
+        //   //     // print(double.parse(str));
+        //   //     total += double.parse(str.split('^')[2]);
+        //   //   }
+        //   //   print('total ' + total.toString());
+        //   //   setState(() {
+        //   //     thisWeekOrdersChart[ij] = total;
+        //   //   });
+        //   //
+        //   // }
+        //   // ij = ij + 1;
+        //   // print(ij);
+        // }
+
+
+        // print('this week 2' + thisWeekOrdersChart.toString());
+
+        // print('each ' + doc.id.toString());
       }
-      if (dataDate.substring(0,4) == today.year.toString()){
-        double total = 0;
-        for (String str in data['daily_order']) {
-          // print('DATE CHECK  ' + snapshot0.data!.docs[loopOrd].id);
-          for(int i=1; i<=12 ; i++ ) {
-            // print('helloworld '+i.toString());
-
-            if(str.split('^')[0].substring(0,6) == today.year.toString()+ zeroToTen(i.toString()))
-            {
-              yearCostsTotalR += double.parse(str.split('^')[2]);
-              // print('fortune ' +thisYearOrdersChart.toString());
-              // });
-            }
-            //print('laos ' + total.toString());
-
-          }
-        }
-      }
-
-      // setState(() {
-      //   // print('CHECK todayCOSTS ' + todayCostsTotal.toString());
-      // });
-
-      // while(!(today.year.toString() == yearAgo.year.toString() && today.month.toString() == yearAgo.month.toString() && today.day.toString() == yearAgo.day.toString())) {
-      //   yearAgo = yearAgo.add(const Duration(days: 1));
-      //
-      //   if(doc['date'] == yearAgo.year.toString() + zeroToTen(yearAgo.month.toString()) + zeroToTen(yearAgo.day.toString())) {
-      //     double total = 0;
-      //     // print(doc['daily_order'].toString());
-      //     for(String str in doc['daily_order']) {
-      //       // print(double.parse(str));
-      //       total += double.parse(str.split('^')[2]);
-      //     }
-      //     print('total ' + total.toString());
-      //     setState(() {
-      //       thisYearOrdersChart[year] = total;
-      //     });
-      //
-      //   }
-      //   year = year + 1;
-      //
-      // }
-      // print('this year' + thisYearOrdersChart.toString());
-      // print('this week ' + thisWeekOrdersChart.toString());
-      // for(int j = 20210909; j <= 20210915; j++) {
-      //
-      //   // print('seven Days Ago 2 ' + sevenDaysAgo.day.toString() + ' ' + ij.toString());
-      //   print('here shwe 2 ' + j.toString());
-      //   // if(doc['date'] == j.toString()) {
-      //   //   double total = 0;
-      //   //   // print(doc['daily_order'].toString());
-      //   //   for(String str in doc['daily_order']) {
-      //   //     // print(double.parse(str));
-      //   //     total += double.parse(str.split('^')[2]);
-      //   //   }
-      //   //   print('total ' + total.toString());
-      //   //   setState(() {
-      //   //     thisWeekOrdersChart[ij] = total;
-      //   //   });
-      //   //
-      //   // }
-      //   // ij = ij + 1;
-      //   // print(ij);
-      // }
-
-
-      // print('this week 2' + thisWeekOrdersChart.toString());
-
-      // print('each ' + doc.id.toString());
     }
+
   }
 
 
@@ -1521,10 +1548,21 @@ class HomeFragmentState extends State<HomeFragment>
                                             stream: FirebaseFirestore.instance
                                                 .collection('shops')
                                                 .doc(shopId)
-                                                .collection('products')
+                                                .collection('loss')
+                                                .where('date', isLessThanOrEqualTo: lossDayStart())
+                                                .where('date', isGreaterThanOrEqualTo: lossDayEnd())
                                                 .snapshots(),
-                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                              if(snapshot.hasData) {
+                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotLoss) {
+                                              if(snapshotLoss.hasData) {
+                                                double totalLossPrice = 0;
+                                                for(int i = 0; i < snapshotLoss.data!.docs.length; i++) {
+                                                  Map<String, dynamic> dataL = snapshotLoss.data!.docs[i].data()! as Map<String, dynamic>;
+                                                  totalLossPrice += dataL['amount'] * dataL['buy_price'];
+                                                }
+
+                                                print('totalLossPrice  ' + totalLossPrice.toString());
+
+
                                                 return CustomScrollView(
                                                   slivers: [
 
@@ -1791,7 +1829,14 @@ class HomeFragmentState extends State<HomeFragment>
                                                       expandedHeight: 25,
                                                     ),
                                                     // Next, create a SliverList
-
+                                                    SliverAppBar(
+                                                      flexibleSpace: _isBannerAdReady? Container(
+                                                        height: _bannerAd.size.height.toDouble(),
+                                                        width: _bannerAd.size.width.toDouble(),
+                                                        child: AdWidget(ad: _bannerAd),
+                                                      ): Container(),
+                                                      backgroundColor: Colors.Colors.transparent,
+                                                    ),
                                                     SliverList(
                                                       // Use a delegate to build items as they're scrolled on screen.
                                                       delegate: SliverChildBuilderDelegate(
@@ -2242,7 +2287,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                       left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
                                                                                       right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
                                                                                     ),
-                                                                                    color: Colors.Colors.white
+                                                                                    color: AppTheme.lightBgColor
                                                                                 ),
 
                                                                                 child: Padding(
@@ -2258,7 +2303,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           ),
                                                                                           Padding(
                                                                                             padding: const EdgeInsets.only(right:30.0),
-                                                                                            child: Text('230',
+                                                                                            child: Text(totalLossPrice.toString(),
                                                                                               textAlign: TextAlign.left,
                                                                                               style: GoogleFonts.lato(
                                                                                                   textStyle: TextStyle(
@@ -2277,13 +2322,27 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           top: 0,
                                                                                           child: Text('?')
                                                                                       ),
-                                                                                      Text('Refunds',
+                                                                                      Text('Loss',
                                                                                         style: TextStyle(
                                                                                             fontSize: 13,
                                                                                             fontWeight: FontWeight.w500,
                                                                                             color: Colors.Colors.black.withOpacity(0.6)),
                                                                                       ),
-
+                                                                                      Container(
+                                                                                        height: 100,
+                                                                                        width: 100,
+                                                                                        child: ListView.builder(
+                                                                                          shrinkWrap: true,
+                                                                                          itemCount: snapshotLoss.data!.docs.length,
+                                                                                          itemBuilder: (BuildContext context, int index) {
+                                                                                            // for(int loopP = 0; loopP < snapshotPd.data!.docs.length; loopP++) {
+                                                                                            //
+                                                                                            // }
+                                                                                            Map<String, dynamic> dataL = snapshotLoss.data!.docs[index].data()! as Map<String, dynamic>;
+                                                                                            print('check product ' + dataL['buy_price'].toString());
+                                                                                            return Container();
+                                                                                        }),
+                                                                                      ),
                                                                                       Positioned(
                                                                                           right: 0,
                                                                                           bottom: 2,
@@ -2675,6 +2734,14 @@ class HomeFragmentState extends State<HomeFragment>
                       ),
                     ),
                   ),
+                  // _isBannerAdReady? Align(
+                  //   alignment: Alignment.topCenter,
+                  //   child: Container(
+                  //     height: _bannerAd.size.height.toDouble(),
+                  //     width: _bannerAd.size.width.toDouble(),
+                  //     child: AdWidget(ad: _bannerAd),
+                  //   )
+                  // ): Container(),
                   overAllSearch()
                 ],
               ),
@@ -6527,6 +6594,45 @@ class HomeFragmentState extends State<HomeFragment>
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-00-00 00:00:00');
     print('DDDD ' + yearStart.toString());
     return yearStart;
+  }
+
+  lossDayStart() {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + zeroToTen(today.day.toString()) + ' 23:59:59');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
+  lossDayEnd() {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime notTday = today;
+    if(cateScIndex == 0) {
+      notTday = today;
+      DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
+      print('DDDD ' + yearStart.toString());
+      return yearStart;
+    } else if(cateScIndex == 1) {
+      notTday = today.subtract(Duration(days: 6));
+      DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
+      print('DDDD ' + yearStart.toString());
+      return yearStart;
+    } else if(cateScIndex == 2) {
+      notTday = today.subtract(Duration(days: 27));
+      DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-' + zeroToTen(notTday.day.toString()) + ' 00:00:00');
+      print('DDDD ' + yearStart.toString());
+      return yearStart;
+    } else {
+      DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-00-00 00:00:00');
+      print('DDDD ' + yearStart.toString());
+      return yearStart;
+    }
+
   }
 }
 
