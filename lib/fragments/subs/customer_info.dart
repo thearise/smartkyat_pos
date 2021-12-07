@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/widgets/edit_customer.dart';
 import '../../app_theme.dart';
 import 'customer_orders_info.dart';
 
@@ -278,14 +279,36 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          'CUSTOMER INFORMATION',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            letterSpacing: 2,
-                                            color: Colors.grey,
-                                          ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'CUSTOMER INFORMATION',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                letterSpacing: 2,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone)),);
+                                              },
+                                              child: Text(
+                                                'EDIT',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                  letterSpacing: 2,
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         SizedBox(height: 15,),
                                         Container(
