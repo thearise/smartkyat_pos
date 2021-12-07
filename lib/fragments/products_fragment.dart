@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fraction/fraction.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
@@ -25,6 +26,9 @@ import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
+import 'ad_helper.dart';
+import 'banner_full.dart';
+import 'banner_leader.dart';
 import 'subs/customer_info.dart';
 
 import '../app_theme.dart';
@@ -87,8 +91,27 @@ class ProductsFragmentState extends State<ProductsFragment>
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
+  late BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+
   @override
   initState() {
+    _bannerAd = BannerAd(
+      // Change Banner Size According to Ur Need
+        size: AdSize.fullBanner,
+        adUnitId: AdHelper.bannerAdUnitId,
+        listener: BannerAdListener(onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        }, onAdFailedToLoad: (ad, LoadAdError error) {
+          print("Failed to Load A Banner Ad${error.message}");
+          _isBannerAdReady = false;
+          ad.dispose();
+        }),
+        request: AdRequest())
+      ..load();
+
     HomePageState().getStoreId().then((value) => shopId = value);
     _searchController.addListener((){
       setState(() {
@@ -3932,6 +3955,11 @@ class ProductsFragmentState extends State<ProductsFragment>
                                 .snapshots(),
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
+                                // snapshot.data.
+                                int secLength = 0;
+                                // var adcode = Text(" Ad goes here");
+                                // List<dynamic> finalList = snapshot.data!;
+                                // finalList.insert(2, adcode);
                                 return CustomScrollView(
                                   slivers: [
                                     // Add the app bar to the CustomScrollView.
@@ -4141,6 +4169,14 @@ class ProductsFragmentState extends State<ProductsFragment>
                                       // Make the initial height of the SliverAppBar larger than normal.
                                       expandedHeight: 20,
                                     ),
+                                    SliverAppBar(
+                                      flexibleSpace: _isBannerAdReady ? Container(
+                                        height: _bannerAd.size.height.toDouble(),
+                                        width: _bannerAd.size.width.toDouble(),
+                                        child: AdWidget(ad: _bannerAd,),
+                                      ): Container(),
+                                      backgroundColor: Colors.transparent,
+                                    ),
                                     // Next, create a SliverList
                                     SliverList(
                                       // Use a delegate to build items as they're scrolled on screen.
@@ -4148,6 +4184,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                         // The builder function returns a ListTile with a title that
                                         // displays the index of the current item.
                                             (context, index) {
+                                              secLength = secLength + 1;
                                               Map<String, dynamic> data = snapshot.data!.docs[index]
                                                   .data()! as Map<String, dynamic>;
                                               var image = data['img_1'];
@@ -4162,6 +4199,24 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               var sub1Price = data['sub1_sell'];
                                               var sub2Price = data['sub2_sell'];
                                               var version = snapshot.data!.docs[index].id;
+                                              print('secLength ' + secLength.toString());
+                                              // if(secLength==2) {
+                                              //   index = index-1;
+                                              //   return Padding(
+                                              //     padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              //     child: BannerLeader(),
+                                              //   );
+                                              //   // return StatefulBuilder(
+                                              //   //   builder: (context, setState) {
+                                              //   //     return Container(
+                                              //   //       height: _bannerAd.size.height.toDouble(),
+                                              //   //       width: _bannerAd.size.width.toDouble(),
+                                              //   //       child: AdWidget(ad: _bannerAd, key: UniqueKey()),
+                                              //   //     );
+                                              //   //   }
+                                              //   // );
+                                              //   // return Container(height: 100, width: double.infinity, color: Colors.yellow);
+                                              // }
                                               return GestureDetector(
                                                 onTap: () {
                                                   Navigator.push(
