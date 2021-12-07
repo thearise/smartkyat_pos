@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/widgets/edit_merchant.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 
 import '../../app_theme.dart';
@@ -276,14 +277,36 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          'MERCHANT INFORMATION',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            letterSpacing: 2,
-                                            color: Colors.grey,
-                                          ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'MERCHANT INFORMATION',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                letterSpacing: 2,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone)),);
+                                              },
+                                              child: Text(
+                                                'EDIT',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                  letterSpacing: 2,
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         SizedBox(height: 15,),
                                         Container(
