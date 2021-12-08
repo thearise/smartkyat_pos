@@ -186,7 +186,7 @@ class HomePageState extends State<HomePage>
 
   List _testList =  [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
-  var _selectedTest;
+
 
   @override
   void initState() {
@@ -4153,6 +4153,7 @@ class HomePageState extends State<HomePage>
       FadeRoute(page: QRSearchExample()),
     );
 
+
     if(result != null && result != '') {
       await FirebaseFirestore.instance
           .collection('shops')
@@ -4480,6 +4481,7 @@ class HomePageState extends State<HomePage>
   String data = '';
   TextEditingController barcodeCtrl = TextEditingController();
   scannedResult(String result) {
+    var _selectedTest;
     showModalBottomSheet(
         enableDrag: true,
         isScrollControlled: true,
@@ -4646,6 +4648,7 @@ class HomePageState extends State<HomePage>
                                                     ),
                                                     hint: Text('Filter'),
                                                     value: _selectedTest,
+                                                    // value: name5.toString(),
                                                     items: _dropdownTestItems,
                                                     onChanged: (value) {
                                                       setState(() {
