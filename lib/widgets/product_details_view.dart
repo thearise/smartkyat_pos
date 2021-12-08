@@ -32,15 +32,13 @@ class ProductDetailsView2 extends StatefulWidget {
   final String idString;
   final String shopId;
 
-
   @override
   _ProductDetailsViewState2 createState() => _ProductDetailsViewState2();
 }
 
 class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     TickerProviderStateMixin <ProductDetailsView2> {
-
-
+  
   var deviceIdNum;
 
   addProduct2(data) {
@@ -884,12 +882,27 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('mainLoss'.toString() + ' ' + mainName, style:
-                                                                        TextStyle(
-                                                                          fontSize: 15,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.grey,
-                                                                        ),),
+                                                                        StreamBuilder(
+                                                                          stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('loss').where('prod_id', isEqualTo : widget.idString).where('type', isEqualTo : 'loss1').snapshots(),
+                                                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot12) {
+                                                                            if(snapshot12.hasData) {
+                                                                         var quantity = 0.0;
+                                                                               snapshot12.data!.docs
+                                                                            .map((DocumentSnapshot document) {
+                                                                              Map<String, dynamic> data5 = document
+                                                                             .data()! as Map<String, dynamic>;
+                                                                              quantity  = data5['amount'] + quantity;
+                                                                               }).toList();
+                                                                            return Text(quantity.round().toString() + ' ' + mainName, style:
+                                                                            TextStyle(
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.grey,
+                                                                            ),);
+                                                                          }
+                                                                            return Container();
+                                                                          }
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                 ),
@@ -1136,12 +1149,27 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                           fontWeight: FontWeight.w500,
                                                                         ),),
                                                                         Spacer(),
-                                                                        Text('sub1Loss'.toString() + ' ' + sub1Name, style:
-                                                                        TextStyle(
-                                                                          fontSize: 15,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.grey,
-                                                                        ),),
+                                                                        StreamBuilder(
+                                                                            stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('loss').where('prod_id', isEqualTo : widget.idString).where('type', isEqualTo : 'loss2').snapshots(),
+                                                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot12) {
+                                                                              if(snapshot12.hasData) {
+                                                                                var quantity = 0.0;
+                                                                                snapshot12.data!.docs
+                                                                                    .map((DocumentSnapshot document) {
+                                                                                  Map<String, dynamic> data5 = document
+                                                                                      .data()! as Map<String, dynamic>;
+                                                                                  quantity  = data5['amount'] + quantity;
+                                                                                }).toList();
+                                                                                return Text(quantity.round().toString() + ' ' + sub1Name, style:
+                                                                                TextStyle(
+                                                                                  fontSize: 15,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.grey,
+                                                                                ),);
+                                                                              }
+                                                                              return Container();
+                                                                            }
+                                                                        ),
                                                                       ],
                                                                     ),
                                                         ),
@@ -1384,14 +1412,27 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             children: [Text('Loss',
                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500,),),
                                                                         Spacer(),
-                                                                        Text('sub2Loss'.toString() + ' ' + sub2Name,
-                                                                          style: TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight
-                                                                                .w500,
-                                                                            color: Colors
-                                                                                .grey,
-                                                                          ),),
+                                                              StreamBuilder(
+                                                                  stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('loss').where('prod_id', isEqualTo : widget.idString).where('type', isEqualTo : 'loss3').snapshots(),
+                                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot12) {
+                                                                    if(snapshot12.hasData) {
+                                                                      var quantity = 0.0;
+                                                                      snapshot12.data!.docs
+                                                                          .map((DocumentSnapshot document) {
+                                                                        Map<String, dynamic> data5 = document
+                                                                            .data()! as Map<String, dynamic>;
+                                                                        quantity  = data5['amount'] + quantity;
+                                                                      }).toList();
+                                                                      return Text(quantity.round().toString() + ' ' + sub2Name, style:
+                                                                      TextStyle(
+                                                                        fontSize: 15,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.grey,
+                                                                      ),);
+                                                                    }
+                                                                    return Container();
+                                                                  }
+                                                              ),
                                                                       ],
                                                                     ),
                                                         ),
