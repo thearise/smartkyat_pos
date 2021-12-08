@@ -4219,12 +4219,9 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               // }
                                               return GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(
-                                                    context,
+                                                  Navigator.of(context).push(
                                                     MaterialPageRoute(
-                                                        builder: (context) => ProductDetailsView2(
-                                                            idString: version, toggleCoinCallback:
-                                                        addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(),)),);
+                                                        builder: (context) => ProductDetailsView2(idString: version, toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(),)),);
                                                 },
                                                 child: Padding(
                                                   padding:
