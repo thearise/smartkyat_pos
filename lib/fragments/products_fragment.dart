@@ -112,7 +112,11 @@ class ProductsFragmentState extends State<ProductsFragment>
         request: AdRequest())
       ..load();
 
-    HomePageState().getStoreId().then((value) => shopId = value);
+    HomePageState().getStoreId().then((value) {
+      setState(() {
+        shopId = value;
+      });
+    });
     _searchController.addListener((){
       setState(() {
         gloSearchText = _searchController.text;
@@ -149,6 +153,16 @@ class ProductsFragmentState extends State<ProductsFragment>
           loadingSearch = true;
         });
       }
+    });
+
+    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
+        .get()
+        .then((QuerySnapshot querySnapshot)  async {
+          print('hhhhh ' + querySnapshot.docs.length.toString());
+      // querySnapshot.docs.forEach((doc) {
+      //   // dateExist = true;
+      //   // dateId = doc.id;
+      // });
     });
     super.initState();
   }
@@ -3957,6 +3971,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                               if(snapshot.hasData) {
                                 // snapshot.data.
                                 int secLength = 0;
+                                print("LLEENN " + snapshot.data!.docs.length.toString());
                                 // var adcode = Text(" Ad goes here");
                                 // List<dynamic> finalList = snapshot.data!;
                                 // finalList.insert(2, adcode);

@@ -85,6 +85,7 @@ dependencies:
   dotted_line: ^3.1.0
   dropdown_below: ^1.0.1
   google_mobile_ads: ^1.0.1
+  bottom_picker:
 #  flutter_launcher_icons: "^0.9.2"
 
 
