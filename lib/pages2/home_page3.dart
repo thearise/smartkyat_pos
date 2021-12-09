@@ -321,14 +321,14 @@ class HomePageState extends State<HomePage>
           page: OrdersFragment(
             key: sordGlobalKey,
             toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
         ),
         TabItem(
           tabName: "Settings",
           icon: Icon(
             Icons.add,
           ),
-          page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3,),
+          page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch,),
         ),
         TabItem(
           tabName: "Settings",
@@ -339,14 +339,14 @@ class HomePageState extends State<HomePage>
             key: prodGlobalKey,
             toggleCoinCallback: addNewProd2,
             toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
         ),
         TabItem(
           tabName: "Settings",
           icon: Icon(
             Icons.add,
           ),
-          page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct,),
+          page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch,),
         ),
         TabItem(
           tabName: "Settings",
@@ -372,7 +372,7 @@ class HomePageState extends State<HomePage>
           // page: BuyListFragment(),
           page: BuyListFragment( key: bordGlobalKey,
             toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart,),
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
         ),
       ];
     });
@@ -4111,7 +4111,7 @@ class HomePageState extends State<HomePage>
             '-' +
             data.split('-')[3] +
             '-' +
-            (int.parse(prodList[i].split('-')[4]) + int.parse(prodList[i].split('-')[4])).toString();
+            (int.parse(prodList[i].split('-')[4]) +  int.parse(data.split('-')[4])).toString();
         setState((){prodList[i] = data + '-0'; });
         return;
       }
@@ -4120,7 +4120,6 @@ class HomePageState extends State<HomePage>
       setState((){prodList.add(data + '-0');});
     }
   }
-
 
   List<String> prodList2 = [];
   late final SlidableController slidableController1;
@@ -4999,7 +4998,9 @@ class HomePageState extends State<HomePage>
                                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
                                                       child: GestureDetector(
                                                         onTap: () async {
-                                                          addProduct(result.split('^')[0] + '-' + '-' + price4.toString() + data + qty.toString());
+                                                          setState(() {
+                                                            addProduct(result.split('^')[0] + '-' + '-' + price4.toString() + data + qty.toString());
+                                                          });
                                                           print('addData' + result.split('^')[0] + '-' + '-' + price4.toString() + data + qty.toString());
                                                           Navigator.pop(context);
 
@@ -5071,6 +5072,7 @@ class HomePageState extends State<HomePage>
           );
         });
   }
+
   TextEditingController myController = TextEditingController();
   TextEditingController myControllerTablet = TextEditingController();
   TextEditingController sellPriceController = TextEditingController();

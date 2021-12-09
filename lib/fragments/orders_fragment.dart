@@ -22,6 +22,7 @@ class OrdersFragment extends StatefulWidget {
   final _callback3;
   final _callback4;
   final _callback5;
+  final _barcodeBtn;
 
   OrdersFragment(
       {
@@ -29,6 +30,7 @@ class OrdersFragment extends StatefulWidget {
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
         required void toggleCoinCallback5(String str),
+        required void barcodeBtn(),
         required Key key,
       })
       :
@@ -36,6 +38,7 @@ class OrdersFragment extends StatefulWidget {
         _callback3 = toggleCoinCallback3,
         _callback4 = toggleCoinCallback4,
         _callback5 = toggleCoinCallback5,
+        _barcodeBtn = barcodeBtn,
         super(key: key);
 
   @override
@@ -4678,10 +4681,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    print('open barcode');
-                                    setState(() {
-                                      searchProdCount = '10';
-                                    });
+                                    widget._barcodeBtn();
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(

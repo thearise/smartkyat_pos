@@ -327,8 +327,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => BuyListInfo(data: items, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
-                                              );
+                                                    builder: (context) => BuyListInfo(data: items, toggleCoinCallback: () {},
+                                                      shopId: widget.shopId.toString(),)),);
                                               print('Items');
                                             },
                                             child: Stack(
