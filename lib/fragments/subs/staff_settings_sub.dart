@@ -1,14 +1,21 @@
+import 'dart:ui';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_below/dropdown_below.dart';
 // import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:one_context/one_context.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
+import 'package:smartkyat_pos/fragments/subs/add_staff_sub.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 
 import '../../app_theme.dart';
 import '../app_theme.dart';
+import 'package:bottom_picker/bottom_picker.dart';
 
 class StaffSettingsSub extends StatefulWidget {
 
@@ -21,6 +28,13 @@ class StaffSettingsSub extends StatefulWidget {
 class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<StaffSettingsSub>{
   var _searchUserMail;
 
+  var _chosenValue;
+
+  final permissionList = [
+    Text("Cashier", style: TextStyle(fontSize: 16, height: 1.7),),
+    Text("Admin", style: TextStyle(fontSize: 16, height: 1.7),),
+  ];
+
 
   @override
   bool get wantKeepAlive => true;
@@ -31,13 +45,18 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
 
   @override
   initState() {
-    HomePageState().getStoreId().then((value) {
+    getStoreId().then((value) {
       setState(() {
         _result = value.toString();
       });
 
     });
     super.initState();
+  }
+
+  getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('store');
   }
 
   @override
@@ -231,24 +250,28 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                     ),
                                   ),
                                   onPressed: () async {
-                                    final textInput = await showTextInputDialog(
-                                      context: context,
-                                      textFields: const [
-                                        DialogTextField(
-                                          hintText: 'johndoe@gmail.com',
-                                        ),
-                                      ],
-                                      title: 'Enter an email',
-                                      message: 'To add an staff, we need an email associated with that user account',
+                                    // final textInput = await showTextInputDialog(
+                                    //   context: context,
+                                    //   textFields: const [
+                                    //     DialogTextField(
+                                    //       hintText: 'johndoe@gmail.com',
+                                    //     ),
+                                    //   ],
+                                    //   title: 'Enter an email',
+                                    //   message: 'To add an staff, we need an email associated with that user account',
+                                    // );
+                                    // // print('Text ' + textInput![0].toString());
+                                    // // logger.info(text);
+                                    //
+                                    // await FirebaseFirestore.instance.collection('shops').doc(_result).update(
+                                    //     {'users': FieldValue.arrayUnion([textInput![0].toString()]),}
+                                    // ).then((value) async {
+                                    //   print('users added');
+                                    // });
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => AddStaffSub()),
                                     );
-                                    // print('Text ' + textInput![0].toString());
-                                    // logger.info(text);
-
-                                    await FirebaseFirestore.instance.collection('shops').doc(_result).update(
-                                        {'users': FieldValue.arrayUnion([textInput![0].toString()]),}
-                                    ).then((value) async {
-                                      print('users added');
-                                    });
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -278,7 +301,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                 Padding(
                                   padding: EdgeInsets.only(left: i == usersList.length-1? 0.0:15.0),
                                   child: Container(
-                                    height: 50,
+                                    height: 65,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border(
@@ -300,123 +323,379 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                             if(snapshot2.hasData) {
                                               print('hasData' + snapshot2.data!.docs.length.toString());
                                               if(snapshot2.data!.docs.length == 0) {
-                                                return Container(
-                                                  height: 50,
-                                                  child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        Container(
-                                                          height: 45,
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              SizedBox(
-                                                                width: i == usersList.length-1? 15: 0,
-                                                              ),
-                                                              Text('Unknown user', style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.blue),),
-                                                              SizedBox(
-                                                                width: 15,
-                                                              ),
-                                                              Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.end, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
-                                                              Container(
-                                                                color: Colors.grey,
-                                                                height: 45,
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(top: 2.0),
-                                                                  child: IconButton(
-                                                                      icon: Icon(
-                                                                        Icons.remove_circle_rounded,
-                                                                        size: 18,
-                                                                        color: Colors.red,
+                                                // return StreamBuilder(
+                                                // stream: FirebaseFirestore.instance
+                                                //     .collection('shops').doc(_result).collection('users')
+                                                //     .where('email', isEqualTo: usersList[i].toString())
+                                                //     .limit(1)
+                                                //     .snapshots(),
+                                                // builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                //     if(snapshot3.hasData) {
+                                                //       return Container(
+                                                //         height: 50,
+                                                //         child: Column(
+                                                //             mainAxisAlignment: MainAxisAlignment.center,
+                                                //             crossAxisAlignment: CrossAxisAlignment.center,
+                                                //             children: [
+                                                //               Container(
+                                                //                 height: 45,
+                                                //                 child: Row(
+                                                //                   mainAxisAlignment: MainAxisAlignment.center,
+                                                //                   crossAxisAlignment: CrossAxisAlignment.center,
+                                                //                   children: [
+                                                //                     SizedBox(
+                                                //                       width: i == usersList.length-1? 15: 0,
+                                                //                     ),
+                                                //                     Column(
+                                                //                       children: [
+                                                //                         Text('Unknown user', style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.blue),),
+                                                //                         Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.end, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                //                       ],
+                                                //                     ),
+                                                //                     SizedBox(
+                                                //                       width: 15,
+                                                //                     ),
+                                                //                     Container(
+                                                //                       color: Colors.grey,
+                                                //                       height: 45,
+                                                //                       child: Padding(
+                                                //                         padding: const EdgeInsets.only(top: 2.0),
+                                                //                         child: IconButton(
+                                                //                             icon: Icon(
+                                                //                               Icons.remove_circle_rounded,
+                                                //                               size: 18,
+                                                //                               color: Colors.red,
+                                                //                             ),
+                                                //                             onPressed: () {
+                                                //                               showOkCancelAlertDialog(
+                                                //                                 context: context,
+                                                //                                 title: 'Confirmation alert!\n',
+                                                //                                 message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
+                                                //                                 defaultType: OkCancelAlertDefaultType.cancel,
+                                                //                               ).then((result) async {
+                                                //                                 if(result == OkCancelResult.ok) {
+                                                //                                   await FirebaseFirestore.instance.collection('shops').doc(_result).update(
+                                                //                                       {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                //                                   ).then((value) async {
+                                                //                                     print('users removed');
+                                                //                                   });
+                                                //                                 }
+                                                //                               }
+                                                //                               );
+                                                //                             }
+                                                //                         ),
+                                                //                       ),
+                                                //                     ),
+                                                //                   ],
+                                                //                 ),
+                                                //               )
+                                                //             ]
+                                                //         ),
+                                                //       );
+                                                //     }
+                                                //     return Container();
+                                                //   }
+                                                // );
+
+
+
+                                                return StreamBuilder(
+                                                    stream: FirebaseFirestore.instance
+                                                        .collection('shops').doc(_result).collection('users')
+                                                        .where('email', isEqualTo: usersList[i].toString())
+                                                        .limit(1)
+                                                        .snapshots(),
+                                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                      if(snapshot3.hasData) {
+                                                        Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
+                                                        String userDocId = snapshot3.data!.docs[0].id.toString();
+                                                        var role = dataUser['role'];
+
+                                                        print('roooo 6' + role.toString());
+                                                        return Container(
+                                                          height: 65,
+                                                          child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Container(
+                                                                  height: 60,
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        width: i == usersList.length-1? 15: 0,
                                                                       ),
-                                                                      onPressed: () {
-                                                                        showOkCancelAlertDialog(
-                                                                          context: context,
-                                                                          title: 'Confirmation alert!\n',
-                                                                          message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
-                                                                          defaultType: OkCancelAlertDefaultType.cancel,
-                                                                        ).then((result) async {
-                                                                          if(result == OkCancelResult.ok) {
-                                                                            await FirebaseFirestore.instance.collection('shops').doc(_result).update(
-                                                                                {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                                            ).then((value) async {
-                                                                              print('users removed');
-                                                                            });
-                                                                          }
-                                                                        }
-                                                                        );
-                                                                      }
+                                                                      Container(
+                                                                        // color: Colors.grey,
+                                                                        height: 45,
+                                                                        width: 30,
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(top: 13.0),
+                                                                          child: IconButton(
+                                                                              icon: Icon(
+                                                                                Icons.remove_circle_rounded,
+                                                                                size: 20,
+                                                                                color: Colors.red,
+                                                                              ),
+                                                                              onPressed: () {
+                                                                                showOkCancelAlertDialog(
+                                                                                  context: context,
+                                                                                  title: 'Confirmation alert!\n',
+                                                                                  message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
+                                                                                  defaultType: OkCancelAlertDefaultType.cancel,
+                                                                                ).then((result) async {
+                                                                                  if(result == OkCancelResult.ok) {
+                                                                                    await FirebaseFirestore.instance.collection('shops').doc(_result).update(
+                                                                                        {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                                                    ).then((value) async {
+                                                                                      FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                                          .doc(userDocId)
+                                                                                          .delete()
+                                                                                          .then((value) {
+                                                                                        print('users removed');
+                                                                                      })
+                                                                                          .catchError((error) {
+                                                                                      });
+                                                                                    });
+                                                                                  }
+                                                                                }
+                                                                                );
+                                                                              }
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 10,
+                                                                      ),
+                                                                      Expanded(
+                                                                        child: Column(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            SizedBox(height: 11,),
+                                                                            Text('Unknown', style: TextStyle(fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis, fontSize: 16.5, color: Colors.blue), textAlign: TextAlign.left,),
+                                                                            Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                                            SizedBox(height: 10,),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 0,
+                                                                      ),
+                                                                      Center(
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(top: 2.5),
+                                                                          child: Container(
+                                                                            height: 25,
+                                                                            width: 70,
+                                                                            child: ButtonTheme(
+                                                                              // minWidth: 30,
+                                                                              splashColor: Colors.transparent,
+                                                                              // height: 35,
+                                                                              child: FlatButton(
+                                                                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                                                                color: AppTheme.buttonColor2,
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius:
+                                                                                  BorderRadius.circular(8.0),
+                                                                                  side: BorderSide(
+                                                                                    color: AppTheme.buttonColor2,
+                                                                                  ),
+                                                                                ),
+                                                                                onPressed: () async {
+                                                                                  print('onpressed');
+                                                                                  _openSimpleItemPicker(context, permissionList, userDocId, role, 'Unknown');
+                                                                                  // _selectTab(0);
+                                                                                  // await FirebaseAuth.instance.signOut();
+                                                                                  // setStoreId('');
+                                                                                  // Navigator.of(context).pushReplacement(
+                                                                                  //   FadeRoute(page: Welcome()),
+                                                                                  // );
+                                                                                },
+                                                                                child: Container(
+                                                                                  child: Text(
+                                                                                    role == 'admin'? 'Admin': 'Cashier',
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 15,
+                                                                      ),
+                                                                    ],
                                                                   ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                                )
+                                                              ]
                                                           ),
-                                                        )
-                                                      ]
-                                                  ),
+                                                        );
+                                                      }
+                                                      return Container();
+                                                    }
                                                 );
                                               }
-                                              return Container(
-                                                height: 50,
-                                                child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: snapshot2.data!.docs.map((DocumentSnapshot document) {
-                                                      print('hasData' + snapshot2.data!.docs.length.toString());
-                                                      Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                                      print('email found ' + data.toString());
-                                                      return Container(
-                                                        height: 45,
-                                                        child: Row(
+                                              return StreamBuilder(
+                                                  stream: FirebaseFirestore.instance
+                                                      .collection('shops').doc(_result).collection('users')
+                                                      .where('email', isEqualTo: usersList[i].toString())
+                                                      .limit(1)
+                                                      .snapshots(),
+                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
+                                                  if(snapshot3.hasData) {
+                                                    Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
+                                                    String userDocId = snapshot3.data!.docs[0].id.toString();
+                                                    var role = dataUser['role'];
+
+                                                    print('roooo ' + role.toString());
+                                                    return Container(
+                                                      height: 65,
+                                                      child: Column(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: i == usersList.length-1? 15: 0,
-                                                            ),
-                                                            Text(data['name'], style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5),),
-                                                            SizedBox(
-                                                              width: 15,
-                                                            ),
-                                                            Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.end, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
-                                                            Container(
-                                                              // color: Colors.grey,
-                                                              height: 45,
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(top: 2.0),
-                                                                child: IconButton(
-                                                                    icon: Icon(
-                                                                      Icons.remove_circle_rounded,
-                                                                      size: 18,
-                                                                      color: Colors.red,
+                                                          children: snapshot2.data!.docs.map((DocumentSnapshot document) {
+                                                            print('hasData' + snapshot2.data!.docs.length.toString());
+                                                            Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                                            print('email found ' + data.toString());
+
+                                                            var _selectedTest;
+                                                            List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
+
+                                                            _dropdownTestItems = buildDropdownTestItems(_testList);
+
+                                                            return Container(
+                                                              height: 60,
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: i == usersList.length-1? 15: 0,
+                                                                  ),
+                                                                  Container(
+                                                                    // color: Colors.grey,
+                                                                    height: 45,
+                                                                    width: 30,
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 13.0),
+                                                                      child: IconButton(
+                                                                          icon: Icon(
+                                                                            Icons.remove_circle_rounded,
+                                                                            size: 20,
+                                                                            color: Colors.red,
+                                                                          ),
+                                                                          onPressed: () {
+                                                                            showOkCancelAlertDialog(
+                                                                              context: context,
+                                                                              title: 'Confirmation alert!\n',
+                                                                              message: 'Are you sure you want to remove ' + data['name'] + ' (' + usersList[i].toString() + ') from current shop?',
+                                                                              defaultType: OkCancelAlertDefaultType.cancel,
+                                                                            ).then((result) async {
+                                                                              if(result == OkCancelResult.ok) {
+                                                                                await FirebaseFirestore.instance.collection('shops').doc(_result).update(
+                                                                                    {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                                                ).then((value) async {
+                                                                                  FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
+                                                                                      .doc(userDocId)
+                                                                                      .delete()
+                                                                                      .then((value) {
+                                                                                        print('users removed');
+                                                                                      })
+                                                                                      .catchError((error) {
+                                                                                      });
+                                                                                });
+                                                                              }
+                                                                            }
+                                                                            );
+                                                                          }
+                                                                      ),
                                                                     ),
-                                                                    onPressed: () {
-                                                                      showOkCancelAlertDialog(
-                                                                        context: context,
-                                                                        title: 'Confirmation alert!\n',
-                                                                        message: 'Are you sure you want to remove ' + data['name'] + ' (' + usersList[i].toString() + ') from current shop?',
-                                                                        defaultType: OkCancelAlertDefaultType.cancel,
-                                                                      ).then((result) async {
-                                                                        if(result == OkCancelResult.ok) {
-                                                                          await FirebaseFirestore.instance.collection('shops').doc(_result).update(
-                                                                              {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                                          ).then((value) async {
-                                                                            print('users removed');
-                                                                          });
-                                                                        }
-                                                                      }
-                                                                      );
-                                                                    }
-                                                                ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Column(
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        SizedBox(height: 11,),
+                                                                        Text(data['name'], style: TextStyle(fontWeight: FontWeight.w500, overflow: TextOverflow.ellipsis, fontSize: 16.5), textAlign: TextAlign.left,),
+                                                                        Expanded(child: Text(usersList[i].toString(), textAlign: TextAlign.left, style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 15.5, color: Colors.black54),)),
+                                                                        SizedBox(height: 10,),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 0,
+                                                                  ),
+                                                                  Center(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 2.5),
+                                                                      child: Container(
+                                                                        height: 25,
+                                                                        width: 70,
+                                                                        child: ButtonTheme(
+                                                                          // minWidth: 30,
+                                                                          splashColor: Colors.transparent,
+                                                                          // height: 35,
+                                                                          child: FlatButton(
+                                                                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                                                            color: AppTheme.buttonColor2,
+                                                                            shape: RoundedRectangleBorder(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(8.0),
+                                                                              side: BorderSide(
+                                                                                color: AppTheme.buttonColor2,
+                                                                              ),
+                                                                            ),
+                                                                            onPressed: () async {
+                                                                              print('onpressed');
+                                                                              await _openSimpleItemPicker(OneContext().context, permissionList, userDocId, role, data['name']);
+                                                                              // print('resultPicker ' + resultPicker.toString());
+
+                                                                              // _selectTab(0);
+                                                                              // await FirebaseAuth.instance.signOut();
+                                                                              // setStoreId('');
+                                                                              // Navigator.of(context).pushReplacement(
+                                                                              //   FadeRoute(page: Welcome()),
+                                                                              // );
+                                                                            },
+                                                                            child: Container(
+                                                                              child: Text(
+                                                                                role == 'admin'? 'Admin': 'Cashier',
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 15,
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    }).toList()
-                                                ),
+                                                            );
+                                                          }).toList()
+                                                      ),
+                                                    );
+                                                  }
+                                                  return Container();
+                                                }
                                               );
 
                                             }
@@ -577,6 +856,57 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
       ),
     );
   }
+
+  List _testList = [
+    {'no': 1, 'keyword': 'Cashier'},
+    {'no': 2, 'keyword': 'Admin'},
+  ];
+
+  List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {
+    List<DropdownMenuItem<Object?>> items = [];
+    for (var i in _testList) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(i['keyword']),
+        ),
+      );
+    }
+    return items;
+  }
+
+  _openSimpleItemPicker(context, List<Text> items, String userDocId, String role, String name) {
+    int selectedIndex = 0;
+    if(role == 'admin') {
+      selectedIndex = 1;
+    } else {
+      selectedIndex = 0;
+    }
+    print('test');
+    BottomPicker(
+      // displayButtonIcon: false,
+      buttonText: 'Set permission',
+      displayButtonIcon: false,
+      buttonSingleColor: Colors.grey,
+      dismissable: true,
+      items: items,
+      title: name,
+      selectedItemIndex: selectedIndex,
+      buttonTextStyle: TextStyle(color: Colors.blue),
+      titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      onSubmit: (index) {
+        print(userDocId + ' id -> ' + index.toString());
+        FirebaseFirestore.instance.collection('shops').doc(_result).collection('users').doc(
+            userDocId)
+            .update({
+          'role': index == 0? 'cashier' : 'admin'
+        })
+            .then((value) => print("User Updated"))
+            .catchError((error) => print("Failed to update user: $error"));
+      },
+    ).show(context);
+  }
+
 
 
   final _formKey = GlobalKey<FormState>();
