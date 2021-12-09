@@ -42,6 +42,7 @@ class _AccountSettingState extends State<AccountSetting> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       body: SafeArea(
         bottom: true,
         top: true,

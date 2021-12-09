@@ -3740,6 +3740,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                 .orderBy('date', descending: true)
                                 .snapshots(),
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
                               if(snapshot.hasData) {
                                 return StreamBuilder(
                                     stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').snapshots(),
@@ -3747,6 +3748,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                       if(snapshot2.hasData) {
                                         var sections = List<ExampleSection>.empty(growable: true);
                                         int docInc = 0;
+                                        print('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
                                         snapshot.data!.docs.map((document) async {
 
                                           // List<String> dailyOrders = document['daily_order'].cast<String>();
@@ -5264,7 +5266,7 @@ class OrdersFragmentState extends State<OrdersFragment>
     );
   }
 
-  lossDayStart() {
+  DateTime lossDayStart() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
