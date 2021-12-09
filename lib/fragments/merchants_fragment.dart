@@ -26,9 +26,10 @@ class MerchantsFragment extends StatefulWidget {
   final _callback;
   final _callback2;
   final _callback4;
+  final _barcodeBtn;
 
-  MerchantsFragment( {required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), required Key key,} ) :
-        _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
+  MerchantsFragment( {required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), required Key key,} ) :
+        _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
   @override
   MerchantsFragmentState createState() => MerchantsFragmentState();
 }
@@ -4386,10 +4387,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    print('open barcode');
-                                    setState(() {
-                                      searchProdCount = '10';
-                                    });
+                                   widget._barcodeBtn();
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(

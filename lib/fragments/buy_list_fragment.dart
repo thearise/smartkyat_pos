@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:one_context/one_context.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
@@ -20,6 +22,7 @@ class BuyListFragment extends StatefulWidget {
   final _callback3;
   final _callback4;
   final _callback5;
+  final _barcodeBtn;
 
   BuyListFragment(
       {
@@ -27,6 +30,7 @@ class BuyListFragment extends StatefulWidget {
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
         required void toggleCoinCallback5(String str),
+        required void barcodeBtn(),
         required Key key,
       })
       :
@@ -34,6 +38,7 @@ class BuyListFragment extends StatefulWidget {
         _callback3 = toggleCoinCallback3,
         _callback4 = toggleCoinCallback4,
         _callback5 = toggleCoinCallback5,
+        _barcodeBtn = barcodeBtn,
         super(key: key);
 
   @override
@@ -3729,7 +3734,10 @@ class BuyListFragmentState extends State<BuyListFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').orderBy('date', descending: true).snapshots(),
+                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders') .where('date', isLessThanOrEqualTo: lossDayStart())
+                                .where('date', isGreaterThanOrEqualTo: lossDayEnd())
+                                .orderBy('date', descending: true)
+                                .snapshots(),
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
                                 return StreamBuilder(
@@ -3739,7 +3747,6 @@ class BuyListFragmentState extends State<BuyListFragment>
                                         var sections = List<ExampleSection>.empty(growable: true);
                                         int docInc = 0;
                                         snapshot.data!.docs.map((document) async {
-
                                           // List<String> dailyOrders = document['daily_order'].cast<String>();
                                           List<String> dailyOrders = [];
                                           for(String str in document['daily_order']) {
@@ -3758,7 +3765,6 @@ class BuyListFragmentState extends State<BuyListFragment>
                                             } else if(cateScIndex == 0) {
                                               dailyOrders.add(str);
                                             }
-
                                           }
                                           if(docInc>0) {
                                             Map<String,dynamic> dataLow = snapshot.data!.docs[docInc-1].data()! as Map< String, dynamic>;
@@ -3873,7 +3879,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                               ),
                                                             ),
                                                             onPressed: () {
-                                                              // widget._callback();
+                                                              _showDatePicker(OneContext().context);
                                                             },
                                                             child: Container(
                                                               child: Row(
@@ -3887,7 +3893,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                                     ),
                                                                   ),
                                                                   Text(
-                                                                    ' Sep, 2021',
+                                                                    selectDaysCast(),
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4691,10 +4697,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    print('open barcode');
-                                    setState(() {
-                                      searchProdCount = '10';
-                                    });
+                                    widget._barcodeBtn();
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -5222,6 +5225,118 @@ class BuyListFragmentState extends State<BuyListFragment>
             ),
           );
         });
+  }
+  DateTime today = DateTime.now();
+  DateTime? _dateTime;
+  String _format = 'yyyy-MMMM';
+
+
+
+  void _showDatePicker(context) {
+    DatePicker.showDatePicker(
+      context,
+      onMonthChangeStartWithFirstDate: true,
+      pickerTheme: DateTimePickerTheme(
+        showTitle: false,
+        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
+      ),
+      minDateTime: DateTime.parse('2010-05-12'),
+      // maxDateTime: DateTime.parse('2021-11-25'),
+      maxDateTime: DateTime.now().add(const Duration(days: 365)),
+      initialDateTime: today,
+      dateFormat: _format,
+      locale: DateTimePickerLocale.en_us,
+      onClose: () {
+        setState((){
+          _dateTime = _dateTime;
+          today = today;
+          // DateTime td = DateTime.now();
+          print('closed 1 ' + today.toString());
+          // print('closed 2 ' + td.toString());
+        });
+        // fetchOrders();
+      },
+      onCancel: () => print('onCancel'),
+      onChange: (dateTime, List<int> index) {
+        // setState(() {
+        today = dateTime;
+        _dateTime = dateTime;
+        // });
+
+
+      },
+      onConfirm: (dateTime, List<int> index) {
+        setState(() {
+          today = dateTime;
+          _dateTime = dateTime;
+        });
+      },
+    );
+  }
+
+  lossDayStart() {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    String endDateOfMonth = '31';
+    if(today.month.toString() == '9' || today.month.toString() == '4' || today.month.toString() == '6' || today.month.toString() == '11') {
+      endDateOfMonth = '30';
+    } else if(today.month.toString() == '2') {
+      endDateOfMonth = '29';
+    } else {
+      endDateOfMonth = '31';
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
+  lossDayEnd() {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime notTday = today;
+    notTday = today;
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 00:00:00');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+
+  }
+
+  String selectDaysCast() {
+    print("TTT " + today.year.toString().length.toString());
+    // if(_sliding==0) {
+    // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
+    if(today.month == 9) {
+      return 'Sep, ' + today.year.toString();
+    } else if(today.month == 1) {
+      return 'Jan, ' + today.year.toString();
+    } else if(today.month == 2) {
+      return 'Feb, ' + today.year.toString();
+    } else if(today.month == 3) {
+      return 'Mar, ' + today.year.toString();
+    } else if(today.month == 4) {
+      return 'Apr, ' + today.year.toString();
+    } else if(today.month == 5) {
+      return 'May, ' + today.year.toString();
+    } else if(today.month == 6) {
+      return 'Jun, ' + today.year.toString();
+    } else if(today.month == 7) {
+      return 'Jul, ' + today.year.toString();
+    } else if(today.month == 8) {
+      return 'Aug, ' + today.year.toString();
+    } else if(today.month == 10) {
+      return 'Oct, ' + today.year.toString();
+    } else if(today.month == 11) {
+      return 'Nov, ' + today.year.toString();
+    } else if(today.month == 12) {
+      return 'Dec, ' + today.year.toString();
+    } else {
+      return '';
+    }
+
   }
 }
 
