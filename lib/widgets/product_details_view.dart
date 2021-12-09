@@ -643,7 +643,31 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 3,),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 15.0, right: 15.0, left: 15.0),
+                                      child: Container(
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist)));
+                                          },
+                                          child: Text(
+                                            'EDIT',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              letterSpacing: 2,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -652,109 +676,106 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                               delegate: _SliverAppBarDelegate(
                                   minHeight: 56.0,
                                   maxHeight: 56.0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 0.0),
-                                    child: Container(
-                                      color: Colors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 15, right: 15.0, top: 12.0, bottom: 12.0),
-                                        child: ListView(
-                                          scrollDirection: Axis.horizontal,
-                                          children: [
-                                            FlatButton(
-                                              minWidth: 0,
-                                              padding: EdgeInsets.only(left: 8, right: 12),
-                                              color: _sliding == 0 ? AppTheme.secButtonColor:Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(50.0),
-                                                side: BorderSide(
-                                                  color: AppTheme.skBorderColor2,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                _controller.animateTo(0);
-                                              },
-                                              child:Container(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(SmartKyat_POS.prodm, size: 20, color: Colors.grey),
-                                                    SizedBox(width: 4),
-                                                    Text(
-                                                      mainName,
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ],
-                                                ),
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 15, right: 15.0, top: 12.0, bottom: 12.0),
+                                      child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          FlatButton(
+                                            minWidth: 0,
+                                            padding: EdgeInsets.only(left: 8, right: 12),
+                                            color: _sliding == 0 ? AppTheme.secButtonColor:Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(50.0),
+                                              side: BorderSide(
+                                                color: AppTheme.skBorderColor2,
                                               ),
                                             ),
-                                            SizedBox(width: 10),
-                                            sub1Name != '' ? FlatButton(
-                                              minWidth: 0,
-                                              padding: EdgeInsets.only(left: 8, right: 12),
-                                              color: _sliding == 1 ? AppTheme.secButtonColor:Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(20.0),
-                                                side: BorderSide(
-                                                  color: AppTheme.skBorderColor2,
-                                                ),
+                                            onPressed: () {
+                                              _controller.animateTo(0);
+                                            },
+                                            child:Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(SmartKyat_POS.prodm, size: 20, color: Colors.grey),
+                                                  SizedBox(width: 4),
+                                                  Text(
+                                                    mainName,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
+                                                ],
                                               ),
-                                              onPressed: () {
-                                                _controller.animateTo(1);
-                                              },
-                                              child:Container(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(SmartKyat_POS.prods1, size: 20, color: Colors.grey),
-                                                    SizedBox(width: 4),
-                                                    Text(
-                                                      sub1Name,
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ],
-                                                ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          sub1Name != '' ? FlatButton(
+                                            minWidth: 0,
+                                            padding: EdgeInsets.only(left: 8, right: 12),
+                                            color: _sliding == 1 ? AppTheme.secButtonColor:Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                              side: BorderSide(
+                                                color: AppTheme.skBorderColor2,
                                               ),
-                                            ) : Container(),
-                                            SizedBox(width: 10),
-                                            sub2Name != '' ? FlatButton(
-                                              minWidth: 0,
-                                              padding: EdgeInsets.only(left: 8, right: 12),
-                                              color: _sliding == 2 ? AppTheme.secButtonColor:Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(20.0),
-                                                side: BorderSide(
-                                                  color: AppTheme.skBorderColor2,
-                                                ),
+                                            ),
+                                            onPressed: () {
+                                              _controller.animateTo(1);
+                                            },
+                                            child:Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(SmartKyat_POS.prods1, size: 20, color: Colors.grey),
+                                                  SizedBox(width: 4),
+                                                  Text(
+                                                    sub1Name,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
+                                                ],
                                               ),
-                                              onPressed: () {
-                                                _controller.animateTo(2);
-                                              },
-                                              child:Container(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(SmartKyat_POS.prods2, size: 20, color: Colors.grey),
-                                                    SizedBox(width: 4),
-                                                    Text(
-                                                      sub2Name,
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ],
-                                                ),
+                                            ),
+                                          ) : Container(),
+                                          SizedBox(width: 10),
+                                          sub2Name != '' ? FlatButton(
+                                            minWidth: 0,
+                                            padding: EdgeInsets.only(left: 8, right: 12),
+                                            color: _sliding == 2 ? AppTheme.secButtonColor:Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(20.0),
+                                              side: BorderSide(
+                                                color: AppTheme.skBorderColor2,
                                               ),
-                                            ) : Container(),
-                                          ],
-                                        ),
+                                            ),
+                                            onPressed: () {
+                                              _controller.animateTo(2);
+                                            },
+                                            child:Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(SmartKyat_POS.prods2, size: 20, color: Colors.grey),
+                                                  SizedBox(width: 4),
+                                                  Text(
+                                                    sub2Name,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ) : Container(),
+                                        ],
                                       ),
                                     ),
                                   )
@@ -776,35 +797,14 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'MAIN UNIT PRICING',
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 14,
-                                                        letterSpacing: 2,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                    GestureDetector(
-                                                         onTap: (){
-                                                           Navigator.push(
-                                                               context,
-                                                               MaterialPageRoute(
-                                                                   builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist)));
-                                                         },
-                                                      child: Text(
-                                                        'EDIT ALL',
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 14,
-                                                          letterSpacing: 2,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                                Text(
+                                                  'MAIN UNIT PRICING',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    letterSpacing: 2,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
                                                 SizedBox(height: 15,),
                                                 Container(
@@ -1596,7 +1596,6 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                 ],
                               ),
                             ),
-
                           ],
                         ),
                       ),
@@ -1678,7 +1677,6 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   //     }
   //   }
   // }
-
 }
 
 

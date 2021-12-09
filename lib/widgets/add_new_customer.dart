@@ -469,9 +469,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                       color: Colors.green,
                                                     ),
                                                     child: FlashBar(
-                                                      title: Text('Title'),
+                                                      title: Text('Success'),
                                                       content:
-                                                      Text('Hello world!'),
+                                                      Text('New customer added!'),
                                                       // showProgressIndicator: true,
                                                       primaryAction: TextButton(
                                                         onPressed: () =>

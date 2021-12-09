@@ -7,6 +7,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/fragments/add_shop_fragment.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page3.dart';
 
@@ -221,9 +222,10 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                       ),
                     ),
                     onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-
-                      }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddShop()),);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -232,7 +234,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                           bottom: 2.0),
                       child: Container(
                         child: Text(
-                          'New shop',
+                          'Add new shop',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 18,
@@ -285,7 +287,6 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                         padding: const EdgeInsets.only(left: 0.0),
                                         child: Row(
                                           children: [
-
                                             Expanded(child: Transform.translate(
                                               offset: Offset(-12, -1.1),
                                               child: Container(
