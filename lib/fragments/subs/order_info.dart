@@ -9,7 +9,7 @@ import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_items.dart';
 import 'package:intl/intl.dart';
 import '../../app_theme.dart';
-import 'order_refund_sub.dart';
+import 'order_refund_sub2.dart';
 import 'package:dotted_line/dotted_line.dart';
 
 class OrderInfoSub extends StatefulWidget {
@@ -52,15 +52,18 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         widget.data
             .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
         .split('^')[6];
+
+    print('ccccccc' + result.split('^')[0].split('-')[0].toString());
     FirebaseFirestore.instance
         .collection('shops')
         .doc(widget.shopId)
-        .collection('orders')
+        .collection('order')
     // FirebaseFirestore.instance.collection('space')
     //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
     //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-        // .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
-        .where('daily_order', arrayContainsAny: [widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]])
+    // .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
+        .where('deviceId', isEqualTo: result.split('^')[0].split('-')[0] + '-')
+        .where('orderId', isEqualTo: result.split('^')[0].split('-')[1])
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -69,6 +72,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
       setState(() {
         docId = innerId;
       });
+
+      print('DOC ID ' + docId.toString());
       // return docId;
       // return Container();
     });
@@ -185,10 +190,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                       stream: FirebaseFirestore.instance
                           .collection('shops')
                           .doc(widget.shopId)
-                          .collection('orders')
+                          .collection('order')
                           .doc(docId)
-                          .collection('detail')
-                          .doc(widget.data.split('^')[0])
+                      // .collection('detail')
+                      // .doc(widget.data.split('^')[0])
                           .snapshots(),
                       builder: (BuildContext context, snapshot2) {
                         if (snapshot2.hasData) {
@@ -315,8 +320,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         widget.data
                                                             .split('^')[3] +
                                                         '^' +
-                                                        isRef + widget.data
-                                                        .split('^')[4][1] + '^' + debt.toString() + '^' + widget.data
+                                                       widget.data
+                                                        .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                         .split('^')[6];
 
 
@@ -325,11 +330,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               OrderRefundsSub(
-                                                                  data: result,
-                                                                  data2: prodList,
-                                                                  realPrice: totalRealPrice,
-                                                                  toggleCoinCallback:
-                                                                      () {}, shopId: widget.shopId,)),
+                                                                data: result,
+                                                                data2: prodList,
+                                                                realPrice: totalRealPrice,
+                                                                toggleCoinCallback:
+                                                                    () {}, shopId: widget.shopId, docId: docId.toString(),)),
                                                     );
 
                                                     print('result__2 ' + result.toString());
@@ -379,7 +384,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                        builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId,))
+                                                            builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId,))
                                                     );
                                                   },
                                                   child: Container(
@@ -671,15 +676,15 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                 ),
                                 for (int i = 0; i < prodListView.length; i++)
                                   if (prodListView[i].split('-')[7] != '0')
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: Text('REFUNDED ITEMS', style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    letterSpacing: 2,
-                                    color: Colors.grey,
-                                  ),),
-                                ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                      child: Text('REFUNDED ITEMS', style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        letterSpacing: 2,
+                                        color: Colors.grey,
+                                      ),),
+                                    ),
 
                                 for (int i = 0; i < prodListView.length; i++)
                                   if (prodListView[i].split('-')[7] != '0')

@@ -10,7 +10,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/pages2/multi_assets_page.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
@@ -22,7 +23,7 @@ import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
-import 'package:smartkyat_pos/fragments/orders_fragment.dart';
+import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
@@ -97,6 +98,12 @@ class ProductsFragmentState extends State<ProductsFragment>
   late BannerAd _bannerAd;
   bool _isBannerAdReady = false;
 
+  String textSetNewItem = 'New item';
+  String textSetAll = 'All';
+  String textSetLowStocks = 'Low stocks';
+  String textSetBestSales = 'Best Sales';
+  String textSetLowSales = 'Low Sales';
+
   @override
   initState() {
     _bannerAd = BannerAd(
@@ -167,6 +174,27 @@ class ProductsFragmentState extends State<ProductsFragment>
       //   // dateId = doc.id;
       // });
     });
+
+    LanguageSettingsState().getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetNewItem = 'New item';
+          textSetAll = 'All';
+          textSetLowStocks = 'Low stocks';
+          textSetBestSales = 'Best Sales';
+          textSetLowSales = 'Low Sales';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetNewItem = 'New item';
+          textSetAll = 'All';
+          textSetLowStocks = 'Low stocks';
+          textSetBestSales = 'Best Sales';
+          textSetLowSales = 'Low Sales';
+        });
+      }
+    });
+
     super.initState();
   }
 
@@ -4022,7 +4050,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             ),
                                                           ),
                                                           Text(
-                                                            'New item',
+                                                           textSetNewItem,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,
@@ -4069,7 +4097,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         },
                                                         child: Container(
                                                           child: Text(
-                                                            'All',
+                                                            textSetAll,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,
@@ -4102,7 +4130,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         },
                                                         child: Container(
                                                           child: Text(
-                                                            'Low stocks',
+                                                            textSetLowStocks,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,
@@ -4132,7 +4160,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         },
                                                         child: Container(
                                                           child: Text(
-                                                            'Best sales',
+                                                           textSetBestSales,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,
@@ -4162,7 +4190,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                         },
                                                         child: Container(
                                                           child: Text(
-                                                            'Low sales',
+                                                            textSetLowSales,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,

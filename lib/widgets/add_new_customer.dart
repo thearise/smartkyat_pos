@@ -5,7 +5,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 
 import '../app_theme.dart';
 
@@ -334,21 +334,7 @@ class _AddCustomerState extends State<AddCustomer> {
 
                                     print(
                                         'validate ' + merchFieldsValue.toString());
-                                    // var spaceDocId = '';
 
-                                    // await FirebaseFirestore.instance
-                                    //     .collection('space')
-                                    //     .where('user_id',
-                                    //         isEqualTo: 'aHHin46ulpdoxOGh6kav8EDE4xn2')
-                                    //     .get()
-                                    //     .then((QuerySnapshot querySnapshot) {
-                                    //   querySnapshot.docs.forEach((doc) {
-                                    //     spaceDocId = doc.id;
-                                    //   });
-                                    //
-                                    //   print('space shi p thar');
-                                    //   getStoreId().then((String result2) async {
-                                    //     print('store id ' + result2.toString());
                                     merchants.doc('name').get().then((DocumentSnapshot documentSnapshot) {
                                       if (documentSnapshot.exists) {
                                         exist = true;
@@ -361,6 +347,10 @@ class _AddCustomerState extends State<AddCustomer> {
                                         'customer_name': merchFieldsValue[0],
                                         'customer_address': merchFieldsValue[1],
                                         'customer_phone': merchFieldsValue[2],
+                                        'total_orders' : 0,
+                                        'debts' : 0,
+                                        'debtAmount' : 0,
+                                        'total_refunds' : 0,
                                       }).then((value) {
                                         print('product added 2');
 

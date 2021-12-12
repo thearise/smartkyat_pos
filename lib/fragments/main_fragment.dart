@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
 // import 'package:smartkyat_pos/fragments/home_fragment.dart';
-// import 'package:smartkyat_pos/fragments/orders_fragment.dart';
+// import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
 // import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 // import '../app_theme.dart';
 //

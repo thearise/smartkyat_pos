@@ -10,10 +10,11 @@ import 'package:one_context/one_context.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_customer.dart';
-import 'package:smartkyat_pos/fragments/orders_fragment.dart';
+import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
@@ -66,6 +67,10 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
+  String textSetNewCus = 'New Customer';
+  String textSetAll = 'All';
+  String textSetUnpaids = 'Unpaids';
+
   List<List> orderList = [];
   var orders;
   var docId;
@@ -80,6 +85,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
         searchValue = _searchController.text;
       });
       searchKeyChanged();
+
       print(searchValue);
     });
     subTabController = TabController(length: 3, vsync: this);
@@ -108,6 +114,22 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
       if(nodeFirst.hasFocus) {
         setState(() {
           loadingSearch = true;
+        });
+      }
+    });
+
+    LanguageSettingsState().getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetNewCus = 'New Customer';
+          textSetAll = 'All';
+          textSetUnpaids = 'Unpaids';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetNewCus = 'New Customer';
+          textSetAll = 'All';
+          textSetUnpaids = 'Unpaids';
         });
       }
     });
@@ -4048,7 +4070,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                           ),
                                                         ),
                                                         Text(
-                                                          'New Customer',
+                                                          textSetNewCus,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -4095,7 +4117,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       },
                                                       child: Container(
                                                         child: Text(
-                                                          'All',
+                                                          textSetAll,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -4125,7 +4147,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       },
                                                       child: Container(
                                                         child: Text(
-                                                          'Unpaids',
+                                                          textSetUnpaids,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 
 import '../app_theme.dart';
 
@@ -13,8 +13,6 @@ class AddNewShop extends StatefulWidget {
   @override
   _AddNewShopState createState() => _AddNewShopState();
 }
-
-
 
 class _AddNewShopState extends State<AddNewShop> {
 
@@ -234,7 +232,8 @@ class _AddNewShopState extends State<AddNewShop> {
                       final uid = user!.uid;
                       final email = user.email;
                       if (_formKey.currentState!.validate()) {
-                        await FirebaseFirestore.instance.collection('shops').add(
+                        CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                        shops.add(
                             {
                               'owner_id' : uid.toString(),
                               'shop_name': shopFieldsValue[0],
@@ -245,6 +244,13 @@ class _AddNewShopState extends State<AddNewShop> {
                               'buyOrders_length': 1000,
                             }
                         ).then((value) async {
+                          shops.doc(value.id).collection('users').add({
+                            'email': email.toString(),
+                            'role' : 'owner',
+                          }).then((value) {
+
+                          })
+                              .catchError((error) => print("Failed to update user: $error"));
                           setStoreId(value.id.toString());
                           var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
                           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));

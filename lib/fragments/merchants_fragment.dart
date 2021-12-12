@@ -9,11 +9,12 @@ import 'package:one_context/one_context.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
+import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
-import 'package:smartkyat_pos/fragments/orders_fragment.dart';
+import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
@@ -68,6 +69,10 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   var docId;
   var innerId;
 
+  String textSetNewMerch = 'New Merchant';
+  String textSetAll = 'All';
+  String textSetDebts = 'Debts';
+
   @override
   initState() {
     HomePageState().getStoreId().then((value) => shopId = value);
@@ -105,6 +110,22 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
       if(nodeFirst.hasFocus) {
         setState(() {
           loadingSearch = true;
+        });
+      }
+    });
+    LanguageSettingsState().getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+        textSetNewMerch = 'New Merchant';
+        textSetAll = 'All';
+        textSetDebts = 'Debts';
+
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetNewMerch = 'New Merchant';
+          textSetAll = 'All';
+          textSetDebts = 'Debts';
         });
       }
     });
@@ -3935,7 +3956,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                             ),
                                                           ),
                                                           Text(
-                                                            'New Merchant',
+                                                            textSetNewMerch,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,
@@ -3982,7 +4003,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         },
                                                         child: Container(
                                                           child: Text(
-                                                            'All',
+                                                            textSetAll,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,
@@ -4012,7 +4033,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         },
                                                         child: Container(
                                                           child: Text(
-                                                            'Debts',
+                                                            textSetDebts,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
                                                                 fontSize: 14,

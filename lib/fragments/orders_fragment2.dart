@@ -9,7 +9,6 @@ import 'package:one_context/one_context.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
-import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
@@ -80,11 +79,6 @@ class OrdersFragmentState extends State<OrdersFragment>
   var sectionList3;
   int _sliding = 0;
 
-  String textSetAll = 'All';
-  String textSetTUnpaid = 'Unpadis';
-  String textSetTRefunds = 'Refunds';
-  String textSetTPaid = 'Paids';
-
   @override
   initState() {
     HomePageState().getStoreId().then((value) => shopId = value);
@@ -125,25 +119,6 @@ class OrdersFragmentState extends State<OrdersFragment>
         });
       }
     });
-
-    LanguageSettingsState().getLangId().then((value) {
-      if(value=='burmese') {
-        setState(() {
-          textSetAll = 'All';
-          textSetTUnpaid = 'Unpadis';
-          textSetTRefunds = 'Refunds';
-          textSetTPaid = 'Paids';
-        });
-      } else if(value=='english') {
-        setState(() {
-          textSetAll = 'All';
-          textSetTUnpaid = 'Unpadis';
-          textSetTRefunds = 'Refunds';
-          textSetTPaid = 'Paids';
-        });
-      }
-    });
-
     super.initState();
   }
 
@@ -1086,6 +1061,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                   if(searchValue != '' && slidingSearch == 0 && item.contains('^sps^')) {
                                     return GestureDetector(
                                       onTap: () {
+
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -2324,7 +2300,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 ),
                                                               ),
                                                             ),
-                                                          if(item.split('^')[4][0] == 'r')
+                                                          if(item.split('^')[4] == 'TRUE')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2346,7 +2322,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                               ),
                                                             ),
 
-                                                          if(item.split('^')[4][0] == 's')
+                                                          if(item.split('^')[4] == 'PART')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2555,7 +2531,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 ),
                                                               ),
                                                             ),
-                                                          if(item.split('^')[4][0] == 'r')
+                                                          if(item.split('^')[4] == 'TRUE')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2577,7 +2553,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                               ),
                                                             ),
 
-                                                          if(item.split('^')[4][0] == 's')
+                                                          if(item.split('^')[4] == 'PART')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -3759,7 +3735,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
                                 .where('date', isLessThanOrEqualTo: lossDayStart())
                                 .where('date', isGreaterThanOrEqualTo: lossDayEnd())
                                 .orderBy('date', descending: true)
@@ -3774,105 +3750,95 @@ class OrdersFragmentState extends State<OrdersFragment>
                                         var sections = List<ExampleSection>.empty(growable: true);
                                         int docInc = 0;
                                         print('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
-                                        snapshot.data!.docs.map((document) async {
-
-                                          // List<String> dailyOrders = document['daily_order'].cast<String>();
-                                          List<String> dailyOrders = [];
-                                          for(String str in document['daily_order']) {
-                                            if(cateScIndex == 2) {
-                                              if(str.split('^')[4][0] == 's' || str.split('^')[4][0] == 'r') {
-                                                dailyOrders.add(str);
-                                              }
-                                            } else if(cateScIndex == 1) {
-                                              if(str.split('^')[5] != '0.0') {
-                                                dailyOrders.add(str);
-                                              }
-                                            } else if(cateScIndex == 3) {
-                                              if(str.split('^')[5] == '0.0') {
-                                                dailyOrders.add(str);
-                                              }
-                                            } else if(cateScIndex == 0) {
-                                              dailyOrders.add(str);
-                                            }
-
-                                          }
-                                          if(docInc>0) {
-                                            Map<String,dynamic> dataLow = snapshot.data!.docs[docInc-1].data()! as Map< String, dynamic>;
-                                            List<String> dataLowDailyOrder = [];
-                                            for(String str in dataLow['daily_order']) {
-                                              if(cateScIndex == 2) {
-                                                if(str.split('^')[4][0] == 's' || str.split('^')[4][0] == 'r') {
-                                                  dataLowDailyOrder.add(str);
-                                                }
-                                              } else if(cateScIndex == 1) {
-                                                if(str.split('^')[5] != '0.0') {
-                                                  dataLowDailyOrder.add(str);
-                                                }
-                                              } else if(cateScIndex == 3) {
-                                                if(str.split('^')[5] == '0.0') {
-                                                  dataLowDailyOrder.add(str);
-                                                }
-                                              } else if(cateScIndex == 0) {
-                                                dataLowDailyOrder.add(str);
-                                              }
-
-                                            }
 
 
-                                            print('DATA LOW ' + dataLow['date'].toDate().toString());
-                                            if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
-                                                ==
-                                                dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
-                                            ) {
-                                              var section = ExampleSection()
-                                                ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-                                              //   ..items = document['daily_order'].cast<String>()
+                                        // snapshot.data!.docs.map((document) async {
+                                        //   document['date']
+                                        // }).toList();
 
 
-                                                // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-                                                ..items = sortList(changeData(dataLowDailyOrder.cast<String>(), snapshot2) + changeData(dailyOrders.cast<String>(), snapshot2))
-                                              // ..items = orderItems(document.id)
-                                                ..expanded = true;
-                                              // sections.add(section);
-                                              sections[sections.length-1] = section;
-                                            } else {
-                                              // print('herre ' + document.id);
-                                              var section = ExampleSection()
-                                                ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                                        if(docInc>0) {
 
-                                              //   ..items = document['daily_order'].cast<String>()
+                                        }
+
+                                        //var ayinDoc = snapshot.data!.docs[0].data();
 
 
-                                                ..items = sortList(changeData(dailyOrders.cast<String>(), snapshot2))
-                                              // ..items = orderItems(document.id)
-                                                ..expanded = true;
-                                              sections.add(section);
-                                            }
-                                          } else {
-                                            // print('herre ' + document.id);
-                                            var section = ExampleSection()
-                                              ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-                                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
 
-                                            //   ..items = document['daily_order'].cast<String>()
+                                        if(snapshot.data!.docs.length>0) {
+                                          Map<String, dynamic> data21 = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
+                                          var ayinDoc = data21['date'];
 
 
-                                              ..items = sortList(changeData(dailyOrders.cast<String>(), snapshot2))
-                                            // ..items = orderItems(document.id)
-                                              ..expanded = true;
+
+                                          print('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
+
+                                          List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + data21['customerId'] + '^' + data21['refund'] + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '^' + data21['date'].toDate().minute.toString()];
+
+                                          var section = ExampleSection()
+                                            ..header = zeroToTen(data21['date'].toDate().month.toString()) + '-' + zeroToTen(data21['date'].toDate().day.toString())
+                                          // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                          //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                          //   ..items = document['daily_order'].cast<String>()
+
+
+                                            ..items = changeData(itemsList, snapshot2).cast<String>()
+                                          // ..items = orderItems(document.id)
+                                            ..expanded = true;
+
+                                          if(snapshot.data!.docs.length == 1) {
                                             sections.add(section);
+                                          } else {
+                                            for(int a = 1; a < snapshot.data!.docs.length; a++) {
+                                              Map<String, dynamic> data21Loop = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
+                                              // var ayinDocLoo = data21Loop['date'];
+
+                                              print('CCC ' + data21['date'].toDate().toString() + ' ' + data21Loop['date'].toDate().toString());
+                                              if(!(data21['date'].toDate().day.toString() == data21Loop['date'].toDate().day.toString() && data21['date'].toDate().month.toString() == data21Loop['date'].toDate().month.toString())) {
+                                                print('not equal');
+                                                sections.add(section);
+                                                itemsList = [];
+                                                if(a == snapshot.data!.docs.length-1) {
+                                                  section = ExampleSection()
+                                                    ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                                    ..items = changeData([data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + data21Loop['refund'].toString() + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '^' + data21Loop['date'].toDate().minute.toString()], snapshot2).cast<String>()
+                                                  // ..items = orderItems(document.id)
+                                                    ..expanded = true;
+                                                  sections.add(section);
+                                                  break;
+                                                }
+                                              } else {
+                                                // itemsList.add(data21Loop['title']);
+                                                section = ExampleSection()
+                                                  ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                                  ..items = changeData(itemsList, snapshot2).cast<String>()
+                                                // ..items = orderItems(document.id)
+                                                  ..expanded = true;
+                                              }
+
+                                              if(a == snapshot.data!.docs.length-1) {
+                                                sections.add(section);
+                                              }
+
+                                              data21 = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
+                                              itemsList.add(data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + data21Loop['refund'] + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '^' + data21Loop['date'].toDate().minute.toString());
+                                              section = ExampleSection()
+                                                ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                              //   ..items = document['daily_order'].cast<String>()
+
+
+                                                ..items = changeData(itemsList, snapshot2).cast<String>()
+                                              // ..items = orderItems(document.id)
+                                                ..expanded = true;
+                                            }
                                           }
+                                        }
 
 
-
-                                          docInc++;
-                                        }).toList();
                                         sectionList3 = sections;
 
                                         return CustomScrollView(
@@ -3971,7 +3937,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    textSetAll,
+                                                                    'Alls',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4001,7 +3967,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    textSetTUnpaid,
+                                                                    'Unpaids',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4031,7 +3997,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    textSetTRefunds,
+                                                                    'Refunds',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4061,7 +4027,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    textSetTPaid,
+                                                                    'Paids',
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4094,238 +4060,6 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                   String item = sectionList3[sectionIndex].items[itemIndex];
                                                   int length = sectionList3[sectionIndex].items.length;
 
-                                                  if(itemIndex == length-1) {
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        // print(item.split('^')[1]);
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
-                                                        );
-                                                      },
-                                                      child: Stack(
-                                                        alignment: Alignment.center,
-
-                                                        children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  color: AppTheme.lightBgColor,
-                                                                  border: Border(
-                                                                    bottom: BorderSide(
-                                                                        color: AppTheme.skBorderColor2,
-                                                                        width: 1.0),
-                                                                  )),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                                child: Column(
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 1.0),
-                                                                      child: Column(
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                                            children: [
-                                                                              Text('#' + item.split('^')[1],
-                                                                                style: TextStyle(
-                                                                                    fontSize: 16,
-                                                                                    fontWeight: FontWeight.w500
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(width: 8),
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.only(bottom: 1.0),
-                                                                                child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                              ),
-                                                                              SizedBox(width: 4),
-                                                                              Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                                                                style: TextStyle(
-                                                                                  fontSize: 13,
-                                                                                  fontWeight: FontWeight.w400,
-                                                                                  color: Colors.grey,
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                          // Padding(
-                                                                          //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                          //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
-                                                                          // ),
-                                                                          SizedBox(
-                                                                            height: 6,
-                                                                          ),
-                                                                          Row(
-                                                                            children: [
-                                                                              Text(item.split('^')[3].split('&')[0],
-                                                                                style: TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey,
-                                                                                ),),
-
-                                                                            ],
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 8,
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        if(item.split('^')[5] == '0.0')
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left: 0.0),
-                                                                            child: Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeBgSuccess,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                                child: Text('Paid',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-
-                                                                        if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left: 0.0),
-                                                                            child: Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeFgDangerLight,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                                child: Text('Partially paid',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: AppTheme.badgeFgDanger
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left: 0.0),
-                                                                            child: Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeFgDanger,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                                child: Text('Unpaid',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        if(item.split('^')[4][0] == 'r')
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left: 6.0),
-                                                                            child: Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeBgSecond,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                                child: Text('Refunded',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.white
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-
-                                                                        if(item.split('^')[4][0] == 's')
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left: 6.0),
-                                                                            child: Container(
-                                                                              height: 21,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                                color: AppTheme.badgeBgSecondLight,
-                                                                              ),
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                                                                                child: Text('Partially refunded',
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: AppTheme.badgeBgSecond
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-
-                                                                      ],
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(right: 15.0, bottom: 5),
-                                                            child: Align(
-                                                              alignment: Alignment.centerRight,
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                                children: [
-                                                                  Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                                    fontSize: 15,fontWeight: FontWeight.w500,
-                                                                  )),
-                                                                  SizedBox(width: 10),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(bottom: 2.0),
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .arrow_forward_ios_rounded,
-                                                                      size: 16,
-                                                                      color: Colors
-                                                                          .blueGrey
-                                                                          .withOpacity(
-                                                                          0.8),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }
                                                   return GestureDetector(
                                                     onTap: () {
                                                       print('Items'+item);
@@ -4375,13 +4109,20 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                               child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                                                             ),
                                                                             SizedBox(width: 4),
-                                                                            Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                                            Text(convertToHour(item.split('^')[7]) + ':' + item.split('^')[8] + ' ' + convertToAMPM(item.split('^')[7]),
                                                                               style: TextStyle(
                                                                                 fontSize: 14,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Colors.grey,
                                                                               ),
                                                                             ),
+                                                                            // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
+                                                                            //   style: TextStyle(
+                                                                            //     fontSize: 14,
+                                                                            //     fontWeight: FontWeight.w500,
+                                                                            //     color: Colors.grey,
+                                                                            //   ),
+                                                                            // ),
                                                                           ],
                                                                         ),
                                                                         SizedBox(
@@ -4469,7 +4210,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      if(item.split('^')[4][0] == 'r')
+                                                                      if(item.split('^')[4] == 'TRUE')
                                                                         Padding(
                                                                           padding: const EdgeInsets.only(left: 6.0),
                                                                           child: Container(
@@ -4491,7 +4232,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                           ),
                                                                         ),
 
-                                                                      if(item.split('^')[4][0] == 's')
+                                                                      if(item.split('^')[4] == 'PART')
                                                                         Padding(
                                                                           padding: const EdgeInsets.only(left: 6.0),
                                                                           child: Container(
@@ -4766,35 +4507,35 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   convertToAMPM(String input){
-    switch (input.substring(8,10)) {
-      case '00':
+    switch (input) {
+      case '0':
         return 'AM';
         break;
-      case '01':
+      case '1':
         return 'AM';
         break;
-      case '02':
+      case '2':
         return 'AM';
         break;
-      case '03':
+      case '3':
         return 'AM';
         break;
-      case '04':
+      case '4':
         return 'AM';
         break;
-      case '05':
+      case '5':
         return 'AM';
         break;
-      case '06':
+      case '6':
         return 'AM';
         break;
-      case '07':
+      case '7':
         return 'AM';
         break;
-      case '08':
+      case '8':
         return 'AM';
         break;
-      case '09':
+      case '9':
         return 'AM';
         break;
       case '10':
@@ -4843,36 +4584,36 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   convertToHour(String input){
-    switch (input.substring(8,10)) {
-      case '00':
-        return '12';
+    switch (input) {
+      case '0':
+        return '00';
         break;
-      case '01':
-        return '1';
+      case '1':
+        return '01';
         break;
-      case '02':
-        return '2';
+      case '2':
+        return '02';
         break;
-      case '03':
-        return '3';
+      case '3':
+        return '03';
         break;
-      case '04':
-        return '4';
+      case '4':
+        return '04';
         break;
-      case '05':
-        return '5';
+      case '5':
+        return '05';
         break;
-      case '06':
-        return '6';
+      case '6':
+        return '06';
         break;
-      case '07':
-        return '7';
+      case '7':
+        return '07';
         break;
-      case '08':
-        return '8';
+      case '8':
+        return '08';
         break;
-      case '09':
-        return '9';
+      case '9':
+        return '09';
         break;
       case '10':
         return '10';
@@ -4960,6 +4701,47 @@ class OrdersFragmentState extends State<OrdersFragment>
     }
   }
 
+  convertToDate2(String input) {
+    switch (input) {
+      case '01':
+        return 'JANUARY';
+        break;
+      case '02':
+        return 'FEBRUARY';
+        break;
+      case '03':
+        return 'MARCH';
+        break;
+      case '04':
+        return 'APRIL';
+        break;
+      case '05':
+        return 'MAY';
+        break;
+      case '06':
+        return 'JUN';
+        break;
+      case '07':
+        return 'JULY';
+        break;
+      case '08':
+        return 'AUGUST';
+        break;
+      case '09':
+        return 'SEPTEMBER';
+        break;
+      case '10':
+        return 'OCTOBER';
+        break;
+      case '11':
+        return 'NOVEMBER';
+        break;
+      case '12':
+        return 'DECEMBER';
+        break;
+    }
+  }
+
   changeData(list, snpsht) {
     // list[0].toString()
     snpsht.data!.docs.map((document) async {
@@ -4979,7 +4761,11 @@ class OrdersFragmentState extends State<OrdersFragment>
               '^' +
               list[i].split('^')[5] +
               '^' +
-              list[i].split('^')[6]
+              list[i].split('^')[6] +
+              '^' +
+              list[i].split('^')[7] +
+              '^' +
+              list[i].split('^')[8]
           ;
         }
       }
@@ -5054,7 +4840,8 @@ class OrdersFragmentState extends State<OrdersFragment>
                       Text(
                         // "TODAY",
                         // checkTest(section.header),
-                        covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                        convertToDate2(section.header.split('-')[0]) + ' ' + section.header.split('-')[1],
+                        //covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         style: TextStyle(
                             height: 0.8,
                             fontSize: 14,

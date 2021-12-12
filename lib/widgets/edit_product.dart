@@ -6,7 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/constants/picker_method.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets/qr_edit.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';
@@ -70,6 +71,8 @@ class _EditProductState extends State<EditProduct> {
   var photoArray = '';
 
 
+
+
   @override
   void initState() {
     prodNameCtrl.text = widget.prodName;
@@ -88,6 +91,19 @@ class _EditProductState extends State<EditProduct> {
     sub2SellCtrl.text = widget.sub2Sell;
     subExist = widget.subExist;
     photoArray = widget.image;
+
+    LanguageSettingsState().getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+
+        });
+      } else if(value=='english') {
+        setState(() {
+
+        });
+      }
+    });
+
     super.initState();
   }
 

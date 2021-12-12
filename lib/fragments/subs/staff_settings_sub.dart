@@ -11,7 +11,7 @@ import 'package:one_context/one_context.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/add_staff_sub.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 
 import '../../app_theme.dart';
 import '../app_theme.dart';
@@ -19,7 +19,9 @@ import 'package:bottom_picker/bottom_picker.dart';
 
 class StaffSettingsSub extends StatefulWidget {
 
-  const StaffSettingsSub({Key? key}) : super(key: key);
+  const StaffSettingsSub(
+      {Key? key, required this.ownerId,});
+  final String ownerId;
 
   @override
   _StaffSettingsSubState createState() => _StaffSettingsSubState();
@@ -42,14 +44,28 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   var _result;
   var _shop ;
   bool firstTime = true;
-
+  var ownerEmail = '';
   @override
   initState() {
+    var getEmail = '';
     getStoreId().then((value) {
       setState(() {
         _result = value.toString();
       });
 
+    });
+
+    FirebaseFirestore.instance
+        .collection('users')
+         .where('user_id', isEqualTo: widget.ownerId.toString())
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        getEmail = doc['email'];
+      });
+      setState(() {
+        ownerEmail = getEmail.toString();
+      });
     });
     super.initState();
   }
@@ -63,70 +79,70 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   void dispose() {
     super.dispose();
   }
-  addShop(shopName) {
-    CollectionReference spaces = FirebaseFirestore.instance.collection('space');
-    var exist = false;
-    var docId = '';
-    var shopExist = false;
-    FirebaseFirestore.instance
-        .collection('space')
-        .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        docId = doc.id;
-        exist = true;
-      });
-
-      if(exist) {
-        print('space shi p thar');
-
-        FirebaseFirestore.instance
-            .collection('space').doc(docId).collection('shops')
-            .where('shop_name', isEqualTo: shopName)
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-          querySnapshot.docs.forEach((doc) {
-            shopExist = true;
-          });
-
-          if(shopExist) {
-            print('shop already');
-
-          } else {
-            CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
-            return shops
-                .add({
-              'shop_name': shopName
-            })
-                .then((value) {
-              print('shop added');
-            });
-          }
-        });
-
-
-      } else {
-        print('space mshi vuu');
-        return spaces
-            .add({
-          'user_id': FirebaseAuth.instance.currentUser!.uid
-        })
-            .then((value) {
-          CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(value.id).collection('shops');
-
-          return shops
-              .add({
-            'shop_name': shopName
-          })
-              .then((value) {
-            print('shop added');
-          });
-
-        }).catchError((error) => print("Failed to add shop: $error"));
-      }
-    });
-  }
+  // addShop(shopName) {
+  //   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
+  //   var exist = false;
+  //   var docId = '';
+  //   var shopExist = false;
+  //   FirebaseFirestore.instance
+  //       .collection('space')
+  //       .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+  //       .get()
+  //       .then((QuerySnapshot querySnapshot) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       docId = doc.id;
+  //       exist = true;
+  //     });
+  //
+  //     if(exist) {
+  //       print('space shi p thar');
+  //
+  //       FirebaseFirestore.instance
+  //           .collection('space').doc(docId).collection('shops')
+  //           .where('shop_name', isEqualTo: shopName)
+  //           .get()
+  //           .then((QuerySnapshot querySnapshot) {
+  //         querySnapshot.docs.forEach((doc) {
+  //           shopExist = true;
+  //         });
+  //
+  //         if(shopExist) {
+  //           print('shop already');
+  //
+  //         } else {
+  //           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
+  //           return shops
+  //               .add({
+  //             'shop_name': shopName
+  //           })
+  //               .then((value) {
+  //             print('shop added');
+  //           });
+  //         }
+  //       });
+  //
+  //
+  //     } else {
+  //       print('space mshi vuu');
+  //       return spaces
+  //           .add({
+  //         'user_id': FirebaseAuth.instance.currentUser!.uid
+  //       })
+  //           .then((value) {
+  //         CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(value.id).collection('shops');
+  //
+  //         return shops
+  //             .add({
+  //           'shop_name': shopName
+  //         })
+  //             .then((value) {
+  //           print('shop added');
+  //         });
+  //
+  //       }).catchError((error) => print("Failed to add shop: $error"));
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +160,9 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
               if(snapshot.hasData) {
                 var output = snapshot.data!.data();
                 var usersList = output?['users'];
+               // var ownerId = output?['owner_id'];
+
+
                 print(usersList.toString());
                 return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                     // mainAxisAlignment: MainAxisAlignment.end,
@@ -180,6 +199,8 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                           color: Colors.black,
                                         ),
                                         onPressed: () {
+                                         // getEmail(ownerId);
+                                         // print('getEmail' + getEmail(ownerId).toString());
                                           Navigator.pop(context);
                                         }),
                                   ),
@@ -298,6 +319,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                             i < usersList.length;
                             i++)
                               if((FirebaseAuth.instance.currentUser == null? '':FirebaseAuth.instance.currentUser!.email) != usersList[i].toString())
+                                if( ownerEmail != usersList[i].toString())
                                 Padding(
                                   padding: EdgeInsets.only(left: i == usersList.length-1? 0.0:15.0),
                                   child: Container(
@@ -316,13 +338,19 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                           stream: FirebaseFirestore.instance
                                               .collection('users')
                                               .where('email', isEqualTo: usersList[i].toString())
+                                              //.where('email', isNotEqualTo: ownerEmail.toString())
                                               .limit(1)
                                               .snapshots(),
                                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
                                             print('check1 ' + usersList[i].toString());
                                             if(snapshot2.hasData) {
+
+                                              print('getOwnerrr' + ownerEmail.toString());
                                               print('hasData' + snapshot2.data!.docs.length.toString());
                                               if(snapshot2.data!.docs.length == 0) {
+
+                                               // print('ownerrr' + ownerId.toString());
+
                                                 // return StreamBuilder(
                                                 // stream: FirebaseFirestore.instance
                                                 //     .collection('shops').doc(_result).collection('users')
@@ -397,8 +425,6 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                 //   }
                                                 // );
 
-
-
                                                 return StreamBuilder(
                                                     stream: FirebaseFirestore.instance
                                                         .collection('shops').doc(_result).collection('users')
@@ -447,11 +473,12 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                   defaultType: OkCancelAlertDefaultType.cancel,
                                                                                 ).then((result) async {
                                                                                   if(result == OkCancelResult.ok) {
-                                                                                    await FirebaseFirestore.instance.collection('shops').doc(_result).update(
+                                                                                    CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                                                                    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
+                                                                                    shops.doc(_result).update(
                                                                                         {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
                                                                                     ).then((value) async {
-                                                                                      FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
-                                                                                          .doc(userDocId)
+                                                                                          users.doc(userDocId)
                                                                                           .delete()
                                                                                           .then((value) {
                                                                                         print('users removed');
@@ -547,6 +574,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                   stream: FirebaseFirestore.instance
                                                       .collection('shops').doc(_result).collection('users')
                                                       .where('email', isEqualTo: usersList[i].toString())
+                                                      //.where('email', isNotEqualTo: ownerEmail.toString())
                                                       .limit(1)
                                                       .snapshots(),
                                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot3) {
@@ -554,7 +582,6 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                     Map<String, dynamic> dataUser = snapshot3.data!.docs[0].data()! as Map<String, dynamic>;
                                                     String userDocId = snapshot3.data!.docs[0].id.toString();
                                                     var role = dataUser['role'];
-
                                                     print('roooo ' + role.toString());
                                                     return Container(
                                                       height: 65,
@@ -600,11 +627,12 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                               defaultType: OkCancelAlertDefaultType.cancel,
                                                                             ).then((result) async {
                                                                               if(result == OkCancelResult.ok) {
-                                                                                await FirebaseFirestore.instance.collection('shops').doc(_result).update(
+                                                                                CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                                                                CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
+                                                                               shops.doc(_result).update(
                                                                                     {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
                                                                                 ).then((value) async {
-                                                                                  FirebaseFirestore.instance.collection('shops').doc(_result).collection('users')
-                                                                                      .doc(userDocId)
+                                                                                      users.doc(userDocId)
                                                                                       .delete()
                                                                                       .then((value) {
                                                                                         print('users removed');
@@ -856,6 +884,26 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
       ),
     );
   }
+// var ownerEmail = '';
+//   getEmail(ownerId) {
+//     var getOwnerEmail;
+//     FirebaseFirestore.instance
+//         .collection('users')
+//         .where('user_id', isEqualTo: ownerId.toString())
+//         .get()
+//         .then((QuerySnapshot querySnapshot) {
+//       querySnapshot.docs.forEach((doc) {
+//         getOwnerEmail = doc['email'];
+//         setState(() {
+//           ownerEmail = getOwnerEmail;
+//         });
+//       });
+//
+//
+//     });
+//     print('ownerEmail' +ownerEmail);
+//     return ownerEmail.toString();
+//   }
 
   List _testList = [
     {'no': 1, 'keyword': 'Cashier'},

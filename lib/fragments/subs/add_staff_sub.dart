@@ -3,7 +3,7 @@ import 'package:dropdown_below/dropdown_below.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import '../../app_theme.dart';
 import 'change_password.dart';
 // import 'package:bottom_picker/bottom_picker.dart';
@@ -450,12 +450,16 @@ class _AddStaffSubState extends State<AddStaffSub> {
 
   roleModify() {
     print('role modify ' + _selectedTest.toString());
+    if(_selectedTest == null) {
+      return 'cashier';
+    }
+
     if(_selectedTest['keyword'].toString() == 'Cashier') {
-      return 'sale';
+      return 'cashier';
     } else if(_selectedTest['keyword'].toString() == 'Admin') {
       return 'admin';
     } else if(_selectedTest==null) {
-      return 'sale';
+      return 'cashier';
     }
     //return _selectedTest==null?  'sale': _selectedTest['keyword'].toString();
   }

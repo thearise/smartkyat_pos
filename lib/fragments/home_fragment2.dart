@@ -11,7 +11,7 @@
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:rxdart/rxdart.dart';
 // import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
-// import 'package:smartkyat_pos/fragments/orders_fragment.dart';
+// import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
 // import 'package:smartkyat_pos/fragments/subs/donut.dart';
 // import 'package:smartkyat_pos/fragments/subs/top_sale_detail.dart';
 // import 'package:smartkyat_pos/pie_chart/simple.dart';

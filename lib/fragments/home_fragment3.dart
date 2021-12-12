@@ -16,13 +16,14 @@ import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
-import 'package:smartkyat_pos/fragments/orders_fragment.dart';
+import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/donut.dart';
+import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/fragments/subs/top_sale_detail.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/pie_chart/simple.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:flutter/src/material/colors.dart' as Colors;
@@ -123,6 +124,20 @@ class HomeFragmentState extends State<HomeFragment>
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
+  String textSetTotalSales = 'TOTAL SALES';
+  String textSetTodaySoFar = 'TODAY SO FAR';
+  String textSetStockCosts = 'Stock costs';
+  String textSetUnpaid = 'Unpaid';
+  String textSetBuys = 'Buys';
+  String textSetLoss = 'Loss';
+  String textSetToday = 'Day';
+  String textSetLastWeek = 'Last week';
+  String textSetLastMonth = 'Last month';
+  String textSetLastYear = 'Last year';
+  String textSetLast7Days = 'Last 7 Days';
+  String textSetLast28D = 'LAST 28 DAYS';
+  String textSetLast12M = 'LAST 12 MONTHS';
+
 
   slidingSearchCont() {
 
@@ -218,6 +233,46 @@ class HomeFragmentState extends State<HomeFragment>
         });
       }
     });
+
+    LanguageSettingsState().getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+
+          textSetTotalSales = 'TOTAL SALES';
+          textSetTodaySoFar = 'TODAY SO FAR';
+          textSetStockCosts = 'Stock costs';
+          textSetUnpaid = 'Unpaid';
+          textSetBuys = 'Buys';
+          textSetLoss = 'Loss';
+          textSetToday = 'Day';
+          textSetLastWeek = 'Last week';
+          textSetLastMonth = 'Last month';
+          textSetLastYear = 'Last year';
+          textSetLast7Days = 'Last 7 Days';
+          textSetLast28D = 'LAST 28 DAYS';
+          textSetLast12M = 'LAST 12 MONTHS';
+
+        });
+      } else if(value=='english') {
+        setState(() {
+         textSetTotalSales = 'TOTAL SALES';
+         textSetTodaySoFar = 'TODAY SO FAR';
+         textSetStockCosts = 'Stock costs';
+         textSetUnpaid = 'Unpaid';
+         textSetBuys = 'Buys';
+         textSetLoss = 'Loss';
+         textSetToday = 'Day';
+         textSetLastWeek = 'Last week';
+         textSetLastMonth = 'Last month';
+         textSetLastYear = 'Last year';
+         textSetLast7Days = 'Last 7 Days';
+         textSetLast28D = 'LAST 28 DAYS';
+         textSetLast12M = 'LAST 12 MONTHS';
+
+        });
+      }
+    });
+
     // fetchOrders();
     super.initState();
   }
@@ -1662,7 +1717,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                         },
                                                                         child: Container(
                                                                           child: Text(
-                                                                            'Day',
+                                                                            textSetToday,
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
@@ -1693,7 +1748,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                         },
                                                                         child: Container(
                                                                           child: Text(
-                                                                            'Last week',
+                                                                            textSetLastWeek,
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
@@ -1724,7 +1779,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                         },
                                                                         child: Container(
                                                                           child: Text(
-                                                                            'Last month',
+                                                                            textSetLastMonth,
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
@@ -1755,7 +1810,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                         },
                                                                         child: Container(
                                                                           child: Text(
-                                                                            'Last year',
+                                                                            textSetLastYear,
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
@@ -1878,7 +1933,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                             children: [
                                                                               Expanded(
                                                                                 child: Text(
-                                                                                  'TOTAL SALES',
+                                                                                  textSetTotalSales,
                                                                                   style: TextStyle(
                                                                                     letterSpacing: 2,
                                                                                     fontWeight: FontWeight.bold,
@@ -2068,7 +2123,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           top: 0,
                                                                                           child: Text('?')
                                                                                       ),
-                                                                                      Text('Stock costs',
+                                                                                      Text(textSetStockCosts,
                                                                                         style: TextStyle(
                                                                                             fontSize: 13,
                                                                                             fontWeight: FontWeight.w500,
@@ -2153,7 +2208,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           top: 0,
                                                                                           child: Text('?')
                                                                                       ),
-                                                                                      Text('Unpaid',
+                                                                                      Text(textSetUnpaid,
                                                                                         style: TextStyle(
                                                                                             fontSize: 13,
                                                                                             fontWeight: FontWeight.w500,
@@ -2238,7 +2293,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           top: 0,
                                                                                           child: Text('?')
                                                                                       ),
-                                                                                      Text('Buys',
+                                                                                      Text(textSetBuys,
                                                                                         style: TextStyle(
                                                                                             fontSize: 13,
                                                                                             fontWeight: FontWeight.w500,
@@ -2322,7 +2377,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           top: 0,
                                                                                           child: Text('?')
                                                                                       ),
-                                                                                      Text('Loss',
+                                                                                      Text(textSetLoss,
                                                                                         style: TextStyle(
                                                                                             fontSize: 13,
                                                                                             fontWeight: FontWeight.w500,
@@ -2764,13 +2819,13 @@ class HomeFragmentState extends State<HomeFragment>
 
   String titleTextBySlide() {
     if(_sliding == 0) {
-      return "TODAY SO FAR";
+      return textSetTodaySoFar;
     } else if(_sliding == 1) {
-      return "LAST 7 DAYS";
+      return textSetLast7Days;
     } else if(_sliding == 2) {
-      return "LAST 28 DAYS";
+      return textSetLast28D;
     } else {
-      return "LAST 12 MONTHS";
+      return textSetLast12M;
     }
   }
 
