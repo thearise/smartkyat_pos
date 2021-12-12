@@ -8,7 +8,7 @@ import 'package:smartkyat_pos/fragments/subs/account_setting.dart';
 import 'package:smartkyat_pos/fragments/subs/change_password.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/print_settings_sub.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 
 import '../app_theme.dart';
 import 'subs/shop_setting_sub.dart';

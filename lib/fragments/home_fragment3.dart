@@ -22,7 +22,7 @@ import 'package:smartkyat_pos/fragments/subs/donut.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/fragments/subs/top_sale_detail.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/pie_chart/simple.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:flutter/src/material/colors.dart' as Colors;
@@ -1503,7 +1503,7 @@ class HomeFragmentState extends State<HomeFragment>
                       stream: FirebaseFirestore.instance
                           .collection('shops')
                           .doc(shopId)
-                          .collection('orders')
+                          .collection('order')
                           .where('date', isGreaterThanOrEqualTo: todayToYearStart())
                       // .where('date', isGreaterThanOrEqualTo: today.subtract(Duration(days: 300)))
                           .snapshots(),

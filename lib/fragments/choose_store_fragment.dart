@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
 
 import '../app_theme.dart';
