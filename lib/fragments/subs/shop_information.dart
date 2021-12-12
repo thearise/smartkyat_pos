@@ -17,7 +17,6 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
   @override
   bool get wantKeepAlive => true;
   var shopId;
-  var _shop ;
   final _formKey = GlobalKey<FormState>();
   bool firstTime = true;
 

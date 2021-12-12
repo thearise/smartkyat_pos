@@ -616,9 +616,6 @@ class HomePageState extends State<HomePage>
               _selectIndex = 1;
               firstTime = false;
             }
-
-
-
             return Scaffold(
               onDrawerChanged: (isOpened) {
                 if(isOpened) {
@@ -730,7 +727,7 @@ class HomePageState extends State<HomePage>
                                   child: Stack(
                                     children: [
                                       new Column(children: [
-                                        if(role == 'admin')
+                                        if (role == 'admin' || role == 'owner')
                                           GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -888,6 +885,7 @@ class HomePageState extends State<HomePage>
                                             ),
                                           ),
                                         ),
+                                        if (role == 'admin' || role == 'owner')
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -997,7 +995,7 @@ class HomePageState extends State<HomePage>
                                             ),
                                           ),
                                         ),
-
+                                        if (role == 'admin' || role == 'owner')
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {

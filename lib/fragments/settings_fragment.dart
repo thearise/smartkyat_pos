@@ -28,6 +28,12 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
   String? shopId;
 
   String textSetTitle = 'Settings';
+  String textSetAccount = 'Account';
+  String textSetShopSetting = 'Shop setting';
+  String textSetLanguage = 'Languages';
+  String textSetPrint = 'Print setting';
+  String textInfo = 'INFORMATION';
+  String textDisplay = 'DISPLAY';
 
   @override
   bool get wantKeepAlive => true;
@@ -43,11 +49,24 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
     LanguageSettingsState().getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetTitle = 'စက်တင်း';
+          textSetTitle = 'အပြင်အဆင်';
+          textSetAccount = 'အကောင့်';
+          textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
+          textSetLanguage = 'ဘာသာစကား';
+          textSetPrint = 'ပရင်တာအပြင်အဆင်';
+          textInfo = 'သတင်းအချက်အလက်';
+          textDisplay = 'DISPLAY';
+
         });
       } else if(value=='english') {
         setState(() {
           textSetTitle = 'Settings';
+          textSetAccount = 'Account';
+          textSetShopSetting = 'Shop setting';
+          textSetLanguage = 'Languages';
+          textSetPrint = 'Print setting';
+          textInfo = 'INFORMATION';
+          textDisplay = 'DISPLAY';
         });
       }
     });
@@ -191,7 +210,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                           children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Text('INFORMATION', style: TextStyle(
+                              child: Text(textInfo, style: TextStyle(
                                 letterSpacing: 1.5,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,color: Colors.grey,
@@ -218,7 +237,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                   child: Row(
                                     children: [
                                       Container(
-                                        child: Text('Account',
+                                        child: Text(textSetAccount,
                                           style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                       ),
                                       StreamBuilder(
@@ -308,7 +327,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                   child: Row(
                                    // mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                    Text('Shop settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    Text(textSetShopSetting, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                         Spacer(),
                                         StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                                             stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
@@ -336,7 +355,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                             SizedBox(height: 15,),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Text('DISPLAY', style: TextStyle(
+                              child: Text(textDisplay, style: TextStyle(
                                   letterSpacing: 1.5,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14, color: Colors.grey,
@@ -381,7 +400,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 4.0),
                                     child: ListTile(
-                                      title: Text('Languages', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                      title: Text(textSetLanguage, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -476,7 +495,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                 height: 72,
                                 child: Center(
                                   child: ListTile(
-                                    title: Text('Print settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                    title: Text(textSetPrint, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [

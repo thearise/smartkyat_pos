@@ -9,6 +9,7 @@ import 'package:one_context/one_context.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
+import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
@@ -79,6 +80,11 @@ class OrdersFragmentState extends State<OrdersFragment>
   var sectionList3;
   int _sliding = 0;
 
+  String textSetAll = 'All';
+  String textSetTUnpaid = 'Unpadis';
+  String textSetTRefunds = 'Refunds';
+  String textSetTPaid = 'Paids';
+
   @override
   initState() {
     HomePageState().getStoreId().then((value) => shopId = value);
@@ -119,6 +125,25 @@ class OrdersFragmentState extends State<OrdersFragment>
         });
       }
     });
+
+    LanguageSettingsState().getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetAll = 'All';
+          textSetTUnpaid = 'Unpadis';
+          textSetTRefunds = 'Refunds';
+          textSetTPaid = 'Paids';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetAll = 'All';
+          textSetTUnpaid = 'Unpadis';
+          textSetTRefunds = 'Refunds';
+          textSetTPaid = 'Paids';
+        });
+      }
+    });
+
     super.initState();
   }
 
@@ -3946,7 +3971,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'All',
+                                                                    textSetAll,
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -3976,7 +4001,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Unpaids',
+                                                                    textSetTUnpaid,
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4006,7 +4031,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Refunds',
+                                                                    textSetTRefunds,
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4036,7 +4061,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                    'Paids',
+                                                                    textSetTPaid,
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
