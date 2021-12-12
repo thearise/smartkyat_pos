@@ -464,7 +464,7 @@ class MerchantCartState extends State<MerchantCart>
                                       .data!
                                       .data();
                                   var image = output2?[
-                                  'img_1'];
+                                    'img_1'];
                                   salePrice = output2?['buyPrice1'];
 
                                   widget.prodList2[i] = widget.prodList2[i].split('-')[0] + '-' + widget.prodList2[i].split('-')[1] + '-' +
@@ -575,7 +575,7 @@ class MerchantCartState extends State<MerchantCart>
                                                       )),
                                                   title: Text(
                                                     output2?[
-                                                    'prod_name'],
+                                                      'prod_name'],
                                                     style:
                                                     TextStyle(
                                                         fontWeight: FontWeight.w500, fontSize: 16),
@@ -2006,15 +2006,15 @@ class MerchantCartState extends State<MerchantCart>
                                       child: Padding(
                                         padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                         child: Container(
-                                            child: Text(
-                                              'Done',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black
-                                              ),
+                                          child: Text(
+                                            'Done',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black
                                             ),
+                                          ),
                                         ),
                                       ),
                                     ),

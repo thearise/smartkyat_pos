@@ -3736,10 +3736,10 @@ class OrdersFragmentState extends State<OrdersFragment>
                         color: Colors.white,
                         child: StreamBuilder(
                             stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
-                                .where('date', isLessThanOrEqualTo: lossDayStart())
-                                .where('date', isGreaterThanOrEqualTo: lossDayEnd())
-                                .orderBy('date', descending: true)
-                                .snapshots(),
+                              .where('date', isLessThanOrEqualTo: lossDayStart())
+                              .where('date', isGreaterThanOrEqualTo: lossDayEnd())
+                              .orderBy('date', descending: true)
+                              .snapshots(),
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
                               if(snapshot.hasData) {

@@ -40,7 +40,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     FirebaseFirestore.instance
         .collection('shops')
         .doc(widget.shopId)
-        .collection('orders')
+        .collection('order')
     // FirebaseFirestore.instance.collection('space')
         .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))

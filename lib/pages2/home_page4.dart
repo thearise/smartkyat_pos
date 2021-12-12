@@ -23,7 +23,7 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 // import 'package:smartkyat_pos/fragments/home_fragment.dart';
-import 'package:smartkyat_pos/fragments/home_fragment3.dart';
+import 'package:smartkyat_pos/fragments/home_fragment4.dart';
 import 'package:smartkyat_pos/fragments/merchant_cart2.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
@@ -1633,7 +1633,7 @@ class HomePageState extends State<HomePage>
                                                                                               .data!
                                                                                               .data();
                                                                                           var image = output2?[
-                                                                                          'img_1'];
+                                                                                            'img_1'];
                                                                                           prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                                                               prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                                                           return GestureDetector(
@@ -1716,7 +1716,7 @@ class HomePageState extends State<HomePage>
                                                                                                                   : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                                           title: Text(
                                                                                                             output2?[
-                                                                                                            'prod_name'],
+                                                                                                              'prod_name'],
                                                                                                             style:
                                                                                                             TextStyle(
                                                                                                                 fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -2452,7 +2452,7 @@ class HomePageState extends State<HomePage>
                                                                                             }
                                                                                             print('subList ' + subList.toString());
 
-                                                                                                Detail(now, length.toString(), subList);
+                                                                                            Detail(now, length.toString(), subList);
                                                                                             List<String> subNameList = [];
                                                                                             int subNameListLength = 0;
                                                                                             for (String str in prodList) {
@@ -5299,7 +5299,7 @@ class HomePageState extends State<HomePage>
                                                                       .data!
                                                                       .data();
                                                                   var image = output2?[
-                                                                  'img_1'];
+                                                                    'img_1'];
                                                                   prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
                                                                       prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
                                                                   return GestureDetector(
@@ -5382,7 +5382,7 @@ class HomePageState extends State<HomePage>
                                                                                           : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                   title: Text(
                                                                                     output2?[
-                                                                                    'prod_name'],
+                                                                                      'prod_name'],
                                                                                     style:
                                                                                     TextStyle(
                                                                                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -6082,7 +6082,7 @@ class HomePageState extends State<HomePage>
                                                                     print('CHECK POINT 1');
 
                                                                     orderLengthIncrease();
-                                                                     print('datacheck' + prodList.toString());
+                                                                    print('datacheck' + prodList.toString());
                                                                     for (String str in prodList) {
                                                                       CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
@@ -7783,6 +7783,24 @@ class HomePageState extends State<HomePage>
       'customerId' : customerId.split('-')[0],
       'deviceId' : deviceIdNum.toString() + '-',
       'orderId' : length.toString(),})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+
+  Future<void> merchOrder(id1, id2 , length) async {
+    print('CHECKING PRODSALE ORD');
+    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders');
+
+    cusOrder.doc(id2).set({
+      'order_id': id2,
+      'debt' : debt2,
+      'order_pid': id1,
+      'refund' : 'FALSE',
+      'discount' : discountAmount2.toString() + disText2,
+      'total': TtlProdListPrice2(),
+      'deviceId' : deviceIdNum.toString() + '-',
+      'voucherId' : length.toString(),})
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
