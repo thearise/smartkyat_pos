@@ -277,7 +277,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                           )),
                                                       title: Text(
                                                         output2?[
-                                                          'prod_name'],
+                                                        'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16),
@@ -618,10 +618,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                             data.split('^')[4][1] + '^' + debt.toString() + '^' + data.split('^')[6];
 
 
-
-
-                                        print('result___ ' + data + dataRm);
                                         CollectionReference dOrder = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
+                                        CollectionReference cusRefund = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
 
                                         dOrder.doc(widget.docId).update({
                                           'subs': prodList,
@@ -631,8 +629,42 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                         }).then((value) { print('detail updated');})
                                             .catchError((error) => print("Failed to update user: $error"));
 
+                                        int totalRefunds = 0;
+                                        double chgDebts = 0;
+                                        int ttlDebts = 0;
+                                         print('leesin ' +widget.data.split('^')[4].toString());
 
-                                        Navigator.pop(context, data);
+
+                                       if (double.parse(widget.data.split('^')[5]) != debt) {
+                                         chgDebts = double.parse(widget.data.split('^')[5]) - debt;
+                                       } else {
+                                         chgDebts = 0;
+                                       }
+
+                                        if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
+                                          ttlDebts = 1;
+                                        } else {
+                                          ttlDebts = 0;
+                                        }
+
+                                        if(widget.data.split('^')[4] == 'FALSE') {
+                                          totalRefunds = 1;
+                                        } else {
+                                          totalRefunds = 0;
+                                        }
+
+                                        if(widget.data.split('^')[3].split('&')[1] !='name') {
+                                          cusRefund.doc(widget.data.split('^')[3].split('&')[1]).update({
+                                            'total_refunds' : FieldValue.increment(double.parse(totalRefunds.toString())),
+                                            'debts' : FieldValue.increment(0 - double.parse(ttlDebts.toString())),
+                                            'debtAmount' : FieldValue.increment(0 - double.parse(chgDebts.toString())),
+                                          }).then((value) {
+                                            print('customer updated');
+                                          }).catchError((error) => print("Failed to update user: $error"));
+                                        }
+
+
+                                        Navigator.of(context).popUntil((route) => route.isFirst);
 
                                       },
                                       child: Padding(

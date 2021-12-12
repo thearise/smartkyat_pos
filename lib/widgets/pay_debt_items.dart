@@ -7,10 +7,10 @@ import '../app_theme.dart';
 
 class PayDebtItems extends StatefulWidget {
   const PayDebtItems({Key? key, required this.debt, required this.shopId, required this.data, required this.docId}) : super(key: key);
-  final String debt;
-  final String data;
-  final String docId;
-  final String shopId;
+final String debt;
+final String data;
+final String docId;
+final String shopId;
   @override
   _PayDebtItemsState createState() => _PayDebtItemsState();
 }
@@ -93,7 +93,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                         Spacer(),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          // crossAxisAlignment: CrossAxisAlignment.end,
+                         // crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text('MMK ',
                               style: TextStyle(
@@ -102,12 +102,12 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                 color: Colors.grey,
                               ),),
                             Text('#' +
-                                'mainUnit',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
+                                         'mainUnit',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
                           ],
                         ),
                         Spacer(),
@@ -148,6 +148,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                   //     widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
 
                                   CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
+                                  CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
 
                                   order.doc(
                                       widget.docId)
@@ -156,6 +157,20 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                   })
                                       .then((value) => print("User Updated"))
                                       .catchError((error) => print("Failed to update user: $error"));
+
+                                  double debts = 0;
+                                  if(debtAmount == 0.0) {
+                                    debts = 1;
+                                  } else debts = 0;
+                                  if( widget.data.split('^')[3].split('&')[1] !='name') {
+                                  customerDebt.doc(
+                                      widget.data.split('^')[3].split('&')[1])
+                                      .update({
+                                    'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
+                                    'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
+                                  })
+                                      .then((value) => print("User Updated"))
+                                      .catchError((error) => print("Failed to update user: $error"));}
 
                                   _textFieldController.clear();
                                   Navigator.of(context).popUntil((route) => route.isFirst);
@@ -217,40 +232,40 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                   )),
                   SizedBox(height: 20),
                   ButtonTheme(
-                    minWidth: double.infinity,
-                    //minWidth: 50,
-                    splashColor: AppTheme.buttonColor2,
-                    height: 50,
-                    child: FlatButton(
-                      color: AppTheme.buttonColor2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                        side: BorderSide(
-                          color: Colors.grey.withOpacity(0.85),
-                        ),
-                      ),
-                      onPressed: () async {
-                        setState(() {
-                          _textFieldController
-                              .text =
-                              widget.debt
-                                  .toString();
-                          paidAmount = double.parse(widget.debt.toString());
-                          debtAmount = 0;
-                          refund = 0;
-                        });
-                      },
-                      child: Container(
-                        child: Text( 'MMK ' +
-                            widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
+              minWidth: double.infinity,
+              //minWidth: 50,
+              splashColor: AppTheme.buttonColor2,
+              height: 50,
+              child: FlatButton(
+                color: AppTheme.buttonColor2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                  side: BorderSide(
+                    color: Colors.grey.withOpacity(0.85),
+                  ),
+                ),
+                onPressed: () async {
+                  setState(() {
+                    _textFieldController
+                        .text =
+                        widget.debt
+                            .toString();
+                    paidAmount = double.parse(widget.debt.toString());
+                    debtAmount = 0;
+                    refund = 0;
+                    });
+                },
+                child: Container(
+                  child: Text( 'MMK ' +
+                      widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
+                ),
+              ),
+            ),
                   SizedBox(height: 20),
                   Text('(OR)', style: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500,
@@ -260,54 +275,54 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                     fontSize: 16, fontWeight: FontWeight.w500,
                   )),
                   SizedBox(height: 20),
-                  TextField(
-                    decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                          borderSide: const BorderSide(
-                              color: AppTheme.skBorderColor, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            TextField(
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.skBorderColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
 
-                      focusedBorder: const OutlineInputBorder(
-                        // width: 0.0 produces a thin "hairline" border
-                          borderSide: const BorderSide(
-                              color: AppTheme.skThemeColor2, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                      contentPadding: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                      suffixText: 'MMK',
-                      suffixStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                      labelStyle: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                      ),
-                      // errorText: 'Error message',
-                      labelText: 'other  amount',
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      //filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {
-                        value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                        if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
-                          debtAmount = 0;
-                        } else { debtAmount = (double.parse(widget.debt.toString()) - paidAmount);
-                        }
-                        if((paidAmount - double.parse(widget.debt.toString())).isNegative){
-                          refund = 0;
-                        } else { refund = (paidAmount - double.parse(widget.debt.toString()));
-                        }
-                      });
-                    },
-                    controller: _textFieldController,
-                  ),
+                focusedBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                    borderSide: const BorderSide(
+                        color: AppTheme.skThemeColor2, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                suffixText: 'MMK',
+                suffixStyle: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+                // errorText: 'Error message',
+                labelText: 'other  amount',
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                //filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                setState(() {
+                  value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                  if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
+                    debtAmount = 0;
+                  } else { debtAmount = (double.parse(widget.debt.toString()) - paidAmount);
+                  }
+                  if((paidAmount - double.parse(widget.debt.toString())).isNegative){
+                    refund = 0;
+                  } else { refund = (paidAmount - double.parse(widget.debt.toString()));
+                  }
+                });
+              },
+              controller: _textFieldController,
+            ),
                   SizedBox(height: 20,),
                   Center(
                     child: Text('Debt Remaining - ' + debtAmount.toString(), style: TextStyle(

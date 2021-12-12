@@ -6067,6 +6067,9 @@ class HomePageState extends State<HomePage>
                                                                   subList2 = [];
                                                                   DateTime now = DateTime.now();
                                                                   int length = 0;
+                                                                  int totalOrders = 0;
+                                                                  int debts = 0;
+                                                                  double debtAmounts = 0 ;
                                                                   print('order creating');
 
                                                                   FirebaseFirestore.instance.collection('shops').doc(shopId)
@@ -6134,6 +6137,23 @@ class HomePageState extends State<HomePage>
                                                                     print('subList2 ' + subList2.toString());
 
                                                                     Detail(now, length.toString(),subList2);
+
+                                                                    if(customerId.split('-')[0] != 'name' && debt.toString() != '0') {
+                                                                      debts = 1;
+                                                                      debtAmounts = debt;
+                                                                    } else {
+                                                                      debts = 0;
+                                                                      debtAmounts = 0;
+                                                                    }
+
+                                                                    if(customerId.split('-')[0] != 'name') {
+                                                                      totalOrders = totalOrders + 1;
+                                                                      CusOrder(totalOrders, debts, debtAmounts);
+                                                                    }
+
+
+
+
 
                                                                     List<String> subNameList = [];
                                                                     int subNameListLength = 0;
@@ -7767,6 +7787,7 @@ class HomePageState extends State<HomePage>
         .catchError((error) => print("Failed to update user: $error"));
   }
 
+
   Future<void> merchOrder(id1, id2 , length) async {
     print('CHECKING PRODSALE ORD');
     CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders');
@@ -7797,19 +7818,18 @@ class HomePageState extends State<HomePage>
         .catchError((error) => print("Failed to update user: $error"));
   }
 
-  Future<void> buyOrderLengthIncrease() async {
+  Future<void> CusOrder(ttlOrders, debts , debtAmount) async {
     print('CHECKING PRODSALE ORD');
-    CollectionReference users = await FirebaseFirestore.instance.collection('shops');
+    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers');
 
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
-
-    users
-        .doc(shopId)
-        .update({'buyOrders_length': FieldValue.increment(1)})
+    cusOrder.doc(customerId.split('-')[0]).update({
+      'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
+      'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
+      'debts': FieldValue.increment(double.parse(debts.toString())),
+    })
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
-
 
   Future<void> prodSaleData(id, num) async {
     print('CHECKING PRODSALE');

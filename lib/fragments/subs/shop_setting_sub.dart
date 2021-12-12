@@ -28,7 +28,8 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
   var shopId;
   var _shop ;
   bool firstTime = true;
-
+  var ownerId;
+  final auth = FirebaseAuth.instance;
 
   @override
   initState() {
@@ -240,6 +241,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                         if(snapshot.hasData) {
                                           var output = snapshot.data!.data();
                                           var shopName = output?['shop_name'];
+                                          ownerId = output?['owner_id'];
                                           return Container(
                                               width: MediaQuery.of(context).size.width/2,
                                               child: Text(shopName ,textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
@@ -261,7 +263,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                           onTap: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => StaffSettingsSub()),
+                              MaterialPageRoute(builder: (context) => StaffSettingsSub(ownerId: ownerId.toString(),)),
                             );
                           },
                           child: Container(
@@ -292,54 +294,66 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                       ),
                                     ],
                                   ),
-
-
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ShopInformation()),
-                            );
-                          },
-                          child: Container(
-                            height: 72,
-                            decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      color: AppTheme.skBorderColor2,
-                                      width: 1.0),
-                                )),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 4.0),
-                                child: ListTile(
-                                  title: Text('Shop info', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      StreamBuilder<Object>(
-                                          stream: null,
-                                          builder: (context, snapshot) {
-                                            return Text('Total 0' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
-                                          }
+                        StreamBuilder(
+                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
+                                .where('email', isEqualTo: auth.currentUser!.email.toString())
+                                .limit(1)
+                                .snapshots(),
+                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
+                             if(snapshotUser.hasData) {
+                               Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
+                               var role = dataUser['role'];
+
+                            return (role == 'admin' || role == 'owner') ? GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ShopInformation()),
+                                );
+                              },
+                              child: Container(
+                                height: 72,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          color: AppTheme.skBorderColor2,
+                                          width: 1.0),
+                                    )),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 4.0),
+                                    child: ListTile(
+                                      title: Text('Shop info', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          StreamBuilder<Object>(
+                                              stream: null,
+                                              builder: (context, snapshot) {
+                                                return Text('Total 0' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                              }
+                                          ),
+                                          SizedBox(width: 8,),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(width: 8,),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                      ),
-                                    ],
+
+
+                                    ),
                                   ),
-
-
                                 ),
                               ),
-                            ),
-                          ),
+                            ) : Container();
+                           }
+                             return Container();
+                          }
                         ),
                       ],
                     ),

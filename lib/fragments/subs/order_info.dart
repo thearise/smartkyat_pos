@@ -320,8 +320,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         widget.data
                                                             .split('^')[3] +
                                                         '^' +
-                                                        isRef + widget.data
-                                                        .split('^')[4][1] + '^' + debt.toString() + '^' + widget.data
+                                                       widget.data
+                                                        .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                         .split('^')[6];
 
 
