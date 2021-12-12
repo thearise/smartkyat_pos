@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/constants/picker_method.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets/qr_edit.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';

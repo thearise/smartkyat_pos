@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
-import 'package:smartkyat_pos/pages2/home_page3.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';

@@ -1,49 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fraction/fraction.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:one_context/one_context.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
-import 'package:smartkyat_pos/pages2/multi_assets_page.dart';
-import 'package:smartkyat_pos/pages2/single_assets_page.dart';
-import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
-import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
-import 'package:smartkyat_pos/widgets/fill_product.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
-import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
-import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
-import 'package:sticky_headers/sticky_headers.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'package:smartkyat_pos/widgets/product_versions_view.dart';
-import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
+import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
-import 'ad_helper.dart';
-import 'banner_full.dart';
-import 'banner_leader.dart';
-import 'subs/customer_info.dart';
-
+import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:smartkyat_pos/widgets/product_details_view.dart';
+import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
+import 'package:intl/intl.dart';
 import '../app_theme.dart';
-import 'subs/product_info.dart';
 
-class ProductsFragment extends StatefulWidget {
-  final _callback;
+class OrdersFragment extends StatefulWidget {
   final _callback2;
   final _callback3;
   final _callback4;
   final _callback5;
   final _barcodeBtn;
 
-  ProductsFragment(
-      {required void toggleCoinCallback(),
+  OrdersFragment(
+      {
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
@@ -51,23 +33,24 @@ class ProductsFragment extends StatefulWidget {
         required void barcodeBtn(),
         required Key key,
       })
-      : _callback = toggleCoinCallback,
+      :
         _callback2 = toggleCoinCallback2,
         _callback3 = toggleCoinCallback3,
         _callback4 = toggleCoinCallback4,
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
         super(key: key);
+
   @override
-  ProductsFragmentState createState() => ProductsFragmentState();
+  OrdersFragmentState createState() => OrdersFragmentState();
 }
 
-class ProductsFragmentState extends State<ProductsFragment>
+class OrdersFragmentState extends State<OrdersFragment>
     with
         TickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin<ProductsFragment> {
-  String? shopId;
+        AutomaticKeepAliveClientMixin<OrdersFragment> {
 
+  String? shopId;
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
 
@@ -76,7 +59,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   String searchProdCount = '0';
 
   bool buySellerStatus = false;
-  
+
   @override
   bool get wantKeepAlive => true;
 
@@ -93,33 +76,12 @@ class ProductsFragmentState extends State<ProductsFragment>
   String slidedText = 'Products^0';
   String gloSearchText = '';
   int gloSeaProLeng = 0;
-
-  late BannerAd _bannerAd;
-  bool _isBannerAdReady = false;
+  var sectionList3;
+  int _sliding = 0;
 
   @override
   initState() {
-    _bannerAd = BannerAd(
-      // Change Banner Size According to Ur Need
-        size: AdSize.fullBanner,
-        adUnitId: AdHelper.bannerAdUnitId,
-        listener: BannerAdListener(onAdLoaded: (_) {
-          setState(() {
-            _isBannerAdReady = true;
-          });
-        }, onAdFailedToLoad: (ad, LoadAdError error) {
-          print("Failed to Load A Banner Ad${error.message}");
-          _isBannerAdReady = false;
-          ad.dispose();
-        }),
-        request: AdRequest())
-      ..load();
-
-    HomePageState().getStoreId().then((value) {
-      setState(() {
-        shopId = value;
-      });
-    });
+    HomePageState().getStoreId().then((value) => shopId = value);
     _searchController.addListener((){
       setState(() {
         gloSearchText = _searchController.text;
@@ -157,32 +119,18 @@ class ProductsFragmentState extends State<ProductsFragment>
         });
       }
     });
-
-    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-        .get()
-        .then((QuerySnapshot querySnapshot)  async {
-          print('hhhhh ' + querySnapshot.docs.length.toString());
-      // querySnapshot.docs.forEach((doc) {
-      //   // dateExist = true;
-      //   // dateId = doc.id;
-      // });
-    });
     super.initState();
   }
 
-  // chgShopIdFrmHomePage() {
-  //   setState(() {
-  //     HomePageState().getStoreId().then((value) => shopId = value);
-  //   });
-  // }
+  chgShopIdFrmHomePage() {
+    setState(() {
+      HomePageState().getStoreId().then((value) => shopId = value);
+    });
+  }
 
   @override
   void dispose() {
     super.dispose();
-  }
-
-  closeNewProduct() {
-    Navigator.pop(context);
   }
 
   addProduct3(data) {
@@ -212,13 +160,6 @@ class ProductsFragmentState extends State<ProductsFragment>
       });
     }
   }
-
-  chgShopIdFrmHomePage() {
-    setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
-    });
-  }
-
   addCustomer2Cart1(data) {
     widget._callback4(data);
   }
@@ -239,6 +180,69 @@ class ProductsFragmentState extends State<ProductsFragment>
     FocusScope.of(context).unfocus();
   }
 
+  changeData3(list, snpsht) {
+    // list[0].toString()
+    snpsht.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              document['customer_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6] +
+              '^s'
+          ;
+        }
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
+
+
+  changeData4(list, snpsht) {
+    // list[0].toString()
+    snpsht.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              document['merchant_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6] +
+              '^b'
+          ;
+        }
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
+
   searchFocus() {
 
     setState(() {
@@ -246,161 +250,7 @@ class ProductsFragmentState extends State<ProductsFragment>
     });
   }
 
-  convertToHour(String input){
-    switch (input.substring(8,10)) {
-      case '00':
-        return '12';
-        break;
-      case '01':
-        return '1';
-        break;
-      case '02':
-        return '2';
-        break;
-      case '03':
-        return '3';
-        break;
-      case '04':
-        return '4';
-        break;
-      case '05':
-        return '5';
-        break;
-      case '06':
-        return '6';
-        break;
-      case '07':
-        return '7';
-        break;
-      case '08':
-        return '8';
-        break;
-      case '09':
-        return '9';
-        break;
-      case '10':
-        return '10';
-        break;
-      case '11':
-        return '11';
-        break;
-      case '12':
-        return '12';
-        break;
-      case '13':
-        return '1';
-        break;
-      case '14':
-        return '2';
-        break;
-      case '15':
-        return '3';
-        break;
-      case '16':
-        return '4';
-        break;
-      case '17':
-        return '5';
-        break;
-      case '18':
-        return '6';
-        break;
-      case '19':
-        return '7';
-        break;
-      case '20':
-        return '8';
-        break;
-      case '21':
-        return '9';
-        break;
-      case '22':
-        return '10';
-        break;
-      case '23':
-        return '11';
-        break;
-    }
-  }
-
-  convertToAMPM(String input){
-    switch (input.substring(8,10)) {
-      case '00':
-        return 'AM';
-        break;
-      case '01':
-        return 'AM';
-        break;
-      case '02':
-        return 'AM';
-        break;
-      case '03':
-        return 'AM';
-        break;
-      case '04':
-        return 'AM';
-        break;
-      case '05':
-        return 'AM';
-        break;
-      case '06':
-        return 'AM';
-        break;
-      case '07':
-        return 'AM';
-        break;
-      case '08':
-        return 'AM';
-        break;
-      case '09':
-        return 'AM';
-        break;
-      case '10':
-        return 'AM';
-        break;
-      case '11':
-        return 'AM';
-        break;
-      case '12':
-        return 'PM';
-        break;
-      case '13':
-        return 'PM';
-        break;
-      case '14':
-        return 'PM';
-        break;
-      case '15':
-        return 'PM';
-        break;
-      case '16':
-        return 'PM';
-        break;
-      case '17':
-        return 'PM';
-        break;
-      case '18':
-        return 'PM';
-        break;
-      case '19':
-        return 'PM';
-        break;
-      case '20':
-        return 'PM';
-        break;
-      case '21':
-        return 'PM';
-        break;
-      case '22':
-        return 'PM';
-        break;
-      case '23':
-        return 'PM';
-        break;
-    }
-  }
-
-  Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
+  Widget _buildHeader4(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList[sectionIndex];
     // if(sectionIndex == 0) {
     //   return Container(
@@ -747,7 +597,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 
                     var saleOrders = ExampleSection()
                       ..header = 'Buy orders^' + detailIdList.length.toString()
-                      ..items = changeData2(detailIdList.cast<String>(), querySnapshot3)
+                      ..items = changeData4(detailIdList.cast<String>(), querySnapshot3)
                     // ..items = detailIdList.cast<String>()
                       ..expanded = true;
 
@@ -866,7 +716,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 
                     var saleOrders = ExampleSection()
                       ..header = 'Sale orders^' + detailIdList.length.toString()
-                      ..items = changeData(detailIdList.cast<String>(), querySnapshot3)
+                      ..items = changeData3(detailIdList.cast<String>(), querySnapshot3)
                     // ..items = detailIdList.cast<String>()
                       ..expanded = true;
 
@@ -1092,69 +942,6 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   }
 
-  changeData(list, snpsht) {
-    // list[0].toString()
-    snpsht.docs.map((document) async {
-      for (var i = 0; i < list.length; i++) {
-        if (document.id.toString() == list[i].split('^')[3]) {
-          list[i] = list[i].split('^')[0] +
-              '^' +
-              list[i].split('^')[1] +
-              '^' +
-              list[i].split('^')[2] +
-              '^' +
-              document['customer_name'].toString() +
-              '&' +
-              list[i].split('^')[3] +
-              '^' +
-              list[i].split('^')[4] +
-              '^' +
-              list[i].split('^')[5] +
-              '^' +
-              list[i].split('^')[6] +
-              '^s'
-          ;
-        }
-      }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-    }).toList();
-
-    // print('changeData ' + snpsht.da);
-    return list;
-  }
-
-
-  changeData2(list, snpsht) {
-    // list[0].toString()
-    snpsht.docs.map((document) async {
-      for (var i = 0; i < list.length; i++) {
-        if (document.id.toString() == list[i].split('^')[3]) {
-          list[i] = list[i].split('^')[0] +
-              '^' +
-              list[i].split('^')[1] +
-              '^' +
-              list[i].split('^')[2] +
-              '^' +
-              document['merchant_name'].toString() +
-              '&' +
-              list[i].split('^')[3] +
-              '^' +
-              list[i].split('^')[4] +
-              '^' +
-              list[i].split('^')[5] +
-              '^' +
-              list[i].split('^')[6] +
-              '^b'
-          ;
-        }
-      }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-    }).toList();
-
-    // print('changeData ' + snpsht.da);
-    return list;
-  }
-
   overAllSearch() {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -1256,7 +1043,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                             SliverExpandableList(
                               builder: SliverExpandableChildDelegate(
                                 sectionList: sectionList,
-                                headerBuilder: _buildHeader,
+                                headerBuilder: _buildHeader4,
                                 itemBuilder: (context, sectionIndex, itemIndex, index) {
                                   String item = sectionList[sectionIndex].items[itemIndex];
                                   int length = sectionList[sectionIndex].items.length;
@@ -1274,6 +1061,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                   if(searchValue != '' && slidingSearch == 0 && item.contains('^sps^')) {
                                     return GestureDetector(
                                       onTap: () {
+
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -2512,7 +2300,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                 ),
                                                               ),
                                                             ),
-                                                          if(item.split('^')[4][0] == 'r')
+                                                          if(item.split('^')[4] == 'TRUE')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2534,7 +2322,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               ),
                                                             ),
 
-                                                          if(item.split('^')[4][0] == 's')
+                                                          if(item.split('^')[4] == 'PART')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2743,7 +2531,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                 ),
                                                               ),
                                                             ),
-                                                          if(item.split('^')[4][0] == 'r')
+                                                          if(item.split('^')[4] == 'TRUE')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2765,7 +2553,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                               ),
                                                             ),
 
-                                                          if(item.split('^')[4][0] == 's')
+                                                          if(item.split('^')[4] == 'PART')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -3905,11 +3693,19 @@ class ProductsFragmentState extends State<ProductsFragment>
   final cateScCtler = ScrollController();
   final _width = 10.0;
   int cateScIndex = 0;
-  int filter = 0;
 
+  zeroToTen(String string) {
+    if (int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0' + string;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // CollectionReference daily_exps = ;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -3930,608 +3726,593 @@ class ProductsFragmentState extends State<ProductsFragment>
             child: Stack(
               children: [
                 Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   child: Padding(
+                    // padding: const EdgeInsets.only(top: 138.0),
                     padding: const EdgeInsets.only(top: 81.0),
                     child: Container(
-                      height: MediaQuery.of(context).size.height -
-                          MediaQuery.of(context).padding.top -
-                          MediaQuery.of(context).padding.bottom -
-                          100,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 0.0, left: 0.0, right: 0.0),
-
-
+                        height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.white,
                         child: StreamBuilder(
-                            stream:  cateScIndex == 0 ? FirebaseFirestore.instance
-                                .collection('shops')
-                                .doc(shopId)
-                                .collection('products')
-                                .snapshots() : cateScIndex == 1 ? FirebaseFirestore.instance
-                                .collection('shops')
-                                .doc(shopId)
-                                .collection('products')
-                                .orderBy('inStock1', descending: false)
-                                .snapshots(): cateScIndex == 2 ? FirebaseFirestore.instance
-                                .collection('shops')
-                                .doc(shopId)
-                                .collection('products')
-                                .orderBy('mainSellUnit', descending: true)
-                                .snapshots() : cateScIndex == 3 ? FirebaseFirestore.instance
-                            .collection('shops')
-                            .doc(shopId)
-                            .collection('products')
-                            .orderBy('mainSellUnit', descending: false)
-                            .snapshots(): FirebaseFirestore.instance
-                                .collection('shops')
-                                .doc(shopId)
-                                .collection('products')
-                                .snapshots(),
-                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
+                              .where('date', isLessThanOrEqualTo: lossDayStart())
+                              .where('date', isGreaterThanOrEqualTo: lossDayEnd())
+                              .orderBy('date', descending: true)
+                              .snapshots(),
+                            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
                               if(snapshot.hasData) {
-                                // snapshot.data.
-                                int secLength = 0;
-                                print("LLEENN " + snapshot.data!.docs.length.toString());
-                                // var adcode = Text(" Ad goes here");
-                                // List<dynamic> finalList = snapshot.data!;
-                                // finalList.insert(2, adcode);
-                                return CustomScrollView(
-                                  slivers: [
-                                    // Add the app bar to the CustomScrollView.
-                                    SliverAppBar(
-                                      elevation: 0,
-                                      backgroundColor: Colors.white,
-                                      // Provide a standard title.
-                                      // Allows the user to reveal the app bar if they begin scrolling
-                                      // back up the list of items.
-                                      floating: true,
-                                      flexibleSpace: Padding(
-                                        padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                        child: Container(
-                                          height: 32,
-                                          width: MediaQuery.of(context).size.width,
-                                          // color: Colors.yellow,
-                                          child: Row(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  FlatButton(
-                                                    padding: EdgeInsets.only(left: 10, right: 10),
-                                                    color: AppTheme.secButtonColor,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(8.0),
-                                                      side: BorderSide(
-                                                        color: AppTheme.skBorderColor2,
-                                                      ),
-                                                    ),
-                                                    onPressed: () {
-                                                      widget._callback();
-                                                    },
-                                                    child: Container(
-                                                      child: Row(
-                                                        // mainAxisAlignment: Main,
-                                                        children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(right: 6.0),
-                                                            child: Icon(
-                                                              SmartKyat_POS.add_plus,
-                                                              size: 17,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            'New item',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 12),
-                                                  Container(
-                                                    color: Colors.grey.withOpacity(0.2),
-                                                    width: 1.5,
-                                                    height: 30,
-                                                  )
-                                                ],
+                                return StreamBuilder(
+                                    stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').snapshots(),
+                                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
+                                      if(snapshot2.hasData) {
+                                        var sections = List<ExampleSection>.empty(growable: true);
+                                        int docInc = 0;
+                                        print('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
+
+
+                                        // snapshot.data!.docs.map((document) async {
+                                        //   document['date']
+                                        // }).toList();
+
+
+                                        if(docInc>0) {
+
+                                        }
+
+                                        //var ayinDoc = snapshot.data!.docs[0].data();
+
+
+
+                                        if(snapshot.data!.docs.length>0) {
+                                          Map<String, dynamic> data21 = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
+                                          var ayinDoc = data21['date'];
+
+
+
+                                          print('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
+
+                                          List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + data21['customerId'] + '^' + data21['refund'] + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '^' + data21['date'].toDate().minute.toString()];
+
+                                          var section = ExampleSection()
+                                            ..header = zeroToTen(data21['date'].toDate().month.toString()) + '-' + zeroToTen(data21['date'].toDate().day.toString())
+                                          // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                          //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                          //   ..items = document['daily_order'].cast<String>()
+
+
+                                            ..items = changeData(itemsList, snapshot2).cast<String>()
+                                          // ..items = orderItems(document.id)
+                                            ..expanded = true;
+
+                                          if(snapshot.data!.docs.length == 1) {
+                                            sections.add(section);
+                                          } else {
+                                            for(int a = 1; a < snapshot.data!.docs.length; a++) {
+                                              Map<String, dynamic> data21Loop = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
+                                              // var ayinDocLoo = data21Loop['date'];
+
+                                              print('CCC ' + data21['date'].toDate().toString() + ' ' + data21Loop['date'].toDate().toString());
+                                              if(!(data21['date'].toDate().day.toString() == data21Loop['date'].toDate().day.toString() && data21['date'].toDate().month.toString() == data21Loop['date'].toDate().month.toString())) {
+                                                print('not equal');
+                                                sections.add(section);
+                                                itemsList = [];
+                                                if(a == snapshot.data!.docs.length-1) {
+                                                  section = ExampleSection()
+                                                    ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                                    ..items = changeData([data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + data21Loop['refund'].toString() + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '^' + data21Loop['date'].toDate().minute.toString()], snapshot2).cast<String>()
+                                                  // ..items = orderItems(document.id)
+                                                    ..expanded = true;
+                                                  sections.add(section);
+                                                  break;
+                                                }
+                                              } else {
+                                                // itemsList.add(data21Loop['title']);
+                                                section = ExampleSection()
+                                                  ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                                  ..items = changeData(itemsList, snapshot2).cast<String>()
+                                                // ..items = orderItems(document.id)
+                                                  ..expanded = true;
+                                              }
+
+                                              if(a == snapshot.data!.docs.length-1) {
+                                                sections.add(section);
+                                              }
+
+                                              data21 = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
+                                              itemsList.add(data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + data21Loop['refund'] + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '^' + data21Loop['date'].toDate().minute.toString());
+                                              section = ExampleSection()
+                                                ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                              // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                              //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                              //   ..items = document['daily_order'].cast<String>()
+
+
+                                                ..items = changeData(itemsList, snapshot2).cast<String>()
+                                              // ..items = orderItems(document.id)
+                                                ..expanded = true;
+                                            }
+                                          }
+                                        }
+
+
+                                        sectionList3 = sections;
+
+                                        return CustomScrollView(
+                                          slivers: <Widget>[
+                                            SliverAppBar(
+                                              elevation: 0,
+                                              backgroundColor: Colors.white,
+
+                                              // Provide a standard title.
+
+                                              // Allows the user to reveal the app bar if they begin scrolling
+                                              // back up the list of items.
+                                              floating: true,
+                                              bottom: PreferredSize(                       // Add this code
+                                                preferredSize: Size.fromHeight(-2.0),      // Add this code
+                                                child: Container(),                           // Add this code
                                               ),
-                                              Expanded(
-                                                child: ListView(
-                                                  controller: cateScCtler,
-                                                  scrollDirection: Axis.horizontal,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 4,
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                      child: FlatButton(
-                                                        minWidth: 0,
-                                                        padding: EdgeInsets.only(left: 12, right: 12),
-                                                        color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          side: BorderSide(
-                                                            color: AppTheme.skBorderColor2,
-                                                          ),
-                                                        ),
-                                                        onPressed: () {
-                                                          _animateToIndex(0);
-                                                          setState(() {
-                                                            cateScIndex = 0;
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          child: Text(
-                                                            'All',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                      child: FlatButton(
-                                                        minWidth: 0,
-                                                        padding: EdgeInsets.only(left: 12, right: 12),
-                                                        color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          side: BorderSide(
-                                                            color: AppTheme.skBorderColor2,
-                                                          ),
-                                                        ),
-                                                        onPressed: () {
-                                                          _animateToIndex(5.4);
-                                                          setState(() {
-                                                            cateScIndex = 1;
-                                                            filter = 1;
-                                                          });
-
-
-                                                        },
-                                                        child: Container(
-                                                          child: Text(
-                                                            'Low stocks',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                      child: FlatButton(
-                                                        minWidth: 0,
-                                                        padding: EdgeInsets.only(left: 12, right: 12),
-                                                        color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          side: BorderSide(
-                                                            color: AppTheme.skBorderColor2,
-                                                          ),
-                                                        ),
-                                                        onPressed: () {
-                                                          _animateToIndex(16.4);
-                                                          setState(() {
-                                                            cateScIndex = 2;
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          child: Text(
-                                                            'Best sales',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                      child: FlatButton(
-                                                        minWidth: 0,
-                                                        padding: EdgeInsets.only(left: 12, right: 12),
-                                                        color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20.0),
-                                                          side: BorderSide(
-                                                            color: AppTheme.skBorderColor2,
-                                                          ),
-                                                        ),
-                                                        onPressed: () {
-                                                          _animateToIndex(20);
-                                                          setState(() {
-                                                            cateScIndex = 3;
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          child: Text(
-                                                            'Low sales',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 11,
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-
-                                        ),
-                                      ),
-                                      // Display a placeholder widget to visualize the shrinking size.
-                                      // Make the initial height of the SliverAppBar larger than normal.
-                                      expandedHeight: 20,
-                                    ),
-                                    SliverAppBar(
-                                      flexibleSpace: _isBannerAdReady ? Container(
-                                        height: _bannerAd.size.height.toDouble(),
-                                        width: _bannerAd.size.width.toDouble(),
-                                        child: AdWidget(ad: _bannerAd,),
-                                      ): Container(),
-                                      backgroundColor: Colors.transparent,
-                                    ),
-                                    // Next, create a SliverList
-                                    SliverList(
-                                      // Use a delegate to build items as they're scrolled on screen.
-                                      delegate: SliverChildBuilderDelegate(
-                                        // The builder function returns a ListTile with a title that
-                                        // displays the index of the current item.
-                                            (context, index) {
-                                              secLength = secLength + 1;
-                                              Map<String, dynamic> data = snapshot.data!.docs[index]
-                                                  .data()! as Map<String, dynamic>;
-                                              var image = data['img_1'];
-                                              var prodName = data['prod_name'];
-                                              var mainName = data['unit_name'];
-                                              var sub1Name = data['sub1_name'];
-                                              var sub2Name = data['sub2_name'];
-                                              var mainsPrice = data['unit_sell'];
-                                              var mainQty = data['inStock1'].round();
-                                              var sub1Qty = data['inStock2'].round();
-                                              var sub2Qty = data['inStock3'].round();
-                                              var sub1Price = data['sub1_sell'];
-                                              var sub2Price = data['sub2_sell'];
-                                              var version = snapshot.data!.docs[index].id;
-                                              print('secLength ' + secLength.toString());
-                                              // if(secLength==2) {
-                                              //   index = index-1;
-                                              //   return Padding(
-                                              //     padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                              //     child: BannerLeader(),
-                                              //   );
-                                              //   // return StatefulBuilder(
-                                              //   //   builder: (context, setState) {
-                                              //   //     return Container(
-                                              //   //       height: _bannerAd.size.height.toDouble(),
-                                              //   //       width: _bannerAd.size.width.toDouble(),
-                                              //   //       child: AdWidget(ad: _bannerAd, key: UniqueKey()),
-                                              //   //     );
-                                              //   //   }
-                                              //   // );
-                                              //   // return Container(height: 100, width: double.infinity, color: Colors.yellow);
-                                              // }
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) => ProductDetailsView2(idString: version, toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(),)),);
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                  EdgeInsets.only(top: index == 0? 7.0: 13.0),
-                                                  child: Container(
-                                                    width: MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                    decoration: BoxDecoration(
-                                                        border: Border(
-                                                            bottom: index == snapshot.data!.docs.length-1 ?
-                                                            BorderSide(
-                                                                color: Colors.transparent,
-                                                                width: 1.0) :
-
-                                                        BorderSide(
-                                                            color: Colors.grey
-                                                                .withOpacity(0.3),
-                                                            width: 1.0)
-                                                    )),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                  child: Column(
+                                              flexibleSpace: Padding(
+                                                padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+                                                child: Container(
+                                                  height: 32,
+                                                  width: MediaQuery.of(context).size.width,
+                                                  // color: Colors.yellow,
+                                                  child: Row(
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          Column(
-                                                            children: [
-                                                              ClipRRect(
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      5.0),
-                                                                  child: image != ""
-                                                                      ? CachedNetworkImage(
-                                                                    imageUrl:
-                                                                    'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                        image,
-                                                                    width: 75,
-                                                                    height: 75,
-                                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                    errorWidget: (context,
-                                                                        url,
-                                                                        error) =>
-                                                                        Icon(Icons
-                                                                            .error),
-                                                                    fadeInDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                        100),
-                                                                    fadeOutDuration:
-                                                                    Duration(
-                                                                        milliseconds:
-                                                                        10),
-                                                                    fadeInCurve:
-                                                                    Curves
-                                                                        .bounceIn,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  )
-                                                                      : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            width: 15,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            children: [
-                                                              SizedBox(
-                                                                height: 0,
+                                                          FlatButton(
+                                                            padding: EdgeInsets.only(left: 10, right: 10),
+                                                            color: AppTheme.secButtonColor,
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(8.0),
+                                                              side: BorderSide(
+                                                                color: AppTheme.skBorderColor2,
                                                               ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top: 4.0),
-                                                                child: Text(
-                                                                  prodName,
-                                                                  style: TextStyle(
-                                                                    height: 1,
-                                                                    fontSize: 18,
-                                                                    fontWeight:
-                                                                    FontWeight.w500,
+                                                            ),
+                                                            onPressed: () {
+                                                              _showDatePicker(OneContext().context);
+                                                            },
+                                                            child: Container(
+                                                              child: Row(
+                                                                // mainAxisAlignment: Main,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(right: 1.0),
+                                                                    child: Icon(
+                                                                      Icons.calendar_view_day_rounded,
+                                                                      size: 18,
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    selectDaysCast(),
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 12),
+                                                          Container(
+                                                            color: Colors.grey.withOpacity(0.2),
+                                                            width: 1.5,
+                                                            height: 30,
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Expanded(
+                                                        child: ListView(
+                                                          controller: cateScCtler,
+                                                          scrollDirection: Axis.horizontal,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 4,
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                              child: FlatButton(
+                                                                minWidth: 0,
+                                                                padding: EdgeInsets.only(left: 12, right: 12),
+                                                                color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  _animateToIndex(0);
+                                                                  setState(() {
+                                                                    cateScIndex = 0;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Alls',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
                                                                   ),
                                                                 ),
                                                               ),
-                                                              SizedBox(
-                                                                height: 12,
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Text(
-                                                                    'MMK ' + mainsPrice,
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                              child: FlatButton(
+                                                                minWidth: 0,
+                                                                padding: EdgeInsets.only(left: 12, right: 12),
+                                                                color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  _animateToIndex(5.4);
+                                                                  setState(() {
+                                                                    cateScIndex = 1;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Unpaids',
+                                                                    textAlign: TextAlign.center,
                                                                     style: TextStyle(
-                                                                      height: 1.3,
-                                                                      fontSize: 15,
-                                                                      fontWeight:
-                                                                      FontWeight.w500,
-                                                                    ),
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
                                                                   ),
-                                                                  Text(
-                                                                    sub1Name != '' && sub2Name == '' ? ' - ' + sub1Price : sub1Name != '' && sub2Name != '' ? ' - ' + sub2Price : '',
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                              child: FlatButton(
+                                                                minWidth: 0,
+                                                                padding: EdgeInsets.only(left: 12, right: 12),
+                                                                color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  _animateToIndex(16.4);
+                                                                  setState(() {
+                                                                    cateScIndex = 2;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Refunds',
+                                                                    textAlign: TextAlign.center,
                                                                     style: TextStyle(
-                                                                      height: 1.3,
-                                                                      fontSize: 15,
-                                                                      fontWeight:
-                                                                      FontWeight.w500,
-                                                                    ),
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
-                                                              SizedBox(
-                                                                height: 2,
-                                                              ),
-                                                              Row(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                children: [
-                                                                  Text(
-                                                                      mainQty.toString()+ ' '  + mainName + ' ',
-                                                                      textScaleFactor: 1.0,
-                                                                      style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                      )),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(top: 2.0),
-                                                                    child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                              child: FlatButton(
+                                                                minWidth: 0,
+                                                                padding: EdgeInsets.only(left: 12, right: 12),
+                                                                color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
                                                                   ),
-
-                                                                  sub1Name != '' && sub2Name == ''?
-                                                                  Text(
-                                                                      '  +1 Sub item',
-                                                                      textScaleFactor: 1.0,
-                                                                      style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                      )) : sub1Name != '' && sub2Name != '' ? Text(
-                                                                      '  +2 Sub items',
-                                                                      textScaleFactor: 1.0,
-                                                                      style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                      )): Container(),
-
-                                                                  // StreamBuilder(
-                                                                  //     stream: FirebaseFirestore
-                                                                  //         .instance
-                                                                  //         .collection(
-                                                                  //         'space')
-                                                                  //         .doc(
-                                                                  //         '0NHIS0Jbn26wsgCzVBKT')
-                                                                  //         .collection(
-                                                                  //         'shops')
-                                                                  //         .doc(
-                                                                  //         'PucvhZDuUz3XlkTgzcjb')
-                                                                  //         .collection(
-                                                                  //         'products')
-                                                                  //         .doc(version)
-                                                                  //         .collection(
-                                                                  //         'versions')
-                                                                  //         .where('type',
-                                                                  //         isEqualTo:
-                                                                  //         'sub3')
-                                                                  //         .snapshots(),
-                                                                  //     builder: (BuildContext
-                                                                  //     context,
-                                                                  //         AsyncSnapshot<
-                                                                  //             QuerySnapshot>
-                                                                  //         snapshot5) {
-                                                                  //       if (snapshot5
-                                                                  //           .hasData) {
-                                                                  //         int quantity3 =
-                                                                  //         0;
-                                                                  //         var sub3Quantity;
-                                                                  //         snapshot5
-                                                                  //             .data!
-                                                                  //             .docs
-                                                                  //             .map((DocumentSnapshot
-                                                                  //         document) {
-                                                                  //           Map<String,
-                                                                  //               dynamic>
-                                                                  //           data4 =
-                                                                  //           document.data()! as Map<
-                                                                  //               String,
-                                                                  //               dynamic>;
-                                                                  //           if (data4[
-                                                                  //           'unit_qtity'] !=
-                                                                  //               '') {
-                                                                  //             quantity3 +=
-                                                                  //                 int.parse(
-                                                                  //                     data4['unit_qtity']);
-                                                                  //             sub3Quantity =
-                                                                  //                 quantity3
-                                                                  //                     .toString();
-                                                                  //           } else
-                                                                  //             return Container();
-                                                                  //         }).toList();
-                                                                  //         // print(sub1Quantity);
-                                                                  //         // print(mainQuantity);
-                                                                  //         if (sub3Quantity !=
-                                                                  //             null) {
-                                                                  //           return Text(
-                                                                  //               '$sub3Quantity $sub3Name');
-                                                                  //         }
-                                                                  //         return Container();
-                                                                  //       }
-                                                                  //       return Container();
-                                                                  //     }),
-                                                                ],
+                                                                ),
+                                                                onPressed: () {
+                                                                  _animateToIndex(20);
+                                                                  setState(() {
+                                                                    cateScIndex = 3;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Paids',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
+                                                                  ),
+                                                                ),
                                                               ),
-
-                                                              // Text(
-                                                              //   'MMK',
-                                                              //   style:
-                                                              //       TextStyle(
-                                                              //     fontSize: 14,
-                                                              //     fontWeight: FontWeight.w400,
-                                                              //     color: Colors.blueGrey.withOpacity(1.0),
-                                                              //   ),
-                                                              // ),
-                                                              // SizedBox(
-                                                              //   height:
-                                                              //       7,
-                                                              // ),
-                                                              // Text(
-                                                              //   '55',
-                                                              //   style:
-                                                              //       TextStyle(
-                                                              //     fontSize: 14,
-                                                              //     fontWeight: FontWeight.w400,
-                                                              //     color: Colors.blueGrey.withOpacity(1.0),
-                                                              //   ),
-                                                              // ),
-                                                            ],
-                                                          ),
-                                                          // Padding(
-                                                          //   padding:
-                                                          //       const EdgeInsets.only(
-                                                          //           bottom: 20.0),
-                                                          //   child: IconButton(
-                                                          //     icon: Icon(
-                                                          //       Icons
-                                                          //           .arrow_forward_ios_rounded,
-                                                          //       size: 16,
-                                                          //       color: Colors.blueGrey
-                                                          //           .withOpacity(0.8),
-                                                          //     ),
-                                                          //     onPressed: () {
-                                                          //       Navigator.push(
-                                                          //         context,
-                                                          //         MaterialPageRoute(
-                                                          //             builder: (context) => ProductDetailsView(
-                                                          //                 idString: version, toggleCoinCallback:
-                                                          //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                                                          //     },
-                                                          //   ),
-                                                          // ),
-                                                          Spacer(),
-                                                          Padding(
-                                                            padding:
-                                                            const EdgeInsets.only(
-                                                                bottom: 6.0),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .arrow_forward_ios_rounded,
-                                                              size: 16,
-                                                              color: Colors.blueGrey
-                                                                  .withOpacity(0.8),
-                                                            ),),
-                                                        ],
-                                                      ),
-                                                      SizedBox(height: 15),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 11,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
                                                     ],
                                                   ),
+
                                                 ),
                                               ),
+                                              // Display a placeholder widget to visualize the shrinking size.
+                                              // Make the initial height of the SliverAppBar larger than normal.
+                                              expandedHeight: 20,
                                             ),
-                                          );
-                                        },
-                                        // Builds 1000 ListTiles
-                                        childCount: snapshot.data!.docs.length,
-                                      ),
-                                    ),
-                                  ],
+                                            SliverExpandableList(
+                                              builder: SliverExpandableChildDelegate(
+                                                sectionList: sectionList3,
+                                                headerBuilder: _buildHeader,
+                                                itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                                  String item = sectionList3[sectionIndex].items[itemIndex];
+                                                  int length = sectionList3[sectionIndex].items.length;
+
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      print('Items'+item);
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                                      );
+                                                    },
+                                                    child: Stack(
+                                                      alignment: Alignment.center,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: AppTheme.lightBgColor,
+                                                                border: Border(
+                                                                  bottom: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                      width: 1.0),
+                                                                )),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                                              child: Column(
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 1.0),
+                                                                    child: Column(
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          children: [
+                                                                            Text('#' + item.split('^')[1],
+                                                                              style: TextStyle(
+                                                                                  fontSize: 16,
+                                                                                  fontWeight: FontWeight.w500
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(width: 8),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(bottom: 1.0),
+                                                                              child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                            ),
+                                                                            SizedBox(width: 4),
+                                                                            Text(convertToHour(item.split('^')[7]) + ':' + item.split('^')[8] + ' ' + convertToAMPM(item.split('^')[7]),
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.grey,
+                                                                              ),
+                                                                            ),
+                                                                            // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
+                                                                            //   style: TextStyle(
+                                                                            //     fontSize: 14,
+                                                                            //     fontWeight: FontWeight.w500,
+                                                                            //     color: Colors.grey,
+                                                                            //   ),
+                                                                            // ),
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height: 6,
+                                                                        ),
+                                                                        Row(
+                                                                          children: [
+                                                                            Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.grey,
+                                                                            )),
+
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 8,
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      if(item.split('^')[5] == '0.0')
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 0.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeBgSuccess,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                              child: Text('Paid',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.white
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+
+                                                                      if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 0.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeFgDangerLight,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                              child: Text('Partially paid',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: AppTheme.badgeFgDanger
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 0.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeFgDanger,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                              child: Text('Unpaid',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.white
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      if(item.split('^')[4] == 'TRUE')
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 6.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeBgSecond,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                              child: Text('Refunded',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.white
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+
+                                                                      if(item.split('^')[4] == 'PART')
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 6.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeBgSecondLight,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                              child: Text('Partially refunded',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: AppTheme.badgeBgSecond
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                                                          child: Align(
+                                                            alignment: Alignment.centerRight,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.end,
+                                                              children: [
+                                                                Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w500,
+                                                                )),
+                                                                SizedBox(width: 10),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 2.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .arrow_forward_ios_rounded,
+                                                                    size: 16,
+                                                                    color: Colors
+                                                                        .blueGrey
+                                                                        .withOpacity(
+                                                                        0.8),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+
+                                                  // return Container(
+                                                  //   child: Text(item)
+                                                  // );
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        );
+
+                                      } else {
+                                        return Container();
+                                      }
+                                    }
                                 );
+                              } else {
+                                return Container();
                               }
-                              return Container();
+
                             }
-                        ),
-                      ),
+                        )
                     ),
                   ),
                 ),
@@ -4693,7 +4474,6 @@ class ProductsFragmentState extends State<ProductsFragment>
                   ),
                 ),
                 overAllSearch()
-
               ],
             ),
           ),
@@ -4712,691 +4492,754 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   }
 
-  addNewProd2(priContext) {
-    final List<String> prodFieldsValue = [];
-    final _formKey = GlobalKey<FormState>();
+
+
+  covertToDayNum(String input) {
+    if(input[0]=='0') {
+      return input[1];
+    } else {
+      return input;
+    }
+  }
+
+  checkTest(String input) {
+    print("CHECK TEST " + input);
+  }
+
+  convertToAMPM(String input){
+    switch (input) {
+      case '0':
+        return 'AM';
+        break;
+      case '1':
+        return 'AM';
+        break;
+      case '2':
+        return 'AM';
+        break;
+      case '3':
+        return 'AM';
+        break;
+      case '4':
+        return 'AM';
+        break;
+      case '5':
+        return 'AM';
+        break;
+      case '6':
+        return 'AM';
+        break;
+      case '7':
+        return 'AM';
+        break;
+      case '8':
+        return 'AM';
+        break;
+      case '9':
+        return 'AM';
+        break;
+      case '10':
+        return 'AM';
+        break;
+      case '11':
+        return 'AM';
+        break;
+      case '12':
+        return 'PM';
+        break;
+      case '13':
+        return 'PM';
+        break;
+      case '14':
+        return 'PM';
+        break;
+      case '15':
+        return 'PM';
+        break;
+      case '16':
+        return 'PM';
+        break;
+      case '17':
+        return 'PM';
+        break;
+      case '18':
+        return 'PM';
+        break;
+      case '19':
+        return 'PM';
+        break;
+      case '20':
+        return 'PM';
+        break;
+      case '21':
+        return 'PM';
+        break;
+      case '22':
+        return 'PM';
+        break;
+      case '23':
+        return 'PM';
+        break;
+    }
+  }
+
+  convertToHour(String input){
+    switch (input) {
+      case '0':
+        return '00';
+        break;
+      case '1':
+        return '01';
+        break;
+      case '2':
+        return '02';
+        break;
+      case '3':
+        return '03';
+        break;
+      case '4':
+        return '04';
+        break;
+      case '5':
+        return '05';
+        break;
+      case '6':
+        return '06';
+        break;
+      case '7':
+        return '07';
+        break;
+      case '8':
+        return '08';
+        break;
+      case '9':
+        return '09';
+        break;
+      case '10':
+        return '10';
+        break;
+      case '11':
+        return '11';
+        break;
+      case '12':
+        return '12';
+        break;
+      case '13':
+        return '1';
+        break;
+      case '14':
+        return '2';
+        break;
+      case '15':
+        return '3';
+        break;
+      case '16':
+        return '4';
+        break;
+      case '17':
+        return '5';
+        break;
+      case '18':
+        return '6';
+        break;
+      case '19':
+        return '7';
+        break;
+      case '20':
+        return '8';
+        break;
+      case '21':
+        return '9';
+        break;
+      case '22':
+        return '10';
+        break;
+      case '23':
+        return '11';
+        break;
+    }
+  }
+
+  convertToDate(String input) {
+    switch (input.substring(4,6)) {
+      case '01':
+        return 'JANUARY';
+        break;
+      case '02':
+        return 'FEBRUARY';
+        break;
+      case '03':
+        return 'MARCH';
+        break;
+      case '04':
+        return 'APRIL';
+        break;
+      case '05':
+        return 'MAY';
+        break;
+      case '06':
+        return 'JUN';
+        break;
+      case '07':
+        return 'JULY';
+        break;
+      case '08':
+        return 'AUGUST';
+        break;
+      case '09':
+        return 'SEPTEMBER';
+        break;
+      case '10':
+        return 'OCTOBER';
+        break;
+      case '11':
+        return 'NOVEMBER';
+        break;
+      case '12':
+        return 'DECEMBER';
+        break;
+    }
+  }
+
+  convertToDate2(String input) {
+    switch (input) {
+      case '01':
+        return 'JANUARY';
+        break;
+      case '02':
+        return 'FEBRUARY';
+        break;
+      case '03':
+        return 'MARCH';
+        break;
+      case '04':
+        return 'APRIL';
+        break;
+      case '05':
+        return 'MAY';
+        break;
+      case '06':
+        return 'JUN';
+        break;
+      case '07':
+        return 'JULY';
+        break;
+      case '08':
+        return 'AUGUST';
+        break;
+      case '09':
+        return 'SEPTEMBER';
+        break;
+      case '10':
+        return 'OCTOBER';
+        break;
+      case '11':
+        return 'NOVEMBER';
+        break;
+      case '12':
+        return 'DECEMBER';
+        break;
+    }
+  }
+
+  changeData(list, snpsht) {
+    // list[0].toString()
+    snpsht.data!.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              document['customer_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6] +
+              '^' +
+              list[i].split('^')[7] +
+              '^' +
+              list[i].split('^')[8]
+          ;
+        }
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
+
+  changeData2(list, snpsht) {
+    // list[0].toString()
+    snpsht.data!.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              // document['customer_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4];
+        }
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
+
+  sortList(list) {
+    var dlist = list;
+    dlist.sort();
+    var newList = List.from(dlist.reversed);
+    // dlist.sort((a, b) => b.compareTo(a));
+    return newList.cast<String>();
+    // list.sort(alphabetic('name'));
+  }
+
+  Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
+    ExampleSection section = sectionList3[sectionIndex];
+    // print('section check '+ sectionList3[sectionIndex].items.length.toString());
+    if(sectionList3[sectionIndex].items.length == 0) {
+      return Container();
+    }
+    return InkWell(
+        child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(
+                      color: AppTheme.skBorderColor2,
+                      width: 1.0),
+                )
+            ),
+            alignment: Alignment.centerLeft,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: double.infinity,
+                height: 33,
+                child: Padding(
+                  // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
+                  padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
+                  child: Row(
+                    children: [
+                      Text(
+                        // "TODAY",
+                        // checkTest(section.header),
+                        convertToDate2(section.header.split('-')[0]) + ' ' + section.header.split('-')[1],
+                        //covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                        style: TextStyle(
+                            height: 0.8,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
+                            color: Colors.black
+                        ),
+                      ),
+
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15.0),
+                          child: Text(
+                            // "#30",
+                            '#' + sectionList3[sectionIndex].items.length.toString(),
+                            // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                            style: TextStyle(
+                              height: 0.8,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.2,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )),
+        onTap: () {
+
+          //toggle section expand state
+          // setState(() {
+          //   section.setSectionExpanded(!section.isSectionExpanded());
+          // });
+        });
+  }
+
+  List<String> gloTemp = [];
+
+  // listCreation(String id, data, document) {
+  //   List<String> temp = [];
+  //   // temp.add('add');
+  //   // temp.add('add2');UzZeGlXAnNfrH7icA1ki
+  //
+  //   // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(id).collection('detail')
+  //   //     .get()
+  //   //     .then((QuerySnapshot querySnapshot) {
+  //   //   querySnapshot.docs.forEach((doc) {
+  //   //     temp.add(doc["cust_name"]);
+  //   //     // setState(() {
+  //   //     //   gloTemp = temp;
+  //   //     // });
+  //   //     // gloTemp = temp;
+  //   //   });
+  //   //
+  //   // }).then((value) {
+  //   //   // print('here ' + temp.toString());
+  //   //   //return temp;
+  //   //   // return gloTemp;
+  //   // });
+  //   // print('here2 ' + temp.toString());
+  //   // return gloTemp;
+  //
+  //
+  //   // for()
+  //   // var noExe = true;
+  //
+  //
+  //   temp = data.split('^');
+  //
+  // }
+
+  addDailyExp(priContext) {
     // myController.clear();
     showModalBottomSheet(
         enableDrag: false,
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: MediaQuery.of(priContext).padding.top,
+                ),
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 70,
+                          height: 6,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25.0),
+                              ),
+                              color: Colors.white.withOpacity(0.5)),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Container(
+                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15.0),
+                              topRight: Radius.circular(15.0),
+                            ),
+                            color: Colors.white,
+                          ),
+
+                          child: Container(
+                            width: 150,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15.0),
+                                      topRight: Radius.circular(15.0),
+                                    ),
+                                    color: Colors.grey.withOpacity(0.1),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          size: 20,
+                                          color: Colors.transparent,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                      Text(
+                                        "New Expense",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 17,
+                                            fontFamily: 'capsulesans',
+                                            fontWeight: FontWeight.w600),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          size: 20,
+                                          color: Colors.black,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          print('clicked');
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    color: Colors.yellow,
+                    height: 100,
+                  ),
+                )
+              ],
+            ),
+          );
         });
   }
 
-  // addNewProd(priContext) {
-  //   final List<String> prodFieldsValue = [];
-  //   final _formKey = GlobalKey<FormState>();
-  //   // myController.clear();
-  //   showModalBottomSheet(
-  //       enableDrag: false,
-  //       isScrollControlled: true,
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return Scaffold(
-  //           body: SafeArea(
-  //             top: true,
-  //             bottom: true,
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.stretch,
-  //               // mainAxisAlignment: MainAxisAlignment.end,
-  //               children: [
-  //                 SizedBox(
-  //                   height: 15,
-  //                 ),
-  //                 Container(
-  //                   height: 85,
-  //                   decoration: BoxDecoration(
-  //                       border: Border(
-  //                           bottom: BorderSide(
-  //                               color:
-  //                               AppTheme.skBorderColor,
-  //                               width: 2.0))),
-  //                   child: Padding(
-  //                     padding: const EdgeInsets.only(
-  //                         left: 15.0, right: 15.0, top: 20.0),
-  //                     child: Row(
-  //                       mainAxisAlignment:
-  //                       MainAxisAlignment.spaceBetween,
-  //                       children: [
-  //                         Container(
-  //                           width: 35,
-  //                           height: 35,
-  //                           decoration: BoxDecoration(
-  //                               borderRadius: BorderRadius.all(
-  //                                 Radius.circular(5.0),
-  //                               ),
-  //                               color:
-  //                               Colors.grey.withOpacity(0.3)),
-  //                           child: IconButton(
-  //                             icon: Icon(
-  //                               Icons.close,
-  //                               size: 20,
-  //                               color: Colors.black,
-  //                             ),
-  //                             onPressed: () {
-  //                               if (_formKey.currentState!.validate() || !_formKey.currentState!.validate()) {
-  //
-  //                                 if(prodFieldsValue.length>0) {
-  //                                   showOkCancelAlertDialog(
-  //                                     context: context,
-  //                                     title: 'Are you sure?',
-  //                                     message: 'You added data in some inputs.',
-  //                                     defaultType: OkCancelAlertDefaultType.cancel,
-  //                                   ).then((result) {
-  //                                     if(result == OkCancelResult.ok) {
-  //                                       Navigator.pop(context);
-  //                                     }
-  //                                   });
-  //
-  //                                 } else {
-  //                                   Navigator.pop(context);
-  //                                 }
-  //                               }
-  //
-  //
-  //                             },
-  //                           ),
-  //                         ),
-  //                         Text(
-  //                           "Add new product",
-  //                           style: TextStyle(
-  //                               color: Colors.black,
-  //                               fontSize: 17,
-  //                               fontFamily: 'capsulesans',
-  //                               fontWeight: FontWeight.w600),
-  //                           textAlign: TextAlign.left,
-  //                         ),
-  //                         Container(
-  //                           width: 35,
-  //                           height: 35,
-  //                           decoration: BoxDecoration(
-  //                               borderRadius: BorderRadius.all(
-  //                                 Radius.circular(5.0),
-  //                               ),
-  //                               color: AppTheme.skThemeColor2),
-  //                           child: IconButton(
-  //                             icon: Icon(
-  //                               Icons.check,
-  //                               size: 20,
-  //                               color: Colors.white,
-  //                             ),
-  //                             onPressed: () {
-  //                               List<AssetEntity> assets = <AssetEntity>[];
-  //                               MultiAssetsPageState().pageMultiGlo();
-  //                               // print(assets.length.toString());
-  //
-  //
-  //                               // if (_formKey.currentState!.validate()) {
-  //                               //   // If the form is valid, display a snackbar. In the real world,
-  //                               //   // you'd often call a server or save the information in a database.
-  //                               //   ScaffoldMessenger.of(context).showSnackBar(
-  //                               //     const SnackBar(content: Text('Processing Data')),
-  //                               //   );
-  //                               //   // print(prodFieldsValue);
-  //                               //
-  //                               //   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
-  //                               //   var prodExist = false;
-  //                               //   var spaceDocId = '';
-  //                               //   FirebaseFirestore.instance
-  //                               //       .collection('space')
-  //                               //       .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-  //                               //       .get()
-  //                               //       .then((QuerySnapshot querySnapshot) {
-  //                               //     querySnapshot.docs.forEach((doc) {
-  //                               //       spaceDocId = doc.id;
-  //                               //     });
-  //                               //
-  //                               //     print('space shi p thar');
-  //                               //     getStoreId().then((String result2) {
-  //                               //       print('store id ' + result2.toString());
-  //                               //
-  //                               //       FirebaseFirestore.instance
-  //                               //           .collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products')
-  //                               //           .where('prod_name', isEqualTo: prodFieldsValue[0])
-  //                               //           .get()
-  //                               //           .then((QuerySnapshot querySnapshot) async {
-  //                               //         querySnapshot.docs.forEach((doc) {
-  //                               //           prodExist = true;
-  //                               //         });
-  //                               //
-  //                               //         if(prodExist) {
-  //                               //           print('product already');
-  //                               //           var result = await showOkAlertDialog(
-  //                               //               context: context,
-  //                               //               title: 'Warning',
-  //                               //               message: 'Product name already!',
-  //                               //               okLabel: 'OK',
-  //                               //           );
-  //                               //
-  //                               //         } else {
-  //                               //           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products');
-  //                               //           return shops
-  //                               //               .add({
-  //                               //             'prod_name': prodFieldsValue[0]
-  //                               //           })
-  //                               //               .then((value) {
-  //                               //             print('product added');
-  //                               //
-  //                               //             Navigator.pop(context);
-  //                               //           });
-  //                               //         }
-  //                               //       });
-  //                               //     });
-  //                               //   });
-  //                               // }
-  //
-  //                             },
-  //                           ),
-  //                         )
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 Expanded(
-  //                   child: Container(
-  //                     child: ListView(
-  //                       children: [
-  //                         Container(
-  //                           // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-  //                           width: double.infinity,
-  //                           decoration: BoxDecoration(
-  //                             borderRadius: BorderRadius.only(
-  //                               topLeft: Radius.circular(15.0),
-  //                               topRight: Radius.circular(15.0),
-  //                             ),
-  //                             color: Colors.white,
-  //                           ),
-  //
-  //                           child: Form(
-  //                             key: _formKey,
-  //                             child: Column(
-  //                               children: [
-  //
-  //
-  //                                 // Row(
-  //                                 //   mainAxisAlignment: MainAxisAlignment.start,
-  //                                 //   children: [
-  //                                 //     Container(
-  //                                 //       padding: EdgeInsets.only(left: 15),
-  //                                 //       height: 130,
-  //                                 //       width: 150,
-  //                                 //       child: Image.network(
-  //                                 //         'http://www.hmofficesolutions.com/media/4252/royal-d.jpg',
-  //                                 //         fit: BoxFit.fill,
-  //                                 //       ),
-  //                                 //     ),
-  //                                 //     SizedBox(
-  //                                 //       width: 20,
-  //                                 //     ),
-  //                                 //     Container(
-  //                                 //       width: 200,
-  //                                 //       child: Expanded(
-  //                                 //           child: Text(
-  //                                 //             "Add images to show customers product details and features",
-  //                                 //             style: TextStyle(
-  //                                 //               color: Colors.amberAccent,
-  //                                 //               fontSize: 15,
-  //                                 //               fontWeight: FontWeight.w500,
-  //                                 //             ),
-  //                                 //           )),
-  //                                 //     ),
-  //                                 //   ],
-  //                                 // ),
-  //
-  //
-  //                                 Container(
-  //                                   alignment: Alignment.topLeft,
-  //                                   padding: EdgeInsets.only(top: 20, left: 15),
-  //                                   child: Text(
-  //                                     "PRODUCT INFORMATION",
-  //                                     style: TextStyle(
-  //                                       fontWeight: FontWeight.bold,
-  //                                       fontSize: 13,
-  //                                       letterSpacing: 2,
-  //                                       color: Colors.grey,
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: 16,
-  //                                 ),
-  //                                 Container(
-  //                                   height: 200,
-  //                                   // child: MultiAssetsPage(toggleCoinCallback: closeNewProduct)
-  //                                   // child: MultiAssetsPage(),
-  //                                   child: SingleAssetPage(toggleCoinCallback: closeNewProduct),
-  //                                 ),
-  //                                 // Container(height: 500,
-  //                                 // child: MultiAssetsPage(),),
-  //
-  //                                 Padding(
-  //                                   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-  //                                   child: TextFormField(
-  //                                     // The validator receives the text that the user has entered.
-  //                                     validator: (value) {
-  //                                       if (value == null ||
-  //                                           value.isEmpty) {
-  //                                         return 'This field is required';
-  //                                       }
-  //                                       prodFieldsValue.add(value);
-  //                                       return null;
-  //                                     },
-  //                                     decoration: InputDecoration(
-  //                                       enabledBorder: const OutlineInputBorder(
-  //                                         // width: 0.0 produces a thin "hairline" border
-  //                                         borderSide: const BorderSide(color: AppTheme.skBorderColor, width: 2.0),
-  //                                         borderRadius: BorderRadius.all(Radius.circular(10.0))
-  //                                       ),
-  //
-  //                                       focusedBorder: const OutlineInputBorder(
-  //                                         // width: 0.0 produces a thin "hairline" border
-  //                                           borderSide: const BorderSide(color: AppTheme.skThemeColor2, width: 2.0),
-  //                                           borderRadius: BorderRadius.all(Radius.circular(10.0))
-  //                                       ),
-  //                                       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-  //                                       suffixText: 'Required',
-  //                                       suffixStyle: TextStyle(
-  //                                         color: Colors.grey,
-  //                                         fontSize: 12,
-  //                                         fontFamily: 'capsulesans',),
-  //                                       labelStyle: TextStyle(
-  //                                         fontWeight: FontWeight.w500,
-  //                                         color: Colors.black,
-  //                                       ),
-  //                                       // errorText: 'Error message',
-  //                                       labelText: 'Product name',
-  //                                       floatingLabelBehavior:
-  //                                       FloatingLabelBehavior.auto,
-  //                                       //filled: true,
-  //                                       border: OutlineInputBorder(
-  //                                         borderRadius:
-  //                                         BorderRadius.circular(10),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: 10,
-  //                                 ),
-  //                                 Container(
-  //                                   alignment: Alignment.topLeft,
-  //                                   padding: EdgeInsets.only(top: 20, left: 15),
-  //                                   child: Text(
-  //                                     "PRODUCT PRICING",
-  //                                     style: TextStyle(
-  //                                       fontWeight: FontWeight.bold,
-  //                                       fontSize: 13,
-  //                                       letterSpacing: 2,
-  //                                       color: Colors.grey,
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: 16,
-  //                                 ),
-  //                                 Padding(
-  //                                   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-  //                                   child: TextFormField(
-  //                                     // The validator receives the text that the user has entered.
-  //                                     validator: (value) {
-  //                                       if (value == null ||
-  //                                           value.isEmpty) {
-  //                                         return 'This field is required';
-  //                                       }
-  //                                       prodFieldsValue.add(value);
-  //                                       return null;
-  //                                     },
-  //                                     decoration: InputDecoration(
-  //                                       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
-  //                                       suffixText: 'Required',
-  //                                       suffixStyle: TextStyle(
-  //                                         color: Colors.grey,
-  //                                         fontSize: 12,
-  //                                         fontFamily: 'capsulesans',),
-  //                                       labelStyle: TextStyle(
-  //                                         fontWeight: FontWeight.w500,
-  //                                         color: Colors.black,
-  //                                       ),
-  //                                       // errorText: 'Error message',
-  //                                       labelText: 'Sale price',
-  //                                       floatingLabelBehavior:
-  //                                       FloatingLabelBehavior.auto,
-  //                                       //filled: true,
-  //                                       border: OutlineInputBorder(
-  //                                         borderRadius:
-  //                                         BorderRadius.circular(10),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: 16,
-  //                                 ),
-  //                                 Padding(
-  //                                   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-  //                                   child: TextFormField(
-  //                                     // The validator receives the text that the user has entered.
-  //                                     validator: (value) {
-  //                                       if (value == null ||
-  //                                           value.isEmpty) {
-  //                                         return 'This field is required';
-  //                                       }
-  //                                       prodFieldsValue.add(value);
-  //                                       return null;
-  //                                     },
-  //                                     decoration: InputDecoration(
-  //                                       contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20.0),
-  //                                       suffixText: 'Required',
-  //                                       suffixStyle: TextStyle(
-  //                                         color: Colors.grey,
-  //                                         fontSize: 12,
-  //                                         fontFamily: 'capsulesans',),
-  //                                       labelStyle: TextStyle(
-  //                                         fontWeight: FontWeight.w500,
-  //                                         color: Colors.black,
-  //                                       ),
-  //                                       // errorText: 'Error message',
-  //                                       labelText: 'Cost',
-  //                                       floatingLabelBehavior:
-  //                                       FloatingLabelBehavior.auto,
-  //                                       //filled: true,
-  //                                       border: OutlineInputBorder(
-  //                                         borderRadius:
-  //                                         BorderRadius.circular(10),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
+  DateTime today = DateTime.now();
+  DateTime? _dateTime;
+  String _format = 'yyyy-MMMM';
 
-  Future<String> getStoreId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // return(prefs.getString('store'));
 
-    var index = prefs.getString('store');
-    if (index == null) {
-      return 'idk';
-    } else {
-      return index;
-    }
-  }
-}
 
-class SubUnit extends StatefulWidget {
-  @override
-  State<SubUnit> createState() => _SubUnitState();
-}
-
-class _SubUnitState extends State<SubUnit> {
-  final List<String> prodFieldsValue = [];
-
-  var nameTECs = <TextEditingController>[];
-
-  var ageTECs = <TextEditingController>[];
-
-  var jobTECs = <TextEditingController>[];
-
-  var cards = <Padding>[];
-
-  Padding createCard() {
-    var nameController = TextEditingController();
-    var ageController = TextEditingController();
-    var jobController = TextEditingController();
-    nameTECs.add(nameController);
-    ageTECs.add(ageController);
-    jobTECs.add(jobController);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  "#${cards.length + 1} SUB UNIT QUANTITY",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    letterSpacing: 2,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-              Spacer(),
-              Container(
-                padding: EdgeInsets.only(top: 15),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    size: 20,
-                    color: Colors.blue,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      cards.length--;
-                      cards.remove(cards);
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            children: [
-              Container(
-                width: (MediaQuery.of(context).size.width - 30) / 1.74,
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    prodFieldsValue.add(value);
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                    focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skThemeColor2, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontFamily: 'capsulesans',
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Units / main unit',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Spacer(),
-              Container(
-                width: (MediaQuery.of(context).size.width - 30) / 2.9,
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    prodFieldsValue.add(value);
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                    focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skThemeColor2, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontFamily: 'capsulesans',
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Unit name',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'This field is required';
-              }
-              prodFieldsValue.add(value);
-              return null;
-            },
-            decoration: InputDecoration(
-              enabledBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.skBorderColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-              focusedBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                  borderSide: const BorderSide(
-                      color: AppTheme.skThemeColor2, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              contentPadding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-              suffixText: 'MMK',
-              suffixStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.grey,
-                fontSize: 12,
-                //fontFamily: 'capsulesans',
-              ),
-              labelStyle: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-              // errorText: 'Error message',
-              labelText: 'Sale price',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              //filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-        ],
+  void _showDatePicker(context) {
+    DatePicker.showDatePicker(
+      context,
+      onMonthChangeStartWithFirstDate: true,
+      pickerTheme: DateTimePickerTheme(
+        showTitle: false,
+        confirm: Text('Done', style: TextStyle(color: Colors.blue)),
       ),
+      minDateTime: DateTime.parse('2010-05-12'),
+      // maxDateTime: DateTime.parse('2021-11-25'),
+      maxDateTime: DateTime.now().add(const Duration(days: 365)),
+      initialDateTime: today,
+      dateFormat: _format,
+      locale: DateTimePickerLocale.en_us,
+      onClose: () {
+        setState((){
+          _dateTime = _dateTime;
+          today = today;
+          // DateTime td = DateTime.now();
+          print('closed 1 ' + today.toString());
+          // print('closed 2 ' + td.toString());
+        });
+        // fetchOrders();
+      },
+      onCancel: () => print('onCancel'),
+      onChange: (dateTime, List<int> index) {
+        // setState(() {
+        today = dateTime;
+        _dateTime = dateTime;
+        // });
+
+
+      },
+      onConfirm: (dateTime, List<int> index) {
+        setState(() {
+          today = dateTime;
+          _dateTime = dateTime;
+        });
+      },
+    );
+  }
+
+  DateTime lossDayStart() {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    String endDateOfMonth = '31';
+    if(today.month.toString() == '9' || today.month.toString() == '4' || today.month.toString() == '6' || today.month.toString() == '11') {
+      endDateOfMonth = '30';
+    } else if(today.month.toString() == '2') {
+      endDateOfMonth = '29';
+    } else {
+      endDateOfMonth = '31';
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
+  lossDayEnd() {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime notTday = today;
+    notTday = today;
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 00:00:00');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+
+  }
+
+  String selectDaysCast() {
+    print("TTT " + today.year.toString().length.toString());
+    // if(_sliding==0) {
+    // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
+    if(today.month == 9) {
+      return 'Sep, ' + today.year.toString();
+    } else if(today.month == 1) {
+      return 'Jan, ' + today.year.toString();
+    } else if(today.month == 2) {
+      return 'Feb, ' + today.year.toString();
+    } else if(today.month == 3) {
+      return 'Mar, ' + today.year.toString();
+    } else if(today.month == 4) {
+      return 'Apr, ' + today.year.toString();
+    } else if(today.month == 5) {
+      return 'May, ' + today.year.toString();
+    } else if(today.month == 6) {
+      return 'Jun, ' + today.year.toString();
+    } else if(today.month == 7) {
+      return 'Jul, ' + today.year.toString();
+    } else if(today.month == 8) {
+      return 'Aug, ' + today.year.toString();
+    } else if(today.month == 10) {
+      return 'Oct, ' + today.year.toString();
+    } else if(today.month == 11) {
+      return 'Nov, ' + today.year.toString();
+    } else if(today.month == 12) {
+      return 'Dec, ' + today.year.toString();
+    } else {
+      return '';
+    }
+
+  }
+
+// List<String> orderItems(String id) {}
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._tabBar);
+
+  final Container _tabBar;
+
+  @override
+  double get minExtent => 101;
+  @override
+  double get maxExtent => 101;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new Container(
+      height: 200,
+      color: Colors.transparent,
+      child: _tabBar,
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-          child: ButtonTheme(
-            splashColor: AppTheme.buttonColor2,
-            minWidth: MediaQuery.of(context).size.width,
-            height: 61,
-            child: RaisedButton(
-              color: AppTheme.buttonColor2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                  side: BorderSide(
-                    color: AppTheme.buttonColor2,
-                  )),
-              onPressed: () {
-                if (cards.length == 3) {
-                  print('Cards limit reached');
-                } else
-                  setState(() => cards.add(createCard()));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('New sub unit?',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(Icons.add_box_rounded),
-                ],
-              ),
-            ),
-          ),
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: cards.length,
-          itemBuilder: (BuildContext context, int index) {
-            return cards[index];
-          },
-        ),
-      ],
-    );
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
   }
 }
+
+///Section model example
+///
+///Section model must implements ExpandableListSection<T>, each section has
+///expand state, sublist. "T" is the model of each item in the sublist.
+class ExampleSection implements ExpandableListSection<String> {
+  //store expand state.
+  late bool expanded;
+
+  //return item model list.
+  late List<String> items;
+
+  //example header, optional
+  late String header;
+
+  @override
+  List<String> getItems() {
+    return items;
+  }
+
+  @override
+  bool isSectionExpanded() {
+    return expanded;
+  }
+
+  @override
+  void setSectionExpanded(bool expanded) {
+    this.expanded = expanded;
+  }
+}
+
+// print(item.split('^')[0].substring(0,8));
+// var dateId = '';
+// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
+// // FirebaseFirestore.instance.collection('space')
+// .where('date', isEqualTo: item.split('^')[0].substring(0,8))
+// .get()
+//     .then((QuerySnapshot querySnapshot) {
+// querySnapshot.docs.forEach((doc) {
+// dateId = doc.id;
+// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
+//
+//     .update({
+// 'daily_order': FieldValue.arrayRemove([item])
+// })
+//     .then((value) {
+// print('array removed');
+//
+// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
+//
+//     .update({
+// 'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
+// })
+//     .then((value) {
+// print('array updated');
+// });
+//
+//
+// // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
+// // .doc(item.split('^')[0])
+// //
+// //     .update({
+// //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
+// // })
+// //     .then((value) {
+// //   print('array updated');
+// // });
+// // 2021081601575511001^1-1001^total^name^pf
+//
+// });
+// });
+// });
