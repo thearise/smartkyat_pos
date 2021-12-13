@@ -17,14 +17,14 @@ import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:intl/intl.dart';
 import '../app_theme.dart';
 
-class OrdersFragment extends StatefulWidget {
+class BuyListFragment extends StatefulWidget {
   final _callback2;
   final _callback3;
   final _callback4;
   final _callback5;
   final _barcodeBtn;
 
-  OrdersFragment(
+  BuyListFragment(
       {
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
@@ -42,14 +42,13 @@ class OrdersFragment extends StatefulWidget {
         super(key: key);
 
   @override
-  OrdersFragmentState createState() => OrdersFragmentState();
+  BuyListFragmentState createState() => BuyListFragmentState();
 }
 
-class OrdersFragmentState extends State<OrdersFragment>
+class BuyListFragmentState extends State<BuyListFragment>
     with
         TickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin<OrdersFragment> {
-
+        AutomaticKeepAliveClientMixin<BuyListFragment> {
   String? shopId;
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
@@ -203,7 +202,7 @@ class OrdersFragmentState extends State<OrdersFragment>
               '^' +
               list[i].split('^')[7] +
               '^' +
-              list[i].split('^')[8] +
+              list[i].split('^')[8]+
               '^' + 's'
           ;
         }
@@ -240,9 +239,8 @@ class OrdersFragmentState extends State<OrdersFragment>
               list[i].split('^')[7] +
               '^' +
               list[i].split('^')[8] +
-              '^' + 'b'
+             '^' + 'b'
           ;
-
         }
       }
       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
@@ -541,69 +539,69 @@ class OrdersFragmentState extends State<OrdersFragment>
             sectionList2 = sections;
           });
 
-              await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder')
-                  .where('orderId',  isEqualTo: searchValue)
-                  .get()
-                  .then((QuerySnapshot querySnapshot2) async {
-                if(querySnapshot2.docs.length == 0) {
-                  setState(() {
-                    detailIdList = [];
-                    setState(() {
-                      var sections = List<ExampleSection>.empty(growable: true);
+          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder')
+              .where('orderId',  isEqualTo: searchValue)
+              .get()
+              .then((QuerySnapshot querySnapshot2) async {
+            if(querySnapshot2.docs.length == 0) {
+              setState(() {
+                detailIdList = [];
+                setState(() {
+                  var sections = List<ExampleSection>.empty(growable: true);
 
-                      var saleOrders = ExampleSection()
-                        ..header = 'Buy orders^' + 'GG'
-                        ..items = detailIdList.cast<String>()
-                        ..expanded = true;
+                  var saleOrders = ExampleSection()
+                    ..header = 'Buy orders^' + 'GG'
+                    ..items = detailIdList.cast<String>()
+                    ..expanded = true;
 
-                      // var buyOrders = ExampleSection()
-                      //   ..header = 'Buy orders^' + 'GG'
-                      //   ..items = detailIdList.cast<String>()
-                      //   ..expanded = true;
+                  // var buyOrders = ExampleSection()
+                  //   ..header = 'Buy orders^' + 'GG'
+                  //   ..items = detailIdList.cast<String>()
+                  //   ..expanded = true;
 
-                      print('buy ord ' + detailIdList.length.toString());
-                      sections.add(saleOrders);
-                      // sections.add(buyOrders);
-                      sectionList2 = sections;
-                    });
-                  });
-                }
-                querySnapshot2.docs.forEach((doc) {
-                  setState(() {
-                    detailIdList.add(doc['deviceId'] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
-                  });
+                  print('buy ord ' + detailIdList.length.toString());
+                  sections.add(saleOrders);
+                  // sections.add(buyOrders);
+                  sectionList2 = sections;
                 });
+              });
+            }
+            querySnapshot2.docs.forEach((doc) {
+              setState(() {
+                detailIdList.add(doc['deviceId'] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+              });
+            });
 
-                await FirebaseFirestore.instance.collection('shops').doc(
-                    shopId).collection('merchants')
-                    .get()
-                    .then((QuerySnapshot querySnapshot3) {
-                  setState(() {
+            await FirebaseFirestore.instance.collection('shops').doc(
+                shopId).collection('merchants')
+                .get()
+                .then((QuerySnapshot querySnapshot3) {
+              setState(() {
 
-                    // if(detailIdList.length == 0) {
-                    //   noSearchData = true;
-                    // } else {
-                    //   noSearchData = false;
-                    // }
-                    var sections = List<ExampleSection>.empty(growable: true);
+                // if(detailIdList.length == 0) {
+                //   noSearchData = true;
+                // } else {
+                //   noSearchData = false;
+                // }
+                var sections = List<ExampleSection>.empty(growable: true);
 
-                    var saleOrders = ExampleSection()
-                      ..header = 'Buy orders^' + detailIdList.length.toString()
-                      ..items = changeData4(detailIdList.cast<String>(), querySnapshot3)
-                    // ..items = detailIdList.cast<String>()
-                      ..expanded = true;
+                var saleOrders = ExampleSection()
+                  ..header = 'Buy orders^' + detailIdList.length.toString()
+                  ..items = changeData4(detailIdList.cast<String>(), querySnapshot3)
+                // ..items = detailIdList.cast<String>()
+                  ..expanded = true;
 
-                    // var buyOrders = ExampleSection()
-                    //   ..header = 'Buy orders^' + detailIdList.length.toString()
-                    //   ..items = detailIdList.cast<String>()
-                    //   ..expanded = true;
+                // var buyOrders = ExampleSection()
+                //   ..header = 'Buy orders^' + detailIdList.length.toString()
+                //   ..items = detailIdList.cast<String>()
+                //   ..expanded = true;
 
-                  //  print('buy ord ' + detailIdList.length.toString());
-                    sections.add(saleOrders);
-                    // sections.add(buyOrders);
-                    sectionList2 = sections;
-                  });
-                });
+                //  print('buy ord ' + detailIdList.length.toString());
+                sections.add(saleOrders);
+                // sections.add(buyOrders);
+                sectionList2 = sections;
+              });
+            });
           });
         } else {
           if(searchValue.contains('-')) {
@@ -636,70 +634,70 @@ class OrdersFragmentState extends State<OrdersFragment>
             sectionList2 = sections;
           });
 
-              await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
-                  .where('orderId',  isEqualTo: searchValue)
-                  .get()
-                  .then((QuerySnapshot querySnapshot2) async {
-                if(querySnapshot2.docs.length == 0) {
-                  setState(() {
-                    detailIdList = [];
-                    setState(() {
-                      var sections = List<ExampleSection>.empty(growable: true);
+          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
+              .where('orderId',  isEqualTo: searchValue)
+              .get()
+              .then((QuerySnapshot querySnapshot2) async {
+            if(querySnapshot2.docs.length == 0) {
+              setState(() {
+                detailIdList = [];
+                setState(() {
+                  var sections = List<ExampleSection>.empty(growable: true);
 
-                      var saleOrders = ExampleSection()
-                        ..header = 'Sale orders^' + 'GG'
-                        ..items = detailIdList.cast<String>()
-                        ..expanded = true;
+                  var saleOrders = ExampleSection()
+                    ..header = 'Sale orders^' + 'GG'
+                    ..items = detailIdList.cast<String>()
+                    ..expanded = true;
 
-                      // var buyOrders = ExampleSection()
-                      //   ..header = 'Buy orders^' + 'GG'
-                      //   ..items = detailIdList.cast<String>()
-                      //   ..expanded = true;
+                  // var buyOrders = ExampleSection()
+                  //   ..header = 'Buy orders^' + 'GG'
+                  //   ..items = detailIdList.cast<String>()
+                  //   ..expanded = true;
 
-                      print('sale ord ' + detailIdList.length.toString());
-                      sections.add(saleOrders);
-                      // sections.add(buyOrders);
-                      sectionList2 = sections;
-                    });
-                  });
-                }
-                querySnapshot2.docs.forEach((doc) {
-
-                  setState(() {
-                    detailIdList.add(doc['deviceId'] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
-                  });
+                  print('sale ord ' + detailIdList.length.toString());
+                  sections.add(saleOrders);
+                  // sections.add(buyOrders);
+                  sectionList2 = sections;
                 });
+              });
+            }
+            querySnapshot2.docs.forEach((doc) {
 
-                await FirebaseFirestore.instance.collection('shops').doc(
-                    shopId).collection('customers')
-                    .get()
-                    .then((QuerySnapshot querySnapshot3) {
-                  setState(() {
+              setState(() {
+                detailIdList.add(doc['deviceId'] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
+              });
+            });
 
-                    // if(detailIdList.length == 0) {
-                    //   noSearchData = true;
-                    // } else {
-                    //   noSearchData = false;
-                    // }
-                    var sections = List<ExampleSection>.empty(growable: true);
+            await FirebaseFirestore.instance.collection('shops').doc(
+                shopId).collection('customers')
+                .get()
+                .then((QuerySnapshot querySnapshot3) {
+              setState(() {
 
-                    var saleOrders = ExampleSection()
-                      ..header = 'Sale orders^' + detailIdList.length.toString()
-                      ..items = changeData3(detailIdList.cast<String>(), querySnapshot3)
-                    // ..items = detailIdList.cast<String>()
-                      ..expanded = true;
+                // if(detailIdList.length == 0) {
+                //   noSearchData = true;
+                // } else {
+                //   noSearchData = false;
+                // }
+                var sections = List<ExampleSection>.empty(growable: true);
 
-                    // var buyOrders = ExampleSection()
-                    //   ..header = 'Buy orders^' + detailIdList.length.toString()
-                    //   ..items = detailIdList.cast<String>()
-                    //   ..expanded = true;
+                var saleOrders = ExampleSection()
+                  ..header = 'Sale orders^' + detailIdList.length.toString()
+                  ..items = changeData3(detailIdList.cast<String>(), querySnapshot3)
+                // ..items = detailIdList.cast<String>()
+                  ..expanded = true;
 
-                   // print('buy ord ' + detailIdList.length.toString());
-                    sections.add(saleOrders);
-                    // sections.add(buyOrders);
-                    sectionList2 = sections;
-                  });
-                });
+                // var buyOrders = ExampleSection()
+                //   ..header = 'Buy orders^' + detailIdList.length.toString()
+                //   ..items = detailIdList.cast<String>()
+                //   ..expanded = true;
+
+                // print('buy ord ' + detailIdList.length.toString());
+                sections.add(saleOrders);
+                // sections.add(buyOrders);
+                sectionList2 = sections;
+              });
+            });
           });
         }
 
@@ -3355,7 +3353,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
+                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder')
                                 .where('date', isLessThanOrEqualTo: lossDayStart())
                                 .where('date', isGreaterThanOrEqualTo: lossDayEnd())
                                 .orderBy('date', descending: true)
@@ -3364,7 +3362,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
                               if(snapshot.hasData) {
                                 return StreamBuilder(
-                                    stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').snapshots(),
+                                    stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').snapshots(),
                                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
                                       if(snapshot2.hasData) {
                                         var sections = List<ExampleSection>.empty(growable: true);
@@ -3388,12 +3386,13 @@ class OrdersFragmentState extends State<OrdersFragment>
                                         if(snapshot.data!.docs.length>0) {
                                           Map<String, dynamic> data21 = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
                                           var ayinDoc = data21['date'];
+                                          
 
 
 
                                           print('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
 
-                                          List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + data21['customerId'] + '^' + data21['refund'] + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '^' + data21['date'].toDate().minute.toString()];
+                                          List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + data21['merchantId'] + '^' + data21['refund'] + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '^' + data21['date'].toDate().minute.toString()];
 
                                           var section = ExampleSection()
                                             ..header = zeroToTen(data21['date'].toDate().month.toString()) + '-' + zeroToTen(data21['date'].toDate().day.toString())
@@ -3442,7 +3441,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                               }
 
                                               data21 = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
-                                              itemsList.add(data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + data21Loop['refund'] + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '^' + data21Loop['date'].toDate().minute.toString());
+                                              itemsList.add(data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['merchantId'] + '^' + data21Loop['refund'] + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '^' + data21Loop['date'].toDate().minute.toString());
                                               section = ExampleSection()
                                                 ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
                                               // ..items = List.generate(int.parse(document['length']), (index) => document.id)
@@ -3686,7 +3685,10 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                                            builder: (context) => BuyListInfo(
+                                                              data: item,
+                                                              toggleCoinCallback:
+                                                                  () {}, shopId: shopId.toString(),)),
                                                       );
                                                     },
                                                     child: Stack(
@@ -4373,7 +4375,7 @@ class OrdersFragmentState extends State<OrdersFragment>
               '^' +
               list[i].split('^')[2] +
               '^' +
-              document['customer_name'].toString() +
+              document['merchant_name'].toString() +
               '&' +
               list[i].split('^')[3] +
               '^' +
@@ -4821,45 +4823,3 @@ class ExampleSection implements ExpandableListSection<String> {
     this.expanded = expanded;
   }
 }
-
-// print(item.split('^')[0].substring(0,8));
-// var dateId = '';
-// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders')
-// // FirebaseFirestore.instance.collection('space')
-// .where('date', isEqualTo: item.split('^')[0].substring(0,8))
-// .get()
-//     .then((QuerySnapshot querySnapshot) {
-// querySnapshot.docs.forEach((doc) {
-// dateId = doc.id;
-// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
-//
-//     .update({
-// 'daily_order': FieldValue.arrayRemove([item])
-// })
-//     .then((value) {
-// print('array removed');
-//
-// FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId)
-//
-//     .update({
-// 'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
-// })
-//     .then((value) {
-// print('array updated');
-// });
-//
-//
-// // FirebaseFirestore.instance.collection('space').doc('0NHIS0Jbn26wsgCzVBKT').collection('shops').doc('PucvhZDuUz3XlkTgzcjb').collection('orders').doc(dateId).collection('detail')
-// // .doc(item.split('^')[0])
-// //
-// //     .update({
-// //   'daily_order': FieldValue.arrayUnion([item.split('^')[0]+'^'+item.split('^')[1]+'^total^name^fp'])
-// // })
-// //     .then((value) {
-// //   print('array updated');
-// // });
-// // 2021081601575511001^1-1001^total^name^pf
-//
-// });
-// });
-// });

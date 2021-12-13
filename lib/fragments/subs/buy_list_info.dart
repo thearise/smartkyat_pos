@@ -4,20 +4,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
-import 'package:smartkyat_pos/fragments/subs/buy_list_refund.dart';
+import 'package:smartkyat_pos/fragments/subs/buy_list_refund2.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_buylist.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_items.dart';
-
+import 'package:intl/intl.dart';
 import '../../app_theme.dart';
 import 'order_refund_sub2.dart';
+import 'package:dotted_line/dotted_line.dart';
 
 class BuyListInfo extends StatefulWidget {
   final _callback;
   const BuyListInfo(
-      {Key? key, required this.data, required this.shopId, required void toggleCoinCallback()})
+      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
   final String shopId;
@@ -33,9 +33,10 @@ class _BuyListInfoState extends State<BuyListInfo>
   var docId = '';
   String result = '';
 
-
   @override
   initState() {
+    print('WIDGET-' + widget.data);
+    print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
     var innerId = '';
     result = widget.data
         .split('^')[0] +
@@ -52,14 +53,18 @@ class _BuyListInfoState extends State<BuyListInfo>
         widget.data
             .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
         .split('^')[6];
+
+    print('ccccccc' + result.split('^')[0].split('-')[0].toString());
     FirebaseFirestore.instance
         .collection('shops')
         .doc(widget.shopId)
-        .collection('buyOrders')
+        .collection('buyOrder')
     // FirebaseFirestore.instance.collection('space')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-        // .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
+    //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
+    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
+    // .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
+        .where('deviceId', isEqualTo: result.split('^')[0].split('-')[0] + '-')
+        .where('orderId', isEqualTo: result.split('^')[0].split('-')[1])
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -68,6 +73,8 @@ class _BuyListInfoState extends State<BuyListInfo>
       setState(() {
         docId = innerId;
       });
+
+      print('DOC ID ' + docId.toString());
       // return docId;
       // return Container();
     });
@@ -184,10 +191,10 @@ class _BuyListInfoState extends State<BuyListInfo>
                       stream: FirebaseFirestore.instance
                           .collection('shops')
                           .doc(widget.shopId)
-                          .collection('buyOrders')
+                          .collection('buyOrder')
                           .doc(docId)
-                          .collection('expansion')
-                          .doc(widget.data.split('^')[0])
+                      // .collection('detail')
+                      // .doc(widget.data.split('^')[0])
                           .snapshots(),
                       builder: (BuildContext context, snapshot2) {
                         if (snapshot2.hasData) {
@@ -238,6 +245,9 @@ class _BuyListInfoState extends State<BuyListInfo>
                           }
 
                           print('view ' + prodListView.toString());
+
+
+
                           result = widget.data
                               .split('^')[0] +
                               '^' +
@@ -311,8 +321,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                         widget.data
                                                             .split('^')[3] +
                                                         '^' +
-                                                        isRef + widget.data
-                                                        .split('^')[4][1] + '^' + debt.toString() + '^' + widget.data
+                                                        widget.data
+                                                            .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                         .split('^')[6];
 
 
@@ -321,12 +331,12 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               BuyListRefund(
-                                                                  data: result,
-                                                                  data2: prodList,
-                                                                  realPrice: totalRealPrice,
-                                                                  toggleCoinCallback:
-                                                                      () {}, shopId: widget.shopId,)),
-                                                    );
+                                                                data: result,
+                                                                data2: prodList,
+                                                                realPrice: totalRealPrice,
+                                                                toggleCoinCallback:
+                                                                    () {}, shopId: widget.shopId, docId: docId.toString(),),
+                                                    ));
 
                                                     print('result__2 ' + result.toString());
                                                   },
@@ -436,159 +446,129 @@ class _BuyListInfoState extends State<BuyListInfo>
                                         var output2 = snapshot2.data!.data();
                                         var image = output2?['img_1'];
 
-                                        return  Slidable(
-                                          key: UniqueKey(),
-                                          actionPane:
-                                          SlidableDrawerActionPane(),
-                                          actionExtentRatio:
-                                          0.25,
-                                          child: Stack(
-                                            children: [
-                                              Container(
-                                                color: Colors.white,
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(height: 12),
-                                                    ListTile(
-                                                      leading: ClipRRect(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              5.0),
-                                                          child: image != ""
-                                                              ? CachedNetworkImage(
-                                                            imageUrl:
-                                                            'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                image,
-                                                            width: 58,
-                                                            height: 58,
-                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                            errorWidget: (context,
-                                                                url,
-                                                                error) =>
-                                                                Icon(Icons
-                                                                    .error),
-                                                            fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                100),
-                                                            fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                10),
-                                                            fadeInCurve:
-                                                            Curves
-                                                                .bounceIn,
-                                                            fit: BoxFit
-                                                                .cover,
-                                                          )
-                                                              : CachedNetworkImage(
-                                                            imageUrl:
-                                                            'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                            width: 58,
-                                                            height: 58,
-                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                            errorWidget: (context,
-                                                                url,
-                                                                error) =>
-                                                                Icon(Icons
-                                                                    .error),
-                                                            fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                100),
-                                                            fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                10),
-                                                            fadeInCurve:
-                                                            Curves
-                                                                .bounceIn,
-                                                            fit: BoxFit
-                                                                .cover,
+                                        return  Stack(
+                                          children: [
+                                            Container(
+                                              color: Colors.white,
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(height: 12),
+                                                  ListTile(
+                                                    leading: ClipRRect(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            5.0),
+                                                        child: image != ""
+                                                            ? CachedNetworkImage(
+                                                          imageUrl:
+                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                              image,
+                                                          width: 58,
+                                                          height: 58,
+                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                          errorWidget: (context,
+                                                              url,
+                                                              error) =>
+                                                              Icon(Icons
+                                                                  .error),
+                                                          fadeInDuration:
+                                                          Duration(
+                                                              milliseconds:
+                                                              100),
+                                                          fadeOutDuration:
+                                                          Duration(
+                                                              milliseconds:
+                                                              10),
+                                                          fadeInCurve:
+                                                          Curves
+                                                              .bounceIn,
+                                                          fit: BoxFit
+                                                              .cover,
+                                                        )
+                                                            : CachedNetworkImage(
+                                                          imageUrl:
+                                                          'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
+                                                          width: 58,
+                                                          height: 58,
+                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                          errorWidget: (context,
+                                                              url,
+                                                              error) =>
+                                                              Icon(Icons
+                                                                  .error),
+                                                          fadeInDuration:
+                                                          Duration(
+                                                              milliseconds:
+                                                              100),
+                                                          fadeOutDuration:
+                                                          Duration(
+                                                              milliseconds:
+                                                              10),
+                                                          fadeInCurve:
+                                                          Curves
+                                                              .bounceIn,
+                                                          fit: BoxFit
+                                                              .cover,
+                                                        )),
+                                                    title: Text(
+                                                      output2?[
+                                                      'prod_name'],
+                                                      style:
+                                                      TextStyle(
+                                                          fontWeight: FontWeight.w500, fontSize: 16),
+                                                    ),
+                                                    subtitle: Padding(
+                                                      padding: const EdgeInsets.only(top: 4.0),
+                                                      child: Row(
+                                                        children: [
+                                                          Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                           )),
-                                                      title: Text(
-                                                        output2?[
-                                                        'prod_name'],
-                                                        style:
-                                                        TextStyle(
-                                                            fontWeight: FontWeight.w500, fontSize: 16),
+                                                          if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                          else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                          else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                        ],
                                                       ),
-                                                      subtitle: Padding(
-                                                        padding: const EdgeInsets.only(top: 4.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                            )),
-                                                            if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                            else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                            else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      trailing: Text('MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.w500,
-                                                        ),),
                                                     ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                      child: Container(height: 12,
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                              bottom:
-                                                              BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                            )),),
-                                                    ),
-                                                  ],
-                                                ),
+                                                    trailing: Text('MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                    child: Container(height: 12,
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                            bottom:
+                                                            BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                          )),),
+                                                  ),
+                                                ],
                                               ),
-                                              Positioned(
-                                                top : 8,
-                                                left : 50,
-                                                child: Container(
-                                                  height: 20,
-                                                  width: 30,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: AppTheme.skBorderColor2,
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                      border: Border.all(
-                                                        color: Colors.white,
-                                                        width: 2,
-                                                      )),
-                                                  child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
-                                                    fontSize: 11, fontWeight: FontWeight.w500,
-                                                  )),
-                                                ),
+                                            ),
+                                            Positioned(
+                                              top : 8,
+                                              left : 50,
+                                              child: Container(
+                                                height: 20,
+                                                width: 30,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    color: AppTheme.skBorderColor2,
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.0),
+                                                    border: Border.all(
+                                                      color: Colors.white,
+                                                      width: 2,
+                                                    )),
+                                                child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                  fontSize: 11, fontWeight: FontWeight.w500,
+                                                )),
                                               ),
-                                            ],
-                                          ),
-                                          dismissal:
-                                          SlidableDismissal(
-                                            child:
-                                            SlidableDrawerDismissal(),
-                                            onDismissed:
-                                                (actionType) {
-                                              setState((){
-                                              });
-                                            },
-                                          ),
-                                          secondaryActions: <
-                                              Widget>[
-                                            IconSlideAction(
-                                              caption: 'Delete',
-                                              color: Colors.red,
-                                              icon:
-                                              Icons.delete,
-                                              onTap: () {
-                                                setState((){
-                                                });
-                                              },
                                             ),
                                           ],
                                         );
@@ -597,43 +577,115 @@ class _BuyListInfoState extends State<BuyListInfo>
                                     },
                                   ),
 
-                                Slidable(
-                                  key: UniqueKey(),
-                                  actionPane:
-                                  SlidableDrawerActionPane(),
-                                  actionExtentRatio:
-                                  0.25,
+                                Container(
+                                  color: Colors.white,
+                                  child: Column(
+                                    children: [
+                                      // ListTile (
+                                      //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   // subtitle: Text('Amount applied', style: TextStyle(
+                                      //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                      //   // )),
+                                      //   trailing: Text('MMK ' + totalRealPrice.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      // ),
+                                      // if ((widget.data.split('^')[6]) != '0.0') Container(
+                                      //   child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
+                                      //   ListTile(
+                                      //     title: Text('SubTotal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //
+                                      //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //
+                                      //   ) :  ListTile (
+                                      //     title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //
+                                      //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + double.parse(widget.data.split('^')[6].split('-')[0])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   ),
+                                      // ) else ListTile (
+                                      //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      // ),
+                                      if ((widget.data.split('^')[6]) != '0.0') Container(
+                                        child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
+                                        ListTile(
+                                          title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          subtitle: Text('Percentage (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
+                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                          )),
+                                          trailing: Text('- MMK ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
+                                          //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: Column(
-                                      children: [
-                                        if ((widget.data.split('^')[6]) != '0.0') Container(
-                                          child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
-                                          ListTile(
-                                            title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                            subtitle: Text('Percentage (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
-                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                            )),
-                                            trailing: Text('- MMK ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString()),
-                                            // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
-                                            //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        ) :  ListTile (
+                                          title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          subtitle: Text('Amount applied', style: TextStyle(
+                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                          )),
+                                          trailing: Text('- MMK ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        ),
+                                      ) else Container(),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(left: 15.0),
+                                      //   child: Container(height: 12,
+                                      //     decoration: BoxDecoration(
+                                      //         border: Border(
+                                      //           bottom:
+                                      //           BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                      //         )),),
+                                      // ),
+                                      // ListTile (
+                                      //   title: Text('Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   // subtitle: Text('Amount applied', style: TextStyle(
+                                      //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                      //   // )),
+                                      //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      // ),
+                                      // ListTile (
+                                      //   title: Text('Paid', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   // subtitle: Text('Amount applied', style: TextStyle(
+                                      //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                      //   // )),
+                                      //   trailing: Text('- MMK ' + (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      // ),
 
-                                          ) :  ListTile (
-                                            title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                            subtitle: Text('Amount applied', style: TextStyle(
-                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                            )),
-                                            trailing: Text('- MMK ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          ),
+                                      if ((widget.data.split('^')[5]) != '0.0')
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 0.0),
+                                              child: Container(height: 12,
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                      bottom:
+                                                      BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                    )),),
+                                            ),
+                                            ListTile(
+                                              title: Text('Debt Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+
+                                              trailing: Text('MMK ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+
+                                            ),
+                                          ],
                                         ) else Container(),
-                                      ],
-                                    ),
+
+                                    ],
                                   ),
                                 ),
-
-
-                                Text('Returns'),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 18.0, top: 10),
+                                  child: DottedLine(lineThickness: 2,dashLength: 8, dashColor: AppTheme.skBorderColor2,),
+                                ),
+                                for (int i = 0; i < prodListView.length; i++)
+                                  if (prodListView[i].split('-')[7] != '0')
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                      child: Text('REFUNDED ITEMS', style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        letterSpacing: 2,
+                                        color: Colors.grey,
+                                      ),),
+                                    ),
 
                                 for (int i = 0; i < prodListView.length; i++)
                                   if (prodListView[i].split('-')[7] != '0')
@@ -804,50 +856,6 @@ class _BuyListInfoState extends State<BuyListInfo>
                                               ),
                                             ],
                                           );
-                                          // return Slidable(
-                                          //   key: UniqueKey(),
-                                          //   actionPane:
-                                          //   SlidableDrawerActionPane(),
-                                          //   actionExtentRatio: 0.25,
-                                          //   child: Container(
-                                          //     color: Colors.white,
-                                          //     child: ListTile(
-                                          //       leading: CircleAvatar(
-                                          //         backgroundColor:
-                                          //         Colors.indigoAccent,
-                                          //         child: Text(prodListView[i]
-                                          //             .split('-')[7]),
-                                          //         foregroundColor:
-                                          //         Colors.white,
-                                          //       ),
-                                          //       title: Text(
-                                          //         output2?['prod_name'] +
-                                          //             ' (' +
-                                          //             output2?[prodListView[i]
-                                          //                 .split('-')[5]] +
-                                          //             ')',
-                                          //         style: TextStyle(height: 1),
-                                          //       ),
-                                          //       subtitle: discSub(widget.data.split('^')[6], prodListView[i]),
-                                          //       // ((totalRealPrice/double.parse(widget.data.split('^')[6].split('-')[0])) / 100)
-                                          //       trailing: discTra(widget.data.split('^')[6], prodListView[i]),
-                                          //     ),
-                                          //   ),
-                                          //   dismissal: SlidableDismissal(
-                                          //     child:
-                                          //     SlidableDrawerDismissal(),
-                                          //     onDismissed: (actionType) {
-                                          //     },
-                                          //   ),
-                                          //   secondaryActions: <Widget>[
-                                          //     IconSlideAction(
-                                          //       caption: 'Delete',
-                                          //       color: Colors.red,
-                                          //       icon: Icons.delete,
-                                          //       onTap: () {},
-                                          //     ),
-                                          //   ],
-                                          // );
                                         }
                                         return Container();
                                       },
@@ -974,6 +982,7 @@ class _BuyListInfoState extends State<BuyListInfo>
             ),
           );
         });
+
   }
 
   Widget discSub(String str, String prodList) {

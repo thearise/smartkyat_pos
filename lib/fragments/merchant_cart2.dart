@@ -944,6 +944,19 @@ class MerchantCartState extends State<MerchantCart>
         .catchError((error) => print("Failed to update user: $error"));
   }
 
+  Future<void> merchOrder(ttlOrders, debts , debtAmount) async {
+    print('CHECKING PRODSALE ORD');
+    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants');
+
+    cusOrder.doc(widget.merchantId.split('-')[0]).update({
+      'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
+      'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
+      'debts': FieldValue.increment(double.parse(debts.toString())),
+    })
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
   double totalFixAmount = 0.0;
   double titlePrice = 0;
   fixItems(){
@@ -1888,6 +1901,9 @@ class MerchantCartState extends State<MerchantCart>
                                     CollectionReference prods =  await FirebaseFirestore.instance.collection('shops').doc(
                                         shopId).collection('products');
                                     int length = 0;
+                                    int totalOrders = 0;
+                                    int debts = 0;
+                                    double debtAmounts = 0 ;
                                     print('order creating here2');
 
                                     FirebaseFirestore.instance.collection('shops').doc(shopId).get().then((value) async {
@@ -1986,6 +2002,20 @@ class MerchantCartState extends State<MerchantCart>
                                       }
 
                                       Detail2(now, length.toString() , subList2,);
+
+                                      if(widget.merchantId.split('-')[0] != 'name' && debt2.toString() != '0') {
+                                        debts = 1;
+                                        debtAmounts = debt2;
+                                      } else {
+                                        debts = 0;
+                                        debtAmounts = 0;
+                                      }
+
+                                      if(widget.merchantId.split('-')[0] != 'name') {
+                                        totalOrders = totalOrders + 1;
+                                        merchOrder(totalOrders, debts, debtAmounts);
+                                      }
+
 
                                     });
                                     widget.clearMerch();

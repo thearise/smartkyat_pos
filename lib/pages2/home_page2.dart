@@ -18,7 +18,7 @@
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:smartkyat_pos/api/pdf_api.dart';
 // import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
-// import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
+// import 'package:smartkyat_pos/fragments/buy_list_fragment2.dart';
 // import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 // import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 // import 'package:smartkyat_pos/fragments/customers_fragment.dart';

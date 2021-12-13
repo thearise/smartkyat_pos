@@ -128,67 +128,33 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                   color: Colors.black,
                                 ),
                                 onPressed: () async {
-                                  String dataRm = widget.data.split('^')[0] +
-                                      '^' +
-                                      widget.data.split('^')[1] +
-                                      '^' +
-                                      widget.data.split('^')[2] +
-                                      '^' +
-                                      widget.data.split('^')[3].split('&')[1] +
-                                      '^' +
-                                      widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
-                                  String data = widget.data.split('^')[0] +
-                                      '^' +
-                                      widget.data.split('^')[1] +
-                                      '^' +
-                                      widget.data.split('^')[2] +
-                                      '^' +
-                                      widget.data.split('^')[3].split('&')[1] +
-                                      '^' +
-                                      widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
-                                  FirebaseFirestore.instance
-                                      .collection('shops')
-                                      .doc(widget.shopId)
-                                      .collection('buyOrders')
-                                      .doc(widget.docId)
-                                      .update({
-                                    'daily_order':
-                                    FieldValue.arrayRemove([dataRm])
-                                  }).then((value) {
-                                    print('array removed');
+                                  CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder');
+                                  CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
 
-                                    FirebaseFirestore.instance
-                                        .collection('shops')
-                                        .doc(widget.shopId)
-                                        .collection('buyOrders')
-                                        .doc(widget.docId)
+                                  order.doc(
+                                      widget.docId)
+                                      .update({
+                                    'debt' : debtAmount
+                                  })
+                                      .then((value) => print("User Updated"))
+                                      .catchError((error) => print("Failed to update user: $error"));
+
+                                  double debts = 0;
+                                  if(debtAmount == 0.0) {
+                                    debts = 1;
+                                  } else debts = 0;
+                                  if( widget.data.split('^')[3].split('&')[1] !='name') {
+                                    customerDebt.doc(
+                                        widget.data.split('^')[3].split('&')[1])
                                         .update({
-                                      'daily_order':
-                                      FieldValue.arrayUnion([data])
-                                    }).then((value) {
-                                      print('array updated');  });
-                                  });
+                                      'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
+                                      'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
+                                    })
+                                        .then((value) => print("User Updated"))
+                                        .catchError((error) => print("Failed to update user: $error"));}
 
-                                  await FirebaseFirestore.instance.collection('shops').doc(
-                                      widget.shopId).collection('buyOrders').doc(
-                                      widget.docId).collection('expansion').doc(widget.data.split('^')[0])
-                                      .update({
-                                    'debt' : debtAmount
-                                  })
-                                      .then((value) => print("User Updated"))
-                                      .catchError((error) => print("Failed to update user: $error"));
-
-                                  await FirebaseFirestore.instance.collection('shops').doc(
-                                      widget.shopId).collection('merchants').doc(widget.data
-                                      .split('^')[3]
-                                      .split('&')[1]).collection('buyOrders').doc(widget.data.split('^')[0])
-                                      .update({
-                                    'debt' : debtAmount
-                                  })
-                                      .then((value) => print("User Updated"))
-                                      .catchError((error) => print("Failed to update user: $error"));
                                   _textFieldController.clear();
-                                  Navigator.pop(context);
+                                  Navigator.of(context).popUntil((route) => route.isFirst);
                                 }),
                           ),
                         ),

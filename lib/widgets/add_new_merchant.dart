@@ -364,6 +364,10 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'merchant_name': merchFieldsValue[0],
                                         'merchant_address': merchFieldsValue[1],
                                         'merchant_phone': merchFieldsValue[2],
+                                        'total_orders' : 0,
+                                        'debts' : 0,
+                                        'debtAmount' : 0,
+                                        'total_refunds' : 0,
                                       }).then((value) {
                                         print('product added 2');
 
@@ -434,6 +438,10 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'merchant_name': merchFieldsValue[0],
                                         'merchant_address': merchFieldsValue[1],
                                         'merchant_phone': merchFieldsValue[2],
+                                        'total_orders' : 0,
+                                        'debts' : 0,
+                                        'debtAmount' : 0,
+                                        'total_refunds' : 0,
                                       }).then((value) {
                                         print('product added 2');
 
