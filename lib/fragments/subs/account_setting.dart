@@ -140,6 +140,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
                                     child: TextFormField(
+                                      keyboardType: TextInputType.name,
                                       controller: _accountName,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
@@ -171,7 +172,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                             right: 15.0,
                                             top: 20.0,
                                             bottom: 20.0),
-                                        suffixText: 'Required',
+                                        //suffixText: 'Required',
                                         suffixStyle: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 12,
@@ -202,7 +203,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                   SizedBox(height: 10,),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                    child: Text('Choose the paper size correctly to work well with the printer'),
+                                    child: Text('Choose the text box to customize your account name, and can save it.'),
                                   ),
 //                                 Padding(
 //                                   padding: const EdgeInsets.only(top: 20.0),
@@ -266,7 +267,6 @@ class _AccountSettingState extends State<AccountSetting> {
 //                                       ),
 //                                     ),
 //                                   ),
-//
                                   SizedBox(height: 15,),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 15.0, right: 15.0),

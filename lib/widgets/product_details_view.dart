@@ -364,8 +364,8 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                       ),
                                                       onPressed: () async {
                                                         if (subExist == '0') {
-                                                          widget._callback(widget.idString + '-' + '-' + output?['unit_sell'] +
-                                                              '-unit_name-1');
+                                                          widget._callback(widget.idString + '^' + '^' + output?['unit_sell'] +
+                                                              '^unit_name^1');
                                                         } else {
                                                           final result =
                                                           await showModalActionSheet<String>(
@@ -375,10 +375,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                 icon: Icons.info,
                                                                 label: '1 ' + output?['unit_name'],
                                                                 key: widget.idString +
-                                                                    '-' +
-                                                                    '-' +
+                                                                    '^' +
+                                                                    '^' +
                                                                     output?['unit_sell'] +
-                                                                    '-unit_name-1',
+                                                                    '^unit_name^1',
                                                               ),
                                                               for(int i =0; i < subSell.length; i++)
                                                                 if(subSell[i] != '')
@@ -386,10 +386,10 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                     icon: Icons.info,
                                                                     label: '1 ' + subName[i],
                                                                     key: widget.idString +
-                                                                        '-' + subLink[i] +
-                                                                        '-' +
+                                                                        '^' + subLink[i] +
+                                                                        '^' +
                                                                         subSell[i] +
-                                                                        '-sub' + (i+1).toString() + '_name-1',
+                                                                        '^sub' + (i+1).toString() + '_name^1',
                                                                   ),
                                                             ],
                                                           );

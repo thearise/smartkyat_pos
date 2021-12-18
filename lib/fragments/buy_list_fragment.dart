@@ -80,7 +80,7 @@ class BuyListFragmentState extends State<BuyListFragment>
   int _sliding = 0;
 
   String textSetAll = 'All';
-  String textSetTUnpaid = 'Unpadis';
+  String textSetTUnpaid = 'Unpaids';
   String textSetTRefunds = 'Refunds';
   String textSetTPaid = 'Paids';
 
@@ -129,7 +129,7 @@ class BuyListFragmentState extends State<BuyListFragment>
       if(value=='burmese') {
         setState(() {
           textSetAll = 'All';
-          textSetTUnpaid = 'Unpadis';
+          textSetTUnpaid = 'Unpaids';
           textSetTRefunds = 'Refunds';
           textSetTPaid = 'Paids';
         });

@@ -143,6 +143,7 @@ class _EditMerchantState extends State<EditMerchant> {
                         Padding(
                           padding: const EdgeInsets.only(top: 45.0, right: 15.0, left:15.0),
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
                             controller: merchNameCtrl,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -206,6 +207,7 @@ class _EditMerchantState extends State<EditMerchant> {
                           padding: const EdgeInsets.only(top: 117.0, right: 15.0, left:15.0),
                           child: TextFormField(
                             controller: merchAddressCtrl,
+                            keyboardType: TextInputType.text,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' This field is required ';
@@ -268,6 +270,7 @@ class _EditMerchantState extends State<EditMerchant> {
                           padding: const EdgeInsets.only(top: 189.0, right: 15.0, left:15.0),
                           child: TextFormField(
                             controller: merchPhoneCtrl,
+                            keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' This field is required ';

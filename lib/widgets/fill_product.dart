@@ -227,7 +227,7 @@ class _FillProductState extends State<FillProduct> {
                                                   right: 15.0,
                                                   top: 20.0,
                                                   bottom: 20.0),
-                                              suffixText: 'Required',
+                                              //suffixText: 'Required',
                                               suffixStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 12,
@@ -356,23 +356,23 @@ class _FillProductState extends State<FillProduct> {
                                         onPressed: () async {
                                          if (_formKey.currentState!.validate()) {
                                           widget._callback3(widget.idString +
-                                              '-' +
+                                              '^' +
                                               msaleCtrl.text +
-                                              '-' +
+                                              '^' +
                                               munitCtrl.text +
-                                              '-' +
+                                              '^' +
                                               'Phyo' +
 
-                                              '-'+ widget.unitname +'-'+'1'.toString());
+                                              '^'+ widget.unitname + '^' + '1'.toString());
                                           print(widget.idString +
-                                              '-' +
+                                              '^' +
                                               msaleCtrl.text +
-                                              '-' +
+                                              '^' +
                                               munitCtrl.text +
-                                              '-' +
+                                              '^' +
                                               'Phyo' +
 
-                                              '-'+ widget.unitname +'-'+'1'.toString());
+                                              '^'+ widget.unitname + '^' + '1'.toString());
                                           Navigator.pop(context);
                                         } },
                                         child: Padding(
