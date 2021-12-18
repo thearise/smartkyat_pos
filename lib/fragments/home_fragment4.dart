@@ -51,7 +51,6 @@ import '../legends/legends_gallery.dart' as legends show buildGallery;
 import 'ad_helper.dart';
 import 'subs/customer_info.dart';
 
-
 class HomeFragment extends StatefulWidget {
   final _callback;
   final _callback2;
@@ -63,11 +62,11 @@ class HomeFragment extends StatefulWidget {
     required void toggleCoinCallback(String str),
     required void toggleCoinCallback2(String str),
     required void toggleCoinCallback3(String str),
-    required void toggleCoinCallback4(String str) ,
-    required void barcodeBtn() ,
+    required void toggleCoinCallback4(String str),
+    required void barcodeBtn(),
     Key? key,
   }) :  _callback = toggleCoinCallback,
-        _callback2 = toggleCoinCallback2 ,
+        _callback2 = toggleCoinCallback2,
         _callback3 = toggleCoinCallback3,
         _callback4 = toggleCoinCallback4,
         _barcodeBtn = barcodeBtn,

@@ -66,7 +66,7 @@ class HomePageState extends State<HomePage>
   static int currentTab = 0;
   var deviceIdNum;
   String? shopId;
-  String merchantId = 'name-name';
+  String merchantId = 'name^name';
   List<TabItem> tabs = [];
 
   Animation<double>? _rotationAnimation;
@@ -429,7 +429,7 @@ class HomePageState extends State<HomePage>
   }
   clearMerch() {
     setState(() {
-      merchantId = 'name-name';
+      merchantId = 'name^name';
     });
   }
 
@@ -1346,7 +1346,7 @@ class HomePageState extends State<HomePage>
                                                                               discountAmount = 0.0;
                                                                               debt =0;
                                                                               refund =0;
-                                                                              customerId = 'name-name';
+                                                                              customerId = 'name^name';
                                                                               // });
                                                                             });
                                                                           },
@@ -1506,7 +1506,7 @@ class HomePageState extends State<HomePage>
                                                                         .collection('shops')
                                                                         .doc(shopId)
                                                                         .collection('customers')
-                                                                        .doc(customerId.split('-')[0].toString())
+                                                                        .doc(customerId.split('^')[0].toString())
                                                                         .snapshots(),
                                                                     builder: (BuildContext context, snapshot5) {
                                                                       if(snapshot5.hasData){
@@ -1520,7 +1520,7 @@ class HomePageState extends State<HomePage>
                                                                           child: Container(
                                                                               child: ListView(
                                                                                 children: [
-                                                                                  customerId != null && address != null && customerId.split('-')[1].toString() != 'name' ? Slidable(
+                                                                                  customerId != null && address != null && customerId.split('^')[1].toString() != 'name' ? Slidable(
                                                                                     key: UniqueKey(),
                                                                                     actionPane:
                                                                                     SlidableDrawerActionPane(),
@@ -1554,10 +1554,10 @@ class HomePageState extends State<HomePage>
                                                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                                                                   children: [
-                                                                                                    Text((customerId.split('-')[1] != null && customerId.split('-')[1].toString() == 'name') ? 'Unknown' : customerId.split('-')[1] , style: TextStyle(
+                                                                                                    Text((customerId.split('^')[1] != null && customerId.split('^')[1].toString() == 'name') ? 'Unknown' : customerId.split('^')[1] , style: TextStyle(
                                                                                                       fontSize: 17, fontWeight: FontWeight.w600,
                                                                                                     )),
-                                                                                                    Text((address != null && customerId.split('-')[1] != null && customerId.split('-')[1].toString() == 'name') ? 'Unknown' : address,
+                                                                                                    Text((address != null && customerId.split('^')[1] != null && customerId.split('^')[1].toString() == 'name') ? 'Unknown' : address,
                                                                                                         style: TextStyle(
                                                                                                           fontSize: 14,
                                                                                                           color: Colors.grey,
@@ -1588,7 +1588,7 @@ class HomePageState extends State<HomePage>
                                                                                       onDismissed:
                                                                                           (actionType) {
                                                                                         setState(() {
-                                                                                          customerId = 'name-name';
+                                                                                          customerId = 'name^name';
                                                                                         });
                                                                                       },
                                                                                     ),
@@ -1602,7 +1602,7 @@ class HomePageState extends State<HomePage>
                                                                                         onTap: () {
                                                                                           setState((){
                                                                                             // mystate((){
-                                                                                            //   customerId = 'name-name';
+                                                                                            //   customerId = 'name^name';
                                                                                             // });
                                                                                           });
                                                                                         },
@@ -1623,7 +1623,7 @@ class HomePageState extends State<HomePage>
                                                                                           shopId)
                                                                                           .collection('products')
                                                                                           .doc(prodList[i]
-                                                                                          .split('-')[0])
+                                                                                          .split('^')[0])
                                                                                           .snapshots(),
                                                                                       builder:
                                                                                           (BuildContext context,
@@ -1634,20 +1634,20 @@ class HomePageState extends State<HomePage>
                                                                                               .data();
                                                                                           var image = output2?[
                                                                                             'img_1'];
-                                                                                          prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
-                                                                                              prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
+                                                                                          prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
+                                                                                              prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                           return GestureDetector(
                                                                                             onTap: (){
                                                                                               print('error prod' + prodList[i].toString());
                                                                                               setState((){
-                                                                                                quantity = int.parse(prodList[i].split('-')[4]);
-                                                                                                price2 = int.parse(prodList[i].split('-')[2]);
+                                                                                                quantity = int.parse(prodList[i].split('^')[4]);
+                                                                                                price2 = int.parse(prodList[i].split('^')[2]);
                                                                                                 eachProd = prodList[i];
-                                                                                                unit = prodList[i].split('-')[3];
+                                                                                                unit = prodList[i].split('^')[3];
                                                                                                 mainName =  output2?['unit_name'];
                                                                                                 sub1Name = output2?['sub1_name'];
                                                                                                 sub2Name = output2?['sub2_name'];
-                                                                                                salePrice = prodList[i].split('-')[2];
+                                                                                                salePrice = prodList[i].split('^')[2];
                                                                                                 mainLoss = output2?['Loss1'].round();
                                                                                                 sub1Loss = output2?['Loss2'].round();
                                                                                                 sub2Loss = output2?['Loss3'].round();
@@ -1660,8 +1660,8 @@ class HomePageState extends State<HomePage>
                                                                                                 sell3 =output2?['sub2_sell'];
 
                                                                                                 productName = output2?['prod_name'];
-                                                                                                myControllerTablet.text = prodList[i].split('-')[4];
-                                                                                                sellPriceControllerTablet.text = prodList[i].split('-')[2];
+                                                                                                myControllerTablet.text = prodList[i].split('^')[4];
+                                                                                                sellPriceControllerTablet.text = prodList[i].split('^')[2];
                                                                                                 // sellDone = false;
                                                                                                 onChangeAmountTab = true;
                                                                                                 _controllerTablet.animateTo(2);
@@ -1725,22 +1725,22 @@ class HomePageState extends State<HomePage>
                                                                                                             padding: const EdgeInsets.only(top: 4.0),
                                                                                                             child: Row(
                                                                                                               children: [
-                                                                                                                Text(output2?[prodList[i].split('-')[3]] + ' ', style: TextStyle(
+                                                                                                                Text(output2?[prodList[i].split('^')[3]] + ' ', style: TextStyle(
                                                                                                                     fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                                                                                 )),
-                                                                                                                if (prodList[i].split('-')[3] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                                                                                else if(prodList[i].split('-')[3] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                                                                                if (prodList[i].split('^')[3] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                                                                                else if(prodList[i].split('^')[3] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                                                                                 else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
                                                                                                               ],
                                                                                                             ),
                                                                                                           ),
                                                                                                           trailing: Text('MMK ' + (int.parse(
-                                                                                                              prodList[i].split('-')[
+                                                                                                              prodList[i].split('^')[
                                                                                                               2]) *
                                                                                                               int.parse(prodList[
                                                                                                               i]
                                                                                                                   .split(
-                                                                                                                  '-')[4]))
+                                                                                                                  '^')[4]))
                                                                                                               .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 16,
@@ -1777,7 +1777,7 @@ class HomePageState extends State<HomePage>
                                                                                                           )),
                                                                                                       child: Text(prodList[i]
                                                                                                           .split(
-                                                                                                          '-')[4], style: TextStyle(
+                                                                                                          '^')[4], style: TextStyle(
                                                                                                         fontSize: 11, fontWeight: FontWeight.w500,
                                                                                                       )),
                                                                                                     ),
@@ -2032,7 +2032,7 @@ class HomePageState extends State<HomePage>
                                                                       child: Column(
                                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                                         children: [
-                                                                          Text(customerId.split('-')[1] == 'name'? 'Customer':customerId.split('-')[1], style: TextStyle(
+                                                                          Text(customerId.split('^')[1] == 'name'? 'Customer':customerId.split('^')[1], style: TextStyle(
                                                                             fontWeight: FontWeight.w500,
                                                                             color: Colors.grey,
                                                                           )),
@@ -2406,16 +2406,16 @@ class HomePageState extends State<HomePage>
 
                                                                                               CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                                              subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + 'date');
+                                                                                              subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
 
-                                                                                              productsFire.doc(str.split('-')[0])
+                                                                                              productsFire.doc(str.split('^')[0])
                                                                                                   .get().then((val22) async {
 
                                                                                                 List<String> subLink = [];
                                                                                                 List<String> subName = [];
                                                                                                 List<double> subStock = [];
 
-                                                                                                var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
+                                                                                                var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
                                                                                                     .get();
 
                                                                                                 if (docSnapshot10.exists) {
@@ -2432,20 +2432,20 @@ class HomePageState extends State<HomePage>
 
                                                                                                 print(subStock.toString());
 
-                                                                                                if(str.split('-')[3] == 'unit_name') {
-                                                                                                  decStockFromInv(str.split('-')[0], 'main', str.split('-')[4]);
-                                                                                                  prodSaleData(str.split('-')[0], int.parse(str.split('-')[4].toString()));
+                                                                                                if(str.split('^')[3] == 'unit_name') {
+                                                                                                  decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                                                  prodSaleData(str.split('^')[0], int.parse(str.split('^')[4].toString()));
 
-                                                                                                } else if(str.split('-')[3] == 'sub1_name') {
-                                                                                                  sub1Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                                                  productsFire.doc(str.split('-')[0]).update({
-                                                                                                    'sub1SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                                                } else if(str.split('^')[3] == 'sub1_name') {
+                                                                                                  sub1Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
+                                                                                                  productsFire.doc(str.split('^')[0]).update({
+                                                                                                    'sub1SellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
                                                                                                   });
 
-                                                                                                } else if(str.split('-')[3] == 'sub2_name') {
-                                                                                                  sub2Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                                                  productsFire.doc(str.split('-')[0]).update({
-                                                                                                    'sub2SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                                                } else if(str.split('^')[3] == 'sub2_name') {
+                                                                                                  sub2Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
+                                                                                                  productsFire.doc(str.split('^')[0]).update({
+                                                                                                    'sub2SellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
                                                                                                   });
                                                                                                 }
                                                                                               });
@@ -2459,16 +2459,11 @@ class HomePageState extends State<HomePage>
                                                                                               subNameListLength = subNameListLength + 1;
                                                                                               CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
                                                                                               print('DATA CHECK PROD ' + str.toString());
-                                                                                              productsFire.doc(str.split('-')[0])
-                                                                                                  .get().then((val22) async {
-                                                                                                List<String> subName = [];
-
-                                                                                                var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
+                                                                                                var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
                                                                                                     .get();
-
                                                                                                 if (docSnapshot10.exists) {
                                                                                                   Map<String, dynamic>? data10 = docSnapshot10.data();
-                                                                                                  subNameList.add(data10 ? [str.split('-')[3]]);
+                                                                                                  subNameList.add(data10 ? [str.split('^')[3]]);
                                                                                                   if(prodList.length == subNameListLength) {
                                                                                                     print('fianlize : ' + subNameList.toString());
                                                                                                     final date = now;
@@ -2482,7 +2477,7 @@ class HomePageState extends State<HomePage>
                                                                                                         paymentInfo: '',
                                                                                                       ),
                                                                                                       customer: Customer(
-                                                                                                        name: customerId.split('-')[1],
+                                                                                                        name: customerId.split('^')[1],
                                                                                                         address: '',
                                                                                                       ),
                                                                                                       info: InvoiceInfo(
@@ -2490,17 +2485,17 @@ class HomePageState extends State<HomePage>
                                                                                                           dueDate: dueDate,
                                                                                                           description: 'My description...',
                                                                                                           // number: '${DateTime.now().year}-9999',
-                                                                                                          number: deviceIdNum.toString() + '-' + length.toString()
+                                                                                                          number: deviceIdNum.toString() + '^' + length.toString()
                                                                                                       ),
                                                                                                       items: [
                                                                                                         for(int i=0; i<prodList.length; i++)
                                                                                                           InvoiceItem(
-                                                                                                            description: prodList[i].split('-')[1],
-                                                                                                            // date: prodList[i].split('-')[3] + '-' + subNameList[i].toString(),
+                                                                                                            description: prodList[i].split('^')[1],
+                                                                                                            // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
                                                                                                             date: subNameList[i].toString(),
-                                                                                                            quantity: int.parse(prodList[i].split('-')[4]),
+                                                                                                            quantity: int.parse(prodList[i].split('^')[4]),
                                                                                                             vat: 0,
-                                                                                                            unitPrice: double.parse(prodList[i].split('-')[2]),
+                                                                                                            unitPrice: double.parse(prodList[i].split('^')[2]),
                                                                                                           )
 
                                                                                                       ],
@@ -2525,7 +2520,7 @@ class HomePageState extends State<HomePage>
                                                                                                       //   discount = 0.0;
                                                                                                       //   debt =0;
                                                                                                       //   refund =0;
-                                                                                                      //   //customerId = 'name-name';
+                                                                                                      //   //customerId = 'name^name';
                                                                                                       // });
 
 
@@ -2534,7 +2529,7 @@ class HomePageState extends State<HomePage>
 
                                                                                                   }
                                                                                                 }
-                                                                                              });
+
                                                                                             }
 
 
@@ -2798,6 +2793,7 @@ class HomePageState extends State<HomePage>
                                                                                 ),),
                                                                                 SizedBox(height: 15,),
                                                                                 TextFormField(
+                                                                                  keyboardType: TextInputType.number,
                                                                                   controller: sellPriceControllerTablet,
                                                                                   validator: (value) {
                                                                                     if (value == null || value.isEmpty) {
@@ -2836,7 +2832,7 @@ class HomePageState extends State<HomePage>
                                                                                         right: 15.0,
                                                                                         top: 20,
                                                                                         bottom: 20.0),
-                                                                                    suffixText: 'Required',
+                                                                                    suffixText: 'MMK',
                                                                                     suffixStyle: TextStyle(
                                                                                       color: Colors.grey,
                                                                                       fontSize: 12,
@@ -2881,7 +2877,7 @@ class HomePageState extends State<HomePage>
                                                                                 //       .doc(
                                                                                 //       shopId)
                                                                                 //       .collection('products')
-                                                                                //       .doc(eachProd.split('-')[0])
+                                                                                //       .doc(eachProd.split('^')[0])
                                                                                 //       .snapshots(),
                                                                                 //   builder: (BuildContext context, snapshot2) {
                                                                                 //     if (snapshot2.hasData) {
@@ -2933,13 +2929,13 @@ class HomePageState extends State<HomePage>
                                                                                                 fontWeight: FontWeight.w500,
                                                                                               ),),
                                                                                               Spacer(),
-                                                                                              eachProd.split('-')[3]== 'unit_name' ? Text('MMK ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                              eachProd.split('^')[3]== 'unit_name' ? Text('MMK ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                               TextStyle(
                                                                                                 fontSize: 15,
                                                                                                 fontWeight: FontWeight.w500,
                                                                                                 color: Colors.grey,
                                                                                               ),) :
-                                                                                              eachProd.split('-')[3]== 'sub1_name' ? Text('MMK ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                              eachProd.split('^')[3]== 'sub1_name' ? Text('MMK ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                               TextStyle(
                                                                                                 fontSize: 15,
                                                                                                 fontWeight: FontWeight.w500,
@@ -2969,12 +2965,12 @@ class HomePageState extends State<HomePage>
                                                                                                 fontWeight: FontWeight.w500,
                                                                                               ),),
                                                                                               Spacer(),
-                                                                                              eachProd.split('-')[3]== 'unit_name' ? Text('mainQty'.toString() + ' ' + 'mainName', style:
+                                                                                              eachProd.split('^')[3]== 'unit_name' ? Text('mainQty'.toString() + ' ' + 'mainName', style:
                                                                                               TextStyle(
                                                                                                 fontSize: 15,
                                                                                                 fontWeight: FontWeight.w500,
                                                                                                 color: Colors.grey,
-                                                                                              ),) : eachProd.split('-')[3]== 'sub1_name'? Text( 'sub1Qty'.toString() + ' ' + 'sub1Name', style:
+                                                                                              ),) : eachProd.split('^')[3]== 'sub1_name'? Text( 'sub1Qty'.toString() + ' ' + 'sub1Name', style:
                                                                                               TextStyle(
                                                                                                 fontSize: 15,
                                                                                                 fontWeight: FontWeight.w500,
@@ -3004,12 +3000,12 @@ class HomePageState extends State<HomePage>
                                                                                                 fontWeight: FontWeight.w500,
                                                                                               ),),
                                                                                               Spacer(),
-                                                                                              eachProd.split('-')[3]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
+                                                                                              eachProd.split('^')[3]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
                                                                                               TextStyle(
                                                                                                 fontSize: 15,
                                                                                                 fontWeight: FontWeight.w500,
                                                                                                 color: Colors.grey,
-                                                                                              ),) : eachProd.split('-')[3]== 'sub1_name'? Text(sub1Loss.toString() + ' ' + sub1Name, style:
+                                                                                              ),) : eachProd.split('^')[3]== 'sub1_name'? Text(sub1Loss.toString() + ' ' + sub1Name, style:
                                                                                               TextStyle(
                                                                                                 fontSize: 15,
                                                                                                 fontWeight: FontWeight.w500,
@@ -3155,9 +3151,9 @@ class HomePageState extends State<HomePage>
                                                                                           if (_formKey2.currentState!.validate()) {
                                                                                             print('eachProduct' +eachProd);
                                                                                             for (int j = 0; j < prodList.length; j++)
-                                                                                              if( prodList[j].split('-')[0] == eachProd.split('-')[0] && prodList[j].split('-')[3] == eachProd.split('-')[3]){
+                                                                                              if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
                                                                                                 setState((){
-                                                                                                  eachProd = eachProd.split('-')[0] +'-' + eachProd.split('-')[1]+'-'+ (price2.toString()) +'-'+eachProd.split('-')[3]+ '-'+ (quantity.toString())+'-'+eachProd.split('-')[5];
+                                                                                                  eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^'+ (quantity.toString())+'^'+eachProd.split('^')[5];
                                                                                                   prodList[j] = eachProd;
                                                                                                 });
                                                                                                 print('leepae' + prodList[j]);
@@ -3243,7 +3239,7 @@ class HomePageState extends State<HomePage>
                                                                       child: Column(
                                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                                         children: [
-                                                                          Text(customerId.split('-')[1] == 'name'? 'Customer':customerId.split('-')[1], style: TextStyle(
+                                                                          Text(customerId.split('^')[1] == 'name'? 'Customer':customerId.split('^')[1], style: TextStyle(
                                                                             fontWeight: FontWeight.w500,
                                                                             color: Colors.grey,
                                                                           )),
@@ -3503,7 +3499,7 @@ class HomePageState extends State<HomePage>
                                                                                             discountAmount =0.0;
                                                                                             debt =0;
                                                                                             refund =0;
-                                                                                            customerId = 'name-name';
+                                                                                            customerId = 'name^name';
                                                                                             disText = '';
                                                                                             isDiscount = '';
                                                                                             // });
@@ -3625,7 +3621,7 @@ class HomePageState extends State<HomePage>
                                               child: (prodList.length == 0) ? Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(10.0),
-                                                  color: customerId == 'name-name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
+                                                  color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
                                                   // color: Colors.blue
                                                 ),
 
@@ -3798,7 +3794,7 @@ class HomePageState extends State<HomePage>
 
                           ),
                         ),
-                        (prodList2.length != 0 || merchantId != 'name-name') ?
+                        (prodList2.length != 0 || merchantId != 'name^name') ?
                         Positioned(
                           bottom: 140,
                           right: 15,
@@ -3869,23 +3865,23 @@ class HomePageState extends State<HomePage>
   late final SlidableController slidableController;
   addProduct(data) async {
     for (var i = 0; i < prodList.length; i++) {
-      if (prodList[i].split('-')[0] == data.split('-')[0] &&
-          prodList[i].split('-')[3] == data.split('-')[3]) {
-        data = data.split('-')[0] +
-            '-' +
-            data.split('-')[1] +
-            '-' +
-            data.split('-')[2] +
-            '-' +
-            data.split('-')[3] +
-            '-' +
-            (int.parse(prodList[i].split('-')[4]) +  int.parse(data.split('-')[4])).toString();
-        setState((){prodList[i] = data + '-0'; });
+      if (prodList[i].split('^')[0] == data.split('^')[0] &&
+          prodList[i].split('^')[3] == data.split('^')[3]) {
+        data = data.split('^')[0] +
+            '^' +
+            data.split('^')[1] +
+            '^' +
+            data.split('^')[2] +
+            '^' +
+            data.split('^')[3] +
+            '^' +
+            (int.parse(prodList[i].split('^')[4]) +  int.parse(data.split('^')[4])).toString();
+        setState((){prodList[i] = data + '^0'; });
         return;
       }
     }
     if (data != 'null') {
-      setState((){prodList.add(data + '-0');});
+      setState((){prodList.add(data + '^0');});
     }
   }
 
@@ -3894,13 +3890,13 @@ class HomePageState extends State<HomePage>
   addProduct3(data) {
     if (data != 'null') {
       setState(() {
-        prodList2.add(data + '-0-');
+        prodList2.add(data + '^0^');
       });
     }
   }
 
 
-  String customerId = 'name-name';
+  String customerId = 'name^name';
 
   addCustomer2Cart(data) {
     setState(() {
@@ -4066,7 +4062,7 @@ class HomePageState extends State<HomePage>
   //                 '^' +
   //                 deviceIdNum
   //                     .toString() +
-  //                 '-' +
+  //                 '^' +
   //                 length
   //                     .toString() +
   //                 '^' +
@@ -4074,7 +4070,7 @@ class HomePageState extends State<HomePage>
   //                 '^' +
   //                 merchantId
   //                     .split(
-  //                     '-')[0] +
+  //                     '^')[0] +
   //                 '^pf'
   //           ])
   //         }).then((value) {
@@ -4158,7 +4154,7 @@ class HomePageState extends State<HomePage>
   //                 '^' +
   //                 deviceIdNum
   //                     .toString() +
-  //                 '-' +
+  //                 '^' +
   //                 length
   //                     .toString() +
   //                 '^' +
@@ -4166,7 +4162,7 @@ class HomePageState extends State<HomePage>
   //                 '^' +
   //                 merchantId
   //                     .split(
-  //                     '-')[0] +
+  //                     '^')[0] +
   //                 '^pf'
   //           ],
   //           'date': now.year
@@ -4263,7 +4259,7 @@ class HomePageState extends State<HomePage>
                   sellprice5 = result.split('^')[2];
                   instock = result.split('^')[5];
                   name5 = result.split('^')[9];
-                  data ='-unit_name-';
+                  data ='^unit_name^';
                 });
                 print('selected test is true');
               } else  if(_selectedTest.toString() == '{no: 2, keyword: ' + result.split('^')[10] + '}') {
@@ -4271,7 +4267,7 @@ class HomePageState extends State<HomePage>
                   sellprice5 = result.split('^')[3];
                   instock = result.split('^')[6];
                   name5 = result.split('^')[10];
-                  data ='-sub1_name-';
+                  data ='^sub1_name^';
                 });
 
                 print('selected test is false');
@@ -4280,7 +4276,7 @@ class HomePageState extends State<HomePage>
                   sellprice5 = result.split('^')[4];
                   instock = result.split('^')[7];
                   name5 = result.split('^')[11];
-                  data ='-sub2_name-';
+                  data ='^sub2_name^';
                 });
                 print('selected test is tf');}
 
@@ -4541,6 +4537,7 @@ class HomePageState extends State<HomePage>
                                                       ),
                                                       SizedBox(height: 15,),
                                                       TextFormField(
+                                                        keyboardType: TextInputType.number,
                                                         controller: buyPriceController,
                                                         validator: (value) {
                                                           if (value == null || value.isEmpty) {
@@ -4577,7 +4574,7 @@ class HomePageState extends State<HomePage>
                                                               right: 15.0,
                                                               top: 20,
                                                               bottom: 20.0),
-                                                          suffixText: 'Required',
+                                                          suffixText: 'MMK',
                                                           suffixStyle: TextStyle(
                                                             color: Colors.grey,
                                                             fontSize: 12,
@@ -4767,9 +4764,9 @@ class HomePageState extends State<HomePage>
                                                       child: GestureDetector(
                                                         onTap: () async {
                                                           setState(() {
-                                                            addProduct(result.split('^')[0] + '-' + '-' + price4.toString() + data + qty.toString());
+                                                            addProduct(result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
                                                           });
-                                                          print('addData' + result.split('^')[0] + '-' + '-' + price4.toString() + data + qty.toString());
+                                                          print('addData' + result.split('^')[0] + '^' + '^' + price4.toString() + data + qty.toString());
                                                           Navigator.pop(context);
 
                                                         },
@@ -5005,7 +5002,7 @@ class HomePageState extends State<HomePage>
                                                         discountAmount = 0.0;
                                                         debt =0;
                                                         refund =0;
-                                                        customerId = 'name-name';
+                                                        customerId = 'name^name';
                                                       });
                                                     });
                                                   },
@@ -5172,7 +5169,7 @@ class HomePageState extends State<HomePage>
                                                 .collection('shops')
                                                 .doc(shopId)
                                                 .collection('customers')
-                                                .doc(customerId.split('-')[0].toString())
+                                                .doc(customerId.split('^')[0].toString())
                                                 .snapshots(),
                                             builder: (BuildContext context, snapshot5) {
                                               if(snapshot5.hasData){
@@ -5220,10 +5217,10 @@ class HomePageState extends State<HomePage>
                                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                                           children: [
-                                                                            Text(customerId.split('-')[1].toString() == 'name' ? 'Unknown' : customerId.split('-')[1] , style: TextStyle(
+                                                                            Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : customerId.split('^')[1] , style: TextStyle(
                                                                               fontSize: 17, fontWeight: FontWeight.w600,
                                                                             )),
-                                                                            Text(customerId.split('-')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                            Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
                                                                                 style: TextStyle(
                                                                                   fontSize: 14,
                                                                                   color: Colors.grey,
@@ -5255,7 +5252,7 @@ class HomePageState extends State<HomePage>
                                                                   (actionType) {
                                                                 setState((){
                                                                   mystate((){
-                                                                    customerId = 'name-name';
+                                                                    customerId = 'name^name';
                                                                   });});
                                                               },
                                                             ),
@@ -5269,7 +5266,7 @@ class HomePageState extends State<HomePage>
                                                                 onTap: () {
                                                                   setState((){
                                                                     mystate((){
-                                                                      customerId = 'name-name';
+                                                                      customerId = 'name^name';
                                                                     });  });
                                                                 },
                                                               ),
@@ -5289,7 +5286,7 @@ class HomePageState extends State<HomePage>
                                                                   shopId)
                                                                   .collection('products')
                                                                   .doc(prodList[i]
-                                                                  .split('-')[0])
+                                                                  .split('^')[0])
                                                                   .snapshots(),
                                                               builder:
                                                                   (BuildContext context,
@@ -5300,21 +5297,21 @@ class HomePageState extends State<HomePage>
                                                                       .data();
                                                                   var image = output2?[
                                                                     'img_1'];
-                                                                  prodList[i] = prodList[i].split('-')[0] + '-' + output2?['prod_name'] + '-' +
-                                                                      prodList[i].split('-')[2] + '-' + prodList[i].split('-')[3] + '-' + prodList[i].split('-')[4] + '-' + prodList[i].split('-')[5];
+                                                                  prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
+                                                                      prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                   return GestureDetector(
                                                                     onTap: (){
                                                                       print('error prod' + prodList[i].toString());
                                                                       setState((){
                                                                         mystate((){
-                                                                          quantity = int.parse(prodList[i].split('-')[4]);
-                                                                          price2 = int.parse(prodList[i].split('-')[2]);
+                                                                          quantity = int.parse(prodList[i].split('^')[4]);
+                                                                          price2 = int.parse(prodList[i].split('^')[2]);
                                                                           eachProd = prodList[i];
-                                                                          unit = prodList[i].split('-')[3];
+                                                                          unit = prodList[i].split('^')[3];
                                                                           mainName =  output2?['unit_name'];
                                                                           sub1Name = output2?['sub1_name'];
                                                                           sub2Name = output2?['sub2_name'];
-                                                                          salePrice = prodList[i].split('-')[2];
+                                                                          salePrice = prodList[i].split('^')[2];
                                                                           mainLoss = output2?['Loss1'].round();
                                                                           sub1Loss = output2?['Loss2'].round();
                                                                           sub2Loss = output2?['Loss3'].round();
@@ -5327,8 +5324,8 @@ class HomePageState extends State<HomePage>
                                                                           sell3 =output2?['sub2_sell'];
 
                                                                           productName = output2?['prod_name'];
-                                                                          myController.text = prodList[i].split('-')[4];
-                                                                          sellPriceController.text = prodList[i].split('-')[2];
+                                                                          myController.text = prodList[i].split('^')[4];
+                                                                          sellPriceController.text = prodList[i].split('^')[2];
                                                                           // sellDone = false;
                                                                           onChangeAmountTab = true;
                                                                           _controller.animateTo(2);});});
@@ -5391,22 +5388,22 @@ class HomePageState extends State<HomePage>
                                                                                     padding: const EdgeInsets.only(top: 4.0),
                                                                                     child: Row(
                                                                                       children: [
-                                                                                        Text(output2?[prodList[i].split('-')[3]] + ' ', style: TextStyle(
+                                                                                        Text(output2?[prodList[i].split('^')[3]] + ' ', style: TextStyle(
                                                                                             fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                                                         )),
-                                                                                        if (prodList[i].split('-')[3] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                                                        else if(prodList[i].split('-')[3] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                                                        if (prodList[i].split('^')[3] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                                                        else if(prodList[i].split('^')[3] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                                                         else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
                                                                                       ],
                                                                                     ),
                                                                                   ),
                                                                                   trailing: Text('MMK ' + (int.parse(
-                                                                                      prodList[i].split('-')[
+                                                                                      prodList[i].split('^')[
                                                                                       2]) *
                                                                                       int.parse(prodList[
                                                                                       i]
                                                                                           .split(
-                                                                                          '-')[4]))
+                                                                                          '^')[4]))
                                                                                       .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                     style: TextStyle(
                                                                                       fontSize: 16,
@@ -5443,7 +5440,7 @@ class HomePageState extends State<HomePage>
                                                                                   )),
                                                                               child: Text(prodList[i]
                                                                                   .split(
-                                                                                  '-')[4], style: TextStyle(
+                                                                                  '^')[4], style: TextStyle(
                                                                                 fontSize: 11, fontWeight: FontWeight.w500,
                                                                               )),
                                                                             ),
@@ -5755,7 +5752,7 @@ class HomePageState extends State<HomePage>
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(customerId.split('-')[1] == 'name'? 'Customer':customerId.split('-')[1], style: TextStyle(
+                                                  Text(customerId.split('^')[1] == 'name'? 'Customer':customerId.split('^')[1], style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
                                                   )),
@@ -6086,15 +6083,15 @@ class HomePageState extends State<HomePage>
                                                                     for (String str in prodList) {
                                                                       CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                      subList2.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('-')[4] +'-' + str.split('-')[2] + '-' + str.split('-')[3] +'-' + str.split('-')[4] + '-0-' + 'date');
+                                                                      subList2.add(str.split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
 
-                                                                      productsFire.doc(str.split('-')[0])
+                                                                      productsFire.doc(str.split('^')[0])
                                                                           .get().then((val22) async {
                                                                         List<String> subLink = [];
                                                                         List<String> subName = [];
                                                                         List<double> subStock = [];
 
-                                                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
+                                                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
                                                                             .get();
 
                                                                         if (docSnapshot10.exists) {
@@ -6111,23 +6108,23 @@ class HomePageState extends State<HomePage>
 
                                                                         print(subStock.toString());
 
-                                                                        if(str.split('-')[3] == 'unit_name') {
-                                                                          decStockFromInv(str.split('-')[0], 'main', str.split('-')[4]);
-                                                                          prodSaleData(str.split('-')[0], int.parse(str.split('-')[4].toString()));
+                                                                        if(str.split('^')[3] == 'unit_name') {
+                                                                          decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                          prodSaleData(str.split('^')[0], int.parse(str.split('^')[4].toString()));
                                                                           // await productsFire.update({
-                                                                          //   'mainSellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                          //   'mainSellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
                                                                           // });
 
-                                                                        } else if(str.split('-')[3] == 'sub1_name') {
-                                                                          sub1Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                          productsFire.doc(str.split('-')[0]).update({
-                                                                            'sub1SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                        } else if(str.split('^')[3] == 'sub1_name') {
+                                                                          sub1Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
+                                                                          productsFire.doc(str.split('^')[0]).update({
+                                                                            'sub1SellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
                                                                           });
 
-                                                                        } else if(str.split('-')[3] == 'sub2_name') {
-                                                                          sub2Execution(subStock, subLink, str.split('-')[0], str.split('-')[4]);
-                                                                          productsFire.doc(str.split('-')[0]).update({
-                                                                            'sub2SellUnit' : FieldValue.increment(int.parse(str.split('-')[4].toString())),
+                                                                        } else if(str.split('^')[3] == 'sub2_name') {
+                                                                          sub2Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
+                                                                          productsFire.doc(str.split('^')[0]).update({
+                                                                            'sub2SellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
                                                                           });
                                                                         }
                                                                       });
@@ -6138,7 +6135,7 @@ class HomePageState extends State<HomePage>
 
                                                                     Detail(now, length.toString(),subList2);
 
-                                                                    if(customerId.split('-')[0] != 'name' && debt.toString() != '0') {
+                                                                    if(customerId.split('^')[0] != 'name' && debt.toString() != '0') {
                                                                       debts = 1;
                                                                       debtAmounts = debt;
                                                                     } else {
@@ -6146,14 +6143,10 @@ class HomePageState extends State<HomePage>
                                                                       debtAmounts = 0;
                                                                     }
 
-                                                                    if(customerId.split('-')[0] != 'name') {
+                                                                    if(customerId.split('^')[0] != 'name') {
                                                                       totalOrders = totalOrders + 1;
                                                                       CusOrder(totalOrders, debts, debtAmounts);
                                                                     }
-
-
-
-
 
                                                                     List<String> subNameList = [];
                                                                     int subNameListLength = 0;
@@ -6161,18 +6154,13 @@ class HomePageState extends State<HomePage>
                                                                       subNameListLength = subNameListLength + 1;
                                                                       CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
                                                                       print('DATA CHECK PROD ' + str.toString());
-                                                                      productsFire.doc(str.split('-')[0])
-                                                                          .get().then((val22) async {
-                                                                        // List<String> subSell = [];
-                                                                        List<String> subName = [];
 
-                                                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0])
+                                                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
                                                                             .get();
 
                                                                         if (docSnapshot10.exists) {
-                                                                          Map<String, dynamic>? data10 = docSnapshot10.data();
-                                                                          subNameList.add(data10 ? [str.split('-')[3]]);
-
+                                                                          Map<String, dynamic>? data11 = docSnapshot10.data();
+                                                                            subNameList.add(data11 ? [str.split('^')[3]]);
                                                                           if(prodList.length == subNameListLength) {
                                                                             print('fianlize : ' + subNameList.toString());
                                                                             // final date = DateTime.now();
@@ -6187,7 +6175,7 @@ class HomePageState extends State<HomePage>
                                                                                 paymentInfo: '',
                                                                               ),
                                                                               customer: Customer(
-                                                                                name: customerId.split('-')[1],
+                                                                                name: customerId.split('^')[1],
                                                                                 address: '',
                                                                               ),
                                                                               info: InvoiceInfo(
@@ -6200,12 +6188,12 @@ class HomePageState extends State<HomePage>
                                                                               items: [
                                                                                 for(int i=0; i<prodList.length; i++)
                                                                                   InvoiceItem(
-                                                                                    description: prodList[i].split('-')[1],
-                                                                                    // date: prodList[i].split('-')[3] + '-' + subNameList[i].toString(),
+                                                                                    description: prodList[i].split('^')[1],
+                                                                                    // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
                                                                                     date: subNameList[i].toString(),
-                                                                                    quantity: int.parse(prodList[i].split('-')[4]),
+                                                                                    quantity: int.parse(prodList[i].split('^')[4]),
                                                                                     vat: 0,
-                                                                                    unitPrice: double.parse(prodList[i].split('-')[2]),
+                                                                                    unitPrice: double.parse(prodList[i].split('^')[2]),
                                                                                   )
 
                                                                                 // InvoiceItem(
@@ -6253,8 +6241,6 @@ class HomePageState extends State<HomePage>
                                                                               ],
                                                                             );
 
-
-
                                                                             // mystate(()  {
                                                                             //   prodList = [];
                                                                             //   discount = 0.0;
@@ -6282,10 +6268,8 @@ class HomePageState extends State<HomePage>
                                                                             //   discount = 0.0;
                                                                             //   debt =0;
                                                                             //   refund =0;
-                                                                            //   //customerId = 'name-name';
+                                                                            //   //customerId = 'name^name';
                                                                             // });
-
-
                                                                             getPaperId().then((value) async {
                                                                               print('VVAALLUUEE ' + value.toString());
                                                                               pdfFile = await PdfInvoiceApi.generate(invoice, value);
@@ -6301,7 +6285,7 @@ class HomePageState extends State<HomePage>
                                                                               //   discount = 0.0;
                                                                               //   debt =0;
                                                                               //   refund =0;
-                                                                              //   //customerId = 'name-name';
+                                                                              //   //customerId = 'name^name';
                                                                               // });
 
 
@@ -6310,13 +6294,7 @@ class HomePageState extends State<HomePage>
 
                                                                           }
                                                                         }
-                                                                      });
                                                                     }
-
-
-
-
-
                                                                   });
 
                                                                 },
@@ -6568,6 +6546,7 @@ class HomePageState extends State<HomePage>
                                                         ),),
                                                         SizedBox(height: 15,),
                                                         TextFormField(
+                                                          keyboardType: TextInputType.number,
                                                           controller: sellPriceController,
                                                           validator: (value) {
                                                             if (value == null || value.isEmpty) {
@@ -6606,7 +6585,7 @@ class HomePageState extends State<HomePage>
                                                                 right: 15.0,
                                                                 top: 20,
                                                                 bottom: 20.0),
-                                                            suffixText: 'Required',
+                                                            suffixText: 'MMK',
                                                             suffixStyle: TextStyle(
                                                               color: Colors.grey,
                                                               fontSize: 12,
@@ -6651,7 +6630,7 @@ class HomePageState extends State<HomePage>
                                                         //       .doc(
                                                         //       shopId)
                                                         //       .collection('products')
-                                                        //       .doc(eachProd.split('-')[0])
+                                                        //       .doc(eachProd.split('^')[0])
                                                         //       .snapshots(),
                                                         //   builder: (BuildContext context, snapshot2) {
                                                         //     if (snapshot2.hasData) {
@@ -6703,13 +6682,13 @@ class HomePageState extends State<HomePage>
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      eachProd.split('-')[3]== 'unit_name' ? Text('MMK ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                      eachProd.split('^')[3]== 'unit_name' ? Text('MMK ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
                                                                         color: Colors.grey,
                                                                       ),) :
-                                                                      eachProd.split('-')[3]== 'sub1_name' ? Text('MMK ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                      eachProd.split('^')[3]== 'sub1_name' ? Text('MMK ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -6739,12 +6718,12 @@ class HomePageState extends State<HomePage>
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      eachProd.split('-')[3]== 'unit_name' ? Text(mainQty.toString() + ' ' + mainName, style:
+                                                                      eachProd.split('^')[3]== 'unit_name' ? Text(mainQty.toString() + ' ' + mainName, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
                                                                         color: Colors.grey,
-                                                                      ),) : eachProd.split('-')[3]== 'sub1_name'? Text( sub1Qty.toString() + ' ' + sub1Name, style:
+                                                                      ),) : eachProd.split('^')[3]== 'sub1_name'? Text( sub1Qty.toString() + ' ' + sub1Name, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -6774,12 +6753,12 @@ class HomePageState extends State<HomePage>
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      eachProd.split('-')[3]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
+                                                                      eachProd.split('^')[3]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
                                                                         color: Colors.grey,
-                                                                      ),) : eachProd.split('-')[3]== 'sub1_name'? Text(sub1Loss.toString() + ' ' + sub1Name, style:
+                                                                      ),) : eachProd.split('^')[3]== 'sub1_name'? Text(sub1Loss.toString() + ' ' + sub1Name, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -6925,10 +6904,10 @@ class HomePageState extends State<HomePage>
                                                                   if (_formKey.currentState!.validate()) {
                                                                     print('eachProduct' +eachProd);
                                                                     for (int j = 0; j < prodList.length; j++)
-                                                                      if( prodList[j].split('-')[0] == eachProd.split('-')[0] && prodList[j].split('-')[3] == eachProd.split('-')[3]){
+                                                                      if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
                                                                         setState((){
                                                                           mystate((){
-                                                                            eachProd = eachProd.split('-')[0] +'-' + eachProd.split('-')[1]+'-'+ (price2.toString()) +'-'+eachProd.split('-')[3]+ '-'+ (quantity.toString())+'-'+eachProd.split('-')[5];
+                                                                            eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^'+ (quantity.toString())+'^'+eachProd.split('^')[5];
                                                                             prodList[j] = eachProd;
                                                                           }); });
                                                                         print('leepae' + prodList[j]);
@@ -7014,7 +6993,7 @@ class HomePageState extends State<HomePage>
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(customerId.split('-')[1] == 'name'? 'Customer':customerId.split('-')[1], style: TextStyle(
+                                                  Text(customerId.split('^')[1] == 'name'? 'Customer':customerId.split('^')[1], style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
                                                   )),
@@ -7274,7 +7253,7 @@ class HomePageState extends State<HomePage>
                                                                       discountAmount =0.0;
                                                                       debt =0;
                                                                       refund =0;
-                                                                      customerId = 'name-name';
+                                                                      customerId = 'name^name';
                                                                       disText = '';
                                                                       isDiscount = '';
                                                                     });
@@ -7373,7 +7352,7 @@ class HomePageState extends State<HomePage>
           discountAmount =0.0;
           debt =0;
           refund =0;
-          customerId = 'name-name';
+          customerId = 'name^name';
           disText = '';
           isDiscount = '';
           // });
@@ -7432,7 +7411,7 @@ class HomePageState extends State<HomePage>
     double total = 0;
     print(prodList.toString());
     for (String str in prodList) {
-      total += double.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
+      total += double.parse(str.split('^')[2]) * int.parse(str.split('^')[4]);
     }
     return total.toString();
   }
@@ -7441,7 +7420,7 @@ class HomePageState extends State<HomePage>
     double total = 0;
     print(prodList2.toString());
     for (String str in prodList2) {
-      total += double.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
+      total += double.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
     }
     return total.toString();
   }
@@ -7450,7 +7429,7 @@ class HomePageState extends State<HomePage>
     double total = 0;
     print(prodList.toString());
     for (String str in prodList) {
-      total += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
+      total += int.parse(str.split('^')[2]) * int.parse(str.split('^')[4]);
       disPercent = (double.parse(total.toString()) *
           (discountAmount / 100)).round();
     }
@@ -7477,7 +7456,7 @@ class HomePageState extends State<HomePage>
     double total = 0;
     print(prodList2.toString());
     for (String str in prodList2) {
-      total += int.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
+      total += int.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
       disPercent2 = (double.parse(total.toString()) *
           (discountAmount2 / 100)).round();
     }
@@ -7505,7 +7484,7 @@ class HomePageState extends State<HomePage>
   //   int total = 0;
   //   //print(prodList.toString());
   //   for (String str in prodList2) {
-  //     total += int.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
+  //     total += int.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
   //   }
   //   return total.toString();
   // }
@@ -7780,7 +7759,7 @@ class HomePageState extends State<HomePage>
       //'docId' : id1,
       'refund': 'FALSE',
       'subs': subs,
-      'customerId' : customerId.split('-')[0],
+      'customerId' : customerId.split('^')[0],
       'deviceId' : deviceIdNum.toString() + '-',
       'orderId' : length.toString(),})
         .then((value) => print("User Updated"))
@@ -7790,7 +7769,7 @@ class HomePageState extends State<HomePage>
 
   Future<void> merchOrder(id1, id2 , length) async {
     print('CHECKING PRODSALE ORD');
-    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('-')[0]).collection('buyOrders');
+    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('^')[0]).collection('buyOrders');
 
     cusOrder.doc(id2).set({
       'order_id': id2,
@@ -7809,7 +7788,7 @@ class HomePageState extends State<HomePage>
     print('CHECKING PRODSALE ORD');
     CollectionReference users = await FirebaseFirestore.instance.collection('shops');
 
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
 
     users
         .doc(shopId)
@@ -7822,7 +7801,7 @@ class HomePageState extends State<HomePage>
     print('CHECKING PRODSALE ORD');
     CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers');
 
-    cusOrder.doc(customerId.split('-')[0]).update({
+    cusOrder.doc(customerId.split('^')[0]).update({
       'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
       'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
       'debts': FieldValue.increment(double.parse(debts.toString())),
@@ -7835,7 +7814,7 @@ class HomePageState extends State<HomePage>
     print('CHECKING PRODSALE');
     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
 
     users
         .doc(id)
@@ -7847,7 +7826,7 @@ class HomePageState extends State<HomePage>
   Future<void> decStockFromInv(id, unit, num) async {
     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
 
     users
         .doc(id)
@@ -7859,7 +7838,7 @@ class HomePageState extends State<HomePage>
   Future<void> incStockFromInv(id, unit, num) async {
     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
 
     users
         .doc(id)

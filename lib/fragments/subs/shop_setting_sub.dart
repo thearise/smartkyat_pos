@@ -282,10 +282,13 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      StreamBuilder<Object>(
-                                          stream: null,
-                                          builder: (context, snapshot) {
-                                            return Text('Total 0' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                      StreamBuilder(
+                                          stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('role', isNotEqualTo: 'owner').snapshots(),
+                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                            if(snapshot.hasData) {
+                                            return Text('Total - ' + snapshot.data!.docs.length.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                          }
+                                            return Container();
                                           }
                                       ),
                                       SizedBox(width: 8,),
@@ -335,7 +338,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                           StreamBuilder<Object>(
                                               stream: null,
                                               builder: (context, snapshot) {
-                                                return Text('Total 0' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                                return Text('' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
                                               }
                                           ),
                                           SizedBox(width: 8,),

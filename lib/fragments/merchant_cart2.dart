@@ -132,7 +132,7 @@ class MerchantCartState extends State<MerchantCart>
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(widget.merchantId.split('-')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('-')[1],
+                            Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('^')[1],
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
@@ -167,7 +167,7 @@ class MerchantCartState extends State<MerchantCart>
                     .collection('shops')
                     .doc(shopId)
                     .collection('merchants')
-                    .doc(widget.merchantId.split('-')[0].toString())
+                    .doc(widget.merchantId.split('^')[0].toString())
                     .snapshots(),
                 builder: (BuildContext context, snapshot5) {
                   if(snapshot5.hasData) {
@@ -389,10 +389,10 @@ class MerchantCartState extends State<MerchantCart>
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text(widget.merchantId.split('-')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('-')[1] , style: TextStyle(
+                                          Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('^')[1] , style: TextStyle(
                                             fontSize: 17, fontWeight: FontWeight.w600,
                                           )),
-                                          Text(widget.merchantId.split('-')[1].toString() == 'name' ? 'Unknown' : address,
+                                          Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.grey,
@@ -454,7 +454,7 @@ class MerchantCartState extends State<MerchantCart>
                                   shopId)
                                   .collection('products')
                                   .doc(widget.prodList2[i]
-                                  .split('-')[0])
+                                  .split('^')[0])
                                   .snapshots(),
                               builder:
                                   (BuildContext context,
@@ -467,20 +467,20 @@ class MerchantCartState extends State<MerchantCart>
                                     'img_1'];
                                   salePrice = output2?['buyPrice1'];
 
-                                  widget.prodList2[i] = widget.prodList2[i].split('-')[0] + '-' + widget.prodList2[i].split('-')[1] + '-' +
-                                      widget.prodList2[i].split('-')[2] + '-' + widget.prodList2[i].split('-')[3] + '-' + widget.prodList2[i].split('-')[4] + '-' + widget.prodList2[i].split('-')[5] +'-' + widget.prodList2[i].split('-')[6];
+                                  widget.prodList2[i] = widget.prodList2[i].split('^')[0] + '^' + widget.prodList2[i].split('^')[1] + '^' +
+                                      widget.prodList2[i].split('^')[2] + '^' + widget.prodList2[i].split('^')[3] + '^' + widget.prodList2[i].split('^')[4] + '^' + widget.prodList2[i].split('^')[5] +'^' + widget.prodList2[i].split('^')[6];
                                   return GestureDetector(
                                     onTap: (){
                                       print('error prod' + widget.prodList2[i].toString());
                                       setState((){
-                                        quantity2 = int.parse(widget.prodList2[i].split('-')[2]);
-                                        price2 = int.parse(widget.prodList2[i].split('-')[1]);
+                                        quantity2 = int.parse(widget.prodList2[i].split('^')[2]);
+                                        price2 = int.parse(widget.prodList2[i].split('^')[1]);
                                         eachProd = widget.prodList2[i];
-                                        unit = widget.prodList2[i].split('-')[4];
+                                        unit = widget.prodList2[i].split('^')[4];
                                         mainName =  output2?['unit_name'];
                                         sub1Name = output2?['sub1_name'];
                                         sub2Name = output2?['sub2_name'];
-                                        //salePrice = widget.prodList2[i].split('-')[1];
+                                        //salePrice = widget.prodList2[i].split('^')[1];
                                         mainLoss = output2?['Loss1'].round();
                                         sub1Loss = output2?['Loss2'].round();
                                         sub2Loss = output2?['Loss3'].round();
@@ -492,8 +492,8 @@ class MerchantCartState extends State<MerchantCart>
                                         buy1 = output2?['buyPrice1'];
                                         buy2 = output2?['buyPrice2'];
                                         buy3 = output2?['buyPrice3'];
-                                        myController.text = widget.prodList2[i].split('-')[2];
-                                        buyPriceController.text =  widget.prodList2[i].split('-')[1];
+                                        myController.text = widget.prodList2[i].split('^')[2];
+                                        buyPriceController.text =  widget.prodList2[i].split('^')[1];
                                       });
                                       Navigator.push(
                                         context,
@@ -584,22 +584,22 @@ class MerchantCartState extends State<MerchantCart>
                                                     padding: const EdgeInsets.only(top: 4.0),
                                                     child: Row(
                                                       children: [
-                                                        Text(output2?[widget.prodList2[i].split('-')[4]] + ' ', style: TextStyle(
+                                                        Text(output2?[widget.prodList2[i].split('^')[4]] + ' ', style: TextStyle(
                                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                         )),
-                                                        if (widget.prodList2[i].split('-')[4] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                        else if(widget.prodList2[i].split('-')[4] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                        if (widget.prodList2[i].split('^')[4] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                        else if(widget.prodList2[i].split('^')[4] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
                                                         else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
                                                       ],
                                                     ),
                                                   ),
                                                   trailing: Text('MMK ' + (int.parse(
-                                                      widget.prodList2[i].split('-')[
+                                                      widget.prodList2[i].split('^')[
                                                       1]) *
                                                       int.parse(widget.prodList2[
                                                       i]
                                                           .split(
-                                                          '-')[2]))
+                                                          '^')[2]))
                                                       .toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                     style: TextStyle(
                                                       fontSize: 16,
@@ -636,7 +636,7 @@ class MerchantCartState extends State<MerchantCart>
                                                   )),
                                               child: Text(widget.prodList2[i]
                                                   .split(
-                                                  '-')[2], style: TextStyle(
+                                                  '^')[2], style: TextStyle(
                                                 fontSize: 11, fontWeight: FontWeight.w500,
                                               )),
                                             ),
@@ -863,9 +863,9 @@ class MerchantCartState extends State<MerchantCart>
 
   TtlProdListPriceInit2()  {
     double total = 0;
-    print(widget.prodList2.toString());
+    print('myanmar' + widget.prodList2.toString());
     for (String str in widget.prodList2) {
-      total += double.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
+      total += double.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
     }
     return total.toString();
   }
@@ -874,7 +874,7 @@ class MerchantCartState extends State<MerchantCart>
     double total = 0;
     print(widget.prodList2.toString());
     for (String str in widget.prodList2) {
-      total += int.parse(str.split('-')[1]) * int.parse(str.split('-')[2]);
+      total += int.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
       disPercent2 = (double.parse(total.toString()) *
           (discountAmount2 / 100)).round();
     }
@@ -909,7 +909,7 @@ class MerchantCartState extends State<MerchantCart>
     print('CHECKING PRODSALE ORD');
     CollectionReference users = await FirebaseFirestore.instance.collection('shops');
 
-    // print('gg ' + str.split('-')[0] + ' ' + changeUnitName2Stock(str.split('-')[3]));
+    // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
 
     users
         .doc(shopId)
@@ -937,7 +937,7 @@ class MerchantCartState extends State<MerchantCart>
       'discount' : discountAmount2.toString() + disText2,
       'refund': 'FALSE',
       'subs': subs,
-      'merchantId' : widget.merchantId.split('-')[0],
+      'merchantId' : widget.merchantId.split('^')[0],
       'deviceId' : deviceIdNum.toString() + '-',
       'orderId' : length.toString(),})
         .then((value) => print("User Updated"))
@@ -948,7 +948,7 @@ class MerchantCartState extends State<MerchantCart>
     print('CHECKING PRODSALE ORD');
     CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants');
 
-    cusOrder.doc(widget.merchantId.split('-')[0]).update({
+    cusOrder.doc(widget.merchantId.split('^')[0]).update({
       'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
       'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
       'debts': FieldValue.increment(double.parse(debts.toString())),
@@ -1243,6 +1243,7 @@ class MerchantCartState extends State<MerchantCart>
                                     // ),
 
                                     TextFormField(
+                                      keyboardType: TextInputType.number,
                                       controller: buyPriceController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
@@ -1279,7 +1280,7 @@ class MerchantCartState extends State<MerchantCart>
                                             right: 15.0,
                                             top: 20,
                                             bottom: 20.0),
-                                        suffixText: 'Required',
+                                        suffixText: 'MMK',
                                         suffixStyle: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 12,
@@ -1339,13 +1340,13 @@ class MerchantCartState extends State<MerchantCart>
                                                     fontWeight: FontWeight.w500,
                                                   ),),
                                                   Spacer(),
-                                                  eachProd.split('-')[4]== 'unit_name' ? Text('MMK ' +  buy1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                  eachProd.split('^')[4]== 'unit_name' ? Text('MMK ' +  buy1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
                                                   ),) :
-                                                  eachProd.split('-')[4]== 'sub1_name' ? Text('MMK ' +  buy2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                  eachProd.split('^')[4]== 'sub1_name' ? Text('MMK ' +  buy2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
@@ -1375,12 +1376,12 @@ class MerchantCartState extends State<MerchantCart>
                                                     fontWeight: FontWeight.w500,
                                                   ),),
                                                   Spacer(),
-                                                  eachProd.split('-')[4]== 'unit_name' ? Text(mainQty.toString() + ' ' + mainName, style:
+                                                  eachProd.split('^')[4]== 'unit_name' ? Text(mainQty.toString() + ' ' + mainName, style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
-                                                  ),) : eachProd.split('-')[4]== 'sub1_name'? Text( sub1Qty.toString() + ' ' + sub1Name, style:
+                                                  ),) : eachProd.split('^')[4]== 'sub1_name'? Text( sub1Qty.toString() + ' ' + sub1Name, style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
@@ -1410,12 +1411,12 @@ class MerchantCartState extends State<MerchantCart>
                                                     fontWeight: FontWeight.w500,
                                                   ),),
                                                   Spacer(),
-                                                  eachProd.split('-')[4]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
+                                                  eachProd.split('^')[4]== 'unit_name' ? Text(mainLoss.toString() + ' ' + mainName, style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
-                                                  ),) : eachProd.split('-')[4]== 'sub1_name'? Text(sub1Loss.toString() + ' ' + sub1Name, style:
+                                                  ),) : eachProd.split('^')[4]== 'sub1_name'? Text(sub1Loss.toString() + ' ' + sub1Name, style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
@@ -1509,10 +1510,10 @@ class MerchantCartState extends State<MerchantCart>
                                     if (_formKey.currentState!.validate()) {
                                       print('eachProduct' +eachProd);
                                       for (int j = 0; j < widget.prodList2.length; j++)
-                                        if( widget.prodList2[j].split('-')[0] == eachProd.split('-')[0] && widget.prodList2[j].split('-')[4] == eachProd.split('-')[4]){
+                                        if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[4]){
                                           setState((){
                                             mystate((){
-                                              eachProd = eachProd.split('-')[0] +'-' + price2.toString() +'-'+(quantity2.toString())+'-'+eachProd.split('-')[3]+ '-'+ eachProd.split('-')[4]+'-'+eachProd.split('-')[5]+'-'+eachProd.split('-')[6];
+                                              eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+eachProd.split('^')[3]+ '^'+ eachProd.split('^')[4]+'^'+eachProd.split('^')[5]+'^'+eachProd.split('^')[6];
                                               widget.prodList2[j] = eachProd;
                                             });  });
                                         } else print('leelar');
@@ -1637,7 +1638,7 @@ class MerchantCartState extends State<MerchantCart>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(widget.merchantId.split('-')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('-')[1],
+                                  Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('^')[1],
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -1918,19 +1919,19 @@ class MerchantCartState extends State<MerchantCart>
 
                                       for (String str in widget.prodList2) {
                                         subList2.add(
-                                            str.split('-')[0] + '-' + 'veriD' +
+                                            str.split('^')[0] + '-' + 'veriD' +
                                                 '-' + 'buy0' + '-' +
-                                                str.split('-')[2] + '-' +
-                                                str.split('-')[1] + '-' +
-                                                str.split('-')[4] + '-' +
-                                                str.split('-')[2] + '-0-' +
+                                                str.split('^')[2] + '-' +
+                                                str.split('^')[1] + '-' +
+                                                str.split('^')[4] + '-' +
+                                                str.split('^')[2] + '-0-' +
                                                 'date');
 
                                         List<String> subLink = [];
                                         List<String> subName = [];
                                         List<double> subStock = [];
 
-                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('-')[0]).get();
+                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0]).get();
 
                                         if (docSnapshot10.exists) {
                                           Map<String,
@@ -1953,14 +1954,14 @@ class MerchantCartState extends State<MerchantCart>
                                           }
                                         }
 
-                                        if (str.split('-')[4] == 'unit_name') {
+                                        if (str.split('^')[4] == 'unit_name') {
                                           prods.doc(
-                                              str.split('-')[0])
+                                              str.split('^')[0])
                                               .update({
                                             'inStock1': FieldValue.increment(
-                                                double.parse(str.split('-')[2]
+                                                double.parse(str.split('^')[2]
                                                     .toString())),
-                                            'buyPrice1': str.split('-')[1]
+                                            'buyPrice1': str.split('^')[1]
                                                 .toString(),
                                           })
                                               .then((value) =>
@@ -1969,14 +1970,14 @@ class MerchantCartState extends State<MerchantCart>
                                               "Failed to update user: $error"));
                                         }
                                         else
-                                        if (str.split('-')[4] == 'sub1_name') {
+                                        if (str.split('^')[4] == 'sub1_name') {
                                           prods.doc(
-                                              str.split('-')[0])
+                                              str.split('^')[0])
                                               .update({
                                             'inStock2': FieldValue.increment(
-                                                double.parse(str.split('-')[2]
+                                                double.parse(str.split('^')[2]
                                                     .toString())),
-                                            'buyPrice2': str.split('-')[1]
+                                            'buyPrice2': str.split('^')[1]
                                                 .toString(),
                                           })
                                               .then((value) =>
@@ -1984,14 +1985,14 @@ class MerchantCartState extends State<MerchantCart>
                                               .catchError((error) => print(
                                               "Failed to update user: $error"));
                                         } else
-                                        if (str.split('-')[4] == 'sub2_name') {
+                                        if (str.split('^')[4] == 'sub2_name') {
                                           prods.doc(
-                                              str.split('-')[0])
+                                              str.split('^')[0])
                                               .update({
                                             'inStock3': FieldValue.increment(
-                                                double.parse(str.split('-')[2]
+                                                double.parse(str.split('^')[2]
                                                     .toString())),
-                                            'buyPrice3': str.split('-')[1]
+                                            'buyPrice3': str.split('^')[1]
                                                 .toString(),
                                           })
                                               .then((value) =>
@@ -2003,7 +2004,7 @@ class MerchantCartState extends State<MerchantCart>
 
                                       Detail2(now, length.toString() , subList2,);
 
-                                      if(widget.merchantId.split('-')[0] != 'name' && debt2.toString() != '0') {
+                                      if(widget.merchantId.split('^')[0] != 'name' && debt2.toString() != '0') {
                                         debts = 1;
                                         debtAmounts = debt2;
                                       } else {
@@ -2011,7 +2012,7 @@ class MerchantCartState extends State<MerchantCart>
                                         debtAmounts = 0;
                                       }
 
-                                      if(widget.merchantId.split('-')[0] != 'name') {
+                                      if(widget.merchantId.split('^')[0] != 'name') {
                                         totalOrders = totalOrders + 1;
                                         merchOrder(totalOrders, debts, debtAmounts);
                                       }

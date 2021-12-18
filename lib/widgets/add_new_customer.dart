@@ -102,6 +102,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                             child: TextFormField(
 // The validator receives the text that the user has entered.
                                               controller: mnameCtrl,
+                                              keyboardType: TextInputType.text,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
                                                   return ' This field is required ';
@@ -130,7 +131,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                                suffixText: 'Required',
+                                               // suffixText: 'Required',
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
                                                     fontSize: 12,
@@ -162,6 +163,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                 left: 15.0, right: 15.0, top: 101),
                                             child: TextFormField(
                                               controller: maddressCtrl,
+                                              keyboardType: TextInputType.text,
 // The validator receives the text that the user has entered.
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
@@ -224,6 +226,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                 left: 15.0, right: 15.0, top: 172),
                                             child: TextFormField(
 // The validator receives the text that the user has entered.
+                                            keyboardType: TextInputType.number,
                                               controller: mphoneCtrl,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
@@ -253,7 +256,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                                suffixText: 'Required',
+                                               // suffixText: 'Required',
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
                                                     fontSize: 12,
@@ -389,9 +392,9 @@ class _AddCustomerState extends State<AddCustomer> {
                                                       color: Colors.green,
                                                     ),
                                                     child: FlashBar(
-                                                      title: Text('Title'),
+                                                      title: Text('Success'),
                                                       content:
-                                                      Text('Hello world!'),
+                                                      Text('New customer added'),
                                                       // showProgressIndicator: true,
                                                       primaryAction: TextButton(
                                                         onPressed: () =>

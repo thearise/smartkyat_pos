@@ -143,6 +143,7 @@ class _EditCustomerState extends State<EditCustomer> {
                         Padding(
                           padding: const EdgeInsets.only(top: 45.0, right: 15.0, left:15.0),
                           child: TextFormField(
+                            keyboardType: TextInputType.text,
                             controller: cusNameCtrl,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -206,6 +207,7 @@ class _EditCustomerState extends State<EditCustomer> {
                           padding: const EdgeInsets.only(top: 117.0, right: 15.0, left:15.0),
                           child: TextFormField(
                             controller: cusAddressCtrl,
+                            keyboardType: TextInputType.text,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' This field is required ';
@@ -268,6 +270,7 @@ class _EditCustomerState extends State<EditCustomer> {
                           padding: const EdgeInsets.only(top: 189.0, right: 15.0, left:15.0),
                           child: TextFormField(
                             controller: cusPhoneCtrl,
+                            keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' This field is required ';

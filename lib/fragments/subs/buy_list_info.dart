@@ -660,7 +660,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     )),),
                                             ),
                                             ListTile(
-                                              title: Text('Debt Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                              title: Text('Debt Amount',
+                                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                               trailing: Text('MMK ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 

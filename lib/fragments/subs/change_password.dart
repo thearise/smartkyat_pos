@@ -144,6 +144,7 @@ void _toggle1() {
                             Padding(
                               padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 45),
                               child: TextFormField(
+                                keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
                                 controller: _password,
                                 obscureText: _obscureText1,
@@ -224,6 +225,7 @@ void _toggle1() {
                             Padding(
                               padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 117),
                               child: TextFormField(
+                                keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
                                 controller: _newPassword,
                                 obscureText: _obscureText,
@@ -308,6 +310,7 @@ void _toggle1() {
                             Padding(
                               padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 189),
                               child: TextFormField(
+                                keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
                                 obscureText: _obscureText,
                                 controller: _confirmPassword,

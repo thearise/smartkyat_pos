@@ -772,6 +772,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             child: TextFormField(
 // The validator receives the text that the user has entered.
                                               controller: pnameCtrl,
+                                              keyboardType: TextInputType.name,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
                                                   return ' This field is required ';
@@ -800,7 +801,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                                suffixText: 'Required',
+                                                //suffixText: 'Required',
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
                                                     fontSize: 12,
@@ -847,10 +848,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           controller: bcodeCtrl,
 // The validator receives the text that the user has entered.
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return ' This field is required ';
+                                            if (value != null || value!.isNotEmpty) {
+                                              prodFieldsValue.add(value);
                                             }
-                                            prodFieldsValue.add(value);
                                             return null;
                                           },
                                           decoration: InputDecoration(
@@ -892,7 +892,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 print('bar bar ' + code);
                                               },
                                             ),
-                                            suffixText: 'Required',
+                                           // suffixText: 'Optional',
                                             suffixStyle: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 12,
@@ -1002,6 +1002,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               // ),
                                               child: TextFormField(
                                                 controller: munitCtrl,
+                                                keyboardType: TextInputType.number,
 // The validator receives the text that the user has entered.
                                                 validator: (value) {
                                                   if (value == null ||
@@ -1038,7 +1039,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                           right: 15.0,
                                                           top: 18.0,
                                                           bottom: 18.0),
-                                                  suffixText: 'Required',
+                                                  //suffixText: 'Required',
                                                   suffixStyle: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: 12,
@@ -1074,6 +1075,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       (1.41 / 4),
                                               child: TextFormField(
                                                 controller: mnameCtrl,
+                                                keyboardType: TextInputType.text,
                                                 // The validator receives the text that the user has entered.
                                                 validator: (value) {
                                                   if (value == null ||
@@ -1110,7 +1112,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                           right: 15.0,
                                                           top: 18.0,
                                                           bottom: 18.0),
-                                                  suffixText: 'Required',
+                                                 // suffixText: 'Required',
                                                   suffixStyle: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: 12,
@@ -1146,6 +1148,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             left: 15.0, right: 15.0, top: 256),
                                             child: TextFormField(
                                           controller: msaleCtrl,
+                                          keyboardType: TextInputType.number,
 // The validator receives the text that the user has entered.
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
@@ -1208,6 +1211,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             left: 15.0, right: 15.0, top: 327),
                                             child: TextFormField(
                                           controller: mcostCtrl,
+                                          keyboardType: TextInputType.number,
 // The validator receives the text that the user has entered.
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
@@ -1722,9 +1726,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 brightness:
                                                 Brightness
                                                     .light,
-// boxShadows: [BoxShadow(blurRadius: 4)],
-// barrierBlur: 3.0,
-// barrierColor: Colors.black38,
                                                 barrierDismissible:
                                                 true,
                                                 behavior:
@@ -1758,9 +1759,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       child:
                                                       FlashBar(
                                                         title: Text(
-                                                            'Title'),
+                                                            'Success'),
                                                         content: Text(
-                                                            'Hello world!'),
+                                                            'Product added successfully'),
 // showProgressIndicator: true,
                                                         primaryAction:
                                                         TextButton(
@@ -2482,6 +2483,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                     child: TextFormField(
                       controller: nameController,
+                      keyboardType: TextInputType.number,
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -2504,7 +2506,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                             borderRadius: BorderRadius.all(Radius.circular(10.0))),
                         contentPadding: const EdgeInsets.only(
                             left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        suffixText: 'Required',
+                       // suffixText: 'Required',
                         suffixStyle: TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -2535,6 +2537,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
                     child: TextFormField(
                       controller: ageController,
+                      keyboardType: TextInputType.text,
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -2557,7 +2560,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                             borderRadius: BorderRadius.all(Radius.circular(10.0))),
                         contentPadding: const EdgeInsets.only(
                             left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        suffixText: 'Required',
+                       // suffixText: 'Required',
                         suffixStyle: TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -2589,6 +2592,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
             padding: const EdgeInsets.only(top: 71.0),
             child: TextFormField(
               controller: priceController,
+              keyboardType: TextInputType.number,
               // The validator receives the text that the user has entered.
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -2642,6 +2646,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
             padding: const EdgeInsets.only(top: 142.0, bottom: 13),
             child: TextFormField(
               controller: jobController,
+              keyboardType: TextInputType.number,
               // The validator receives the text that the user has entered.
               validator: (value) {
                 if (value == null || value.isEmpty) {

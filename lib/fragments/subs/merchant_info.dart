@@ -150,7 +150,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                                 ),
                                               ),
                                               onPressed: () async {
-                                                widget._callback(widget.id.toString() + '-' + merchantName);
+                                                widget._callback(widget.id.toString() + '^' + merchantName);
                                               },
                                               child: Container(
                                                 width: 100,

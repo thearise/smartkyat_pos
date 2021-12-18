@@ -18,9 +18,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _email = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  String buttonPressed = 'N';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         top: true,
@@ -47,9 +50,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 43),
-                        child: Text(text, style: TextStyle(
+                        child: buttonPressed == 'N' ? Text(text, style: TextStyle(
+                          color: Colors.black,
+                        ),) : buttonPressed == 'S' ? Text(text1, style: TextStyle(
+                          color: Colors.green,
+                        ),) : Text(text2, style: TextStyle(
                           color: Colors.red,
-                        ),),
+                        ),)
                       ),
                       Form(
                         key: _formKey,
@@ -59,6 +66,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             child: TextFormField(
 //The validator receives the text that the user has entered.
                               controller: _email,
+                              keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   // return '';
@@ -92,7 +100,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     right: 15.0,
                                     top: 20,
                                     bottom: 20.0),
-                                suffixText: 'Required',
+                                //suffixText: 'Required',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 12,
@@ -122,9 +130,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           ),
                         ),
                       ),
-                Padding(
+                      Padding(
                   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
-                  child: ButtonTheme(
+                  child: buttonPressed == 'N' || buttonPressed == 'E' ?
+                  ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width,
                     splashColor: Colors.transparent,
                     height: 50,
@@ -138,7 +147,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         ),
                       ),
                       onPressed: () {
+                     if (_formKey.currentState!.validate()) {
                         resetPassword();
+                           }
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -147,7 +158,42 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             bottom: 3.0),
                         child: Container(
                           child: Text(
-                            'Forgot Password',
+                            'Reset Password',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing:-0.1
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ) :
+                  ButtonTheme(
+                    minWidth: MediaQuery.of(context).size.width,
+                    splashColor: Colors.transparent,
+                    height: 50,
+                    child: FlatButton(
+                      color: AppTheme.themeColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: AppTheme.themeColor,
+                        ),
+                      ),
+                      onPressed: () {
+                       Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0,
+                            right: 5.0,
+                            bottom: 3.0),
+                        child: Container(
+                          child: Text(
+                            'Return to Login',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 18,
@@ -163,6 +209,54 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ],
                   ),
                 ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2.0),
+                          child: Text('Return to Login screen?',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.02
+                            ),),
+                        ),
+                        SizedBox(width: 15,),
+                        ButtonTheme(
+                          minWidth: 35,
+                          splashColor: Colors.transparent,
+                          height: 30,
+                          child: FlatButton(
+                            color: AppTheme.themeColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(50.0),
+                              side: BorderSide(
+                                color: AppTheme.themeColor,
+                              ),
+                            ),
+                            onPressed: ()  {
+                            Navigator.pop(context);
+                            },
+                            child: Container(
+                              child: Text(
+                                'Login',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )],
+                    ),
+                  ),
+                )
               ],
             ),
           ],
@@ -171,15 +265,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
   String text = 'Enter the email address you\'ve used to register with us and we\'ll send you a reset link!';
+  String text1 = '';
+  String text2 = '';
   resetPassword() async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: _email.text);
       setState(() {
-        text = 'Reset password link is successfully send to your email!';
+        text1 = 'Reset password link is successfully send to your email!';
+        buttonPressed = 'S';
       });
     } catch (e) {
       setState(() {
-        text = 'Email incorrect! Check your email and try again.';
+        text2 = 'Email incorrect! Check your email and try again.';
+        buttonPressed = 'E';
       });
      print(e.toString());
     }

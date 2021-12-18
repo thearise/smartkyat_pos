@@ -153,7 +153,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                                 ),
                                               ),
                                               onPressed: () async {
-                                                widget._callback(widget.id.toString() + '-' + customerName);
+                                                widget._callback(widget.id.toString() + '^' + customerName);
                                               },
                                               child: Container(
                                                 width: 100,
