@@ -83,7 +83,6 @@ class _WelcomeState extends State<Welcome>
               });
             }
           });
-
         });
 
 
@@ -312,6 +311,7 @@ class _WelcomeState extends State<Welcome>
                                                         child: Container(
                                                           child: TextFormField(
 //The validator receives the text that the user has entered.
+                                                            keyboardType: TextInputType.emailAddress,
                                                             controller: _email,
                                                             validator: (value) {
                                                               if (value == null || value.isEmpty) {
@@ -351,7 +351,7 @@ class _WelcomeState extends State<Welcome>
                                                                   right: 15.0,
                                                                   top: 20,
                                                                   bottom: 20.0),
-                                                              suffixText: 'Required',
+                                                              //suffixText: 'Required',
                                                               suffixStyle: TextStyle(
                                                                 color: Colors.grey,
                                                                 fontSize: 12,
@@ -385,6 +385,7 @@ class _WelcomeState extends State<Welcome>
                                                         child: TextFormField(
                                                           obscureText: _obscureText,
                                                           controller: _password,
+                                                          keyboardType: TextInputType.text,
                                                           validator: (value) {
                                                             if (value == null || value.isEmpty) {
                                                               return ' This field is required ';
@@ -1169,6 +1170,7 @@ class _WelcomeState extends State<Welcome>
                                             padding: const EdgeInsets.only(top: 4.0, bottom: 15.0, left: 15.0, right: 15.0),
                                             child: Container(
                                               child: TextFormField(
+                                                keyboardType: TextInputType.name,
                                                 //obscureText: _obscureText,
 //The validator receives the text that the user has entered.
                                                 controller: _name,
@@ -1202,7 +1204,7 @@ class _WelcomeState extends State<Welcome>
                                                       right: 15.0,
                                                       top: 20.0,
                                                       bottom: 20.0),
-                                                  suffixText: 'Required',
+                                                 // suffixText: 'Required',
                                                   suffixStyle: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: 12,
@@ -1236,6 +1238,7 @@ class _WelcomeState extends State<Welcome>
                                             child: TextFormField(
                                               //obscureText: _obscureText,
 //The validator receives the text that the user has entered.
+                                              keyboardType: TextInputType.emailAddress,
                                               controller: _emails,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
@@ -1270,7 +1273,7 @@ class _WelcomeState extends State<Welcome>
                                                     right: 15.0,
                                                     top: 20.0,
                                                     bottom: 20.0),
-                                                suffixText: 'Required' ,
+                                                //suffixText: 'Required' ,
                                                 //tooltip: 'Increase volume by 10',
                                                 suffixStyle: TextStyle(
                                                   color: Colors.grey,
@@ -1318,6 +1321,7 @@ class _WelcomeState extends State<Welcome>
                                               child: TextFormField(
                                                 obscureText: _obscureText1,
 //The validator receives the text that the user has entered.
+                                                keyboardType: TextInputType.text,
                                                 controller: _passwords,
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
@@ -1396,6 +1400,7 @@ class _WelcomeState extends State<Welcome>
                                             padding: const EdgeInsets.only(top: 266.0, left: 15.0, right: 15.0),
                                             child: TextFormField(
                                               obscureText: _obscureText1,
+                                              keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
                                               controller: _confirm,
                                               validator: (value) {

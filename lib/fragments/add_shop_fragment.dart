@@ -57,6 +57,7 @@ class _AddShopState extends State<AddShop> {
                 ),
                 SizedBox(height: 18,),
                 TextFormField(
+                  keyboardType: TextInputType.name,
 //The validator receives the text that the user has entered.
                   controller: _shopName,
                   validator: (value) {
@@ -87,7 +88,7 @@ class _AddShopState extends State<AddShop> {
                         right: 15.0,
                         top: 18.0,
                         bottom: 18.0),
-                    suffixText: 'Required',
+                    //suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
@@ -109,6 +110,7 @@ class _AddShopState extends State<AddShop> {
                 ),
                 SizedBox(height: 15,),
                 TextFormField(
+                  keyboardType: TextInputType.text,
 //The validator receives the text that the user has entered.
                   controller: _address,
                   validator: (value) {
@@ -140,7 +142,7 @@ class _AddShopState extends State<AddShop> {
                         right: 15.0,
                         top: 18.0,
                         bottom: 18.0),
-                    suffixText: 'Required',
+                    //suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
@@ -162,6 +164,7 @@ class _AddShopState extends State<AddShop> {
                 ),
                 SizedBox(height: 15,),
                 TextFormField(
+                  keyboardType: TextInputType.number,
 //The validator receives the text that the user has entered.
                   controller: _phone,
                   validator: (value) {
@@ -193,7 +196,7 @@ class _AddShopState extends State<AddShop> {
                         right: 15.0,
                         top: 18.0,
                         bottom: 18.0),
-                    suffixText: 'Required',
+                    //suffixText: 'Required',
                     suffixStyle: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,

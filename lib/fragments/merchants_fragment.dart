@@ -199,245 +199,6 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     });
   }
 
-  convertToHour(String input){
-    switch (input.substring(8,10)) {
-      case '00':
-        return '12';
-        break;
-      case '01':
-        return '1';
-        break;
-      case '02':
-        return '2';
-        break;
-      case '03':
-        return '3';
-        break;
-      case '04':
-        return '4';
-        break;
-      case '05':
-        return '5';
-        break;
-      case '06':
-        return '6';
-        break;
-      case '07':
-        return '7';
-        break;
-      case '08':
-        return '8';
-        break;
-      case '09':
-        return '9';
-        break;
-      case '10':
-        return '10';
-        break;
-      case '11':
-        return '11';
-        break;
-      case '12':
-        return '12';
-        break;
-      case '13':
-        return '1';
-        break;
-      case '14':
-        return '2';
-        break;
-      case '15':
-        return '3';
-        break;
-      case '16':
-        return '4';
-        break;
-      case '17':
-        return '5';
-        break;
-      case '18':
-        return '6';
-        break;
-      case '19':
-        return '7';
-        break;
-      case '20':
-        return '8';
-        break;
-      case '21':
-        return '9';
-        break;
-      case '22':
-        return '10';
-        break;
-      case '23':
-        return '11';
-        break;
-    }
-  }
-
-  convertToAMPM(String input){
-    switch (input.substring(8,10)) {
-      case '00':
-        return 'AM';
-        break;
-      case '01':
-        return 'AM';
-        break;
-      case '02':
-        return 'AM';
-        break;
-      case '03':
-        return 'AM';
-        break;
-      case '04':
-        return 'AM';
-        break;
-      case '05':
-        return 'AM';
-        break;
-      case '06':
-        return 'AM';
-        break;
-      case '07':
-        return 'AM';
-        break;
-      case '08':
-        return 'AM';
-        break;
-      case '09':
-        return 'AM';
-        break;
-      case '10':
-        return 'AM';
-        break;
-      case '11':
-        return 'AM';
-        break;
-      case '12':
-        return 'PM';
-        break;
-      case '13':
-        return 'PM';
-        break;
-      case '14':
-        return 'PM';
-        break;
-      case '15':
-        return 'PM';
-        break;
-      case '16':
-        return 'PM';
-        break;
-      case '17':
-        return 'PM';
-        break;
-      case '18':
-        return 'PM';
-        break;
-      case '19':
-        return 'PM';
-        break;
-      case '20':
-        return 'PM';
-        break;
-      case '21':
-        return 'PM';
-        break;
-      case '22':
-        return 'PM';
-        break;
-      case '23':
-        return 'PM';
-        break;
-    }
-  }
-
-  Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
-    ExampleSection section = sectionList[sectionIndex];
-    // if(sectionIndex == 0) {
-    //   return Container(
-    //     height: 0.1,
-    //   );
-    // }
-    return InkWell(
-        child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(
-                  bottom: BorderSide(
-                      color: AppTheme.skBorderColor2,
-                      width: 1.0),
-                )
-            ),
-            alignment: Alignment.centerLeft,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                width: double.infinity,
-                height: 33,
-                child: Padding(
-                  // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                  padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                  child: Row(
-                    children: [
-                      Text(
-                        // "BUY ORDERS",
-                        'PRODUCTS',
-                        // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                        style: TextStyle(
-                            height: 0.8,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.2,
-                            color: Colors.black
-                        ),
-                      ),
-
-                      Spacer(),
-                      searchValue != '' ?
-                      Padding(
-                        padding: const EdgeInsets.only(right: 15.0),
-                        child: section.header != '' ? Text(
-                          section.header.split('^')[1],
-                          // '0',
-                          // '#' + sectionList[sectionIndex].items.length.toString(),
-                          // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          style: TextStyle(
-                            height: 0.8,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.2,
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.right,
-                        ): Padding(
-                          padding: const EdgeInsets.only(bottom: 1.0),
-                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                              child: CupertinoActivityIndicator(radius: 8,)),
-                        ),
-                      ):
-                      Padding(
-                        padding: const EdgeInsets.only(right: 15.0),
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 1.0),
-                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                              child: CupertinoActivityIndicator(radius: 8,)),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )),
-        onTap: () {
-          //toggle section expand state
-          // setState(() {
-          //   section.setSectionExpanded(!section.isSectionExpanded());
-          // });
-        });
-  }
-
   Widget _buildHeader1(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList1[sectionIndex];
     // if(sectionIndex == 0) {
@@ -597,6 +358,76 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     );
   }
 
+  changeData3(list, snpsht) {
+    // list[0].toString()
+    snpsht.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              document['customer_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6] +
+              '^' +
+              list[i].split('^')[7] +
+              '^' +
+              list[i].split('^')[8]+
+              '^' + 's'
+          ;
+        }
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
+
+  changeData4(list, snpsht) {
+    // list[0].toString()
+    snpsht.docs.map((document) async {
+      for (var i = 0; i < list.length; i++) {
+        if (document.id.toString() == list[i].split('^')[3]) {
+          list[i] = list[i].split('^')[0] +
+              '^' +
+              list[i].split('^')[1] +
+              '^' +
+              list[i].split('^')[2] +
+              '^' +
+              document['merchant_name'].toString() +
+              '&' +
+              list[i].split('^')[3] +
+              '^' +
+              list[i].split('^')[4] +
+              '^' +
+              list[i].split('^')[5] +
+              '^' +
+              list[i].split('^')[6] +
+              '^' +
+              list[i].split('^')[7] +
+              '^' +
+              list[i].split('^')[8] +
+              '^' + 'b'
+          ;
+        }
+      }
+      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+    }).toList();
+
+    // print('changeData ' + snpsht.da);
+    return list;
+  }
+
   Future<void> searchKeyChanged() async {
     setState(() {
       searchingOverAll = true;
@@ -635,14 +466,11 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
             sectionList2 = sections;
           });
 
-          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
-          // FirebaseFirestore.instance.collection('space')
-              .where('each_order',  arrayContains: searchValue)
-              .limit(1)
+          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder')
+              .where('orderId',  isEqualTo: searchValue)
               .get()
-              .then((QuerySnapshot querySnapshot1) {
-            print('leng ' + querySnapshot1.docs.length.toString());
-            if(querySnapshot1.docs.length == 0) {
+              .then((QuerySnapshot querySnapshot2) async {
+            if(querySnapshot2.docs.length == 0) {
               setState(() {
                 detailIdList = [];
                 setState(() {
@@ -665,63 +493,42 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                 });
               });
             }
-
-
-            querySnapshot1.docs.forEach((doc) async {
-              await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(doc.id).collection('expansion')
-                  .where('orderId',  isEqualTo: searchValue)
-                  .get()
-                  .then((QuerySnapshot querySnapshot2) async {
-                querySnapshot2.docs.forEach((doc) {
-                  String isRef = 'pf';
-                  if(doc['refund'] == 'TRUE') {
-                    isRef = 'rf';
-                  }
-                  if(doc['refund'] == 'PART') {
-                    isRef = 'sf';
-                  }
-                  setState(() {
-                    detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + doc['discount'].toString());
-                  });
-                });
-
-                await FirebaseFirestore.instance.collection('shops').doc(
-                    shopId).collection('merchants')
-                    .get()
-                    .then((QuerySnapshot querySnapshot3) {
-                  setState(() {
-
-                    // if(detailIdList.length == 0) {
-                    //   noSearchData = true;
-                    // } else {
-                    //   noSearchData = false;
-                    // }
-                    var sections = List<ExampleSection>.empty(growable: true);
-
-                    var saleOrders = ExampleSection()
-                      ..header = 'Buy orders^' + detailIdList.length.toString()
-                      ..items = changeData2(detailIdList.cast<String>(), querySnapshot3)
-                    // ..items = detailIdList.cast<String>()
-                      ..expanded = true;
-
-                    // var buyOrders = ExampleSection()
-                    //   ..header = 'Buy orders^' + detailIdList.length.toString()
-                    //   ..items = detailIdList.cast<String>()
-                    //   ..expanded = true;
-
-                    print('buy ord ' + detailIdList.length.toString());
-                    sections.add(saleOrders);
-                    // sections.add(buyOrders);
-                    sectionList2 = sections;
-                  });
-                });
-
-
-
+            querySnapshot2.docs.forEach((doc) {
+              setState(() {
+                detailIdList.add(doc['deviceId'] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
               });
             });
 
+            await FirebaseFirestore.instance.collection('shops').doc(
+                shopId).collection('merchants')
+                .get()
+                .then((QuerySnapshot querySnapshot3) {
+              setState(() {
 
+                // if(detailIdList.length == 0) {
+                //   noSearchData = true;
+                // } else {
+                //   noSearchData = false;
+                // }
+                var sections = List<ExampleSection>.empty(growable: true);
+
+                var saleOrders = ExampleSection()
+                  ..header = 'Buy orders^' + detailIdList.length.toString()
+                  ..items = changeData4(detailIdList.cast<String>(), querySnapshot3)
+                // ..items = detailIdList.cast<String>()
+                  ..expanded = true;
+
+                // var buyOrders = ExampleSection()
+                //   ..header = 'Buy orders^' + detailIdList.length.toString()
+                //   ..items = detailIdList.cast<String>()
+                //   ..expanded = true;
+
+                //  print('buy ord ' + detailIdList.length.toString());
+                sections.add(saleOrders);
+                // sections.add(buyOrders);
+                sectionList2 = sections;
+              });
+            });
           });
         } else {
           if(searchValue.contains('-')) {
@@ -754,14 +561,11 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
             sectionList2 = sections;
           });
 
-          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-          // FirebaseFirestore.instance.collection('space')
-              .where('each_order',  arrayContains: searchValue)
-              .limit(1)
+          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
+              .where('orderId',  isEqualTo: searchValue)
               .get()
-              .then((QuerySnapshot querySnapshot1) {
-            print('leng ' + querySnapshot1.docs.length.toString());
-            if(querySnapshot1.docs.length == 0) {
+              .then((QuerySnapshot querySnapshot2) async {
+            if(querySnapshot2.docs.length == 0) {
               setState(() {
                 detailIdList = [];
                 setState(() {
@@ -777,70 +581,50 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                   //   ..items = detailIdList.cast<String>()
                   //   ..expanded = true;
 
-                  print('buy ord ' + detailIdList.length.toString());
+                  print('sale ord ' + detailIdList.length.toString());
                   sections.add(saleOrders);
                   // sections.add(buyOrders);
                   sectionList2 = sections;
                 });
               });
             }
+            querySnapshot2.docs.forEach((doc) {
 
-
-            querySnapshot1.docs.forEach((doc) async {
-              await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(doc.id).collection('detail')
-                  .where('orderId',  isEqualTo: searchValue)
-                  .get()
-                  .then((QuerySnapshot querySnapshot2) async {
-                querySnapshot2.docs.forEach((doc) {
-                  String isRef = 'pf';
-                  if(doc['refund'] == 'TRUE') {
-                    isRef = 'rf';
-                  }
-                  if(doc['refund'] == 'PART') {
-                    isRef = 'sf';
-                  }
-                  setState(() {
-                    detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + '0.0');
-                  });
-                });
-
-                await FirebaseFirestore.instance.collection('shops').doc(
-                    shopId).collection('customers')
-                    .get()
-                    .then((QuerySnapshot querySnapshot3) {
-                  setState(() {
-
-                    // if(detailIdList.length == 0) {
-                    //   noSearchData = true;
-                    // } else {
-                    //   noSearchData = false;
-                    // }
-                    var sections = List<ExampleSection>.empty(growable: true);
-
-                    var saleOrders = ExampleSection()
-                      ..header = 'Sale orders^' + detailIdList.length.toString()
-                      ..items = changeData(detailIdList.cast<String>(), querySnapshot3)
-                    // ..items = detailIdList.cast<String>()
-                      ..expanded = true;
-
-                    // var buyOrders = ExampleSection()
-                    //   ..header = 'Buy orders^' + detailIdList.length.toString()
-                    //   ..items = detailIdList.cast<String>()
-                    //   ..expanded = true;
-
-                    print('buy ord ' + detailIdList.length.toString());
-                    sections.add(saleOrders);
-                    // sections.add(buyOrders);
-                    sectionList2 = sections;
-                  });
-                });
-
-
-
+              setState(() {
+                detailIdList.add(doc['deviceId'] + doc['orderId'] + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + doc['refund'] + '^' + doc['debt'].toString() + '^' + doc['discount'].toString() + '^' + doc['date'].toDate().hour.toString() + '^' + doc['date'].toDate().minute.toString());
               });
             });
 
+            await FirebaseFirestore.instance.collection('shops').doc(
+                shopId).collection('customers')
+                .get()
+                .then((QuerySnapshot querySnapshot3) {
+              setState(() {
 
+                // if(detailIdList.length == 0) {
+                //   noSearchData = true;
+                // } else {
+                //   noSearchData = false;
+                // }
+                var sections = List<ExampleSection>.empty(growable: true);
+
+                var saleOrders = ExampleSection()
+                  ..header = 'Sale orders^' + detailIdList.length.toString()
+                  ..items = changeData3(detailIdList.cast<String>(), querySnapshot3)
+                // ..items = detailIdList.cast<String>()
+                  ..expanded = true;
+
+                // var buyOrders = ExampleSection()
+                //   ..header = 'Buy orders^' + detailIdList.length.toString()
+                //   ..items = detailIdList.cast<String>()
+                //   ..expanded = true;
+
+                // print('buy ord ' + detailIdList.length.toString());
+                sections.add(saleOrders);
+                // sections.add(buyOrders);
+                sectionList2 = sections;
+              });
+            });
           });
         }
 
@@ -1045,67 +829,89 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
   }
 
-  changeData(list, snpsht) {
-    // list[0].toString()
-    snpsht.docs.map((document) async {
-      for (var i = 0; i < list.length; i++) {
-        if (document.id.toString() == list[i].split('^')[3]) {
-          list[i] = list[i].split('^')[0] +
-              '^' +
-              list[i].split('^')[1] +
-              '^' +
-              list[i].split('^')[2] +
-              '^' +
-              document['customer_name'].toString() +
-              '&' +
-              list[i].split('^')[3] +
-              '^' +
-              list[i].split('^')[4] +
-              '^' +
-              list[i].split('^')[5] +
-              '^' +
-              list[i].split('^')[6] +
-              '^s'
-          ;
-        }
-      }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-    }).toList();
+  Widget _buildHeader4(BuildContext context, int sectionIndex, int index) {
+    ExampleSection section = sectionList[sectionIndex];
+    // if(sectionIndex == 0) {
+    //   return Container(
+    //     height: 0.1,
+    //   );
+    // }
+    return InkWell(
+        child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(
+                      color: AppTheme.skBorderColor2,
+                      width: 1.0),
+                )
+            ),
+            alignment: Alignment.centerLeft,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: double.infinity,
+                height: 33,
+                child: Padding(
+                  // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
+                  padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
+                  child: Row(
+                    children: [
+                      Text(
+                        // "BUY ORDERS",
+                        'PRODUCTS',
+                        // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                        style: TextStyle(
+                            height: 0.8,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
+                            color: Colors.black
+                        ),
+                      ),
 
-    // print('changeData ' + snpsht.da);
-    return list;
-  }
-
-
-  changeData2(list, snpsht) {
-    // list[0].toString()
-    snpsht.docs.map((document) async {
-      for (var i = 0; i < list.length; i++) {
-        if (document.id.toString() == list[i].split('^')[3]) {
-          list[i] = list[i].split('^')[0] +
-              '^' +
-              list[i].split('^')[1] +
-              '^' +
-              list[i].split('^')[2] +
-              '^' +
-              document['merchant_name'].toString() +
-              '&' +
-              list[i].split('^')[3] +
-              '^' +
-              list[i].split('^')[4] +
-              '^' +
-              list[i].split('^')[5] +
-              '^' +
-              list[i].split('^')[6] +
-              '^b'
-          ;
-        }
-      }
-      // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-    }).toList();
-
-    // print('changeData ' + snpsht.da);
-    return list;
+                      Spacer(),
+                      searchValue != '' ?
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15.0),
+                        child: section.header != '' ? Text(
+                          section.header.split('^')[1],
+                          // '0',
+                          // '#' + sectionList[sectionIndex].items.length.toString(),
+                          // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                          style: TextStyle(
+                            height: 0.8,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.right,
+                        ): Padding(
+                          padding: const EdgeInsets.only(bottom: 1.0),
+                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                              child: CupertinoActivityIndicator(radius: 8,)),
+                        ),
+                      ):
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15.0),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 1.0),
+                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                              child: CupertinoActivityIndicator(radius: 8,)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )),
+        onTap: () {
+          //toggle section expand state
+          // setState(() {
+          //   section.setSectionExpanded(!section.isSectionExpanded());
+          // });
+        });
   }
 
   overAllSearch() {
@@ -1209,7 +1015,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                             SliverExpandableList(
                               builder: SliverExpandableChildDelegate(
                                 sectionList: sectionList,
-                                headerBuilder: _buildHeader,
+                                headerBuilder: _buildHeader4,
                                 itemBuilder: (context, sectionIndex, itemIndex, index) {
                                   String item = sectionList[sectionIndex].items[itemIndex];
                                   int length = sectionList[sectionIndex].items.length;
@@ -1227,6 +1033,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                   if(searchValue != '' && slidingSearch == 0 && item.contains('^sps^')) {
                                     return GestureDetector(
                                       onTap: () {
+
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -1395,119 +1202,10 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                 fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                               )): Container(),
 
-                                                              // StreamBuilder(
-                                                              //     stream: FirebaseFirestore
-                                                              //         .instance
-                                                              //         .collection(
-                                                              //         'space')
-                                                              //         .doc(
-                                                              //         '0NHIS0Jbn26wsgCzVBKT')
-                                                              //         .collection(
-                                                              //         'shops')
-                                                              //         .doc(
-                                                              //         'PucvhZDuUz3XlkTgzcjb')
-                                                              //         .collection(
-                                                              //         'products')
-                                                              //         .doc(version)
-                                                              //         .collection(
-                                                              //         'versions')
-                                                              //         .where('type',
-                                                              //         isEqualTo:
-                                                              //         'sub3')
-                                                              //         .snapshots(),
-                                                              //     builder: (BuildContext
-                                                              //     context,
-                                                              //         AsyncSnapshot<
-                                                              //             QuerySnapshot>
-                                                              //         snapshot5) {
-                                                              //       if (snapshot5
-                                                              //           .hasData) {
-                                                              //         int quantity3 =
-                                                              //         0;
-                                                              //         var sub3Quantity;
-                                                              //         snapshot5
-                                                              //             .data!
-                                                              //             .docs
-                                                              //             .map((DocumentSnapshot
-                                                              //         document) {
-                                                              //           Map<String,
-                                                              //               dynamic>
-                                                              //           data4 =
-                                                              //           document.data()! as Map<
-                                                              //               String,
-                                                              //               dynamic>;
-                                                              //           if (data4[
-                                                              //           'unit_qtity'] !=
-                                                              //               '') {
-                                                              //             quantity3 +=
-                                                              //                 int.parse(
-                                                              //                     data4['unit_qtity']);
-                                                              //             sub3Quantity =
-                                                              //                 quantity3
-                                                              //                     .toString();
-                                                              //           } else
-                                                              //             return Container();
-                                                              //         }).toList();
-                                                              //         // print(sub1Quantity);
-                                                              //         // print(mainQuantity);
-                                                              //         if (sub3Quantity !=
-                                                              //             null) {
-                                                              //           return Text(
-                                                              //               '$sub3Quantity $sub3Name');
-                                                              //         }
-                                                              //         return Container();
-                                                              //       }
-                                                              //       return Container();
-                                                              //     }),
                                                             ],
                                                           ),
-
-                                                          // Text(
-                                                          //   'MMK',
-                                                          //   style:
-                                                          //       TextStyle(
-                                                          //     fontSize: 14,
-                                                          //     fontWeight: FontWeight.w400,
-                                                          //     color: Colors.blueGrey.withOpacity(1.0),
-                                                          //   ),
-                                                          // ),
-                                                          // SizedBox(
-                                                          //   height:
-                                                          //       7,
-                                                          // ),
-                                                          // Text(
-                                                          //   '55',
-                                                          //   style:
-                                                          //       TextStyle(
-                                                          //     fontSize: 14,
-                                                          //     fontWeight: FontWeight.w400,
-                                                          //     color: Colors.blueGrey.withOpacity(1.0),
-                                                          //   ),
-                                                          // ),
                                                         ],
                                                       ),
-                                                      // Padding(
-                                                      //   padding:
-                                                      //       const EdgeInsets.only(
-                                                      //           bottom: 20.0),
-                                                      //   child: IconButton(
-                                                      //     icon: Icon(
-                                                      //       Icons
-                                                      //           .arrow_forward_ios_rounded,
-                                                      //       size: 16,
-                                                      //       color: Colors.blueGrey
-                                                      //           .withOpacity(0.8),
-                                                      //     ),
-                                                      //     onPressed: () {
-                                                      //       Navigator.push(
-                                                      //         context,
-                                                      //         MaterialPageRoute(
-                                                      //             builder: (context) => ProductDetailsView(
-                                                      //                 idString: version, toggleCoinCallback:
-                                                      //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                                                      //     },
-                                                      //   ),
-                                                      // ),
                                                       Spacer(),
                                                       Padding(
                                                         padding:
@@ -1625,106 +1323,48 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          StreamBuilder(
-                                                              stream: FirebaseFirestore.instance
-                                                                  .collection('shops')
-                                                                  .doc(shopId)
-                                                                  .collection('customers')
-                                                                  .doc(item.split('^sps^')[0].toString())
-                                                                  .collection('orders')
-                                                                  .where('debt', isGreaterThan: 0)
-                                                                  .snapshots(),
-                                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                                                // orderList[index] = 0;
-                                                                int orderLength = 0;
-                                                                int i = 0;
-                                                                if(snapshot2.hasData) {
-                                                                  return snapshot2.data!.docs.length > 0? Container(
-                                                                    height: 21,
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(20.0),
-                                                                      color: AppTheme.badgeFgDanger,
-                                                                    ),
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                      child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
-                                                                        style: TextStyle(
-                                                                            fontSize: 13,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.white
+                                                          Container(
+                                                            child: StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
+                                                                stream: FirebaseFirestore.instance
+                                                                    .collection('shops')
+                                                                    .doc(shopId)
+                                                                    .collection('customers')
+                                                                    .doc(item.split('^sps^')[0].toString())
+                                                                    .snapshots(),
+                                                                builder: (BuildContext context, snapshot5) {
+                                                                  if(snapshot5.hasData){
+                                                                    var output3 = snapshot5.data!.data();
+                                                                    var debts = output3?['debts'].toInt();
+                                                                    return debts !=0 ? Container(
+                                                                      height: 21,
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        color: AppTheme.badgeFgDanger,
+                                                                      ),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                        child: Text(debts.toString() + ' unpaid',
+                                                                          style: TextStyle(
+                                                                              fontSize: 13,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.white
+                                                                          ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ): Container(
-                                                                  );
-                                                                  // int quantity = 0;
-                                                                  // snapshot2.data!.docs.map((DocumentSnapshot document2) {
-                                                                  //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
-                                                                  //   orders = data2['daily_order'];
-                                                                  //   quantity += int.parse(orders.length.toString());
-                                                                  //
-                                                                  //   return Text(snapshot2.data!.docs[index].id);
-                                                                  // }).toList();
+                                                                    ) : Container();
+                                                                    // int quantity = 0;
+                                                                    // snapshot2.data!.docs.map((DocumentSnapshot document2) {
+                                                                    //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
+                                                                    //   orders = data2['daily_order'];
+                                                                    //   quantity += int.parse(orders.length.toString());
+                                                                    //
+                                                                    //   return Text(snapshot2.data!.docs[index].id);
+                                                                    // }).toList();
+                                                                  }
+                                                                  return Container();
                                                                 }
-                                                                return Container();
-                                                              }
+                                                            ),
                                                           ),
-
-                                                          // Container(
-                                                          //   height: 21,
-                                                          //   decoration: BoxDecoration(
-                                                          //     borderRadius: BorderRadius.circular(20.0),
-                                                          //     color: AppTheme.badgeFgDanger,
-                                                          //   ),
-                                                          //   child: Padding(
-                                                          //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                          //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                                                          //       style: TextStyle(
-                                                          //           fontSize: 13,
-                                                          //           fontWeight: FontWeight.w500,
-                                                          //           color: Colors.white
-                                                          //       ),
-                                                          //     ),
-                                                          //   ),
-                                                          // ),
-
-                                                          // Text(orderList.toString()),
-
-                                                          // Container(
-                                                          //   height: 21,
-                                                          //   decoration: BoxDecoration(
-                                                          //     borderRadius: BorderRadius.circular(20.0),
-                                                          //     color: AppTheme.badgeFgDanger,
-                                                          //   ),
-                                                          //   child: Padding(
-                                                          //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                          //     child: Text('2 unpaid',
-                                                          //       style: TextStyle(
-                                                          //           fontSize: 13,
-                                                          //           fontWeight: FontWeight.w500,
-                                                          //           color: Colors.white
-                                                          //       ),
-                                                          //     ),
-                                                          //   ),
-                                                          // )
-
-                                                          // Container(
-                                                          //   height: 21,
-                                                          //   decoration: BoxDecoration(
-                                                          //     borderRadius: BorderRadius.circular(20.0),
-                                                          //     color: AppTheme.badgeFgDanger,
-                                                          //   ),
-                                                          //   child: Padding(
-                                                          //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                          //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                                                          //       style: TextStyle(
-                                                          //           fontSize: 13,
-                                                          //           fontWeight: FontWeight.w500,
-                                                          //           color: Colors.white
-                                                          //       ),
-                                                          //     ),
-                                                          //   ),
-                                                          // ),
                                                           SizedBox(
                                                               width: 12),
                                                           Padding(
@@ -1762,91 +1402,6 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                             ),
 
 
-                          // if(slidingSearch == 1)
-                          //   SliverPersistentHeader(
-                          //     pinned: true,
-                          //     delegate: SliverAppBarDelegate1(
-                          //         child: PreferredSize(
-                          //           preferredSize: Size.fromHeight(33.0),
-                          //           child: Container(
-                          //             width: double.infinity,
-                          //             height: 33,
-                          //             decoration: BoxDecoration(
-                          //                 color: Colors.white,
-                          //                 border: Border(
-                          //                   bottom: BorderSide(
-                          //                       color: AppTheme.skBorderColor2,
-                          //                       width: 1.0),
-                          //                 )
-                          //             ),
-                          //             child: Padding(
-                          //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                          //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                          //               child: Row(
-                          //                 children: [
-                          //                   Text(
-                          //                     'BUY',
-                          //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                     style: TextStyle(
-                          //                         height: 0.8,
-                          //                         fontSize: 14,
-                          //                         fontWeight: FontWeight.w600,
-                          //                         letterSpacing: 1.2,
-                          //                         color: Colors.black
-                          //                     ),
-                          //                   ),
-                          //                   Padding(
-                          //                     padding: const EdgeInsets.only(left: 4.0, right: 5.0, bottom: 3.0),
-                          //                     child: FlutterSwitch(
-                          //                       width: 31.0,
-                          //                       height: 18.0,
-                          //                       valueFontSize: 5.0,
-                          //                       toggleSize: 13.0,
-                          //                       padding: 2.5,
-                          //                       value: buySellerStatus,
-                          //                       onToggle: (val) {
-                          //                         setState(() {
-                          //                           buySellerStatus = val;
-                          //                         });
-                          //                       },
-                          //                     ),
-                          //                   ),
-                          //                   Text(
-                          //                     'SELLERS',
-                          //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                     style: TextStyle(
-                          //                         height: 0.8,
-                          //                         fontSize: 14,
-                          //                         fontWeight: FontWeight.w600,
-                          //                         letterSpacing: 1.2,
-                          //                         color: Colors.black
-                          //                     ),
-                          //                   ),
-                          //                   Expanded(
-                          //                     child: Padding(
-                          //                       padding: const EdgeInsets.only(right: 15.0),
-                          //                       child: Text(/
-                          //                         '0',
-                          //                         // '#' + sectionList[sectionIndex].items.length.toString(),
-                          //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                         style: TextStyle(
-                          //                           height: 0.8,
-                          //                           fontSize: 14,
-                          //                           fontWeight: FontWeight.w600,
-                          //                           letterSpacing: 1.2,
-                          //                           color: Colors.black,
-                          //                         ),
-                          //                         textAlign: TextAlign.right,
-                          //                       ),
-                          //                     ),
-                          //                   ),
-                          //                 ],
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         )
-                          //     ),
-                          //   ),
                           if(slidingSearch == 1)
                             SliverExpandableList(
                               builder: SliverExpandableChildDelegate(
@@ -1970,21 +1525,18 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              StreamBuilder(
+                                                              StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
                                                                   stream: FirebaseFirestore.instance
                                                                       .collection('shops')
                                                                       .doc(shopId)
                                                                       .collection('customers')
                                                                       .doc(item.split('^sps^')[0].toString())
-                                                                      .collection('orders')
-                                                                      .where('debt', isGreaterThan: 0)
                                                                       .snapshots(),
-                                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                                                    // orderList[index] = 0;
-                                                                    int orderLength = 0;
-                                                                    int i = 0;
-                                                                    if(snapshot2.hasData) {
-                                                                      return snapshot2.data!.docs.length > 0? Container(
+                                                                  builder: (BuildContext context, snapshot5) {
+                                                                    if(snapshot5.hasData){
+                                                                      var output3 = snapshot5.data!.data();
+                                                                      var debts = output3?['debts'].toInt();
+                                                                      return debts != 0 ? Container(
                                                                         height: 21,
                                                                         decoration: BoxDecoration(
                                                                           borderRadius: BorderRadius.circular(20.0),
@@ -1992,7 +1544,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                         ),
                                                                         child: Padding(
                                                                           padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                          child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
+                                                                          child: Text(debts.toString() + ' unpaid',
                                                                             style: TextStyle(
                                                                                 fontSize: 13,
                                                                                 fontWeight: FontWeight.w500,
@@ -2000,8 +1552,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ): Container(
-                                                                      );
+                                                                      ): Container() ;
                                                                       // int quantity = 0;
                                                                       // snapshot2.data!.docs.map((DocumentSnapshot document2) {
                                                                       //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
@@ -2140,21 +1691,18 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          StreamBuilder(
+                                                          StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
                                                               stream: FirebaseFirestore.instance
                                                                   .collection('shops')
                                                                   .doc(shopId)
                                                                   .collection('merchants')
                                                                   .doc(item.split('^sps^')[0].toString())
-                                                                  .collection('buyOrders')
-                                                                  .where('debt', isGreaterThan: 0)
                                                                   .snapshots(),
-                                                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                                                // orderList[index] = 0;
-                                                                int orderLength = 0;
-                                                                int i = 0;
-                                                                if(snapshot2.hasData) {
-                                                                  return snapshot2.data!.docs.length > 0? Container(
+                                                              builder: (BuildContext context, snapshot5) {
+                                                                if(snapshot5.hasData){
+                                                                  var output3 = snapshot5.data!.data();
+                                                                  var debts = output3?['debts'].toInt();
+                                                                  return debts != 0 ? Container(
                                                                     height: 21,
                                                                     decoration: BoxDecoration(
                                                                       borderRadius: BorderRadius.circular(20.0),
@@ -2162,7 +1710,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                     ),
                                                                     child: Padding(
                                                                       padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                      child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
+                                                                      child: Text(debts.toString() + ' unpaid',
                                                                         style: TextStyle(
                                                                             fontSize: 13,
                                                                             fontWeight: FontWeight.w500,
@@ -2170,8 +1718,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ): Container(
-                                                                  );
+                                                                  ) : Container();
                                                                   // int quantity = 0;
                                                                   // snapshot2.data!.docs.map((DocumentSnapshot document2) {
                                                                   //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
@@ -2214,81 +1761,6 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                 },
                               ),
                             ),
-                          // if(slidingSearch == 1)
-                          //   SliverPersistentHeader(
-                          //     pinned: true,
-                          //     delegate: SliverAppBarDelegate(
-                          //         child: PreferredSize(
-                          //           preferredSize: Size.fromHeight(33.0),
-                          //           child: Container(
-                          //             width: double.infinity,
-                          //             height: 33,
-                          //             decoration: BoxDecoration(
-                          //                 color: Colors.white,
-                          //                 border: Border(
-                          //                   bottom: BorderSide(
-                          //                       color: AppTheme.skBorderColor2,
-                          //                       width: 1.0),
-                          //                 )
-                          //             ),
-                          //             child: Padding(
-                          //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                          //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                          //               child: Row(
-                          //                 children: [
-                          //                   Text(
-                          //                     'SELLERS',
-                          //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                     style: TextStyle(
-                          //                         height: 0.8,
-                          //                         fontSize: 14,
-                          //                         fontWeight: FontWeight.w600,
-                          //                         letterSpacing: 1.2,
-                          //                         color: Colors.black
-                          //                     ),
-                          //                   ),
-                          //
-                          //                   Expanded(
-                          //                     child: Padding(
-                          //                       padding: const EdgeInsets.only(right: 15.0),
-                          //                       child: Text(
-                          //                         '0',
-                          //                         // '#' + sectionList[sectionIndex].items.length.toString(),
-                          //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                         style: TextStyle(
-                          //                           height: 0.8,
-                          //                           fontSize: 14,
-                          //                           fontWeight: FontWeight.w600,
-                          //                           letterSpacing: 1.2,
-                          //                           color: Colors.black,
-                          //                         ),
-                          //                         textAlign: TextAlign.right,
-                          //                       ),
-                          //                     ),
-                          //                   ),
-                          //                 ],
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         )
-                          //     ),
-                          //   ),
-                          // if(slidingSearch == 1)
-                          //   SliverList(
-                          //     delegate: SliverChildListDelegate(
-                          //       [
-                          //         Container(
-                          //           height: 100,
-                          //           color: AppTheme.lightBgColor,
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(15.0),
-                          //             child: Text('Each seller'),
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-
 
                           if(slidingSearch == 2)
                             SliverExpandableList(
@@ -2298,24 +1770,13 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                 itemBuilder: (context, sectionIndex, itemIndex, index) {
                                   String item = sectionList2[sectionIndex].items[itemIndex];
                                   int length = sectionList2[sectionIndex].items.length;
-                                  // if(sectionIndex == 0) {
-                                  //   return Container(
-                                  //     height: 0.1,
-                                  //   );
-                                  //   // return SliverFillRemaining(
-                                  //   //   child: new Container(
-                                  //   //     color: Colors.red,
-                                  //   //   ),
-                                  //   // );
-                                  // }
-
                                   if(searchValue == '') {
                                     return Container();
                                   }
                                   if(item == '') {
                                     return Container();
                                   } else {
-                                    if(item.split('^')[7] == 'b') {
+                                    if(item.split('^')[9] == 'b') {
                                       return GestureDetector(
                                         onTap: () {
                                           // print(item.split('^')[1]);
@@ -2327,7 +1788,6 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                         },
                                         child: Stack(
                                           alignment: Alignment.center,
-
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.only(left: 0.0, right: 0.0),
@@ -2366,30 +1826,32 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                   child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                                                 ),
                                                                 SizedBox(width: 4),
-                                                                Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                                Text(convertToHour(item.split('^')[7]) + ':' + item.split('^')[8] + ' ' + convertToAMPM(item.split('^')[7]),
                                                                   style: TextStyle(
-                                                                    fontSize: 13,
-                                                                    fontWeight: FontWeight.w400,
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight.w500,
                                                                     color: Colors.grey,
                                                                   ),
                                                                 ),
+                                                                // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
+                                                                //   style: TextStyle(
+                                                                //     fontSize: 14,
+                                                                //     fontWeight: FontWeight.w500,
+                                                                //     color: Colors.grey,
+                                                                //   ),
+                                                                // ),
                                                               ],
                                                             ),
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                            //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
-                                                            // ),
                                                             SizedBox(
                                                               height: 6,
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Text(item.split('^')[3].split('&')[0],
-                                                                  style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    color: Colors.grey,
-                                                                  ),),
+                                                                Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.grey,
+                                                                )),
 
                                                               ],
                                                             ),
@@ -2465,7 +1927,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                 ),
                                                               ),
                                                             ),
-                                                          if(item.split('^')[4][0] == 'r')
+                                                          if(item.split('^')[4] == 'TRUE')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2487,7 +1949,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                               ),
                                                             ),
 
-                                                          if(item.split('^')[4][0] == 's')
+                                                          if(item.split('^')[4] == 'PART')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2534,7 +1996,8 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         Icons
                                                             .arrow_forward_ios_rounded,
                                                         size: 16,
-                                                        color: Colors.blueGrey
+                                                        color: Colors
+                                                            .blueGrey
                                                             .withOpacity(
                                                             0.8),
                                                       ),
@@ -2558,7 +2021,6 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                         },
                                         child: Stack(
                                           alignment: Alignment.center,
-
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.only(left: 0.0, right: 0.0),
@@ -2597,30 +2059,32 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                   child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
                                                                 ),
                                                                 SizedBox(width: 4),
-                                                                Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                                Text(convertToHour(item.split('^')[7]) + ':' + item.split('^')[8] + ' ' + convertToAMPM(item.split('^')[7]),
                                                                   style: TextStyle(
-                                                                    fontSize: 13,
-                                                                    fontWeight: FontWeight.w400,
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight.w500,
                                                                     color: Colors.grey,
                                                                   ),
                                                                 ),
+                                                                // Text(item.split('^')[7] + ':' + item.split('^')[8] ,
+                                                                //   style: TextStyle(
+                                                                //     fontSize: 14,
+                                                                //     fontWeight: FontWeight.w500,
+                                                                //     color: Colors.grey,
+                                                                //   ),
+                                                                // ),
                                                               ],
                                                             ),
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                            //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
-                                                            // ),
                                                             SizedBox(
                                                               height: 6,
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Text(item.split('^')[3].split('&')[0],
-                                                                  style: TextStyle(
-                                                                    fontSize: 15,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    color: Colors.grey,
-                                                                  ),),
+                                                                Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w500,
+                                                                  color: Colors.grey,
+                                                                )),
 
                                                               ],
                                                             ),
@@ -2696,7 +2160,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                 ),
                                                               ),
                                                             ),
-                                                          if(item.split('^')[4][0] == 'r')
+                                                          if(item.split('^')[4] == 'TRUE')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2718,7 +2182,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                               ),
                                                             ),
 
-                                                          if(item.split('^')[4][0] == 's')
+                                                          if(item.split('^')[4] == 'PART')
                                                             Padding(
                                                               padding: const EdgeInsets.only(left: 6.0),
                                                               child: Container(
@@ -2765,7 +2229,8 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         Icons
                                                             .arrow_forward_ios_rounded,
                                                         size: 16,
-                                                        color: Colors.blueGrey
+                                                        color: Colors
+                                                            .blueGrey
                                                             .withOpacity(
                                                             0.8),
                                                       ),
@@ -3798,6 +3263,160 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
           return Container();
         }
     );
+  }
+
+  convertToAMPM(String input){
+    switch (input) {
+      case '0':
+        return 'AM';
+        break;
+      case '1':
+        return 'AM';
+        break;
+      case '2':
+        return 'AM';
+        break;
+      case '3':
+        return 'AM';
+        break;
+      case '4':
+        return 'AM';
+        break;
+      case '5':
+        return 'AM';
+        break;
+      case '6':
+        return 'AM';
+        break;
+      case '7':
+        return 'AM';
+        break;
+      case '8':
+        return 'AM';
+        break;
+      case '9':
+        return 'AM';
+        break;
+      case '10':
+        return 'AM';
+        break;
+      case '11':
+        return 'AM';
+        break;
+      case '12':
+        return 'PM';
+        break;
+      case '13':
+        return 'PM';
+        break;
+      case '14':
+        return 'PM';
+        break;
+      case '15':
+        return 'PM';
+        break;
+      case '16':
+        return 'PM';
+        break;
+      case '17':
+        return 'PM';
+        break;
+      case '18':
+        return 'PM';
+        break;
+      case '19':
+        return 'PM';
+        break;
+      case '20':
+        return 'PM';
+        break;
+      case '21':
+        return 'PM';
+        break;
+      case '22':
+        return 'PM';
+        break;
+      case '23':
+        return 'PM';
+        break;
+    }
+  }
+
+  convertToHour(String input){
+    switch (input) {
+      case '0':
+        return '00';
+        break;
+      case '1':
+        return '01';
+        break;
+      case '2':
+        return '02';
+        break;
+      case '3':
+        return '03';
+        break;
+      case '4':
+        return '04';
+        break;
+      case '5':
+        return '05';
+        break;
+      case '6':
+        return '06';
+        break;
+      case '7':
+        return '07';
+        break;
+      case '8':
+        return '08';
+        break;
+      case '9':
+        return '09';
+        break;
+      case '10':
+        return '10';
+        break;
+      case '11':
+        return '11';
+        break;
+      case '12':
+        return '12';
+        break;
+      case '13':
+        return '1';
+        break;
+      case '14':
+        return '2';
+        break;
+      case '15':
+        return '3';
+        break;
+      case '16':
+        return '4';
+        break;
+      case '17':
+        return '5';
+        break;
+      case '18':
+        return '6';
+        break;
+      case '19':
+        return '7';
+        break;
+      case '20':
+        return '8';
+        break;
+      case '21':
+        return '9';
+        break;
+      case '22':
+        return '10';
+        break;
+      case '23':
+        return '11';
+        break;
+    }
   }
 
 

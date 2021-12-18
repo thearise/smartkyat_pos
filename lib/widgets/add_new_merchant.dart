@@ -101,6 +101,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                             padding: const EdgeInsets.only(
                                                 left: 15.0, right: 15.0, top: 30),
                                             child: TextFormField(
+                                              keyboardType: TextInputType.text,
 // The validator receives the text that the user has entered.
                                               controller: mnameCtrl,
                                               validator: (value) {
@@ -131,7 +132,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                                suffixText: 'Required',
+                                               // suffixText: 'Required',
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
                                                     fontSize: 12,
@@ -162,6 +163,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                             padding: const EdgeInsets.only(
                                                 left: 15.0, right: 15.0, top: 101),
                                             child: TextFormField(
+                                              keyboardType: TextInputType.text,
                                               controller: maddressCtrl,
 // The validator receives the text that the user has entered.
                                               validator: (value) {
@@ -192,7 +194,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                                suffixText: 'MMK',
+                                              //  suffixText: 'MMK',
                                                 suffixStyle: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,
@@ -226,6 +228,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                             child: TextFormField(
 // The validator receives the text that the user has entered.
                                               controller: mphoneCtrl,
+                                              keyboardType: TextInputType.number,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
                                                   return ' This field is required ';
@@ -254,7 +257,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                                suffixText: 'Required',
+                                               // suffixText: 'Required',
                                                 errorStyle: TextStyle(
                                                     backgroundColor: Colors.white,
                                                     fontSize: 12,
@@ -364,6 +367,10 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'merchant_name': merchFieldsValue[0],
                                         'merchant_address': merchFieldsValue[1],
                                         'merchant_phone': merchFieldsValue[2],
+                                        'total_orders' : 0,
+                                        'debts' : 0,
+                                        'debtAmount' : 0,
+                                        'total_refunds' : 0,
                                       }).then((value) {
                                         print('product added 2');
 
@@ -402,9 +409,9 @@ class _AddMerchantState extends State<AddMerchant> {
                                                       color: Colors.green,
                                                     ),
                                                     child: FlashBar(
-                                                      title: Text('Title'),
+                                                      title: Text('Success'),
                                                       content:
-                                                      Text('Hello world!'),
+                                                      Text('Merchant added successfully'),
                                                       // showProgressIndicator: true,
                                                       primaryAction: TextButton(
                                                         onPressed: () =>
@@ -434,6 +441,10 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'merchant_name': merchFieldsValue[0],
                                         'merchant_address': merchFieldsValue[1],
                                         'merchant_phone': merchFieldsValue[2],
+                                        'total_orders' : 0,
+                                        'debts' : 0,
+                                        'debtAmount' : 0,
+                                        'total_refunds' : 0,
                                       }).then((value) {
                                         print('product added 2');
 

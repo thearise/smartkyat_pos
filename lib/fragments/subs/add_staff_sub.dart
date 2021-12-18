@@ -179,6 +179,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
                       child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         controller: _accountName,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -210,7 +211,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                               right: 15.0,
                               top: 20.0,
                               bottom: 20.0),
-                          suffixText: 'Required',
+                          //suffixText: 'Required',
                           suffixStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 12,

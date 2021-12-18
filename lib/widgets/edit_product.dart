@@ -116,7 +116,7 @@ class _EditProductState extends State<EditProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         top: true,
         bottom: true,
@@ -248,6 +248,7 @@ class _EditProductState extends State<EditProduct> {
                           padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                           child: TextFormField(
                             controller: prodNameCtrl,
+                            keyboardType: TextInputType.name,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' This field is required ';
@@ -310,6 +311,7 @@ class _EditProductState extends State<EditProduct> {
                           padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                           child: TextFormField(
                             controller: barCodeCtrl,
+                            keyboardType: TextInputType.text,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' This field is required ';
@@ -422,6 +424,7 @@ class _EditProductState extends State<EditProduct> {
                                 (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                                 child: TextFormField(
                                   controller: mainQtyCtrl,
+                                  keyboardType: TextInputType.number,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return ' This field is required ';
@@ -485,6 +488,7 @@ class _EditProductState extends State<EditProduct> {
                                 width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
                                 child: TextFormField(
                                   controller: mainUnitNameCtrl,
+                                  keyboardType: TextInputType.name,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return ' This field is required ';
@@ -550,6 +554,7 @@ class _EditProductState extends State<EditProduct> {
                           padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                           child: TextFormField(
                             controller: mainBuyCtrl,
+                            keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' This field is required ';
@@ -580,7 +585,7 @@ class _EditProductState extends State<EditProduct> {
                                   right: 15.0,
                                   top: 20.0,
                                   bottom: 20.0),
-                              //suffixText: 'Required',
+                              suffixText: 'MMK',
                               suffixStyle: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 12,
@@ -612,6 +617,7 @@ class _EditProductState extends State<EditProduct> {
                           padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
                           child: TextFormField(
                             controller: mainSellCtrl,
+                            keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' This field is required ';
@@ -642,7 +648,7 @@ class _EditProductState extends State<EditProduct> {
                                   right: 15.0,
                                   top: 20.0,
                                   bottom: 20.0),
-                              //suffixText: 'Required',
+                              suffixText: 'MMK',
                               suffixStyle: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 12,
@@ -686,142 +692,145 @@ class _EditProductState extends State<EditProduct> {
                             createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
                           ],
                         ) : Container(),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                          child: ButtonTheme(
-                            minWidth: MediaQuery.of(context).size.width,
-                            splashColor: Colors.transparent,
-                            height: 50,
-                            child: FlatButton(
-                              color: AppTheme.themeColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                side: BorderSide(
-                                  color: AppTheme.themeColor,
-                                ),
-                              ),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  String subExistChange;
-                                  String sub1Buy;
-                                  String sub2Buy;
-                                  var prodExist = false;
-
-                                  CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
-
-                                  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == ''){
-                                    subExistChange = '1';
-                                    sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                                    sub2Buy = '0';
-                                  } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != ''){
-                                    subExistChange = '2';
-                                    sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                                    sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
-                                  } else {
-                                    subExistChange ='0';
-                                    sub1Buy = '0';
-                                    sub2Buy = '0';
-                                  }
-                                  // productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
-                                  // querySnapshot) async {
-                                  //   querySnapshot.docs
-                                  //       .forEach((doc) {
-                                  //     prodExist = true1/;
-                                  //   });
-                                  //
-                                  //   if (prodExist) {
-                                  //     print('product already');
-                                  //     var result =
-                                  //     await showOkAlertDialog(
-                                  //       context: context,
-                                  //       title: 'Warning',
-                                  //       message:
-                                  //       'Product name already!',
-                                  //       okLabel: 'OK',
-                                  //     );
-                                  //   } else {
-                                  if (assets.length == 0) {
-                                    productId.doc(widget.prodId).update({
-                                      'prod_name' : prodNameCtrl.text,
-                                      'bar_code' : barCodeCtrl.text,
-                                      'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                                      'unit_name' : mainUnitNameCtrl.text,
-                                      'buyPrice1' : mainBuyCtrl.text,
-                                      'unit_sell' : mainSellCtrl.text,
-                                      'sub_exist' : subExistChange,
-                                      'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                                      'sub1_link' : sub1perUnitCtrl.text,
-                                      'sub1_name' : sub1UnitNameCtrl.text,
-                                      'sub1_sell' : sub1SellCtrl.text,
-                                      'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                                      'sub2_link' : sub2perUnitCtrl.text,
-                                      'sub2_name' : sub2UnitNameCtrl.text,
-                                      'sub2_sell' : sub2SellCtrl.text,
-                                      'buyPrice2' : sub1Buy,
-                                      'buyPrice3' : sub2Buy,
-                                    }).then((value) => Navigator.pop(context)).catchError((error) => print("Failed to update: $error"));
-
-                                    // });
-                                  } else {
-                                    for (int i = 0;
-                                    i < assets.length;
-                                    i++) {
-                                      AssetEntity asset =
-                                      assets.elementAt(i);
-                                      asset.originFile.then((value) async {
-                                        addProduct(value!, photoArray).then((value) {
-                                          photoArray = value.toString();
-                                          productId.doc(widget.prodId).update({
-                                            'prod_name' : prodNameCtrl.text,
-                                            'bar_code' : barCodeCtrl.text,
-                                            'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                                            'unit_name' : mainUnitNameCtrl.text,
-                                            'buyPrice1' : mainBuyCtrl.text,
-                                            'unit_sell' : mainSellCtrl.text,
-                                            'sub_exist' : subExistChange,
-                                            'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                                            'sub1_link' : sub1perUnitCtrl.text,
-                                            'sub1_name' : sub1UnitNameCtrl.text,
-                                            'sub1_sell' : sub1SellCtrl.text,
-                                            'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                                            'sub2_link' : sub2perUnitCtrl.text,
-                                            'sub2_name' : sub2UnitNameCtrl.text,
-                                            'sub2_sell' : sub2SellCtrl.text,
-                                            'buyPrice2' : sub1Buy,
-                                            'buyPrice3' : sub2Buy,
-                                            'img_1' : photoArray.toString(),
-                                          }).then((value) => Navigator.pop(context)).catchError((error) => print("Failed to update: $error"));
-                                        }
-                                        );
-                                      });
-                                    }
-
-                                  } } },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5.0,
-                                    right: 5.0,
-                                    bottom: 2.0),
-                                child: Container(
-                                  child: Text(
-                                    'Save Product',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing:-0.1
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                child: ButtonTheme(
+                  minWidth: MediaQuery.of(context).size.width,
+                  splashColor: Colors.transparent,
+                  height: 50,
+                  child: FlatButton(
+                    color: AppTheme.themeColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(10.0),
+                      side: BorderSide(
+                        color: AppTheme.themeColor,
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        String subExistChange;
+                        String sub1Buy;
+                        String sub2Buy;
+                        var prodExist = false;
+
+                        CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+
+                        if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == ''){
+                          subExistChange = '1';
+                          sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                          sub2Buy = '0';
+                        } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != ''){
+                          subExistChange = '2';
+                          sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                          sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
+                        } else {
+                          subExistChange ='0';
+                          sub1Buy = '0';
+                          sub2Buy = '0';
+                        }
+                        // productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
+                        // querySnapshot) async {
+                        //   querySnapshot.docs
+                        //       .forEach((doc) {
+                        //     prodExist = true1/;
+                        //   });
+                        //
+                        //   if (prodExist) {
+                        //     print('product already');
+                        //     var result =
+                        //     await showOkAlertDialog(
+                        //       context: context,
+                        //       title: 'Warning',
+                        //       message:
+                        //       'Product name already!',
+                        //       okLabel: 'OK',
+                        //     );
+                        //   } else {
+                        if (assets.length == 0) {
+                          productId.doc(widget.prodId).update({
+                            'prod_name' : prodNameCtrl.text,
+                            'bar_code' : barCodeCtrl.text,
+                            'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                            'unit_name' : mainUnitNameCtrl.text,
+                            'buyPrice1' : mainBuyCtrl.text,
+                            'unit_sell' : mainSellCtrl.text,
+                            'sub_exist' : subExistChange,
+                            'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                            'sub1_link' : sub1perUnitCtrl.text,
+                            'sub1_name' : sub1UnitNameCtrl.text,
+                            'sub1_sell' : sub1SellCtrl.text,
+                            'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                            'sub2_link' : sub2perUnitCtrl.text,
+                            'sub2_name' : sub2UnitNameCtrl.text,
+                            'sub2_sell' : sub2SellCtrl.text,
+                            'buyPrice2' : sub1Buy,
+                            'buyPrice3' : sub2Buy,
+                          }).then((value) => Navigator.pop(context)).catchError((error) => print("Failed to update: $error"));
+
+                          // });
+                        } else {
+                          for (int i = 0;
+                          i < assets.length;
+                          i++) {
+                            AssetEntity asset =
+                            assets.elementAt(i);
+                            asset.originFile.then((value) async {
+                              addProduct(value!, photoArray).then((value) {
+                                photoArray = value.toString();
+                                productId.doc(widget.prodId).update({
+                                  'prod_name' : prodNameCtrl.text,
+                                  'bar_code' : barCodeCtrl.text,
+                                  'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                                  'unit_name' : mainUnitNameCtrl.text,
+                                  'buyPrice1' : mainBuyCtrl.text,
+                                  'unit_sell' : mainSellCtrl.text,
+                                  'sub_exist' : subExistChange,
+                                  'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                                  'sub1_link' : sub1perUnitCtrl.text,
+                                  'sub1_name' : sub1UnitNameCtrl.text,
+                                  'sub1_sell' : sub1SellCtrl.text,
+                                  'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                                  'sub2_link' : sub2perUnitCtrl.text,
+                                  'sub2_name' : sub2UnitNameCtrl.text,
+                                  'sub2_sell' : sub2SellCtrl.text,
+                                  'buyPrice2' : sub1Buy,
+                                  'buyPrice3' : sub2Buy,
+                                  'img_1' : photoArray.toString(),
+                                }).then((value) => Navigator.pop(context)).catchError((error) => print("Failed to update: $error"));
+                              }
+                              );
+                            });
+                          }
+
+                        } } },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 5.0,
+                          right: 5.0,
+                          bottom: 2.0),
+                      child: Container(
+                        child: Text(
+                          'Save Product',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing:-0.1
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             )
           ],
@@ -984,6 +993,7 @@ class _EditProductState extends State<EditProduct> {
                     width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                     child: TextFormField(
                       controller: controller1,
+                      keyboardType: TextInputType.number,
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -1006,7 +1016,7 @@ class _EditProductState extends State<EditProduct> {
                             borderRadius: BorderRadius.all(Radius.circular(10.0))),
                         contentPadding: const EdgeInsets.only(
                             left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        suffixText: 'Required',
+                        //suffixText: 'Required',
                         suffixStyle: TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -1037,6 +1047,7 @@ class _EditProductState extends State<EditProduct> {
                     width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
                     child: TextFormField(
                       controller: controller2,
+                      keyboardType: TextInputType.name,
                       // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -1059,7 +1070,7 @@ class _EditProductState extends State<EditProduct> {
                             borderRadius: BorderRadius.all(Radius.circular(10.0))),
                         contentPadding: const EdgeInsets.only(
                             left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        suffixText: 'Required',
+                        //suffixText: 'Required',
                         suffixStyle: TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -1091,6 +1102,7 @@ class _EditProductState extends State<EditProduct> {
                 padding: const EdgeInsets.only(top: 71.0),
                 child: TextFormField(
                   controller: controller3,
+                  keyboardType: TextInputType.number,
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -1113,7 +1125,7 @@ class _EditProductState extends State<EditProduct> {
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    //suffixText: 'MMK',
+                    // suffixText: 'MMK',
                     // suffixStyle: TextStyle(
                     //   fontWeight: FontWeight.w500,
                     //   color: Colors.grey,
@@ -1144,6 +1156,7 @@ class _EditProductState extends State<EditProduct> {
                 padding: const EdgeInsets.only(top: 142.0, bottom: 13),
                 child: TextFormField(
                   controller: controller4,
+                  keyboardType: TextInputType.number,
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
