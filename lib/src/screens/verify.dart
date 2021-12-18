@@ -18,11 +18,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
   final auth = FirebaseAuth.instance;
   late User user;
   late Timer timer;
-  final JiggleController jiggleCtl = JiggleController();
+  // final JiggleController jiggleCtl = JiggleController();
 
   @override
   void initState() {
-    jiggleCtl.toggle();
+    // jiggleCtl.toggle();
     user = auth.currentUser!;
     user.sendEmailVerification();
 
@@ -52,15 +52,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: ListView(
                   children: [
-                    Jiggle(
-                      jiggleController: jiggleCtl,
-                      // useGestures: true,
-                      extent: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15, top: 60.0, bottom: 60),
-                        child: Container(
-                            child: Image.asset('assets/system/smartkyat.png', height: 100, width: 100,)
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 60.0, bottom: 60),
+                      child: Container(
+                          child: Image.asset('assets/system/smartkyat.png', height: 100, width: 100,)
                       ),
                     ),
                     Padding(

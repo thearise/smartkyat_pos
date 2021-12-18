@@ -52,12 +52,12 @@ class BottomNavigation extends StatelessWidget {
     return BottomNavigationBarItem(
       icon: _tabIcon(index, icon),
 //      icon: icon,
-      title: Text(
-        '',
-        style: TextStyle(
-          fontSize: 0,
-        ),
-      ),
+//       title: Text(
+//         '',
+//         style: TextStyle(
+//           fontSize: 0,
+//         ),
+//       ),
     );
   }
 

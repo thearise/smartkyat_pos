@@ -1,8 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
@@ -31,9 +36,63 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   var docId = '';
   String result = '';
 
+  bool _connectionStatus = false;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        try {
+          final result = await InternetAddress.lookup('google.com');
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+            print('connected');
+            setState(() {
+              _connectionStatus = true;
+            });
+          }
+        } on SocketException catch (_) {
+          setState(() {
+            _connectionStatus = false;
+          });
+        }
+        break;
+      default:
+        setState(() {
+          // _connectionStatus = 'Failed to get connectivity.')
+          _connectionStatus = false;
+        });
+        break;
+    }
+  }
 
   @override
   initState() {
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     print('WIDGET-' + widget.data);
     print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
     var innerId = '';
@@ -79,6 +138,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     });
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
   }
 
   double totalPrice = 0;
@@ -421,6 +486,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         ),
                                         SizedBox(height: 20,),
                                         Text('PURCHASED ITEMS', style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          letterSpacing: 2,
+                                          color: Colors.grey,
+                                        ),),
+                                        Text('Connection Status: $_connectionStatus', style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           letterSpacing: 2,
