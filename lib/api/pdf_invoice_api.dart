@@ -46,7 +46,7 @@ class PdfInvoiceApi {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 0.5 * PdfPageFormat.cm),
+                  SizedBox(height: 0.2 * PdfPageFormat.cm),
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -58,8 +58,8 @@ class PdfInvoiceApi {
                           SizedBox(height: 0.2 * PdfPageFormat.cm),
                           // pw.Text(Rabbit.uni2zg("ဘာတွေလဲ ဘာေတွလဲ ဘာတွေဖြစ်နေတာလဲလို့ ပြောကြပါဦး Whatting?"),style: pw.TextStyle(fontSize: fontSizeDesc-4,font: ttfReg, fontWeight: FontWeight.bold)),
                           // ahttps://riftplus.info/dist/img/riftplus-fg.pnga
-                          pw.Text(Rabbit.uni2zg(invoice.supplier.address),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-5,font: ttfReg, color: PdfColors.grey900)),
-                          pw.Text(Rabbit.uni2zg(invoice.supplier.phone),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-5,font: ttfReg, color: PdfColors.grey900)),
+                          pw.Text(Rabbit.uni2zg(invoice.supplier.address),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.black)),
+                          pw.Text(Rabbit.uni2zg(invoice.supplier.phone),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.black)),
                         ]
                     ),
                   ),
@@ -86,16 +86,16 @@ class PdfInvoiceApi {
                   crossAxisAlignment: size=='Roll-57'? CrossAxisAlignment.start: CrossAxisAlignment.end,
                   mainAxisAlignment: size=='Roll-57'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
                   children: [
-                    Text('RECEIPT INFO: ' + invoice.info.number,
+                    Text('Receipt info: ' + invoice.info.number,
                         style: TextStyle(
-                          fontSize: fontSizeDesc-4,
+                          fontSize: fontSizeDesc-3,
                           fontWeight: FontWeight.bold,)
                     ),
                     SizedBox(height: 0.1 * PdfPageFormat.cm),
                     invoice.customer.name != 'name'?
-                    pw.Text(Rabbit.uni2zg('NAME: ' + invoice.customer.name),style: pw.TextStyle(fontSize: fontSizeDesc-5.5,font: ttfReg, color: PdfColors.grey800)) :
-                    pw.Text(Rabbit.uni2zg('NAME: UNKNOWN'),style: pw.TextStyle(fontSize: fontSizeDesc-5.5,font: ttfReg, color: PdfColors.grey800)),
-                    pw.Text(Rabbit.uni2zg('DATE: ' + invoice.info.date.day.toString() + '-' + invoice.info.date.month.toString() + '-' + invoice.info.date.year.toString()),style: pw.TextStyle(fontSize: fontSizeDesc-5.5,font: ttfReg, color: PdfColors.grey800)),
+                    pw.Text(Rabbit.uni2zg('Name: ' + invoice.customer.name),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)) :
+                    pw.Text(Rabbit.uni2zg('Name: unknown'),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
+                    pw.Text(Rabbit.uni2zg('Date: ' + invoice.info.date.day.toString() + '-' + invoice.info.date.month.toString() + '-' + invoice.info.date.year.toString()),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
                     // Text('ADDRESS: Sanfran cisco', style: TextStyle(
                     //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
                     // Text('PHONE: (+959) 751133553', style: TextStyle(
@@ -116,24 +116,28 @@ class PdfInvoiceApi {
                 )),height: 1),
           ),
           buildTotal(invoice, size, pageFormat),
-          size == 'Roll-57' ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: pw.CrossAxisAlignment.center,
-            children: [
-              // buildSupplierAddress(invoice.supplier),
-              Container(
-                height: 25,
-                width: 90,
-                child: BarcodeWidget(
-                    barcode: Barcode.code128(),
-                    data: invoice.info.number,
-                    drawText: false
-                ),
-              ),
-            ],
-          ): Container(),
-          SizedBox(height: 0.5 * PdfPageFormat.cm),
-          pw.Text('THANK YOU',style: pw.TextStyle(fontSize: fontSizeDesc+5, fontWeight: pw.FontWeight.bold)),
+          // size == 'Roll-57' ? Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   crossAxisAlignment: pw.CrossAxisAlignment.center,
+          //   children: [
+          //     // buildSupplierAddress(invoice.supplier),
+          //     Container(
+          //       height: 25,
+          //       width: 90,
+          //       child: BarcodeWidget(
+          //           barcode: Barcode.code128(),
+          //           data: invoice.info.number,
+          //           drawText: false
+          //       ),
+          //     ),
+          //   ],
+          // ): Container(),
+
+          // SizedBox(height: 0.5 * PdfPageFormat.cm),
+          // pw.Text('Thank you',style: pw.TextStyle(fontSize: fontSizeDesc+5, fontWeight: pw.FontWeight.bold)),
+          pw.Text(Rabbit.uni2zg('Thank you'),
+            textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc+5,font: ttfBold),
+          ),
           SizedBox(height: 0.6 * PdfPageFormat.cm),
         ]
       ),
@@ -301,12 +305,12 @@ class PdfInvoiceApi {
   static Widget buildInvoice(Invoice invoice, ttfReg, String size) {
     if(size!='Roll-57') {
       final headers = [
-        'NAME',
+        'Name',
         // 'Date',
-        'QTITY',
-        'UNIT PRICE',
+        'Qty',
+        'Unit price',
         // 'VAT',
-        'TOTAL'
+        'Total'
       ];
       final data = invoice.items.map((item) {
         final total = item.unitPrice * item.quantity * (1 + item.vat);
@@ -328,8 +332,8 @@ class PdfInvoiceApi {
             headers: headers,
             data: data,
             border: null,
-            headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-5),
-            cellStyle: pw.TextStyle(fontSize: fontSizeDesc-5, font: ttfReg),
+            headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-3),
+            cellStyle: pw.TextStyle(fontSize: fontSizeDesc-3, font: ttfReg),
             // headerDecoration: BoxDecoration(color: PdfColors.grey200),
             cellHeight: 0,
             cellPadding: const EdgeInsets.only(left: 5, right: 5, bottom: 2, top: 2),
@@ -351,21 +355,21 @@ class PdfInvoiceApi {
       );
     } else {
       final headers = [
-        'NAME',
+        'Item',
         // 'Date',
-        'QTITY',
+        // 'Qty',
         // 'UNIT PRICE',
         // 'VAT',
-        'TOTAL'
+        'Total'
       ];
       final data = invoice.items.map((item) {
         final total = item.unitPrice * item.quantity * (1 + item.vat);
 
         return [
           // item.date.split('-')[0] == 'unit_name' ?
-          Rabbit.uni2zg(item.description + ' (' + item.date + ')'),
+          Rabbit.uni2zg(item.description + ' (' + item.date + ' - ${item.unitPrice} x ${item.quantity})'),
           // Utils.formatDate(item.date),
-          '${item.quantity}',
+          // '${item.quantity}',
           // '\$ ${item.unitPrice}',
           // '${item.vat} %',
           '${total.toStringAsFixed(2)} K',
@@ -378,8 +382,8 @@ class PdfInvoiceApi {
             headers: headers,
             data: data,
             border: null,
-            headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-5),
-            cellStyle: pw.TextStyle(fontSize: fontSizeDesc-5, font: ttfReg),
+            headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-3),
+            cellStyle: pw.TextStyle(fontSize: fontSizeDesc-3, font: ttfReg),
             // headerDecoration: BoxDecoration(color: PdfColors.grey200),
             cellHeight: 0,
             cellPadding: const EdgeInsets.only(left: 5, right: 5, bottom: 2, top: 2),
@@ -440,11 +444,11 @@ class PdfInvoiceApi {
                   Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: buildText(
-                        title: 'SUB TOTAL',
+                        title: 'Sub total',
                         value: Utils.formatPrice(netTotal),
                         unite: true,
                         titleStyle: TextStyle(
-                            fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                            fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
                         )
                     ),
                   ),
@@ -452,11 +456,11 @@ class PdfInvoiceApi {
                   Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: buildText(
-                        title: 'DISCOUNT ${vatPercent * 100} %',
+                        title: 'Discount ${vatPercent * 100} %',
                         value: Utils.formatPrice(vat),
                         unite: true,
                         titleStyle: TextStyle(
-                            fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                            fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
                         )
                     ),
                   ),
@@ -464,11 +468,11 @@ class PdfInvoiceApi {
                   Padding(
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: buildText(
-                        title: 'TOTAL PRICE',
+                        title: 'Total price',
                         value: Utils.formatPrice(total),
                         unite: true,
                         titleStyle: TextStyle(
-                            fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                            fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
                         )
                     ),
                   ),
@@ -514,11 +518,11 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: buildText(
-                          title: 'SUB TOTAL',
+                          title: 'Sub total',
                           value: Utils.formatPrice(netTotal),
                           unite: true,
                           titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
                           )
                       ),
                     ),
@@ -526,11 +530,11 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: buildText(
-                          title: 'DISCOUNT ${vatPercent * 100} %',
+                          title: 'Discount ${vatPercent * 100} %',
                           value: Utils.formatPrice(vat),
                           unite: true,
                           titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
                           )
                       ),
                     ),
@@ -538,11 +542,11 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: buildText(
-                          title: 'TOTAL PRICE',
+                          title: 'Total price',
                           value: Utils.formatPrice(total),
                           unite: true,
                           titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-5, fontWeight: FontWeight.bold
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
                           )
                       ),
                     ),

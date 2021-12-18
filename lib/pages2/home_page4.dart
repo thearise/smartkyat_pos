@@ -1,13 +1,22 @@
+import 'dart:convert' show base64, latin1, utf8;
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:blue_print_pos/blue_print_pos.dart';
+import 'package:blue_print_pos/models/blue_device.dart';
+import 'package:blue_print_pos/models/connection_status.dart';
+import 'package:blue_print_pos/receipt/receipt_section_text.dart';
+import 'package:blue_print_pos/receipt/receipt_text_size_type.dart';
+import 'package:blue_print_pos/receipt/receipt_text_style_type.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:charset_converter/charset_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:dropdown_below/dropdown_below.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,6 +59,7 @@ import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:pdf_render/pdf_render.dart';
 import 'package:image/image.dart' as imglib;
 import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
+import 'package:esc_pos_utils_plus/esc_pos_utils.dart' as posUtils;
 
 class HomePage extends StatefulWidget {
 
@@ -290,7 +300,7 @@ class HomePageState extends State<HomePage>
       //   });
       // });
     });
-    _controller = new TabController(length: 4, vsync: this);
+    _controller = new TabController(length: 5, vsync: this);
     _controllerTablet = new TabController(length: 4, vsync: this);
     _controller2 = new TabController(length: 3, vsync: this);
     _controllerTabBarCode = new TabController(length: 1, vsync: this);
@@ -2505,6 +2515,9 @@ class HomePageState extends State<HomePage>
                                                                                                     getPaperId().then((value) async {
                                                                                                       print('VVAALLUUEE ' + value.toString());
                                                                                                       pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                                                      Uint8List bytes = pdfFile!.readAsBytesSync();
+
                                                                                                       // mystate(() {
                                                                                                       //   // setState(() {
                                                                                                       //   pdfText = pdfFile!.path.toString();
@@ -4871,6 +4884,13 @@ class HomePageState extends State<HomePage>
   String sell3 = '';
 
 
+  final BluePrintPos _bluePrintPos = BluePrintPos.instance;
+  List<BlueDevice> _blueDevices = <BlueDevice>[];
+  BlueDevice? _selectedDevice;
+  bool _isLoading = false;
+  int _loadingAtIndex = -1;
+
+
   saleCart(priContext) {
     mainLoss = 0;
     sub1Loss=0;
@@ -4942,6 +4962,177 @@ class HomePageState extends State<HomePage>
                     }
                   });});
               });
+
+              Future<void> _onScanPressed() async {
+                mystate(() => _isLoading = true);
+                _bluePrintPos.scan().then((List<BlueDevice> devices) {
+                  if (devices.isNotEmpty) {
+                    mystate(() {
+                      _blueDevices = devices;
+                      _isLoading = false;
+                    });
+                  } else {
+                    mystate(() => _isLoading = false);
+                  }
+                });
+              }
+
+              void _onDisconnectDevice() {
+                _bluePrintPos.disconnect().then((ConnectionStatus status) {
+                  if (status == ConnectionStatus.disconnect) {
+                    mystate(() {
+                      _selectedDevice = null;
+                    });
+                  }
+                });
+              }
+
+              void _onSelectDevice(int index) {
+                mystate(() {
+                  _isLoading = true;
+                  _loadingAtIndex = index;
+                });
+                final BlueDevice blueDevice = _blueDevices[index];
+                _bluePrintPos.connect(blueDevice).then((ConnectionStatus status) {
+                  if (status == ConnectionStatus.connected) {
+                    mystate(() => _selectedDevice = blueDevice);
+                  } else if (status == ConnectionStatus.timeout) {
+                    _onDisconnectDevice();
+                  } else {
+                    print('$runtimeType - something wrong');
+                  }
+                  mystate(() => _isLoading = false);
+                });
+              }
+
+              Future<void> _onPrintReceipt() async {
+                /// Example for Print Image
+                final ByteData logoBytes = await rootBundle.load(
+                  'assets/system/my_invoice.pdf',
+                );
+                //
+                // /// Example for Print Text
+                final ReceiptSectionText receiptText = ReceiptSectionText();
+
+                final doc = await PdfDocument.openFile(pdfFile!.path);
+                final pages = doc.pageCount;
+                List<imglib.Image> images = [];
+
+// get images from all the pages
+                for (int i = 1; i <= pages; i++) {
+                  var page = await doc.getPage(i);
+                  var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
+                  var img = await imgPDF.createImageDetached();
+                  var imgBytes = await img.toByteData(format: ImageByteFormat.png);
+                  var libImage = imglib.decodeImage(imgBytes!.buffer
+                      .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
+                  images.add(libImage!);
+                }
+
+// stitch images
+                int totalHeight = 0;
+                images.forEach((e) {
+                  totalHeight += e.height;
+                });
+                int totalWidth = 0;
+                images.forEach((element) {
+                  totalWidth = totalWidth < element.width ? element.width : totalWidth;
+                });
+                mergedImage = imglib.Image(totalWidth, totalHeight);
+                int mergedHeight = 0;
+                images.forEach((element) {
+                  imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
+                  mergedHeight += element.height;
+                });
+
+                // mergedImage!.readAsBytes().then((value ) async {
+                //   List<int> bytesList = value;
+                //   // await _bluePrintPos.printReceiptImage(bytesList);
+                //   receiptText.addImage(
+                //     base64.encode(Uint8List.view(logoBytes.buffer)),
+                //     width: 450,
+                //   );
+                // });
+
+                // imglib.Image gg;
+
+                print('type check ' + mergedImage.runtimeType.toString());
+                receiptText.addImage(
+                  base64.encode(imglib.encodeJpg(mergedImage, quality: 600)),
+                  width: 500,
+                );
+
+                receiptText.addLeftRightText(
+                  'ငှက်ပျောသီး',
+                  '30.000 MMK',
+                  leftStyle: ReceiptTextStyleType.normal,
+                  leftSize: ReceiptTextSizeType.small,
+                  rightSize: ReceiptTextSizeType.small,
+                  rightStyle: ReceiptTextStyleType.bold,
+                );
+
+                // await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
+
+                await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: 570, useRaster: true);
+
+
+
+                // receiptText.addText(
+                //   'MY Shop Name',
+                //   size: ReceiptTextSizeType.medium,
+                //   style: ReceiptTextStyleType.bold,
+                // );
+                // receiptText.addText(
+                //   'သစ်သီဆိုင်',
+                //   size: ReceiptTextSizeType.small,
+                // );
+                // receiptText.addSpacer(useDashed: true);
+                // receiptText.addLeftRightText('Time', '04/06/21, 10:00');
+                // receiptText.addSpacer(useDashed: true);
+                // receiptText.addLeftRightText(
+                //   'ငှက်ပျောသီး',
+                //   '30.000 MMK',
+                //   leftStyle: ReceiptTextStyleType.normal,
+                //   leftSize: ReceiptTextSizeType.small,
+                //   rightSize: ReceiptTextSizeType.small,
+                //   rightStyle: ReceiptTextStyleType.bold,
+                // );
+                // // receiptText.addSpacer(useDashed: true);
+                // // receiptText.addLeftRightText(
+                // //   'ပန်းသီး',
+                // //   '30.000 MMK',
+                // //   leftStyle: ReceiptTextStyleType.normal,
+                // //   rightStyle: ReceiptTextStyleType.bold,
+                // //   leftSize: ReceiptTextSizeType.small,
+                // //   rightSize: ReceiptTextSizeType.small,
+                // // );
+                // // receiptText.addSpacer(useDashed: true);
+                // // receiptText.addLeftRightText(
+                // //   'လိမ္မော်သီး',
+                // //   'Cash',
+                // //   leftStyle: ReceiptTextStyleType.bold,
+                // //   leftSize: ReceiptTextSizeType.small,
+                // //   rightStyle: ReceiptTextStyleType.normal,
+                // // );
+                // receiptText.addSpacer(count: 2);
+                //
+                // await _bluePrintPos.printReceiptText(receiptText,);
+                //
+                // List<int> bytesList = pdfFile!.readAsBytes();
+
+
+
+
+                // /// Example for print QR
+                // await _bluePrintPos.printQR('www.google.com', size: 250);
+
+                // /// Text after QR
+                // final ReceiptSectionText receiptSecondText = ReceiptSectionText();
+                // receiptSecondText.addText('Powered by ayeee',
+                //     size: ReceiptTextSizeType.small);
+                // receiptSecondText.addSpacer();
+                // await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1);
+              }
               return Scaffold(
                 resizeToAvoidBottomInset: false,
                 body: GestureDetector(
@@ -6273,6 +6464,9 @@ class HomePageState extends State<HomePage>
                                                                             getPaperId().then((value) async {
                                                                               print('VVAALLUUEE ' + value.toString());
                                                                               pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                              Uint8List bytes = pdfFile!.readAsBytesSync();
+
                                                                               mystate(() {
                                                                                 // setState(() {
                                                                                 pdfText = pdfFile!.path.toString();
@@ -7061,7 +7255,7 @@ class HomePageState extends State<HomePage>
 
                                                                 // Save to album.
                                                                 // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
-                                                                _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
+                                                                _saveImage(Uint8List.fromList(imglib.encodePng(mergedImage, level: 20)));
                                                               },
                                                               child: Container(
                                                                 width: (MediaQuery.of(context).size.width - 45)* (3/4),
@@ -7104,7 +7298,7 @@ class HomePageState extends State<HomePage>
                                                             Spacer(),
                                                             GestureDetector(
                                                               onTap: () async {
-
+                                                                _controller.animateTo(4);
                                                               },
                                                               child: Container(
                                                                 width: (MediaQuery.of(context).size.width - 45)* (1/4),
@@ -7312,6 +7506,158 @@ class HomePageState extends State<HomePage>
                                       ),
                                     ),
                                   ),
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        GestureDetector(
+                                            onTap: _isLoading ? null : _onScanPressed,
+                                            child: Text('click to scan', style: TextStyle(fontSize: 25),)
+                                        ),
+                                        Container(
+                                          child: _isLoading && _blueDevices.isEmpty
+                                              ? const Center(
+                                            child: CircularProgressIndicator(
+                                              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                            ),
+                                          )
+                                              : _blueDevices.isNotEmpty
+                                              ? SingleChildScrollView(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Column(
+                                                  children: List<Widget>.generate(_blueDevices.length,
+                                                          (int index) {
+                                                        return Row(
+                                                          children: <Widget>[
+                                                            Expanded(
+                                                              child: GestureDetector(
+                                                                onTap: _blueDevices[index].address ==
+                                                                    (_selectedDevice?.address ?? '')
+                                                                    ? _onDisconnectDevice
+                                                                    : () => _onSelectDevice(index),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.all(8.0),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment.start,
+                                                                    children: <Widget>[
+                                                                      Text(
+                                                                        _blueDevices[index].name,
+                                                                        style: TextStyle(
+                                                                          color:
+                                                                          _selectedDevice?.address ==
+                                                                              _blueDevices[index]
+                                                                                  .address
+                                                                              ? Colors.blue
+                                                                              : Colors.black,
+                                                                          fontSize: 20,
+                                                                          fontWeight: FontWeight.w500,
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                        _blueDevices[index].address,
+                                                                        style: TextStyle(
+                                                                          color:
+                                                                          _selectedDevice?.address ==
+                                                                              _blueDevices[index]
+                                                                                  .address
+                                                                              ? Colors.blueGrey
+                                                                              : Colors.grey,
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w500,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            if (_loadingAtIndex == index && _isLoading)
+                                                              Container(
+                                                                height: 24.0,
+                                                                width: 24.0,
+                                                                margin: const EdgeInsets.only(right: 8.0),
+                                                                child: const CircularProgressIndicator(
+                                                                  valueColor:
+                                                                  AlwaysStoppedAnimation<Color>(
+                                                                    Colors.blue,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            if (!_isLoading &&
+                                                                _blueDevices[index].address ==
+                                                                    (_selectedDevice?.address ?? ''))
+                                                              TextButton(
+                                                                onPressed: _onPrintReceipt,
+                                                                child: Container(
+                                                                  color: _selectedDevice == null
+                                                                      ? Colors.grey
+                                                                      : Colors.blue,
+                                                                  padding: const EdgeInsets.all(8.0),
+                                                                  child: const Text(
+                                                                    'Test Print',
+                                                                    style: TextStyle(color: Colors.white),
+                                                                  ),
+                                                                ),
+                                                                style: ButtonStyle(
+                                                                  backgroundColor: MaterialStateProperty
+                                                                      .resolveWith<Color>(
+                                                                        (Set<MaterialState> states) {
+                                                                      if (states.contains(
+                                                                          MaterialState.pressed)) {
+                                                                        return Theme.of(context)
+                                                                            .colorScheme
+                                                                            .primary
+                                                                            .withOpacity(0.5);
+                                                                      }
+                                                                      return Theme.of(context)
+                                                                          .primaryColor;
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                          ],
+                                                        );
+                                                      }),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                              : Center(
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: const <Widget>[
+                                                Text(
+                                                  'Scan bluetooth device',
+                                                  style: TextStyle(fontSize: 24, color: Colors.blue),
+                                                ),
+                                                Text(
+                                                  'Press button scan',
+                                                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // child: _devices.isEmpty
+                                          //     ? Center(child: Text(_devicesMsg ?? ''))
+                                          //     : ListView.builder(
+                                          //   itemCount: _devices.length,
+                                          //   itemBuilder: (c, i) {
+                                          //     return ListTile(
+                                          //       leading: Icon(Icons.print),
+                                          //       title: Text(_devices[i].name.toString()),
+                                          //       subtitle: Text(_devices[i].address.toString()),
+                                          //       onTap: () {
+                                          //         // _startPrint(_devices[i]);
+                                          //       },
+                                          //     );
+                                          //   },
+                                          // )
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -7366,6 +7712,8 @@ class HomePageState extends State<HomePage>
       }
     });
   }
+
+
 
   setStoreId(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

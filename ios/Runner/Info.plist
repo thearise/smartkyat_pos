@@ -72,5 +72,16 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Bluetooth is used to scan for printers and send the data</string>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>Bluetooth is used to scan for printers and send the data</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>bluetooth-central</string>
+        <string>bluetooth-peripheral</string>
+    </array>
 </dict>
 </plist>

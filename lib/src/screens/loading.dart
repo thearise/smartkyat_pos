@@ -21,7 +21,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   final auth = FirebaseAuth.instance;
   late User user;
   late Timer timer;
-  final JiggleController jiggleCtl = JiggleController();
+  // final JiggleController jiggleCtl = JiggleController();
 
   @override
   void initState() {

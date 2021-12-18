@@ -71,7 +71,7 @@ class _WelcomeState extends State<Welcome>
         getStoreId().then((value) {
           print('ID -> ' + value.toString());
           Future.delayed(const Duration(milliseconds: 1000), () {
-            if(value.toString() != '') {
+            if(value.toString() != '' && value.toString() != 'idk') {
               // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
               Navigator.of(context).pushReplacement(
                 FadeRoute(page: HomePage()),);
