@@ -4012,20 +4012,29 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
                       child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
+                          stream: cateScIndex == 0? FirebaseFirestore.instance
                               .collection('shops')
                               .doc(shopId)
                               .collection('customers')
                               .where('customer_name', isNotEqualTo: 'Unknown')
-                              .snapshots(),
+                              // .orderBy('debts')
+                              .orderBy('customer_name')
+                              .snapshots():
+
+                              FirebaseFirestore.instance
+                                  .collection('shops')
+                                  .doc(shopId)
+                                  .collection('customers')
+                                  .where('debts', isGreaterThan: 0)
+                                  .orderBy('debts', descending: true)
+                                  .snapshots(),
                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                             if(snapshot.hasData) {
-                              orderList = [];
-                              for(int i = 0; i < snapshot.data!.docs.length; i++) {
-                                // setState(() {
-                                  orderList.add([]);
-                                // });
-                              }
+                              // AsyncSnapshot<QuerySnapshot> snapshotModify;
+                              // orderList = [];
+                              // for(int i = 0; i < snapshot.data!.docs.length; i++) {
+                              //   snapshotModify =
+                              // }
                               return CustomScrollView(
                                 slivers: [
                                   // Add the app bar to the CustomScrollView.
@@ -4181,7 +4190,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                         Map<String, dynamic> data = snapshot.data!.docs[index]
                                             .data()! as Map<String, dynamic>;
                                         var version = snapshot.data!.docs[index].id;
-                                        return GestureDetector(
+                                        return cateScIndex == 0 || data['debts']>0.0? GestureDetector(
                                           onTap: () {
                                             Navigator.push(
                                               context,
@@ -4282,49 +4291,23 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              StreamBuilder(
-                                                                  stream: FirebaseFirestore.instance
-                                                                      .collection('shops')
-                                                                      .doc(shopId)
-                                                                      .collection('customers')
-                                                                      .doc(snapshot.data!.docs[index].id)
-                                                                      .collection('orders')
-                                                                      .where('debt', isGreaterThan: 0)
-                                                                      .snapshots(),
-                                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                                                                    // orderList[index] = 0;
-                                                                    int orderLength = 0;
-                                                                    int i = 0;
-                                                                    if(snapshot2.hasData) {
-                                                                      return snapshot2.data!.docs.length > 0? Container(
-                                                                        height: 21,
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          color: AppTheme.badgeFgDanger,
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                          child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
-                                                                            style: TextStyle(
-                                                                                fontSize: 13,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.white
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ): Container(
-                                                                      );
-                                                                      // int quantity = 0;
-                                                                      // snapshot2.data!.docs.map((DocumentSnapshot document2) {
-                                                                      //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
-                                                                      //   orders = data2['daily_order'];
-                                                                      //   quantity += int.parse(orders.length.toString());
-                                                                      //
-                                                                      //   return Text(snapshot2.data!.docs[index].id);
-                                                                      // }).toList();
-                                                                    }
-                                                                    return Container();
-                                                                  }
+                                                              data['debts'] > 0? Container(
+                                                                height: 21,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  color: AppTheme.badgeFgDanger,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+                                                                  child: Text(data['debts'].toString() + ' unpaid',
+                                                                    style: TextStyle(
+                                                                        fontSize: 13,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ): Container(
                                                               ),
 
                                                               // Container(
@@ -4408,7 +4391,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                               ),
                                             ),
                                           ),
-                                        );
+                                        ): Container();
                                       },
                                       // Builds 1000 ListTiles
                                       childCount: snapshot.data!.docs.length,

@@ -35,6 +35,10 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
 
   bool loadingDone = true;
 
+  int ayinLength = 0;
+
+  bool endOfResult = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,618 +148,666 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               // loadingDone = false;
                               if(snapshot.hasData) {
-                                Future.delayed(const Duration(milliseconds: 1000), () {
-                                  loadingDone = true;
-                                });
-                                // loadingDone = true;
-                                var sections = List<ExampleSection>.empty(growable: true);
-                                int docInc = 0;
-                                print('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
 
 
-                                // snapshot.data!.docs.map((document) async {
-                                //   document['date']
-                                // }).toList();
+                                return StreamBuilder(
+                                    stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order')
+                                    // .where('date', isLessThanOrEqualTo: lossDayStart())
+                                    // .where('date', isGreaterThanOrEqualTo: lossDayEnd())
+                                        .orderBy('date', descending: false)
+                                        .limit(1)
+                                        .snapshots(),
+                                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshotLast) {
+                                    if(snapshotLast.hasData) {
+                                      Future.delayed(const Duration(milliseconds: 1000), () {
+                                        loadingDone = true;
+                                      });
+                                      // loadingDone = true;
+                                      var sections = List<ExampleSection>.empty(growable: true);
+                                      int docInc = 0;
+                                      print('HHHEEEE' + snapshot.data!.docs.length.toString() + ' ');
+                                      print('Last ' + snapshot.data!.docs[0].id.toString());
 
 
-                                if(docInc>0) {
-
-                                }
-
-                                //var ayinDoc = snapshot.data!.docs[0].data();
+                                      // snapshot.data!.docs.map((document) async {
+                                      //   document['date']
+                                      // }).toList();
 
 
+                                      if(docInc>0) {
 
-                                if(snapshot.data!.docs.length>0) {
-                                  Map<String, dynamic> data21 = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
-                                  var ayinDoc = data21['date'];
+                                      }
 
-
-
-                                  print('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
-
-                                  List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + data21['customerId'] + '^' + 'pf' + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '-' + data21['date'].toDate().minute.toString()];
-
-                                  var section = ExampleSection()
-                                    ..header = zeroToTen(data21['date'].toDate().month.toString()) + '-' + zeroToTen(data21['date'].toDate().day.toString())
-                                  // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                  //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-                                  //   ..items = document['daily_order'].cast<String>()
+                                      //var ayinDoc = snapshot.data!.docs[0].data();
 
 
-                                    ..items = itemsList
-                                  // ..items = orderItems(document.id)
-                                    ..expanded = true;
 
-                                  if(snapshot.data!.docs.length == 1) {
-                                    sections.add(section);
-                                  } else {
-                                    for(int a = 1; a < snapshot.data!.docs.length; a++) {
-                                      Map<String, dynamic> data21Loop = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
-                                      // var ayinDocLoo = data21Loop['date'];
+                                      if(snapshot.data!.docs.length>0) {
+                                        Map<String, dynamic> data21 = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
+                                        var ayinDoc = data21['date'];
 
-                                      print('CCC ' + data21['date'].toDate().toString() + ' ' + data21Loop['date'].toDate().toString());
-                                      if(!(data21['date'].toDate().day.toString() == data21Loop['date'].toDate().day.toString() && data21['date'].toDate().month.toString() == data21Loop['date'].toDate().month.toString())) {
-                                        print('not equal');
-                                        sections.add(section);
-                                        itemsList = [];
-                                        if(a == snapshot.data!.docs.length-1) {
-                                          section = ExampleSection()
-                                            ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
-                                            ..items = [data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + 'pf' + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '-' + data21Loop['date'].toDate().minute.toString()]
-                                          // ..items = orderItems(document.id)
-                                            ..expanded = true;
-                                          sections.add(section);
-                                          break;
-                                        }
-                                      } else {
-                                        // itemsList.add(data21Loop['title']);
-                                        section = ExampleSection()
-                                          ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+
+
+                                        print('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
+
+                                        List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + data21['customerId'] + '^' + 'pf' + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '-' + data21['date'].toDate().minute.toString()];
+
+                                        var section = ExampleSection()
+                                          ..header = zeroToTen(data21['date'].toDate().month.toString()) + '-' + zeroToTen(data21['date'].toDate().day.toString())
+                                        // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                        //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                        //   ..items = document['daily_order'].cast<String>()
+
+
                                           ..items = itemsList
                                         // ..items = orderItems(document.id)
                                           ..expanded = true;
+
+                                        if(snapshot.data!.docs.length == 1) {
+                                          sections.add(section);
+                                        } else {
+                                          for(int a = 1; a < snapshot.data!.docs.length; a++) {
+                                            Map<String, dynamic> data21Loop = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
+                                            // var ayinDocLoo = data21Loop['date'];
+
+                                            print('CCC ' + data21['date'].toDate().toString() + ' ' + data21Loop['date'].toDate().toString());
+                                            if(!(data21['date'].toDate().day.toString() == data21Loop['date'].toDate().day.toString() && data21['date'].toDate().month.toString() == data21Loop['date'].toDate().month.toString())) {
+                                              print('not equal');
+                                              sections.add(section);
+                                              itemsList = [];
+                                              if(a == snapshot.data!.docs.length-1) {
+                                                section = ExampleSection()
+                                                  ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                                  ..items = [data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + 'pf' + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '-' + data21Loop['date'].toDate().minute.toString()]
+                                                // ..items = orderItems(document.id)
+                                                  ..expanded = true;
+                                                sections.add(section);
+                                                break;
+                                              }
+                                            } else {
+                                              // itemsList.add(data21Loop['title']);
+                                              section = ExampleSection()
+                                                ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                                ..items = itemsList
+                                              // ..items = orderItems(document.id)
+                                                ..expanded = true;
+                                            }
+
+                                            if(a == snapshot.data!.docs.length-1) {
+                                              sections.add(section);
+                                            }
+
+                                            data21 = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
+                                            itemsList.add(data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + 'pf' + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '-' + data21Loop['date'].toDate().minute.toString());
+                                            section = ExampleSection()
+                                              ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
+                                            // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                            //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                            //   ..items = document['daily_order'].cast<String>()
+
+
+                                              ..items = itemsList
+                                            // ..items = orderItems(document.id)
+                                              ..expanded = true;
+                                          }
+                                        }
                                       }
 
-                                      if(a == snapshot.data!.docs.length-1) {
-                                        sections.add(section);
-                                      }
 
-                                      data21 = snapshot.data!.docs[a].data()! as Map<String, dynamic>;
-                                      itemsList.add(data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['deviceId'] + data21Loop['orderId'] + '^' + data21Loop['total'].toString() + '^' + data21Loop['customerId'] + '^' + 'pf' + '^' + data21Loop['debt'].toString() + '^' + data21Loop['discount'].toString() + '^' + data21Loop['date'].toDate().hour.toString() + '-' + data21Loop['date'].toDate().minute.toString());
-                                      section = ExampleSection()
-                                        ..header = zeroToTen(data21Loop['date'].toDate().month.toString()) + '-' + zeroToTen(data21Loop['date'].toDate().day.toString())
-                                      // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                      //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                                      sectionList3 = sections;
+                                      return NotificationListener<ScrollUpdateNotification>(
+                                        onNotification: (notification) {
+                                          // _customScrollViewCtl.sc
+                                          //How many pixels scrolled from pervious frame
+                                          print('delta ' + notification.scrollDelta.toString());
 
-                                      //   ..items = document['daily_order'].cast<String>()
+                                          //List scroll position
+                                          print('pixels ' + notification.metrics.pixels.toString() + ' ' + _customScrollViewCtl.position.maxScrollExtent.toString());
 
+                                          if(loadingDone) {
+                                            if(snapshot.data!.docs.length >= 6) {
+                                              if(notification.metrics.pixels >= _customScrollViewCtl.position.maxScrollExtent) {
+                                                print('on loading ' + limitToLast.toString());
 
-                                        ..items = itemsList
-                                      // ..items = orderItems(document.id)
-                                        ..expanded = true;
-                                    }
-                                  }
-                                }
+                                                // setState(() {
+                                                //   limitToLast += 6;
+                                                //   loadingDone = false;
+                                                // });
+                                                if(ayinLength == snapshot.data!.docs.length) {
+                                                  setState(() {
+                                                    endOfResult = true;
+                                                  });
+                                                } else {
+                                                  ayinLength = snapshot.data!.docs.length;
+                                                  Future.delayed(const Duration(milliseconds: 1000), () {
+                                                    setState(() {
+                                                      limitToLast += 6;
+                                                    });
+                                                  });
+                                                }
 
+                                                loadingDone = false;
 
-                                sectionList3 = sections;
+                                              }
+                                            }
 
-                                return NotificationListener<ScrollUpdateNotification>(
-                                  onNotification: (notification) {
-                                    // _customScrollViewCtl.sc
-                                    //How many pixels scrolled from pervious frame
-                                    print('delta ' + notification.scrollDelta.toString());
+                                          }
 
-                                    //List scroll position
-                                    print('pixels ' + notification.metrics.pixels.toString() + ' ' + _customScrollViewCtl.position.maxScrollExtent.toString());
+                                          return true;
+                                        },
+                                        child: CustomScrollView(
+                                          controller: _customScrollViewCtl,
+                                          slivers: <Widget>[
+                                            SliverAppBar(
+                                              elevation: 0,
+                                              backgroundColor: Colors.white,
+                                              automaticallyImplyLeading: false,
 
-                                    if(loadingDone) {
-                                      if(notification.metrics.pixels >= _customScrollViewCtl.position.maxScrollExtent) {
-                                        print('on loading ');
+                                              // Provide a standard title.
 
-                                        // setState(() {
-                                        //   limitToLast += 6;
-                                        //   loadingDone = false;
-                                        // });
-                                        Future.delayed(const Duration(milliseconds: 1000), () {
-                                          setState(() {
-                                            limitToLast += 6;
-                                          });
-                                        });
-                                        loadingDone = false;
-
-                                      }
-                                    }
-
-                                    return true;
-                                  },
-                                  child: CustomScrollView(
-                                    controller: _customScrollViewCtl,
-                                    slivers: <Widget>[
-                                      SliverAppBar(
-                                        elevation: 0,
-                                        backgroundColor: Colors.white,
-                                        automaticallyImplyLeading: false,
-
-                                        // Provide a standard title.
-
-                                        // Allows the user to reveal the app bar if they begin scrolling
-                                        // back up the list of items.
-                                        floating: true,
-                                        bottom: PreferredSize(                       // Add this code
-                                          preferredSize: Size.fromHeight(-2.0),      // Add this code
-                                          child: Container(),                           // Add this code
-                                        ),
-                                        flexibleSpace: Padding(
-                                          padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
-                                          child: Container(
-                                            height: 32,
-                                            width: MediaQuery.of(context).size.width,
-                                            // color: Colors.yellow,
-                                            child: Row(
-                                              children: [
-                                                // Row(
-                                                //   children: [
-                                                //     FlatButton(
-                                                //       padding: EdgeInsets.only(left: 10, right: 10),
-                                                //       color: AppTheme.secButtonColor,
-                                                //       shape: RoundedRectangleBorder(
-                                                //         borderRadius: BorderRadius.circular(8.0),
-                                                //         side: BorderSide(
-                                                //           color: AppTheme.skBorderColor2,
-                                                //         ),
-                                                //       ),
-                                                //       onPressed: () {
-                                                //         // _showDatePicker(OneContext().context);
-                                                //       },
-                                                //       child: Container(
-                                                //         child: Row(
-                                                //           // mainAxisAlignment: Main,
-                                                //           children: [
-                                                //             Padding(
-                                                //               padding: const EdgeInsets.only(right: 1.0),
-                                                //               child: Icon(
-                                                //                 Icons.calendar_view_day_rounded,
-                                                //                 size: 18,
-                                                //               ),
-                                                //             ),
-                                                //             Text(
-                                                //               'date',
-                                                //               textAlign: TextAlign.center,
-                                                //               style: TextStyle(
-                                                //                   fontSize: 14,
-                                                //                   fontWeight: FontWeight.w500,
-                                                //                   color: Colors.black),
-                                                //             ),
-                                                //           ],
-                                                //         ),
-                                                //       ),
-                                                //     ),
-                                                //     SizedBox(width: 12),
-                                                //     Container(
-                                                //       color: Colors.grey.withOpacity(0.2),
-                                                //       width: 1.5,
-                                                //       height: 30,
-                                                //     )
-                                                //   ],
-                                                // ),
-                                                Expanded(
-                                                  child: ListView(
-                                                    controller: cateScCtler,
-                                                    scrollDirection: Axis.horizontal,
+                                              // Allows the user to reveal the app bar if they begin scrolling
+                                              // back up the list of items.
+                                              floating: true,
+                                              bottom: PreferredSize(                       // Add this code
+                                                preferredSize: Size.fromHeight(-2.0),      // Add this code
+                                                child: Container(),                           // Add this code
+                                              ),
+                                              flexibleSpace: Padding(
+                                                padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+                                                child: Container(
+                                                  height: 32,
+                                                  width: MediaQuery.of(context).size.width,
+                                                  // color: Colors.yellow,
+                                                  child: Row(
                                                     children: [
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                        child: FlatButton(
-                                                          minWidth: 0,
-                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                          color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
+                                                      // Row(
+                                                      //   children: [
+                                                      //     FlatButton(
+                                                      //       padding: EdgeInsets.only(left: 10, right: 10),
+                                                      //       color: AppTheme.secButtonColor,
+                                                      //       shape: RoundedRectangleBorder(
+                                                      //         borderRadius: BorderRadius.circular(8.0),
+                                                      //         side: BorderSide(
+                                                      //           color: AppTheme.skBorderColor2,
+                                                      //         ),
+                                                      //       ),
+                                                      //       onPressed: () {
+                                                      //         // _showDatePicker(OneContext().context);
+                                                      //       },
+                                                      //       child: Container(
+                                                      //         child: Row(
+                                                      //           // mainAxisAlignment: Main,
+                                                      //           children: [
+                                                      //             Padding(
+                                                      //               padding: const EdgeInsets.only(right: 1.0),
+                                                      //               child: Icon(
+                                                      //                 Icons.calendar_view_day_rounded,
+                                                      //                 size: 18,
+                                                      //               ),
+                                                      //             ),
+                                                      //             Text(
+                                                      //               'date',
+                                                      //               textAlign: TextAlign.center,
+                                                      //               style: TextStyle(
+                                                      //                   fontSize: 14,
+                                                      //                   fontWeight: FontWeight.w500,
+                                                      //                   color: Colors.black),
+                                                      //             ),
+                                                      //           ],
+                                                      //         ),
+                                                      //       ),
+                                                      //     ),
+                                                      //     SizedBox(width: 12),
+                                                      //     Container(
+                                                      //       color: Colors.grey.withOpacity(0.2),
+                                                      //       width: 1.5,
+                                                      //       height: 30,
+                                                      //     )
+                                                      //   ],
+                                                      // ),
+                                                      Expanded(
+                                                        child: ListView(
+                                                          controller: cateScCtler,
+                                                          scrollDirection: Axis.horizontal,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 4,
                                                             ),
-                                                          ),
-                                                          onPressed: () {
-                                                            _animateToIndex(0);
-                                                            setState(() {
-                                                              cateScIndex = 0;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              'Alls',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                              child: FlatButton(
+                                                                minWidth: 0,
+                                                                padding: EdgeInsets.only(left: 12, right: 12),
+                                                                color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  _animateToIndex(0);
+                                                                  setState(() {
+                                                                    cateScIndex = 0;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Alls',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                              child: FlatButton(
+                                                                minWidth: 0,
+                                                                padding: EdgeInsets.only(left: 12, right: 12),
+                                                                color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  _animateToIndex(5.4);
+                                                                  setState(() {
+                                                                    cateScIndex = 1;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Unpaids',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                              child: FlatButton(
+                                                                minWidth: 0,
+                                                                padding: EdgeInsets.only(left: 12, right: 12),
+                                                                color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  _animateToIndex(16.4);
+                                                                  setState(() {
+                                                                    cateScIndex = 2;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Refunds',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                              child: FlatButton(
+                                                                minWidth: 0,
+                                                                padding: EdgeInsets.only(left: 12, right: 12),
+                                                                color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.skBorderColor2,
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  _animateToIndex(20);
+                                                                  setState(() {
+                                                                    cateScIndex = 3;
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    'Paids',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        color: Colors.black),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 11,
+                                                            )
+                                                          ],
                                                         ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                        child: FlatButton(
-                                                          minWidth: 0,
-                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                          color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            _animateToIndex(5.4);
-                                                            setState(() {
-                                                              cateScIndex = 1;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              'Unpaids',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                        child: FlatButton(
-                                                          minWidth: 0,
-                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                          color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            _animateToIndex(16.4);
-                                                            setState(() {
-                                                              cateScIndex = 2;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              'Refunds',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                        child: FlatButton(
-                                                          minWidth: 0,
-                                                          padding: EdgeInsets.only(left: 12, right: 12),
-                                                          color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            _animateToIndex(20);
-                                                            setState(() {
-                                                              cateScIndex = 3;
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            child: Text(
-                                                              'Paids',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 11,
                                                       )
                                                     ],
                                                   ),
-                                                )
-                                              ],
+
+                                                ),
+                                              ),
+                                              // Display a placeholder widget to visualize the shrinking size.
+                                              // Make the initial height of the SliverAppBar larger than normal.
+                                              expandedHeight: 20,
                                             ),
+                                            SliverExpandableList(
+                                              builder: SliverExpandableChildDelegate(
+                                                sectionList: sectionList3,
+                                                headerBuilder: _buildHeader,
+                                                itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                                  String item = sectionList3[sectionIndex].items[itemIndex];
+                                                  int length = sectionList3[sectionIndex].items.length;
 
-                                          ),
-                                        ),
-                                        // Display a placeholder widget to visualize the shrinking size.
-                                        // Make the initial height of the SliverAppBar larger than normal.
-                                        expandedHeight: 20,
-                                      ),
-                                      SliverExpandableList(
-                                        builder: SliverExpandableChildDelegate(
-                                          sectionList: sectionList3,
-                                          headerBuilder: _buildHeader,
-                                          itemBuilder: (context, sectionIndex, itemIndex, index) {
-                                            String item = sectionList3[sectionIndex].items[itemIndex];
-                                            int length = sectionList3[sectionIndex].items.length;
-
-                                            return GestureDetector(
-                                              onTap: () {
-                                                print('Items'+item);
-                                                // Navigator.push(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //       builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
-                                                // );
-                                              },
-                                              child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: AppTheme.lightBgColor,
-                                                          border: Border(
-                                                            bottom: BorderSide(
-                                                                color: AppTheme.skBorderColor2,
-                                                                width: 1.0),
-                                                          )),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left: 1.0),
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      print('Items'+item);
+                                                      // Navigator.push(
+                                                      //   context,
+                                                      //   MaterialPageRoute(
+                                                      //       builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                                      // );
+                                                    },
+                                                    child: Stack(
+                                                      alignment: Alignment.center,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: AppTheme.lightBgColor,
+                                                                border: Border(
+                                                                  bottom: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                      width: 1.0),
+                                                                )),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
                                                               child: Column(
                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children: [
-                                                                  Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    children: [
-                                                                      Text('#' + item.split('^')[1],
-                                                                        style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            fontWeight: FontWeight.w500
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 1.0),
+                                                                    child: Column(
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          children: [
+                                                                            Text('#' + item.split('^')[1],
+                                                                              style: TextStyle(
+                                                                                  fontSize: 16,
+                                                                                  fontWeight: FontWeight.w500
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(width: 8),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(bottom: 1.0),
+                                                                              child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                            ),
+                                                                            SizedBox(width: 4),
+                                                                            // Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
+                                                                            //   style: TextStyle(
+                                                                            //     fontSize: 14,
+                                                                            //     fontWeight: FontWeight.w500,
+                                                                            //     color: Colors.grey,
+                                                                            //   ),
+                                                                            // ),
+                                                                            // Text(item.split('^')[7],
+                                                                            //   style: TextStyle(
+                                                                            //     fontSize: 14,
+                                                                            //     fontWeight: FontWeight.w500,
+                                                                            //     color: Colors.grey,
+                                                                            //   ),
+                                                                            // ),
+                                                                          ],
                                                                         ),
-                                                                      ),
-                                                                      SizedBox(width: 8),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(bottom: 1.0),
-                                                                        child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                      ),
-                                                                      SizedBox(width: 4),
-                                                                      // Text(convertToHour(item.split('^')[0]) + ':' + item.split('^')[0].substring(10,12) +' ' + convertToAMPM(item.split('^')[0]),
-                                                                      //   style: TextStyle(
-                                                                      //     fontSize: 14,
-                                                                      //     fontWeight: FontWeight.w500,
-                                                                      //     color: Colors.grey,
-                                                                      //   ),
-                                                                      // ),
-                                                                      // Text(item.split('^')[7],
-                                                                      //   style: TextStyle(
-                                                                      //     fontSize: 14,
-                                                                      //     fontWeight: FontWeight.w500,
-                                                                      //     color: Colors.grey,
-                                                                      //   ),
-                                                                      // ),
-                                                                    ],
+                                                                        SizedBox(
+                                                                          height: 6,
+                                                                        ),
+                                                                        Row(
+                                                                          children: [
+                                                                            Text(item.split('^')[3].split('&')[0], style: TextStyle(
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.grey,
+                                                                            )),
+
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
                                                                   ),
                                                                   SizedBox(
-                                                                    height: 6,
+                                                                    height: 8,
                                                                   ),
                                                                   Row(
                                                                     children: [
-                                                                      Text(item.split('^')[3].split('&')[0], style: TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        color: Colors.grey,
-                                                                      )),
+                                                                      if(item.split('^')[5] == '0.0')
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 0.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeBgSuccess,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                              child: Text('Paid',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.white
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+
+                                                                      if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 0.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeFgDangerLight,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                              child: Text('Partially paid',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: AppTheme.badgeFgDanger
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 0.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeFgDanger,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                              child: Text('Unpaid',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.white
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      if(item.split('^')[4][0] == 'r')
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 6.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeBgSecond,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
+                                                                              child: Text('Refunded',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: Colors.white
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+
+                                                                      if(item.split('^')[4][0] == 's')
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 6.0),
+                                                                          child: Container(
+                                                                            height: 21,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                              color: AppTheme.badgeBgSecondLight,
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
+                                                                              child: Text('Partially refunded',
+                                                                                style: TextStyle(
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    color: AppTheme.badgeBgSecond
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
 
                                                                     ],
-                                                                  ),
+                                                                  )
                                                                 ],
                                                               ),
                                                             ),
-                                                            SizedBox(
-                                                              height: 8,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                if(item.split('^')[5] == '0.0')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSuccess,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                        child: Text('Paid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                                if(item.split('^')[5] != '0.0' && double.parse(item.split('^')[2]) > double.parse(item.split('^')[5]))
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeFgDangerLight,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                        child: Text('Partially paid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: AppTheme.badgeFgDanger
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                if(item.split('^')[5] != '0.0'  && double.parse(item.split('^')[2]) == double.parse(item.split('^')[5]))
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeFgDanger,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                        child: Text('Unpaid',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                if(item.split('^')[4][0] == 'r')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSecond,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                                                                        child: Text('Refunded',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                                if(item.split('^')[4][0] == 's')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSecondLight,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                                                                        child: Text('Partially refunded',
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: AppTheme.badgeBgSecond
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                              ],
-                                                            )
-                                                          ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 15.0, bottom: 5),
-                                                    child: Align(
-                                                      alignment: Alignment.centerRight,
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        children: [
-                                                          Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight: FontWeight.w500,
-                                                          )),
-                                                          SizedBox(width: 10),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(bottom: 2.0),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .arrow_forward_ios_rounded,
-                                                              size: 16,
-                                                              color: Colors
-                                                                  .blueGrey
-                                                                  .withOpacity(
-                                                                  0.8),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                                                          child: Align(
+                                                            alignment: Alignment.centerRight,
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.end,
+                                                              children: [
+                                                                Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w500,
+                                                                )),
+                                                                SizedBox(width: 10),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 2.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .arrow_forward_ios_rounded,
+                                                                    size: 16,
+                                                                    color: Colors
+                                                                        .blueGrey
+                                                                        .withOpacity(
+                                                                        0.8),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
+                                                        )
+                                                      ],
                                                     ),
-                                                  )
-                                                ],
+                                                  );
+
+                                                  // return Container(
+                                                  //   child: Text(item)
+                                                  // );
+                                                },
                                               ),
-                                            );
+                                            ),
+                                            !endOfResult ? SliverAppBar(
+                                              elevation: 0,
+                                              toolbarHeight: 4,
+                                              collapsedHeight: 4,
+                                              backgroundColor: Colors.white,
+                                              automaticallyImplyLeading: false,
 
-                                            // return Container(
-                                            //   child: Text(item)
-                                            // );
-                                          },
+                                              // Provide a standard title.
+
+                                              // Allows the user to reveal the app bar if they begin scrolling
+                                              // back up the list of items.
+                                              floating: true,
+                                              flexibleSpace: Container(
+                                                // color: Colors.green,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0),
+                                                  child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                                                ),
+                                              ),
+                                              // Display a placeholder widget to visualize the shrinking size.
+                                              // Make the initial height of the SliverAppBar larger than normal.
+                                              expandedHeight: 4,
+                                            ): SliverAppBar(
+                                              elevation: 0,
+                                              toolbarHeight: 20,
+                                              collapsedHeight: 20,
+                                              backgroundColor: Colors.white,
+                                              automaticallyImplyLeading: false,
+
+                                              // Provide a standard title.
+
+                                              // Allows the user to reveal the app bar if they begin scrolling
+                                              // back up the list of items.
+                                              floating: true,
+                                              flexibleSpace: Container(
+                                                // color: Colors.green,
+                                                child: Padding(
+                                                    padding: const EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0),
+                                                    child: Center(child: Text('END OF RESULT'))
+                                                ),
+                                              ),
+                                              // Display a placeholder widget to visualize the shrinking size.
+                                              // Make the initial height of the SliverAppBar larger than normal.
+                                              expandedHeight: 20,
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      SliverAppBar(
-                                        elevation: 0,
-                                        toolbarHeight: 4,
-                                        collapsedHeight: 4,
-                                        backgroundColor: Colors.white,
-                                        automaticallyImplyLeading: false,
-
-                                        // Provide a standard title.
-
-                                        // Allows the user to reveal the app bar if they begin scrolling
-                                        // back up the list of items.
-                                        floating: true,
-                                        flexibleSpace: Container(
-                                          // color: Colors.green,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0),
-                                            child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                                          ),
-                                        ),
-                                        // Display a placeholder widget to visualize the shrinking size.
-                                        // Make the initial height of the SliverAppBar larger than normal.
-                                        expandedHeight: 4,
-                                      )
-                                    ],
-                                  ),
+                                      );
+                                    }
+                                    return Container();
+                                  }
                                 );
                               } else {
                                 return Container();

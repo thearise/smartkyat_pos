@@ -36,7 +36,6 @@ dependencies:
   shared_preferences: ^2.0.6
   adaptive_dialog: ^1.1.0
   sticky_and_expandable_list: ^1.0.0-nullsafety.1
-  json_annotation:
 #  device_info: ^2.0.2
   device_info_plus: ^3.0.1
   sticky_headers: ^0.2.0
@@ -66,7 +65,7 @@ dependencies:
 #  shake_animation_widget:
   vector_math: ^2.1.0
   equatable: ^2.0.3
-  rxdart: ^0.27.1
+  rxdart:
   fraction: ^3.0.2
   fl_chart: ^0.40.0
   charts_flutter: ^0.11.0
@@ -86,6 +85,20 @@ dependencies:
   dropdown_below: ^1.0.1
   google_mobile_ads: ^1.0.1
   bottom_picker:
+  connectivity: ^3.0.6
+
+#  esc_pos_bluetooth:
+#  flutter_bluetooth_basic:
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  charset_converter: ^2.0.0
+#  esc_pos_printer: ^4.0.3
+#  blue_print_pos: 0.0.9
+  blue_print_pos:
+    path: ../blue_print_pos
+
 #  flutter_launcher_icons: "^0.9.2"
 
 
