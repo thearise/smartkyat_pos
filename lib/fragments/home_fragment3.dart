@@ -15,6 +15,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
@@ -191,7 +192,7 @@ class HomeFragmentState extends State<HomeFragment>
 
     _dateTime = DateTime.now();
     print('Timestamp ' + DateTime.now().toString() + ' --> ' + Timestamp.fromMillisecondsSinceEpoch(1599573193925).toString());
-    HomePageState().getStoreId().then((value) {
+    getStoreId().then((value) {
       setState(() {
         shopId = value;
       });
@@ -321,8 +322,21 @@ class HomeFragmentState extends State<HomeFragment>
 
   chgShopIdFrmHomePage() {
     setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
+      getStoreId().then((value) => shopId = value);
     });
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
   }
 
   addProduct1(data) {

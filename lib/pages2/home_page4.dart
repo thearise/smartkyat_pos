@@ -47,6 +47,7 @@ import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import '../app_theme.dart';
+import '../fragments/search_fragment.dart';
 import 'TabItem.dart';
 // import 'package:cool_dropdown/cool_dropdown.dart';
 
@@ -69,6 +70,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomePage> {
+  int ayinIndex = 0;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -177,6 +180,7 @@ class HomePageState extends State<HomePage>
   GlobalKey<CustomersFragmentState> custGlobalKey = GlobalKey();
   GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
   GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
+  GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
 
   Future<String?> _getId() async {
     var deviceInfo = DeviceInfoPlugin();
@@ -270,7 +274,7 @@ class HomePageState extends State<HomePage>
       deviceIdNum = value;
     });
 
-    HomePageState().getStoreId().then((value0) {
+    getStoreId().then((value0) {
       setState(() {
         shopId = value0;
       });
@@ -389,6 +393,14 @@ class HomePageState extends State<HomePage>
             toggleCoinCallback2: addProduct,
             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
         ),
+
+        TabItem(
+          tabName: "Champions",
+          icon: Icon(
+            Icons.add,
+          ),
+          page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
+        ),
       ];
     });
 
@@ -426,6 +438,14 @@ class HomePageState extends State<HomePage>
     // mercGlobalKey.currentState!.chgShopIdFrmHomePage();
     // custGlobalKey.currentState!.chgShopIdFrmHomePage();
     // settGlobalKey.currentState!.chgShopIdFrmHomePage();
+  }
+
+
+  chgIndexFromSearch(index) {
+    setState(() {
+      _selectTab(0);
+      _selectIndex = 0;
+    });
   }
 
   closeNewProduct() {
@@ -781,11 +801,11 @@ class HomePageState extends State<HomePage>
                                         GestureDetector(
                                           onTap: () {
                                             homeGlobalKey.currentState!.closeSearch();
-                                            prodGlobalKey.currentState!.closeSearch();
-                                            custGlobalKey.currentState!.closeSearch();
-                                            mercGlobalKey.currentState!.closeSearch();
-                                            sordGlobalKey.currentState!.closeSearch();
-                                            bordGlobalKey.currentState!.closeSearch();
+                                            // prodGlobalKey.currentState!.closeSearch();
+                                            // custGlobalKey.currentState!.closeSearch();
+                                            // mercGlobalKey.currentState!.closeSearch();
+                                            // sordGlobalKey.currentState!.closeSearch();
+                                            // bordGlobalKey.currentState!.closeSearch();
 
                                             // Future.delayed(const Duration(milliseconds: 500), () {
                                             setState(() {
@@ -3773,10 +3793,15 @@ class HomePageState extends State<HomePage>
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  Navigator.of(context).push(
-                                                    FadeRoute(page: QRSearchExample()),
-                                                  );
-
+                                                  // Navigator.of(context).push(
+                                                  //   FadeRoute(page: QRSearchExample()),
+                                                  // );
+                                                  ayinIndex = _selectIndex;
+                                                  // setState(() {
+                                                  //
+                                                  // });
+                                                  _selectTab(8);
+                                                  // searchGlobalKey.currentState!.focusSearch();
                                                 },
                                                 child: Row(
                                                   children: [

@@ -70,7 +70,7 @@ packages:
       name: blue_print_pos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.9"
+    version: "0.0.10"
   blue_thermal_printer:
     dependency: transitive
     description:

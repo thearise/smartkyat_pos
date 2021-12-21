@@ -34,13 +34,26 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
 
   @override
   initState() {
-    HomePageState().getStoreId().then((value) {
+    getStoreId().then((value) {
       setState(() {
         _result = value.toString();
       });
 
     });
     super.initState();
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
   }
 
   @override

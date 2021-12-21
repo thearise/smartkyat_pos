@@ -59,13 +59,26 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
     //   child: Text('Roll-55'),
     // );
     _dropdownTestItems = buildDropdownTestItems(_testList);
-    HomePageState().getStoreId().then((value) {
+    getStoreId().then((value) {
       setState(() {
         _result = value.toString();
       });
 
     });
     super.initState();
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
   }
 
   @override

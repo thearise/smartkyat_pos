@@ -96,8 +96,9 @@ dependencies:
   charset_converter: ^2.0.0
 #  esc_pos_printer: ^4.0.3
 #  blue_print_pos: 0.0.9
-  blue_print_pos: ^0.0.9
   paginate_firestore: ^1.0.2
+  blue_print_pos: 0.0.10
+#    path: ../blue_print_pos
 
 #  flutter_launcher_icons: "^0.9.2"
 

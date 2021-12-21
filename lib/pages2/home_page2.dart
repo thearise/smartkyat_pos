@@ -221,7 +221,7 @@
 //       deviceIdNum = value;
 //     });
 //
-//     HomePageState().getStoreId().then((value0) {
+//     getStoreId().then((value0) {
 //       setState(() {
 //         shopId = value0;
 //       });

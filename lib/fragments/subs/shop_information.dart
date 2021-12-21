@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
 
 import '../../app_theme.dart';
@@ -27,7 +28,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
 
   @override
   initState() {
-    HomePageState().getStoreId().then((value) {
+    getStoreId().then((value) {
       setState(() {
         shopId = value.toString();
       });
@@ -35,6 +36,20 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
     });
     super.initState();
   }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
