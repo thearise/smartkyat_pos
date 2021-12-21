@@ -7,7 +7,7 @@ import 'package:smartkyat_pos/widgets/edit_merchant.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 
 import '../../app_theme.dart';
-import 'merchant_orders_info.dart';
+import 'merchant_orders_info2.dart';
 
 
 class MerchantInfoSubs extends StatefulWidget {

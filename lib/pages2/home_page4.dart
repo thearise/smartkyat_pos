@@ -2399,6 +2399,9 @@ class HomePageState extends State<HomePage>
                                                                                           DateTime now = DateTime.now();
                                                                                           CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
                                                                                           int length = 0;
+                                                                                          int totalOrders = 0;
+                                                                                          int debts = 0;
+                                                                                          double debtAmounts = 0 ;
                                                                                           print('order creating');
 
                                                                                           FirebaseFirestore.instance.collection('shops').doc(shopId)
@@ -2463,6 +2466,21 @@ class HomePageState extends State<HomePage>
                                                                                             print('subList ' + subList.toString());
 
                                                                                             Detail(now, length.toString(), subList);
+
+                                                                                            if(customerId.split('^')[0] != 'name' && debt.toString() != '0.0') {
+                                                                                              debts = 1;
+                                                                                              debtAmounts = debt;
+                                                                                            } else {
+                                                                                              debts = 0;
+                                                                                              debtAmounts = 0;
+                                                                                            }
+
+                                                                                            if(customerId.split('^')[0] != 'name') {
+                                                                                              totalOrders = totalOrders + 1;
+                                                                                              CusOrder(totalOrders, debts, debtAmounts);
+                                                                                            }
+
+
                                                                                             List<String> subNameList = [];
                                                                                             int subNameListLength = 0;
                                                                                             for (String str in prodList) {
@@ -6326,7 +6344,7 @@ class HomePageState extends State<HomePage>
 
                                                                     Detail(now, length.toString(),subList2);
 
-                                                                    if(customerId.split('^')[0] != 'name' && debt.toString() != '0') {
+                                                                    if(customerId.split('^')[0] != 'name' && debt.toString() != '0.0') {
                                                                       debts = 1;
                                                                       debtAmounts = debt;
                                                                     } else {
