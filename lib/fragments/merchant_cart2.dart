@@ -2004,7 +2004,7 @@ class MerchantCartState extends State<MerchantCart>
 
                                       Detail2(now, length.toString() , subList2,);
 
-                                      if(widget.merchantId.split('^')[0] != 'name' && debt2.toString() != '0') {
+                                      if(widget.merchantId.split('^')[0] != 'name' && debt2.toString() != '0.0') {
                                         debts = 1;
                                         debtAmounts = debt2;
                                       } else {
