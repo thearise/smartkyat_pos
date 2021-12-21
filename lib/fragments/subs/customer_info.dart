@@ -22,7 +22,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
 
   @override
   initState() {
-    //HomePageState().getStoreId().then((value) => shopId = value);
+    //getStoreId().then((value) => shopId = value);
   super.initState();
   }
 

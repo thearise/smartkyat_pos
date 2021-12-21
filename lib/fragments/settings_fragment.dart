@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/account_setting.dart';
 import 'package:smartkyat_pos/fragments/subs/change_password.dart';
@@ -39,8 +40,21 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
   bool get wantKeepAlive => true;
   @override
 
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
+  }
+
   initState() {
-    HomePageState().getStoreId().then((value) {
+    getStoreId().then((value) {
       setState(() {
         shopId = value.toString();
       });
@@ -75,7 +89,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
 
   chgShopIdFrmHomePage() {
     setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
+      getStoreId().then((value) => shopId = value);
     });
   }
 

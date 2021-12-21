@@ -3,6 +3,7 @@ import 'package:dropdown_below/dropdown_below.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
 import '../../app_theme.dart';
 import 'change_password.dart';
@@ -34,7 +35,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
 
   @override
   void initState() {
-    HomePageState().getStoreId().then((value) {
+    getStoreId().then((value) {
       setState(() {
         _result = value.toString();
       });
@@ -49,6 +50,19 @@ class _AddStaffSubState extends State<AddStaffSub> {
   void dispose() {
     _accountName.dispose();
     super.dispose();
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
   }
 
   List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {

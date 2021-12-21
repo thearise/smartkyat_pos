@@ -15,6 +15,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
@@ -81,7 +82,7 @@ class HomeFragment extends StatefulWidget {
 }
 
 class HomeFragmentState extends State<HomeFragment>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomeFragment> {
+    with TickerProviderStateMixin<HomeFragment> {
   String? shopId;
   TextEditingController _searchController = TextEditingController();
 
@@ -98,8 +99,8 @@ class HomeFragmentState extends State<HomeFragment>
 
 
 
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
 
   // final JiggleController controller = JiggleController();
 
@@ -175,7 +176,7 @@ class HomeFragmentState extends State<HomeFragment>
 
     _dateTime = DateTime.now();
     print('Timestamp ' + DateTime.now().toString() + ' --> ' + Timestamp.fromMillisecondsSinceEpoch(1599573193925).toString());
-    HomePageState().getStoreId().then((value) {
+    getStoreId().then((value) {
       setState(() {
         shopId = value;
       });
@@ -265,7 +266,7 @@ class HomeFragmentState extends State<HomeFragment>
 
   chgShopIdFrmHomePage() {
     setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
+      getStoreId().then((value) => shopId = value);
     });
   }
 
@@ -281,6 +282,19 @@ class HomeFragmentState extends State<HomeFragment>
   }
   addProduct3(data) {
     widget._callback4(data);
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
   }
 
   List<double> thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -324,7 +338,7 @@ class HomeFragmentState extends State<HomeFragment>
 
       DateTime dateTimeOrders = data['date'].toDate();
       String dataDate = dateTimeOrders.year.toString() + zeroToTen(dateTimeOrders.month.toString()) + zeroToTen(dateTimeOrders.day.toString());
-      print('DOC IIDD2 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
+      print('DOC IIDD4 ' + dataDate.toString() + ' ' + dateTimeOrders.toString());
 
       int week = 0;
       int month = 0;
@@ -489,12 +503,12 @@ class HomeFragmentState extends State<HomeFragment>
   bool showAvg = false;
 
   void closeSearch() {
-    _searchController.clear();
+    // _searchController.clear();
     // print('clicked testing ');
-    FocusScope.of(context).unfocus();
-    setState(() {
-      loadingSearch = false;
-    });
+    // FocusScope.of(context).unfocus();
+    // setState(() {
+    //   loadingSearch = false;
+    // });
   }
   void unfocusSearch() {
     // print('clicked testing 2');
@@ -503,9 +517,9 @@ class HomeFragmentState extends State<HomeFragment>
 
   searchFocus() {
 
-    setState(() {
-      loadingSearch = true;
-    });
+    // setState(() {
+    //   loadingSearch = true;
+    // });
   }
 
   LineChartData todayData(DateTime today) {

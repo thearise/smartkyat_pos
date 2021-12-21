@@ -28,7 +28,7 @@ class _AddMerchantState extends State<AddMerchant> {
 
   @override
   void initState() {
-    HomePageState().getStoreId().then((value) => shopId = value);
+    getStoreId().then((value) => shopId = value);
     // TODO: implement initState
     super.initState();
   }

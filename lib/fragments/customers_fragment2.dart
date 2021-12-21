@@ -78,7 +78,7 @@
 //
 //   @override
 //   initState() {
-//     HomePageState().getStoreId().then((value) => shopId = value);
+//     getStoreId().then((value) => shopId = value);
 //     _searchController.addListener((){
 //       setState(() {
 //         gloSearchText = _searchController.text;
@@ -138,7 +138,7 @@
 //
 //   // chgShopIdFrmHomePage() {
 //   //   setState(() {
-//   //     HomePageState().getStoreId().then((value) => shopId = value);
+//   //     getStoreId().then((value) => shopId = value);
 //   //   });
 //   // }
 //
@@ -185,7 +185,7 @@
 //
 //   chgShopIdFrmHomePage() {
 //     setState(() {
-//       HomePageState().getStoreId().then((value) => shopId = value);
+//       getStoreId().then((value) => shopId = value);
 //     });
 //   }
 //

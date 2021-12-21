@@ -279,18 +279,59 @@ class _QRSearchExampleState extends State<QRSearchExample> {
                               ),
                             ),
                           ),
+                          // Expanded(
+                          //   child: Padding(
+                          //       padding: EdgeInsets.only(
+                          //           left: 13,
+                          //           bottom: 1.5),
+                          //       child: Text(
+                          //         'Search',
+                          //         style: TextStyle(
+                          //             fontSize: 18,
+                          //             fontWeight: FontWeight.w500,
+                          //             color: Colors.black.withOpacity(0.55)
+                          //         ),
+                          //       )
+                          //   ),
+                          // ),
                           Expanded(
                             child: Padding(
                                 padding: EdgeInsets.only(
-                                    left: 13,
-                                    bottom: 1.5),
-                                child: Text(
-                                  'Search',
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 0.5),
+                                child: TextField(
+                                  textInputAction: TextInputAction.search,
+                                  // focusNode: nodeFirst,
+                                  // controller: _searchController,
+                                  onSubmitted: (value) async {
+                                  },
+                                  maxLines: 1,
+                                  textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.black.withOpacity(0.55)
+                                      color: Colors.black
                                   ),
+
+                                  decoration: InputDecoration(
+                                    hintText: 'Search',
+                                    isDense: true,
+                                    // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                    contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                    //filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  onChanged: (value) {
+                                    // setState(() {
+                                    //   quantity = int.parse(value);
+                                    // });
+                                  },
+                                  // controller: myController,
                                 )
                             ),
                           ),

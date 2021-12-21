@@ -60,7 +60,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
   @override
   initState() {
-    HomePageState().getStoreId().then((value) => shopId = value);
+    getStoreId().then((value) => shopId = value);
     super.initState();
   }
 
