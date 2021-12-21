@@ -27,7 +27,7 @@ class _AddCustomerState extends State<AddCustomer> {
 
   @override
   void initState() {
-    HomePageState().getStoreId().then((value) => shopId = value);
+    getStoreId().then((value) => shopId = value);
     // TODO: implement initState
     super.initState();
   }

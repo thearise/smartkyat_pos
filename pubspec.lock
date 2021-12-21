@@ -60,10 +60,10 @@ packages:
   blue_print_pos:
     dependency: "direct main"
     description:
-      path: "../blue_print_pos"
-      relative: true
-    source: path
-    version: "0.0.9"
+      name: blue_print_pos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.10"
   blue_thermal_printer:
     dependency: transitive
     description:

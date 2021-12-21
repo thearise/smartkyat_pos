@@ -46,7 +46,7 @@ class PdfInvoiceApi {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 0.2 * PdfPageFormat.cm),
+                  SizedBox(height: 0.5 * PdfPageFormat.cm),
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),

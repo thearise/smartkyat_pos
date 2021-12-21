@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:one_context/one_context.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
@@ -87,7 +88,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   @override
   initState() {
-    HomePageState().getStoreId().then((value) => shopId = value);
+    getStoreId().then((value) => shopId = value);
     _searchController.addListener((){
       setState(() {
         gloSearchText = _searchController.text;
@@ -147,10 +148,24 @@ class OrdersFragmentState extends State<OrdersFragment>
     super.initState();
   }
 
+
   chgShopIdFrmHomePage() {
     setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
+      getStoreId().then((value) => shopId = value);
     });
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
   }
 
   @override

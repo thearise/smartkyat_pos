@@ -78,7 +78,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
 
   @override
   initState() {
-    HomePageState().getStoreId().then((value) => shopId = value);
+    getStoreId().then((value) => shopId = value);
     _searchController.addListener((){
       setState(() {
         gloSearchText = _searchController.text;
@@ -138,7 +138,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
 
   // chgShopIdFrmHomePage() {
   //   setState(() {
-  //     HomePageState().getStoreId().then((value) => shopId = value);
+  //     getStoreId().then((value) => shopId = value);
   //   });
   // }
 
@@ -185,7 +185,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
 
   chgShopIdFrmHomePage() {
     setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
+      getStoreId().then((value) => shopId = value);
     });
   }
 
