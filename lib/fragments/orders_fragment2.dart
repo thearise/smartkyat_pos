@@ -26,6 +26,9 @@ class OrdersFragment extends StatefulWidget {
 
   OrdersFragment(
       {
+        required this.ordersSnapshot,
+        required this.customersSnapshot,
+        required this.shopId,
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
@@ -41,6 +44,9 @@ class OrdersFragment extends StatefulWidget {
         _barcodeBtn = barcodeBtn,
         super(key: key);
 
+  final String shopId;
+  final ordersSnapshot;
+  final customersSnapshot;
   @override
   OrdersFragmentState createState() => OrdersFragmentState();
 }
@@ -50,7 +56,6 @@ class OrdersFragmentState extends State<OrdersFragment>
         TickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<OrdersFragment> {
 
-  String? shopId;
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
 
@@ -79,16 +84,10 @@ class OrdersFragmentState extends State<OrdersFragment>
   var sectionList3;
   int _sliding = 0;
 
-   Stream<QuerySnapshot>? ordersSnapshot;
-   Stream<QuerySnapshot>?  customerSnapshot;
   @override
   initState() {
-    ordersSnapshot = FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('order')
-        .where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now()))
-        .where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now()))
-        .orderBy('date', descending: true).snapshots();
-    customerSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('customers').snapshots();
-    HomePageState().getStoreId().then((value) => shopId = value);
+    // ordersSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order').orderBy('date', descending: true).snapshots();
+    // customerSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').snapshots();
     // _searchController.addListener((){
     //   setState(() {
     //     gloSearchText = _searchController.text;
@@ -154,11 +153,6 @@ class OrdersFragmentState extends State<OrdersFragment>
     return newList;
   }
 
-  chgShopIdFrmHomePage() {
-    setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
-    });
-  }
 
   @override
   void dispose() {
@@ -3387,11 +3381,11 @@ class OrdersFragmentState extends State<OrdersFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: ordersSnapshot,
+                            stream: widget.ordersSnapshot,
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
                                 return StreamBuilder(
-                                    stream: customerSnapshot,
+                                    stream: widget.customersSnapshot,
                                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
                                       if(snapshot2.hasData) {
                                         var sections = List<ExampleSection>.empty(growable: true);
@@ -3410,7 +3404,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                           Map<String, dynamic> data21 = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
                                           var ayinDoc = data21['date'];
 
-                                          print('here ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
+                                          print('here25 ' + ayinDoc.toDate().day.toString() + ' ' + ayinDoc.toString());
 
                                           List<String> itemsList = [data21['deviceId'] + data21['orderId'] + '^' + data21['deviceId'] + data21['orderId'] + '^' + data21['total'].toString() + '^' + data21['customerId'] + '^' + data21['refund'] + '^' + data21['debt'].toString() + '^' + data21['discount'].toString() + '^' + data21['date'].toDate().hour.toString() + '^' + data21['date'].toDate().minute.toString()];
 
@@ -3704,7 +3698,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
                                                       );
                                                     },
                                                     child: Stack(
@@ -4728,25 +4722,6 @@ class OrdersFragmentState extends State<OrdersFragment>
     return yearStart;
   }
 
-
-  DateTime lossDayStartByDate(DateTime date) {
-    // DateTime today = DateTime.now();
-    // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
-    // today.
-    String endDateOfMonth = '31';
-    if(date.month.toString() == '9' || date.month.toString() == '4' || date.month.toString() == '6' || date.month.toString() == '11') {
-      endDateOfMonth = '30';
-    } else if(date.month.toString() == '2') {
-      endDateOfMonth = '29';
-    } else {
-      endDateOfMonth = '31';
-    }
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
-    print('DDDD ' + yearStart.toString());
-    return yearStart;
-  }
-
   lossDayEnd() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
@@ -4758,18 +4733,6 @@ class OrdersFragmentState extends State<OrdersFragment>
     print('DDDD ' + yearStart.toString());
     return yearStart;
 
-  }
-
-  DateTime lossDayEndByDate(DateTime date) {
-    // DateTime today = DateTime.now();
-    // DateTime yearStart = DateTime.now();
-    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
-    // today.
-    DateTime notTday = date;
-    notTday = date;
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 00:00:00');
-    print('DDDD ' + yearStart.toString());
-    return yearStart;
   }
 
   String selectDaysCast() {

@@ -44,7 +44,10 @@ class ProductsFragment extends StatefulWidget {
   final _barcodeBtn;
 
   ProductsFragment(
-      {required void toggleCoinCallback(),
+      {
+        required this.productsSnapshot,
+        required this.shopId,
+        required void toggleCoinCallback(),
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
@@ -59,6 +62,8 @@ class ProductsFragment extends StatefulWidget {
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
         super(key: key);
+  final String shopId;
+  final productsSnapshot;
   @override
   ProductsFragmentState createState() => ProductsFragmentState();
 }
@@ -67,7 +72,6 @@ class ProductsFragmentState extends State<ProductsFragment>
     with
         TickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<ProductsFragment> {
-  String? shopId;
 
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
@@ -104,12 +108,9 @@ class ProductsFragmentState extends State<ProductsFragment>
   String textSetBestSales = 'Best Sales';
   String textSetLowSales = 'Low Sales';
 
-  Stream<QuerySnapshot>? productsSnapshot;
-
 
   @override
   initState() {
-    productsSnapshot = FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('products').snapshots();
     _bannerAd = BannerAd(
       // Change Banner Size According to Ur Need
         size: AdSize.fullBanner,
@@ -126,11 +127,7 @@ class ProductsFragmentState extends State<ProductsFragment>
         request: AdRequest())
       ..load();
 
-    getStoreId().then((value) {
-      setState(() {
-        shopId = value;
-      });
-    });
+
     // _searchController.addListener((){
     //   setState(() {
     //     gloSearchText = _searchController.text;
@@ -168,17 +165,6 @@ class ProductsFragmentState extends State<ProductsFragment>
     //     });
     //   }
     // });
-
-    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-        .get()
-        .then((QuerySnapshot querySnapshot)  async {
-          print('hhhhh ' + querySnapshot.docs.length.toString());
-      // querySnapshot.docs.forEach((doc) {
-      //   // dateExist = true;
-      //   // dateId = doc.id;
-      // });
-    });
-
     LanguageSettingsState().getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
@@ -245,11 +231,6 @@ class ProductsFragmentState extends State<ProductsFragment>
   //   }
   // }
 
-  chgShopIdFrmHomePage() {
-    setState(() {
-      getStoreId().then((value) => shopId = value);
-    });
-  }
 
   addCustomer2Cart1(data) {
     widget._callback4(data);
@@ -3682,7 +3663,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 
 
                         child: StreamBuilder(
-                            stream: productsSnapshot,
+                            stream: widget.productsSnapshot,
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
                                 // snapshot.data.
@@ -3952,7 +3933,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                 onTap: () {
                                                   Navigator.of(context).push(
                                                     MaterialPageRoute(
-                                                        builder: (context) => ProductDetailsView2(idString: version, toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(),)),);
+                                                        builder: (context) => ProductDetailsView2(idString: version, toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(),)),);
                                                 },
                                                 child: Padding(
                                                   padding:
