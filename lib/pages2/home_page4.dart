@@ -84,8 +84,7 @@ class HomePageState extends State<HomePage>
 
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
-
-  // bool sellDone = true;
+  
   bool onChangeAmountTab = false;
 
   double homeBotPadding = 0;
@@ -107,6 +106,7 @@ class HomePageState extends State<HomePage>
 
   List<String> subList = [];
   List<String> subList2 = [];
+  
   testFunc() async {
     print('hi');
     CollectionReference users = FirebaseFirestore.instance.collection('test');
@@ -125,6 +125,7 @@ class HomePageState extends State<HomePage>
       testFunc();
     }
   }
+
   late TabController _controller;
   late TabController _controllerTablet;
   late TabController _controller2;
@@ -204,12 +205,20 @@ class HomePageState extends State<HomePage>
   List _testList =  [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
 
-
+  //Stream<QuerySnapshot>? orderSnapshot;
+  Stream<QuerySnapshot>? productSnapshot;
+  Stream<QuerySnapshot>? merchantSnapshot;
+ // Stream<QuerySnapshot>? buyOrderSnapshot;
+  Stream<QuerySnapshot>? customerSnapshot;
+  Stream<QuerySnapshot>? customerSnapshot2;
+  Stream<QuerySnapshot>? merchantSnapshot2;
+  Stream<QuerySnapshot>? homeOrderSnapshot;
+  Stream<QuerySnapshot>? homeBuyOrderSnapshot;
+  Stream<QuerySnapshot>? homeLossSnapshot;
+  
   @override
   void initState() {
-    // super.initState();
-
-    // _testList =  [{'no': 1, 'keyword': unitName1}, {'no': 2, 'keyword': unitName2}, {'no': 3, 'keyword': unitName3}];
+    
     _textFieldControllerTablet.addListener((){
       print("value: ${_textFieldControllerTablet.text}");
       setState(() {
@@ -274,36 +283,7 @@ class HomePageState extends State<HomePage>
       deviceIdNum = value;
     });
 
-    getStoreId().then((value0) {
-      setState(() {
-        shopId = value0;
-      });
 
-      // _getId().then((value1) async {
-      //   print('IDD ' + value1.toString());
-      //
-      //   await FirebaseFirestore.instance.collection('shops').doc(shopId).update({
-      //     'devices': FieldValue.arrayUnion([value1.toString()]),
-      //   }).then((value3) async {
-      //     print('User updated');
-      //     await FirebaseFirestore.instance.collection('shops').doc(shopId)
-      //     // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
-      //         .get().then((value2) async {
-      //       List devicesList = value2.data()!['devices'];
-      //
-      //       for(int i = 0; i < devicesList.length; i++) {
-      //         if(devicesList[i] == value1.toString()) {
-      //           print('DV LIST ' + devicesList[i].toString());
-      //           setState(() {
-      //             deviceIdNum = i;
-      //             print('DV LIST 2 ' + deviceIdNum.toString());
-      //           });
-      //         }
-      //       }
-      //     });
-      //   });
-      // });
-    });
     _controller = new TabController(length: 5, vsync: this);
     _controllerTablet = new TabController(length: 4, vsync: this);
     _controller2 = new TabController(length: 3, vsync: this);
@@ -319,9 +299,23 @@ class HomePageState extends State<HomePage>
       onSlideAnimationChanged: handleSlideAnimationChanged,
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
     );
-
-    WidgetsFlutterBinding.ensureInitialized();
-    setState(() {
+    getStoreId().then((value0) {
+      setState(() {
+        shopId = value0;
+      });
+      
+      productSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
+    //  orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('order').orderBy('date', descending: true).snapshots();
+     // buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrder').snapshots();
+      customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
+      merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
+      merchantSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
+      customerSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
+      homeOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('order').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
+      homeBuyOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrder').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
+      homeLossSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('loss').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
+      WidgetsFlutterBinding.ensureInitialized();
+       setState(() {
       tabs = [
         TabItem(
           tabName: "Champions",
@@ -329,7 +323,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: HomeFragment(barcodeBtn: openBarcodeSearch,
-            toggleCoinCallback:addMerchant2Cart, key: homeGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3,
+            toggleCoinCallback:addMerchant2Cart, key: homeGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: homeOrderSnapshot, buyOrdersSnapshot: homeBuyOrderSnapshot, lossSnapshot: homeLossSnapshot
           ),
         ),
         TabItem(
@@ -340,14 +334,14 @@ class HomePageState extends State<HomePage>
           page: OrdersFragment(
             key: sordGlobalKey,
             toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), ordersSnapshot: homeOrderSnapshot, customersSnapshot: customerSnapshot2,),
         ),
         TabItem(
           tabName: "Settings",
           icon: Icon(
             Icons.add,
           ),
-          page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch,),
+          page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
         ),
         TabItem(
           tabName: "Settings",
@@ -358,14 +352,14 @@ class HomePageState extends State<HomePage>
             key: prodGlobalKey,
             toggleCoinCallback: addNewProd2,
             toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot,),
         ),
         TabItem(
           tabName: "Settings",
           icon: Icon(
             Icons.add,
           ),
-          page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch,),
+          page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
         ),
         TabItem(
           tabName: "Settings",
@@ -391,9 +385,8 @@ class HomePageState extends State<HomePage>
           // page: BuyListFragment(),
           page: BuyListFragment( key: bordGlobalKey,
             toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: homeBuyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
         ),
-
         TabItem(
           tabName: "Champions",
           icon: Icon(
@@ -407,8 +400,45 @@ class HomePageState extends State<HomePage>
     tabs.asMap().forEach((index, details) {
       details.setIndex(index);
     });
-
+    });
     super.initState();
+  }
+
+  DateTime lossDayStartByDate(DateTime date) {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    String endDateOfMonth = '31';
+    if(date.month.toString() == '9' || date.month.toString() == '4' || date.month.toString() == '6' || date.month.toString() == '11') {
+      endDateOfMonth = '30';
+    } else if(date.month.toString() == '2') {
+      endDateOfMonth = '29';
+    } else {
+      endDateOfMonth = '31';
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
+  DateTime lossDayEndByDate(DateTime date) {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime notTday = date;
+    notTday = date;
+    int month = notTday.month;
+    int ayinMonth = 0;
+    if(month == 1) {
+      ayinMonth = 12;
+    } else {
+      ayinMonth = month - 1;
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
   }
 
   List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {
@@ -6515,8 +6545,6 @@ class HomePageState extends State<HomePage>
                                                                                 pdfText = pdfFile!.path.toString();
                                                                                 // });
                                                                               });
-
-
                                                                               // mystate(()  {
                                                                               //   prodList = [];
                                                                               //   discount = 0.0;
@@ -6524,16 +6552,12 @@ class HomePageState extends State<HomePage>
                                                                               //   refund =0;
                                                                               //   //customerId = 'name^name';
                                                                               // });
-
-
                                                                               _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                                             });
-
                                                                           }
                                                                         }
                                                                     }
                                                                   });
-
                                                                 },
                                                                 child: Container(
                                                                   width: (MediaQuery.of(context).size.width - 45)/2,
@@ -6575,7 +6599,6 @@ class HomePageState extends State<HomePage>
                                               ),
                                             ),
                                           ),
-
                                         ],
                                       ),
                                     ),
