@@ -83,7 +83,10 @@ class OrdersFragmentState extends State<OrdersFragment>
    Stream<QuerySnapshot>?  customerSnapshot;
   @override
   initState() {
-    ordersSnapshot = FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('order').snapshots();
+    ordersSnapshot = FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('order')
+        .where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now()))
+        .where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now()))
+        .orderBy('date', descending: true).snapshots();
     customerSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('customers').snapshots();
     HomePageState().getStoreId().then((value) => shopId = value);
     // _searchController.addListener((){
@@ -4725,6 +4728,25 @@ class OrdersFragmentState extends State<OrdersFragment>
     return yearStart;
   }
 
+
+  DateTime lossDayStartByDate(DateTime date) {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    String endDateOfMonth = '31';
+    if(date.month.toString() == '9' || date.month.toString() == '4' || date.month.toString() == '6' || date.month.toString() == '11') {
+      endDateOfMonth = '30';
+    } else if(date.month.toString() == '2') {
+      endDateOfMonth = '29';
+    } else {
+      endDateOfMonth = '31';
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
   lossDayEnd() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
@@ -4736,6 +4758,18 @@ class OrdersFragmentState extends State<OrdersFragment>
     print('DDDD ' + yearStart.toString());
     return yearStart;
 
+  }
+
+  DateTime lossDayEndByDate(DateTime date) {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime notTday = date;
+    notTday = date;
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 00:00:00');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
   }
 
   String selectDaysCast() {
