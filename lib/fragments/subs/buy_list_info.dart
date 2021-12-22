@@ -32,11 +32,16 @@ class _BuyListInfoState extends State<BuyListInfo>
   bool get wantKeepAlive => true;
   var docId = '';
   String result = '';
+  Stream<DocumentSnapshot>? buyInfoSnapshot;
+  Stream<DocumentSnapshot>? prodSnapshot;
+  Stream<DocumentSnapshot>? merchantSnapshot;
+
 
   @override
   initState() {
-    print('WIDGET-' + widget.data);
-    print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
+    merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc(widget.data.split('^')[3].split('&')[1]).snapshots();
+    //prodSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc('kkk').snapshots();
+
     var innerId = '';
     result = widget.data
         .split('^')[0] +
@@ -59,10 +64,6 @@ class _BuyListInfoState extends State<BuyListInfo>
         .collection('shops')
         .doc(widget.shopId)
         .collection('buyOrder')
-    // FirebaseFirestore.instance.collection('space')
-    //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
-    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-    // .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
         .where('deviceId', isEqualTo: result.split('^')[0].split('-')[0] + '-')
         .where('orderId', isEqualTo: result.split('^')[0].split('-')[1])
         .get()
@@ -75,10 +76,10 @@ class _BuyListInfoState extends State<BuyListInfo>
       });
 
       print('DOC ID ' + docId.toString());
+      buyInfoSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').doc(docId.toString()).snapshots();
       // return docId;
       // return Container();
     });
-
     super.initState();
   }
 
@@ -139,23 +140,12 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       color: Colors.grey,
                                     ),),
 
-                                  StreamBuilder<
-                                      DocumentSnapshot<
-                                          Map<String, dynamic>>>(
-                                      stream: FirebaseFirestore.instance
-                                          .collection('shops')
-                                          .doc(widget.shopId)
-                                          .collection('merchants')
-                                          .doc(widget.data
-                                          .split('^')[3]
-                                          .split('&')[1])
-                                          .snapshots(),
-                                      builder:
-                                          (BuildContext context, snapshot2) {
-                                        if (snapshot2.hasData) {
-                                          var output1 = snapshot2.data!.data();
-                                          var mainUnit =
-                                          output1?['merchant_name'];
+                                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                      stream:  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc(widget.data.split('^')[3].split('&')[1]).snapshots(),
+                                      builder: (BuildContext context, snapshot10) {
+                                        if (snapshot10.hasData) {
+                                          var output10 = snapshot10.data!.data();
+                                          var mainUnit = output10?['merchant_name'];
                                           return Text('#' +
                                               widget.data.split('^')[1] +' - ' + mainUnit,
                                             style: TextStyle(
@@ -193,8 +183,6 @@ class _BuyListInfoState extends State<BuyListInfo>
                           .doc(widget.shopId)
                           .collection('buyOrder')
                           .doc(docId)
-                      // .collection('detail')
-                      // .doc(widget.data.split('^')[0])
                           .snapshots(),
                       builder: (BuildContext context, snapshot2) {
                         if (snapshot2.hasData) {

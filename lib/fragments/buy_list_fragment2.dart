@@ -26,6 +26,9 @@ class BuyListFragment extends StatefulWidget {
 
   BuyListFragment(
       {
+        required this.buyOrdersSnapshot,
+        required this.merchantsSnapshot,
+        required this.shopId,
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
@@ -40,6 +43,9 @@ class BuyListFragment extends StatefulWidget {
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
         super(key: key);
+  final String shopId;
+  final buyOrdersSnapshot;
+  final merchantsSnapshot;
 
   @override
   BuyListFragmentState createState() => BuyListFragmentState();
@@ -78,14 +84,15 @@ class BuyListFragmentState extends State<BuyListFragment>
   var sectionList3;
   int _sliding = 0;
 
-  Stream<QuerySnapshot>? buyOrdersSnapshot;
-  Stream<QuerySnapshot>? merchantSnapshot;
-
+  // Stream<QuerySnapshot>? buyOrdersSnapshot;
+  // Stream<QuerySnapshot>? merchantSnapshot;
 
   @override
   initState() {
-    buyOrdersSnapshot = FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('buyOrder').snapshots();
-        merchantSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('merchants').snapshots();
+    // print('snapshots ' + widget.buyOrdersSnapshot.toString());
+    // print('snapshots ' + widget.merchantsSnapshot.toString());
+   // buyOrdersSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').orderBy('date', descending: true).snapshots();
+      //  merchantSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').snapshots();
     HomePageState().getStoreId().then((value) => shopId = value);
     // _searchController.addListener((){
     //   setState(() {
@@ -3385,12 +3392,12 @@ class BuyListFragmentState extends State<BuyListFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: buyOrdersSnapshot,
+                            stream: widget.buyOrdersSnapshot,
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
                               if(snapshot.hasData) {
                                 return StreamBuilder(
-                                    stream: merchantSnapshot,
+                                    stream: widget.merchantsSnapshot,
                                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot2) {
                                       if(snapshot2.hasData) {
                                         var sections = List<ExampleSection>.empty(growable: true);

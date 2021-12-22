@@ -59,6 +59,10 @@ class HomeFragment extends StatefulWidget {
   final _barcodeBtn;
 
   HomeFragment({
+    required this.ordersSnapshot,
+    required this.buyOrdersSnapshot,
+    required this.lossSnapshot,
+    required this.shopId,
     required void toggleCoinCallback(String str),
     required void toggleCoinCallback2(String str),
     required void toggleCoinCallback3(String str),
@@ -71,6 +75,10 @@ class HomeFragment extends StatefulWidget {
         _callback4 = toggleCoinCallback4,
         _barcodeBtn = barcodeBtn,
         super(key: key);
+  final shopId;
+  final ordersSnapshot;
+  final buyOrdersSnapshot;
+  final lossSnapshot;
   @override
   HomeFragmentState createState() => HomeFragmentState();
 
@@ -82,7 +90,7 @@ class HomeFragment extends StatefulWidget {
 
 class HomeFragmentState extends State<HomeFragment>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomeFragment> {
-  String? shopId;
+
   TextEditingController _searchController = TextEditingController();
 
   bool loadingSearch = false;
@@ -154,15 +162,24 @@ class HomeFragmentState extends State<HomeFragment>
   late BannerAd _bannerAd;
   bool _isBannerAdReady = false;
 
-  Stream<QuerySnapshot>? orderSnapshot;
-  Stream<QuerySnapshot>? buyOrderSnapshot;
-  Stream<QuerySnapshot>? lossSnapshot;
+  // Stream<QuerySnapshot>? orderSnapshot;
+  // Stream<QuerySnapshot>? buyOrderSnapshot;
+  // Stream<QuerySnapshot>? lossSnapshot;
 
   @override
   initState() {
-    orderSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('order').snapshots();
-    buyOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('buyOrder').snapshots();
-    lossSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('loss').snapshots();
+    // orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('order')
+    //     .where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now()))
+    //     .where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now()))
+    //     .orderBy('date', descending: true).snapshots();
+    // buyOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('buyOrder')
+    //     .where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now()))
+    //     .where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now()))
+    //     .orderBy('date', descending: true).snapshots();
+    // lossSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('loss')
+    //     .where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now()))
+    //     .where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now()))
+    //     .orderBy('date', descending: true).snapshots();
     // super.initState();
     _bannerAd = BannerAd(
       // Change Banner Size According to Ur Need
@@ -182,49 +199,6 @@ class HomeFragmentState extends State<HomeFragment>
 
     _dateTime = DateTime.now();
     print('Timestamp ' + DateTime.now().toString() + ' --> ' + Timestamp.fromMillisecondsSinceEpoch(1599573193925).toString());
-    HomePageState().getStoreId().then((value) {
-      setState(() {
-        shopId = value;
-      });
-    });
-    // _searchController.addListener((){
-    //   setState(() {
-    //     gloSearchText = _searchController.text;
-    //     searchValue = _searchController.text;
-    //   });
-    //   searchKeyChanged();
-    //   // print(searchValue);
-    // });
-    // subTabController = TabController(length: 3, vsync: this);
-    // slidingSearchCont();
-    //
-    // var sections = List<ExampleSection>.empty(growable: true);
-    // var section = ExampleSection()
-    //   ..header = ''
-    // // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-    // //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-    //
-    // //   ..items = document['daily_order'].cast<String>()
-    //
-    //
-    //   ..items = ['']
-    // // ..items = orderItems(document.id)
-    //   ..expanded = true;
-    // sections.add(section);
-    // sectionList = sections;
-    // sectionList1 = sections;
-    // sectionList2 = sections;
-    // sectionListNo = sections;
-    //
-    //
-    // nodeFirst.addListener(() {
-    //   if(nodeFirst.hasFocus) {
-    //     setState(() {
-    //       loadingSearch = true;
-    //     });
-    //   }
-    // });
-    // fetchOrders();
     super.initState();
   }
 
@@ -236,9 +210,9 @@ class HomeFragmentState extends State<HomeFragment>
         showTitle: false,
         confirm: Text('Done', style: TextStyle(color: Colors.Colors.blue)),
       ),
-      minDateTime: DateTime.parse('2010-05-12'),
+      minDateTime: DateTime.now(),
       // maxDateTime: DateTime.parse('2021-11-25'),
-      maxDateTime: DateTime.now().add(const Duration(days: 365)),
+      maxDateTime: DateTime.now(),
       initialDateTime: today,
       dateFormat: _format,
       locale: DateTimePickerLocale.en_us,
@@ -268,12 +242,6 @@ class HomeFragmentState extends State<HomeFragment>
         });
       },
     );
-  }
-
-  chgShopIdFrmHomePage() {
-    setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
-    });
   }
 
   addProduct1(data) {
@@ -1382,7 +1350,7 @@ class HomeFragmentState extends State<HomeFragment>
               child: Stack(
                 children: [
                   StreamBuilder(
-                     stream: orderSnapshot,
+                      stream: widget.ordersSnapshot,
                       // stream: FirebaseFirestore.instance
                       //     .collection('shops')
                       //     .doc(shopId)
@@ -1393,7 +1361,7 @@ class HomeFragmentState extends State<HomeFragment>
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot0) {
                         if(snapshot0.hasData) {
                           return StreamBuilder(
-                            stream: buyOrderSnapshot,
+                              stream: widget.buyOrdersSnapshot,
                               // stream: FirebaseFirestore.instance
                               //     .collection('shops')
                               //     .doc(shopId)
@@ -1428,7 +1396,7 @@ class HomeFragmentState extends State<HomeFragment>
                                             top: 0.0, left: 0.0, right: 0.0),
 
                                         child: StreamBuilder(
-                                          stream: lossSnapshot,
+                                            stream: widget.lossSnapshot,
                                             // stream: FirebaseFirestore.instance
                                             //     .collection('shops')
                                             //     .doc(shopId)
@@ -1618,37 +1586,37 @@ class HomeFragmentState extends State<HomeFragment>
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                                      child: FlatButton(
-                                                                        minWidth: 0,
-                                                                        padding: EdgeInsets.only(left: 12, right: 12),
-                                                                        color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.Colors.white,
-                                                                        shape: RoundedRectangleBorder(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          side: BorderSide(
-                                                                            color: AppTheme.skBorderColor2,
-                                                                          ),
-                                                                        ),
-                                                                        onPressed: () {
-                                                                          _animateToIndex(20);
-                                                                          setState(() {
-                                                                            cateScIndex = 3;
-                                                                            _sliding = 3;
-                                                                          });
-                                                                        },
-                                                                        child: Container(
-                                                                          child: Text(
-                                                                            'Last year',
-                                                                            textAlign: TextAlign.center,
-                                                                            style: TextStyle(
-                                                                                fontSize: 14,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.Colors.black),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
+                                                                    // Padding(
+                                                                    //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                                    //   child: FlatButton(
+                                                                    //     minWidth: 0,
+                                                                    //     padding: EdgeInsets.only(left: 12, right: 12),
+                                                                    //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.Colors.white,
+                                                                    //     shape: RoundedRectangleBorder(
+                                                                    //       borderRadius: BorderRadius.circular(20.0),
+                                                                    //       side: BorderSide(
+                                                                    //         color: AppTheme.skBorderColor2,
+                                                                    //       ),
+                                                                    //     ),
+                                                                    //     onPressed: () {
+                                                                    //       _animateToIndex(20);
+                                                                    //       setState(() {
+                                                                    //         cateScIndex = 3;
+                                                                    //         _sliding = 3;
+                                                                    //       });
+                                                                    //     },
+                                                                    //     child: Container(
+                                                                    //       child: Text(
+                                                                    //         'Last year',
+                                                                    //         textAlign: TextAlign.center,
+                                                                    //         style: TextStyle(
+                                                                    //             fontSize: 14,
+                                                                    //             fontWeight: FontWeight.w500,
+                                                                    //             color: Colors.Colors.black),
+                                                                    //       ),
+                                                                    //     ),
+                                                                    //   ),
+                                                                    // ),
                                                                     SizedBox(
                                                                       width: 11,
                                                                     )
@@ -2542,11 +2510,11 @@ class HomeFragmentState extends State<HomeFragment>
                                   ),
                                   Expanded(
                                     child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: !loadingSearch? 8.0: 4,
-                                            right: 8.0,
-                                            top: 0.5),
-                                        child: Text('Search'),
+                                      padding: EdgeInsets.only(
+                                          left: !loadingSearch? 8.0: 4,
+                                          right: 8.0,
+                                          top: 0.5),
+                                      child: Text('Search'),
                                     ),
                                   ),
                                   GestureDetector(
@@ -6077,6 +6045,7 @@ class HomeFragmentState extends State<HomeFragment>
     }
 
   }
+
 }
 
 class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {

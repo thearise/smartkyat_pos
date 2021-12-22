@@ -32,14 +32,17 @@ class CustomersFragment extends StatefulWidget {
   final _barcodeBtn;
 
   CustomersFragment( {
+    required this.customersSnapshot,
+    required this.shopId,
     required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),required Key key,
     }) : _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4,super(key: key);
+  final String shopId;
+  final customersSnapshot;
   @override
   CustomersFragmentState createState() => CustomersFragmentState();
 }
 
 class CustomersFragmentState extends State<CustomersFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<CustomersFragment>{
-  String? shopId;
 
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
@@ -76,12 +79,11 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   var docId;
   var innerId;
 
-  Stream<QuerySnapshot>? customerSnapshot;
+  // Stream<QuerySnapshot>? customerSnapshot;
 
   @override
   initState() {
-    customerSnapshot = FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('customers').snapshots();
-    HomePageState().getStoreId().then((value) => shopId = value);
+   // customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').snapshots();
     // _searchController.addListener((){
     //   setState(() {
     //     gloSearchText = _searchController.text;
@@ -186,11 +188,6 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   //   }
   // }
 
-  chgShopIdFrmHomePage() {
-    setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
-    });
-  }
 
   addMerchant2Cart(data) {
     widget._callback3(data);
@@ -3717,7 +3714,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
                       child: StreamBuilder(
-                          stream: customerSnapshot,
+                          stream: widget.customersSnapshot,
                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                             if(snapshot.hasData) {
                               // AsyncSnapshot<QuerySnapshot> snapshotModify;
@@ -3890,7 +3887,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                           id: version,
-                                                          toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(),)),
+                                                          toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(),)),
                                             );
                                           },
                                           child: Padding(

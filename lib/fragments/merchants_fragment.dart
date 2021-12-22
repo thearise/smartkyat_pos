@@ -29,14 +29,16 @@ class MerchantsFragment extends StatefulWidget {
   final _callback4;
   final _barcodeBtn;
 
-  MerchantsFragment( {required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), required Key key,} ) :
+  MerchantsFragment( {required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), required Key key,} ) :
         _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
+ final String shopId;
+ final merchantsSnapshot;
   @override
   MerchantsFragmentState createState() => MerchantsFragmentState();
 }
 
+
 class MerchantsFragmentState extends State<MerchantsFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<MerchantsFragment>{
-  String? shopId;
 
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
@@ -73,12 +75,10 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   String textSetAll = 'All';
   String textSetDebts = 'Debts';
 
-  Stream<QuerySnapshot>? merchantSnapshot;
+
 
   @override
-  initState() {
-    merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('merchants').snapshots();
-    HomePageState().getStoreId().then((value) => shopId = value);
+  initState() {//HomePageState().getStoreId().then((value) => shopId = value);
     // _searchController.addListener((){
     //   setState(() {
     //     gloSearchText = _searchController.text;
@@ -169,11 +169,11 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   //   }
   // }
 
-  chgShopIdFrmHomePage() {
-    setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
-    });
-  }
+  // chgShopIdFrmHomePage() {
+  //   setState(() {
+  //     HomePageState().getStoreId().then((value) => shopId = value);
+  //   });
+  // }
 
   addCustomer2Cart1(data) {
     widget._callback4(data);
@@ -3519,7 +3519,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
 
                         child: StreamBuilder(
-                            stream: merchantSnapshot,
+                            stream: widget.merchantsSnapshot,
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
                                 orderList = [];
@@ -3695,7 +3695,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         context) =>
                                                         MerchantInfoSubs(
                                                           id: version,
-                                                          toggleCoinCallback: addMerchant2Cart, shopId: shopId.toString(),)),
+                                                          toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(),)),
                                               );
                                             },
                                             child: Padding(
