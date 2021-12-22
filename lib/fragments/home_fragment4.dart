@@ -160,9 +160,18 @@ class HomeFragmentState extends State<HomeFragment>
 
   @override
   initState() {
-    orderSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('order').snapshots();
-    buyOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('buyOrder').snapshots();
-    lossSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('loss').snapshots();
+    orderSnapshot = FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('order')
+        .where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now()))
+        .where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now()))
+        .orderBy('date', descending: true).snapshots();
+    buyOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('buyOrder')
+        .where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now()))
+        .where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now()))
+        .orderBy('date', descending: true).snapshots();
+    lossSnapshot =  FirebaseFirestore.instance.collection('shops').doc('dn5nP4BQU5ShulxlaXA8').collection('loss')
+        .where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now()))
+        .where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now()))
+        .orderBy('date', descending: true).snapshots();
     // super.initState();
     _bannerAd = BannerAd(
       // Change Banner Size According to Ur Need
@@ -236,9 +245,9 @@ class HomeFragmentState extends State<HomeFragment>
         showTitle: false,
         confirm: Text('Done', style: TextStyle(color: Colors.Colors.blue)),
       ),
-      minDateTime: DateTime.parse('2010-05-12'),
+      minDateTime: DateTime.now(),
       // maxDateTime: DateTime.parse('2021-11-25'),
-      maxDateTime: DateTime.now().add(const Duration(days: 365)),
+      maxDateTime: DateTime.now(),
       initialDateTime: today,
       dateFormat: _format,
       locale: DateTimePickerLocale.en_us,
@@ -1618,37 +1627,37 @@ class HomeFragmentState extends State<HomeFragment>
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                                      child: FlatButton(
-                                                                        minWidth: 0,
-                                                                        padding: EdgeInsets.only(left: 12, right: 12),
-                                                                        color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.Colors.white,
-                                                                        shape: RoundedRectangleBorder(
-                                                                          borderRadius: BorderRadius.circular(20.0),
-                                                                          side: BorderSide(
-                                                                            color: AppTheme.skBorderColor2,
-                                                                          ),
-                                                                        ),
-                                                                        onPressed: () {
-                                                                          _animateToIndex(20);
-                                                                          setState(() {
-                                                                            cateScIndex = 3;
-                                                                            _sliding = 3;
-                                                                          });
-                                                                        },
-                                                                        child: Container(
-                                                                          child: Text(
-                                                                            'Last year',
-                                                                            textAlign: TextAlign.center,
-                                                                            style: TextStyle(
-                                                                                fontSize: 14,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.Colors.black),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
+                                                                    // Padding(
+                                                                    //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                                    //   child: FlatButton(
+                                                                    //     minWidth: 0,
+                                                                    //     padding: EdgeInsets.only(left: 12, right: 12),
+                                                                    //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.Colors.white,
+                                                                    //     shape: RoundedRectangleBorder(
+                                                                    //       borderRadius: BorderRadius.circular(20.0),
+                                                                    //       side: BorderSide(
+                                                                    //         color: AppTheme.skBorderColor2,
+                                                                    //       ),
+                                                                    //     ),
+                                                                    //     onPressed: () {
+                                                                    //       _animateToIndex(20);
+                                                                    //       setState(() {
+                                                                    //         cateScIndex = 3;
+                                                                    //         _sliding = 3;
+                                                                    //       });
+                                                                    //     },
+                                                                    //     child: Container(
+                                                                    //       child: Text(
+                                                                    //         'Last year',
+                                                                    //         textAlign: TextAlign.center,
+                                                                    //         style: TextStyle(
+                                                                    //             fontSize: 14,
+                                                                    //             fontWeight: FontWeight.w500,
+                                                                    //             color: Colors.Colors.black),
+                                                                    //       ),
+                                                                    //     ),
+                                                                    //   ),
+                                                                    // ),
                                                                     SizedBox(
                                                                       width: 11,
                                                                     )
@@ -6076,6 +6085,43 @@ class HomeFragmentState extends State<HomeFragment>
       return yearStart;
     }
 
+  }
+
+  DateTime lossDayStartByDate(DateTime date) {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    String endDateOfMonth = '31';
+    if(date.month.toString() == '9' || date.month.toString() == '4' || date.month.toString() == '6' || date.month.toString() == '11') {
+      endDateOfMonth = '30';
+    } else if(date.month.toString() == '2') {
+      endDateOfMonth = '29';
+    } else {
+      endDateOfMonth = '31';
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
+  DateTime lossDayEndByDate(DateTime date) {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime notTday = date;
+    notTday = date;
+    int month = notTday.month;
+    int ayinMonth = 0;
+    if(month == 1) {
+      ayinMonth = 12;
+    } else {
+      ayinMonth = month - 1;
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
   }
 }
 
