@@ -35,7 +35,7 @@ import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/home_fragment4.dart';
 import 'package:smartkyat_pos/fragments/merchant_cart2.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
-import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
+import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
 import 'package:smartkyat_pos/fragments/test.dart';
@@ -205,7 +205,7 @@ class HomePageState extends State<HomePage>
   List _testList =  [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
 
-  //Stream<QuerySnapshot>? orderSnapshot;
+  Stream<QuerySnapshot>? orderSnapshot;
   Stream<QuerySnapshot>? productSnapshot;
   Stream<QuerySnapshot>? merchantSnapshot;
  // Stream<QuerySnapshot>? buyOrderSnapshot;
@@ -312,7 +312,7 @@ class HomePageState extends State<HomePage>
       shopFoundSnapshot = FirebaseFirestore.instance.collection('shops').where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString()).snapshots();
 
       productSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
-      //  orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('order').orderBy('date', descending: true).snapshots();
+      orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
      // buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrder').snapshots();
       customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
       merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
@@ -340,7 +340,7 @@ class HomePageState extends State<HomePage>
           ),
           page: OrdersFragment(
             toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), ordersSnapshot: homeOrderSnapshot, customersSnapshot: customerSnapshot2,),
+            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2,),
         ),
         TabItem(
           tabName: "Settings",
@@ -6528,9 +6528,6 @@ class HomePageState extends State<HomePage>
 
                                                                     }
 
-                                                                    print('subList2 ' + subList2.toString());
-                                                                    Detail(now, length.toString(),subList2);
-
                                                                     if(customerId.split('^')[0] != 'name' && debt.toString() != '0.0') {
                                                                       debts = 1;
                                                                       debtAmounts = debt;
@@ -6538,6 +6535,8 @@ class HomePageState extends State<HomePage>
                                                                       debts = 0;
                                                                       debtAmounts = 0;
                                                                     }
+
+                                                                    print('subList2 ' + subList2.toString());
 
                                                                     if(customerId.split('^')[0] != 'name') {
                                                                       totalOrders = totalOrders + 1;
@@ -6559,10 +6558,12 @@ class HomePageState extends State<HomePage>
                                                                       print('adddateexist added');
                                                                       }
                                                                       else {
-                                                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now);
+                                                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
                                                                         print('adddateexist not');
                                                                       }
                                                                         });
+
+                                                                    Detail(now, length.toString(),subList2);
 
                                                                     List<String> subNameList = [];
                                                                     int subNameListLength = 0;
@@ -8280,13 +8281,13 @@ class HomePageState extends State<HomePage>
   Future<void> Detail(date, length, subs) async {
     print('CHECKING PRODSALE ORD');
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order');
+    String customId = deviceIdNum.toString() + length.toString();
 
-    detail.add({
+    detail.doc(customId).set({
       'date': date,
       'total': TtlProdListPrice(),
       'debt' : debt,
       'discount' : discountAmount.toString() + disText,
-      //'docId' : id1,
       'refund': 'FALSE',
       'subs': subs,
       'customerId' : customerId.split('^')[0],
@@ -8302,10 +8303,7 @@ class HomePageState extends State<HomePage>
 
     // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));
 
-    users
-        .doc(shopId)
-        .update({'orders_length': FieldValue.increment(1)})
-        .then((value) => print("User Updated"))
+    users.doc(shopId).update({'orders_length': FieldValue.increment(1)}).then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
 
@@ -8411,7 +8409,7 @@ class HomePageState extends State<HomePage>
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
-  Future<void> DatenotExist(dOrder, date) async {
+  Future<void> DatenotExist(dOrder, date, length) async {
     // print('PROD ' + prodList.toString());
     // double totalTOTAL = 0;
     // print(prodList2.toString());
@@ -8440,7 +8438,7 @@ class HomePageState extends State<HomePage>
     // print('CHECKING PRODSALE ORD DatenotExist');
     CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
 
-    String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString();
+    String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) +  deviceIdNum.toString();
 
     daily.doc(customId).set({
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
@@ -8450,8 +8448,6 @@ class HomePageState extends State<HomePage>
     }).catchError((error) => print("Failed to update user: $error"));
   }
 }
-
-
 
 class FadeRoute extends PageRouteBuilder {
   final Widget page;
