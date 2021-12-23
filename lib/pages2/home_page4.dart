@@ -84,7 +84,7 @@ class HomePageState extends State<HomePage>
 
   Animation<double>? _rotationAnimation;
   Color _fabColor = Colors.blue;
-  
+
   bool onChangeAmountTab = false;
 
   double homeBotPadding = 0;
@@ -106,7 +106,7 @@ class HomePageState extends State<HomePage>
 
   List<String> subList = [];
   List<String> subList2 = [];
-  
+
   testFunc() async {
     print('hi');
     CollectionReference users = FirebaseFirestore.instance.collection('test');
@@ -219,7 +219,7 @@ class HomePageState extends State<HomePage>
   var shopSnapshot;
   Stream<QuerySnapshot>? userSnapshot;
   Stream<QuerySnapshot>? shopFoundSnapshot;
-  
+
   @override
   void initState() {
     _textFieldControllerTablet.addListener((){
@@ -400,8 +400,6 @@ class HomePageState extends State<HomePage>
       //     page: SearchFragment(toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
       //   ),
       // ];
-
-
       tabs = [
        TabItem(
          tabName: "Champions",
@@ -419,7 +417,7 @@ class HomePageState extends State<HomePage>
          ),
          page: OrdersFragment(key: sordGlobalKey,
            toggleCoinCallback2: addProduct,
-           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), ordersSnapshot: homeOrderSnapshot, customersSnapshot: customerSnapshot2,),
+           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2,),
        ),
        TabItem(
          tabName: "Settings",
