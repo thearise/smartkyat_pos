@@ -174,14 +174,14 @@ class HomePageState extends State<HomePage>
     super.dispose();
   }
 
-  GlobalKey<HomeFragmentState> homeGlobalKey = GlobalKey();
-  GlobalKey<ProductsFragmentState> prodGlobalKey = GlobalKey();
-  GlobalKey<BuyListFragmentState> bordGlobalKey = GlobalKey();
-  GlobalKey<OrdersFragmentState> sordGlobalKey = GlobalKey();
-  GlobalKey<CustomersFragmentState> custGlobalKey = GlobalKey();
-  GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
-  GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
-  GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
+  // GlobalKey<HomeFragmentState> homeGlobalKey = GlobalKey();
+  // GlobalKey<ProductsFragmentState> prodGlobalKey = GlobalKey();
+  // GlobalKey<BuyListFragmentState> bordGlobalKey = GlobalKey();
+  // GlobalKey<OrdersFragmentState> sordGlobalKey = GlobalKey();
+  // GlobalKey<CustomersFragmentState> custGlobalKey = GlobalKey();
+  // GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
+  // GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
+  // GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
 
   Future<String?> _getId() async {
     var deviceInfo = DeviceInfoPlugin();
@@ -329,8 +329,8 @@ class HomePageState extends State<HomePage>
           icon: Icon(
             Icons.add,
           ),
-          page: HomeFragment(barcodeBtn: openBarcodeSearch,
-            toggleCoinCallback:addMerchant2Cart, key: homeGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: homeOrderSnapshot, buyOrdersSnapshot: homeBuyOrderSnapshot, lossSnapshot: homeLossSnapshot
+          page: HomeFragment(barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
+            toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: homeOrderSnapshot, buyOrdersSnapshot: homeBuyOrderSnapshot, lossSnapshot: homeLossSnapshot
           ),
         ),
         TabItem(
@@ -339,7 +339,6 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: OrdersFragment(
-            key: sordGlobalKey,
             toggleCoinCallback2: addProduct,
             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), ordersSnapshot: homeOrderSnapshot, customersSnapshot: customerSnapshot2,),
         ),
@@ -348,7 +347,7 @@ class HomePageState extends State<HomePage>
           icon: Icon(
             Icons.add,
           ),
-          page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
+          page: CustomersFragment(toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
         ),
         TabItem(
           tabName: "Settings",
@@ -356,7 +355,6 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           page: ProductsFragment(
-            key: prodGlobalKey,
             toggleCoinCallback: addNewProd2,
             toggleCoinCallback2: addProduct,
             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot,),
@@ -366,7 +364,7 @@ class HomePageState extends State<HomePage>
           icon: Icon(
             Icons.add,
           ),
-          page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
+          page: MerchantsFragment(toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
         ),
         TabItem(
           tabName: "Settings",
@@ -382,7 +380,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           // page: BuyListFragment(),
-          page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting),
+          page: SettingsFragment(changeShopCallback: chgShopIdFromSetting),
         ),
         TabItem(
           tabName: "Settings",
@@ -390,7 +388,7 @@ class HomePageState extends State<HomePage>
             Icons.add,
           ),
           // page: BuyListFragment(),
-          page: BuyListFragment( key: bordGlobalKey,
+          page: BuyListFragment(
             toggleCoinCallback2: addProduct,
             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: homeBuyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
         ),
@@ -399,7 +397,7 @@ class HomePageState extends State<HomePage>
           icon: Icon(
             Icons.add,
           ),
-          page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
+          page: SearchFragment(toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
         ),
       ];
     });
@@ -480,9 +478,29 @@ class HomePageState extends State<HomePage>
 
   chgIndexFromSearch(index) {
     setState(() {
-      _selectTab(0);
-      _selectIndex = 0;
+      int chgIndex = 0;
+      if(ayinIndex == 1) {
+        chgIndex = 3;
+      } else if(ayinIndex == 2) {
+        chgIndex = 1;
+      } else if(ayinIndex == 3) {
+        chgIndex = 7;
+      } else if(ayinIndex == 4) {
+        chgIndex = 2;
+      } else if(ayinIndex == 5) {
+        chgIndex = 4;
+      } else {
+        chgIndex = ayinIndex;
+      }
+      _selectTab(chgIndex);
+      // _selectIndex = 0;
     });
+  }
+
+  openSearchFromFrag() {
+    ayinIndex = _selectIndex;
+    _selectTab(8);
+    // searchGlobalKey.currentState!.focusSearch();
   }
 
   closeNewProduct() {
@@ -658,12 +676,8 @@ class HomePageState extends State<HomePage>
         stream: emailSnapshot,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
           if(snapshotUser.hasData) {
-
-            print('email ' + auth.currentUser!.email.toString());
             Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
             var role = dataUser['role'];
-
-            print('Role ' + role.toString());
             if(ayinHar != role) {
               if(role=='cashier') {
                 currentTab = 3;
@@ -683,12 +697,12 @@ class HomePageState extends State<HomePage>
             return Scaffold(
               onDrawerChanged: (isOpened) {
                 if(isOpened) {
-                  homeGlobalKey.currentState!.unfocusSearch();
-                  prodGlobalKey.currentState!.unfocusSearch();
-                  custGlobalKey.currentState!.unfocusSearch();
-                  mercGlobalKey.currentState!.unfocusSearch();
-                  sordGlobalKey.currentState!.unfocusSearch();
-                  bordGlobalKey.currentState!.unfocusSearch();
+                  // homeGlobalKey.currentState!.unfocusSearch();
+                  // prodGlobalKey.currentState!.unfocusSearch();
+                  // custGlobalKey.currentState!.unfocusSearch();
+                  // mercGlobalKey.currentState!.unfocusSearch();
+                  // sordGlobalKey.currentState!.unfocusSearch();
+                  // bordGlobalKey.currentState!.unfocusSearch();
                 }
               },
               resizeToAvoidBottomInset: false,
@@ -831,7 +845,7 @@ class HomePageState extends State<HomePage>
                                           ),
                                         GestureDetector(
                                           onTap: () {
-                                            homeGlobalKey.currentState!.closeSearch();
+                                            // homeGlobalKey.currentState!.closeSearch();
                                             // prodGlobalKey.currentState!.closeSearch();
                                             // custGlobalKey.currentState!.closeSearch();
                                             // mercGlobalKey.currentState!.closeSearch();
@@ -1239,7 +1253,6 @@ class HomePageState extends State<HomePage>
               body: StreamBuilder(
                   stream: shopFoundSnapshot,
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    print('current ' + FirebaseAuth.instance.currentUser.toString());
                     if(snapshot.hasData) {
                       List<bool> shopFound = [];
                       getStoreId().then((value) async {
@@ -1259,7 +1272,6 @@ class HomePageState extends State<HomePage>
                         Map<String, dynamic> data = snapshot.data!.docs[loop]
                             .data()! as Map<String, dynamic>;
                         var shop_name = data['shop_name'];
-                        print('SHOP LIST ' + shop_name);
                         getStoreId().then((value) async {
                           if(snapshot.data!.docs[loop].id == value) {
                             shopFound.add(true);
@@ -1267,7 +1279,6 @@ class HomePageState extends State<HomePage>
                             shopFound.add(false);
                           }
                           if(loop == snapshot.data!.docs.length-1) {
-                            print('SHOP LIST LIST ' + shopFound.toString());
                             for(int i = 0; i < shopFound.length; i++) {
                               if(shopFound[i]) {
                                 break;
@@ -3776,15 +3787,7 @@ class HomePageState extends State<HomePage>
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  // Navigator.of(context).push(
-                                                  //   FadeRoute(page: QRSearchExample()),
-                                                  // );
-                                                  ayinIndex = _selectIndex;
-                                                  // setState(() {
-                                                  //
-                                                  // });
-                                                  _selectTab(8);
-                                                  // searchGlobalKey.currentState!.focusSearch();
+                                                  openSearchFromFrag();
                                                 },
                                                 child: Row(
                                                   children: [
@@ -3806,7 +3809,204 @@ class HomePageState extends State<HomePage>
                                     ],
                                   ),
                                 ),
-                              )
+                              ),
+
+                              // bottomNavigationBar: AnimatedPadding(
+                              //   padding: MediaQuery.of(context).viewInsets,
+                              //   duration: const Duration(milliseconds: 100),
+                              //   curve: Curves.decelerate,
+                              //   child: Container(
+                              //     color: Colors.white,
+                              //     height: MediaQuery.of(context).size.width > 900 ? 57 : 142,
+                              //     child: Column(
+                              //       children: [
+                              //         if (MediaQuery.of(context).size.width > 900) Container() else Container(
+                              //           decoration: BoxDecoration(
+                              //               color: Colors.white,
+                              //               border: Border(
+                              //                 top: BorderSide(
+                              //                     color: AppTheme.skBorderColor2,
+                              //                     width: 1.0),
+                              //               )
+                              //           ),
+                              //           child: Padding(
+                              //             padding:
+                              //             const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0),
+                              //             child: Container(
+                              //               height: 50,
+                              //               child: GestureDetector(
+                              //                 onTap: () {
+                              //                   saleCart(context);
+                              //                 },
+                              //                 child: (prodList.length == 0) ? Container(
+                              //                   decoration: BoxDecoration(
+                              //                     borderRadius: BorderRadius.circular(10.0),
+                              //                     color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
+                              //                     // color: Colors.blue
+                              //                   ),
+                              //
+                              //                   child: Padding(
+                              //                     padding: const EdgeInsets.only(
+                              //                         top: 13.0, bottom: 15.0),
+                              //                     child: Row(
+                              //                       mainAxisAlignment:
+                              //                       MainAxisAlignment.center,
+                              //                       children: [
+                              //                         Expanded(
+                              //                           child: Padding(
+                              //                             padding: const EdgeInsets.only(
+                              //                                 left: 8.0,
+                              //                                 right: 8.0,
+                              //                                 bottom: 2.0),
+                              //                             child: Container(
+                              //                               child: Text(
+                              //                                 'Go to cart',
+                              //                                 textAlign: TextAlign.center,
+                              //                                 style: TextStyle(
+                              //                                     fontSize: 18,
+                              //                                     fontWeight: FontWeight.w500,
+                              //                                     color: Colors.black),
+                              //                               ),
+                              //                             ),
+                              //                           ),
+                              //                         ),
+                              //                       ],
+                              //                     ),
+                              //                   ),
+                              //                 ) : Container(
+                              //                   decoration: BoxDecoration(
+                              //                     borderRadius: BorderRadius.circular(10.0),
+                              //                     color: AppTheme.themeColor,
+                              //                     // color: Colors.blue
+                              //                   ),
+                              //
+                              //                   child: Padding(
+                              //                     padding: const EdgeInsets.only(
+                              //                         top: 13.0, bottom: 15.0),
+                              //                     child: Row(
+                              //                       mainAxisAlignment:
+                              //                       MainAxisAlignment.center,
+                              //                       children: [
+                              //                         Expanded(
+                              //                           child: Padding(
+                              //                             padding: const EdgeInsets.only(
+                              //                                 left: 8.0,
+                              //                                 right: 8.0,
+                              //                                 bottom: 2.0),
+                              //                             child: int.parse(totalItems()) == 1? Container(
+                              //                               child:
+                              //                               Text(
+                              //                                 totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
+                              //                                 textAlign: TextAlign.center,
+                              //                                 style: TextStyle(
+                              //                                     fontSize: 18,
+                              //                                     fontWeight: FontWeight.w500,
+                              //                                     color: Colors.black),
+                              //                               ),
+                              //                             ) : Container(
+                              //                               child:
+                              //                               Text(
+                              //                                 totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
+                              //                                 textAlign: TextAlign.center,
+                              //                                 style: TextStyle(
+                              //                                     fontSize: 18,
+                              //                                     fontWeight: FontWeight.w500,
+                              //                                     color: Colors.black),
+                              //                               ),
+                              //                             ),
+                              //                           ),
+                              //                         ),
+                              //                       ],
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         Container(
+                              //           height: 57,
+                              //           decoration: BoxDecoration(
+                              //               border: Border(
+                              //                 top: BorderSide(
+                              //                     color: AppTheme.skBorderColor2, width: 1.0),
+                              //               )),
+                              //           child: Padding(
+                              //             padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                              //             child: Row(
+                              //               mainAxisAlignment: MainAxisAlignment.center,
+                              //               children: [
+                              //                 Padding(
+                              //                   padding: const EdgeInsets.only(
+                              //                       left: 15.0,top:0.0
+                              //                   ),
+                              //                   child: GestureDetector(
+                              //                     onTap: () {
+                              //                       _scaffoldKey.currentState!.openDrawer();
+                              //                     },
+                              //                     child: selectedTab(
+                              //
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //                 Expanded(
+                              //                   child: Container(
+                              //                       child: Text(
+                              //                         '',
+                              //                         textAlign: TextAlign.center,
+                              //                         style: TextStyle(
+                              //                             fontSize: 16.5,
+                              //                             fontWeight: FontWeight.w600,
+                              //                             color: Colors.black.withOpacity(0.6)),
+                              //                       )),
+                              //                 ),
+                              //                 GestureDetector(
+                              //                   onTap: () {
+                              //
+                              //                   },
+                              //                   child: Row(
+                              //                     children: [
+                              //                       // StreamBuilder<
+                              //                       //     DocumentSnapshot<
+                              //                       //         Map<String, dynamic>>>(
+                              //                       //     stream: FirebaseFirestore.instance
+                              //                       //         .collection('test')
+                              //                       //         .doc('TtWFXrDF1feBVlUTPyQr')
+                              //                       //         .snapshots(),
+                              //                       //     builder:
+                              //                       //         (BuildContext context, snapshot2) {
+                              //                       //       if (snapshot2.hasData) {
+                              //                       //         var output1 = snapshot2.data!.data();
+                              //                       //         var mainUnit =
+                              //                       //         output1?['double'];
+                              //                       //         return Text(mainUnit.toString(),
+                              //                       //           style: TextStyle(
+                              //                       //             fontSize: 18,
+                              //                       //             fontWeight: FontWeight.bold,
+                              //                       //           ),
+                              //                       //         );
+                              //                       //       }
+                              //                       //       return Container();
+                              //                       //     }),
+                              //                       Padding(
+                              //                         padding: const EdgeInsets.only(
+                              //                             right: 13.0,top:2.0
+                              //                         ),
+                              //                         child: Container(
+                              //                             child: Image.asset('assets/system/menu.png', height: 33,)
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 )
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // )
                             // Bottom navigation
 
                           ),

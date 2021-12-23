@@ -22,7 +22,6 @@ import 'package:smartkyat_pos/fragments/subs/donut.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import 'package:smartkyat_pos/fragments/subs/top_sale_detail.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/pie_chart/simple.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:flutter/src/material/colors.dart' as Colors;
@@ -57,6 +56,7 @@ class HomeFragment extends StatefulWidget {
   final _callback3;
   final _callback4;
   final _barcodeBtn;
+  final _searchBtn;
 
   HomeFragment({
     required this.ordersSnapshot,
@@ -68,12 +68,14 @@ class HomeFragment extends StatefulWidget {
     required void toggleCoinCallback3(String str),
     required void toggleCoinCallback4(String str),
     required void barcodeBtn(),
+    required void searchBtn(),
     Key? key,
   }) :  _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2,
         _callback3 = toggleCoinCallback3,
         _callback4 = toggleCoinCallback4,
         _barcodeBtn = barcodeBtn,
+        _searchBtn = searchBtn,
         super(key: key);
   final shopId;
   final ordersSnapshot;
@@ -2445,11 +2447,12 @@ class HomeFragmentState extends State<HomeFragment>
                             top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                         child: GestureDetector(
                           onTap: () {
-                            FocusScope.of(context).requestFocus(nodeFirst);
-                            setState(() {
-                              loadingSearch = true;
-                            });
-                            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                            widget._searchBtn();
+                            // FocusScope.of(context).requestFocus(nodeFirst);
+                            // setState(() {
+                            //   loadingSearch = true;
+                            // });
+                            // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -2470,19 +2473,20 @@ class HomeFragmentState extends State<HomeFragment>
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      if(loadingSearch) {
-                                        _searchController.clear();
-                                        FocusScope.of(context).unfocus();
-                                        setState(() {
-                                          loadingSearch = false;
-                                        });
-                                      } else {
-                                        FocusScope.of(context).requestFocus(nodeFirst);
-                                        setState(() {
-                                          loadingSearch = true;
-                                        });
-                                        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                      }
+
+                                      // if(loadingSearch) {
+                                      //   _searchController.clear();
+                                      //   FocusScope.of(context).unfocus();
+                                      //   setState(() {
+                                      //     loadingSearch = false;
+                                      //   });
+                                      // } else {
+                                      //   FocusScope.of(context).requestFocus(nodeFirst);
+                                      //   setState(() {
+                                      //     loadingSearch = true;
+                                      //   });
+                                      //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                                      // }
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 12.0),
@@ -2508,13 +2512,28 @@ class HomeFragmentState extends State<HomeFragment>
                                       ),
                                     ),
                                   ),
+                                  // Expanded(
+                                  //   child: Padding(
+                                  //     padding: EdgeInsets.only(
+                                  //         left: !loadingSearch? 8.0: 4,
+                                  //         right: 8.0,
+                                  //         top: 0.5),
+                                  //     child: Text('Search'),
+                                  //   ),
+                                  // ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: !loadingSearch? 8.0: 4,
-                                          right: 8.0,
-                                          top: 0.5),
-                                      child: Text('Search'),
+                                        padding: EdgeInsets.only(
+                                            left: 13,
+                                            bottom: 1.5),
+                                        child: Text(
+                                          'Search',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.Colors.black.withOpacity(0.55)
+                                          ),
+                                        )
                                     ),
                                   ),
                                   GestureDetector(

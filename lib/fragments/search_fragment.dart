@@ -11,7 +11,6 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
@@ -30,8 +29,18 @@ class SearchFragment extends StatefulWidget {
   final _barcodeBtn;
   final _chgIndex;
 
-  SearchFragment( {required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), required Key key, required Function(dynamic index) chgIndexFromSearch,} ) :
-        _chgIndex = chgIndexFromSearch,_barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
+  SearchFragment( {
+    required void barcodeBtn(),
+    required void toggleCoinCallback3(String str),
+    required void toggleCoinCallback(String str),
+    required void toggleCoinCallback2(String str),
+    required void toggleCoinCallback4(String str),
+    Key? key,
+    required Function(dynamic index) chgIndexFromSearch,}
+    ) :
+        _chgIndex = chgIndexFromSearch,
+        _barcodeBtn = barcodeBtn,
+        _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
   @override
   SearchFragmentState createState() => SearchFragmentState();
 }
@@ -131,10 +140,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       }
     });
     super.initState();
-    WidgetsBinding.instance!
-        .addPostFrameCallback((_) {
-      // FocusScope.of(context).requestFocus(nodeFirst);
-    });
+    // WidgetsBinding.instance!
+    //     .addPostFrameCallback((_) {
+    //   FocusScope.of(context).requestFocus(nodeFirst);
+    // });
   }
 
   focusSearch() {
@@ -3563,6 +3572,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                                     // }
                                     widget._chgIndex(0);
+                                    FocusScope.of(context).unfocus();
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 12.0),

@@ -314,8 +314,8 @@
 //           icon: Icon(
 //             Icons.add,
 //           ),
-//           page: HomeFragment(barcodeBtn: openBarcodeSearch,
-//             toggleCoinCallback:addMerchant2Cart, key: homeGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3,
+//           page: HomeFragment(barcodeBtn: openBarcodeSearch, searchBtn: (){},
+//               toggleCoinCallback:addMerchant2Cart, key: null, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: homeOrderSnapshot, buyOrdersSnapshot: homeBuyOrderSnapshot, lossSnapshot: homeLossSnapshot
 //           ),
 //         ),
 //         TabItem(
@@ -324,16 +324,16 @@
 //             Icons.add,
 //           ),
 //           page: OrdersFragment(
-//             key: sordGlobalKey,
+//             key: null,
 //             toggleCoinCallback2: addProduct,
-//             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
+//             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), ordersSnapshot: homeOrderSnapshot, customersSnapshot: customerSnapshot2,),
 //         ),
 //         TabItem(
 //           tabName: "Settings",
 //           icon: Icon(
 //             Icons.add,
 //           ),
-//           page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch,),
+//           page: CustomersFragment(key: null, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: (){}),
 //         ),
 //         TabItem(
 //           tabName: "Settings",
@@ -341,17 +341,17 @@
 //             Icons.add,
 //           ),
 //           page: ProductsFragment(
-//             key: prodGlobalKey,
+//             key: null,
 //             toggleCoinCallback: addNewProd2,
 //             toggleCoinCallback2: addProduct,
-//             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
+//             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: (){},),
 //         ),
 //         TabItem(
 //           tabName: "Settings",
 //           icon: Icon(
 //             Icons.add,
 //           ),
-//           page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch,),
+//           page: MerchantsFragment(key: null, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: (){},),
 //         ),
 //         TabItem(
 //           tabName: "Settings",
@@ -367,7 +367,7 @@
 //             Icons.add,
 //           ),
 //           // page: BuyListFragment(),
-//           page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting),
+//           page: SettingsFragment(key: null, changeShopCallback: chgShopIdFromSetting),
 //         ),
 //         TabItem(
 //           tabName: "Settings",
@@ -375,10 +375,17 @@
 //             Icons.add,
 //           ),
 //           // page: BuyListFragment(),
-//           page: BuyListFragment( key: bordGlobalKey,
-//             toggleCoinCallback2: addProduct,
-//             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch,),
+//           page: BuyListFragment( key: null,
+//               toggleCoinCallback2: addProduct,
+//               toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: homeBuyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
 //         ),
+//         // TabItem(
+//         //   tabName: "Champions",
+//         //   icon: Icon(
+//         //     Icons.add,
+//         //   ),
+//         //   page: SearchFragment(key: null, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
+//         // ),
 //       ];
 //     });
 //
