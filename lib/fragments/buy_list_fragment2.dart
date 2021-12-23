@@ -92,6 +92,13 @@ class BuyListFragmentState extends State<BuyListFragment>
     return prefs.getString('store');
   }
 
+  bool searchOpening = false;
+  changeSearchOpening(bool index) {
+    setState(() {
+      searchOpening = index;
+    });
+  }
+
   @override
   initState() {
     // print('snapshots ' + widget.buyOrdersSnapshot.toString());
@@ -3387,7 +3394,7 @@ class BuyListFragmentState extends State<BuyListFragment>
             bottom: true,
             child: Stack(
               children: [
-                Align(
+                !searchOpening? Align(
                   alignment: Alignment.center,
                   child: Padding(
                     // padding: const EdgeInsets.only(top: 138.0),
@@ -3972,7 +3979,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                         )
                     ),
                   ),
-                ),
+                ): Container(),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(

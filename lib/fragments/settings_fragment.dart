@@ -53,6 +53,13 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
     }
   }
 
+  bool searchOpening = false;
+  changeSearchOpening(bool index) {
+    setState(() {
+      searchOpening = index;
+    });
+  }
+
   initState() {
     getStoreId().then((value) {
       setState(() {
@@ -176,7 +183,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
         body: SafeArea(
           bottom: true,
           top: true,
-          child: Column(
+          child: !searchOpening? Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
@@ -535,7 +542,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                     ),
                   ),
                 ],
-              ),
+              ): Container(),
         )
     );
   }
