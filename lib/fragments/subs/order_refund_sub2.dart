@@ -35,9 +35,29 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   List<int> refundItems = [];
   List<int> deffItems = [];
+  var documentId = '';
   @override
   initState() {
-
+    print('phyopyaesohn' + widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00');
+    var innerId = '';
+    FirebaseFirestore.instance
+        .collection('shops')
+        .doc(widget.shopId)
+        .collection('orders')
+    // FirebaseFirestore.instance.collection('space')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        innerId = doc.id;
+      });
+      setState(() {
+        documentId = innerId;
+      });
+      // return docId;
+      // return Container();
+    });
     super.initState();
   }
 
@@ -536,6 +556,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           for(int j=0; j< prodList.length; j++) {
                                             print('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
                                             int refund = 0;
+
                                             if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= int.parse(prodList[j].split('-')[3])) {
                                               refund = value - int.parse(prodList[j].split('-')[7]);
                                               print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
@@ -614,12 +635,25 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 .split('^')[3]
                                                 .split('&')[1] +
                                             '^' +
-                                            isRef +
+                                            refundAmount +
                                             data.split('^')[4][1] + '^' + debt.toString() + '^' + data.split('^')[6];
 
 
                                         CollectionReference dOrder = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
                                         CollectionReference cusRefund = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
+                                        CollectionReference dailyOrders = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
+
+                                        dailyOrders.doc(documentId).update({
+                                          'daily_order':
+                                          FieldValue.arrayRemove([dataRm])
+                                        }).then((value) {print('array removed');})
+                                            .catchError((error) => print("Failed to update user: $error"));
+
+                                        dailyOrders.doc(documentId).update({
+                                          'daily_order':
+                                          FieldValue.arrayUnion([data])
+                                        }).then((value) { print('array updated');})
+                                            .catchError((error) => print("Failed to update user: $error"));
 
                                         dOrder.doc(widget.docId).update({
                                           'subs': prodList,

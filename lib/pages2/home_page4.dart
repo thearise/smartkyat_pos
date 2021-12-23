@@ -215,10 +215,13 @@ class HomePageState extends State<HomePage>
   Stream<QuerySnapshot>? homeOrderSnapshot;
   Stream<QuerySnapshot>? homeBuyOrderSnapshot;
   Stream<QuerySnapshot>? homeLossSnapshot;
+  Stream<QuerySnapshot>? emailSnapshot;
+  var shopSnapshot;
+  Stream<QuerySnapshot>? userSnapshot;
+  Stream<QuerySnapshot>? shopFoundSnapshot;
   
   @override
   void initState() {
-    
     _textFieldControllerTablet.addListener((){
       print("value: ${_textFieldControllerTablet.text}");
       setState(() {
@@ -303,9 +306,13 @@ class HomePageState extends State<HomePage>
       setState(() {
         shopId = value0;
       });
-      
+      userSnapshot = FirebaseFirestore.instance.collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).snapshots();
+      emailSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).limit(1).snapshots();
+      shopSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots();
+      shopFoundSnapshot = FirebaseFirestore.instance.collection('shops').where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString()).snapshots();
+
       productSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
-    //  orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('order').orderBy('date', descending: true).snapshots();
+      //  orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('order').orderBy('date', descending: true).snapshots();
      // buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrder').snapshots();
       customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
       merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
@@ -666,10 +673,7 @@ class HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     homeBotPadding = MediaQuery.of(context).padding.bottom;
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
-            .where('email', isEqualTo: auth.currentUser!.email.toString())
-            .limit(1)
-            .snapshots(),
+        stream: emailSnapshot,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
           if(snapshotUser.hasData) {
             Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
@@ -734,10 +738,7 @@ class HomePageState extends State<HomePage>
 
                                     },
                                     child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                        stream: FirebaseFirestore.instance
-                                            .collection('shops')
-                                            .doc(shopId)
-                                            .snapshots(),
+                                        stream:  shopSnapshot,
                                         builder: (BuildContext context, snapshot) {
                                           if (snapshot.hasData) {
                                             var output = snapshot.data!.data();
@@ -1180,9 +1181,7 @@ class HomePageState extends State<HomePage>
                                   child: Row(
                                     children: [
                                       StreamBuilder(
-                                          stream: FirebaseFirestore.instance.collection('users')
-                                              .where('email', isEqualTo: auth.currentUser!.email.toString())
-                                              .snapshots(),
+                                          stream: userSnapshot,
                                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                             if(snapshot.hasData) {
                                               return Expanded(
@@ -1246,21 +1245,13 @@ class HomePageState extends State<HomePage>
                               ),
                             ],
                           ),
-
                         ]),
-
-
                   ),
-
-
                 ),
               ),
 
               body: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('shops')
-                      .where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString())
-                      .snapshots(),
+                  stream: shopFoundSnapshot,
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if(snapshot.hasData) {
                       List<bool> shopFound = [];
@@ -2958,44 +2949,6 @@ class HomePageState extends State<HomePage>
                                                                                   letterSpacing: 2,
                                                                                   color: Colors.grey,
                                                                                 ),),
-                                                                                SizedBox(height: 15,),
-                                                                                // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                                                                //   stream: FirebaseFirestore
-                                                                                //       .instance
-                                                                                //       .collection('space')
-                                                                                //       .doc(
-                                                                                //       '0NHIS0Jbn26wsgCzVBKT')
-                                                                                //       .collection('shops')
-                                                                                //       .doc(
-                                                                                //       shopId)
-                                                                                //       .collection('products')
-                                                                                //       .doc(eachProd.split('^')[0])
-                                                                                //       .snapshots(),
-                                                                                //   builder: (BuildContext context, snapshot2) {
-                                                                                //     if (snapshot2.hasData) {
-                                                                                // var output = snapshot2.data!.data();
-                                                                                // // var prodName = output?['prod_name'];
-                                                                                // var mainName = output?['unit_name'];
-                                                                                // var sub1Name = output?['sub1_name'];
-                                                                                // var sub2Name = output?['sub2_name'];
-                                                                                // // var sub3Name = output?['sub3_name'];
-                                                                                // var barcode = output?['bar_code'];
-                                                                                // // var mainPrice = output?['unit_sell'];
-                                                                                // // var sub1Price = output?['sub1_sell'];
-                                                                                // // var sub2Price = output?['sub2_sell'];
-                                                                                // // var sub3Price = output?['sub3_sell'];
-                                                                                // // var sub1Unit = output?['sub1_link'];
-                                                                                // // var sub2Unit = output?['sub2_link'];
-                                                                                // // var sub3Unit = output?['sub3_link'];
-                                                                                // // var subExist = output?['sub_exist'];
-                                                                                // var mainLoss = output?['Loss1'].round();
-                                                                                // var sub1Loss = output?['Loss2'].round();
-                                                                                // var sub2Loss = output?['Loss3'].round();
-                                                                                // var mainQty = output?['inStock1'].round();
-                                                                                // var sub1Qty = output?['inStock2'].round();
-                                                                                // var sub2Qty = output?['inStock3'].round();
-                                                                                // var image = output?['img_1'];
-                                                                                //return
                                                                                 Container(
                                                                                   height: 220,
                                                                                   decoration: BoxDecoration(
@@ -3838,28 +3791,6 @@ class HomePageState extends State<HomePage>
                                                 },
                                                 child: Row(
                                                   children: [
-                                                    // StreamBuilder<
-                                                    //     DocumentSnapshot<
-                                                    //         Map<String, dynamic>>>(
-                                                    //     stream: FirebaseFirestore.instance
-                                                    //         .collection('test')
-                                                    //         .doc('TtWFXrDF1feBVlUTPyQr')
-                                                    //         .snapshots(),
-                                                    //     builder:
-                                                    //         (BuildContext context, snapshot2) {
-                                                    //       if (snapshot2.hasData) {
-                                                    //         var output1 = snapshot2.data!.data();
-                                                    //         var mainUnit =
-                                                    //         output1?['double'];
-                                                    //         return Text(mainUnit.toString(),
-                                                    //           style: TextStyle(
-                                                    //             fontSize: 18,
-                                                    //             fontWeight: FontWeight.bold,
-                                                    //           ),
-                                                    //         );
-                                                    //       }
-                                                    //       return Container();
-                                                    //     }),
                                                     Padding(
                                                       padding: const EdgeInsets.only(
                                                           right: 13.0,top:2.0
@@ -6530,6 +6461,8 @@ class HomePageState extends State<HomePage>
                                                                   int length = 0;
                                                                   int totalOrders = 0;
                                                                   int debts = 0;
+                                                                  var dateExist = false;
+                                                                  var dateId = '';
                                                                   double debtAmounts = 0 ;
                                                                   print('order creating');
 
@@ -6596,7 +6529,6 @@ class HomePageState extends State<HomePage>
                                                                     }
 
                                                                     print('subList2 ' + subList2.toString());
-
                                                                     Detail(now, length.toString(),subList2);
 
                                                                     if(customerId.split('^')[0] != 'name' && debt.toString() != '0.0') {
@@ -6611,6 +6543,26 @@ class HomePageState extends State<HomePage>
                                                                       totalOrders = totalOrders + 1;
                                                                       CusOrder(totalOrders, debts, debtAmounts);
                                                                     }
+
+                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                                                                        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                                        .get()
+                                                                        .then((QuerySnapshot querySnapshot)  async {
+                                                                      querySnapshot.docs.forEach((doc) {
+                                                                        dateExist = true;
+                                                                        dateId = doc.id;
+                                                                      });
+
+                                                                      if (dateExist) {
+                                                                        addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                      print('adddateexist added');
+                                                                      }
+                                                                      else {
+                                                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now);
+                                                                        print('adddateexist not');
+                                                                      }
+                                                                        });
 
                                                                     List<String> subNameList = [];
                                                                     int subNameListLength = 0;
@@ -8066,42 +8018,6 @@ class HomePageState extends State<HomePage>
     return total.toString();
   }
 
-  TtlProdListPrice2()  {
-    double total = 0;
-    print(prodList2.toString());
-    for (String str in prodList2) {
-      total += int.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
-      disPercent2 = (double.parse(total.toString()) *
-          (discountAmount2 / 100)).round();
-    }
-    if(isDiscount2 == 'percent'){
-      discountAmount2 = discount2;
-      print(discountAmount2.toString());
-      disText2 = '-p';
-      total = (double.parse(total.toString()) -
-          (double.parse(total.toString()) *
-              (discountAmount2 / 100)));
-    } else if(isDiscount2 == 'amount'){
-      discountAmount2 = discount2;
-      disText2 ='-d';
-      total = (double.parse(total.toString()) - discountAmount2);
-    } else {
-      disText2 = '';
-      discountAmount2 = 0.0;
-      total = double.parse(total.toString());
-    }
-    return total.toString();
-  }
-
-
-  // TtlProdListPrice2() {
-  //   int total = 0;
-  //   //print(prodList.toString());
-  //   for (String str in prodList2) {
-  //     total += int.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
-  //   }
-  //   return total.toString();
-  // }
   totalItems2() {
     int total = 0;
     //print(prodList.toString());
@@ -8380,24 +8296,6 @@ class HomePageState extends State<HomePage>
         .catchError((error) => print("Failed to update user: $error"));
   }
 
-
-  Future<void> merchOrder(id1, id2 , length) async {
-    print('CHECKING PRODSALE ORD');
-    CollectionReference cusOrder = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants').doc(merchantId.split('^')[0]).collection('buyOrders');
-
-    cusOrder.doc(id2).set({
-      'order_id': id2,
-      'debt' : debt2,
-      'order_pid': id1,
-      'refund' : 'FALSE',
-      'discount' : discountAmount2.toString() + disText2,
-      'total': TtlProdListPrice2(),
-      'deviceId' : deviceIdNum.toString() + '-',
-      'voucherId' : length.toString(),})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
-  }
-
   Future<void> orderLengthIncrease() async {
     print('CHECKING PRODSALE ORD');
     CollectionReference users = await FirebaseFirestore.instance.collection('shops');
@@ -8505,7 +8403,55 @@ class HomePageState extends State<HomePage>
     return prefs.getString('paper');
   }
 
+  Future<void> addDateExist(id1, id2, dOrder , length) async {
+    CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+    daily.doc(id1).update({
+      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+    })
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+  Future<void> DatenotExist(dOrder, date) async {
+    // print('PROD ' + prodList.toString());
+    // double totalTOTAL = 0;
+    // print(prodList2.toString());
+    // for (String str in prodList2) {
+    //   totalTOTAL += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
+    //   disPercent = (double.parse(totalTOTAL.toString()) *
+    //       (discountAmount / 100)).round();
+    // }
+    // if(isDiscount == 'percent'){
+    //   discountAmount = discount;
+    //   print(discountAmount.toString());
+    //   disText = '-p';
+    //   totalTOTAL = (double.parse(totalTOTAL.toString()) -
+    //       (double.parse(totalTOTAL.toString()) *
+    //           (discountAmount / 100)));
+    // } else if(isDiscount == 'amount'){
+    //   discountAmount = discount;
+    //   disText ='-d';
+    //   totalTOTAL = (double.parse(totalTOTAL.toString()) - discountAmount);
+    // } else {
+    //   disText = '';
+    //   discountAmount = 0.0;
+    //   totalTOTAL = double.parse(totalTOTAL.toString());
+    // }
+    //
+    // print('CHECKING PRODSALE ORD DatenotExist');
+    CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+
+    String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) + zeroToTen(date.second.toString()) + deviceIdNum.toString();
+
+    daily.doc(customId).set({
+      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+      'date' : date
+    }).then((value) {
+         print('date Exist added');
+    }).catchError((error) => print("Failed to update user: $error"));
+  }
 }
+
+
 
 class FadeRoute extends PageRouteBuilder {
   final Widget page;
