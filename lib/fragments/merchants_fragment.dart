@@ -74,7 +74,12 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   String textSetAll = 'All';
   String textSetDebts = 'Debts';
 
-
+  bool searchOpening = false;
+  changeSearchOpening(bool index) {
+    setState(() {
+      searchOpening = index;
+    });
+  }
 
   @override
   initState() {//HomePageState().getStoreId().then((value) => shopId = value);
@@ -3501,7 +3506,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
             bottom: true,
             child: Stack(
               children: [
-                Align(
+                !searchOpening ? Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 81.0),
@@ -3887,7 +3892,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                       ),
                     ),
                   ),
-                ),
+                ): Container(),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(

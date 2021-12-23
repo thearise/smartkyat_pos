@@ -105,7 +105,13 @@ class HomeFragmentState extends State<HomeFragment>
 
   DateTime today = DateTime.now();
 
+  bool searchOpening = false;
 
+  changeSearchOpening(bool index) {
+    setState(() {
+      searchOpening = index;
+    });
+  }
 
 
   @override
@@ -1274,6 +1280,7 @@ class HomeFragmentState extends State<HomeFragment>
   late final i18nGalleries = i18n.buildGallery();
   late final legendsGalleries = legends.buildGallery();
 
+
   @override
   Widget build(BuildContext context) {
     var galleries = <Widget>[];
@@ -1351,7 +1358,7 @@ class HomeFragmentState extends State<HomeFragment>
               //     : MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
-                  StreamBuilder(
+                  !searchOpening? StreamBuilder(
                       stream: widget.ordersSnapshot,
                       // stream: FirebaseFirestore.instance
                       //     .collection('shops')
@@ -2430,7 +2437,7 @@ class HomeFragmentState extends State<HomeFragment>
                         }
                         return Container();
                       }
-                  ),
+                  ):Container(),
                   Align(
                     alignment: Alignment.topCenter,
                     child: Container(

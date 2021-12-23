@@ -108,6 +108,12 @@ class ProductsFragmentState extends State<ProductsFragment>
   String textSetBestSales = 'Best Sales';
   String textSetLowSales = 'Low Sales';
 
+  bool searchOpening = false;
+  changeSearchOpening(bool index) {
+    setState(() {
+      searchOpening = index;
+    });
+  }
 
   @override
   initState() {
@@ -3646,7 +3652,7 @@ class ProductsFragmentState extends State<ProductsFragment>
             bottom: true,
             child: Stack(
               children: [
-                Align(
+                !searchOpening? Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 81.0),
@@ -4228,7 +4234,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                       ),
                     ),
                   ),
-                ),
+                ): Container(),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(

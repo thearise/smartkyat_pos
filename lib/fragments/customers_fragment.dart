@@ -80,6 +80,13 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
 
   // Stream<QuerySnapshot>? customerSnapshot;
 
+  bool searchOpening = false;
+  changeSearchOpening(bool index) {
+    setState(() {
+      searchOpening = index;
+    });
+  }
+
   @override
   initState() {
    // customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').snapshots();
@@ -3701,7 +3708,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
             bottom: true,
             child: Stack(
               children: [
-                Align(
+                !searchOpening? Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 81.0),
@@ -4092,7 +4099,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                       ),
                     ),
                   ),
-                ),
+                ): Container(),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
