@@ -263,6 +263,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                       builder: (BuildContext context, snapshot2) {
                         if (snapshot2.hasData) {
                           var output1 = snapshot2.data!.data();
+                          print('phyophyo' + result.toString());
                           // print(output1?['subs'].toString());
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
@@ -388,7 +389,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                        widget.data
                                                         .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                         .split('^')[6];
-
 
                                                     result = await Navigator.push(
                                                       context,

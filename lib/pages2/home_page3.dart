@@ -6436,6 +6436,7 @@
 //                                                                       if (dateExist) {
 //                                                                         addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
 //                                                                         Detail(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), length.toString(),);
+//
 //                                                                         if(customerId.split('-')[0] != 'name') {
 //                                                                           CusOrder(dateId,
 //                                                                             now.year.toString() + zeroToTen(now.month.toString()) +
@@ -6446,48 +6447,6 @@
 //                                                                                 deviceIdNum.toString() + length.toString(),
 //                                                                             length.toString(),);
 //                                                                         }
-//                                                                         // daily_order.doc(dateId).update({
-//                                                                         //   'daily_order': FieldValue.arrayUnion([now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText]),
-//                                                                         //   'each_order' : FieldValue.arrayUnion([length.toString()])
-//                                                                         // }).then((value) async {
-//                                                                         //   print('User updated');
-//                                                                         //   setState(() {
-//                                                                         //     orderLoading = false;
-//                                                                         //   });
-//                                                                         //   await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(dateId).collection('detail')
-//                                                                         //       .doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-//                                                                         //       .set({
-//                                                                         //     'total': TtlProdListPrice(),
-//                                                                         //     'subs': subList,
-//                                                                         //     'docId' : dateId,
-//                                                                         //     'customerId' : customerId.split('-')[0],
-//                                                                         //     'orderId' : length.toString(),
-//                                                                         //     'debt' : debt,
-//                                                                         //     'deviceId' : deviceIdNum.toString() + '-',
-//                                                                         //     'refund' : 'FALSE',
-//                                                                         //     'discount' : discountAmount.toString() + disText,
-//                                                                         //   }).then((value) {
-//                                                                         //     print('order added');
-//                                                                         //     print('totalPrice3 ' + TtlProdListPrice());
-//                                                                         //   });
-//                                                                         //
-//                                                                         //
-//                                                                         //   if(customerId.split('-')[0] != 'name') {
-//                                                                         //
-//                                                                         //     await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers').doc(customerId.split('-')[0]).collection('orders').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString())
-//                                                                         //         .set({
-//                                                                         //       'order_id': (now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString()),
-//                                                                         //       'debt' : debt,
-//                                                                         //       'order_pid': dateId,
-//                                                                         //       'refund' : 'FALSE',
-//                                                                         //       'discount' : discountAmount.toString() + disText,
-//                                                                         //       'total': TtlProdListPrice(),
-//                                                                         //       'deviceId' : deviceIdNum.toString() + '-',
-//                                                                         //       'voucherId' : length.toString(),
-//                                                                         //     }).then((value) {
-//                                                                         //       print('cus order added');
-//                                                                         //     }); }
-//                                                                         // });
 //                                                                       } else {
 //                                                                         DatenotExist(prodList, value.id, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('-')[0] + '^pf' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString(), now);
 //                                                                         // CollectionReference daily_order2 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
