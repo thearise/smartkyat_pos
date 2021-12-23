@@ -64,6 +64,13 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   bool buySellerStatus = false;
 
+  bool searchOpening = false;
+  changeSearchOpening(bool index) {
+    setState(() {
+      searchOpening = index;
+    });
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -3370,7 +3377,7 @@ class OrdersFragmentState extends State<OrdersFragment>
             bottom: true,
             child: Stack(
               children: [
-                Align(
+                !searchOpening? Align(
                   alignment: Alignment.center,
                   child: Padding(
                     // padding: const EdgeInsets.only(top: 138.0),
@@ -3942,7 +3949,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         )
                     ),
                   ),
-                ),
+                ): Container(),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(

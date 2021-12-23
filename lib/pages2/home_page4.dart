@@ -174,14 +174,14 @@ class HomePageState extends State<HomePage>
     super.dispose();
   }
 
-  // GlobalKey<HomeFragmentState> homeGlobalKey = GlobalKey();
-  // GlobalKey<ProductsFragmentState> prodGlobalKey = GlobalKey();
-  // GlobalKey<BuyListFragmentState> bordGlobalKey = GlobalKey();
-  // GlobalKey<OrdersFragmentState> sordGlobalKey = GlobalKey();
-  // GlobalKey<CustomersFragmentState> custGlobalKey = GlobalKey();
-  // GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
-  // GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
-  // GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
+  GlobalKey<HomeFragmentState> homeGlobalKey = GlobalKey();
+  GlobalKey<ProductsFragmentState> prodGlobalKey = GlobalKey();
+  GlobalKey<BuyListFragmentState> bordGlobalKey = GlobalKey();
+  GlobalKey<OrdersFragmentState> sordGlobalKey = GlobalKey();
+  GlobalKey<CustomersFragmentState> custGlobalKey = GlobalKey();
+  GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
+  GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
+  GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
 
   Future<String?> _getId() async {
     var deviceInfo = DeviceInfoPlugin();
@@ -323,82 +323,163 @@ class HomePageState extends State<HomePage>
       homeLossSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('loss').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
       WidgetsFlutterBinding.ensureInitialized();
        setState(() {
+      // tabs = [
+      //   TabItem(
+      //     tabName: "Champions",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     page: HomeFragment(barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
+      //       toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: homeOrderSnapshot, buyOrdersSnapshot: homeBuyOrderSnapshot, lossSnapshot: homeLossSnapshot
+      //     ),
+      //   ),
+      //   TabItem(
+      //     tabName: "Items",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     page: OrdersFragment(
+      //       toggleCoinCallback2: addProduct,
+      //       toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), ordersSnapshot: homeOrderSnapshot, customersSnapshot: customerSnapshot2,),
+      //   ),
+      //   TabItem(
+      //     tabName: "Settings",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     page: CustomersFragment(toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
+      //   ),
+      //   TabItem(
+      //     tabName: "Settings",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     page: ProductsFragment(
+      //       toggleCoinCallback: addNewProd2,
+      //       toggleCoinCallback2: addProduct,
+      //       toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot,),
+      //   ),
+      //   TabItem(
+      //     tabName: "Settings",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     page: MerchantsFragment(toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
+      //   ),
+      //   TabItem(
+      //     tabName: "Settings",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     // page: BuyListFragment(),
+      //     page: SettingsFragment(changeShopCallback: chgShopIdFromSetting),
+      //   ),
+      //   TabItem(
+      //     tabName: "Settings",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     // page: BuyListFragment(),
+      //     page: SettingsFragment(changeShopCallback: chgShopIdFromSetting),
+      //   ),
+      //   TabItem(
+      //     tabName: "Settings",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     // page: BuyListFragment(),
+      //     page: BuyListFragment(
+      //       toggleCoinCallback2: addProduct,
+      //       toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: homeBuyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
+      //   ),
+      //   TabItem(
+      //     tabName: "Champions",
+      //     icon: Icon(
+      //       Icons.add,
+      //     ),
+      //     page: SearchFragment(toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
+      //   ),
+      // ];
+
+
       tabs = [
-        TabItem(
-          tabName: "Champions",
-          icon: Icon(
-            Icons.add,
-          ),
-          page: HomeFragment(barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
-            toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: homeOrderSnapshot, buyOrdersSnapshot: homeBuyOrderSnapshot, lossSnapshot: homeLossSnapshot
-          ),
-        ),
-        TabItem(
-          tabName: "Items",
-          icon: Icon(
-            Icons.add,
-          ),
-          page: OrdersFragment(
-            toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2,),
-        ),
-        TabItem(
-          tabName: "Settings",
-          icon: Icon(
-            Icons.add,
-          ),
-          page: CustomersFragment(toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
-        ),
-        TabItem(
-          tabName: "Settings",
-          icon: Icon(
-            Icons.add,
-          ),
-          page: ProductsFragment(
-            toggleCoinCallback: addNewProd2,
-            toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot,),
-        ),
-        TabItem(
-          tabName: "Settings",
-          icon: Icon(
-            Icons.add,
-          ),
-          page: MerchantsFragment(toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
-        ),
-        TabItem(
-          tabName: "Settings",
-          icon: Icon(
-            Icons.add,
-          ),
-          // page: BuyListFragment(),
-          page: SettingsFragment(changeShopCallback: chgShopIdFromSetting),
-        ),
-        TabItem(
-          tabName: "Settings",
-          icon: Icon(
-            Icons.add,
-          ),
-          // page: BuyListFragment(),
-          page: SettingsFragment(changeShopCallback: chgShopIdFromSetting),
-        ),
-        TabItem(
-          tabName: "Settings",
-          icon: Icon(
-            Icons.add,
-          ),
-          // page: BuyListFragment(),
-          page: BuyListFragment(
-            toggleCoinCallback2: addProduct,
-            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: homeBuyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
-        ),
-        TabItem(
-          tabName: "Champions",
-          icon: Icon(
-            Icons.add,
-          ),
-          page: SearchFragment(toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
-        ),
+       TabItem(
+         tabName: "Champions",
+         icon: Icon(
+           Icons.add,
+         ),
+         page: HomeFragment(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
+             toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: homeOrderSnapshot, buyOrdersSnapshot: homeBuyOrderSnapshot, lossSnapshot: homeLossSnapshot
+         ),
+       ),
+       TabItem(
+         tabName: "Items",
+         icon: Icon(
+           Icons.add,
+         ),
+         page: OrdersFragment(key: sordGlobalKey,
+           toggleCoinCallback2: addProduct,
+           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), ordersSnapshot: homeOrderSnapshot, customersSnapshot: customerSnapshot2,),
+       ),
+       TabItem(
+         tabName: "Settings",
+         icon: Icon(
+           Icons.add,
+         ),
+         page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
+       ),
+       TabItem(
+         tabName: "Settings",
+         icon: Icon(
+           Icons.add,
+         ),
+         page: ProductsFragment(
+           key: prodGlobalKey,
+           toggleCoinCallback: addNewProd2,
+           toggleCoinCallback2: addProduct,
+           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot,),
+       ),
+       TabItem(
+         tabName: "Settings",
+         icon: Icon(
+           Icons.add,
+         ),
+         page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
+       ),
+       TabItem(
+         tabName: "Settings",
+         icon: Icon(
+           Icons.add,
+         ),
+         // page: BuyListFragment(),
+         page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting),
+       ),
+       TabItem(
+         tabName: "Settings",
+         icon: Icon(
+           Icons.add,
+         ),
+         // page: BuyListFragment(),
+         page: SettingsFragment(changeShopCallback: chgShopIdFromSetting),
+       ),
+       TabItem(
+         tabName: "Settings",
+         icon: Icon(
+           Icons.add,
+         ),
+         // page: BuyListFragment(),
+         page: BuyListFragment(
+             key: bordGlobalKey,
+             toggleCoinCallback2: addProduct,
+             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: homeBuyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
+       ),
+       TabItem(
+         tabName: "Champions",
+         icon: Icon(
+           Icons.add,
+         ),
+         page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
+       ),
       ];
     });
 
@@ -490,6 +571,10 @@ class HomePageState extends State<HomePage>
       } else if(ayinIndex == 5) {
         chgIndex = 4;
       } else {
+        if(ayinIndex == 0) {
+          homeGlobalKey.currentState!.changeSearchOpening(false);
+        }
+
         chgIndex = ayinIndex;
       }
       _selectTab(chgIndex);
@@ -500,7 +585,14 @@ class HomePageState extends State<HomePage>
   openSearchFromFrag() {
     ayinIndex = _selectIndex;
     _selectTab(8);
-    // searchGlobalKey.currentState!.focusSearch();
+    searchGlobalKey.currentState!.focusSearch();
+    homeGlobalKey.currentState!.changeSearchOpening(true);
+    prodGlobalKey.currentState!.changeSearchOpening(true);
+    sordGlobalKey.currentState!.changeSearchOpening(true);
+    bordGlobalKey.currentState!.changeSearchOpening(true);
+    custGlobalKey.currentState!.changeSearchOpening(true);
+    mercGlobalKey.currentState!.changeSearchOpening(true);
+    settGlobalKey.currentState!.changeSearchOpening(true);
   }
 
   closeNewProduct() {
@@ -3638,7 +3730,8 @@ class HomePageState extends State<HomePage>
                               ),
                               bottomNavigationBar: Padding(
                                 padding: EdgeInsets.only(
-                                    bottom: homeBotPadding
+                                    bottom: homeBotPadding,
+                                    // bottom: MediaQuery.of(context).viewInsets.bottom
                                 ),
                                 child: Container(
                                   color: Colors.white,
