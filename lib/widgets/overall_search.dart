@@ -2,7 +2,7 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
-// import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
+// import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 // import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 // import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 //

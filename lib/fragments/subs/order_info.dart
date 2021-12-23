@@ -95,7 +95,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
    // print('WIDGET-' + widget.data);
    // print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
-    var innerId = '';
     result = widget.data
         .split('^')[0] +
         '^' +
@@ -113,29 +112,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         .split('^')[6];
 
     print('ccccccc' + result.split('^')[0].split('-')[0].toString());
-    FirebaseFirestore.instance
-        .collection('shops')
-        .doc(widget.shopId)
-        .collection('order')
-    // FirebaseFirestore.instance.collection('space')
-    //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
-    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-    // .where('date', isEqualTo: widget.data.split('^')[0].substring(0, 8))
-        .where('deviceId', isEqualTo: result.split('^')[0].split('-')[0] + '-')
-        .where('orderId', isEqualTo: result.split('^')[0].split('-')[1])
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        innerId = doc.id;
-      });
-      setState(() {
-        docId = innerId;
-      });
-
-      print('DOC ID ' + docId.toString());
-      // return docId;
-      // return Container();
-    });
+    docId = (widget.data.split('^')[1].split('-')[0] + widget.data.split('^')[1].split('-')[1]).toString();
 
     super.initState();
   }

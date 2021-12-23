@@ -23,7 +23,7 @@ import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
-import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
+import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
