@@ -89,6 +89,13 @@ class OrdersFragmentState extends State<OrdersFragment>
   String textSetTRefunds = 'Refunds';
   String textSetTPaid = 'Paids';
 
+  bool searchOpening = false;
+  changeSearchOpening(bool index) {
+    setState(() {
+      searchOpening = index;
+    });
+  }
+
   @override
   initState() {
     getStoreId().then((value) => shopId = value);
@@ -3767,7 +3774,7 @@ class OrdersFragmentState extends State<OrdersFragment>
             bottom: true,
             child: Stack(
               children: [
-                Align(
+                !searchOpening? Align(
                   alignment: Alignment.center,
                   child: Padding(
                     // padding: const EdgeInsets.only(top: 138.0),
@@ -4588,7 +4595,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         )
                     ),
                   ),
-                ),
+                ): Container(),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
