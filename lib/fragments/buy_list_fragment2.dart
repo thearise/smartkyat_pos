@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:one_context/one_context.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:intl/intl.dart';
@@ -34,7 +34,7 @@ class BuyListFragment extends StatefulWidget {
         required void toggleCoinCallback4(String str),
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
-        required Key key,
+        Key? key,
       })
       :
         _callback2 = toggleCoinCallback2,
@@ -87,13 +87,18 @@ class BuyListFragmentState extends State<BuyListFragment>
   // Stream<QuerySnapshot>? buyOrdersSnapshot;
   // Stream<QuerySnapshot>? merchantSnapshot;
 
+  getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('store');
+  }
+
   @override
   initState() {
     // print('snapshots ' + widget.buyOrdersSnapshot.toString());
     // print('snapshots ' + widget.merchantsSnapshot.toString());
    // buyOrdersSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').orderBy('date', descending: true).snapshots();
       //  merchantSnapshot =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').snapshots();
-    HomePageState().getStoreId().then((value) => shopId = value);
+    getStoreId().then((value) => shopId = value);
     // _searchController.addListener((){
     //   setState(() {
     //     gloSearchText = _searchController.text;
@@ -136,7 +141,7 @@ class BuyListFragmentState extends State<BuyListFragment>
 
   chgShopIdFrmHomePage() {
     setState(() {
-      HomePageState().getStoreId().then((value) => shopId = value);
+      getStoreId().then((value) => shopId = value);
     });
   }
 
@@ -3421,7 +3426,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                         if(snapshot.data!.docs.length>0) {
                                           Map<String, dynamic> data21 = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
                                           var ayinDoc = data21['date'];
-                                          
+
 
 
 
