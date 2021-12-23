@@ -53,7 +53,7 @@ class ProductsFragment extends StatefulWidget {
         required void toggleCoinCallback4(String str),
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
-        required Key key,
+        Key? key,
       })
       : _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2,

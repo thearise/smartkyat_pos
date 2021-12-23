@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_customer.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
@@ -34,7 +33,7 @@ class CustomersFragment extends StatefulWidget {
   CustomersFragment( {
     required this.customersSnapshot,
     required this.shopId,
-    required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),required Key key,
+    required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),Key? key,
     }) : _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4,super(key: key);
   final String shopId;
   final customersSnapshot;
