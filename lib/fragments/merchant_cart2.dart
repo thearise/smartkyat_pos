@@ -634,9 +634,7 @@ class MerchantCartState extends State<MerchantCart>
                                                     color: Colors.white,
                                                     width: 2,
                                                   )),
-                                              child: Text(widget.prodList2[i]
-                                                  .split(
-                                                  '^')[2], style: TextStyle(
+                                              child: Text(widget.prodList2[i].split('^')[2], style: TextStyle(
                                                 fontSize: 11, fontWeight: FontWeight.w500,
                                               )),
                                             ),
@@ -918,19 +916,33 @@ class MerchantCartState extends State<MerchantCart>
         .catchError((error) => print("Failed to update user: $error"));
   }
 
-  Future<void> addDateExist2(id1, id2, dOrder , length) async {
-    print('CHECKING PRODSALE ORD addDateExist');
+  Future<void> addDateExist(id1, id2, dOrder , length) async {
     CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
     daily.doc(id1).update({
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
-      'each_order' : FieldValue.arrayUnion([length.toString()])})
+    })
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
 
+  Future<void> DatenotExist(dOrder, date, length) async {
+    CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
+
+    String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) +  deviceIdNum.toString();
+
+    daily.doc(customId).set({
+      'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
+      'date' : date
+    }).then((value) {
+      print('date Exist added');
+    }).catchError((error) => print("Failed to update user: $error"));
+  }
+
   Future<void> Detail2(date, length , subs) async {
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder');
-    detail.add({
+    String customId = deviceIdNum.toString() + length.toString();
+
+    detail.doc(customId).set({
       'date' : date,
       'total': TtlProdListPrice2(),
       'debt' : debt2,
@@ -1904,6 +1916,8 @@ class MerchantCartState extends State<MerchantCart>
                                     int length = 0;
                                     int totalOrders = 0;
                                     int debts = 0;
+                                    var dateExist = false;
+                                    var dateId = '';
                                     double debtAmounts = 0 ;
                                     print('order creating here2');
 
@@ -2001,6 +2015,26 @@ class MerchantCartState extends State<MerchantCart>
                                               "Failed to update user: $error"));
                                         }
                                       }
+
+                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
+                                          .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                          .get()
+                                          .then((QuerySnapshot querySnapshot) {
+                                        querySnapshot.docs.forEach((doc) {
+                                          dateExist = true;
+                                          dateId = doc.id;
+                                        });
+
+                                        if (dateExist) {
+                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                          print('adddateexist added');
+                                        }
+                                        else {
+                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                          print('adddateexist not');
+                                        }
+                                      });
 
                                       Detail2(now, length.toString() , subList2,);
 

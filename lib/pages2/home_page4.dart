@@ -27,7 +27,7 @@ import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/api/pdf_api.dart';
 import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
-import 'package:smartkyat_pos/fragments/buy_list_fragment2.dart';
+import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
@@ -208,7 +208,7 @@ class HomePageState extends State<HomePage>
   Stream<QuerySnapshot>? orderSnapshot;
   Stream<QuerySnapshot>? productSnapshot;
   Stream<QuerySnapshot>? merchantSnapshot;
- // Stream<QuerySnapshot>? buyOrderSnapshot;
+  Stream<QuerySnapshot>? buyOrderSnapshot;
   Stream<QuerySnapshot>? customerSnapshot;
   Stream<QuerySnapshot>? customerSnapshot2;
   Stream<QuerySnapshot>? merchantSnapshot2;
@@ -235,7 +235,8 @@ class HomePageState extends State<HomePage>
           refund = 0;
         } else { refund = (paidAmount - totalAmount);
         }
-      });       });
+      });
+    });
 
     myControllerTablet.addListener((){
       setState(() {
@@ -313,7 +314,7 @@ class HomePageState extends State<HomePage>
 
       productSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
       orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
-     // buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrder').snapshots();
+      buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
       customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
       merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
       merchantSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
@@ -417,7 +418,7 @@ class HomePageState extends State<HomePage>
          ),
          page: OrdersFragment(key: sordGlobalKey,
            toggleCoinCallback2: addProduct,
-           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2,),
+           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(),),
        ),
        TabItem(
          tabName: "Settings",
@@ -469,7 +470,7 @@ class HomePageState extends State<HomePage>
          page: BuyListFragment(
              key: bordGlobalKey,
              toggleCoinCallback2: addProduct,
-             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: homeBuyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
+             toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
        ),
        TabItem(
          tabName: "Champions",
@@ -544,14 +545,6 @@ class HomePageState extends State<HomePage>
       _selectTab(0);
       _selectIndex = 0;
     });
-    // print('gg');
-    // homeGlobalKey.currentState!.chgShopIdFrmHomePage();
-    // prodGlobalKey.currentState!.chgShopIdFrmHomePage();
-    // bordGlobalKey.currentState!.chgShopIdFrmHomePage();
-    // sordGlobalKey.currentState!.chgShopIdFrmHomePage();
-    // mercGlobalKey.currentState!.chgShopIdFrmHomePage();
-    // custGlobalKey.currentState!.chgShopIdFrmHomePage();
-    // settGlobalKey.currentState!.chgShopIdFrmHomePage();
   }
 
 
@@ -611,6 +604,7 @@ class HomePageState extends State<HomePage>
       prodList2 = [];
     });
   }
+
   clearMerch() {
     setState(() {
       merchantId = 'name^name';
@@ -8541,33 +8535,8 @@ class HomePageState extends State<HomePage>
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
+
   Future<void> DatenotExist(dOrder, date, length) async {
-    // print('PROD ' + prodList.toString());
-    // double totalTOTAL = 0;
-    // print(prodList2.toString());
-    // for (String str in prodList2) {
-    //   totalTOTAL += int.parse(str.split('-')[2]) * int.parse(str.split('-')[4]);
-    //   disPercent = (double.parse(totalTOTAL.toString()) *
-    //       (discountAmount / 100)).round();
-    // }
-    // if(isDiscount == 'percent'){
-    //   discountAmount = discount;
-    //   print(discountAmount.toString());
-    //   disText = '-p';
-    //   totalTOTAL = (double.parse(totalTOTAL.toString()) -
-    //       (double.parse(totalTOTAL.toString()) *
-    //           (discountAmount / 100)));
-    // } else if(isDiscount == 'amount'){
-    //   discountAmount = discount;
-    //   disText ='-d';
-    //   totalTOTAL = (double.parse(totalTOTAL.toString()) - discountAmount);
-    // } else {
-    //   disText = '';
-    //   discountAmount = 0.0;
-    //   totalTOTAL = double.parse(totalTOTAL.toString());
-    // }
-    //
-    // print('CHECKING PRODSALE ORD DatenotExist');
     CollectionReference daily = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
 
     String customId = date.year.toString() + zeroToTen(date.month.toString()) + zeroToTen(date.day.toString()) +  deviceIdNum.toString();

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import '../app_theme.dart';
 
@@ -27,6 +28,8 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
     _textFieldController.dispose();
     super.dispose();
   }
+
+  var documentId = '';
   @override
   void initState() {
     debtAmount = double.parse(widget.debt.toString());
@@ -44,6 +47,25 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
         } else { refund = (paidAmount - double.parse(widget.debt.toString()));
         }
       });       });
+
+    var innerId = '';
+    FirebaseFirestore.instance
+        .collection('shops')
+        .doc(widget.shopId)
+        .collection('buyOrders')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        innerId = doc.id;
+      });
+      setState(() {
+        documentId = innerId;
+      });
+      // return docId;
+      // return Container();
+    });
     super.initState();
   }
 
@@ -128,8 +150,41 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                   color: Colors.black,
                                 ),
                                 onPressed: () async {
+
+                                  String dataRm = widget.data.split('^')[0] +
+                                      '^' +
+                                      widget.data.split('^')[1] +
+                                      '^' +
+                                      widget.data.split('^')[2] +
+                                      '^' +
+                                      widget.data.split('^')[3].split('&')[1] +
+                                      '^' +
+                                      widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
+                                  String data = widget.data.split('^')[0] +
+                                      '^' +
+                                      widget.data.split('^')[1] +
+                                      '^' +
+                                      widget.data.split('^')[2] +
+                                      '^' +
+                                      widget.data.split('^')[3].split('&')[1] +
+                                      '^' +
+                                      widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
+
+                                  CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders');
                                   CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder');
                                   CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
+
+                                  dailyOrders.doc(documentId).update({
+                                    'daily_order':
+                                    FieldValue.arrayRemove([dataRm])
+                                  }).then((value) {print('array removed');})
+                                      .catchError((error) => print("Failed to update user: $error"));
+
+                                  dailyOrders.doc(documentId).update({
+                                    'daily_order':
+                                    FieldValue.arrayUnion([data])
+                                  }).then((value) { print('array updated');})
+                                      .catchError((error) => print("Failed to update user: $error"));
 
                                   order.doc(
                                       widget.docId)

@@ -44,7 +44,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
         .collection('shops')
         .doc(widget.shopId)
         .collection('orders')
-    // FirebaseFirestore.instance.collection('space')
         .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
         .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
         .get()
@@ -635,8 +634,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 .split('^')[3]
                                                 .split('&')[1] +
                                             '^' +
-                                            refundAmount +
-                                            data.split('^')[4][1] + '^' + debt.toString() + '^' + data.split('^')[6];
+                                            refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
 
 
                                         CollectionReference dOrder = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
