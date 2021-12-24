@@ -4317,10 +4317,16 @@ class ProductsFragmentState extends State<ProductsFragment>
                                 Expanded(
                                   child: Padding(
                                       padding: EdgeInsets.only(
-                                          left: !loadingSearch? 8.0: 4,
-                                          right: 8.0,
-                                          top: 0.5),
-                                      child: Text('Search'),
+                                          left: 13,
+                                          bottom: 1.5),
+                                      child: Text(
+                                        'Search',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black.withOpacity(0.55)
+                                        ),
+                                      )
                                   ),
                                 ),
                                 GestureDetector(

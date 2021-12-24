@@ -563,7 +563,16 @@ class HomePageState extends State<HomePage>
         chgIndex = 4;
       } else {
         if(ayinIndex == 0) {
-          homeGlobalKey.currentState!.changeSearchOpening(false);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            // homeGlobalKey.currentState!.changeSearchOpening(false);
+            homeGlobalKey.currentState!.changeSearchOpening(false);
+            prodGlobalKey.currentState!.changeSearchOpening(false);
+            sordGlobalKey.currentState!.changeSearchOpening(false);
+            bordGlobalKey.currentState!.changeSearchOpening(false);
+            custGlobalKey.currentState!.changeSearchOpening(false);
+            mercGlobalKey.currentState!.changeSearchOpening(false);
+            settGlobalKey.currentState!.changeSearchOpening(false);
+          });
         }
 
         chgIndex = ayinIndex;
@@ -740,6 +749,38 @@ class HomePageState extends State<HomePage>
       // in order to repaint
       setState(() => currentTab = index);
     }
+
+    // Future.delayed(const Duration(milliseconds: 10), () {
+    //   if(_selectIndex == 0) {
+    //     homeGlobalKey.currentState!.changeSearchOpening(false);
+    //     prodGlobalKey.currentState!.changeSearchOpening(true);
+    //     sordGlobalKey.currentState!.changeSearchOpening(true);
+    //     bordGlobalKey.currentState!.changeSearchOpening(true);
+    //     custGlobalKey.currentState!.changeSearchOpening(true);
+    //     mercGlobalKey.currentState!.changeSearchOpening(true);
+    //     settGlobalKey.currentState!.changeSearchOpening(true);
+    //   } else if(_selectIndex == 1) {
+    //     homeGlobalKey.currentState!.changeSearchOpening(true);
+    //     prodGlobalKey.currentState!.changeSearchOpening(false);
+    //     sordGlobalKey.currentState!.changeSearchOpening(true);
+    //     bordGlobalKey.currentState!.changeSearchOpening(true);
+    //     custGlobalKey.currentState!.changeSearchOpening(true);
+    //     mercGlobalKey.currentState!.changeSearchOpening(true);
+    //     settGlobalKey.currentState!.changeSearchOpening(true);
+    //   } else if(_selectIndex == 2) {
+    //     homeGlobalKey.currentState!.changeSearchOpening(true);
+    //     prodGlobalKey.currentState!.changeSearchOpening(true);
+    //     sordGlobalKey.currentState!.changeSearchOpening(false);
+    //     bordGlobalKey.currentState!.changeSearchOpening(true);
+    //     custGlobalKey.currentState!.changeSearchOpening(true);
+    //     mercGlobalKey.currentState!.changeSearchOpening(true);
+    //     settGlobalKey.currentState!.changeSearchOpening(true);
+    //   }
+    // });
+
+
+
+
   }
 
   String pdfText = '';
