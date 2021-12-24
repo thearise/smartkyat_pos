@@ -4046,7 +4046,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                                 },
                                                                 child: Container(
                                                                   child: Text(
-                                                                   textSetTRefunds,
+                                                                    textSetTRefunds,
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 14,
@@ -4133,9 +4133,9 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) => BuyListInfo(
-                                                                  data: item,
-                                                                  toggleCoinCallback:
-                                                                      () {}, shopId: widget.shopId.toString(),)),
+                                                                data: item,
+                                                                toggleCoinCallback:
+                                                                    () {}, shopId: widget.shopId.toString(),)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -4368,9 +4368,9 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) => BuyListInfo(
-                                                                data: item,
-                                                                toggleCoinCallback:
-                                                                    () {}, shopId: widget.shopId.toString(),)),
+                                                              data: item,
+                                                              toggleCoinCallback:
+                                                                  () {}, shopId: widget.shopId.toString(),)),
                                                       );
                                                     },
                                                     child: Stack(
