@@ -157,7 +157,7 @@ class HomeFragmentState extends State<HomeFragment>
   //     setState(() {
   //     });
   //   }
-  // }
+  //
 
   final cateScCtler = ScrollController();
   int cateScIndex = 0;

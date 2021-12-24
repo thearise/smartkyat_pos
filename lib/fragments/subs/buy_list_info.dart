@@ -60,26 +60,24 @@ class _BuyListInfoState extends State<BuyListInfo>
         .split('^')[6];
 
     print('ccccccc' + result.split('^')[0].split('-')[0].toString());
-    FirebaseFirestore.instance
-        .collection('shops')
-        .doc(widget.shopId)
-        .collection('buyOrder')
-        .where('deviceId', isEqualTo: result.split('^')[0].split('-')[0] + '-')
-        .where('orderId', isEqualTo: result.split('^')[0].split('-')[1])
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        innerId = doc.id;
-      });
-      setState(() {
-        docId = innerId;
-      });
-
+    // FirebaseFirestore.instance
+    //     .collection('shops')
+    //     .doc(widget.shopId)
+    //     .collection('buyOrder')
+    //     .where('deviceId', isEqualTo: result.split('^')[0].split('-')[0] + '-')
+    //     .where('orderId', isEqualTo: result.split('^')[0].split('-')[1])
+    //     .get()
+    //     .then((QuerySnapshot querySnapshot) {
+    //   querySnapshot.docs.forEach((doc) {
+    //     innerId = doc.id;
+    //   });
+    //   setState(() {
+    //     docId = innerId;
+    //   });
+    docId = (widget.data.split('^')[1].split('-')[0] + widget.data.split('^')[1].split('-')[1]).toString();
       print('DOC ID ' + docId.toString());
-      buyInfoSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').doc(docId.toString()).snapshots();
       // return docId;
       // return Container();
-    });
     super.initState();
   }
 

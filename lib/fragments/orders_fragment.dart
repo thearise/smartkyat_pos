@@ -30,11 +30,13 @@ class OrdersFragment extends StatefulWidget {
       {
         required this.ordersSnapshot,
         required this.customersSnapshot,
+        required this.shopId,
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
         required void toggleCoinCallback5(String str),
-        required void barcodeBtn(), Key? key,
+        required void barcodeBtn(),
+        Key? key,
       })
       :
         _callback2 = toggleCoinCallback2,
@@ -43,6 +45,8 @@ class OrdersFragment extends StatefulWidget {
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
         super(key: key);
+
+  final String shopId;
   final ordersSnapshot;
   final customersSnapshot;
 
@@ -55,7 +59,6 @@ class OrdersFragmentState extends State<OrdersFragment>
         TickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<OrdersFragment> {
 
-  String? shopId;
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
 
@@ -98,7 +101,7 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   @override
   initState() {
-    getStoreId().then((value) => shopId = value);
+    // getStoreId().then((value) => shopId = value);
     // _searchController.addListener((){
     //   setState(() {
     //     gloSearchText = _searchController.text;
@@ -159,11 +162,11 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
 
-  chgShopIdFrmHomePage() {
-    setState(() {
-      getStoreId().then((value) => shopId = value);
-    });
-  }
+  // chgShopIdFrmHomePage() {
+  //   setState(() {
+  //     getStoreId().then((value) => shopId = value);
+  //   });
+  // }
 
   Future<String> getStoreId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -4122,7 +4125,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -4265,7 +4268,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                        if(item.split('^')[4][0] == 'r')
+                                                                        if(item.split('^')[4] == 'TRUE')
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(left: 6.0),
                                                                             child: Container(
@@ -4287,7 +4290,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                             ),
                                                                           ),
 
-                                                                        if(item.split('^')[4][0] == 's')
+                                                                        if(item.split('^')[4] == 'PART')
                                                                           Padding(
                                                                             padding: const EdgeInsets.only(left: 6.0),
                                                                             child: Container(
@@ -4353,7 +4356,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                                            builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
                                                       );
                                                     },
                                                     child: Stack(
@@ -4490,7 +4493,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      if(item.split('^')[4][0] == 'r')
+                                                                      if(item.split('^')[4] == 'TRUE')
                                                                         Padding(
                                                                           padding: const EdgeInsets.only(left: 6.0),
                                                                           child: Container(
@@ -4512,7 +4515,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                                           ),
                                                                         ),
 
-                                                                      if(item.split('^')[4][0] == 's')
+                                                                      if(item.split('^')[4] == 'PART')
                                                                         Padding(
                                                                           padding: const EdgeInsets.only(left: 6.0),
                                                                           child: Container(
