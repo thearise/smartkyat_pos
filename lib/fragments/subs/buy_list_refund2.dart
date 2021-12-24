@@ -34,8 +34,29 @@ class _BuyListRefundState extends State<BuyListRefund>
   bool get wantKeepAlive => true;
   List<int> refundItems = [];
   List<int> deffItems = [];
+
+  var documentId = '';
+
   @override
   initState() {
+    var innerId = '';
+    FirebaseFirestore.instance
+        .collection('shops')
+        .doc(widget.shopId)
+        .collection('buyOrders')
+        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        innerId = doc.id;
+      });
+      setState(() {
+        documentId = innerId;
+      });
+      // return docId;
+      // return Container();
+    });
     super.initState();
   }
 
@@ -617,13 +638,26 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 .split('^')[3]
                                                 .split('&')[1] +
                                             '^' +
-                                            isRef +
-                                            data.split('^')[4][1] + '^' + debt.toString() + '^' + data.split('^')[6];
+                                            refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
 
                                         print('result___ ' + data + dataRm);
 
                                         CollectionReference dOrder = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder');
                                         CollectionReference cusRefund = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants');
+                                        CollectionReference dailyOrders = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrders');
+
+
+                                        dailyOrders.doc(documentId).update({
+                                          'daily_order':
+                                          FieldValue.arrayRemove([dataRm])
+                                        }).then((value) {print('array removed');})
+                                            .catchError((error) => print("Failed to update user: $error"));
+
+                                        dailyOrders.doc(documentId).update({
+                                          'daily_order':
+                                          FieldValue.arrayUnion([data])
+                                        }).then((value) { print('array updated');})
+                                            .catchError((error) => print("Failed to update user: $error"));
 
                                         dOrder.doc(widget.docId).update({
                                           'subs': prodList,
