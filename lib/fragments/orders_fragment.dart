@@ -3856,7 +3856,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                               //   ..items = document['daily_order'].cast<String>()
 
 
-                                                // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
+                                              // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
                                                 ..items = sortList(changeData(dataLowDailyOrder.cast<String>(), snapshot2) + changeData(dailyOrders.cast<String>(), snapshot2))
                                               // ..items = orderItems(document.id)
                                                 ..expanded = true;
