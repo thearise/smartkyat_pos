@@ -244,6 +244,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           // print(output1?['subs'].toString());
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
+                          var documentId = output1?['documentId'];
                           List prodListView = [];
                           prodListView.add(prodList[0]);
                           totalPrice = 0;
@@ -376,7 +377,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                 data2: prodList,
                                                                 realPrice: totalRealPrice,
                                                                 toggleCoinCallback:
-                                                                    () {}, shopId: widget.shopId, docId: docId.toString(),)),
+                                                                    () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString())),
                                                     );
 
                                                     print('result__2 ' + result.toString());
@@ -426,7 +427,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId,))
+                                                            builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString()))
                                                     );
                                                   },
                                                   child: Container(
