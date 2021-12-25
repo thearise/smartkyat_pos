@@ -916,7 +916,7 @@ class MerchantCartState extends State<MerchantCart>
         .catchError((error) => print("Failed to update user: $error"));
   }
 
-  Future<void> addDateExist(id1, id2, dOrder , length) async {
+  Future<void> addDateExist(id1, dOrder , length) async {
     CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders');
     daily.doc(id1).update({
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),
@@ -938,7 +938,7 @@ class MerchantCartState extends State<MerchantCart>
     }).catchError((error) => print("Failed to update user: $error"));
   }
 
-  Future<void> Detail2(date, length , subs) async {
+  Future<void> Detail2(date, length , subs, docId) async {
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder');
     String customId = deviceIdNum.toString() + length.toString();
 
@@ -951,7 +951,10 @@ class MerchantCartState extends State<MerchantCart>
       'subs': subs,
       'merchantId' : widget.merchantId.split('^')[0],
       'deviceId' : deviceIdNum.toString() + '-',
-      'orderId' : length.toString(),})
+      'orderId' : length.toString(),
+      'documentId' : docId,
+    })
+
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
@@ -2027,16 +2030,16 @@ class MerchantCartState extends State<MerchantCart>
                                         });
 
                                         if (dateExist) {
-                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                          Detail2(now, length.toString() , subList2, dateId);
                                           print('adddateexist added');
                                         }
                                         else {
-                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                          Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
                                           print('adddateexist not');
                                         }
                                       });
-
-                                      Detail2(now, length.toString() , subList2,);
 
                                       if(widget.merchantId.split('^')[0] != 'name' && debt2.toString() != '0.0') {
                                         debts = 1;

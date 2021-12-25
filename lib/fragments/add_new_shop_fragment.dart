@@ -236,6 +236,7 @@ class _AddNewShopState extends State<AddNewShop> {
                       final email = user.email;
                       if (_formKey.currentState!.validate()) {
                         CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+
                         shops.add(
                             {
                               'owner_id' : uid.toString(),
@@ -250,11 +251,32 @@ class _AddNewShopState extends State<AddNewShop> {
                           shops.doc(value.id).collection('users').add({
                             'email': email.toString(),
                             'role' : 'owner',
-                          }).then((value) {
-
-                          })
-                              .catchError((error) => print("Failed to update user: $error"));
+                          }).catchError((error) => print("Failed to update user: $error"));
                           setStoreId(value.id.toString());
+                          CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
+                          cusName.doc('name').set({
+                            'customer_name': 'Unknown',
+                            'customer_address': '-',
+                            'customer_phone': '-',
+                            'total_orders' : 0,
+                            'debts' : 0,
+                            'debtAmount' : 0,
+                            'total_refunds' : 0,
+                          }).then((value) {})
+                              .catchError((error) => print("Failed to update user: $error"));
+
+                          CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
+                          merchName.doc('name').set({
+                            'merchant_name': 'Unknown',
+                            'merchant_address': '-',
+                            'merchant_phone': '-',
+                            'total_orders' : 0,
+                            'debts' : 0,
+                            'debtAmount' : 0,
+                            'total_refunds' : 0,
+                          }).then((value) {})
+                              .catchError((error) => print("Failed to update user: $error"));
+
                           var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
                           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
                           print('shop added');

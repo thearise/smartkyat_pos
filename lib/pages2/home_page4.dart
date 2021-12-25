@@ -2672,6 +2672,8 @@ class HomePageState extends State<HomePage>
                                                                                           int length = 0;
                                                                                           int totalOrders = 0;
                                                                                           int debts = 0;
+                                                                                          var dateExist = false;
+                                                                                          var dateId = '';
                                                                                           double debtAmounts = 0 ;
                                                                                           print('order creating');
 
@@ -2736,8 +2738,6 @@ class HomePageState extends State<HomePage>
                                                                                             }
                                                                                             print('subList ' + subList.toString());
 
-                                                                                            Detail(now, length.toString(), subList);
-
                                                                                             if(customerId.split('^')[0] != 'name' && debt.toString() != '0.0') {
                                                                                               debts = 1;
                                                                                               debtAmounts = debt;
@@ -2746,11 +2746,34 @@ class HomePageState extends State<HomePage>
                                                                                               debtAmounts = 0;
                                                                                             }
 
+                                                                                            print('subList2 ' + subList2.toString());
+
                                                                                             if(customerId.split('^')[0] != 'name') {
                                                                                               totalOrders = totalOrders + 1;
                                                                                               CusOrder(totalOrders, debts, debtAmounts);
                                                                                             }
 
+                                                                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+                                                                                                .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                                                                                .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                                                                                .get()
+                                                                                                .then((QuerySnapshot querySnapshot)  async {
+                                                                                              querySnapshot.docs.forEach((doc) {
+                                                                                                dateExist = true;
+                                                                                                dateId = doc.id;
+                                                                                              });
+
+                                                                                              if (dateExist) {
+                                                                                                addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                                                Detail(now, length.toString(),subList, dateId);
+                                                                                                print('adddateexist added');
+                                                                                              }
+                                                                                              else {
+                                                                                                DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+                                                                                                Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
+                                                                                                print('adddateexist not');
+                                                                                              }
+                                                                                            });
 
                                                                                             List<String> subNameList = [];
                                                                                             int subNameListLength = 0;
@@ -6774,16 +6797,18 @@ class HomePageState extends State<HomePage>
                                                                       });
 
                                                                       if (dateExist) {
-                                                                        addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString(), now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                      print('adddateexist added');
+                                                                        addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                        Detail(now, length.toString(),subList2, dateId);
+                                                                        print('adddateexist added');
                                                                       }
                                                                       else {
-                                                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + zeroToTen(now.second.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+                                                                        DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+                                                                        Detail(now, length.toString(),subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
                                                                         print('adddateexist not');
                                                                       }
                                                                         });
 
-                                                                    Detail(now, length.toString(),subList2);
+
 
                                                                     List<String> subNameList = [];
                                                                     int subNameListLength = 0;
@@ -8523,7 +8548,7 @@ class HomePageState extends State<HomePage>
     return oldString.substring(0, index) + newChar + oldString.substring(index + 1);
   }
 
-  Future<void> Detail(date, length, subs) async {
+  Future<void> Detail(date, length, subs, docId) async {
     print('CHECKING PRODSALE ORD');
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order');
     String customId = deviceIdNum.toString() + length.toString();
@@ -8537,7 +8562,9 @@ class HomePageState extends State<HomePage>
       'subs': subs,
       'customerId' : customerId.split('^')[0],
       'deviceId' : deviceIdNum.toString() + '-',
-      'orderId' : length.toString(),})
+      'orderId' : length.toString(),
+      'documentId' : docId,
+    })
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
@@ -8646,7 +8673,7 @@ class HomePageState extends State<HomePage>
     return prefs.getString('paper');
   }
 
-  Future<void> addDateExist(id1, id2, dOrder , length) async {
+  Future<void> addDateExist(id1, dOrder , length) async {
     CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
     daily.doc(id1).update({
       'daily_order': FieldValue.arrayUnion([dOrder.toString()]),

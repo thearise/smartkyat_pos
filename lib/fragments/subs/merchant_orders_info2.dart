@@ -34,6 +34,14 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
   int ayinLength = 0;
 
   bool endOfResult = false;
+  zeroToTen(String string) {
+    if (int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0' + string;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -282,7 +290,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                         PaginateBuilderType.listView,
                         itemBuilder: (context1, documentSnapshots, snapshots) {
                           final data = snapshots.data() as Map<String, dynamic>;
-                          String item = data['deviceId'] + data['orderId'] + '^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + merchantName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                          String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + merchantName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                           return  cateScIndex == 0 && data['merchantId'] == widget.id.toString() ?
                           GestureDetector(
                             onTap: () {
@@ -512,7 +520,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             onTap: () {
                               Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
                               );
                             },
                             child: Stack(
@@ -736,7 +744,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             onTap: () {
                               Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
                               );
                             },
                             child: Stack(
@@ -960,7 +968,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             onTap: () {
                               Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
                               );
                             },
                             child: Stack(
