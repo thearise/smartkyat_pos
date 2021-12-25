@@ -6,7 +6,6 @@ import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 
 import '../../app_theme.dart';
 
-
 class CustomerOrdersInfoSubs extends StatefulWidget {
   const CustomerOrdersInfoSubs({Key? key, required this.id, required this.shopId});
   final String id;
@@ -33,6 +32,16 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
   int ayinLength = 0;
 
   bool endOfResult = false;
+
+
+  zeroToTen(String string) {
+    if (int.parse(string) > 9) {
+      return string;
+    } else {
+      return '0' + string;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -281,7 +290,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                     PaginateBuilderType.listView,
                     itemBuilder: (context1, documentSnapshots, snapshots) {
                       final data = snapshots.data() as Map<String, dynamic>;
-                      String item = data['deviceId'] + data['orderId'] + '^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + customerName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
+                      String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + customerName + '&'+ data['customerId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                       return  cateScIndex == 0 && data['customerId'] == widget.id.toString() ?
                       GestureDetector(
                         onTap: () {

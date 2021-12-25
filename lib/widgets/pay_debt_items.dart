@@ -7,11 +7,12 @@ import 'package:intl/intl.dart';
 import '../app_theme.dart';
 
 class PayDebtItems extends StatefulWidget {
-  const PayDebtItems({Key? key, required this.debt, required this.shopId, required this.data, required this.docId}) : super(key: key);
+  const PayDebtItems({Key? key, required this.documentId, required this.debt, required this.shopId, required this.data, required this.docId}) : super(key: key);
 final String debt;
 final String data;
 final String docId;
 final String shopId;
+final String documentId;
   @override
   _PayDebtItemsState createState() => _PayDebtItemsState();
 }
@@ -29,7 +30,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
     super.dispose();
   }
 
-  var documentId = '';
   @override
   void initState() {
     debtAmount = double.parse(widget.debt.toString());
@@ -49,24 +49,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
       });
     });
 
-    var innerId = '';
-    FirebaseFirestore.instance
-        .collection('shops')
-        .doc(widget.shopId)
-        .collection('orders')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        innerId = doc.id;
-      });
-      setState(() {
-        documentId = innerId;
-      });
-      // return docId;
-      // return Container();
-    });
     super.initState();
   }
 
@@ -174,13 +156,13 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                   CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
                                   CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
 
-                                  dailyOrders.doc(documentId).update({
+                                  dailyOrders.doc(widget.documentId).update({
                                     'daily_order':
                                     FieldValue.arrayRemove([dataRm])
                                   }).then((value) {print('array removed');})
                                       .catchError((error) => print("Failed to update user: $error"));
 
-                                  dailyOrders.doc(documentId).update({
+                                  dailyOrders.doc(widget.documentId).update({
                                     'daily_order':
                                     FieldValue.arrayUnion([data])
                                   }).then((value) { print('array updated');})

@@ -14,13 +14,14 @@ import '../../app_theme.dart';
 class OrderRefundsSub extends StatefulWidget {
   final _callback;
   const OrderRefundsSub(
-      {Key? key, required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
+      {Key? key, required this.documentId, required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
       : _callback = toggleCoinCallback;
   final String data;
   final List data2;
   final double realPrice;
   final String shopId;
   final String docId;
+  final String documentId;
 
   @override
   _OrderRefundsSubState createState() => _OrderRefundsSubState();
@@ -35,28 +36,28 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   List<int> refundItems = [];
   List<int> deffItems = [];
-  var documentId = '';
+ // var documentId = '';
   @override
   initState() {
     print('phyopyaesohn' + widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00');
-    var innerId = '';
-    FirebaseFirestore.instance
-        .collection('shops')
-        .doc(widget.shopId)
-        .collection('orders')
-        .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
-        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        innerId = doc.id;
-      });
-      setState(() {
-        documentId = innerId;
-      });
-      // return docId;
-      // return Container();
-    });
+    // var innerId = '';
+    // FirebaseFirestore.instance
+    //     .collection('shops')
+    //     .doc(widget.shopId)
+    //     .collection('orders')
+    //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
+    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
+    //     .get()
+    //     .then((QuerySnapshot querySnapshot) {
+    //   querySnapshot.docs.forEach((doc) {
+    //     innerId = doc.id;
+    //   });
+    //   setState(() {
+    //     documentId = innerId;
+    //   });
+    //   // return docId;
+    //   // return Container();
+    // });
     super.initState();
   }
 
@@ -641,15 +642,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                         CollectionReference cusRefund = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
                                         CollectionReference dailyOrders = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
 
-                                        dailyOrders.doc(documentId).update({
+                                        dailyOrders.doc(widget.documentId).update({
                                           'daily_order':
                                           FieldValue.arrayRemove([dataRm])
                                         }).then((value) {print('array removed');})
                                             .catchError((error) => print("Failed to update user: $error"));
 
-                                        dailyOrders.doc(documentId).update({
-                                          'daily_order':
-                                          FieldValue.arrayUnion([data])
+                                        dailyOrders.doc(widget.documentId).update({
+                                          'daily_order': FieldValue.arrayUnion([data])
                                         }).then((value) { print('array updated');})
                                             .catchError((error) => print("Failed to update user: $error"));
 
