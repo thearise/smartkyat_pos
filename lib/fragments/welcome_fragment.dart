@@ -18,7 +18,8 @@ import 'add_shop_fragment.dart';
 import 'choose_store_fragment.dart';
 
 class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+  final double? gloBotPadd;
+  const Welcome({Key? key, this.gloBotPadd,}) : super(key: key);
 
   @override
   _WelcomeState createState() => _WelcomeState();

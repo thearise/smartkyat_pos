@@ -1351,7 +1351,7 @@ class HomeFragmentState extends State<HomeFragment>
           color: Colors.Colors.white,
           child: SafeArea(
             top: true,
-            bottom: true,
+            bottom: false,
             child: Container(
               // width: MediaQuery.of(context).size.width > 900
               //     ? MediaQuery.of(context).size.width * (2 / 3.5)
@@ -2437,7 +2437,13 @@ class HomeFragmentState extends State<HomeFragment>
                         }
                         return Container();
                       }
-                  ):Container(),
+                  ):Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                          child: CupertinoActivityIndicator(radius: 15,)),
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.topCenter,
                     child: Container(

@@ -83,14 +83,22 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   String textSetAll = 'All';
   String textSetDebts = 'Debts';
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   @override
   initState() {
     getStoreId().then((value) => shopId = value);
     _searchController.addListener((){
-      setState(() {
+      // setState(() {
         gloSearchText = _searchController.text;
         searchValue = _searchController.text;
-      });
+      // });
       searchKeyChanged();
       print(searchValue);
     });
@@ -123,7 +131,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         });
       }
     });
-    LanguageSettingsState().getLangId().then((value) {
+    getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
           textSetNewMerch = 'New Merchant';
@@ -207,7 +215,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   }
   void unfocusSearch() {
     print('clicked testing 2');
-    FocusScope.of(context).unfocus();
+    // FocusScope.of(context).unfocus();
+    FocusManager.instance.primaryFocus!.unfocus();
   }
 
   searchFocus() {
