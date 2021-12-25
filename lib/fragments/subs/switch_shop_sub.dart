@@ -32,6 +32,12 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
   var _shop ;
   bool firstTime = true;
 
+  setStoreId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+    prefs.setString('store', id);
+  }
+
   @override
   initState() {
     getStoreId().then((value) {
@@ -368,7 +374,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                             _shop= data['shop_name'];
                                             print(_result);
                                           });
-                                          HomePageState().setStoreId(_result);
+                                          setStoreId(_result);
                                           widget._chgShopCB3();
 
                                           _getId().then((value1) async {

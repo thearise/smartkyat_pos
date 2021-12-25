@@ -42,6 +42,7 @@ class ProductsFragment extends StatefulWidget {
   final _callback4;
   final _callback5;
   final _barcodeBtn;
+  final _searchBtn;
 
   ProductsFragment(
       {
@@ -53,6 +54,7 @@ class ProductsFragment extends StatefulWidget {
         required void toggleCoinCallback4(String str),
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
+        required void searchBtn(),
         Key? key,
       })
       : _callback = toggleCoinCallback,
@@ -61,6 +63,7 @@ class ProductsFragment extends StatefulWidget {
         _callback4 = toggleCoinCallback4,
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
+        _searchBtn = searchBtn,
         super(key: key);
   final String shopId;
   final productsSnapshot;
@@ -113,6 +116,14 @@ class ProductsFragmentState extends State<ProductsFragment>
     setState(() {
       searchOpening = index;
     });
+  }
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
   }
 
   @override
@@ -171,7 +182,7 @@ class ProductsFragmentState extends State<ProductsFragment>
     //     });
     //   }
     // });
-    LanguageSettingsState().getLangId().then((value) {
+    getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
           textSetNewItem = 'New item';
@@ -4234,7 +4245,13 @@ class ProductsFragmentState extends State<ProductsFragment>
                       ),
                     ),
                   ),
-                ): Container(),
+                ): Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                        child: CupertinoActivityIndicator(radius: 15,)),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
@@ -4251,11 +4268,12 @@ class ProductsFragmentState extends State<ProductsFragment>
                           top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                       child: GestureDetector(
                         onTap: () {
-                          FocusScope.of(context).requestFocus(nodeFirst);
-                          setState(() {
-                            loadingSearch = true;
-                          });
-                          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                          widget._searchBtn();
+                          // FocusScope.of(context).requestFocus(nodeFirst);
+                          // setState(() {
+                          //   loadingSearch = true;
+                          // });
+                          // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -4276,19 +4294,20 @@ class ProductsFragmentState extends State<ProductsFragment>
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    if(loadingSearch) {
-                                      _searchController.clear();
-                                      FocusScope.of(context).unfocus();
-                                      setState(() {
-                                        loadingSearch = false;
-                                      });
-                                    } else {
-                                      FocusScope.of(context).requestFocus(nodeFirst);
-                                      setState(() {
-                                        loadingSearch = true;
-                                      });
-                                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                    }
+
+                                    // if(loadingSearch) {
+                                    //   _searchController.clear();
+                                    //   FocusScope.of(context).unfocus();
+                                    //   setState(() {
+                                    //     loadingSearch = false;
+                                    //   });
+                                    // } else {
+                                    //   FocusScope.of(context).requestFocus(nodeFirst);
+                                    //   setState(() {
+                                    //     loadingSearch = true;
+                                    //   });
+                                    //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                                    // }
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 12.0),
@@ -4314,6 +4333,15 @@ class ProductsFragmentState extends State<ProductsFragment>
                                     ),
                                   ),
                                 ),
+                                // Expanded(
+                                //   child: Padding(
+                                //     padding: EdgeInsets.only(
+                                //         left: !loadingSearch? 8.0: 4,
+                                //         right: 8.0,
+                                //         top: 0.5),
+                                //     child: Text('Search'),
+                                //   ),
+                                // ),
                                 Expanded(
                                   child: Padding(
                                       padding: EdgeInsets.only(
@@ -4339,7 +4367,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                     ),
                                     // child: Icon(
                                     //   SmartKyat_POS.barcode,
-                                    //   color: Colors.black,
+                                    //   color: Colors.Colors.black,
                                     //   size: 25,
                                     // ),
                                     child: Container(

@@ -72,6 +72,8 @@ class HomePageState extends State<HomePage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<HomePage> {
   int ayinIndex = 0;
 
+  bool globalSearching = false;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -416,7 +418,7 @@ class HomePageState extends State<HomePage>
          icon: Icon(
            Icons.add,
          ),
-         page: OrdersFragment(key: sordGlobalKey,
+         page: OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag,
            toggleCoinCallback2: addProduct,
            toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(),),
        ),
@@ -425,7 +427,7 @@ class HomePageState extends State<HomePage>
          icon: Icon(
            Icons.add,
          ),
-         page: CustomersFragment(key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
+         page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
        ),
        TabItem(
          tabName: "Settings",
@@ -436,14 +438,14 @@ class HomePageState extends State<HomePage>
            key: prodGlobalKey,
            toggleCoinCallback: addNewProd2,
            toggleCoinCallback2: addProduct,
-           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot,),
+           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag,),
        ),
        TabItem(
          tabName: "Settings",
          icon: Icon(
            Icons.add,
          ),
-         page: MerchantsFragment(key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
+         page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
        ),
        TabItem(
          tabName: "Settings",
@@ -468,7 +470,7 @@ class HomePageState extends State<HomePage>
          ),
          // page: BuyListFragment(),
          page: BuyListFragment(
-             key: bordGlobalKey,
+             key: bordGlobalKey, searchBtn: openSearchFromFrag,
              toggleCoinCallback2: addProduct,
              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
        ),
@@ -563,21 +565,23 @@ class HomePageState extends State<HomePage>
         chgIndex = 4;
       } else {
         if(ayinIndex == 0) {
-          Future.delayed(const Duration(milliseconds: 500), () {
-            // homeGlobalKey.currentState!.changeSearchOpening(false);
-            homeGlobalKey.currentState!.changeSearchOpening(false);
-            prodGlobalKey.currentState!.changeSearchOpening(false);
-            sordGlobalKey.currentState!.changeSearchOpening(false);
-            bordGlobalKey.currentState!.changeSearchOpening(false);
-            custGlobalKey.currentState!.changeSearchOpening(false);
-            mercGlobalKey.currentState!.changeSearchOpening(false);
-            settGlobalKey.currentState!.changeSearchOpening(false);
-          });
+
         }
 
         chgIndex = ayinIndex;
       }
       _selectTab(chgIndex);
+      globalSearching = false;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        // homeGlobalKey.currentState!.changeSearchOpening(false);
+        homeGlobalKey.currentState!.changeSearchOpening(false);
+        prodGlobalKey.currentState!.changeSearchOpening(false);
+        sordGlobalKey.currentState!.changeSearchOpening(false);
+        bordGlobalKey.currentState!.changeSearchOpening(false);
+        custGlobalKey.currentState!.changeSearchOpening(false);
+        mercGlobalKey.currentState!.changeSearchOpening(false);
+        settGlobalKey.currentState!.changeSearchOpening(false);
+      });
       // _selectIndex = 0;
     });
   }
@@ -585,6 +589,7 @@ class HomePageState extends State<HomePage>
   openSearchFromFrag() {
     ayinIndex = _selectIndex;
     _selectTab(8);
+    globalSearching = true;
     searchGlobalKey.currentState!.focusSearch();
     homeGlobalKey.currentState!.changeSearchOpening(true);
     prodGlobalKey.currentState!.changeSearchOpening(true);
@@ -796,7 +801,9 @@ class HomePageState extends State<HomePage>
   bool firstTime = true;
   @override
   Widget build(BuildContext context) {
-    homeBotPadding = MediaQuery.of(context).padding.bottom;
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+    }
     return StreamBuilder(
         stream: emailSnapshot,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotUser) {
@@ -820,8 +827,17 @@ class HomePageState extends State<HomePage>
               firstTime = false;
             }
             return Scaffold(
-              onDrawerChanged: (isOpened) {
+              onEndDrawerChanged: (isOpened) {
                 if(isOpened) {
+                  print('opening 2');
+                  searchGlobalKey.currentState!.unfocusSearch();
+                }
+              },
+              onDrawerChanged: (isOpened) {
+                searchGlobalKey.currentState!.unfocusSearch();
+                if(isOpened) {
+                  // print('opening ');
+                  // searchGlobalKey.currentState!.unfocusSearch();
                   // homeGlobalKey.currentState!.unfocusSearch();
                   // prodGlobalKey.currentState!.unfocusSearch();
                   // custGlobalKey.currentState!.unfocusSearch();
@@ -934,6 +950,18 @@ class HomePageState extends State<HomePage>
                                                 _selectTab(0);
                                                 _selectIndex = 0;
                                               });
+                                              if(globalSearching) {
+                                                Future.delayed(const Duration(milliseconds: 500), () {
+                                                  // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                  homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                  prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                  sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                  bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                  custGlobalKey.currentState!.changeSearchOpening(false);
+                                                  mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                  settGlobalKey.currentState!.changeSearchOpening(false);
+                                                });
+                                              }
                                               _scaffoldKey.currentState!.openEndDrawer();
                                             },
                                             child: Padding(
@@ -984,7 +1012,18 @@ class HomePageState extends State<HomePage>
                                             });
                                             // });
 
-
+                                            if(globalSearching) {
+                                              Future.delayed(const Duration(milliseconds: 500), () {
+                                                // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                custGlobalKey.currentState!.changeSearchOpening(false);
+                                                mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                settGlobalKey.currentState!.changeSearchOpening(false);
+                                              });
+                                            }
                                             _scaffoldKey.currentState!.openEndDrawer();
 
                                           },
@@ -1056,7 +1095,18 @@ class HomePageState extends State<HomePage>
                                               _selectTab(1);
                                               _selectIndex = 2;
                                             });
-
+                                            if(globalSearching) {
+                                              Future.delayed(const Duration(milliseconds: 500), () {
+                                                // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                custGlobalKey.currentState!.changeSearchOpening(false);
+                                                mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                settGlobalKey.currentState!.changeSearchOpening(false);
+                                              });
+                                            }
                                             _scaffoldKey.currentState!.openEndDrawer();
                                           },
                                           child: Padding(
@@ -1092,7 +1142,18 @@ class HomePageState extends State<HomePage>
                                                 _selectTab(7);
                                                 _selectIndex = 3;
                                               });
-
+                                              if(globalSearching) {
+                                                Future.delayed(const Duration(milliseconds: 500), () {
+                                                  // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                  homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                  prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                  sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                  bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                  custGlobalKey.currentState!.changeSearchOpening(false);
+                                                  mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                  settGlobalKey.currentState!.changeSearchOpening(false);
+                                                });
+                                              }
                                               _scaffoldKey.currentState!.openEndDrawer();
                                             },
                                             child: Padding(
@@ -1127,7 +1188,18 @@ class HomePageState extends State<HomePage>
                                               _selectTab(2);
                                               _selectIndex = 4;
                                             });
-
+                                            if(globalSearching) {
+                                              Future.delayed(const Duration(milliseconds: 500), () {
+                                                // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                custGlobalKey.currentState!.changeSearchOpening(false);
+                                                mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                settGlobalKey.currentState!.changeSearchOpening(false);
+                                              });
+                                            }
                                             _scaffoldKey.currentState!.openEndDrawer();
                                           },
                                           child: Padding(
@@ -1202,7 +1274,18 @@ class HomePageState extends State<HomePage>
                                                 _selectTab(4);
                                                 _selectIndex = 5;
                                               });
-
+                                              if(globalSearching) {
+                                                Future.delayed(const Duration(milliseconds: 500), () {
+                                                  // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                  homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                  prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                  sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                  bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                  custGlobalKey.currentState!.changeSearchOpening(false);
+                                                  mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                  settGlobalKey.currentState!.changeSearchOpening(false);
+                                                });
+                                              }
                                               _scaffoldKey.currentState!.openEndDrawer();
                                             },
                                             child: Padding(
@@ -1242,7 +1325,18 @@ class HomePageState extends State<HomePage>
                                               _selectTab(6);
                                               _selectIndex = 6;
                                             });
-
+                                            if(globalSearching) {
+                                              Future.delayed(const Duration(milliseconds: 500), () {
+                                                // homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                homeGlobalKey.currentState!.changeSearchOpening(false);
+                                                prodGlobalKey.currentState!.changeSearchOpening(false);
+                                                sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                custGlobalKey.currentState!.changeSearchOpening(false);
+                                                mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                settGlobalKey.currentState!.changeSearchOpening(false);
+                                              });
+                                            }
                                             _scaffoldKey.currentState!.openEndDrawer();
                                           },
                                           child: Padding(
@@ -8404,6 +8498,31 @@ class HomePageState extends State<HomePage>
                 padding: const EdgeInsets.only(left: 5, top: 1.0),
                 child: Text(
                   'Settings',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
+              )
+          )
+        ],
+      );
+    } else {
+      return Row(
+        children: [
+          Icon(
+            SmartKyat_POS.search,
+            size: 23,
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, top: 1.0),
+                child: Text(
+                  'Searching',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,

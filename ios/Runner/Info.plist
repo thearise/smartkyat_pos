@@ -33,6 +33,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-1852458366311882~1706370350</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -42,14 +44,27 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-1852458366311882~1706370350</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bluetooth is used to scan for printers and send the data</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Bluetooth is used to scan for printers and send the data</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to scan QR codes</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Need Location permission</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need Location permission</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need Location permission</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow the app to record using your phone's microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Replace with your permission description.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+		<string>bluetooth-peripheral</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -72,23 +87,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-    <string>Bluetooth is used to scan for printers and send the data</string>
-    <key>UIViewControllerBasedStatusBarAppearance</key>
-    <false/>
-    <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>Bluetooth is used to scan for printers and send the data</string>
-    <key>UIBackgroundModes</key>
-    <array>
-        <string>bluetooth-central</string>
-        <string>bluetooth-peripheral</string>
-    </array>
-
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Need Location permission</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Need Location permission</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Need Location permission</string>
 </dict>
 </plist>

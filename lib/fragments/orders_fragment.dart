@@ -25,6 +25,7 @@ class OrdersFragment extends StatefulWidget {
   final _callback4;
   final _callback5;
   final _barcodeBtn;
+  final _searchBtn;
 
   OrdersFragment(
       {
@@ -36,6 +37,7 @@ class OrdersFragment extends StatefulWidget {
         required void toggleCoinCallback4(String str),
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
+        required void searchBtn(),
         Key? key,
       })
       :
@@ -44,6 +46,7 @@ class OrdersFragment extends StatefulWidget {
         _callback4 = toggleCoinCallback4,
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
+        _searchBtn = searchBtn,
         super(key: key);
 
   final String shopId;
@@ -99,6 +102,14 @@ class OrdersFragmentState extends State<OrdersFragment>
     });
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   @override
   initState() {
     // getStoreId().then((value) => shopId = value);
@@ -140,7 +151,7 @@ class OrdersFragmentState extends State<OrdersFragment>
     //   }
     // });
 
-    LanguageSettingsState().getLangId().then((value) {
+    getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
           textSetAll = 'All';
@@ -3757,6 +3768,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   @override
   Widget build(BuildContext context) {
     // CollectionReference daily_exps = ;
+    DocumentSnapshot? lastDoc;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -3787,7 +3799,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: widget.ordersSnapshot,
+                            stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots(),
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
                               if(snapshot.hasData) {
@@ -4598,7 +4610,13 @@ class OrdersFragmentState extends State<OrdersFragment>
                         )
                     ),
                   ),
-                ): Container(),
+                ): Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                        child: CupertinoActivityIndicator(radius: 15,)),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
@@ -4615,11 +4633,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                           top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                       child: GestureDetector(
                         onTap: () {
-                          FocusScope.of(context).requestFocus(nodeFirst);
-                          setState(() {
-                            loadingSearch = true;
-                          });
-                          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                          widget._searchBtn();
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -4681,52 +4695,15 @@ class OrdersFragmentState extends State<OrdersFragment>
                                 Expanded(
                                   child: Padding(
                                       padding: EdgeInsets.only(
-                                          left: !loadingSearch? 8.0: 4,
-                                          right: 8.0,
-                                          top: 0.5),
-                                      child: TextField(
-                                        textInputAction: TextInputAction.search,
-                                        focusNode: nodeFirst,
-                                        controller: _searchController,
-                                        onSubmitted: (value) async {
-                                        },
-                                        maxLines: 1,
-                                        textAlign: TextAlign.left,
+                                          left: 13,
+                                          bottom: 1.5),
+                                      child: Text(
+                                        'Search',
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,
-                                            color: Colors.black
+                                            color: Colors.black.withOpacity(0.55)
                                         ),
-
-                                        decoration: InputDecoration(
-                                          hintText: 'Search',
-                                          isDense: true,
-                                          // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                          enabledBorder: const OutlineInputBorder(
-                                            // width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: Colors.transparent, width: 2.0),
-                                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                                          focusedBorder: const OutlineInputBorder(
-                                            // width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: Colors.transparent, width: 2.0),
-                                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                          contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                          floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                          //filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        keyboardType: TextInputType.text,
-                                        onChanged: (value) {
-                                          // setState(() {
-                                          //   quantity = int.parse(value);
-                                          // });
-                                        },
-                                        // controller: myController,
                                       )
                                   ),
                                 ),
