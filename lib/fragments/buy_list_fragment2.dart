@@ -23,6 +23,7 @@ class BuyListFragment extends StatefulWidget {
   final _callback4;
   final _callback5;
   final _barcodeBtn;
+  final _searchBtn;
 
   BuyListFragment(
       {
@@ -34,6 +35,7 @@ class BuyListFragment extends StatefulWidget {
         required void toggleCoinCallback4(String str),
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
+        required void searchBtn(),
         Key? key,
       })
       :
@@ -42,6 +44,7 @@ class BuyListFragment extends StatefulWidget {
         _callback4 = toggleCoinCallback4,
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
+        _searchBtn = searchBtn,
         super(key: key);
   final String shopId;
   final buyOrdersSnapshot;
@@ -3979,7 +3982,13 @@ class BuyListFragmentState extends State<BuyListFragment>
                         )
                     ),
                   ),
-                ): Container(),
+                ): Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                        child: CupertinoActivityIndicator(radius: 15,)),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
@@ -3996,11 +4005,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                           top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                       child: GestureDetector(
                         onTap: () {
-                          // FocusScope.of(context).requestFocus(nodeFirst);
-                          // setState(() {
-                          //   loadingSearch = true;
-                          // });
-                          // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                          widget._searchBtn();
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -4021,19 +4026,19 @@ class BuyListFragmentState extends State<BuyListFragment>
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    // if(loadingSearch) {
-                                    //   _searchController.clear();
-                                    //   FocusScope.of(context).unfocus();
-                                    //   setState(() {
-                                    //     loadingSearch = false;
-                                    //   });
-                                    // } else {
-                                    //   FocusScope.of(context).requestFocus(nodeFirst);
-                                    //   setState(() {
-                                    //     loadingSearch = true;
-                                    //   });
-                                    //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                    // }
+                                    if(loadingSearch) {
+                                      _searchController.clear();
+                                      FocusScope.of(context).unfocus();
+                                      setState(() {
+                                        loadingSearch = false;
+                                      });
+                                    } else {
+                                      FocusScope.of(context).requestFocus(nodeFirst);
+                                      setState(() {
+                                        loadingSearch = true;
+                                      });
+                                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                                    }
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 12.0),

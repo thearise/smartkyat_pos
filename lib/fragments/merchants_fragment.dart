@@ -27,11 +27,13 @@ class MerchantsFragment extends StatefulWidget {
   final _callback2;
   final _callback4;
   final _barcodeBtn;
+  final _searchBtn;
 
-  MerchantsFragment( {required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
-        _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
+  MerchantsFragment( {required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
+        _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
  final String shopId;
  final merchantsSnapshot;
+
   @override
   MerchantsFragmentState createState() => MerchantsFragmentState();
 }
@@ -81,6 +83,14 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     });
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   @override
   initState() {//HomePageState().getStoreId().then((value) => shopId = value);
     // _searchController.addListener((){
@@ -120,7 +130,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     //     });
     //   }
     // });
-    LanguageSettingsState().getLangId().then((value) {
+    getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
         textSetNewMerch = 'New Merchant';
@@ -3892,7 +3902,13 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                       ),
                     ),
                   ),
-                ): Container(),
+                ): Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                        child: CupertinoActivityIndicator(radius: 15,)),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
@@ -3909,11 +3925,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                           top: 15.0, left: 15.0, right: 15.0, bottom: 15),
                       child: GestureDetector(
                         onTap: () {
-                          FocusScope.of(context).requestFocus(nodeFirst);
-                          setState(() {
-                            loadingSearch = true;
-                          });
-                          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                          widget._searchBtn();
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -3989,7 +4001,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                   widget._barcodeBtn();
+                                    widget._barcodeBtn();
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(

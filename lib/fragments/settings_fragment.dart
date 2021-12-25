@@ -60,6 +60,14 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
     });
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   initState() {
     getStoreId().then((value) {
       setState(() {
@@ -67,7 +75,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
       });
 
     });
-    LanguageSettingsState().getLangId().then((value) {
+    getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
           textSetTitle = 'အပြင်အဆင်';

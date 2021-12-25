@@ -101,6 +101,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   String textSetTotalSale = 'Total items sold';
   String textSetBuyPrice = 'Buy price';
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
 
   @override
   void initState() {
@@ -125,7 +132,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
       }
     });
 
-    LanguageSettingsState().getLangId().then((value) {
+    getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
           textSetAddtoCart = 'Add to\nsell cart';

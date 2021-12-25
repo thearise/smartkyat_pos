@@ -171,6 +171,14 @@ class HomeFragmentState extends State<HomeFragment>
   late BannerAd _bannerAd;
   bool _isBannerAdReady = false;
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   @override
   initState() {
     // super.initState();
@@ -235,7 +243,7 @@ class HomeFragmentState extends State<HomeFragment>
       }
     });
 
-    LanguageSettingsState().getLangId().then((value) {
+    getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
 
