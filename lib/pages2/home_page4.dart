@@ -222,6 +222,7 @@ class HomePageState extends State<HomePage>
   var shopSnapshot;
   Stream<QuerySnapshot>? userSnapshot;
   Stream<QuerySnapshot>? shopFoundSnapshot;
+  Stream<QuerySnapshot>? lowStockSnapshot;
 
   @override
   void initState() {
@@ -315,6 +316,7 @@ class HomePageState extends State<HomePage>
       shopSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots();
       shopFoundSnapshot = FirebaseFirestore.instance.collection('shops').where('users', arrayContains: FirebaseAuth.instance.currentUser == null? '': FirebaseAuth.instance.currentUser!.email.toString()).snapshots();
 
+      lowStockSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').orderBy('inStock1', descending: false).snapshots();
       productSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
       orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
       buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
@@ -440,7 +442,7 @@ class HomePageState extends State<HomePage>
            key: prodGlobalKey,
            toggleCoinCallback: addNewProd2,
            toggleCoinCallback2: addProduct,
-           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag,),
+           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot,),
        ),
        TabItem(
          tabName: "Settings",
