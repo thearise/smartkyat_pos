@@ -1,250 +1,194 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
-import 'package:smartkyat_pos/providers/product_provider.dart';
+import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:one_context/one_context.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:smartkyat_pos/pages2/home_page4.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'fragments/welcome_fragment.dart';
+import 'src/app.dart';
+import 'package:smartkyat_pos/src/app.dart';
+import 'package:smartkyat_pos/widgets/product_versions_view.dart';
+final themeMode = ValueNotifier(2);
 
-import 'home/singal_product.dart';
-import 'models/product_model.dart';
-
-
-
+PackageInfo? packageInfo;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
+  final navigatorKey = GlobalKey<NavigatorState>();
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ProviderType>(
-          create: (context) => ProviderType(),
-        ),
-      ],
-      child: MaterialApp(
-        // theme: ThemeData(
-        //     primaryColor: primaryColor,
-        //     scaffoldBackgroundColor: scaffoldBackgroundColor),
-        debugShowCheckedModeBanner: false,
-        // home: StreamBuilder(
-        //   stream: FirebaseAuth.instance.authStateChanges(),
-        //   builder: (context, snapShot) {
-        //     if (snapShot.hasData) {
-        //       return HomeScreen();
-        //     }
-        //     return SignIn();
-        //   },
-        // ),
-        home: Welcome(),
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  ProviderType? providerType;
-
   void initState() {
-    // providerType initproductProvider = Provider.of(context, listen: false);
-    // initproductProvider.fatchHerbsProductData();
-    // initproductProvider.fatchFreshProductData();
-    // initproductProvider.fatchRootProductData();
-    // super.initState();
+
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
   }
 
-
-  Widget _buildHerbsProduct(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Herbs Seasonings'),
-              GestureDetector(
-                onTap: () {
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => Search(
-                  //       search: productProvider.getHerbsProductDataList,
-                  //     ),
-                  //   ),
-                  // );
-                },
-                child: Text(
-                  'view all',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: providerType!.getHerbsProductDataList.map(
-                  (herbsProductData) {
-                return SingalProduct(
-                  onTap: () {
-                  },
-                  productId: herbsProductData.productId,
-                  productPrice: herbsProductData.productPrice,
-                  productImage: herbsProductData.productImage,
-                  productName: herbsProductData.productName,
-                  productUnit:herbsProductData ,
-                );
-                // return Text('GG');
-              },
-            ).toList(),
-            // children: [
-
-            // ],
-          ),
-        ),
-      ],
-    );
-  }
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
-    providerType = Provider.of<ProviderType>(context);
-    providerType!.fatchHerbsProductData();
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Sample App'),
+
+    return MaterialApp(
+      navigatorKey: OneContext().key,
+      title: 'Flutter UI',
+      debugShowCheckedModeBanner: false,
+
+      theme: new ThemeData(
+        canvasColor: Colors.transparent,
+        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: ListView(
-          children: [
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi0Xg-k622Sbztlrb-L1o1CAla3zCbVc2lUw&usqp=CAU'),
-                ),
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding:
-                            const EdgeInsets.only(right: 130, bottom: 10),
-                            child: Container(
-                              height: 50,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                color: Color(0xffd1ad17),
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(50),
-                                  bottomLeft: Radius.circular(50),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Vegi',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    shadows: [
-                                      BoxShadow(
-                                          color: Colors.green,
-                                          blurRadius: 10,
-                                          offset: Offset(3, 3))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '30% Off',
-                            style: TextStyle(
-                                fontSize: 40,
-                                color: Colors.green[100],
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text(
-                              'On all vegetables products',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                ],
-              ),
-            ),
-            // _buildHerbsProduct(context),
-            // _buildFreshProduct(context),
-            // _buildRootProduct(),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: providerType!.getHerbsProductDataList.map<Widget>(
-                      (herbsProductData) {
-                    return SingalProduct(
-                      onTap: () {
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ProductOverview(
-                        //       productId: herbsProductData.productId,
-                        //       productPrice: herbsProductData.productPrice,
-                        //       productName: herbsProductData.productName,
-                        //       productImage: herbsProductData.productImage,
-                        //     ),
-                        //   ),
-                        // );
-                      },
-                      productId: herbsProductData.productId,
-                      productPrice: herbsProductData.productPrice,
-                      productImage: herbsProductData.productImage,
-                      productName: herbsProductData.productName,
-                      productUnit:herbsProductData ,
-                    );
-                  },
-                ).toList(),
-                // children: [
-
-                // ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: () => providerType.changeValue(),
-      //   label: Text('ChangeValue'),
-      // ),
+      navigatorObservers: [OneContext().heroController],
+      builder: OneContext().builder,
+      // home: HomePage(),
+      home: Welcome(),
     );
   }
 }
+
+
+
+// import 'package:flutter/material.dart';
+//
+// void main() {
+//   runApp(App());
+// }
+//
+// class App extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Home(),
+//     );
+//   }
+// }
+//
+// class Home extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: RaisedButton(
+//           child: Text('Add entries'),
+//           onPressed: () async {
+//             List<PersonEntry> persons = await Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                 builder: (context) => SOF(),
+//               ),
+//             );
+//             if (persons != null) persons.forEach(print);
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// class SOF extends StatefulWidget {
+//   @override
+//   _SOFState createState() => _SOFState();
+// }
+//
+// class _SOFState extends State<SOF> {
+//   var nameTECs = <TextEditingController>[];
+//   var ageTECs = <TextEditingController>[];
+//   var jobTECs = <TextEditingController>[];
+//   var cards = <Card>[];
+//
+//   Card createCard() {
+//     var nameController = TextEditingController();
+//     var ageController = TextEditingController();
+//     var jobController = TextEditingController();
+//     nameTECs.add(nameController);
+//     ageTECs.add(ageController);
+//     jobTECs.add(jobController);
+//     return Card(
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: <Widget>[
+//           Text('Person ${cards.length + 1}'),
+//           TextField(
+//               controller: nameController,
+//               decoration: InputDecoration(labelText: 'Full Name')),
+//           TextField(
+//               controller: ageController,
+//               decoration: InputDecoration(labelText: 'Age')),
+//           TextField(
+//               controller: jobController,
+//               decoration: InputDecoration(labelText: 'Study/ job')),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     cards.add(createCard());
+//   }
+//
+//   _onDone() {
+//     List<PersonEntry> entries = [];
+//     for (int i = 0; i < cards.length; i++) {
+//       var name = nameTECs[i].text;
+//       var age = ageTECs[i].text;
+//       var job = jobTECs[i].text;
+//       entries.add(PersonEntry(name, age, job));
+//     }
+//     Navigator.pop(context, entries);
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(),
+//       body: Column(
+//         children: <Widget>[
+//           Expanded(
+//             child: ListView.builder(
+//               itemCount: cards.length,
+//               itemBuilder: (BuildContext context, int index) {
+//                 return cards[index];
+//               },
+//             ),
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: RaisedButton(
+//               child: Text('add new'),
+//               onPressed: () => setState(() => cards.add(createCard())),
+//             ),
+//           )
+//         ],
+//       ),
+//       floatingActionButton:
+//       FloatingActionButton(child: Icon(Icons.done), onPressed: _onDone),
+//     );
+//   }
+// }
+//
+// class PersonEntry {
+//   final String name;
+//   final String age;
+//   final String studyJob;
+//
+//   PersonEntry(this.name, this.age, this.studyJob);
+//   @override
+//   String toString() {
+//     return 'Person: name= $name, age= $age, study job= $studyJob';
+//   }
+// }
