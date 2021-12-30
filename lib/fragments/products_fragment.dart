@@ -64,6 +64,7 @@ class ProductsFragment extends StatefulWidget {
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
         required void searchBtn(),
+        required this.lowStockSnapshot,
         Key? key,
       })
       : _callback = toggleCoinCallback,
@@ -76,6 +77,7 @@ class ProductsFragment extends StatefulWidget {
         super(key: key);
   final String shopId;
   final productsSnapshot;
+  final lowStockSnapshot;
   @override
   ProductsFragmentState createState() => ProductsFragmentState();
 }
@@ -539,7 +541,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 
 
                         child: StreamBuilder(
-                            stream: widget.productsSnapshot,
+                            stream:cateScIndex == 0 ? widget.productsSnapshot : widget.lowStockSnapshot,
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
                                 // snapshot.data.
