@@ -18,8 +18,9 @@ import 'subs/switch_shop_sub.dart';
 class SettingsFragment extends StatefulWidget {
   final _chgShopCB;
 
-  SettingsFragment({required void changeShopCallback(), Key? key,}):
+  SettingsFragment({required this.usersSnapshot, required void changeShopCallback(), Key? key,}):
         _chgShopCB = changeShopCallback, super(key: key);
+  final usersSnapshot;
 
   @override
   SettingsFragmentState createState() => SettingsFragmentState();
@@ -270,7 +271,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                           style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                       ),
                                       StreamBuilder(
-                                          stream: FirebaseFirestore.instance.collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).snapshots(),
+                                          stream: widget.usersSnapshot,
                                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                             if(snapshot.hasData) {
                                               return Expanded(

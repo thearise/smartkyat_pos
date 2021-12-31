@@ -30,6 +30,7 @@ class SearchFragment extends StatefulWidget {
   final _chgIndex;
 
   SearchFragment( {
+    required this.productsSnapshot,
     required void barcodeBtn(),
     required void toggleCoinCallback3(String str),
     required void toggleCoinCallback(String str),
@@ -41,6 +42,8 @@ class SearchFragment extends StatefulWidget {
         _chgIndex = chgIndexFromSearch,
         _barcodeBtn = barcodeBtn,
         _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
+  final productsSnapshot;
+
   @override
   SearchFragmentState createState() => SearchFragmentState();
 }
@@ -943,11 +946,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   overAllSearch() {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('shops')
-            .doc(shopId)
-            .collection('products')
-            .snapshots(),
+        stream: widget.productsSnapshot,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if(snapshot.hasData) {
             return Padding(
