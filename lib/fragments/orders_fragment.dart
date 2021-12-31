@@ -3799,7 +3799,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots(),
+                            stream: widget.ordersSnapshot,
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
                               if(snapshot.hasData) {
