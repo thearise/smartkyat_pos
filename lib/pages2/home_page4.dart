@@ -38,6 +38,7 @@ import 'package:smartkyat_pos/fragments/merchants_fragment.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
+import 'package:smartkyat_pos/fragments/support_fragment.dart';
 import 'package:smartkyat_pos/fragments/test.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 import 'package:smartkyat_pos/model/customer.dart';
@@ -210,12 +211,12 @@ class HomePageState extends State<HomePage>
   Stream<QuerySnapshot>? productSnapshot;
   Stream<QuerySnapshot>? merchantSnapshot;
   Stream<QuerySnapshot>? buyOrderSnapshot;
-  Stream<QuerySnapshot>? buyOrderSnapshot2;
+  //Stream<QuerySnapshot>? buyOrderSnapshot2;
   Stream<QuerySnapshot>? customerSnapshot;
   Stream<QuerySnapshot>? customerSnapshot2;
   Stream<QuerySnapshot>? merchantSnapshot2;
-  Stream<QuerySnapshot>? homeOrderSnapshot;
-  Stream<QuerySnapshot>? homeBuyOrderSnapshot;
+  //Stream<QuerySnapshot>? homeOrderSnapshot;
+  //Stream<QuerySnapshot>? homeBuyOrderSnapshot;
   Stream<QuerySnapshot>? homeLossSnapshot;
   Stream<QuerySnapshot>? emailSnapshot;
   var shopSnapshot;
@@ -319,13 +320,13 @@ class HomePageState extends State<HomePage>
       productSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
       orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
       buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
-      buyOrderSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
+      //buyOrderSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
       customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
       merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
       merchantSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
       customerSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
       // homeOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('order').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
-      homeBuyOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrder').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
+      //homeBuyOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrder').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
       homeLossSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('loss').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
       WidgetsFlutterBinding.ensureInitialized();
        setState(() {
@@ -413,7 +414,7 @@ class HomePageState extends State<HomePage>
            Icons.add,
          ),
          page: HomeFragment(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
-             toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot2, lossSnapshot: homeLossSnapshot
+             toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot
          ),
        ),
        TabItem(
@@ -456,7 +457,7 @@ class HomePageState extends State<HomePage>
            Icons.add,
          ),
          // page: BuyListFragment(),
-         page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting),
+         page: SupportFragment(),
        ),
        TabItem(
          tabName: "Settings",
@@ -464,7 +465,7 @@ class HomePageState extends State<HomePage>
            Icons.add,
          ),
          // page: BuyListFragment(),
-         page: SettingsFragment(changeShopCallback: chgShopIdFromSetting),
+         page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot,),
        ),
        TabItem(
          tabName: "Settings",
@@ -482,7 +483,7 @@ class HomePageState extends State<HomePage>
          icon: Icon(
            Icons.add,
          ),
-         page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch),
+         page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot,),
        ),
       ];
     });
