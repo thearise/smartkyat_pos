@@ -48,6 +48,8 @@ import 'package:smartkyat_pos/model/invoice.dart';
 import 'package:smartkyat_pos/model/supplier.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
+import 'package:smartkyat_pos/widgets/add_new_customer.dart';
+import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import '../app_theme.dart';
 import '../fragments/search_fragment.dart';
@@ -438,7 +440,7 @@ class HomePageState extends State<HomePage>
          icon: Icon(
            Icons.add,
          ),
-         page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot),
+         page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust,),
        ),
        TabItem(
          tabName: "Settings",
@@ -456,7 +458,7 @@ class HomePageState extends State<HomePage>
          icon: Icon(
            Icons.add,
          ),
-         page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot,),
+         page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch,),
        ),
        TabItem(
          tabName: "Settings",
@@ -627,13 +629,81 @@ class HomePageState extends State<HomePage>
     });
   }
 
-  final _formKey = GlobalKey<FormState>();
-  final _formKey2 = GlobalKey<FormState>();
-  addNewProd2() {
-    final List<String> prodFieldsValue = [];
-    // myController.clear();
+  prodLoadingState() {
+    setState(() {
+    disableTouch = true;
+      Navigator.of(context).push(
+          FadeRoute(page: Transparent(key: tranGlobalKey),)
+      );
+    });
+    print('disable' + disableTouch.toString());
+  }
+  endProdLoadingState() {
+    setState(() {
+      disableTouch = false;
+      tranGlobalKey.currentState!.disLoading();
+
+    });
+    print('disable2' + disableTouch.toString());
+  }
+  // cusLoadingState() {
+  //   setState(() {
+  //     disableTouch = true;
+  //     Navigator.of(context).push(
+  //         FadeRoute(page: Transparent(key: tranGlobalKey),)
+  //     );
+  //   });
+  //   print('disable' + disableTouch.toString());
+  // }
+  // endCusLoadingState() {
+  //   setState(() {
+  //     disableTouch = false;
+  //     tranGlobalKey.currentState!.disLoading();
+  //
+  //   });
+  //   print('disable2' + disableTouch.toString());
+  // }
+  //
+  // merchCartLoadingState() {
+  //   setState(() {
+  //     disableTouch = true;
+  //     Navigator.of(context).push(
+  //         FadeRoute(page: Transparent(key: tranGlobalKey),)
+  //     );
+  //   });
+  //   print('disable' + disableTouch.toString());
+  // }
+  // endMerchCartLoadingState() {
+  //   setState(() {
+  //     disableTouch = false;
+  //     tranGlobalKey.currentState!.disLoading();
+  //
+  //   });
+  //   print('disable2' + disableTouch.toString());
+  // }
+  //
+  // merchLoadingState() {
+  //   setState(() {
+  //     disableTouch = true;
+  //     Navigator.of(context).push(
+  //         FadeRoute(page: Transparent(key: tranGlobalKey),)
+  //     );
+  //   });
+  //   print('disable' + disableTouch.toString());
+  // }
+  // endMerchLoadingState() {
+  //   setState(() {
+  //     disableTouch = false;
+  //     tranGlobalKey.currentState!.disLoading();
+  //
+  //   });
+  //   print('disable2' + disableTouch.toString());
+  // }
+
+  addMerch() {
     showModalBottomSheet(
-        enableDrag: true,
+        isDismissible: !disableTouch,
+        enableDrag: !disableTouch,
         isScrollControlled: true,
         context: context,
         backgroundColor: Colors.transparent,
@@ -690,7 +760,7 @@ class HomePageState extends State<HomePage>
                                         color: Colors.grey,
                                       )),
                                       SizedBox(height: 2.5),
-                                      Text('New product creation', style: TextStyle(
+                                      Text('New merchant creation', style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 19
                                       )),
@@ -703,27 +773,8 @@ class HomePageState extends State<HomePage>
                                     top: 57.0,
                                     left: 0.0,
                                     right: 0.0),
-                                child: SingleAssetPage(toggleCoinCallback: closeNewProduct),
+                                child: AddMerchant(toggleCoinCallback3: endProdLoadingState, toggleCoinCallback2: prodLoadingState,),
                               ),
-                              // Align(
-                              //   alignment: Alignment.bottomCenter,
-                              //   child: Padding(
-                              //     padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                              //     child: Container(
-                              //       decoration: BoxDecoration(
-                              //           color: Colors.white,
-                              //           border: Border(
-                              //             top: BorderSide(
-                              //                 color:
-                              //                 AppTheme.skBorderColor2,
-                              //                 width: 1.0),
-                              //           )),
-                              //       width: double.infinity,
-                              //       height: 158,
-                              //       child: Container(),
-                              //     ),
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -752,6 +803,246 @@ class HomePageState extends State<HomePage>
               ),
             ),
           );
+          // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+        });
+  }
+
+  addCust() {
+    showModalBottomSheet(
+        isDismissible: !disableTouch,
+        enableDrag: !disableTouch,
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: IgnorePointer(
+              ignoring: disableTouch,
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 60.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(18.0),
+                            topRight: Radius.circular(18.0),
+                          ),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: Container(
+                            color: Colors.white,
+                            height:
+                            MediaQuery.of(context).size.height -
+                                45,
+                            width: double.infinity,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: 67,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(0.3),
+                                              width: 1.0))),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 15.0,
+                                        right: 15.0,
+                                        top: 5.0,
+                                        bottom: 0.0
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Untitled', style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey,
+                                        )),
+                                        SizedBox(height: 2.5),
+                                        Text('New customer creation', style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 19
+                                        )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 57.0, left: 0.0, right: 0.0),
+                                  child: AddCustomer(toggleCoinCallback3: endProdLoadingState, toggleCoinCallback2: prodLoadingState,),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 42,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 50,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25.0),
+                                ),
+                                color: Colors.white.withOpacity(0.5)),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+          // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+        });
+  }
+
+  final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
+  addNewProd2() {
+    final List<String> prodFieldsValue = [];
+    // myController.clear();
+    showModalBottomSheet(
+        isDismissible: !disableTouch,
+        enableDrag: !disableTouch,
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: IgnorePointer(
+                ignoring: disableTouch,
+                child: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 60.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(18.0),
+                              topRight: Radius.circular(18.0),
+                            ),
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: Container(
+                              color: Colors.white,
+                              height:
+                              MediaQuery.of(context).size.height -
+                                  45,
+                              width: double.infinity,
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 67,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.grey
+                                                    .withOpacity(0.3),
+                                                width: 1.0))),
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 15.0,
+                                          right: 15.0,
+                                          top: 5.0,
+                                          bottom: 0.0
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Untitled', style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                          )),
+                                          SizedBox(height: 2.5),
+                                          Text('New product creation', style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 19
+                                          )),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 57.0,
+                                        left: 0.0,
+                                        right: 0.0),
+                                    child: SingleAssetPage(toggleCoinCallback: closeNewProduct, toggleCoinCallback2: prodLoadingState, toggleCoinCallback3: endProdLoadingState),
+                                  ),
+                                  // Align(
+                                  //   alignment: Alignment.bottomCenter,
+                                  //   child: Padding(
+                                  //     padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                  //     child: Container(
+                                  //       decoration: BoxDecoration(
+                                  //           color: Colors.white,
+                                  //           border: Border(
+                                  //             top: BorderSide(
+                                  //                 color:
+                                  //                 AppTheme.skBorderColor2,
+                                  //                 width: 1.0),
+                                  //           )),
+                                  //       width: double.infinity,
+                                  //       height: 158,
+                                  //       child: Container(),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 42,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: 50,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25.0),
+                                  ),
+                                  color: Colors.white.withOpacity(0.5)),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
           // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
         });
   }
@@ -4277,7 +4568,7 @@ class HomePageState extends State<HomePage>
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => MerchantCart(deviceId: deviceIdNum, shop: shopId.toString(), merchantId: merchantId, prodList2: prodList2, toggleCoinCallback: clearProd2, toggleCoinCallback2: clearMerch,)),);
+                                      builder: (context) => MerchantCart(deviceId: deviceIdNum, shop: shopId.toString(), merchantId: merchantId, prodList2: prodList2, toggleCoinCallback: clearProd2, toggleCoinCallback2: clearMerch, toggleCoinCallback4:  endProdLoadingState, toggleCoinCallback3: prodLoadingState,)),);
                               },
                               child: Stack(
                                 children: [
@@ -6980,9 +7271,6 @@ class HomePageState extends State<HomePage>
                                                                                   tranGlobalKey.currentState!.disLoading();
                                                                                   _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                                                 });
-
-
-
                                                                               });
                                                                             }
                                                                           }

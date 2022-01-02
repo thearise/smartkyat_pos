@@ -1302,18 +1302,18 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   }
 
-  addNewProd2(priContext) {
-    final List<String> prodFieldsValue = [];
-    final _formKey = GlobalKey<FormState>();
-    // myController.clear();
-    showModalBottomSheet(
-        enableDrag: false,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SingleAssetPage(toggleCoinCallback: closeNewProduct);
-        });
-  }
+  // addNewProd2(priContext) {
+  //   final List<String> prodFieldsValue = [];
+  //   final _formKey = GlobalKey<FormState>();
+  //   // myController.clear();
+  //   showModalBottomSheet(
+  //       enableDrag: false,
+  //       isScrollControlled: true,
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+  //       });
+  // }
 
   // addNewProd(priContext) {
   //   final List<String> prodFieldsValue = [];
