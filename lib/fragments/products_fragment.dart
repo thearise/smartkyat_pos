@@ -139,21 +139,21 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   @override
   initState() {
-    _bannerAd = BannerAd(
-      // Change Banner Size According to Ur Need
-        size: AdSize.fullBanner,
-        adUnitId: AdHelper.bannerAdUnitId,
-        listener: BannerAdListener(onAdLoaded: (_) {
-          setState(() {
-            _isBannerAdReady = true;
-          });
-        }, onAdFailedToLoad: (ad, LoadAdError error) {
-          print("Failed to Load A Banner Ad${error.message}");
-          _isBannerAdReady = false;
-          ad.dispose();
-        }),
-        request: AdRequest())
-      ..load();
+    // _bannerAd = BannerAd(
+    //   // Change Banner Size According to Ur Need
+    //     size: AdSize.fullBanner,
+    //     adUnitId: AdHelper.bannerAdUnitId,
+    //     listener: BannerAdListener(onAdLoaded: (_) {
+    //       setState(() {
+    //         _isBannerAdReady = true;
+    //       });
+    //     }, onAdFailedToLoad: (ad, LoadAdError error) {
+    //       print("Failed to Load A Banner Ad${error.message}");
+    //       _isBannerAdReady = false;
+    //       ad.dispose();
+    //     }),
+    //     request: AdRequest())
+    //   ..load();
 
 
     // _searchController.addListener((){
@@ -759,14 +759,14 @@ class ProductsFragmentState extends State<ProductsFragment>
                                       // Make the initial height of the SliverAppBar larger than normal.
                                       expandedHeight: 20,
                                     ),
-                                    SliverAppBar(
-                                      flexibleSpace: _isBannerAdReady ? Container(
-                                        height: _bannerAd.size.height.toDouble(),
-                                        width: _bannerAd.size.width.toDouble(),
-                                        child: AdWidget(ad: _bannerAd,),
-                                      ): Container(),
-                                      backgroundColor: Colors.transparent,
-                                    ),
+                                    // SliverAppBar(
+                                    //   flexibleSpace: _isBannerAdReady ? Container(
+                                    //     height: _bannerAd.size.height.toDouble(),
+                                    //     width: _bannerAd.size.width.toDouble(),
+                                    //     child: AdWidget(ad: _bannerAd,),
+                                    //   ): Container(),
+                                    //   backgroundColor: Colors.transparent,
+                                    // ),
                                     // Next, create a SliverList
                                     SliverList(
                                       // Use a delegate to build items as they're scrolled on screen.
