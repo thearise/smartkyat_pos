@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -11,11 +12,16 @@ import '../app_theme.dart';
 class MerchantCart extends StatefulWidget {
   final clearProd;
   final clearMerch;
+  final merchCartLoadingState;
+  final endMerchCartLoadingState;
+
   MerchantCart(
       {Key? key,
-        required void toggleCoinCallback(), required this.prodList2, required this.merchantId, required this.shop,required this.deviceId, required void toggleCoinCallback2(),
+        required void toggleCoinCallback3(), required void toggleCoinCallback4(), required void toggleCoinCallback(), required this.prodList2, required this.merchantId, required this.shop,required this.deviceId, required void toggleCoinCallback2(),
       }): clearProd = toggleCoinCallback,
-        clearMerch = toggleCoinCallback2;
+        clearMerch = toggleCoinCallback2,
+        merchCartLoadingState = toggleCoinCallback3,
+        endMerchCartLoadingState = toggleCoinCallback4;
 
   final String shop;
   final String deviceId;
@@ -34,6 +40,8 @@ class MerchantCartState extends State<MerchantCart>
   var deviceIdNum;
   String? shopId;
   final _formKey = GlobalKey<FormState>();
+  bool merchCartCreating = false;
+  bool disableTouch = false;
 
   @override
   initState() {
@@ -1604,497 +1612,519 @@ class MerchantCartState extends State<MerchantCart>
           return Scaffold(
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
-            body: SafeArea(
-              bottom: true,
-              top: true,
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Container(
-                          height: 80,
-                          child:
-                          Row(
-                            children: [
-                              Container(
-                                width: 37,
-                                height: 37,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(35.0),
-                                    ),
-                                    color: Colors.grey.withOpacity(0.3)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 3.0),
-                                  child: IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_back_ios_rounded,
-                                        size: 17,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        setState((){
-                                          mystate(() {
-                                            _textFieldController2.clear();
-                                            paidAmount2 = 0;
-                                            debt2 = 0;
-                                            refund2 = 0;
-                                            totalAmount2 = double.parse(TtlProdListPrice2());
-                                          });});
-                                        Navigator.pop(context);
-
-                                      }),
-                                ),
-                              ),
-                              Spacer(),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('^')[1],
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey,
-                                    ),),
-                                  Text('Cash acceptance',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ],
-                          ),
-
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    width: 1.0))),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: ListView(
+            body: IgnorePointer(
+              ignoring: disableTouch,
+              child: SafeArea(
+                bottom: true,
+                top: true,
+                child: Column(
+                  children: [
+                    Column(
                       children: [
-                        SizedBox(
-                          height: 15,
-                        ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Container(
+                            height: 80,
+                            child:
+                            Row(
                               children: [
                                 Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0),
-                                        ),
-                                        border: Border.all(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            width: 1.0),
-                                        color: AppTheme.lightBgColor),
-                                    height:  100,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Total sale', style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey,
-                                        )),
-                                        SizedBox(height: 3),
-                                        Text('MMK ' + TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
-                                          fontSize: 23, fontWeight: FontWeight.w500,
-                                        )),
-                                      ],
-                                    )),
-                                SizedBox(height: 20),
-                                Text('MMK: Amount received', style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500,
-                                )),
-                                SizedBox(height: 20),
-                                ButtonTheme(
-                                  minWidth: double.infinity,
-                                  //minWidth: 50,
-                                  splashColor: AppTheme.buttonColor2,
-                                  height: 50,
-                                  child: FlatButton(
-                                    color: AppTheme.buttonColor2,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(7.0),
-                                      side: BorderSide(
-                                        color: Colors.grey.withOpacity(0.85),
+                                  width: 37,
+                                  height: 37,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
                                       ),
-                                    ),
-                                    onPressed: () async {
-                                      setState(() {
-                                        mystate(() {
-                                          totalAmount2 =
-                                              double
-                                                  .parse(
-                                                  TtlProdListPrice2());
-                                          _textFieldController2
-                                              .text =
-                                              totalAmount2
-                                                  .toString();
-                                          paidAmount2 =
-                                              totalAmount2;
-                                          if ((totalAmount2 -
-                                              paidAmount2)
-                                              .isNegative) {
-                                            debt2 = 0;
-                                          } else {
-                                            debt2 =
-                                            (totalAmount2 -
-                                                paidAmount2);
-                                          }
-                                          if ((paidAmount2 -
-                                              totalAmount2)
-                                              .isNegative) {
-                                            refund2 =
-                                            0;
-                                          } else {
-                                            refund2 =
-                                            (paidAmount2 -
-                                                totalAmount2);
-                                          }
-                                        }); });
-                                    },
-                                    child: Container(
-                                      child: Text( 'MMK ' +
-                                          TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
+                                      color: Colors.grey.withOpacity(0.3)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 3.0),
+                                    child: IconButton(
+                                        icon: Icon(
+                                          Icons.arrow_back_ios_rounded,
+                                          size: 17,
+                                          color: Colors.black,
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 20),
-                                Text('(OR)', style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500,
-                                )),
-                                SizedBox(height: 20),
-                                Text('Type other amount', style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500,
-                                )),
-                                SizedBox(height: 20),
-                                TextField(
-                                  decoration: InputDecoration(
-                                    enabledBorder: const OutlineInputBorder(
-                                      // width: 0.0 produces a thin "hairline" border
-                                        borderSide: const BorderSide(
-                                            color: AppTheme.skBorderColor, width: 2.0),
-                                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                        onPressed: () {
+                                          setState((){
+                                            mystate(() {
+                                              _textFieldController2.clear();
+                                              paidAmount2 = 0;
+                                              debt2 = 0;
+                                              refund2 = 0;
+                                              totalAmount2 = double.parse(TtlProdListPrice2());
+                                            });});
+                                          Navigator.pop(context);
 
-                                    focusedBorder: const OutlineInputBorder(
-                                      // width: 0.0 produces a thin "hairline" border
-                                        borderSide: const BorderSide(
-                                            color: AppTheme.skThemeColor2, width: 2.0),
-                                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                                    suffixText: 'MMK',
-                                    suffixStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 12,
-                                    ),
-                                    labelStyle: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey,
-                                    ),
-                                    // errorText: 'Error message',
-                                    labelText: 'other  amount',
-                                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                    //filled: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                        }),
                                   ),
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      mystate(()
-                                      {
-                                        totalAmount2 = double.parse(TtlProdListPrice2());
-                                        value != '' ? paidAmount2 = double.parse(value) : paidAmount2 = 0.0;
-                                        if((totalAmount2 - paidAmount2).isNegative){
-                                          debt2 = 0;
-                                        } else { debt2 = (totalAmount2 - paidAmount2);
-                                        }
-                                        if((paidAmount2 - totalAmount2).isNegative){
-                                          refund2 = 0;
-                                        } else { refund2 = (paidAmount2 - totalAmount2);
-                                        }
-                                      });});
-                                  },
-                                  controller: _textFieldController2,
                                 ),
-                              ]
+                                Spacer(),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('^')[1],
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey,
+                                      ),),
+                                    Text('Cash acceptance',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              ],
+                            ),
+
                           ),
                         ),
-                        // orderLoading?Text('Loading'):Text('')
+                        Container(
+                          height: 1,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      width: 1.0))),
+                        ),
                       ],
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border(
-                              top: BorderSide(
-                                  color:
-                                  AppTheme.skBorderColor2,
-                                  width: 1.0),
-                            )),
-                        width: double.infinity,
-                        height: 158,
-                        child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.end,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.end,
-                          children: [
-                            debt2!= 0 ? ListTile(
-                              title: Text(
-                                'Debt amount',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight:
-                                    FontWeight
-                                        .w500),
-                              ),
-                              trailing: Text('- MMK '+
-                                  debt2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight:
-                                    FontWeight
-                                        .w500),
-                              ),
-                            ) : ListTile(
-                              title: Text(
-                                'Cash refund',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight:
-                                    FontWeight
-                                        .w500),
-                              ),
-                              trailing: Text('MMK '+
-                                  refund2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight:
-                                    FontWeight
-                                        .w500),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    discountAmount2 = discount2;
-                                    subList2 = [];
-                                    DateTime now = DateTime.now();
-                                    CollectionReference prods =  await FirebaseFirestore.instance.collection('shops').doc(
-                                        shopId).collection('products');
-                                    int length = 0;
-                                    int totalOrders = 0;
-                                    int debts = 0;
-                                    var dateExist = false;
-                                    var dateId = '';
-                                    double debtAmounts = 0 ;
-                                    print('order creating here2');
-
-                                    FirebaseFirestore.instance.collection('shops').doc(shopId).get().then((value) async {
-                                      length = int.parse(
-                                          value.data()!['buyOrders_length']
-                                              .toString());
-                                      print('lengthsss' + length.toString());
-
-                                      length = length + 1;
-
-                                      buyOrderLengthIncrease();
-
-                                      for (String str in widget.prodList2) {
-                                        subList2.add(
-                                            str.split('^')[0] + '-' + 'veriD' +
-                                                '-' + 'buy0' + '-' +
-                                                str.split('^')[2] + '-' +
-                                                str.split('^')[1] + '-' +
-                                                str.split('^')[4] + '-' +
-                                                str.split('^')[2] + '-0-' +
-                                                'date');
-
-                                        List<String> subLink = [];
-                                        List<String> subName = [];
-                                        List<double> subStock = [];
-
-                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0]).get();
-
-                                        if (docSnapshot10.exists) {
-                                          Map<String,
-                                              dynamic>? data10 = docSnapshot10
-                                              .data();
-
-                                          for (int i = 0; i < int.parse(
-                                              data10 ? ["sub_exist"]) +
-                                              1; i++) {
-                                            subLink.add(data10 ? ['sub' +
-                                                (i + 1).toString() + '_link']);
-                                            subName.add(data10 ? ['sub' +
-                                                (i + 1).toString() + '_name']);
-                                            print(
-                                                'inStock' + (i + 1).toString());
-                                            subStock.add(double.parse(
-                                                (data10 ? ['inStock' +
-                                                    (i + 1).toString()])
-                                                    .toString()));
-                                          }
-                                        }
-
-                                        if (str.split('^')[4] == 'unit_name') {
-                                          prods.doc(
-                                              str.split('^')[0])
-                                              .update({
-                                            'inStock1': FieldValue.increment(
-                                                double.parse(str.split('^')[2]
-                                                    .toString())),
-                                            'buyPrice1': str.split('^')[1]
-                                                .toString(),
-                                          })
-                                              .then((value) =>
-                                              print("User Updated"))
-                                              .catchError((error) => print(
-                                              "Failed to update user: $error"));
-                                        }
-                                        else
-                                        if (str.split('^')[4] == 'sub1_name') {
-                                          prods.doc(
-                                              str.split('^')[0])
-                                              .update({
-                                            'inStock2': FieldValue.increment(
-                                                double.parse(str.split('^')[2]
-                                                    .toString())),
-                                            'buyPrice2': str.split('^')[1]
-                                                .toString(),
-                                          })
-                                              .then((value) =>
-                                              print("User Updated"))
-                                              .catchError((error) => print(
-                                              "Failed to update user: $error"));
-                                        } else
-                                        if (str.split('^')[4] == 'sub2_name') {
-                                          prods.doc(
-                                              str.split('^')[0])
-                                              .update({
-                                            'inStock3': FieldValue.increment(
-                                                double.parse(str.split('^')[2]
-                                                    .toString())),
-                                            'buyPrice3': str.split('^')[1]
-                                                .toString(),
-                                          })
-                                              .then((value) =>
-                                              print("User Updated"))
-                                              .catchError((error) => print(
-                                              "Failed to update user: $error"));
-                                        }
-                                      }
-
-                                      FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
-                                          .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                          .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                          .get()
-                                          .then((QuerySnapshot querySnapshot) {
-                                        querySnapshot.docs.forEach((doc) {
-                                          dateExist = true;
-                                          dateId = doc.id;
-                                        });
-
-                                        if (dateExist) {
-                                          addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
-                                          Detail2(now, length.toString() , subList2, dateId);
-                                          print('adddateexist added');
-                                        }
-                                        else {
-                                          DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
-                                          Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
-                                          print('adddateexist not');
-                                        }
-                                      });
-
-                                      if(widget.merchantId.split('^')[0] != 'name' && debt2.toString() != '0.0') {
-                                        debts = 1;
-                                        debtAmounts = debt2;
-                                      } else {
-                                        debts = 0;
-                                        debtAmounts = 0;
-                                      }
-
-                                      if(widget.merchantId.split('^')[0] != 'name') {
-                                        totalOrders = totalOrders + 1;
-                                        merchOrder(totalOrders, debts, debtAmounts);
-                                      }
-
-
-                                    });
-                                    widget.clearMerch();
-                                    widget.clearProd();
-                                    Navigator.of(context).popUntil((route) => route.isFirst);
-                                  },
-                                  child: Container(
-                                    width: (MediaQuery.of(context).size.width),
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(10.0),
-                                        color: AppTheme.themeColor),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15.0,
-                                          bottom: 15.0),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                        child: Container(
-                                          child: Text(
-                                            'Done',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black
-                                            ),
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0),
+                                          ),
+                                          border: Border.all(
+                                              color: Colors.grey.withOpacity(0.2),
+                                              width: 1.0),
+                                          color: AppTheme.lightBgColor),
+                                      height:  100,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text('Total sale', style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                          )),
+                                          SizedBox(height: 3),
+                                          Text('MMK ' + TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
+                                            fontSize: 23, fontWeight: FontWeight.w500,
+                                          )),
+                                        ],
+                                      )),
+                                  SizedBox(height: 20),
+                                  Text('MMK: Amount received', style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500,
+                                  )),
+                                  SizedBox(height: 20),
+                                  ButtonTheme(
+                                    minWidth: double.infinity,
+                                    //minWidth: 50,
+                                    splashColor: AppTheme.buttonColor2,
+                                    height: 50,
+                                    child: FlatButton(
+                                      color: AppTheme.buttonColor2,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7.0),
+                                        side: BorderSide(
+                                          color: Colors.grey.withOpacity(0.85),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        setState(() {
+                                          mystate(() {
+                                            totalAmount2 =
+                                                double
+                                                    .parse(
+                                                    TtlProdListPrice2());
+                                            _textFieldController2
+                                                .text =
+                                                totalAmount2
+                                                    .toString();
+                                            paidAmount2 =
+                                                totalAmount2;
+                                            if ((totalAmount2 -
+                                                paidAmount2)
+                                                .isNegative) {
+                                              debt2 = 0;
+                                            } else {
+                                              debt2 =
+                                              (totalAmount2 -
+                                                  paidAmount2);
+                                            }
+                                            if ((paidAmount2 -
+                                                totalAmount2)
+                                                .isNegative) {
+                                              refund2 =
+                                              0;
+                                            } else {
+                                              refund2 =
+                                              (paidAmount2 -
+                                                  totalAmount2);
+                                            }
+                                          }); });
+                                      },
+                                      child: Container(
+                                        child: Text( 'MMK ' +
+                                            TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                )
-                            )
-                          ],
+                                  SizedBox(height: 20),
+                                  Text('(OR)', style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500,
+                                  )),
+                                  SizedBox(height: 20),
+                                  Text('Type other amount', style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500,
+                                  )),
+                                  SizedBox(height: 20),
+                                  TextField(
+                                    decoration: InputDecoration(
+                                      enabledBorder: const OutlineInputBorder(
+                                        // width: 0.0 produces a thin "hairline" border
+                                          borderSide: const BorderSide(
+                                              color: AppTheme.skBorderColor, width: 2.0),
+                                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                                      focusedBorder: const OutlineInputBorder(
+                                        // width: 0.0 produces a thin "hairline" border
+                                          borderSide: const BorderSide(
+                                              color: AppTheme.skThemeColor2, width: 2.0),
+                                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                                      suffixText: 'MMK',
+                                      suffixStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                      labelStyle: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey,
+                                      ),
+                                      // errorText: 'Error message',
+                                      labelText: 'other  amount',
+                                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                      //filled: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        mystate(()
+                                        {
+                                          totalAmount2 = double.parse(TtlProdListPrice2());
+                                          value != '' ? paidAmount2 = double.parse(value) : paidAmount2 = 0.0;
+                                          if((totalAmount2 - paidAmount2).isNegative){
+                                            debt2 = 0;
+                                          } else { debt2 = (totalAmount2 - paidAmount2);
+                                          }
+                                          if((paidAmount2 - totalAmount2).isNegative){
+                                            refund2 = 0;
+                                          } else { refund2 = (paidAmount2 - totalAmount2);
+                                          }
+                                        });});
+                                    },
+                                    controller: _textFieldController2,
+                                  ),
+                                ]
+                            ),
+                          ),
+                          // orderLoading?Text('Loading'):Text('')
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                top: BorderSide(
+                                    color:
+                                    AppTheme.skBorderColor2,
+                                    width: 1.0),
+                              )),
+                          width: double.infinity,
+                          height: 158,
+                          child: Column(
+                            mainAxisAlignment:
+                            MainAxisAlignment.end,
+                            crossAxisAlignment:
+                            CrossAxisAlignment.end,
+                            children: [
+                              debt2!= 0 ? ListTile(
+                                title: Text(
+                                  'Debt amount',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight:
+                                      FontWeight
+                                          .w500),
+                                ),
+                                trailing: Text('- MMK '+
+                                    debt2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight:
+                                      FontWeight
+                                          .w500),
+                                ),
+                              ) : ListTile(
+                                title: Text(
+                                  'Cash refund',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight:
+                                      FontWeight
+                                          .w500),
+                                ),
+                                trailing: Text('MMK '+
+                                    refund2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight:
+                                      FontWeight
+                                          .w500),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Padding(
+                                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30.0),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      discountAmount2 = discount2;
+                                      subList2 = [];
+                                      DateTime now = DateTime.now();
+                                      CollectionReference prods =  await FirebaseFirestore.instance.collection('shops').doc(
+                                          shopId).collection('products');
+                                      int length = 0;
+                                      int totalOrders = 0;
+                                      int debts = 0;
+                                      var dateExist = false;
+                                      var dateId = '';
+                                      double debtAmounts = 0 ;
+                                      print('order creating here2');
+
+                                      mystate(() {
+                                        setState(() {
+                                          disableTouch = true;
+                                          merchCartCreating = true;
+                                          widget.merchCartLoadingState();
+                                        });
+                                      });
+
+                                      FirebaseFirestore.instance.collection('shops').doc(shopId).get().then((value) async {
+                                        length = int.parse(
+                                            value.data()!['buyOrders_length']
+                                                .toString());
+                                        print('lengthsss' + length.toString());
+
+                                        length = length + 1;
+
+                                        buyOrderLengthIncrease();
+
+                                        for (String str in widget.prodList2) {
+                                          subList2.add(
+                                              str.split('^')[0] + '-' + 'veriD' +
+                                                  '-' + 'buy0' + '-' +
+                                                  str.split('^')[2] + '-' +
+                                                  str.split('^')[1] + '-' +
+                                                  str.split('^')[4] + '-' +
+                                                  str.split('^')[2] + '-0-' +
+                                                  'date');
+
+                                          List<String> subLink = [];
+                                          List<String> subName = [];
+                                          List<double> subStock = [];
+
+                                          var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0]).get();
+
+                                          if (docSnapshot10.exists) {
+                                            Map<String,
+                                                dynamic>? data10 = docSnapshot10
+                                                .data();
+
+                                            for (int i = 0; i < int.parse(
+                                                data10 ? ["sub_exist"]) +
+                                                1; i++) {
+                                              subLink.add(data10 ? ['sub' +
+                                                  (i + 1).toString() + '_link']);
+                                              subName.add(data10 ? ['sub' +
+                                                  (i + 1).toString() + '_name']);
+                                              print(
+                                                  'inStock' + (i + 1).toString());
+                                              subStock.add(double.parse(
+                                                  (data10 ? ['inStock' +
+                                                      (i + 1).toString()])
+                                                      .toString()));
+                                            }
+                                          }
+
+                                          if (str.split('^')[4] == 'unit_name') {
+                                            prods.doc(
+                                                str.split('^')[0])
+                                                .update({
+                                              'inStock1': FieldValue.increment(
+                                                  double.parse(str.split('^')[2]
+                                                      .toString())),
+                                              'buyPrice1': str.split('^')[1]
+                                                  .toString(),
+                                            })
+                                                .then((value) =>
+                                                print("User Updated"))
+                                                .catchError((error) => print(
+                                                "Failed to update user: $error"));
+                                          }
+                                          else
+                                          if (str.split('^')[4] == 'sub1_name') {
+                                            prods.doc(
+                                                str.split('^')[0])
+                                                .update({
+                                              'inStock2': FieldValue.increment(
+                                                  double.parse(str.split('^')[2]
+                                                      .toString())),
+                                              'buyPrice2': str.split('^')[1]
+                                                  .toString(),
+                                            })
+                                                .then((value) =>
+                                                print("User Updated"))
+                                                .catchError((error) => print(
+                                                "Failed to update user: $error"));
+                                          } else
+                                          if (str.split('^')[4] == 'sub2_name') {
+                                            prods.doc(
+                                                str.split('^')[0])
+                                                .update({
+                                              'inStock3': FieldValue.increment(
+                                                  double.parse(str.split('^')[2]
+                                                      .toString())),
+                                              'buyPrice3': str.split('^')[1]
+                                                  .toString(),
+                                            })
+                                                .then((value) =>
+                                                print("User Updated"))
+                                                .catchError((error) => print(
+                                                "Failed to update user: $error"));
+                                          }
+                                        }
+
+                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
+                                            .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                            .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                            .get()
+                                            .then((QuerySnapshot querySnapshot) {
+                                          querySnapshot.docs.forEach((doc) {
+                                            dateExist = true;
+                                            dateId = doc.id;
+                                          });
+
+                                          if (dateExist) {
+                                            addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, length.toString());
+                                            Detail2(now, length.toString() , subList2, dateId);
+                                            print('adddateexist added');
+                                          }
+                                          else {
+                                            DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice2() + '^' + widget.merchantId.split('^')[0] + '^FALSE' + '^' + debt2.toString() + '^' + discountAmount2.toString() + disText2, now, length.toString());
+                                            Detail2(now, length.toString(), subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
+                                            print('adddateexist not');
+                                          }
+                                        });
+
+                                        if(widget.merchantId.split('^')[0] != 'name' && debt2.toString() != '0.0') {
+                                          debts = 1;
+                                          debtAmounts = debt2;
+                                        } else {
+                                          debts = 0;
+                                          debtAmounts = 0;
+                                        }
+
+                                        if(widget.merchantId.split('^')[0] != 'name') {
+                                          totalOrders = totalOrders + 1;
+                                          merchOrder(totalOrders, debts, debtAmounts);
+                                        }
+                                      });
+
+                                      widget.clearMerch();
+                                      widget.clearProd();
+
+                                      Future.delayed(const Duration(milliseconds: 3000), () {
+                                        mystate(() {
+                                          setState(() {
+                                           widget.endMerchCartLoadingState();
+                                            disableTouch = false;
+                                           merchCartCreating = false;
+                                          });
+                                        });
+                                        Navigator.of(context).popUntil((route) => route.isFirst);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: (MediaQuery.of(context).size.width),
+                                      height: 55,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(10.0),
+                                          color: AppTheme.themeColor),
+                                      child: merchCartCreating ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                          child: CupertinoActivityIndicator(radius: 10,)):
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 15.0,
+                                            bottom: 15.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                          child: Container(
+                                            child: Text(
+                                              'Done',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

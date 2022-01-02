@@ -29,9 +29,13 @@ import 'home_page4.dart';
 
 class SingleAssetPage extends StatefulWidget {
   final _callback;
+  final prodLoadingState;
+  final endProdLoadingState;
 
-  SingleAssetPage({required void toggleCoinCallback()})
-      : _callback = toggleCoinCallback;
+  SingleAssetPage({required void toggleCoinCallback(), required void toggleCoinCallback2(), required void toggleCoinCallback3()})
+      : _callback = toggleCoinCallback,
+        prodLoadingState = toggleCoinCallback2,
+        endProdLoadingState = toggleCoinCallback3;
   @override
   _SingleAssetPageState createState() => _SingleAssetPageState();
 }
@@ -55,7 +59,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   final msaleCtrl = TextEditingController();
   final mcostCtrl = TextEditingController();
 
+
   bool prodAdding = false;
+
   String? shopId;
 
   @override
@@ -1375,6 +1381,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                 if (_formKey.currentState!.validate()) {
                                   DateTime now = DateTime.now();
                                   setState(() {
+                                    widget.prodLoadingState();
                                     prodAdding = true;
                                   });
                                   print('validate ' + prodFieldsValue.toString());
@@ -1543,7 +1550,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           'Product name already!',
                                           okLabel: 'OK',
                                         );
-                                      } else {
+                                        setState(() {
+                                          widget.endProdLoadingState();
+                                          prodAdding = false;
+                                        });
+                                      }
+                                      else {
                                         CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
                                             shopId)
                                             .collection(
@@ -1610,10 +1622,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // 'sub3_name': subUnitFieldValue[7],
 // 'sub3_sale': subUnitFieldValue[8],
                                           'img_1': '',
-                                          'img_2': '',
-                                          'img_3': '',
-                                          'img_4': '',
-                                          'img_5': '',
+                                          // 'img_2': '',
+                                          // 'img_3': '',
+                                          // 'img_4': '',
+                                          // 'img_5': '',
                                         }).then((value) {
                                           print('product added');
 // setState(() {
@@ -1707,79 +1719,78 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 // });
                                           setState(() {
                                             prodAdding = false;
+                                            widget.endProdLoadingState();
+                                            Navigator.pop(context);
                                           });
-
-                                          Navigator.pop(context);
-
-                                          showFlash(
-                                            context: context,
-                                            duration:
-                                            const Duration(seconds: 2),
-                                            persistent: true,
-                                            builder: (_, controller) {
-                                              return Flash(
-                                                controller:
-                                                controller,
-                                                backgroundColor:
-                                                Colors
-                                                    .transparent,
-                                                brightness:
-                                                Brightness
-                                                    .light,
-                                                barrierDismissible:
-                                                true,
-                                                behavior:
-                                                FlashBehavior
-                                                    .floating,
-                                                position:
-                                                FlashPosition
-                                                    .top,
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .only(
-                                                      top:
-                                                      80.0),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .only(
-                                                        left: 15.0,
-                                                        right:
-                                                        15.0),
-                                                    child:
-                                                    Container(
-                                                      decoration:
-                                                      BoxDecoration(
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                        color: Colors
-                                                            .green,
-                                                      ),
-                                                      child:
-                                                      FlashBar(
-                                                        title: Text(
-                                                            'Success'),
-                                                        content: Text(
-                                                            'Product added successfully'),
-// showProgressIndicator: true,
-                                                        primaryAction:
-                                                        TextButton(
-                                                          onPressed:
-                                                              () =>
-                                                              controller.dismiss(),
-                                                          child: Text(
-                                                              'DISMISS',
-                                                              style:
-                                                              TextStyle(color: Colors.amber)),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
+//                                           showFlash(
+//                                             context: context,
+//                                             duration:
+//                                             const Duration(seconds: 2),
+//                                             persistent: true,
+//                                             builder: (_, controller) {
+//                                               return Flash(
+//                                                 controller:
+//                                                 controller,
+//                                                 backgroundColor:
+//                                                 Colors
+//                                                     .transparent,
+//                                                 brightness:
+//                                                 Brightness
+//                                                     .light,
+//                                                 barrierDismissible:
+//                                                 true,
+//                                                 behavior:
+//                                                 FlashBehavior
+//                                                     .floating,
+//                                                 position:
+//                                                 FlashPosition
+//                                                     .top,
+//                                                 child: Padding(
+//                                                   padding:
+//                                                   const EdgeInsets
+//                                                       .only(
+//                                                       top:
+//                                                       80.0),
+//                                                   child: Padding(
+//                                                     padding: const EdgeInsets
+//                                                         .only(
+//                                                         left: 15.0,
+//                                                         right:
+//                                                         15.0),
+//                                                     child:
+//                                                     Container(
+//                                                       decoration:
+//                                                       BoxDecoration(
+//                                                         borderRadius:
+//                                                         BorderRadius.circular(
+//                                                             10.0),
+//                                                         color: Colors
+//                                                             .green,
+//                                                       ),
+//                                                       child:
+//                                                       FlashBar(
+//                                                         title: Text(
+//                                                             'Success'),
+//                                                         content: Text(
+//                                                             'Product added successfully'),
+// // showProgressIndicator: true,
+//                                                         primaryAction:
+//                                                         TextButton(
+//                                                           onPressed:
+//                                                               () =>
+//                                                               controller.dismiss(),
+//                                                           child: Text(
+//                                                               'DISMISS',
+//                                                               style:
+//                                                               TextStyle(color: Colors.amber)),
+//                                                         ),
+//                                                       ),
+//                                                     ),
+//                                                   ),
+//                                                 ),
+//                                               );
+//                                             },
+//                                           );
 
 // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
 // .add({
@@ -1792,7 +1803,8 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                         });
                                       }
                                     });
-                                  } else {
+                                  }
+                                  else {
                                     for (int i = 0;
                                     i < assets.length;
                                     i++) {
@@ -1885,11 +1897,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
                                           if( subUnitFieldValue[11] != '') {
                                             sub3Stock =  double.parse(subUnitFieldValue[11]);
-//sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                           }
                                           else {
                                             sub3Stock = 0;
-//sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                           }
 
                                           productId
@@ -1914,6 +1924,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 'Product name already!',
                                                 okLabel: 'OK',
                                               );
+                                              setState(() {
+                                                widget.endProdLoadingState();
+                                                prodAdding = false;
+                                              });
                                             } else {
                                               CollectionReference shops = await FirebaseFirestore.instance.collection('shops').doc(
                                                   shopId)
@@ -1963,23 +1977,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 'mainSellUnit' : 0,
                                                 'sub1SellUnit' : 0,
                                                 'sub2SellUnit' : 0,
-// 's1Total' : sub1Total,
-// 's2Total' : sub2Total,
-// 's3Total' : sub3Total,
-
-// 'unit_qtity': prodFieldsValue[2],
-// 'unit_name': prodFieldsValue[3],
-// 'buy_price': prodFieldsValue[4],
-// 'sale_price': prodFieldsValue[5],
-// 'sub1_unit': subUnitFieldValue[0],
-// 'sub1_name': subUnitFieldValue[1],
-// 'sub1_sale': subUnitFieldValue[2],
-// 'sub2_unit': subUnitFieldValue[3],
-// 'sub2_name': subUnitFieldValue[4],
-// 'sub2_sale': subUnitFieldValue[5],
-// 'sub3_unit': subUnitFieldValue[6],
-// 'sub3_name': subUnitFieldValue[7],
-// 'sub3_sale': subUnitFieldValue[8],
                                                 'img_1': photoArray[0],
                                               }).then((value) {
                                                 print('product added');
@@ -2073,85 +2070,87 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //   print('product added 4');
 // });
                                                 setState(() {
+                                                  widget.endProdLoadingState();
                                                   prodAdding = false;
+                                                  Navigator.pop(context);
                                                 });
 
-                                                Navigator.pop(context);
 
-                                                showFlash(
-                                                  context: context,
-                                                  duration:
-                                                  const Duration(
-                                                      seconds: 2),
-                                                  persistent: true,
-                                                  builder:
-                                                      (_, controller) {
-                                                    return Flash(
-                                                      controller:
-                                                      controller,
-                                                      backgroundColor:
-                                                      Colors
-                                                          .transparent,
-                                                      brightness:
-                                                      Brightness
-                                                          .light,
-// boxShadows: [BoxShadow(blurRadius: 4)],
-// barrierBlur: 3.0,
-// barrierColor: Colors.black38,
-                                                      barrierDismissible:
-                                                      true,
-                                                      behavior:
-                                                      FlashBehavior
-                                                          .floating,
-                                                      position:
-                                                      FlashPosition
-                                                          .top,
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets
-                                                            .only(
-                                                            top:
-                                                            80.0),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(
-                                                              left: 15.0,
-                                                              right:
-                                                              15.0),
-                                                          child:
-                                                          Container(
-                                                            decoration:
-                                                            BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius.circular(
-                                                                  10.0),
-                                                              color: Colors
-                                                                  .green,
-                                                            ),
-                                                            child:
-                                                            FlashBar(
-                                                              title: Text(
-                                                                  'Title'),
-                                                              content: Text(
-                                                                  'Hello world!'),
-// showProgressIndicator: true,
-                                                              primaryAction:
-                                                              TextButton(
-                                                                onPressed:
-                                                                    () =>
-                                                                    controller.dismiss(),
-                                                                child: Text(
-                                                                    'DISMISS',
-                                                                    style:
-                                                                    TextStyle(color: Colors.amber)),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
+
+//                                                 showFlash(
+//                                                   context: context,
+//                                                   duration:
+//                                                   const Duration(
+//                                                       seconds: 2),
+//                                                   persistent: true,
+//                                                   builder:
+//                                                       (_, controller) {
+//                                                     return Flash(
+//                                                       controller:
+//                                                       controller,
+//                                                       backgroundColor:
+//                                                       Colors
+//                                                           .transparent,
+//                                                       brightness:
+//                                                       Brightness
+//                                                           .light,
+// // boxShadows: [BoxShadow(blurRadius: 4)],
+// // barrierBlur: 3.0,
+// // barrierColor: Colors.black38,
+//                                                       barrierDismissible:
+//                                                       true,
+//                                                       behavior:
+//                                                       FlashBehavior
+//                                                           .floating,
+//                                                       position:
+//                                                       FlashPosition
+//                                                           .top,
+//                                                       child: Padding(
+//                                                         padding:
+//                                                         const EdgeInsets
+//                                                             .only(
+//                                                             top:
+//                                                             80.0),
+//                                                         child: Padding(
+//                                                           padding: const EdgeInsets
+//                                                               .only(
+//                                                               left: 15.0,
+//                                                               right:
+//                                                               15.0),
+//                                                           child:
+//                                                           Container(
+//                                                             decoration:
+//                                                             BoxDecoration(
+//                                                               borderRadius:
+//                                                               BorderRadius.circular(
+//                                                                   10.0),
+//                                                               color: Colors
+//                                                                   .green,
+//                                                             ),
+//                                                             child:
+//                                                             FlashBar(
+//                                                               title: Text(
+//                                                                   'Title'),
+//                                                               content: Text(
+//                                                                   'Hello world!'),
+// // showProgressIndicator: true,
+//                                                               primaryAction:
+//                                                               TextButton(
+//                                                                 onPressed:
+//                                                                     () =>
+//                                                                     controller.dismiss(),
+//                                                                 child: Text(
+//                                                                     'DISMISS',
+//                                                                     style:
+//                                                                     TextStyle(color: Colors.amber)),
+//                                                               ),
+//                                                             ),
+//                                                           ),
+//                                                         ),
+//                                                       ),
+//                                                     );
+//                                                   },
+//                                                 );
 
 // FirebaseFirestore.instance.collection('space').doc(spaceDocId).collection('shops').doc(result2).collection('products').doc(value.id).collection('units')
 // .add({
@@ -2170,7 +2169,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                   }
                                 }
                               },
-                              child: Padding(
+                              child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                  child: CupertinoActivityIndicator(radius: 10,)) :
+                              Padding(
                                 padding: const EdgeInsets.only(
                                     left: 5.0,
                                     right: 5.0,
@@ -2197,21 +2198,21 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               ],
             ),
           ),
-          prodAdding
-              ? Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  color: Colors.grey.withOpacity(0.5),
-                  child: Center(
-                      child: Theme(
-                          data: ThemeData(
-                              cupertinoOverrideTheme: CupertinoThemeData(
-                                  brightness: Brightness.light)),
-                          child: CupertinoActivityIndicator(
-                            radius: 20,
-                          ))),
-                )
-              : Container(),
+          // prodAdding
+          //     ? Container(
+          //         width: MediaQuery.of(context).size.width,
+          //         height: MediaQuery.of(context).size.height,
+          //         color: Colors.grey.withOpacity(0.5),
+          //         child: Center(
+          //             child: Theme(
+          //                 data: ThemeData(
+          //                     cupertinoOverrideTheme: CupertinoThemeData(
+          //                         brightness: Brightness.light)),
+          //                 child: CupertinoActivityIndicator(
+          //                   radius: 20,
+          //                 ))),
+          //       )
+          //     : Container(),
         ],
       ),
     );

@@ -10,7 +10,12 @@ import 'package:smartkyat_pos/pages2/home_page4.dart';
 import '../app_theme.dart';
 
 class AddMerchant extends StatefulWidget {
-  const AddMerchant({Key? key}) : super(key: key);
+  final merchLoadingState;
+  final endMerchLoadingState;
+
+  AddMerchant({ required void toggleCoinCallback2(), required void toggleCoinCallback3()})
+      : merchLoadingState = toggleCoinCallback2,
+        endMerchLoadingState = toggleCoinCallback3;
 
   @override
   _AddMerchantState createState() => _AddMerchantState();
@@ -22,7 +27,7 @@ class _AddMerchantState extends State<AddMerchant> {
   final mphoneCtrl = TextEditingController();
   static List<String> merchFieldsValue = [];
   final _formKey = GlobalKey<FormState>();
-  bool prodAdding = false;
+  bool merchAdding = false;
 
   String? shopId;
 
@@ -327,7 +332,8 @@ class _AddMerchantState extends State<AddMerchant> {
                                   merchFieldsValue = [];
                                   if (_formKey.currentState!.validate()) {
                                     setState(() {
-                                      prodAdding = true;
+                                      widget.merchLoadingState();
+                                      merchAdding = true;
                                     });
 
                                     bool exist = false;
@@ -375,7 +381,8 @@ class _AddMerchantState extends State<AddMerchant> {
                                         print('product added 2');
 
                                         setState(() {
-                                          prodAdding = false;
+                                          widget.endMerchLoadingState();
+                                          merchAdding = false;
                                         });
 
                                         Navigator.pop(context);
@@ -449,7 +456,8 @@ class _AddMerchantState extends State<AddMerchant> {
                                         print('product added 2');
 
                                         setState(() {
-                                          prodAdding = false;
+                                          widget.endMerchLoadingState();
+                                          merchAdding = false;
                                         });
 
                                         Navigator.pop(context);
@@ -508,7 +516,9 @@ class _AddMerchantState extends State<AddMerchant> {
                                     // });
                                   }
                                 },
-                                child: Padding(
+                                child:  merchAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                    child: CupertinoActivityIndicator(radius: 10,))
+                                    : Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5.0,
                                       right: 5.0,
@@ -535,21 +545,6 @@ class _AddMerchantState extends State<AddMerchant> {
               ],
             ),
           ),
-          prodAdding
-              ? Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.grey.withOpacity(0.5),
-            child: Center(
-                child: Theme(
-                    data: ThemeData(
-                        cupertinoOverrideTheme: CupertinoThemeData(
-                            brightness: Brightness.light)),
-                    child: CupertinoActivityIndicator(
-                      radius: 20,
-                    ))),
-          )
-              : Container(),
         ],
       ),
     );
