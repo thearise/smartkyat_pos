@@ -516,6 +516,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
+          print('cateScIndex2' + cateScIndex.toString());
         },
         child: Container(
           color: Colors.white,
@@ -541,9 +542,10 @@ class ProductsFragmentState extends State<ProductsFragment>
 
 
                         child: StreamBuilder(
-                            stream:cateScIndex == 0 ? widget.productsSnapshot : widget.lowStockSnapshot,
+                            stream: cateScIndex == 0 ? widget.productsSnapshot : widget.lowStockSnapshot,
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
+                                print('cateScIndex1' + cateScIndex.toString());
                                 // snapshot.data.
                                 int secLength = 0;
                                 print("LLEENN " + snapshot.data!.docs.length.toString());
@@ -1264,18 +1266,18 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   }
 
-  addNewProd2(priContext) {
-    final List<String> prodFieldsValue = [];
-    final _formKey = GlobalKey<FormState>();
-    // myController.clear();
-    showModalBottomSheet(
-        enableDrag: false,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SingleAssetPage(toggleCoinCallback: closeNewProduct);
-        });
-  }
+  // addNewProd2(priContext) {
+  //   final List<String> prodFieldsValue = [];
+  //   final _formKey = GlobalKey<FormState>();
+  //   // myController.clear();
+  //   showModalBottomSheet(
+  //       enableDrag: false,
+  //       isScrollControlled: true,
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+  //       });
+  // }
 
   // addNewProd(priContext) {
   //   final List<String> prodFieldsValue = [];

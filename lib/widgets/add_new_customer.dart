@@ -10,7 +10,12 @@ import 'package:smartkyat_pos/pages2/home_page4.dart';
 import '../app_theme.dart';
 
 class AddCustomer extends StatefulWidget {
-  const AddCustomer({Key? key}) : super(key: key);
+  final cusLoadingState;
+  final endCusLoadingState;
+
+  AddCustomer({ required void toggleCoinCallback2(), required void toggleCoinCallback3()})
+      : cusLoadingState = toggleCoinCallback2,
+        endCusLoadingState = toggleCoinCallback3;
 
   @override
   _AddCustomerState createState() => _AddCustomerState();
@@ -22,7 +27,6 @@ class _AddCustomerState extends State<AddCustomer> {
   final mphoneCtrl = TextEditingController();
   static List<String> merchFieldsValue = [];
   final _formKey = GlobalKey<FormState>();
-  bool prodAdding = false;
   String? shopId;
 
   @override
@@ -31,6 +35,8 @@ class _AddCustomerState extends State<AddCustomer> {
     // TODO: implement initState
     super.initState();
   }
+  
+  bool cusCreating = false;
 
   @override
   Widget build(BuildContext context) {
@@ -325,8 +331,10 @@ class _AddCustomerState extends State<AddCustomer> {
                                 onPressed: () async {
                                   merchFieldsValue = [];
                                   if (_formKey.currentState!.validate()) {
+                                    
                                     setState(() {
-                                      prodAdding = true;
+                                      cusCreating = true;
+                                      widget.cusLoadingState();
                                     });
 
                                     bool exist = false;
@@ -358,10 +366,10 @@ class _AddCustomerState extends State<AddCustomer> {
                                         print('product added 2');
 
                                         setState(() {
-                                          prodAdding = false;
+                                          cusCreating = false;
+                                          widget.endCusLoadingState();
+                                          Navigator.pop(context);
                                         });
-
-                                        Navigator.pop(context);
 
                                         showFlash(
                                           context: context,
@@ -432,11 +440,10 @@ class _AddCustomerState extends State<AddCustomer> {
                                         print('product added 2');
 
                                         setState(() {
-                                          prodAdding = false;
+                                          cusCreating = false;
+                                          widget.endCusLoadingState();
+                                          Navigator.pop(context);
                                         });
-
-                                        Navigator.pop(context);
-
                                         showFlash(
                                           context: context,
                                           duration: const Duration(seconds: 2),
@@ -491,7 +498,8 @@ class _AddCustomerState extends State<AddCustomer> {
                                     // });
                                   }
                                 },
-                                child: Padding(
+                                child:  cusCreating == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                    child: CupertinoActivityIndicator(radius: 10,)) :Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5.0,
                                       right: 5.0,
@@ -518,21 +526,6 @@ class _AddCustomerState extends State<AddCustomer> {
               ],
             ),
           ),
-          prodAdding
-              ? Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.grey.withOpacity(0.5),
-            child: Center(
-                child: Theme(
-                    data: ThemeData(
-                        cupertinoOverrideTheme: CupertinoThemeData(
-                            brightness: Brightness.light)),
-                    child: CupertinoActivityIndicator(
-                      radius: 20,
-                    ))),
-          )
-              : Container(),
         ],
       ),
     );
