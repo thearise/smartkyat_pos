@@ -218,6 +218,7 @@ class HomePageState extends State<HomePage>
 
   Stream<QuerySnapshot>? orderSnapshot;
   Stream<QuerySnapshot>? productSnapshot;
+  Stream<QuerySnapshot>? productSnapshot2;
   Stream<QuerySnapshot>? merchantSnapshot;
   Stream<QuerySnapshot>? buyOrderSnapshot;
   //Stream<QuerySnapshot>? buyOrderSnapshot2;
@@ -230,6 +231,7 @@ class HomePageState extends State<HomePage>
   Stream<QuerySnapshot>? emailSnapshot;
   var shopSnapshot;
   Stream<QuerySnapshot>? userSnapshot;
+  Stream<QuerySnapshot>? userSnapshot2;
   Stream<QuerySnapshot>? shopFoundSnapshot;
   Stream<QuerySnapshot>? lowStockSnapshot;
 
@@ -320,6 +322,7 @@ class HomePageState extends State<HomePage>
       setState(() {
         shopId = value0;
       });
+      userSnapshot2 = FirebaseFirestore.instance.collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).snapshots();
       userSnapshot = FirebaseFirestore.instance.collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).snapshots();
       emailSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('email', isEqualTo: auth.currentUser!.email.toString()).limit(1).snapshots();
       shopSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots();
@@ -327,6 +330,8 @@ class HomePageState extends State<HomePage>
 
       lowStockSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').orderBy('inStock1', descending: false).snapshots();
       productSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
+      productSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
+
       orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
       buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
       //buyOrderSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
@@ -474,7 +479,7 @@ class HomePageState extends State<HomePage>
            Icons.add,
          ),
          // page: BuyListFragment(),
-         page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot,),
+         page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot2,),
        ),
        TabItem(
          tabName: "Settings",
@@ -492,7 +497,7 @@ class HomePageState extends State<HomePage>
          icon: Icon(
            Icons.add,
          ),
-         page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot,),
+         page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2,),
        ),
       ];
     });
@@ -4335,7 +4340,7 @@ class HomePageState extends State<HomePage>
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    smartKyatFlash('Product is added successfully.', 'i');
+                                                    smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');
                                                   },
                                                   child: Row(
                                                     children: [
@@ -4561,7 +4566,7 @@ class HomePageState extends State<HomePage>
                           ),
                           (prodList2.length != 0 || merchantId != 'name^name') ?
                           Positioned(
-                            bottom: 140,
+                            bottom: 157,
                             right: 15,
                             child: GestureDetector(
                               onTap: (){
@@ -4573,10 +4578,10 @@ class HomePageState extends State<HomePage>
                               child: Stack(
                                 children: [
                                   Container(
-                                    width: 45,
-                                    height: 45,
+                                    width: 155,
+                                    height: 50,
                                     decoration: BoxDecoration(
-                                        color: Colors.yellow,
+                                        color:  AppTheme.themeColor,
                                         borderRadius: BorderRadius.circular(50.0),
                                         border: Border.all(
                                           color: Colors.transparent,
@@ -4585,30 +4590,35 @@ class HomePageState extends State<HomePage>
                                     ),
                                   ),
                                   Positioned(
-                                    left: 12,
-                                    top: 10,
+                                    right: 5,
+                                    top: 3.5,
+                                    child: Container(
+                                      width: 42,
+                                      height: 42,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(50.0),
+                                          border: Border.all(
+                                            color: Colors.transparent,
+                                            width: 5,
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 15,
+                                    top: 13,
                                     child: Container(
                                       child: Icon( SmartKyat_POS.merchant,
                                         size: 22,),
                                     ),
                                   ),
                                   Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    child: Container(
-                                      height: 20,
-                                      width: 20,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.skBorderColor2,
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            20.0),
-                                      ),
-                                      child: Text(totalItems2(), style: TextStyle(
-                                        fontSize: 11, fontWeight: FontWeight.w500,
-                                      )
-                                      ),
+                                    left: 16,
+                                    top: 14,
+                                    child: Text(totalItems2() + ' item set', style: TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.w500,
+                                    )
                                     ),
                                   ),
                                 ],
