@@ -32,7 +32,7 @@ class CustomersFragment extends StatefulWidget {
   final _searchBtn;
   final addCust;
 
-  CustomersFragment( {
+  CustomersFragment({
     required void toggleCoinCallback6(),
     required void searchBtn(),
     required this.customersSnapshot,
