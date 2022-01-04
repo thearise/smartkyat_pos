@@ -523,7 +523,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    smartKyatFlash('Check your internet connection and try again.', 'w');
+                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                   },
                                                   child: Container(
                                                     width: 100,

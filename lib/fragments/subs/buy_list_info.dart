@@ -161,7 +161,8 @@ class _BuyListInfoState extends State<BuyListInfo>
           ),
         ),
       );
-    } else if(type == 'w') {
+    }
+    else if(type == 'w') {
       bdColor = Color(0xffF2E0BC);
       bgColor = Color(0xffFCF4E2);
       widgetCon = Container(
@@ -182,7 +183,8 @@ class _BuyListInfoState extends State<BuyListInfo>
           // ),
         ),
       );
-    } else if(type == 'e') {
+    }
+    else if(type == 'e') {
       bdColor = Color(0xffEAD2C8);
       bgColor = Color(0xffFAEEEC);
       widgetCon = Container(
@@ -202,7 +204,8 @@ class _BuyListInfoState extends State<BuyListInfo>
           ),
         ),
       );
-    } else if(type == 'i') {
+    }
+    else if(type == 'i') {
       bdColor = Color(0xffBCCEEA);
       bgColor = Color(0xffE8EEF9);
       widgetCon = Container(
@@ -660,7 +663,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    smartKyatFlash('Check your internet connection and try again.', 'w');
+                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                   },
                                                   child: Container(
                                                     width: 100,
