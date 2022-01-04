@@ -3799,7 +3799,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: widget.ordersSnapshot,
+                            stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('orders').where('date', isLessThanOrEqualTo: lossDayStart()).where('date', isGreaterThanOrEqualTo: lossDayEnd()).orderBy('date', descending: true).snapshots(),
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
                               if(snapshot.hasData) {
@@ -5306,19 +5306,19 @@ class OrdersFragmentState extends State<OrdersFragment>
       endDateOfMonth = '31';
     }
     DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
-    print('DDDD ' + yearStart.toString());
+    print('DDDDD ' + yearStart.toString());
     return yearStart;
   }
 
-  lossDayEnd() {
+  DateTime lossDayEnd() {
     // DateTime today = DateTime.now();
     // DateTime yearStart = DateTime.now();
     // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
     // today.
     DateTime notTday = today;
     notTday = today;
-    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 00:00:00');
-    print('DDDD ' + yearStart.toString());
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
+    print('DDDDDD ' + yearStart.toString());
     return yearStart;
 
   }

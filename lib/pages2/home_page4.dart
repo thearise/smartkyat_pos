@@ -225,8 +225,8 @@ class HomePageState extends State<HomePage>
   Stream<QuerySnapshot>? customerSnapshot;
   Stream<QuerySnapshot>? customerSnapshot2;
   Stream<QuerySnapshot>? merchantSnapshot2;
-  //Stream<QuerySnapshot>? homeOrderSnapshot;
-  //Stream<QuerySnapshot>? homeBuyOrderSnapshot;
+  Stream<QuerySnapshot>? homeOrderSnapshot;
+  Stream<QuerySnapshot>? homeBuyOrderSnapshot;
   Stream<QuerySnapshot>? homeLossSnapshot;
   Stream<QuerySnapshot>? emailSnapshot;
   var shopSnapshot;
@@ -309,7 +309,6 @@ class HomePageState extends State<HomePage>
     _controllerTabBarCode = new TabController(length: 1, vsync: this);
     print('home_page' + 'sub1'.substring(3,4));
 
-
     slidableController = SlidableController(
       onSlideAnimationChanged: handleSlideAnimationChanged,
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
@@ -339,7 +338,7 @@ class HomePageState extends State<HomePage>
       merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
       merchantSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
       customerSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
-      // homeOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('order').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
+      //homeOrderSnapshot =   FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
       //homeBuyOrderSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrder').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
       homeLossSnapshot =  FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('loss').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots();
       WidgetsFlutterBinding.ensureInitialized();
@@ -507,6 +506,38 @@ class HomePageState extends State<HomePage>
     });
     });
     super.initState();
+  }
+  DateTime today = DateTime.now();
+
+  DateTime lossDayStart() {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    String endDateOfMonth = '31';
+    if(today.month.toString() == '9' || today.month.toString() == '4' || today.month.toString() == '6' || today.month.toString() == '11') {
+      endDateOfMonth = '30';
+    } else if(today.month.toString() == '2') {
+      endDateOfMonth = '29';
+    } else {
+      endDateOfMonth = '31';
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    print('DDDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
+  DateTime lossDayEnd() {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime notTday = today;
+    notTday = today;
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(notTday.month.toString()) + '-00 23:59:59');
+    print('DDDDDD ' + yearStart.toString());
+    return yearStart;
+
   }
 
   DateTime lossDayStartByDate(DateTime date) {
@@ -1186,7 +1217,6 @@ class HomePageState extends State<HomePage>
                                       onTap: () async {
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
-
                                       },
                                       child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                                           stream:  shopSnapshot,
