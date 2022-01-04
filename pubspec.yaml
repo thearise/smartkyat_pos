@@ -98,6 +98,7 @@ dependencies:
 #  blue_print_pos: 0.0.9
   paginate_firestore: ^1.0.2
   blue_print_pos: 0.0.10
+  ntp: ^2.0.0
 #    path: ../blue_print_pos
 
 #  flutter_launcher_icons: "^0.9.2"
@@ -159,6 +160,19 @@ flutter:
     - family:  SmartKyat_POS
       fonts:
         - asset: assets/icon_fonts/SmartKyat_POS.ttf
+    - family: sf_ui_display
+      fonts:
+        - asset: assets/system_fonts/sf_ui_display_regular.ttf
+        - asset: assets/system_fonts/sf_ui_display_medium.ttf
+          weight: 600
+        - asset: assets/system_fonts/sf_ui_display_semibold.ttf
+          weight: 600
+        - asset: assets/system_fonts/sf_ui_display_bold.ttf
+          weight: 700
+    - family: sf_pro_display
+      fonts:
+        - asset: assets/system_fonts/sf-pro-display_medium.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

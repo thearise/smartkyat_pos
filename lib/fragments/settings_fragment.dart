@@ -61,6 +61,13 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
     });
   }
 
+  String isPro = 'free';
+  isProSet(String index) {
+    setState(() {
+      isPro = index;
+    });
+  }
+
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.getString('lang') == null) {
@@ -222,7 +229,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                   Radius.circular(8.0),
                                 ),
                                 color: Colors.grey.withOpacity(0.3)),
-                            child: Text('Free Version', style: TextStyle(
+                            child: Text(isPro == 'free'? 'Free Version': 'Pro Version', style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 13
                             ),),
