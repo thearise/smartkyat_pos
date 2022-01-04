@@ -50,7 +50,10 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         canvasColor: Colors.transparent,
         bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
+        // fontFamily: 'sf_ui_display',
+        // fontFamily: 'sf_pro_display'
       ),
+
       navigatorObservers: [OneContext().heroController],
       builder: OneContext().builder,
       // home: HomePage(),
