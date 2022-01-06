@@ -1533,6 +1533,7 @@ class MerchantCartState extends State<MerchantCart>
                                   onTap: () {
                                     if (_formKey.currentState!.validate()) {
                                       print('eachProduct' +eachProd);
+
                                       for (int j = 0; j < widget.prodList2.length; j++)
                                         if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[4]){
                                           setState((){

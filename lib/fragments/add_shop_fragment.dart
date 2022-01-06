@@ -35,62 +35,8 @@ class _AddShopState extends State<AddShop> {
 
   bool loadingState = false;
 
-  bool _connectionStatus = false;
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        try {
-          final result = await InternetAddress.lookup('google.com');
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            print('connected');
-            setState(() {
-              _connectionStatus = true;
-            });
-          }
-        } on SocketException catch (_) {
-          setState(() {
-            _connectionStatus = false;
-          });
-        }
-        break;
-      default:
-        setState(() {
-          // _connectionStatus = 'Failed to get connectivity.')
-          _connectionStatus = false;
-        });
-        break;
-    }
-  }
-
   @override
   initState() {
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     super.initState();
   }
 
@@ -535,96 +481,6 @@ class _AddShopState extends State<AddShop> {
                       ),
                     ),
                     Spacer(),
-                    _connectionStatus? ButtonTheme(
-                      minWidth: (MediaQuery.of(context).size.width/2 )-22,
-                      splashColor: Colors.transparent,
-                      height: 53,
-                      child: FlatButton(
-                        color: AppTheme.themeColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(10.0),
-                          side: BorderSide(
-                            color: AppTheme.themeColor,
-                          ),
-                        ),
-                        onPressed: () async {
-                          shopFieldsValue = [];
-                         CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                          final User? user = auth.currentUser;
-                          final uid = user!.uid;
-                          final email = user.email;
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              loadingState = true;
-                            });
-                            shops.add(
-                              {
-                                'owner_id' : uid.toString(),
-                                'shop_name': shopFieldsValue[0],
-                                'shop_address' : shopFieldsValue[1],
-                                'shop_phone': shopFieldsValue[2],
-                                'users': FieldValue.arrayUnion([email.toString()]),
-                                'orders_length': 1000,
-                                'buyOrders_length': 1000,
-                              }
-                            ).then((value) async {
-                              shops.doc(value.id).collection('users').add({
-                                'email': email.toString(),
-                                'role' : 'owner',
-                              }).then((value) {
-
-                              })
-                                  .catchError((error) => print("Failed to update user: $error"));
-                              setStoreId(value.id.toString());
-
-                              CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
-                              cusName.doc('name').set({
-                                'customer_name': 'Unknown',
-                                'customer_address': '-',
-                                'customer_phone': '-',
-                                'total_orders' : 0,
-                                'debts' : 0,
-                                'debtAmount' : 0,
-                                'total_refunds' : 0,
-                              }).then((value) {})
-                                  .catchError((error) => print("Failed to update user: $error"));
-
-                              CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
-                              merchName.doc('name').set({
-                                'merchant_name': 'Unknown',
-                                'merchant_address': '-',
-                                'merchant_phone': '-',
-                                'total_orders' : 0,
-                                'debts' : 0,
-                                'debtAmount' : 0,
-                                'total_refunds' : 0,
-                              }).then((value) {})
-                                  .catchError((error) => print("Failed to update user: $error"));
-                              var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                              //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                              print('shop added'); });
-                          }
-                        },
-                        child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                            child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5.0,
-                              right: 5.0,
-                              bottom: 2.0),
-                          child: Container(
-                            child: Text(
-                              'Create shop',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ) :
                     ButtonTheme(
                       minWidth: (MediaQuery.of(context).size.width/2 )-22,
                       splashColor: Colors.transparent,
@@ -638,10 +494,77 @@ class _AddShopState extends State<AddShop> {
                             color: AppTheme.themeColor,
                           ),
                         ),
-                        onPressed: () {
-                          smartKyatFlash('Internet connection is required to take this action.', 'w');
+                        onPressed: () async {
+                          try {
+                            final result = await InternetAddress.lookup('google.com');
+                            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                              shopFieldsValue = [];
+                              CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                              final User? user = auth.currentUser;
+                              final uid = user!.uid;
+                              final email = user.email;
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  loadingState = true;
+                                });
+                                shops.add(
+                                    {
+                                      'owner_id' : uid.toString(),
+                                      'shop_name': shopFieldsValue[0],
+                                      'shop_address' : shopFieldsValue[1],
+                                      'shop_phone': shopFieldsValue[2],
+                                      'users': FieldValue.arrayUnion([email.toString()]),
+                                      'orders_length': 1000,
+                                      'buyOrders_length': 1000,
+                                      'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                    }
+                                ).then((value) async {
+                                  shops.doc(value.id).collection('users').add({
+                                    'email': email.toString(),
+                                    'role' : 'owner',
+                                  }).then((value) {
+
+                                  })
+                                      .catchError((error) => print("Failed to update user: $error"));
+                                  setStoreId(value.id.toString());
+
+                                  CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
+                                  cusName.doc('name').set({
+                                    'customer_name': 'Unknown',
+                                    'customer_address': '-',
+                                    'customer_phone': '-',
+                                    'total_orders' : 0,
+                                    'debts' : 0,
+                                    'debtAmount' : 0,
+                                    'total_refunds' : 0,
+                                  }).then((value) {})
+                                      .catchError((error) => print("Failed to update user: $error"));
+
+                                  CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
+                                  merchName.doc('name').set({
+                                    'merchant_name': 'Unknown',
+                                    'merchant_address': '-',
+                                    'merchant_phone': '-',
+                                    'total_orders' : 0,
+                                    'debts' : 0,
+                                    'debtAmount' : 0,
+                                    'total_refunds' : 0,
+                                  }).then((value) {})
+                                      .catchError((error) => print("Failed to update user: $error"));
+                                  var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                  //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                  print('shop added'); });
+                              }
+                            }
+                          } on SocketException catch (_) {
+                            setState(() {
+                              smartKyatFlash('Internet connection is required to take this action.', 'w');
+                            });
+                          }
+
                         },
-                        child: Padding(
+                        child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                            child: CupertinoActivityIndicator(radius: 10,)) : Padding(
                           padding: const EdgeInsets.only(
                               left: 5.0,
                               right: 5.0,

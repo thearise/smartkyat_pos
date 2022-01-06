@@ -28,62 +28,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   bool loadingState = false;
 
   String buttonPressed = 'N';
-  bool _connectionStatus = false;
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        try {
-          final result = await InternetAddress.lookup('google.com');
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            print('connected');
-            setState(() {
-              _connectionStatus = true;
-            });
-          }
-        } on SocketException catch (_) {
-          setState(() {
-            _connectionStatus = false;
-          });
-        }
-        break;
-      default:
-        setState(() {
-          // _connectionStatus = 'Failed to get connectivity.')
-          _connectionStatus = false;
-        });
-        break;
-    }
-  }
 
   @override
   initState() {
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     super.initState();
   }
 
@@ -202,7 +149,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   ),
                                 ),
                               ),
-                              _connectionStatus ? Padding(
+                              Padding(
                   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
                   child: buttonPressed == 'N' || buttonPressed == 'E' ?
                          ButtonTheme(
@@ -218,13 +165,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   color: AppTheme.themeColor,
                                 ),
                               ),
-                              onPressed: () {
-                         if (_formKey.currentState!.validate()) {
-                               setState(() {
-                                 loadingState = true;
-                               });
-                                resetPassword();
-                                   }
+                              onPressed: () async {
+                                try {
+                                  final result = await InternetAddress.lookup('google.com');
+                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        loadingState = true;
+                                      });
+                                      resetPassword();
+                                    }
+                                  }
+                                } on SocketException catch (_) {
+                                  setState(() {
+                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                  });
+                                }
                               },
                               child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                   child: CupertinoActivityIndicator(radius: 10,)) : Padding(
@@ -281,45 +237,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               ),
                         ),
                   ),
-                ) :
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
-                                child: ButtonTheme(
-                                  minWidth: MediaQuery.of(context).size.width,
-                                  splashColor: Colors.transparent,
-                                  height: 50,
-                                  child: FlatButton(
-                                    color: AppTheme.themeColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: AppTheme.themeColor,
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5.0,
-                                          right: 5.0,
-                                          bottom: 3.0),
-                                      child: Container(
-                                        child: Text(
-                                          'Reset Password',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing:-0.1
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                ),
                             ],
                           ),
                       ),

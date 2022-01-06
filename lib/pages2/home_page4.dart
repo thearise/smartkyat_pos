@@ -9129,6 +9129,11 @@ class HomePageState extends State<HomePage>
     return prefs.getString('paper');
   }
 
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   Future<void> addDateExist(id1, dOrder , length) async {
     CollectionReference daily = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
     daily.doc(id1).update({

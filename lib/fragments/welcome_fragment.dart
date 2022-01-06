@@ -57,62 +57,9 @@ class _WelcomeState extends State<Welcome>
 
   bool isLoading = true;
   bool loadingState = false;
-  bool _connectionStatus = false;
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        try {
-          final result = await InternetAddress.lookup('google.com');
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            print('connected');
-            setState(() {
-              _connectionStatus = true;
-            });
-          }
-        } on SocketException catch (_) {
-          setState(() {
-            _connectionStatus = false;
-          });
-        }
-        break;
-      default:
-        setState(() {
-          // _connectionStatus = 'Failed to get connectivity.')
-          _connectionStatus = false;
-        });
-        break;
-    }
-  }
 
   @override
   initState() {
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     FirebaseAuth.instance
         .authStateChanges()
         .listen((User? user) {
@@ -560,104 +507,6 @@ class _WelcomeState extends State<Welcome>
                                                                   ),
                                                                 ),
                                                                 SizedBox(width: 15),
-                                                                _connectionStatus ? Expanded(
-                                                                  child: ButtonTheme(
-                                                                    // minWidth: double.infinity,
-                                                                    // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
-                                                                    splashColor: Colors.transparent,
-                                                                    height: 50,
-                                                                    child: FlatButton(
-                                                                      color: AppTheme.themeColor,
-                                                                      shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                        BorderRadius.circular(10.0),
-                                                                        side: BorderSide(
-                                                                          color: AppTheme.themeColor,
-                                                                        ),
-                                                                      ),
-                                                                      onPressed: () async {
-
-                                                                        setState(() {
-                                                                          wrongEmail = null;
-                                                                          wrongPassword = null;
-                                                                        });
-                                                                        if (_formKey.currentState!.validate()) {
-                                                                          setState(() {
-                                                                            loadingState = true;
-                                                                          });
-                                                                          try {
-                                                                            await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                                                              email: _email.text,
-                                                                              password: _password.text,
-                                                                            ).then((_) async {
-
-                                                                              bool shopExists = false;
-                                                                              await FirebaseFirestore.instance
-                                                                                  .collection('shops')
-                                                                                  .where('users', arrayContains: auth.currentUser!.email.toString())
-                                                                                  .get()
-                                                                                  .then((QuerySnapshot querySnapshot) {
-                                                                                querySnapshot.docs.forEach((doc) {
-                                                                                  shopExists = true;
-                                                                                });
-                                                                              });
-                                                                              setState(() {
-                                                                                loadingState = false;
-                                                                              });
-
-                                                                              if(shopExists) {
-                                                                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
-                                                                              } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
-                                                                            });
-                                                                          } on FirebaseAuthException catch (e) {
-                                                                            print(e.code.toString());
-                                                                            setState(() {
-                                                                              loadingState = false;
-                                                                            });
-                                                                            if (e.code == 'user-not-found') {
-                                                                              setState(() {
-                                                                                wrongEmail = ' may be incorrect ';
-                                                                                wrongPassword = ' may be incorrect ';
-                                                                              });
-                                                                              print('No user found for that email.');
-                                                                            } else if (e.code == 'wrong-password') {
-                                                                              setState(() {
-                                                                                wrongEmail = ' may be incorrect ';
-                                                                                wrongPassword = ' may be incorrect ';
-                                                                              });
-                                                                              print('Wrong password provided for that user.');
-                                                                            } else if (e.code == 'invalid-email') {
-                                                                              setState(() {
-                                                                                wrongEmail = ' is invalid email ';
-                                                                                // wrongPassword = ' may be incorrect ';
-                                                                              });
-                                                                              print('Invalid email.');
-                                                                            }
-                                                                          }
-
-                                                                        }
-                                                                      },
-                                                                      child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                          child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                                                        padding: const EdgeInsets.only(
-                                                                            left: 5.0,
-                                                                            right: 5.0,
-                                                                            bottom: 2.0),
-                                                                        child: Container(
-                                                                          child: Text(
-                                                                            'Login',
-                                                                            textAlign: TextAlign.center,
-                                                                            style: TextStyle(
-                                                                                fontSize: 18,
-                                                                                fontWeight: FontWeight.w600,
-                                                                                letterSpacing:-0.1
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ) :
                                                                 Expanded(
                                                                   child: ButtonTheme(
                                                                     // minWidth: double.infinity,
@@ -674,9 +523,77 @@ class _WelcomeState extends State<Welcome>
                                                                         ),
                                                                       ),
                                                                       onPressed: () async {
-                                                                        smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                                        setState(() {
+                                                                          wrongEmail = null;
+                                                                          wrongPassword = null;
+                                                                        });
+                                                                        try {
+                                                                          final result = await InternetAddress.lookup('google.com');
+                                                                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                            if (_formKey.currentState!.validate()) {
+                                                                              setState(() {
+                                                                                loadingState = true;
+                                                                              });
+                                                                              try {
+                                                                                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                                                                  email: _email.text,
+                                                                                  password: _password.text,
+                                                                                ).then((_) async {
+
+                                                                                  bool shopExists = false;
+                                                                                  await FirebaseFirestore.instance
+                                                                                      .collection('shops')
+                                                                                      .where('users', arrayContains: auth.currentUser!.email.toString())
+                                                                                      .get()
+                                                                                      .then((QuerySnapshot querySnapshot) {
+                                                                                    querySnapshot.docs.forEach((doc) {
+                                                                                      shopExists = true;
+                                                                                    });
+                                                                                  });
+                                                                                  setState(() {
+                                                                                    loadingState = false;
+                                                                                  });
+
+                                                                                  if(shopExists) {
+                                                                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
+                                                                                  } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
+                                                                                });
+                                                                              } on FirebaseAuthException catch (e) {
+                                                                                print(e.code.toString());
+                                                                                setState(() {
+                                                                                  loadingState = false;
+                                                                                });
+                                                                                if (e.code == 'user-not-found') {
+                                                                                  setState(() {
+                                                                                    wrongEmail = ' may be incorrect ';
+                                                                                    wrongPassword = ' may be incorrect ';
+                                                                                  });
+                                                                                  print('No user found for that email.');
+                                                                                } else if (e.code == 'wrong-password') {
+                                                                                  setState(() {
+                                                                                    wrongEmail = ' may be incorrect ';
+                                                                                    wrongPassword = ' may be incorrect ';
+                                                                                  });
+                                                                                  print('Wrong password provided for that user.');
+                                                                                } else if (e.code == 'invalid-email') {
+                                                                                  setState(() {
+                                                                                    wrongEmail = ' is invalid email ';
+                                                                                    // wrongPassword = ' may be incorrect ';
+                                                                                  });
+                                                                                  print('Invalid email.');
+                                                                                }
+                                                                              }
+
+                                                                            }
+                                                                          }
+                                                                        } on SocketException catch (_) {
+                                                                          setState(() {
+                                                                            smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                                          });
+                                                                        }
                                                                       },
-                                                                      child: Padding(
+                                                                      child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                          child: CupertinoActivityIndicator(radius: 10,)) : Padding(
                                                                         padding: const EdgeInsets.only(
                                                                             left: 5.0,
                                                                             right: 5.0,
@@ -1587,7 +1504,7 @@ class _WelcomeState extends State<Welcome>
                                             padding: const EdgeInsets.only(top: 351.0, left: 15.0, right: 15.0),
                                             child: Column(
                                               children: [
-                                                _connectionStatus ? ButtonTheme(
+                                               ButtonTheme(
                                                   minWidth: MediaQuery.of(context).size.width,
                                                   splashColor: Colors.transparent,
                                                   height: 50,
@@ -1606,110 +1523,85 @@ class _WelcomeState extends State<Welcome>
                                                         weakPassword = null;
 
                                                       });
+                                                      try {
+                                                        final result = await InternetAddress.lookup('google.com');
+                                                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                          if (_formKey.currentState!.validate()) {
+                                                            setState(() {
+                                                              loadingState = true;
+                                                            });
 
-                                                      if (_formKey.currentState!.validate()) {
-                                                        setState(() {
-                                                          loadingState = true;
-                                                        });
-                                                        try {
-                                                          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                                              email: _emails.text,
-                                                              password: _passwords.text).then((_) async {
+                                                            try {
+                                                              await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                                                  email: _emails.text,
+                                                                  password: _passwords.text).then((_) async {
 
-                                                            final User? user = auth.currentUser;
-                                                            final uid = user!.uid;
-                                                            final mail = user.email;
-                                                            await FirebaseFirestore.instance.collection('users').add(
-                                                                {
-                                                                  'user_id' : uid.toString(),
-                                                                  'name': _name.text.toString(),
-                                                                  'email': mail.toString(),
-                                                                }
-                                                            );
-                                                            bool shopExists = false;
-                                                            await FirebaseFirestore.instance
-                                                                .collection('shops')
-                                                                .where('users', arrayContains: auth.currentUser!.email.toString())
-                                                                .get()
-                                                                .then((QuerySnapshot querySnapshot) {
-                                                              querySnapshot.docs.forEach((doc) {
-                                                                shopExists = true;
+                                                                final User? user = auth.currentUser;
+                                                                final uid = user!.uid;
+                                                                final mail = user.email;
+                                                                await FirebaseFirestore.instance.collection('users').add(
+                                                                    {
+                                                                      'user_id' : uid.toString(),
+                                                                      'name': _name.text.toString(),
+                                                                      'email': mail.toString(),
+                                                                    }
+                                                                );
+                                                                bool shopExists = false;
+                                                                await FirebaseFirestore.instance
+                                                                    .collection('shops')
+                                                                    .where('users', arrayContains: auth.currentUser!.email.toString())
+                                                                    .get()
+                                                                    .then((QuerySnapshot querySnapshot) {
+                                                                  querySnapshot.docs.forEach((doc) {
+                                                                    shopExists = true;
+                                                                  });
+                                                                });
+
+                                                                setState(() {
+                                                                  loadingState = false;
+                                                                });
+
+                                                                if(shopExists) {
+                                                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
+                                                                } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
+
+                                                                print('username' + mail.toString() + uid.toString());
                                                               });
-                                                            });
-
-                                                            setState(() {
-                                                              loadingState = false;
-                                                            });
-
-                                                            if(shopExists) {
-                                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => chooseStore()));
-                                                            } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddNewShop()));
-
-                                                            print('username' + mail.toString() + uid.toString());
-                                                          });
-                                                        } on FirebaseAuthException catch (e) {
-                                                          setState(() {
-                                                            loadingState = false;
-                                                          });
-                                                          if (e.code == 'weak-password') {
-                                                            setState(() {
-                                                              weakPassword = ' must be 6 characters long ';
-                                                            });
-                                                            print('The password provided is too weak.');
-                                                          } else if (e.code == 'email-already-in-use') {
-                                                            setState(() {
-                                                              emailExist = ' Account already exists ';
-                                                            });
-                                                            print('The account already exists for that email.');
-                                                          } else if (e.code == 'invalid-email') {
-                                                            setState(() {
-                                                              emailExist = ' is invalid email ';
-                                                              // wrongPassword = ' may be incorrect ';
-                                                            });
-                                                            print('Invalid email.');
+                                                            } on FirebaseAuthException catch (e) {
+                                                              setState(() {
+                                                                loadingState = false;
+                                                              });
+                                                              if (e.code == 'weak-password') {
+                                                                setState(() {
+                                                                  weakPassword = ' must be 6 characters long ';
+                                                                });
+                                                                print('The password provided is too weak.');
+                                                              } else if (e.code == 'email-already-in-use') {
+                                                                setState(() {
+                                                                  emailExist = ' Account already exists ';
+                                                                });
+                                                                print('The account already exists for that email.');
+                                                              } else if (e.code == 'invalid-email') {
+                                                                setState(() {
+                                                                  emailExist = ' is invalid email ';
+                                                                  // wrongPassword = ' may be incorrect ';
+                                                                });
+                                                                print('Invalid email.');
+                                                              }
+                                                            } catch (e) {
+                                                              print(e);
+                                                            }
                                                           }
-                                                        } catch (e) {
-                                                          print(e);
                                                         }
+                                                      } on SocketException catch (_) {
+                                                        setState(() {
+                                                          smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                        });
                                                       }
+
                                                     },
                                                     child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                                         child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                                      padding: const EdgeInsets.only(
-                                                          left: 5.0,
-                                                          right: 5.0,
-                                                          bottom: 2.0),
-                                                      child: Container(
-                                                        child: Text(
-                                                          'Sign up',
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 18,
-                                                              fontWeight: FontWeight.w600,
-                                                              letterSpacing:-0.1
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ) :
-                                                ButtonTheme(
-                                                  minWidth: MediaQuery.of(context).size.width,
-                                                  splashColor: Colors.transparent,
-                                                  height: 50,
-                                                  child: FlatButton(
-                                                    color: AppTheme.themeColor,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(10.0),
-                                                      side: BorderSide(
-                                                        color: AppTheme.themeColor,
-                                                      ),
-                                                    ),
-                                                    onPressed: ()  {
-                                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                    },
-                                                    child: Padding(
                                                       padding: const EdgeInsets.only(
                                                           left: 5.0,
                                                           right: 5.0,
