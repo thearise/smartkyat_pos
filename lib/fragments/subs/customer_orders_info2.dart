@@ -122,7 +122,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

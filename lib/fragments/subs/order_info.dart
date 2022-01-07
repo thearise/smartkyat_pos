@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -93,8 +94,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-   // print('WIDGET-' + widget.data);
-   // print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
+    // print('WIDGET-' + widget.data);
+    // print('WIDGET ' + widget.data.split('^')[0] + '^' + widget.data.split('^')[1] + '^' + widget.data.split('^')[2] + '^' + widget.data.split('^')[3].split('&')[1] + '^' + widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6]);
     result = widget.data
         .split('^')[0] +
         '^' +
@@ -180,34 +181,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                       color: Colors.grey,
                                     ),),
 
-                                  StreamBuilder<
-                                      DocumentSnapshot<
-                                          Map<String, dynamic>>>(
-                                      stream: FirebaseFirestore.instance
-                                          .collection('shops')
-                                          .doc(widget.shopId)
-                                          .collection('customers')
-                                          .doc(widget.data
-                                          .split('^')[3]
-                                          .split('&')[1])
-                                          .snapshots(),
-                                      builder:
-                                          (BuildContext context, snapshot2) {
-                                        if (snapshot2.hasData) {
-                                          var output1 = snapshot2.data!.data();
-                                          var mainUnit =
-                                          output1?['customer_name'];
-                                          return Text('#' +
-                                              widget.data.split('^')[1] +' - ' + mainUnit,
+                                  Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                          );
-                                        }
-                                        return Container();
-                                      }),
-                                ],
+                                          ),],
                               ),
                             ),
                           ],
@@ -242,6 +221,27 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           var output1 = snapshot2.data!.data();
                           print('phyophyo' + result.toString());
                           // print(output1?['subs'].toString());
+                          if(output1?['subs'] == null) {
+                            //smartKyatFlash('Internet connection is required to take this action.', 'w');
+                            return Container(
+                              height: MediaQuery.of(context).size.height/1.5,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.white,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 15.0),
+                                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                            child: CupertinoActivityIndicator(radius: 15,)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
                           var documentId = output1?['documentId'];
@@ -364,8 +364,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         widget.data
                                                             .split('^')[3] +
                                                         '^' +
-                                                       widget.data
-                                                        .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                        widget.data
+                                                            .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                         .split('^')[6];
 
                                                     result = await Navigator.push(
@@ -373,11 +373,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               OrderRefundsSub(
-                                                                data: result,
-                                                                data2: prodList,
-                                                                realPrice: totalRealPrice,
-                                                                toggleCoinCallback:
-                                                                    () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString())),
+                                                                  data: result,
+                                                                  data2: prodList,
+                                                                  realPrice: totalRealPrice,
+                                                                  toggleCoinCallback:
+                                                                      () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString())),
                                                     );
 
                                                     print('result__2 ' + result.toString());
@@ -479,7 +479,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    smartKyatFlash('Check your internet connection and try again.', 'w');
+                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                   },
                                                   child: Container(
                                                     width: 100,
@@ -656,7 +656,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         )),
                                                     title: Text(
                                                       output2?[
-                                                        'prod_name'],
+                                                      'prod_name'],
                                                       style:
                                                       TextStyle(
                                                           fontWeight: FontWeight.w500, fontSize: 16),
@@ -920,7 +920,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             )),
                                                         title: Text(
                                                           output2?[
-                                                            'prod_name'],
+                                                          'prod_name'],
                                                           style:
                                                           TextStyle(
                                                               fontWeight: FontWeight.w500, fontSize: 16),
@@ -1009,8 +1009,25 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             ),
                           );
                         }
-
-                        return Container();
+                        // smartKyatFlash('Internet connection is required to take this action.', 'w');
+                        return Container(
+                          height: MediaQuery.of(context).size.height/1.5,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.white,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 15.0),
+                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 15,)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                       })
               ])),
     );
@@ -1127,6 +1144,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         });
 
   }
+
   void smartKyatFlash(String text, String type) {
     Widget widgetCon = Container();
     Color bdColor = Color(0xffffffff);

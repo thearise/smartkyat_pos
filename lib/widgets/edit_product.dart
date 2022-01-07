@@ -729,11 +729,11 @@ class _EditProductState extends State<EditProduct> {
 
                           CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 
-                          if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == ''){
+                          if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
                             subExistChange = '1';
                             sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
                             sub2Buy = '0';
-                          } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != ''){
+                          } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
                             subExistChange = '2';
                             sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
                             sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
@@ -749,7 +749,7 @@ class _EditProductState extends State<EditProduct> {
                               prodExist = true;
                             });
 
-                            if (prodExist) {
+                            if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
                               print('product already');
                               var result =
                               await showOkAlertDialog(
@@ -800,9 +800,9 @@ class _EditProductState extends State<EditProduct> {
                           } else {
                             for (int i = 0;
                             i < assets.length;
-                            i++) {
-                              AssetEntity asset =
-                              assets.elementAt(i);
+                            i++)
+                            {
+                              AssetEntity asset = assets.elementAt(i);
                               asset.originFile.then((value) async {
                                 addProduct(value!, photoArray).then((value) {
                                   photoArray = value.toString();
