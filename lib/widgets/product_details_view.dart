@@ -368,7 +368,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             context: context,
                                                             actions: [
                                                               SheetAction(
-                                                                icon: Icons.info,
+                                                               icon: SmartKyat_POS.prodm,
                                                                 label: '1 ' + output?['unit_name'],
                                                                 key: widget.idString +
                                                                     '^' +
@@ -379,7 +379,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               for(int i =0; i < subSell.length; i++)
                                                                 if(subSell[i] != '')
                                                                   SheetAction(
-                                                                    icon: Icons.info,
+                                                                    icon: i == 0? SmartKyat_POS.prods1: SmartKyat_POS.prods2,
                                                                     label: '1 ' + subName[i],
                                                                     key: widget.idString +
                                                                         '^' + subLink[i] +
@@ -446,17 +446,17 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                       context: context,
                                                       actions: [
                                                         SheetAction(
-                                                            icon: Icons.info,
+                                                            icon: SmartKyat_POS.prodm,
                                                             label: '1 ' + mainName,
                                                             key: 'unit_name'),
                                                         if (sub1Price != '')
                                                           SheetAction(
-                                                              icon: Icons.info,
+                                                              icon: SmartKyat_POS.prods1,
                                                               label: '1 ' + sub1Name,
                                                               key: 'sub1_name'),
                                                         if (sub2Price != '')
                                                           SheetAction(
-                                                              icon: Icons.info,
+                                                              icon: SmartKyat_POS.prods2,
                                                               label: '1 ' + sub2Name,
                                                               key: 'sub2_name'),
                                                         if (sub3Price != '')
@@ -526,7 +526,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         context: context,
                                                         actions: [
                                                           SheetAction(
-                                                            icon: Icons.info,
+                                                            icon: SmartKyat_POS.prodm,
                                                             label: '1 ' + output?['unit_name'],
                                                             key: widget.idString +
                                                                 '-' +
@@ -537,7 +537,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           for(int i =0; i < subSell.length; i++)
                                                             if(subSell[i] != '')
                                                               SheetAction(
-                                                                icon: Icons.info,
+                                                                icon: i == 0? SmartKyat_POS.prods1: SmartKyat_POS.prods2,
                                                                 label: '1 ' + subName[i],
                                                                 key: widget.idString +
                                                                     '-' + subLink[i] +

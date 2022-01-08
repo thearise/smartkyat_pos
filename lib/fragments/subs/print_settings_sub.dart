@@ -28,11 +28,11 @@ class PrintSettingsSub extends StatefulWidget {
 }
 
 class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<PrintSettingsSub>{
-  String paperType = 'Roll-57';
 
   @override
   bool get wantKeepAlive => true;
 
+  String paperType = 'Roll-57';
   var _result;
   var _shop ;
   bool firstTime = true;
