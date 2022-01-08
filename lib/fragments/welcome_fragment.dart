@@ -10,8 +10,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/forgot_password.dart';
+import 'package:smartkyat_pos/pages2/first_launch_page.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/src/app.dart';
 import 'package:smartkyat_pos/src/screens/login.dart';
@@ -108,6 +110,20 @@ class _WelcomeState extends State<Welcome>
     }
   }
 
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+
+    if (_seen) {
+
+    } else {
+      Navigator.of(context).push(
+          FadeRoute(page: FirstLaunchPage(),)
+      );
+      await prefs.setBool('seen', true);
+    }
+  }
+
   @override
   initState() {
     initConnectivity();
@@ -155,6 +171,11 @@ class _WelcomeState extends State<Welcome>
     _signupController = TabController(length: 2, vsync: this);
     _bottomTabBarCtl = TabController(length: 4, vsync: this);
     _bottomTabBarCtl.animateTo(1);
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      checkFirstSeen();
+    });
+
     super.initState();
   }
 

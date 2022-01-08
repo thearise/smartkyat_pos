@@ -67,6 +67,7 @@ import 'package:image/image.dart' as imglib;
 import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
 import 'package:esc_pos_utils_plus/esc_pos_utils.dart' as posUtils;
 
+import 'first_launch_page.dart';
 import 'transparent.dart';
 
 class HomePage extends StatefulWidget {
@@ -1188,6 +1189,8 @@ class HomePageState extends State<HomePage>
                     print('endDate: $endDate');
                     print(startDate.isBefore(nowCheck));
                     print(endDate.isAfter(nowCheck));
+
+                    print('role ' + role.toString());
                     if(firstTime == true) {
                       // role=='cashier'
                       print('first time');
@@ -1786,10 +1789,17 @@ class HomePageState extends State<HomePage>
                                                   ),
                                                 ),
                                               ]),
-                                              Padding(
+                                              (role == 'admin' || role == 'owner') ? Padding(
                                                 padding: const EdgeInsets.only(left: 10.0, top: 150.0),
                                                 child: Icon(
                                                   SmartKyat_POS.merge_arrow,
+                                                  size: 80,
+                                                  color: Colors.grey.withOpacity(0.3),
+                                                ),
+                                              ): Padding(
+                                                padding: const EdgeInsets.only(left: 10.0, top: 100.0),
+                                                child: Icon(
+                                                  SmartKyat_POS.merge_arrow2,
                                                   size: 80,
                                                   color: Colors.grey.withOpacity(0.3),
                                                 ),
@@ -4445,21 +4455,24 @@ class HomePageState extends State<HomePage>
                                                     ),
                                                     GestureDetector(
                                                       onTap: () async {
-                                                        // smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');
-                                                        DateTime _myTime;
-                                                        DateTime _ntpTime;
-
-                                                        /// Or you could get NTP current (It will call DateTime.now() and add NTP offset to it)
-                                                        _myTime = await NTP.now();
-
-                                                        /// Or get NTP offset (in milliseconds) and add it yourself
-                                                        final int offset = await NTP.getNtpOffset(localTime: DateTime.now());
-                                                        _ntpTime = _myTime.add(Duration(milliseconds: offset));
-
-                                                        print('Date time: ' + DateTime.now().toString());
-                                                        print('My time: $_myTime');
-                                                        print('NTP time: $_ntpTime');
-                                                        print('Difference: ${_myTime.difference(_ntpTime).inMilliseconds}ms');
+                                                        // // smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');
+                                                        // DateTime _myTime;
+                                                        // DateTime _ntpTime;
+                                                        //
+                                                        // /// Or you could get NTP current (It will call DateTime.now() and add NTP offset to it)
+                                                        // _myTime = await NTP.now();
+                                                        //
+                                                        // /// Or get NTP offset (in milliseconds) and add it yourself
+                                                        // final int offset = await NTP.getNtpOffset(localTime: DateTime.now());
+                                                        // _ntpTime = _myTime.add(Duration(milliseconds: offset));
+                                                        //
+                                                        // print('Date time: ' + DateTime.now().toString());
+                                                        // print('My time: $_myTime');
+                                                        // print('NTP time: $_ntpTime');
+                                                        // print('Difference: ${_myTime.difference(_ntpTime).inMilliseconds}ms');
+                                                        Navigator.of(context).push(
+                                                            FadeRoute(page: FirstLaunchPage(),)
+                                                        );
                                                       },
                                                       child: Row(
                                                         children: [
@@ -4686,7 +4699,7 @@ class HomePageState extends State<HomePage>
                                 ),
                                 (prodList2.length != 0 || merchantId != 'name^name') ?
                                 Positioned(
-                                  bottom: 157,
+                                  bottom: 157 + homeBotPadding,
                                   right: 15,
                                   child: GestureDetector(
                                     onTap: (){
@@ -4698,8 +4711,8 @@ class HomePageState extends State<HomePage>
                                     child: Stack(
                                       children: [
                                         Container(
-                                          width: 155,
-                                          height: 50,
+                                          // width: 155,
+                                          height: 40,
                                           decoration: BoxDecoration(
                                               color:  AppTheme.themeColor,
                                               borderRadius: BorderRadius.circular(50.0),
@@ -4708,39 +4721,60 @@ class HomePageState extends State<HomePage>
                                                 width: 5,
                                               )
                                           ),
-                                        ),
-                                        Positioned(
-                                          right: 5,
-                                          top: 3.5,
-                                          child: Container(
-                                            width: 42,
-                                            height: 42,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(50.0),
-                                                border: Border.all(
-                                                  color: Colors.transparent,
-                                                  width: 5,
-                                                )
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 15,
-                                          top: 13,
-                                          child: Container(
-                                            child: Icon( SmartKyat_POS.merchant,
-                                              size: 22,),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          left: 16,
-                                          top: 14,
-                                          child: Text(totalItems2() + ' item set', style: TextStyle(
-                                            fontSize: 16, fontWeight: FontWeight.w500
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 5.0, right: 8.0, bottom: 1.0),
+                                                child: Text(totalItems2() + ' item set', style: TextStyle(
+                                                    fontSize: 15, fontWeight: FontWeight.w500
+                                                  )
+                                                ),
+                                              ),
+                                              Container(
+                                                width: 30,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  color:  Colors.white,
+                                                  borderRadius: BorderRadius.circular(50.0),
+                                                ),
+                                                child: Icon( SmartKyat_POS.merchant,
+                                                  size: 18,),
+                                              )
+                                            ]
                                           )
-                                          ),
                                         ),
+                                        // Positioned(
+                                        //   right: 5,
+                                        //   top: 3.5,
+                                        //   child: Container(
+                                        //     width: 42,
+                                        //     height: 42,
+                                        //     decoration: BoxDecoration(
+                                        //         color: Colors.white,
+                                        //         borderRadius: BorderRadius.circular(50.0),
+                                        //         border: Border.all(
+                                        //           color: Colors.transparent,
+                                        //           width: 5,
+                                        //         )
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        // Positioned(
+                                        //   right: 15,
+                                        //   top: 13,
+                                        //   child: Container(
+                                        //     child: Icon( SmartKyat_POS.merchant,
+                                        //       size: 22,),
+                                        //   ),
+                                        // ),
+                                        // Positioned(
+                                        //   left: 16,
+                                        //   top: 14,
+                                        //   child: Text(totalItems2() + ' item set', style: TextStyle(
+                                        //     fontSize: 16, fontWeight: FontWeight.w500
+                                        //   )
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                   ),

@@ -242,6 +242,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           var output1 = snapshot2.data!.data();
                           print('phyophyo' + result.toString());
                           // print(output1?['subs'].toString());
+                          if(output1?['subs'] == null) {
+                            return Container(height: 20, width: 100, color: Colors.red,);
+                          }
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
                           var documentId = output1?['documentId'];
@@ -1010,7 +1013,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                           );
                         }
 
-                        return Container();
+                        return Container(color: Colors.red,);
                       })
               ])),
     );

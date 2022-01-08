@@ -681,6 +681,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  metooltip:
+    dependency: "direct main"
+    description:
+      name: metooltip
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.7"
   native_pdf_renderer:
     dependency: "direct main"
     description:
