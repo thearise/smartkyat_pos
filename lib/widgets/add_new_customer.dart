@@ -364,15 +364,6 @@ class _AddCustomerState extends State<AddCustomer> {
                                         'total_refunds' : 0,
                                       }).then((value) {
                                         print('product added 2');
-
-                                        setState(() {
-                                          cusCreating = false;
-                                          widget.endCusLoadingState();
-                                          Navigator.pop(context);
-                                        });
-
-                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
-
                                         // showFlash(
                                         //   context: context,
                                         //   duration: const Duration(seconds: 2),
@@ -422,6 +413,16 @@ class _AddCustomerState extends State<AddCustomer> {
                                         //   },
                                         // );
                                       });
+                                      Future.delayed(const Duration(milliseconds: 3000), () {
+                                        setState(() {
+                                          cusCreating = false;
+                                          widget.endCusLoadingState();
+
+                                        });
+                                        Navigator.pop(context);
+                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+
+                                      });
                                     } else
                                     {
                                       merchants.doc('name').set({
@@ -440,66 +441,16 @@ class _AddCustomerState extends State<AddCustomer> {
                                         'total_refunds' : 0,
                                       }).then((value) {
                                         print('product added 2');
-
+                                      });
+                                      Future.delayed(const Duration(milliseconds: 3000), () {
                                         setState(() {
                                           cusCreating = false;
                                           widget.endCusLoadingState();
                                           Navigator.pop(context);
                                         });
-
                                         smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
-                                        // showFlash(
-                                        //   context: context,
-                                        //   duration: const Duration(seconds: 2),
-                                        //   persistent: true,
-                                        //   builder: (_, controller) {
-                                        //     return Flash(
-                                        //       controller: controller,
-                                        //       backgroundColor: Colors.transparent,
-                                        //       brightness: Brightness.light,
-                                        //       // boxShadows: [BoxShadow(blurRadius: 4)],
-                                        //       // barrierBlur: 3.0,
-                                        //       // barrierColor: Colors.black38,
-                                        //       barrierDismissible: true,
-                                        //       behavior: FlashBehavior.floating,
-                                        //       position: FlashPosition.top,
-                                        //       child: Padding(
-                                        //         padding: const EdgeInsets.only(
-                                        //             top: 80.0),
-                                        //         child: Padding(
-                                        //           padding: const EdgeInsets.only(
-                                        //               left: 15.0, right: 15.0),
-                                        //           child: Container(
-                                        //             decoration: BoxDecoration(
-                                        //               borderRadius:
-                                        //               BorderRadius.circular(
-                                        //                   10.0),
-                                        //               color: Colors.green,
-                                        //             ),
-                                        //             child: FlashBar(
-                                        //               title: Text('Success'),
-                                        //               content:
-                                        //               Text('New customer added!'),
-                                        //               // showProgressIndicator: true,
-                                        //               primaryAction: TextButton(
-                                        //                 onPressed: () =>
-                                        //                     controller.dismiss(),
-                                        //                 child: Text('DISMISS',
-                                        //                     style: TextStyle(
-                                        //                         color: Colors
-                                        //                             .amber)),
-                                        //               ),
-                                        //             ),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //     );
-                                        //   },
-                                        // );
-                                      });}
-
-                                    // });
-                                    // });
+                                      });
+                                    }
                                   }
                                 },
                                 child:  cusCreating == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),

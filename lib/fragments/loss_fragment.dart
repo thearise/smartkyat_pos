@@ -89,7 +89,7 @@ class _LossProductState extends State<LossProduct> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
-                        height: 80,
+                        height: 81,
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
@@ -99,11 +99,9 @@ class _LossProductState extends State<LossProduct> {
                           padding:
                           const EdgeInsets.only(left: 15.0, right: 15.0,),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 16.0),
+                                padding: const EdgeInsets.only(top: 0),
                                 child: Container(
                                   width: 37,
                                   height: 37,
@@ -115,63 +113,39 @@ class _LossProductState extends State<LossProduct> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(right: 3.0),
                                     child: IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_back_ios_rounded,
-                                        size: 17,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        if (lossAmount.text.length > 0 ||
-                                            priceAmount.text.length > 0) {
-                                          showOkCancelAlertDialog(
-                                            context: context,
-                                            title: 'Are you sure?',
-                                            message: 'You added data in some inputs.',
-                                            defaultType: OkCancelAlertDefaultType.cancel,
-                                          ).then((result) {
-                                            if (result == OkCancelResult.ok) {
-                                              Navigator.pop(context);
-                                            }
-                                          });
-                                        } else {
+                                        icon: Icon(
+                                          Icons.arrow_back_ios_rounded,
+                                          size: 17,
+                                          color: Colors.black,
+                                        ),
+                                        onPressed: () {
                                           Navigator.pop(context);
-                                        }
-                                      },
-                                    ),
+                                        }),
                                   ),
                                 ),
                               ),
                               Expanded(
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(top: 16.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                prodName,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Text(
-                                            'Loss Product',
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      )
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        prodName,
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Loss Product',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
                                   )
                               )
                             ],

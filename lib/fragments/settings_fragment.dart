@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/account_setting.dart';
+import 'package:smartkyat_pos/fragments/subs/change_currency.dart';
 import 'package:smartkyat_pos/fragments/subs/change_password.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/print_settings_sub.dart';
@@ -26,8 +27,11 @@ class SettingsFragment extends StatefulWidget {
   SettingsFragmentState createState() => SettingsFragmentState();
 }
 
-class SettingsFragmentState extends State<SettingsFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SettingsFragment>{
+class SettingsFragmentState extends State <SettingsFragment>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SettingsFragment>{
   String? shopId;
+  String? paperId;
+  String? languageId;
+  String? currencyId;
 
   String textSetTitle = 'Settings';
   String textSetAccount = 'Account';
@@ -54,6 +58,25 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
     }
   }
 
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('currency') == null) {
+      return 'Myanmar Kyat (MMK)';
+    }
+    return prefs.getString('currency');
+  }
+
+  getPaperId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('paper') == null) {
+      return 'Roll-57';
+    }
+    return prefs.getString('paper');
+  }
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString('paper');
+  // }
+
   bool searchOpening = false;
   changeSearchOpening(bool index) {
     setState(() {
@@ -77,6 +100,18 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
   }
 
   initState() {
+    getPaperId().then((value) {
+      setState(() {
+        paperId = value.toString();
+      });
+    });
+
+    getCurrency().then((value) {
+      setState(() {
+        currencyId = value.toString();
+      });
+    });
+
     getStoreId().then((value) {
       setState(() {
         shopId = value.toString();
@@ -86,6 +121,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
+          languageId = 'Burmese';
           textSetTitle = 'အပြင်အဆင်';
           textSetAccount = 'အကောင့်';
           textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
@@ -97,6 +133,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
         });
       } else if(value=='english') {
         setState(() {
+          languageId = 'English';
           textSetTitle = 'Settings';
           textSetAccount = 'Account';
           textSetShopSetting = 'Shop setting';
@@ -126,70 +163,69 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
   }
   final auth = FirebaseAuth.instance;
 
-  addShop(shopName) {
-    CollectionReference spaces = FirebaseFirestore.instance.collection('space');
-    var exist = false;
-    var docId = '';
-    var shopExist = false;
-    FirebaseFirestore.instance
-        .collection('space')
-        .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        docId = doc.id;
-        exist = true;
-      });
-
-      if(exist) {
-        print('space shi p thar');
-
-        FirebaseFirestore.instance
-            .collection('space').doc(docId).collection('shops')
-            .where('shop_name', isEqualTo: shopName)
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-          querySnapshot.docs.forEach((doc) {
-            shopExist = true;
-          });
-
-          if(shopExist) {
-            print('shop already');
-
-          } else {
-            CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
-            return shops
-                .add({
-              'shop_name': shopName
-            })
-                .then((value) {
-              print('shop added');
-            });
-          }
-        });
-
-
-      } else {
-        print('space mshi vuu');
-        return spaces
-            .add({
-          'user_id': FirebaseAuth.instance.currentUser!.uid
-        })
-            .then((value) {
-          CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(value.id).collection('shops');
-
-          return shops
-              .add({
-            'shop_name': shopName
-          })
-              .then((value) {
-            print('shop added');
-          });
-
-        }).catchError((error) => print("Failed to add shop: $error"));
-      }
-    });
-  }
+  // addShop(shopName) {
+  //   CollectionReference spaces = FirebaseFirestore.instance.collection('space');
+  //   var exist = false;
+  //   var docId = '';
+  //   var shopExist = false;
+  //   FirebaseFirestore.instance
+  //       .collection('space')
+  //       .where('user_id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+  //       .get()
+  //       .then((QuerySnapshot querySnapshot) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       docId = doc.id;
+  //       exist = true;
+  //     });
+  //
+  //     if(exist) {
+  //       print('space shi p thar');
+  //
+  //       FirebaseFirestore.instance
+  //           .collection('space').doc(docId).collection('shops')
+  //           .where('shop_name', isEqualTo: shopName)
+  //           .get()
+  //           .then((QuerySnapshot querySnapshot) {
+  //         querySnapshot.docs.forEach((doc) {
+  //           shopExist = true;
+  //         });
+  //
+  //         if(shopExist) {
+  //           print('shop already');
+  //         } else {
+  //           CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(docId).collection('shops');
+  //           return shops
+  //               .add({
+  //             'shop_name': shopName
+  //           })
+  //               .then((value) {
+  //             print('shop added');
+  //           });
+  //         }
+  //       });
+  //
+  //
+  //     } else {
+  //       print('space mshi vuu');
+  //       return spaces
+  //           .add({
+  //         'user_id': FirebaseAuth.instance.currentUser!.uid
+  //       })
+  //           .then((value) {
+  //         CollectionReference shops = FirebaseFirestore.instance.collection('space').doc(value.id).collection('shops');
+  //
+  //         return shops
+  //             .add({
+  //           'shop_name': shopName
+  //         })
+  //             .then((value) {
+  //           print('shop added');
+  //         });
+  //
+  //       }).catchError((error) => print("Failed to add shop: $error"));
+  //     }
+  //   });
+  // }
  String name = '';
   String email = '';
   String version = '';
@@ -263,92 +299,73 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                               },
                               child: Container(
                                 height: 72,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          color: AppTheme.skBorderColor2,
-                                          width: 1.0),
-                                    )),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        child: Text(textSetAccount,
-                                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                      ),
-                                      StreamBuilder(
-                                          stream: widget.usersSnapshot,
-                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                            if(snapshot.hasData) {
-                                              return Expanded(
-                                                child: ListView(
-                                                  physics: NeverScrollableScrollPhysics(),
-                                                  children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                                    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                                    name = data['name'];
-                                                    email = data['email'];
-                                                    version = document.id;
-                                                    return Padding(
-                                                      padding: const EdgeInsets.only(top: 24),
-                                                      child: Container(
-                                                        width: MediaQuery.of(context).size.width/2,
-                                                        child: Text(data['name'],textAlign: TextAlign.right, overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors.grey),),
-                                                      ),
-                                                    );
-                                                        }).toList(),
+                                // decoration: BoxDecoration(
+                                //     border: Border(
+                                //       bottom: BorderSide(
+                                //           color: AppTheme.skBorderColor2,
+                                //           width: 1.0),
+                                //     )),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          child: Text(textSetAccount,
+                                            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                        ),
+                                        StreamBuilder(
+                                            stream: widget.usersSnapshot,
+                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                              if(snapshot.hasData) {
+                                                return Expanded(
+                                                  child: ListView(
+                                                    physics: NeverScrollableScrollPhysics(),
+                                                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                                      Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                                      name = data['name'];
+                                                      email = data['email'];
+                                                      version = document.id;
+                                                      return Padding(
+                                                        padding: const EdgeInsets.only(top: 24),
+                                                        child: Container(
+                                                          width: MediaQuery.of(context).size.width/2,
+                                                          child: Text(data['name'],textAlign: TextAlign.right, overflow: TextOverflow.ellipsis,
+                                                            style: TextStyle(
+                                                              fontSize: 17,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors.grey),),
                                                         ),
                                                       );
-                                                    }
-                                                        return Container();
+                                                          }).toList(),
+                                                          ),
+                                                        );
                                                       }
-                                                  ),
-                                                  SizedBox(width: 8,),
-                                                  Icon(
-                                                    Icons
-                                                        .arrow_forward_ios_rounded,
-                                                    size: 16,
-                                                    color: Colors.grey,
-                                                  ),
-                                             ]
-                                            ),
+                                                          return Container();
+                                                        }
+                                                    ),
+                                                    SizedBox(width: 8,),
+                                                    Icon(
+                                                      Icons
+                                                          .arrow_forward_ios_rounded,
+                                                      size: 16,
+                                                      color: Colors.grey,
+                                                    ),
+                                               ]
+                                              ),
+                                  ),
                                 ),
                             ),
                             ),
-
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(builder: (context) => ChangePassword()),
-                            //     );
-                            //
-                            //   },
-                            //   child: Container(
-                            //     height: 72,
-                            //     decoration: BoxDecoration(
-                            //         color: AppTheme.white,
-                            //         border: Border(
-                            //           bottom: BorderSide(
-                            //               color: AppTheme.skBorderColor2,
-                            //               width: 1.0),
-                            //         )),
-                            //     child: Center(
-                            //       child: ListTile(
-                            //         title: Text('Change Password', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                            //         trailing: Icon(
-                            //           Icons
-                            //               .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: Container(
+                                color: AppTheme.skBorderColor2,
+                                height: 1,
+                                width: MediaQuery.of(context).size.width,
+                              ),
+                            ),
                             GestureDetector(
                               onTap: (){
                                 Navigator.push(
@@ -400,13 +417,13 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                             ),
                             Container(
                               height: 72,
-                              decoration: BoxDecoration(
-                                  color: AppTheme.white,
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        color: AppTheme.skBorderColor2,
-                                        width: 1.0),
-                                  )),
+                              // decoration: BoxDecoration(
+                              //     color: AppTheme.white,
+                              //     border: Border(
+                              //       bottom: BorderSide(
+                              //           color: AppTheme.skBorderColor2,
+                              //           width: 1.0),
+                              //     )),
                               child: Center(
                                 child: ListTile(
                                   title: Text('Dark mode', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
@@ -422,6 +439,14 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                     ],
                                   ),
                                 ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: Container(
+                                color: AppTheme.skBorderColor2,
+                                height: 1,
+                                width: MediaQuery.of(context).size.width,
                               ),
                             ),
                             GestureDetector(
@@ -441,7 +466,46 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text('English' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                          Text(languageId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                          SizedBox(width: 8,),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                          ),
+                                        ],
+                                      ),
+
+
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: Container(
+                                color: AppTheme.skBorderColor2,
+                                height: 1,
+                                width: MediaQuery.of(context).size.width,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ChangeCurrency(changeShopCallback3: () {  },)),
+                                );
+                              },
+                              child: Container(
+                                height: 72,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 4.0),
+                                    child: ListTile(
+                                      title: Text('Currency', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(currencyId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
                                           SizedBox(width: 8,),
                                           Icon(
                                             Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
@@ -515,7 +579,7 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                             SizedBox(height: 15,),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Text('ORDERS', style: TextStyle(
+                              child: Text('OTHERS', style: TextStyle(
                                 letterSpacing: 1.5,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14, color: Colors.grey,
@@ -536,22 +600,15 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text('Roll 55' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                        Text(paperId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
                                         SizedBox(width: 8,),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                        ),
+                                        Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,),
                                       ],
                                     ),
-
-
                                   ),
                                 ),
                               ),
                             ),
-
-
-
                           ],
                         ),
                       ],
@@ -565,12 +622,6 @@ class SettingsFragmentState extends State<SettingsFragment>  with TickerProvider
 
   final _formKey = GlobalKey<FormState>();
  // final auth = FirebaseAuth.instance;
-
-
-
-
-
-
 
   addStaffPage() {
     return Scaffold(

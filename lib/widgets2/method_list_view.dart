@@ -2,6 +2,9 @@
 /// [Author] Alex (https://github.com/AlexV525)
 /// [Date] 2021/7/13 11:00
 ///
+import 'dart:io';
+
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 
@@ -37,8 +40,98 @@ class MethodListView extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              onPressed: () {
-                onSelectMethod(model);
+              onPressed: () async {
+                try {
+                  final result = await InternetAddress.lookup('google.com');
+                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                    onSelectMethod(model);
+                  }
+                } on SocketException catch (_) {
+                  Color bdColor = Color(0xffffffff);
+                  Color bgColor = Color(0xffffffff);
+                  Widget widgetCon = Container();
+                  bdColor = Color(0xffF2E0BC);
+                  bgColor = Color(0xffFCF4E2);
+                  widgetCon = Container(
+                    width: 18,
+                    height: 18,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(35.0),
+                        ),
+                        color: Color(0xffF5C04A)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 6.0, top: 1.0),
+                      child: Text('!', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white)),
+                      // child: Icon(
+                      //   Icons.warning_rounded,
+                      //   size: 15,
+                      //   color: Colors.white,
+                      // ),
+                    ),
+                  );
+
+                  showFlash(
+                    context: context,
+                    duration: const Duration(milliseconds: 2500),
+                    persistent: true,
+                    transitionDuration: Duration(milliseconds: 300),
+                    builder: (_, controller) {
+                      return Flash(
+                        controller: controller,
+                        backgroundColor: Colors.transparent,
+                        brightness: Brightness.light,
+                        // boxShadows: [BoxShadow(blurRadius: 4)],
+                        // barrierBlur: 3.0,
+                        // barrierColor: Colors.black38,
+                        barrierDismissible: true,
+                        behavior: FlashBehavior.floating,
+                        position: FlashPosition.top,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 93.0, left: 15, right: 15),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                              color: bgColor,
+                              border: Border.all(
+                                  color: bdColor,
+                                  width: 1.0
+                              ),
+                            ),
+                            child: ListTile(
+                              leading: Padding(
+                                padding: const EdgeInsets.only(top: 2.0),
+                                child: widgetCon,
+                              ),
+                              minLeadingWidth: 15,
+                              horizontalTitleGap: 10,
+                              minVerticalPadding: 0,
+                              title: Padding(
+                                padding: const EdgeInsets.only(top: 15, bottom: 16.3),
+                                child: Container(
+                                  child: Text('Internet connection is required to take this action.', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                                      fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                                ),
+                              ),
+                              // subtitle: Text('shit2'),
+                              // trailing: Text('GGG',
+                              //   style: TextStyle(
+                              //     fontSize: 16,
+                              //     fontWeight: FontWeight.w500,
+                              //   ),),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                  print('Internet connection');
+                 // smartKyatFlash('Internet connection is required to take this action.', 'w');
+                }
+
 
                 // ProductsFragmentState().closeNewProduct();
                 // addNewProd(context);
@@ -95,6 +188,7 @@ class MethodListView extends StatelessWidget {
       // ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

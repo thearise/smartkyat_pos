@@ -71,7 +71,8 @@ class _EditProductState extends State<EditProduct> {
   final sub2SellCtrl = TextEditingController();
   String subExist= '';
   var photoArray = '';
-
+  bool prodAdding = false;
+ bool disableTouch = false;
 
 
   getLangId() async {
@@ -126,69 +127,61 @@ class _EditProductState extends State<EditProduct> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        top: true,
-        bottom: true,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: 80,
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          color: Colors.grey.withOpacity(0.3),
-                          width: 1.0))),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 18.0, right: 15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Container(
-                        width: 37,
-                        height: 37,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(35.0),
-                            ),
-                            color: Colors.grey.withOpacity(0.3)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 3.0),
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios_rounded,
-                                size: 17,
-                                color: Colors.black,
+      body: IgnorePointer(
+        ignoring: disableTouch,
+        child: SafeArea(
+          top: true,
+          bottom: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                height: 81,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Colors.grey.withOpacity(0.3),
+                            width: 1.0))),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Container(
+                          width: 37,
+                          height: 37,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(35.0),
                               ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
+                              color: Colors.grey.withOpacity(0.3)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 3.0),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_rounded,
+                                  size: 17,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
+                      Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  widget.prodName,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              widget.prodName,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             Text(
                               'Edit Product',
@@ -200,653 +193,675 @@ class _EditProductState extends State<EditProduct> {
                             ),
                           ],
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: ListView(
-                children: [
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                          child: Text(
-                            'PRODUCT INFORMATION',
-                            style: TextStyle(
-                              letterSpacing: 1.5,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,color: Colors.grey,
+              Expanded(
+                child: ListView(
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            child: Text(
+                              'PRODUCT INFORMATION',
+                              style: TextStyle(
+                                letterSpacing: 1.5,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,color: Colors.grey,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: Container(
-                            height: assets.isNotEmpty ? 120 : 82,
-                            child: Column(
-                              children: [
-                                if (assets.isNotEmpty)
-                                  SelectedAssetsListView(
-                                    assets: assets,
-                                    isDisplayingDetail:
-                                    isDisplayingDetail,
-                                    onResult: onResult,
-                                    onRemoveAsset: removeAsset,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: Container(
+                              height: assets.isNotEmpty ? 120 : 82,
+                              child: Column(
+                                children: [
+                                  if (assets.isNotEmpty)
+                                    SelectedAssetsListView(
+                                      assets: assets,
+                                      isDisplayingDetail:
+                                      isDisplayingDetail,
+                                      onResult: onResult,
+                                      onRemoveAsset: removeAsset,
+                                    ),
+                                  Expanded(
+                                    child: MethodListView(
+                                      pickMethods: [
+                                        PickMethod.cameraAndStay(
+                                          maxAssetsCount: 1,
+                                        ),
+                                      ],
+                                      onSelectMethod: selectAssets,
+                                    ),
                                   ),
-                                Expanded(
-                                  child: MethodListView(
-                                    pickMethods: [
-                                      PickMethod.cameraAndStay(
-                                        maxAssetsCount: 1,
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            child: TextFormField(
+                              controller: prodNameCtrl,
+                              keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return ' This field is required ';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(
+                                height: 0.95,
+                              ),
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+
+                                focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                //suffixText: 'Required',
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                // errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+// errorText: 'Error message',
+                                labelText: 'Product Name',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
+//filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            child: TextFormField(
+                              controller: barCodeCtrl,
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return ' This field is required ';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(
+                                height: 0.95,
+                              ),
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+
+                                focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                //suffixText: 'Required',
+                                suffixIcon: IconButton(
+                                  icon: Image.asset('assets/system/barcode.png', height: 28,),
+                                  onPressed: () async {
+                                    print("Barcode");
+                                    var code = await  Navigator.of(context).push(
+                                        FadeRoute(page:
+                                        QREditExample(prodName: widget.prodName,),
+                                          )
+                                      );
+                                    barCodeCtrl.text = code;
+                                    print('bar bar ' + code);
+                                  },
+                                ),
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                ),
+                                // errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                                labelText: 'Barcode',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'MAIN UNIT QUANTITY',
+                                  style: TextStyle(
+                                    letterSpacing: 1.5,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,color: Colors.grey,
+                                  ),
+                                ),
+                                Spacer(),
+                                GestureDetector(
+                                  onTap: () {
+                                    if(addSubUnit == 2 || subExist== '2') {
+                                      setState(() {
+                                        addSubUnit = 2;
+                                      });
+                                    } else { setState(() {
+                                      addSubUnit++;
+                                      //subExist = (int.parse(subExist) +1 ).toString();
+                                    }); }
+
+                                  },
+                                  child: Text('SUB UNIT?', style: TextStyle(
+                                    letterSpacing: 1.5,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,color: Colors.blue,
+                                  ),),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width:
+                                  (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+                                  child: TextFormField(
+                                    controller: mainQtyCtrl,
+                                    keyboardType: TextInputType.number,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return ' This field is required ';
+                                      }
+                                      return null;
+                                    },
+                                    style: TextStyle(
+                                      height: 0.95,
+                                    ),
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                          borderSide: BorderSide(
+                                              color: AppTheme.skBorderColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+
+                                      focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                          borderSide: BorderSide(
+                                              color: AppTheme.themeColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                      contentPadding: EdgeInsets.only(
+                                          left: 15.0,
+                                          right: 15.0,
+                                          top: 20.0,
+                                          bottom: 20.0),
+                                      //suffixText: 'Required',
+                                      suffixStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                        fontFamily: 'capsulesans',
                                       ),
-                                    ],
-                                    onSelectMethod: selectAssets,
+                                      // errorText: wrongPassword,
+                                      errorStyle: TextStyle(
+                                          backgroundColor: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',
+                                          height: 0.1
+                                      ),
+                                      labelStyle: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+// errorText: 'Error message',
+                                      labelText: 'Unit quantity',
+                                      floatingLabelBehavior:
+                                      FloatingLabelBehavior.auto,
+//filled: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Spacer(),
+                                Container(
+                                  width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
+                                  child: TextFormField(
+                                    controller: mainUnitNameCtrl,
+                                    keyboardType: TextInputType.name,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return ' This field is required ';
+                                      }
+                                      return null;
+                                    },
+                                    style: TextStyle(
+                                      height: 0.95,
+                                    ),
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                          borderSide: BorderSide(
+                                              color: AppTheme.skBorderColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+
+                                      focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                          borderSide: BorderSide(
+                                              color: AppTheme.themeColor,
+                                              width: 2.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                      contentPadding: EdgeInsets.only(
+                                          left: 15.0,
+                                          right: 15.0,
+                                          top: 20.0,
+                                          bottom: 20.0),
+                                      //suffixText: 'Required',
+                                      suffixStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                        fontFamily: 'capsulesans',
+                                      ),
+                                      // errorText: wrongPassword,
+                                      errorStyle: TextStyle(
+                                          backgroundColor: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: 'capsulesans',
+                                          height: 0.1
+                                      ),
+                                      labelStyle: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+// errorText: 'Error message',
+                                      labelText: 'Unit name',
+                                      floatingLabelBehavior:
+                                      FloatingLabelBehavior.auto,
+//filled: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                          child: TextFormField(
-                            controller: prodNameCtrl,
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return ' This field is required ';
-                              }
-                              return null;
-                            },
-                            style: TextStyle(
-                              height: 0.95,
-                            ),
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                  borderSide: BorderSide(
-                                      color: AppTheme.skBorderColor,
-                                      width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-
-                              focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                  borderSide: BorderSide(
-                                      color: AppTheme.themeColor,
-                                      width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              contentPadding: EdgeInsets.only(
-                                  left: 15.0,
-                                  right: 15.0,
-                                  top: 20.0,
-                                  bottom: 20.0),
-                              //suffixText: 'Required',
-                              suffixStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                                fontFamily: 'capsulesans',
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            child: TextFormField(
+                              controller: mainBuyCtrl,
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return ' This field is required ';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(
+                                height: 0.95,
                               ),
-                              // errorText: wrongPassword,
-                              errorStyle: TextStyle(
-                                  backgroundColor: Colors.white,
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+
+                                focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                    borderSide: BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                suffixText: 'MMK',
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
                                   fontSize: 12,
                                   fontFamily: 'capsulesans',
-                                  height: 0.1
-                              ),
-                              labelStyle: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
+                                ),
+                                // errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
 // errorText: 'Error message',
-                              labelText: 'Product Name',
-                              floatingLabelBehavior:
-                              FloatingLabelBehavior.auto,
+                                labelText: 'Buy price',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
 //filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                          child: TextFormField(
-                            controller: barCodeCtrl,
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return ' This field is required ';
-                              }
-                              return null;
-                            },
-                            style: TextStyle(
-                              height: 0.95,
-                            ),
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                            child: TextFormField(
+                              controller: mainSellCtrl,
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return ' This field is required ';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(
+                                height: 0.95,
+                              ),
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                  borderSide: BorderSide(
-                                      color: AppTheme.skBorderColor,
-                                      width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
+                                    borderSide: BorderSide(
+                                        color: AppTheme.skBorderColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
 
-                              focusedBorder: OutlineInputBorder(
+                                focusedBorder: OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                  borderSide: BorderSide(
-                                      color: AppTheme.themeColor,
-                                      width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              contentPadding: EdgeInsets.only(
-                                  left: 15.0,
-                                  right: 15.0,
-                                  top: 20.0,
-                                  bottom: 20.0),
-                              //suffixText: 'Required',
-                              suffixIcon: IconButton(
-                                icon: Image.asset('assets/system/barcode.png', height: 28,),
-                                onPressed: () async {
-                                  print("Barcode");
-                                  var code = await  Navigator.of(context).push(
-                                      FadeRoute(page:
-                                      QREditExample(prodName: widget.prodName,),
-                                        )
-                                    );
-                                  barCodeCtrl.text = code;
-                                  print('bar bar ' + code);
-                                },
-                              ),
-                              suffixStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                                fontFamily: 'capsulesans',
-                              ),
-                              // errorText: wrongPassword,
-                              errorStyle: TextStyle(
-                                  backgroundColor: Colors.white,
+                                    borderSide: BorderSide(
+                                        color: AppTheme.themeColor,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                contentPadding: EdgeInsets.only(
+                                    left: 15.0,
+                                    right: 15.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                suffixText: 'MMK',
+                                suffixStyle: TextStyle(
+                                  color: Colors.grey,
                                   fontSize: 12,
                                   fontFamily: 'capsulesans',
-                                  height: 0.1
-                              ),
-                              labelStyle: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-                              labelText: 'Barcode',
-                              floatingLabelBehavior:
-                              FloatingLabelBehavior.auto,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                ),
+                                // errorText: wrongPassword,
+                                errorStyle: TextStyle(
+                                    backgroundColor: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: 'capsulesans',
+                                    height: 0.1
+                                ),
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+// errorText: 'Error message',
+                                labelText: 'Sale price',
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.auto,
+//filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                          child: Row(
+                          (sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1QtyCtrl.text != '0' && sub1SellCtrl.text != '') && (sub2perUnitCtrl.text == '' && sub2UnitNameCtrl.text == '' && sub2QtyCtrl.text == '0' && sub2SellCtrl.text == '')? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) :Container(),
+                          sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1QtyCtrl.text != '0' && sub1SellCtrl.text != '' &&
+                              sub2perUnitCtrl.text != '' && sub2UnitNameCtrl.text != '' && sub2QtyCtrl.text != '0' && sub2SellCtrl.text != ''? Column(
                             children: [
-                              Text(
-                                'MAIN UNIT QUANTITY',
-                                style: TextStyle(
-                                  letterSpacing: 1.5,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,color: Colors.grey,
-                                ),
-                              ),
-                              Spacer(),
-                              GestureDetector(
-                                onTap: () {
-                                  if(addSubUnit == 2 || subExist== '2') {
-                                    setState(() {
-                                      addSubUnit = 2;
-                                    });
-                                  } else { setState(() {
-                                    addSubUnit++;
-                                    //subExist = (int.parse(subExist) +1 ).toString();
-                                  }); }
-
-                                },
-                                child: Text('SUB UNIT?', style: TextStyle(
-                                  letterSpacing: 1.5,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,color: Colors.blue,
-                                ),),
-                              ),
+                              createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
+                              createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                          child: Row(
+                          ) : Container(),
+                          addSubUnit == 1 && subExist == '0'? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) : Container(),
+                          addSubUnit == 1 && subExist == '1' ?  createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl) : Container(),
+                          addSubUnit == 2 && subExist == '0' ?  Column(
                             children: [
-                              Container(
-                                width:
-                                (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
-                                child: TextFormField(
-                                  controller: mainQtyCtrl,
-                                  keyboardType: TextInputType.number,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return ' This field is required ';
-                                    }
-                                    return null;
-                                  },
-                                  style: TextStyle(
-                                    height: 0.95,
-                                  ),
-                                  decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                        borderSide: BorderSide(
-                                            color: AppTheme.skBorderColor,
-                                            width: 2.0),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-
-                                    focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                        borderSide: BorderSide(
-                                            color: AppTheme.themeColor,
-                                            width: 2.0),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    contentPadding: EdgeInsets.only(
-                                        left: 15.0,
-                                        right: 15.0,
-                                        top: 20.0,
-                                        bottom: 20.0),
-                                    //suffixText: 'Required',
-                                    suffixStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 12,
-                                      fontFamily: 'capsulesans',
-                                    ),
-                                    // errorText: wrongPassword,
-                                    errorStyle: TextStyle(
-                                        backgroundColor: Colors.white,
-                                        fontSize: 12,
-                                        fontFamily: 'capsulesans',
-                                        height: 0.1
-                                    ),
-                                    labelStyle: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
-// errorText: 'Error message',
-                                    labelText: 'Unit quantity',
-                                    floatingLabelBehavior:
-                                    FloatingLabelBehavior.auto,
-//filled: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Container(
-                                width: (MediaQuery.of(context).size.width - 30) * (1.41 / 4),
-                                child: TextFormField(
-                                  controller: mainUnitNameCtrl,
-                                  keyboardType: TextInputType.name,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return ' This field is required ';
-                                    }
-                                    return null;
-                                  },
-                                  style: TextStyle(
-                                    height: 0.95,
-                                  ),
-                                  decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                        borderSide: BorderSide(
-                                            color: AppTheme.skBorderColor,
-                                            width: 2.0),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-
-                                    focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                        borderSide: BorderSide(
-                                            color: AppTheme.themeColor,
-                                            width: 2.0),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    contentPadding: EdgeInsets.only(
-                                        left: 15.0,
-                                        right: 15.0,
-                                        top: 20.0,
-                                        bottom: 20.0),
-                                    //suffixText: 'Required',
-                                    suffixStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 12,
-                                      fontFamily: 'capsulesans',
-                                    ),
-                                    // errorText: wrongPassword,
-                                    errorStyle: TextStyle(
-                                        backgroundColor: Colors.white,
-                                        fontSize: 12,
-                                        fontFamily: 'capsulesans',
-                                        height: 0.1
-                                    ),
-                                    labelStyle: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
-// errorText: 'Error message',
-                                    labelText: 'Unit name',
-                                    floatingLabelBehavior:
-                                    FloatingLabelBehavior.auto,
-//filled: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
+                              createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                          child: TextFormField(
-                            controller: mainBuyCtrl,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return ' This field is required ';
-                              }
-                              return null;
-                            },
-                            style: TextStyle(
-                              height: 0.95,
-                            ),
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                  borderSide: BorderSide(
-                                      color: AppTheme.skBorderColor,
-                                      width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-
-                              focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                  borderSide: BorderSide(
-                                      color: AppTheme.themeColor,
-                                      width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              contentPadding: EdgeInsets.only(
-                                  left: 15.0,
-                                  right: 15.0,
-                                  top: 20.0,
-                                  bottom: 20.0),
-                              suffixText: 'MMK',
-                              suffixStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                                fontFamily: 'capsulesans',
-                              ),
-                              // errorText: wrongPassword,
-                              errorStyle: TextStyle(
-                                  backgroundColor: Colors.white,
-                                  fontSize: 12,
-                                  fontFamily: 'capsulesans',
-                                  height: 0.1
-                              ),
-                              labelStyle: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-// errorText: 'Error message',
-                              labelText: 'Buy price',
-                              floatingLabelBehavior:
-                              FloatingLabelBehavior.auto,
-//filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                          child: TextFormField(
-                            controller: mainSellCtrl,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return ' This field is required ';
-                              }
-                              return null;
-                            },
-                            style: TextStyle(
-                              height: 0.95,
-                            ),
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                  borderSide: BorderSide(
-                                      color: AppTheme.skBorderColor,
-                                      width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-
-                              focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                  borderSide: BorderSide(
-                                      color: AppTheme.themeColor,
-                                      width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              contentPadding: EdgeInsets.only(
-                                  left: 15.0,
-                                  right: 15.0,
-                                  top: 20.0,
-                                  bottom: 20.0),
-                              suffixText: 'MMK',
-                              suffixStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                                fontFamily: 'capsulesans',
-                              ),
-                              // errorText: wrongPassword,
-                              errorStyle: TextStyle(
-                                  backgroundColor: Colors.white,
-                                  fontSize: 12,
-                                  fontFamily: 'capsulesans',
-                                  height: 0.1
-                              ),
-                              labelStyle: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-// errorText: 'Error message',
-                              labelText: 'Sale price',
-                              floatingLabelBehavior:
-                              FloatingLabelBehavior.auto,
-//filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ),
-                        (sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1QtyCtrl.text != '0' && sub1SellCtrl.text != '') && (sub2perUnitCtrl.text == '' && sub2UnitNameCtrl.text == '' && sub2QtyCtrl.text == '0' && sub2SellCtrl.text == '')? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) :Container(),
-                        sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1QtyCtrl.text != '0' && sub1SellCtrl.text != '' &&
-                            sub2perUnitCtrl.text != '' && sub2UnitNameCtrl.text != '' && sub2QtyCtrl.text != '0' && sub2SellCtrl.text != ''? Column(
-                          children: [
-                            createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
-                            createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
-                          ],
-                        ) : Container(),
-                        addSubUnit == 1 && subExist == '0'? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) : Container(),
-                        addSubUnit == 1 && subExist == '1' ?  createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl) : Container(),
-                        addSubUnit == 2 && subExist == '0' ?  Column(
-                          children: [
-                            createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
-                            createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
-                          ],
-                        ) : Container(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                child: ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width,
-                  splashColor: Colors.transparent,
-                  height: 50,
-                  child: FlatButton(
-                    color: AppTheme.themeColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(10.0),
-                      side: BorderSide(
-                        color: AppTheme.themeColor,
+                          ) : Container(),
+                        ],
                       ),
                     ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        String subExistChange;
-                        String sub1Buy;
-                        String sub2Buy;
-                        var prodExist = false;
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                  child: ButtonTheme(
+                    minWidth: MediaQuery.of(context).size.width,
+                    splashColor: Colors.transparent,
+                    height: 50,
+                    child: FlatButton(
+                      color: AppTheme.themeColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(10.0),
+                        side: BorderSide(
+                          color: AppTheme.themeColor,
+                        ),
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            prodAdding = true;
+                            disableTouch = true;
+                          });
+                          String subExistChange;
+                          String sub1Buy;
+                          String sub2Buy;
+                          var prodExist = false;
 
-                        CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+                          CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 
-                        if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == ''){
-                          subExistChange = '1';
-                          sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                          sub2Buy = '0';
-                        } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != ''){
-                          subExistChange = '2';
-                          sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                          sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
-                        } else {
-                          subExistChange ='0';
-                          sub1Buy = '0';
-                          sub2Buy = '0';
-                        }
-                        // productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
-                        // querySnapshot) async {
-                        //   querySnapshot.docs
-                        //       .forEach((doc) {
-                        //     prodExist = true1/;
-                        //   });
-                        //
-                        //   if (prodExist) {
-                        //     print('product already');
-                        //     var result =
-                        //     await showOkAlertDialog(
-                        //       context: context,
-                        //       title: 'Warning',
-                        //       message:
-                        //       'Product name already!',
-                        //       okLabel: 'OK',
-                        //     );
-                        //   } else {
-                        if (assets.length == 0) {
-                          productId.doc(widget.prodId).update({
-                            'prod_name' : prodNameCtrl.text,
-                            'bar_code' : barCodeCtrl.text,
-                            'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                            'unit_name' : mainUnitNameCtrl.text,
-                            'buyPrice1' : mainBuyCtrl.text,
-                            'unit_sell' : mainSellCtrl.text,
-                            'sub_exist' : subExistChange,
-                            'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                            'sub1_link' : sub1perUnitCtrl.text,
-                            'sub1_name' : sub1UnitNameCtrl.text,
-                            'sub1_sell' : sub1SellCtrl.text,
-                            'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                            'sub2_link' : sub2perUnitCtrl.text,
-                            'sub2_name' : sub2UnitNameCtrl.text,
-                            'sub2_sell' : sub2SellCtrl.text,
-                            'buyPrice2' : sub1Buy,
-                            'buyPrice3' : sub2Buy,
-                          }).then((value) { Navigator.pop(context);
-                          smartKyatFlash(prodNameCtrl.text + 'is successfully updated.', 's');
-                          }).catchError((error) => print("Failed to update: $error"));
-
-                          // });
-                        } else {
-                          for (int i = 0;
-                          i < assets.length;
-                          i++) {
-                            AssetEntity asset =
-                            assets.elementAt(i);
-                            asset.originFile.then((value) async {
-                              addProduct(value!, photoArray).then((value) {
-                                photoArray = value.toString();
-                                productId.doc(widget.prodId).update({
-                                  'prod_name' : prodNameCtrl.text,
-                                  'bar_code' : barCodeCtrl.text,
-                                  'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                                  'unit_name' : mainUnitNameCtrl.text,
-                                  'buyPrice1' : mainBuyCtrl.text,
-                                  'unit_sell' : mainSellCtrl.text,
-                                  'sub_exist' : subExistChange,
-                                  'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                                  'sub1_link' : sub1perUnitCtrl.text,
-                                  'sub1_name' : sub1UnitNameCtrl.text,
-                                  'sub1_sell' : sub1SellCtrl.text,
-                                  'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                                  'sub2_link' : sub2perUnitCtrl.text,
-                                  'sub2_name' : sub2UnitNameCtrl.text,
-                                  'sub2_sell' : sub2SellCtrl.text,
-                                  'buyPrice2' : sub1Buy,
-                                  'buyPrice3' : sub2Buy,
-                                  'img_1' : photoArray.toString(),
-                                }).then((value){ Navigator.pop(context);
-                                smartKyatFlash(prodNameCtrl.text + 'is successfully updated.', 's');
-                                }).catchError((error) => print("Failed to update: $error"));
-                              }
-                              );
-                            });
+                          if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
+                            subExistChange = '1';
+                            sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                            sub2Buy = '0';
+                          } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
+                            subExistChange = '2';
+                            sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                            sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
+                          } else {
+                            subExistChange ='0';
+                            sub1Buy = '0';
+                            sub2Buy = '0';
                           }
+                          productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
+                          querySnapshot) async {
+                            querySnapshot.docs
+                                .forEach((doc) {
+                              prodExist = true;
+                            });
 
-                        } } },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5.0,
-                          right: 5.0,
-                          bottom: 2.0),
-                      child: Container(
-                        child: Text(
-                          'Save Product',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing:-0.1
+                            if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
+                              print('product already');
+                              var result =
+                              await showOkAlertDialog(
+                                context: context,
+                                title: 'Warning',
+                                message:
+                                'Product name already!',
+                                okLabel: 'OK',
+                              );
+                              setState(() {
+                               disableTouch = false;
+                                prodAdding = false;
+                              });
+                            } else {
+                          if (assets.length == 0) {
+                            productId.doc(widget.prodId).update({
+                              'prod_name' : prodNameCtrl.text,
+                              'bar_code' : barCodeCtrl.text,
+                              'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                              'unit_name' : mainUnitNameCtrl.text,
+                              'buyPrice1' : mainBuyCtrl.text,
+                              'unit_sell' : mainSellCtrl.text,
+                              'sub_exist' : subExistChange,
+                              'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                              'sub1_link' : sub1perUnitCtrl.text,
+                              'sub1_name' : sub1UnitNameCtrl.text,
+                              'sub1_sell' : sub1SellCtrl.text,
+                              'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                              'sub2_link' : sub2perUnitCtrl.text,
+                              'sub2_name' : sub2UnitNameCtrl.text,
+                              'sub2_sell' : sub2SellCtrl.text,
+                              'buyPrice2' : sub1Buy,
+                              'buyPrice3' : sub2Buy,
+                            }).then((value) {
+                            }).catchError((error) => print("Failed to update: $error"));
+
+                            Future.delayed(const Duration(milliseconds: 3000), () {
+                              setState(() {
+                                prodAdding = false;
+                              disableTouch = false;
+
+                              });
+                              Navigator.pop(context);
+                              smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                            });
+
+                            // });
+                          } else {
+                            for (int i = 0;
+                            i < assets.length;
+                            i++)
+                            {
+                              AssetEntity asset = assets.elementAt(i);
+                              asset.originFile.then((value) async {
+                                addProduct(value!, photoArray).then((value) {
+                                  photoArray = value.toString();
+                                  productId.doc(widget.prodId).update({
+                                    'prod_name' : prodNameCtrl.text,
+                                    'bar_code' : barCodeCtrl.text,
+                                    'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                                    'unit_name' : mainUnitNameCtrl.text,
+                                    'buyPrice1' : mainBuyCtrl.text,
+                                    'unit_sell' : mainSellCtrl.text,
+                                    'sub_exist' : subExistChange,
+                                    'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                                    'sub1_link' : sub1perUnitCtrl.text,
+                                    'sub1_name' : sub1UnitNameCtrl.text,
+                                    'sub1_sell' : sub1SellCtrl.text,
+                                    'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                                    'sub2_link' : sub2perUnitCtrl.text,
+                                    'sub2_name' : sub2UnitNameCtrl.text,
+                                    'sub2_sell' : sub2SellCtrl.text,
+                                    'buyPrice2' : sub1Buy,
+                                    'buyPrice3' : sub2Buy,
+                                    'img_1' : photoArray.toString(),
+                                  }).then((value){ Navigator.pop(context);
+                                  setState(() {
+                                    prodAdding = false;
+                                    disableTouch = false;
+                                    Navigator.pop(context);
+                                  });
+                                  smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                  }).catchError((error) => print("Failed to update: $error"));
+                                }
+                                );
+                              });
+                            }
+                          }  } });} },
+                      child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                          child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0,
+                            right: 5.0,
+                            bottom: 2.0),
+                        child: Container(
+                          child: Text(
+                            'Save Product',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing:-0.1
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
