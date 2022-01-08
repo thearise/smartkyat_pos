@@ -242,20 +242,18 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                         // mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                            height: 80,
+                            height: 81,
                             decoration: BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
                                         color: Colors.grey.withOpacity(0.3),
                                         width: 1.0))),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 16),
+                                    padding: const EdgeInsets.only(top: 0),
                                     child: Container(
                                       width: 37,
                                       height: 37,
@@ -279,36 +277,27 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                     ),
                                   ),
                                   Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 16.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                'MMK $mainPrice',
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'MMK $mainPrice',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                          Text(
-                                            prodName,
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                        ),
+                                        Text(
+                                          prodName,
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   )
                                 ],

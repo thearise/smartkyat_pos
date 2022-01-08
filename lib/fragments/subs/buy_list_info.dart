@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -377,22 +378,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       color: Colors.grey,
                                     ),),
 
-                                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                      stream:  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('merchants').doc(widget.data.split('^')[3].split('&')[1]).snapshots(),
-                                      builder: (BuildContext context, snapshot10) {
-                                        if (snapshot10.hasData) {
-                                          var output10 = snapshot10.data!.data();
-                                          var mainUnit = output10?['merchant_name'];
-                                          return Text('#' +
-                                              widget.data.split('^')[1] +' - ' + mainUnit,
+                                       Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                          );
-                                        }
-                                        return Container();
-                                      }),
+                                          ),
+
                                 ],
                               ),
                             ),
@@ -425,6 +417,27 @@ class _BuyListInfoState extends State<BuyListInfo>
                         if (snapshot2.hasData) {
                           var output1 = snapshot2.data!.data();
                           // print(output1?['subs'].toString());
+                          if(output1?['subs'] == null) {
+                            //smartKyatFlash('Internet connection is required to take this action.', 'w');
+                            return Container(
+                              height: MediaQuery.of(context).size.height/1.5,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.white,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 15.0),
+                                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                            child: CupertinoActivityIndicator(radius: 15,)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
                           List prodList = output1?['subs'];
                           var debt = output1?['debt'];
                           var documentId = output1?['documentId'];
@@ -1189,7 +1202,24 @@ class _BuyListInfoState extends State<BuyListInfo>
                           );
                         }
 
-                        return Container();
+                       return Container(
+                          height: MediaQuery.of(context).size.height/1.5,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.white,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 15.0),
+                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 15,)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                       })
               ])),
     );

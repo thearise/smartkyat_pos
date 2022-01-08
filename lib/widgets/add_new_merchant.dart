@@ -380,14 +380,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                       }).then((value) {
                                         print('product added 2');
 
-                                        setState(() {
-                                          widget.endMerchLoadingState();
-                                          merchAdding = false;
-                                        });
 
-                                        Navigator.pop(context);
-
-                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
 
                                         // showFlash(
                                         //   context: context,
@@ -438,6 +431,16 @@ class _AddMerchantState extends State<AddMerchant> {
                                         //   },
                                         // );
                                       });
+                                      Future.delayed(const Duration(milliseconds: 3000), () {
+                                        setState(() {
+                                          widget.endMerchLoadingState();
+                                          merchAdding = false;
+                                        });
+
+                                        Navigator.pop(context);
+
+                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                      });
                                     } else
                                     {
                                       merchants.doc('name').set({
@@ -456,16 +459,6 @@ class _AddMerchantState extends State<AddMerchant> {
                                         'total_refunds' : 0,
                                       }).then((value) {
                                         print('product added 2');
-
-                                        setState(() {
-                                          widget.endMerchLoadingState();
-                                          merchAdding = false;
-                                        });
-
-                                        Navigator.pop(context);
-
-                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
-
                                         // showFlash(
                                         //   context: context,
                                         //   duration: const Duration(seconds: 2),
@@ -514,7 +507,16 @@ class _AddMerchantState extends State<AddMerchant> {
                                         //     );
                                         //   },
                                         // );
-                                      });}
+                                      });
+                                      Future.delayed(const Duration(milliseconds: 3000), () {
+                                        setState(() {
+                                          widget.endMerchLoadingState();
+                                          merchAdding = false;
+                                        });
+                                        Navigator.pop(context);
+                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                      });
+                                    }
 
                                     // });
                                     // });

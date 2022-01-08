@@ -1097,7 +1097,7 @@ class MerchantCartState extends State<MerchantCart>
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 left: 15.0,
-                                right: 15.0),
+                                right: 15.0, top: 15.0),
                             child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1487,7 +1487,24 @@ class MerchantCartState extends State<MerchantCart>
                         ),
                       ],
                     ),
-                  ) : Container(),
+                  ) : Container(
+                    height: MediaQuery.of(context).size.height/1.5,
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 15.0),
+                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                  child: CupertinoActivityIndicator(radius: 15,)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
@@ -1533,6 +1550,7 @@ class MerchantCartState extends State<MerchantCart>
                                   onTap: () {
                                     if (_formKey.currentState!.validate()) {
                                       print('eachProduct' +eachProd);
+
                                       for (int j = 0; j < widget.prodList2.length; j++)
                                         if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[4]){
                                           setState((){

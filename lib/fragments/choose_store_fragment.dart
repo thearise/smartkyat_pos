@@ -36,62 +36,9 @@ class chooseStoreState extends State<chooseStore> {
   final auth = FirebaseAuth.instance;
 
   bool loadingState = false;
-  bool _connectionStatus = false;
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        try {
-          final result = await InternetAddress.lookup('google.com');
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            print('connected');
-            setState(() {
-              _connectionStatus = true;
-            });
-          }
-        } on SocketException catch (_) {
-          setState(() {
-            _connectionStatus = false;
-          });
-        }
-        break;
-      default:
-        setState(() {
-          // _connectionStatus = 'Failed to get connectivity.')
-          _connectionStatus = false;
-        });
-        break;
-    }
-  }
 
   @override
   initState() {
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     // jiggleCtl.toggle();
     // user = auth.currentUser!;
     print('UID -> ' + auth.currentUser!.uid.toString());
@@ -461,7 +408,7 @@ class chooseStoreState extends State<chooseStore> {
                 Text('Set up some information about your shop later in shop settings.'),
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
-                  child: _connectionStatus ? ButtonTheme(
+                  child: ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width,
                     splashColor: Colors.transparent,
                     height: 50,
@@ -475,82 +422,46 @@ class chooseStoreState extends State<chooseStore> {
                         ),
                       ),
                       onPressed: () async {
-                        setState(() {
-                          loadingState = true;
-                        });
-                        setStoreId(_result);
-                        _getId().then((value1) async {
-                          print('IDD ' + value1.toString());
-                          await FirebaseFirestore.instance.collection('shops').doc(_result).update({
-                            'devices': FieldValue.arrayUnion([value1.toString()]),
-                          }).then((value3) async {
-                            print('done');
-                            await FirebaseFirestore.instance.collection('shops').doc(_result)
-                            // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
-                                .get().then((value2) async {
-                              List devicesList = value2.data()!['devices'];
-                              int? deviceIdNum;
-                              for(int i = 0; i < devicesList.length; i++) {
-                                if(devicesList[i] == value1.toString()) {
-                                  print('DV LIST ' + devicesList[i].toString());
-                                  setState(() {
-                                    deviceIdNum = i;
-                                    print('DV LIST 2 ' + deviceIdNum.toString());
-                                  });
-                                }
-                              }
-
-                              setDeviceId(deviceIdNum.toString()).then((value) {
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                              });
-
-
+                        try {
+                          final result = await InternetAddress.lookup('google.com');
+                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                            setState(() {
+                              loadingState = true;
                             });
-
-
-                          });
-                        });
-
-
+                            setStoreId(_result);
+                            _getId().then((value1) async {
+                              print('IDD ' + value1.toString());
+                              await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                'devices': FieldValue.arrayUnion([value1.toString()]),
+                              }).then((value3) async {
+                                print('done');
+                                await FirebaseFirestore.instance.collection('shops').doc(_result)
+                                // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                    .get().then((value2) async {
+                                  List devicesList = value2.data()!['devices'];
+                                  int? deviceIdNum;
+                                  for(int i = 0; i < devicesList.length; i++) {
+                                    if(devicesList[i] == value1.toString()) {
+                                      print('DV LIST ' + devicesList[i].toString());
+                                      setState(() {
+                                        deviceIdNum = i;
+                                        print('DV LIST 2 ' + deviceIdNum.toString());
+                                      });
+                                    }
+                                  }
+                                  setDeviceId(deviceIdNum.toString()).then((value) {
+                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                  });
+                                });
+                              });
+                            });
+                          }
+                        } on SocketException catch (_) {
+                            smartKyatFlash('Internet connection is required to take this action.', 'w');
+                        }
                       },
                       child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                           child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                        padding: const EdgeInsets.only(
-                            left: 5.0,
-                            right: 5.0,
-                            bottom: 3.0),
-                        child: Container(
-                          child: Text(
-                            // 'Switch as $_shop',
-                            'Go to dashboard',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing:-0.1
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ) :
-                  ButtonTheme(
-                    minWidth: MediaQuery.of(context).size.width,
-                    splashColor: Colors.transparent,
-                    height: 50,
-                    child: FlatButton(
-                      color: AppTheme.themeColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(10.0),
-                        side: BorderSide(
-                          color: AppTheme.themeColor,
-                        ),
-                      ),
-                      onPressed: () {
-                        smartKyatFlash('Internet connection is required to take this action.', 'w');
-                      },
-                      child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0,
                             right: 5.0,
