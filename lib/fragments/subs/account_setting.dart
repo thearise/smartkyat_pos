@@ -342,11 +342,11 @@ class _AccountSettingState extends State<AccountSetting> {
                                       width: MediaQuery.of(context).size.width,
                                       decoration: BoxDecoration(
                                         borderRadius:
-                                        BorderRadius.circular(5.0),
+                                        BorderRadius.circular(10.0),
                                         color: AppTheme.lightBgColor,
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 15.0),
+                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                         child: Text(
                                           widget.email.toString(), style: TextStyle(
                                           fontWeight: FontWeight.w500,

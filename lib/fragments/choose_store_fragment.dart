@@ -335,6 +335,7 @@ class chooseStoreState extends State<chooseStore> {
                             children: snapshot.data!.docs.map((DocumentSnapshot document) {
                               Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
                               index++;
+                              print('owerner ' + data['owner_id'] + ' -> ' + auth.currentUser!.uid.toString());
                               if(index == 1 && firstTime) {
                                 _result = document.id.toString();
                                 _shop= data['shop_name'];
@@ -366,7 +367,7 @@ class chooseStoreState extends State<chooseStore> {
                                                 child: Text(data['shop_name'], overflow: TextOverflow.ellipsis, style: TextStyle(height: 1.1, fontSize: 17, fontWeight: FontWeight.w500, ),),
                                               ),
                                             ),),
-                                            data['owner_id'] == auth.currentUser!.uid.toString()?
+                                            data['owner_id'].toString() == auth.currentUser!.uid.toString()?
                                             Container(
                                               height: 23,
                                               width: 55,

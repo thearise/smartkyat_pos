@@ -318,8 +318,9 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                             for (int i = 0;
                             i < usersList.length;
                             i++)
-                              if((FirebaseAuth.instance.currentUser == null? '':FirebaseAuth.instance.currentUser!.email) != usersList[i].toString())
-                                if( ownerEmail != usersList[i].toString())
+                              // if((FirebaseAuth.instance.currentUser == null? '':FirebaseAuth.instance.currentUser!.email) != usersList[i].toString())
+                              //   if( ownerEmail != usersList[i].toString())
+                              if( ownerEmail != usersList[i].toString())
                                 Padding(
                                   padding: EdgeInsets.only(left: i == usersList.length-1? 0.0:15.0),
                                   child: Container(
