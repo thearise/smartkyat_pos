@@ -40,106 +40,106 @@ class PdfInvoiceApi {
       pageFormat: pageFormat,
       margin: new EdgeInsets.symmetric(horizontal: 0.0),
       build: (context) => Column(
-        children: [
-          Container(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 0.5 * PdfPageFormat.cm),
-
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                        children: [
-                          pw.Text(Rabbit.uni2zg(invoice.supplier.name),
-                            textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc+5,font: ttfBold),
-                          ),
-                          SizedBox(height: 0.2 * PdfPageFormat.cm),
-                          // pw.Text(Rabbit.uni2zg("ဘာတွေလဲ ဘာေတွလဲ ဘာတွေဖြစ်နေတာလဲလို့ ပြောကြပါဦး Whatting?"),style: pw.TextStyle(fontSize: fontSizeDesc-4,font: ttfReg, fontWeight: FontWeight.bold)),
-                          // ahttps://riftplus.info/dist/img/riftplus-fg.pnga
-                          pw.Text(Rabbit.uni2zg(invoice.supplier.address),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.black)),
-                          pw.Text(Rabbit.uni2zg(invoice.supplier.phone),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.black)),
-                        ]
-                    ),
-                  ),
-                  SizedBox(height: 0.3 * PdfPageFormat.cm),
-
-                  Container(decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                          width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
-                    )
-                  ),height: 1),
-                  SizedBox(height: 0.3 * PdfPageFormat.cm),
-
-
-                ],
-              )
-          ),
-          // SizedBox(height: 3 * PdfPageFormat.cm),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Container(
+          children: [
+            Container(
                 width: double.infinity,
                 child: Column(
-                  crossAxisAlignment: size=='Roll-57'? CrossAxisAlignment.start: CrossAxisAlignment.end,
-                  mainAxisAlignment: size=='Roll-57'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Receipt info: ' + invoice.info.number,
-                        style: TextStyle(
-                          fontSize: fontSizeDesc-3,
-                          fontWeight: FontWeight.bold,)
+                    SizedBox(height: 0.5 * PdfPageFormat.cm),
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                          children: [
+                            pw.Text(Rabbit.uni2zg(invoice.supplier.name),
+                              textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc+5,font: ttfBold),
+                            ),
+                            SizedBox(height: 0.2 * PdfPageFormat.cm),
+                            // pw.Text(Rabbit.uni2zg("ဘာတွေလဲ ဘာေတွလဲ ဘာတွေဖြစ်နေတာလဲလို့ ပြောကြပါဦး Whatting?"),style: pw.TextStyle(fontSize: fontSizeDesc-4,font: ttfReg, fontWeight: FontWeight.bold)),
+                            // ahttps://riftplus.info/dist/img/riftplus-fg.pnga
+                            pw.Text(Rabbit.uni2zg(invoice.supplier.address),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.black)),
+                            pw.Text(Rabbit.uni2zg(invoice.supplier.phone),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.black)),
+                          ]
+                      ),
                     ),
-                    SizedBox(height: 0.1 * PdfPageFormat.cm),
-                    invoice.customer.name != 'name'?
-                    pw.Text(Rabbit.uni2zg('Name: ' + invoice.customer.name),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)) :
-                    pw.Text(Rabbit.uni2zg('Name: unknown'),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
-                    pw.Text(Rabbit.uni2zg('Date: ' + invoice.info.date.day.toString() + '-' + invoice.info.date.month.toString() + '-' + invoice.info.date.year.toString()),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
-                    // Text('ADDRESS: Sanfran cisco', style: TextStyle(
-                    //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
-                    // Text('PHONE: (+959) 751133553', style: TextStyle(
-                    //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
-                    SizedBox(height: 0.2 * PdfPageFormat.cm),
+                    SizedBox(height: 0.3 * PdfPageFormat.cm),
+
+                    Container(decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
+                        )
+                    ),height: 1),
+                    SizedBox(height: 0.3 * PdfPageFormat.cm),
+
+
                   ],
                 )
-            )
-          ),
-          buildInvoice(invoice, ttfReg, size),
-          SizedBox(height: 0.2 * PdfPageFormat.cm),
-          Padding(
-            padding: new EdgeInsets.only(top: 5.0),
-            child: Container(decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                      width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
-                )),height: 1),
-          ),
-          buildTotal(invoice, size, pageFormat),
-          // size == 'Roll-57' ? Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   crossAxisAlignment: pw.CrossAxisAlignment.center,
-          //   children: [
-          //     // buildSupplierAddress(invoice.supplier),
-          //     Container(
-          //       height: 25,
-          //       width: 90,
-          //       child: BarcodeWidget(
-          //           barcode: Barcode.code128(),
-          //           data: invoice.info.number,
-          //           drawText: false
-          //       ),
-          //     ),
-          //   ],
-          // ): Container(),
+            ),
+            // SizedBox(height: 3 * PdfPageFormat.cm),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Container(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: size=='Roll-57'? CrossAxisAlignment.start: CrossAxisAlignment.end,
+                      mainAxisAlignment: size=='Roll-57'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
+                      children: [
+                        Text('Receipt info: ' + invoice.info.number,
+                            style: TextStyle(
+                              fontSize: fontSizeDesc-3,
+                              fontWeight: FontWeight.bold,)
+                        ),
+                        SizedBox(height: 0.1 * PdfPageFormat.cm),
+                        invoice.customer.name != 'name'?
+                        pw.Text(Rabbit.uni2zg('Name: ' + invoice.customer.name),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)) :
+                        pw.Text(Rabbit.uni2zg('Name: no customer'),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
+                        pw.Text(Rabbit.uni2zg('Date: ' + invoice.info.date.day.toString() + '-' + invoice.info.date.month.toString() + '-' + invoice.info.date.year.toString()),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
+                        // Text('ADDRESS: Sanfran cisco', style: TextStyle(
+                        //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
+                        // Text('PHONE: (+959) 751133553', style: TextStyle(
+                        //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
+                        SizedBox(height: 0.2 * PdfPageFormat.cm),
+                      ],
+                    )
+                )
+            ),
+            buildInvoice(invoice, ttfReg, size),
+            SizedBox(height: 0.2 * PdfPageFormat.cm),
+            Padding(
+              padding: new EdgeInsets.only(top: 5.0),
+              child: Container(decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                        width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
+                  )),height: 1),
+            ),
+            buildTotal(invoice, size, pageFormat),
+            // size == 'Roll-57' ? Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   crossAxisAlignment: pw.CrossAxisAlignment.center,
+            //   children: [
+            //     // buildSupplierAddress(invoice.supplier),
+            //     Container(
+            //       height: 25,
+            //       width: 90,
+            //       child: BarcodeWidget(
+            //           barcode: Barcode.code128(),
+            //           data: invoice.info.number,
+            //           drawText: false
+            //       ),
+            //     ),
+            //   ],
+            // ): Container(),
 
-          // SizedBox(height: 0.5 * PdfPageFormat.cm),
-          // pw.Text('Thank you',style: pw.TextStyle(fontSize: fontSizeDesc+5, fontWeight: pw.FontWeight.bold)),
-          pw.Text(Rabbit.uni2zg('Thank you'),
-            textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc+5,font: ttfBold),
-          ),
-          SizedBox(height: 0.6 * PdfPageFormat.cm),
-        ]
+            // SizedBox(height: 0.5 * PdfPageFormat.cm),
+            // pw.Text('Thank you',style: pw.TextStyle(fontSize: fontSizeDesc+5, fontWeight: pw.FontWeight.bold)),
+            pw.Text(Rabbit.uni2zg('"Thank you"'),
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc+5,font: ttfBold),
+            ),
+            SizedBox(height: 0.6 * PdfPageFormat.cm),
+          ]
       ),
       // footer: (context) => buildFooter(invoice),
     ));
@@ -161,34 +161,34 @@ class PdfInvoiceApi {
   }
 
   static Widget buildHeader(Invoice invoice) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SizedBox(height: 1 * PdfPageFormat.cm),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(height: 1 * PdfPageFormat.cm),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildSupplierAddress(invoice.supplier),
-              Container(
-                height: 50,
-                width: 50,
-                child: BarcodeWidget(
-                  barcode: Barcode.qrCode(),
-                  data: invoice.info.number,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 1 * PdfPageFormat.cm),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildCustomerAddress(invoice.customer),
-              buildInvoiceInfo(invoice.info),
-            ],
+          buildSupplierAddress(invoice.supplier),
+          Container(
+            height: 50,
+            width: 50,
+            child: BarcodeWidget(
+              barcode: Barcode.qrCode(),
+              data: invoice.info.number,
+            ),
           ),
         ],
-      );
+      ),
+      SizedBox(height: 1 * PdfPageFormat.cm),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          buildCustomerAddress(invoice.customer),
+          buildInvoiceInfo(invoice.info),
+        ],
+      ),
+    ],
+  );
 
   static Future<pw.Widget> buildHeader2(Invoice invoice) async {
     final font = await rootBundle.load("fonts/ARIAL.TTF");
@@ -219,12 +219,12 @@ class PdfInvoiceApi {
   }
 
   static Widget buildCustomerAddress(Customer customer) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(customer.name, style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(customer.address),
-        ],
-      );
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(customer.name, style: TextStyle(fontWeight: FontWeight.bold)),
+      Text(customer.address),
+    ],
+  );
 
   static Widget buildInvoiceInfo(InvoiceInfo info) {
     final paymentTerms = '${info.dueDate.difference(info.date).inDays} days';
@@ -248,7 +248,7 @@ class PdfInvoiceApi {
         final value = data[index];
 
         return buildText(title: title, value: value, width: 200, titleStyle: TextStyle(
-          fontSize: 5
+            fontSize: 5
         ));
       }),
     );
@@ -266,40 +266,40 @@ class PdfInvoiceApi {
   }
 
   static Widget buildTitle(Invoice invoice) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'INVOICE',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 0.8 * PdfPageFormat.cm),
-          Text(invoice.info.description),
-          SizedBox(height: 0.8 * PdfPageFormat.cm),
-        ],
-      );
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        'INVOICE',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 0.8 * PdfPageFormat.cm),
+      Text(invoice.info.description),
+      SizedBox(height: 0.8 * PdfPageFormat.cm),
+    ],
+  );
 
   static Widget buildTitle2(Invoice invoice) => Padding(
-    padding: new EdgeInsets.symmetric(horizontal: 15.0),
-    child: Container(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: pw.MainAxisAlignment.start,
-          children: [
-            Text('RECEIPT INFO',
-                style: TextStyle(
-                  fontSize: fontSizeDesc-4,
-                  fontWeight: FontWeight.bold,)
-            ),
-            SizedBox(height: 0.1 * PdfPageFormat.cm),
-            Text('ADDRESS: Sanfran cisco', style: TextStyle(
-                fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
-            Text('PHONE: (+959) 751133553', style: TextStyle(
-                fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
-            SizedBox(height: 0.4 * PdfPageFormat.cm),
-          ],
-        )
-    )
+      padding: new EdgeInsets.symmetric(horizontal: 15.0),
+      child: Container(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: pw.MainAxisAlignment.start,
+            children: [
+              Text('RECEIPT INFO',
+                  style: TextStyle(
+                    fontSize: fontSizeDesc-4,
+                    fontWeight: FontWeight.bold,)
+              ),
+              SizedBox(height: 0.1 * PdfPageFormat.cm),
+              Text('ADDRESS: Sanfran cisco', style: TextStyle(
+                  fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
+              Text('PHONE: (+959) 751133553', style: TextStyle(
+                  fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
+              SizedBox(height: 0.4 * PdfPageFormat.cm),
+            ],
+          )
+      )
   );
 
   static Widget buildInvoice(Invoice invoice, ttfReg, String size) {
@@ -313,7 +313,7 @@ class PdfInvoiceApi {
         'Total'
       ];
       final data = invoice.items.map((item) {
-        final total = item.unitPrice * item.quantity * (1 + item.vat);
+        final total = item.unitPrice * item.quantity;
 
         return [
           // item.date.split('-')[0] == 'unit_name' ?
@@ -363,7 +363,7 @@ class PdfInvoiceApi {
         'Total'
       ];
       final data = invoice.items.map((item) {
-        final total = item.unitPrice * item.quantity * (1 + item.vat);
+        final total = item.unitPrice * item.quantity;
 
         return [
           // item.date.split('-')[0] == 'unit_name' ?
@@ -412,97 +412,125 @@ class PdfInvoiceApi {
         .map((item) => item.unitPrice * item.quantity)
         .reduce((item1, item2) => item1 + item2);
     final vatPercent = invoice.items.first.vat;
-    final vat = netTotal * vatPercent;
-    final total = netTotal + vat;
+    final disType = invoice.items.first.type;
+    final debt = invoice.items.first.debt;
 
+    final vat;
+    disType == '-p' ?  vat = netTotal * (vatPercent/100) : vat = vatPercent ;
+    final total = netTotal - vat;
+    final paid = total - debt;
     return size != 'Roll-57' ?
     Padding(
-      padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
-      child: Container(
-        alignment: Alignment.centerRight,
-        child: Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 4 * PdfPageFormat.mm),
-              child: Container(
-                height: 30,
-                width: 90,
-                child: BarcodeWidget(
-                    barcode: Barcode.code128(),
-                    data: invoice.info.number,
-                    drawText: false
+        padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+        child: Container(
+          alignment: Alignment.centerRight,
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 4 * PdfPageFormat.mm),
+                child: Container(
+                  height: 30,
+                  width: 90,
+                  child: BarcodeWidget(
+                      barcode: Barcode.code128(),
+                      data: invoice.info.number,
+                      drawText: false
+                  ),
                 ),
               ),
-            ),
-            Spacer(),
-            Container(
-              width: pageFormat.width/2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 2.5 * PdfPageFormat.mm),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: buildText(
-                        title: 'Sub total',
-                        value: Utils.formatPrice(netTotal),
-                        unite: true,
-                        titleStyle: TextStyle(
-                            fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
-                        )
-                    ),
-                  ),
-                  SizedBox(height: 1.5 * PdfPageFormat.mm),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: buildText(
-                        title: 'Discount ${vatPercent * 100} %',
-                        value: Utils.formatPrice(vat),
-                        unite: true,
-                        titleStyle: TextStyle(
-                            fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
-                        )
-                    ),
-                  ),
-                  SizedBox(height: 1.5 * PdfPageFormat.mm),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: buildText(
-                        title: 'Total price',
-                        value: Utils.formatPrice(total),
-                        unite: true,
-                        titleStyle: TextStyle(
-                            fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
-                        )
-                    ),
-                  ),
-                  SizedBox(height: .5 * PdfPageFormat.cm),
+              Spacer(),
+              Container(
+                  width: pageFormat.width/2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 2.5 * PdfPageFormat.mm),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: buildText(
+                            title: 'Sub total',
+                            value: Utils.formatPrice(netTotal),
+                            unite: true,
+                            titleStyle: TextStyle(
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                            )
+                        ),
+                      ),
+                      SizedBox(height: 1.5 * PdfPageFormat.mm),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: buildText(
+                            title: disType == '-p'? 'Discount (${vatPercent * 1} %)' : 'Discount',
+                            value: Utils.formatPrice(vat),
+                            unite: true,
+                            titleStyle: TextStyle(
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                            )
+                        ),
+                      ),
+                      SizedBox(height: 1.5 * PdfPageFormat.mm),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: buildText(
+                            title: 'Total price',
+                            value: Utils.formatPrice(total),
+                            unite: true,
+                            titleStyle: TextStyle(
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                            )
+                        ),
+                      ),
+                      SizedBox(height: 1.5 * PdfPageFormat.mm),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: buildText(
+                            title: 'Paid',
+                            value: Utils.formatPrice(paid),
+                            unite: true,
+                            titleStyle: TextStyle(
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                            )
+                        ),
+                      ),
+                      SizedBox(height: 1.5 * PdfPageFormat.mm),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: buildText(
+                            title: 'Total debt',
+                            value: Utils.formatPrice(debt),
+                            unite: true,
+                            titleStyle: TextStyle(
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                            )
+                        ),
+                      ),
+                      SizedBox(height: .5 * PdfPageFormat.cm),
 
 
-                  // Container(decoration: BoxDecoration(
-                  //     border: Border(
-                  //       bottom: BorderSide(
-                  //           width: 1, color: PdfColors.grey800),
-                  //     )),height: 1),
-                  // buildText(
-                  //   title: 'Total amount due',
-                  //   titleStyle: TextStyle(
-                  //       fontSize: fontSizeDesc-6, fontWeight: FontWeight.bold
-                  //   ),
-                  //   value: Utils.formatPrice(total),
-                  //   unite: true,
-                  // ),
-                  // SizedBox(height: 2 * PdfPageFormat.mm),
-                  // Container(height: 1, color: PdfColors.grey400),
-                  // SizedBox(height: 0.5 * PdfPageFormat.mm),
-                  // Container(height: 1, color: PdfColors.grey400),
-                  // SizedBox(height: 1 * PdfPageFormat.cm),
-                ],
-              )
-            ),
-          ],
-        ),
-      )
+                      // Container(decoration: BoxDecoration(
+                      //     border: Border(
+                      //       bottom: BorderSide(
+                      //           width: 1, color: PdfColors.grey800),
+                      //     )),height: 1),
+                      // buildText(
+                      //   title: 'Total amount due',
+                      //   titleStyle: TextStyle(
+                      //       fontSize: fontSizeDesc-6, fontWeight: FontWeight.bold
+                      //   ),
+                      //   value: Utils.formatPrice(total),
+                      //   unite: true,
+                      // ),
+                      // SizedBox(height: 2 * PdfPageFormat.mm),
+                      // Container(height: 1, color: PdfColors.grey400),
+                      // SizedBox(height: 0.5 * PdfPageFormat.mm),
+                      // Container(height: 1, color: PdfColors.grey400),
+                      // SizedBox(height: 1 * PdfPageFormat.cm),
+                    ],
+                  )
+              ),
+            ],
+          ),
+        )
     ):
     Padding(
         padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
@@ -530,7 +558,7 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: buildText(
-                          title: 'Discount ${vatPercent * 100} %',
+                          title:  disType == '-p'? 'Discount (${vatPercent * 1}) %' : 'Discount',
                           value: Utils.formatPrice(vat),
                           unite: true,
                           titleStyle: TextStyle(
@@ -544,6 +572,30 @@ class PdfInvoiceApi {
                       child: buildText(
                           title: 'Total price',
                           value: Utils.formatPrice(total),
+                          unite: true,
+                          titleStyle: TextStyle(
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 1.5 * PdfPageFormat.mm),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: buildText(
+                          title: 'Paid',
+                          value: Utils.formatPrice(paid),
+                          unite: true,
+                          titleStyle: TextStyle(
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 1.5 * PdfPageFormat.mm),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: buildText(
+                          title: 'Total debt',
+                          value: Utils.formatPrice(debt),
                           unite: true,
                           titleStyle: TextStyle(
                               fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -581,15 +633,15 @@ class PdfInvoiceApi {
   }
 
   static Widget buildFooter(Invoice invoice) => Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Divider(),
-          SizedBox(height: 2 * PdfPageFormat.mm),
-          buildSimpleText(title: 'Address', value: invoice.supplier.address),
-          SizedBox(height: 1 * PdfPageFormat.mm),
-          buildSimpleText(title: 'Paypal', value: invoice.supplier.paymentInfo),
-        ],
-      );
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Divider(),
+      SizedBox(height: 2 * PdfPageFormat.mm),
+      buildSimpleText(title: 'Address', value: invoice.supplier.address),
+      SizedBox(height: 1 * PdfPageFormat.mm),
+      buildSimpleText(title: 'Paypal', value: invoice.supplier.paymentInfo),
+    ],
+  );
 
   static buildSimpleText({
     required String title,
