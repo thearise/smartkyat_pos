@@ -144,13 +144,13 @@ class MerchantCartState extends State<MerchantCart>
                             Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'No merchant' : widget.merchantId.split('^')[1],
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
                               ),),
                             Text('Merchant orders',
                               style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
 

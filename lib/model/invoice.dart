@@ -1,5 +1,3 @@
-
-
 import 'package:smartkyat_pos/model/customer.dart';
 import 'package:smartkyat_pos/model/supplier.dart';
 
