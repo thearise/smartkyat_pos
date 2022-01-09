@@ -677,9 +677,9 @@ class _EditProductState extends State<EditProduct> {
                               ),
                             ),
                           ),
-                          (sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1QtyCtrl.text != '0' && sub1SellCtrl.text != '') && (sub2perUnitCtrl.text == '' && sub2UnitNameCtrl.text == '' && sub2QtyCtrl.text == '0' && sub2SellCtrl.text == '')? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) :Container(),
-                          sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1QtyCtrl.text != '0' && sub1SellCtrl.text != '' &&
-                              sub2perUnitCtrl.text != '' && sub2UnitNameCtrl.text != '' && sub2QtyCtrl.text != '0' && sub2SellCtrl.text != ''? Column(
+                          (sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1SellCtrl.text != '') && (sub2perUnitCtrl.text == '' && sub2UnitNameCtrl.text == '' &&  sub2SellCtrl.text == '')? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) :Container(),
+                          sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1SellCtrl.text != '' &&
+                              sub2perUnitCtrl.text != '' && sub2UnitNameCtrl.text != '' && sub2SellCtrl.text != ''? Column(
                             children: [
                               createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
                               createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
