@@ -233,27 +233,93 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       color: Colors.grey.withOpacity(0.2),
                                       width: 1.0),
                                   color: AppTheme.lightBgColor),
-                              height:  100,
+                              height:  133,
                               width: MediaQuery.of(context).size.width,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Total Debt Amount', style: TextStyle(
+                                  Text('Debt Remaining - MMK', style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.grey,
                                   )),
                                   SizedBox(height: 3),
-                                  Text('MMK ' + widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
+                                  Text( debtAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
                                     fontSize: 23, fontWeight: FontWeight.w500,
                                   )),
                                 ],
                               )),
                           SizedBox(height: 20),
-                          Text('MMK: Amount received', style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500,
-                          )),
+                          Text('CASH RECEIVED', style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            letterSpacing: 2,
+                            color: Colors.grey,
+                          ),),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return ' This field is required ';
+                              }
+                              // prodFieldsValue.add(value);
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              enabledBorder: const OutlineInputBorder(
+                                // width: 0.0 produces a thin "hairline" border
+                                  borderSide: const BorderSide(
+                                      color: AppTheme.skBorderColor, width: 2.0),
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                              focusedBorder: const OutlineInputBorder(
+                                // width: 0.0 produces a thin "hairline" border
+                                  borderSide: const BorderSide(
+                                      color: AppTheme.themeColor, width: 2.0),
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                              suffixText: 'MMK',
+                              suffixStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                                fontFamily: 'capsulesans',
+                              ),
+                              errorStyle: TextStyle(
+                                  backgroundColor: Colors.white,
+                                  fontSize: 12,
+                                  fontFamily: 'capsulesans',
+                                  height: 0.1
+                              ),
+                              labelStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                              // errorText: 'Error message',
+                              labelText: 'Custom price',
+                              floatingLabelBehavior: FloatingLabelBehavior.auto,
+                              //filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              setState(() {
+                                value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                                if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
+                                  debtAmount = 0;
+                                } else { debtAmount = (double.parse(widget.debt.toString()) - paidAmount);
+                                }
+                                if((paidAmount - double.parse(widget.debt.toString())).isNegative){
+                                  refund = 0;
+                                } else { refund = (paidAmount - double.parse(widget.debt.toString()));
+                                }
+                              });
+                            },
+                            controller: _textFieldController,
+                          ),
                           SizedBox(height: 20),
                           ButtonTheme(
                       minWidth: double.infinity,
@@ -265,7 +331,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(7.0),
                           side: BorderSide(
-                            color: Colors.grey.withOpacity(0.85),
+                            color: AppTheme.buttonColor2,
                           ),
                         ),
                         onPressed: () async {
@@ -290,90 +356,90 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                         ),
                       ),
                     ),
-                          SizedBox(height: 20),
-                          Text('(OR)', style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500,
-                          )),
-                          SizedBox(height: 20),
-                          Text('Type other amount', style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500,
-                          )),
-                          SizedBox(height: 20),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return ' This field is required ';
-                        }
-                        // prodFieldsValue.add(value);
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.skBorderColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                        focusedBorder: const OutlineInputBorder(
-                          // width: 0.0 produces a thin "hairline" border
-                            borderSide: const BorderSide(
-                                color: AppTheme.themeColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                        contentPadding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                        suffixText: 'MMK',
-                        suffixStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontFamily: 'capsulesans',
-                        ),
-                        errorStyle: TextStyle(
-                            backgroundColor: Colors.white,
-                            fontSize: 12,
-                            fontFamily: 'capsulesans',
-                            height: 0.1
-                        ),
-                        labelStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        // errorText: 'Error message',
-                        labelText: 'other amount',
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        //filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                          if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
-                            debtAmount = 0;
-                          } else { debtAmount = (double.parse(widget.debt.toString()) - paidAmount);
-                          }
-                          if((paidAmount - double.parse(widget.debt.toString())).isNegative){
-                            refund = 0;
-                          } else { refund = (paidAmount - double.parse(widget.debt.toString()));
-                          }
-                        });
-                      },
-                      controller: _textFieldController,
-                    ),
+                    //       SizedBox(height: 20),
+                    //       Text('(OR)', style: TextStyle(
+                    //         fontSize: 16, fontWeight: FontWeight.w500,
+                    //       )),
+                    //       SizedBox(height: 20),
+                    //       Text('Type other amount', style: TextStyle(
+                    //         fontSize: 16, fontWeight: FontWeight.w500,
+                    //       )),
+                    //       SizedBox(height: 20),
+                    // TextFormField(
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return ' This field is required ';
+                    //     }
+                    //     // prodFieldsValue.add(value);
+                    //     return null;
+                    //   },
+                    //   decoration: InputDecoration(
+                    //     enabledBorder: const OutlineInputBorder(
+                    //       // width: 0.0 produces a thin "hairline" border
+                    //         borderSide: const BorderSide(
+                    //             color: AppTheme.skBorderColor, width: 2.0),
+                    //         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    //
+                    //     focusedBorder: const OutlineInputBorder(
+                    //       // width: 0.0 produces a thin "hairline" border
+                    //         borderSide: const BorderSide(
+                    //             color: AppTheme.themeColor, width: 2.0),
+                    //         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    //     contentPadding: const EdgeInsets.only(
+                    //         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                    //     suffixText: 'MMK',
+                    //     suffixStyle: TextStyle(
+                    //       color: Colors.grey,
+                    //       fontSize: 12,
+                    //       fontFamily: 'capsulesans',
+                    //     ),
+                    //     errorStyle: TextStyle(
+                    //         backgroundColor: Colors.white,
+                    //         fontSize: 12,
+                    //         fontFamily: 'capsulesans',
+                    //         height: 0.1
+                    //     ),
+                    //     labelStyle: TextStyle(
+                    //       fontWeight: FontWeight.w500,
+                    //       color: Colors.black,
+                    //     ),
+                    //     // errorText: 'Error message',
+                    //     labelText: 'other amount',
+                    //     floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    //     //filled: true,
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10),
+                    //     ),
+                    //   ),
+                    //   keyboardType: TextInputType.number,
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                    //       if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
+                    //         debtAmount = 0;
+                    //       } else { debtAmount = (double.parse(widget.debt.toString()) - paidAmount);
+                    //       }
+                    //       if((paidAmount - double.parse(widget.debt.toString())).isNegative){
+                    //         refund = 0;
+                    //       } else { refund = (paidAmount - double.parse(widget.debt.toString()));
+                    //       }
+                    //     });
+                    //   },
+                    //   controller: _textFieldController,
+                    // ),
                           SizedBox(height: 20,),
-                          Center(
-                            child: Text('Debt Remaining - ' + debtAmount.toString(), style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500,
-                            )),
-                          ),
+                          // Center(
+                          //   child: Text('Debt Remaining - ' + debtAmount.toString(), style: TextStyle(
+                          //     fontSize: 16, fontWeight: FontWeight.w500,
+                          //   )),
+                          // ),
                         ],
                       ),
 
                     ),
 
                 Padding(
-                  padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                  padding: const EdgeInsets.only(right: 15.0, left:15.0, bottom: 15.0),
                   child: ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width,
                     splashColor: Colors.transparent,
