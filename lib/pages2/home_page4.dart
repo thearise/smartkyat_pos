@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert' show base64, latin1, utf8;
 import 'dart:io';
 import 'dart:typed_data';
@@ -13,6 +14,7 @@ import 'package:blue_print_pos/receipt/receipt_text_style_type.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:charset_converter/charset_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:device_info/device_info.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:dropdown_below/dropdown_below.dart';
@@ -238,15 +240,15 @@ class HomePageState extends State<HomePage>
   Stream<QuerySnapshot>? lowStockSnapshot;
 
   @override
-  void initState() {
+  initState() {
     _textFieldControllerTablet.addListener((){
       print("value: ${_textFieldControllerTablet.text}");
       setState(() {
         totalAmount = double.parse(TtlProdListPrice());
         _textFieldControllerTablet.text != '' ? paidAmount = double.parse(_textFieldControllerTablet.text) : paidAmount = 0.0;
-        if((totalAmount - paidAmount).isNegative){
+        if((totalAmount - paidAmount).isNegative) {
           debt = 0;
-        } else { debt = (totalAmount - paidAmount);
+        } else {debt = (totalAmount - paidAmount);
         }
         if((paidAmount - totalAmount).isNegative){
           refund = 0;
@@ -2241,8 +2243,8 @@ class HomePageState extends State<HomePage>
                                                                                                   child: Row(
                                                                                                     children: [
                                                                                                       Container(
-                                                                                                        height: 55,
-                                                                                                        width: 55,
+                                                                                                        height: 58,
+                                                                                                        width: 58,
                                                                                                         decoration: BoxDecoration(
                                                                                                             borderRadius:
                                                                                                             BorderRadius.circular(
@@ -2260,14 +2262,12 @@ class HomePageState extends State<HomePage>
                                                                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                                                                         children: [
-                                                                                                          Text((customerId.split('^')[1] != null && customerId.split('^')[1].toString() == 'name') ? 'Unknown' : customerId.split('^')[1] , style: TextStyle(
-                                                                                                            fontSize: 17, fontWeight: FontWeight.w600
-                                                                                                          )),
-                                                                                                          Text((address != null && customerId.split('^')[1] != null && customerId.split('^')[1].toString() == 'name') ? 'Unknown' : address,
-                                                                                                              style: TextStyle(
-                                                                                                                fontSize: 14,
-                                                                                                                color: Colors.grey
-                                                                                                              )),
+                                                                                                          Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                                                          // Text((address != null && customerId.split('^')[1] != null && customerId.split('^')[1].toString() == 'name') ? 'Unknown' : address,
+                                                                                                          //     style: TextStyle(
+                                                                                                          //       fontSize: 14,
+                                                                                                          //       color: Colors.grey
+                                                                                                          //     )),
                                                                                                         ],
                                                                                                       )
                                                                                                     ],
@@ -2738,7 +2738,7 @@ class HomePageState extends State<HomePage>
                                                                             child: Column(
                                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                                               children: [
-                                                                                Text(customerId.split('^')[1] == 'name'? 'Customer':customerId.split('^')[1], style: TextStyle(
+                                                                                Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
                                                                                   fontWeight: FontWeight.w500,
                                                                                   color: Colors.grey
                                                                                 )),
@@ -2769,15 +2769,15 @@ class HomePageState extends State<HomePage>
                                                                                         children: [
                                                                                           SizedBox(height: 30),
                                                                                           Container(
-                                                                                            // decoration: BoxDecoration(
-                                                                                            //     // borderRadius: BorderRadius.all(
-                                                                                            //     //   Radius.circular(10.0),
-                                                                                            //     // ),
-                                                                                            //     // border: Border.all(
-                                                                                            //     //     color: Colors.grey.withOpacity(0.2),
-                                                                                            //     //     width: 1.0),
-                                                                                            //     color: AppTheme.lightBgColor),
-                                                                                            // height:  100,
+                                                                                              decoration: BoxDecoration(
+                                                                                                  borderRadius: BorderRadius.all(
+                                                                                                    Radius.circular(10.0),
+                                                                                                  ),
+                                                                                                  border: Border.all(
+                                                                                                      color: Colors.grey.withOpacity(0.2),
+                                                                                                      width: 1.0),
+                                                                                                  color: AppTheme.lightBgColor),
+                                                                                              height:  133,
                                                                                               width: MediaQuery.of(context).size.width,
                                                                                               child: Column(
                                                                                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -2786,13 +2786,15 @@ class HomePageState extends State<HomePage>
                                                                                                   Text('Total sale - MMK',
                                                                                                       textAlign: TextAlign.center,
                                                                                                       style: TextStyle(
-                                                                                                          fontSize: 30, fontWeight: FontWeight.w700
+                                                                                                        fontSize: 20,
+                                                                                                        fontWeight: FontWeight.w500,
+                                                                                                        color: Colors.grey,
                                                                                                       )),
                                                                                                   SizedBox(height: 3),
                                                                                                   Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                                       textAlign: TextAlign.center,
                                                                                                       style: TextStyle(
-                                                                                                          fontSize: 30, fontWeight: FontWeight.w700
+                                                                                                        fontSize: 23, fontWeight: FontWeight.w500,
                                                                                                       )),
                                                                                                 ],
                                                                                               )),
@@ -3241,7 +3243,9 @@ class HomePageState extends State<HomePage>
                                                                                                                 // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
                                                                                                                 date: subNameList[i].toString(),
                                                                                                                 quantity: int.parse(prodList[i].split('^')[4]),
-                                                                                                                vat: 0,
+                                                                                                                vat: discountAmount,
+                                                                                                                type: disText,
+                                                                                                                debt: debt,
                                                                                                                 unitPrice: double.parse(prodList[i].split('^')[2]),
                                                                                                               )
 
@@ -3920,22 +3924,13 @@ class HomePageState extends State<HomePage>
 
                                                                               ],
                                                                             ) :
-                                                                            Container(
-                                                                              height: MediaQuery.of(context).size.height/1.5,
-                                                                              width: MediaQuery.of(context).size.width,
-                                                                              color: Colors.white,
-                                                                              child: Column(
-                                                                                children: [
-                                                                                  Expanded(
-                                                                                    child: Center(
-                                                                                      child: Padding(
-                                                                                        padding: const EdgeInsets.only(bottom: 15.0),
-                                                                                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                            child: CupertinoActivityIndicator(radius: 15,)),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
+                                                                            Expanded(
+                                                                              child: Center(
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(bottom: 15.0),
+                                                                                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                      child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ],
@@ -4502,15 +4497,56 @@ class HomePageState extends State<HomePage>
                                                       },
                                                       child: Row(
                                                         children: [
-                                                          Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'pro': 'free'),
+                                                          // Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'Pro': 'Free'),
+                                                          //SizedBox(width:15),
                                                           Padding(
                                                             padding: const EdgeInsets.only(
-                                                                right: 13.0,top:2.0
+                                                                right: 15.0, left: 10.0
                                                             ),
-                                                            child: Container(
-                                                                child: Image.asset('assets/system/menu.png', height: 33,)
-                                                            ),
+                                                            child: StreamBuilder(
+                                                        stream: Connectivity().onConnectivityChanged,
+                                                        builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
+                                                        if (!snapShot.hasData)
+                                                          return Center(
+                                                         child: Icon(
+                                                         Icons.cloud_off_rounded,
+                                                          size: 25,
+                                                          color: Colors.black,
                                                           ),
+                                                         );
+                                                         var result = snapShot.data;
+                                                         switch (result) {
+                                                           case ConnectivityResult.none:
+                                                             
+                                                           return Center(
+                                                           child: Icon(
+                                                           Icons.cloud_off_rounded,
+                                                           size: 25,
+                                                           color: Colors.black,
+                                                           ),
+                                                           );
+                                                           case ConnectivityResult.mobile:
+                                                         case ConnectivityResult.wifi:
+                                                          
+                                                          return Center(
+                                                         child: Icon(
+                                                         Icons.cloud_rounded,
+                                                          size: 25,
+                                                          color: Colors.black,
+                                                            ),
+                                                          );
+                                                           default:
+                                                          return Center(
+                                                           child: Icon(
+                                                          Icons.cloud_off_rounded,
+                                                            size: 25,
+                                                          color: Colors.black,
+                                                             ),
+                                                            );
+                                                           }
+
+                                                          })
+                                                                          ),
                                                         ],
                                                       ),
                                                     )
@@ -6339,8 +6375,8 @@ class HomePageState extends State<HomePage>
                                                                       child: Row(
                                                                         children: [
                                                                           Container(
-                                                                            height: 55,
-                                                                            width: 55,
+                                                                            height: 58,
+                                                                            width: 58,
                                                                             decoration: BoxDecoration(
                                                                                 borderRadius:
                                                                                 BorderRadius.circular(
@@ -6358,14 +6394,12 @@ class HomePageState extends State<HomePage>
                                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                                             children: [
-                                                                              Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : customerId.split('^')[1] , style: TextStyle(
-                                                                                fontSize: 17, fontWeight: FontWeight.w600
-                                                                              )),
-                                                                              Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                                  style: TextStyle(
-                                                                                    fontSize: 14,
-                                                                                    color: Colors.grey
-                                                                                  )),
+                                                                              Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                              // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                              //     style: TextStyle(
+                                                                              //       fontSize: 14,
+                                                                              //       color: Colors.grey
+                                                                              //     )),
                                                                             ],
                                                                           )
                                                                         ],
@@ -6882,7 +6916,7 @@ class HomePageState extends State<HomePage>
                                                 child: Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(customerId.split('^')[1] == 'name'? 'Customer':customerId.split('^')[1], style: TextStyle(
+                                                    Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
                                                       fontWeight: FontWeight.w500,
                                                       color: Colors.grey
                                                     )),
@@ -6903,25 +6937,22 @@ class HomePageState extends State<HomePage>
                                               child: Container(
                                                   child: ListView(
                                                     children: [
-                                                      SizedBox(
-                                                        height: 15,
-                                                      ),
                                                       Padding(
                                                         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                                                         child: Column(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              SizedBox(height: 30),
+                                                              SizedBox(height: 15),
                                                               Container(
-                                                                // decoration: BoxDecoration(
-                                                                //     // borderRadius: BorderRadius.all(
-                                                                //     //   Radius.circular(10.0),
-                                                                //     // ),
-                                                                //     // border: Border.all(
-                                                                //     //     color: Colors.grey.withOpacity(0.2),
-                                                                //     //     width: 1.0),
-                                                                //     color: AppTheme.lightBgColor),
-                                                                // height:  100,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.all(
+                                                                      Radius.circular(10.0),
+                                                                    ),
+                                                                    border: Border.all(
+                                                                        color: Colors.grey.withOpacity(0.2),
+                                                                        width: 1.0),
+                                                                    color: AppTheme.lightBgColor),
+                                                                height:  133,
                                                                   width: MediaQuery.of(context).size.width,
                                                                   child: Column(
                                                                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -6930,23 +6961,25 @@ class HomePageState extends State<HomePage>
                                                                       Text('Total sale - MMK',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                              fontSize: 30, fontWeight: FontWeight.w700
+                                                                            fontSize: 20,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.grey,
                                                                           )),
                                                                       SizedBox(height: 3),
                                                                       Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                              fontSize: 30, fontWeight: FontWeight.w700
+                                                                            fontSize: 23, fontWeight: FontWeight.w500,
                                                                           )),
                                                                     ],
                                                                   )),
-                                                              SizedBox(height: 40),
+                                                              SizedBox(height: 15),
                                                               Text('CASH RECEIVED', style: TextStyle(
                                                                 letterSpacing: 2,
                                                                 fontWeight: FontWeight.bold,
                                                                 fontSize: 14,color: Colors.grey,
                                                               ),),
-                                                              SizedBox(height: 13),
+                                                              SizedBox(height: 15),
                                                               TextField(
                                                                 style: TextStyle(
                                                                     height: 0.95
@@ -7015,7 +7048,7 @@ class HomePageState extends State<HomePage>
                                                                 },
                                                                 controller: _textFieldController,
                                                               ),
-                                                              SizedBox(height: 20),
+                                                              SizedBox(height: 15),
 
                                                               ButtonTheme(
                                                                 minWidth: double.infinity,
@@ -7356,7 +7389,9 @@ class HomePageState extends State<HomePage>
                                                                                       // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
                                                                                       date: subNameList[i].toString(),
                                                                                       quantity: int.parse(prodList[i].split('^')[4]),
-                                                                                      vat: 0,
+                                                                                      vat: discountAmount,
+                                                                                      debt: debt,
+                                                                                      type: disText,
                                                                                       unitPrice: double.parse(prodList[i].split('^')[2]),
                                                                                     )
 
@@ -8122,22 +8157,13 @@ class HomePageState extends State<HomePage>
 
                                               ],
                                             ) :
-                                            Container(
-                                              height: MediaQuery.of(context).size.height/1.5,
-                                              width: MediaQuery.of(context).size.width,
-                                              color: Colors.white,
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                    child: Center(
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(bottom: 15.0),
-                                                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                            child: CupertinoActivityIndicator(radius: 15,)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                            Expanded(
+                                              child: Center(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(bottom: 15.0),
+                                                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                      child: CupertinoActivityIndicator(radius: 15,)),
+                                                ),
                                               ),
                                             ),
                                           ],

@@ -419,22 +419,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                           // print(output1?['subs'].toString());
                           if(output1?['subs'] == null) {
                             //smartKyatFlash('Internet connection is required to take this action.', 'w');
-                            return Container(
-                              height: MediaQuery.of(context).size.height/1.5,
-                              width: MediaQuery.of(context).size.width,
-                              color: Colors.white,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 15.0),
-                                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                            child: CupertinoActivityIndicator(radius: 15,)),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            return Expanded(
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 15.0),
+                                  child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                      child: CupertinoActivityIndicator(radius: 15,)),
+                                ),
                               ),
                             );
                           }
@@ -1202,24 +1193,15 @@ class _BuyListInfoState extends State<BuyListInfo>
                           );
                         }
 
-                       return Container(
-                          height: MediaQuery.of(context).size.height/1.5,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 15.0),
-                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                        child: CupertinoActivityIndicator(radius: 15,)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                       return Expanded(
+                         child: Center(
+                           child: Padding(
+                             padding: const EdgeInsets.only(bottom: 15.0),
+                             child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                 child: CupertinoActivityIndicator(radius: 15,)),
+                           ),
+                         ),
+                       );
                       })
               ])),
     );

@@ -141,7 +141,7 @@ class MerchantCartState extends State<MerchantCart>
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('^')[1],
+                            Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'No merchant' : widget.merchantId.split('^')[1],
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
@@ -378,8 +378,8 @@ class MerchantCartState extends State<MerchantCart>
                                   child: Row(
                                     children: [
                                       Container(
-                                        height: 55,
-                                        width: 55,
+                                        height: 58,
+                                        width: 58,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                             BorderRadius.circular(
@@ -398,14 +398,14 @@ class MerchantCartState extends State<MerchantCart>
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('^')[1] , style: TextStyle(
+                                          Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'No merchant' : widget.merchantId.split('^')[1] , style: TextStyle(
                                             fontSize: 17, fontWeight: FontWeight.w600,
                                           )),
-                                          Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey,
-                                              )),
+                                          // Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                          //     style: TextStyle(
+                                          //       fontSize: 14,
+                                          //       color: Colors.grey,
+                                          //     )),
                                         ],
                                       )
                                     ],
@@ -1862,7 +1862,7 @@ class MerchantCartState extends State<MerchantCart>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('^')[1],
+                                    Text(widget.merchantId.split('^')[1].toString() == 'name' ? 'No merchant' : widget.merchantId.split('^')[1],
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
@@ -1874,12 +1874,10 @@ class MerchantCartState extends State<MerchantCart>
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-
                                   ],
                                 ),
                               ],
                             ),
-
                           ),
                         ),
                         Container(
@@ -1912,7 +1910,7 @@ class MerchantCartState extends State<MerchantCart>
                                               color: Colors.grey.withOpacity(0.2),
                                               width: 1.0),
                                           color: AppTheme.lightBgColor),
-                                      height:  100,
+                                      height:  133,
                                       width: MediaQuery.of(context).size.width,
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -1929,78 +1927,13 @@ class MerchantCartState extends State<MerchantCart>
                                           )),
                                         ],
                                       )),
-                                  SizedBox(height: 20),
-                                  Text('MMK: Amount received', style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w500,
-                                  )),
-                                  SizedBox(height: 20),
-                                  ButtonTheme(
-                                    minWidth: double.infinity,
-                                    //minWidth: 50,
-                                    splashColor: AppTheme.buttonColor2,
-                                    height: 50,
-                                    child: FlatButton(
-                                      color: AppTheme.buttonColor2,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7.0),
-                                        side: BorderSide(
-                                          color: Colors.grey.withOpacity(0.85),
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        setState(() {
-                                          mystate(() {
-                                            totalAmount2 =
-                                                double
-                                                    .parse(
-                                                    TtlProdListPrice2());
-                                            _textFieldController2
-                                                .text =
-                                                totalAmount2
-                                                    .toString();
-                                            paidAmount2 =
-                                                totalAmount2;
-                                            if ((totalAmount2 -
-                                                paidAmount2)
-                                                .isNegative) {
-                                              debt2 = 0;
-                                            } else {
-                                              debt2 =
-                                              (totalAmount2 -
-                                                  paidAmount2);
-                                            }
-                                            if ((paidAmount2 -
-                                                totalAmount2)
-                                                .isNegative) {
-                                              refund2 =
-                                              0;
-                                            } else {
-                                              refund2 =
-                                              (paidAmount2 -
-                                                  totalAmount2);
-                                            }
-                                          }); });
-                                      },
-                                      child: Container(
-                                        child: Text( 'MMK ' +
-                                            TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  Text('(OR)', style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w500,
-                                  )),
-                                  SizedBox(height: 20),
-                                  Text('Type other amount', style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w500,
-                                  )),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 15),
+                                  Text('CASH RECEIVED',style: TextStyle(
+                                      letterSpacing: 2,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,color: Colors.grey
+                                  ),),
+                                  SizedBox(height: 15),
                                   TextField(
                                     decoration: InputDecoration(
                                       enabledBorder: const OutlineInputBorder(
@@ -2051,6 +1984,65 @@ class MerchantCartState extends State<MerchantCart>
                                         });});
                                     },
                                     controller: _textFieldController2,
+                                  ),
+                                  SizedBox(height: 15),
+                                  ButtonTheme(
+                                    minWidth: double.infinity,
+                                    //minWidth: 50,
+                                    splashColor: AppTheme.buttonColor2,
+                                    height: 50,
+                                    child: FlatButton(
+                                      color: AppTheme.buttonColor2,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7.0),
+                                        side: BorderSide(
+                                          color: AppTheme.buttonColor2,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        setState(() {
+                                          mystate(() {
+                                            totalAmount2 =
+                                                double
+                                                    .parse(
+                                                    TtlProdListPrice2());
+                                            _textFieldController2
+                                                .text =
+                                                totalAmount2
+                                                    .toString();
+                                            paidAmount2 =
+                                                totalAmount2;
+                                            if ((totalAmount2 -
+                                                paidAmount2)
+                                                .isNegative) {
+                                              debt2 = 0;
+                                            } else {
+                                              debt2 =
+                                              (totalAmount2 -
+                                                  paidAmount2);
+                                            }
+                                            if ((paidAmount2 -
+                                                totalAmount2)
+                                                .isNegative) {
+                                              refund2 =
+                                              0;
+                                            } else {
+                                              refund2 =
+                                              (paidAmount2 -
+                                                  totalAmount2);
+                                            }
+                                          }); });
+                                      },
+                                      child: Container(
+                                        child: Text( 'MMK ' +
+                                            TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ]
                             ),

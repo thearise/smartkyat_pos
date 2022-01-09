@@ -37,6 +37,8 @@ class InvoiceItem {
   final int quantity;
   final double vat;
   final double unitPrice;
+  final String type;
+  final double debt;
 
   const InvoiceItem({
     required this.description,
@@ -44,5 +46,7 @@ class InvoiceItem {
     required this.quantity,
     required this.vat,
     required this.unitPrice,
+    required this.type,
+    required this.debt,
   });
 }
