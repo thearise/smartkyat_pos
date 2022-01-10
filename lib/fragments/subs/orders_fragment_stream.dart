@@ -1333,7 +1333,7 @@ class OrdersFragmentStreamState extends State<OrdersFragmentStream>
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), togG2Cart: () {  },)),
                                         );
                                       },
                                       child: Stack(
@@ -1565,7 +1565,7 @@ class OrdersFragmentStreamState extends State<OrdersFragmentStream>
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), togG2Cart: () {  },)),
                                         );
                                       },
                                       child: Stack(
@@ -1797,7 +1797,7 @@ class OrdersFragmentStreamState extends State<OrdersFragmentStream>
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), togG2Cart: () {  },)),
                                         );
                                       },
                                       child: Stack(
@@ -2029,7 +2029,7 @@ class OrdersFragmentStreamState extends State<OrdersFragmentStream>
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                              builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), togG2Cart: () {  },)),
                                         );
                                       },
                                       child: Stack(
