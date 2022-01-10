@@ -8,7 +8,8 @@ import 'customer_orders_info2.dart';
 
 class CustomerInfoSubs extends StatefulWidget {
   final _callback;
-  const CustomerInfoSubs({Key? key, required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback;
+  final _closeCartBtn;
+  const CustomerInfoSubs({Key? key, required void closeCartBtn(), required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn;
   final String id;
   final String shopId;
 
@@ -95,15 +96,15 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                        //color: Colors.grey,
                                       ),
                                     ),
                                     Text(
                                       customerName,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -282,10 +283,11 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                             Spacer(),
                                             GestureDetector(
                                               onTap: () {
+                                                widget._closeCartBtn();
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone)),);
+                                                      builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone, closeCartBtn: widget._closeCartBtn,)),);
                                               },
                                               child: Text(
                                                 'EDIT',

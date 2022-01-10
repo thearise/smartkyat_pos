@@ -31,14 +31,16 @@ class CustomersFragment extends StatefulWidget {
   final _barcodeBtn;
   final _searchBtn;
   final addCust;
+  final _closeCartBtn;
 
   CustomersFragment({
+    required void closeCartBtn(),
     required void toggleCoinCallback6(),
     required void searchBtn(),
     required this.customersSnapshot,
     required this.shopId,
     required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),Key? key,
-    }) : addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4,super(key: key);
+    }) : _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4,super(key: key);
   final String shopId;
   final customersSnapshot;
   @override
@@ -3802,7 +3804,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                           id: version,
-                                                          toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(),)),
+                                                          toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn,)),
                                             );
                                           },
                                           child: Padding(
@@ -4004,7 +4006,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                         id: version,
-                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(),)),
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn,)),
                                             );
                                           },
                                           child: Padding(

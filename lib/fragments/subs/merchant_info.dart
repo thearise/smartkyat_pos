@@ -12,9 +12,11 @@ import 'merchant_orders_info2.dart';
 
 class MerchantInfoSubs extends StatefulWidget {
   final _callback;
-  const MerchantInfoSubs({Key? key, required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback;
+  final _closeCartBtn;
+  const MerchantInfoSubs({Key? key,required void closeCartBtn(), required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn;
   final String id;
   final String shopId;
+
 
   @override
   _MerchantInfoSubsState createState() => _MerchantInfoSubsState();
@@ -92,15 +94,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                     Text(
                                       merchantName,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -280,10 +281,11 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                             Spacer(),
                                             GestureDetector(
                                               onTap: () {
+                                                widget._closeCartBtn();
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone)),);
+                                                      builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone, closeCartBtn: widget._closeCartBtn,)),);
                                               },
                                               child: Text(
                                                 'EDIT',
@@ -348,8 +350,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                                         fontWeight: FontWeight.w500,
                                                       ),),
                                                       Spacer(),
-                                                      Text(phone, style:
-                                                      TextStyle(
+                                                      Text(phone, style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey,
