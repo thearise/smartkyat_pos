@@ -285,7 +285,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), togG2Cart: () {  },)),
                           );
                         },
                         child: Stack(
@@ -509,7 +509,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), togG2Cart: () {  },)),
                           );
                         },
                         child: Stack(
@@ -733,7 +733,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), togG2Cart: () {  },)),
                           );
                         },
                         child: Stack(
@@ -957,7 +957,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), togG2Cart: () {  },)),
                           );
                         },
                         child: Stack(

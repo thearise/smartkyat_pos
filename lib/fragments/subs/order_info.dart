@@ -21,9 +21,11 @@ import 'package:dotted_line/dotted_line.dart';
 
 class OrderInfoSub extends StatefulWidget {
   final _callback;
+  final _togG2Cart;
   const OrderInfoSub(
-      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback()})
-      : _callback = toggleCoinCallback;
+      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback(), required void togG2Cart()})
+      : _callback = toggleCoinCallback,
+        _togG2Cart = togG2Cart;
   final String data;
   final String shopId;
 
@@ -415,10 +417,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     ),
                                                   ),
                                                   onPressed: () async {
+                                                    widget._togG2Cart();
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString()))
+                                                            builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
                                                     );
                                                   },
                                                   child: Container(
@@ -579,6 +582,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                       if (snapshot2.hasData) {
                                         var output2 = snapshot2.data!.data();
                                         var image = output2?['img_1'];
+                                        print('image htwet ' + prodListView[i].toString());
 
                                         return  Stack(
                                           children: [
@@ -593,7 +597,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         BorderRadius
                                                             .circular(
                                                             5.0),
-                                                        child: image != ""
+                                                        child: image != "" || image != null
                                                             ? CachedNetworkImage(
                                                           imageUrl:
                                                           'https://riftplus.me/smartkyat_pos/api/uploads/' +

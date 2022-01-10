@@ -54,14 +54,123 @@ class _PayDebtItemsState extends State<PayDebtItems> {
     super.initState();
   }
 
+  bool firstTime = true;
+  double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: SafeArea(
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
+    // bottomNavigationBar: Padding(
+    //   padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+    //   child: Container(
+    //     color: Colors.white,
+    //     child: Padding(
+    //       padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+    //       child: ButtonTheme(
+    //         minWidth: MediaQuery.of(context).size.width,
+    //         splashColor: Colors.transparent,
+    //         height: 50,
+    //         child: FlatButton(
+    //           color: AppTheme.themeColor,
+    //           shape: RoundedRectangleBorder(
+    //             borderRadius:
+    //             BorderRadius.circular(10.0),
+    //             side: BorderSide(
+    //               color: AppTheme.themeColor,
+    //             ),
+    //           ),
+    //           onPressed: () async {
+    //             if (_formKey.currentState!.validate()) {
+    //               String dataRm = widget.data.split('^')[0] +
+    //                   '^' +
+    //                   widget.data.split('^')[1] +
+    //                   '^' +
+    //                   widget.data.split('^')[2] +
+    //                   '^' +
+    //                   widget.data.split('^')[3].split('&')[1] +
+    //                   '^' +
+    //                   widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
+    //               String data = widget.data.split('^')[0] +
+    //                   '^' +
+    //                   widget.data.split('^')[1] +
+    //                   '^' +
+    //                   widget.data.split('^')[2] +
+    //                   '^' +
+    //                   widget.data.split('^')[3].split('&')[1] +
+    //                   '^' +
+    //                   widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
+    //
+    //               CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
+    //               CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
+    //               CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
+    //
+    //               dailyOrders.doc(widget.documentId).update({
+    //                 'daily_order':
+    //                 FieldValue.arrayRemove([dataRm])
+    //               }).then((value) {print('array removed');})
+    //                   .catchError((error) => print("Failed to update user: $error"));
+    //
+    //               dailyOrders.doc(widget.documentId).update({
+    //                 'daily_order':
+    //                 FieldValue.arrayUnion([data])
+    //               }).then((value) { print('array updated');})
+    //                   .catchError((error) => print("Failed to update user: $error"));
+    //
+    //               order.doc(
+    //                   widget.docId)
+    //                   .update({
+    //                 'debt' : debtAmount
+    //               })
+    //                   .then((value) => print("User Updated"))
+    //                   .catchError((error) => print("Failed to update user: $error"));
+    //
+    //               double debts = 0;
+    //               if(debtAmount == 0.0) {
+    //                 debts = 1;
+    //               } else debts = 0;
+    //               if( widget.data.split('^')[3].split('&')[1] !='name') {
+    //                 customerDebt.doc(
+    //                     widget.data.split('^')[3].split('&')[1])
+    //                     .update({
+    //                   'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
+    //                   'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
+    //                 })
+    //                     .then((value) => print("User Updated"))
+    //                     .catchError((error) => print("Failed to update user: $error"));}
+    //
+    //               _textFieldController.clear();
+    //               Navigator.of(context).popUntil((route) => route.isFirst);
+    //               smartKyatFlash('$debtAmount MMK is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
+    //             } },
+    //           child: Padding(
+    //             padding: const EdgeInsets.only(
+    //                 left: 5.0,
+    //                 right: 5.0,
+    //                 bottom: 2.0),
+    //             child: Container(
+    //               child: Text(
+    //                 'Done',
+    //                 textAlign: TextAlign.center,
+    //                 style: TextStyle(
+    //                     fontSize: 18,
+    //                     fontWeight: FontWeight.w600,
+    //                     letterSpacing:-0.1
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // ),
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
         top: true,
-        bottom: true,
+        bottom: false,
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Column(
@@ -100,7 +209,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                         Spacer(),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                         crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text('MMK ' + widget.data.split('^')[2].toString(),
                               style: TextStyle(
@@ -110,11 +219,11 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                               ),),
                             Text('#' +
                                 widget.data.split('^')[1].toString() + ' - ' + widget.data.split('^')[3].split('&')[0].toString(),
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
                           ],
                         ),
                         // Container(
@@ -211,19 +320,17 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 15,
-            ),
-            Form(
-              key: _formKey,
-              child: Expanded(
-                child: ListView(
-                  children: [
-                    Padding(
+            Expanded(
+              child: ListView(
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Padding(
                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(height: 15),
                           Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(
@@ -322,111 +429,111 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                           ),
                           SizedBox(height: 20),
                           ButtonTheme(
-                      minWidth: double.infinity,
-                      //minWidth: 50,
-                      splashColor: AppTheme.buttonColor2,
-                      height: 50,
-                      child: FlatButton(
-                        color: AppTheme.buttonColor2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0),
-                          side: BorderSide(
-                            color: AppTheme.buttonColor2,
-                          ),
-                        ),
-                        onPressed: () async {
-                          setState(() {
-                            _textFieldController
-                                .text =
-                                widget.debt
-                                    .toString();
-                            paidAmount = double.parse(widget.debt.toString());
-                            debtAmount = 0;
-                            refund = 0;
-                            });
-                        },
-                        child: Container(
-                          child: Text( 'MMK ' +
-                              widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                            minWidth: double.infinity,
+                            //minWidth: 50,
+                            splashColor: AppTheme.buttonColor2,
+                            height: 50,
+                            child: FlatButton(
+                              color: AppTheme.buttonColor2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0),
+                                side: BorderSide(
+                                  color: AppTheme.buttonColor2,
+                                ),
+                              ),
+                              onPressed: () async {
+                                setState(() {
+                                  _textFieldController
+                                      .text =
+                                      widget.debt
+                                          .toString();
+                                  paidAmount = double.parse(widget.debt.toString());
+                                  debtAmount = 0;
+                                  refund = 0;
+                                });
+                              },
+                              child: Container(
+                                child: Text( 'MMK ' +
+                                    widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    //       SizedBox(height: 20),
-                    //       Text('(OR)', style: TextStyle(
-                    //         fontSize: 16, fontWeight: FontWeight.w500,
-                    //       )),
-                    //       SizedBox(height: 20),
-                    //       Text('Type other amount', style: TextStyle(
-                    //         fontSize: 16, fontWeight: FontWeight.w500,
-                    //       )),
-                    //       SizedBox(height: 20),
-                    // TextFormField(
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return ' This field is required ';
-                    //     }
-                    //     // prodFieldsValue.add(value);
-                    //     return null;
-                    //   },
-                    //   decoration: InputDecoration(
-                    //     enabledBorder: const OutlineInputBorder(
-                    //       // width: 0.0 produces a thin "hairline" border
-                    //         borderSide: const BorderSide(
-                    //             color: AppTheme.skBorderColor, width: 2.0),
-                    //         borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    //
-                    //     focusedBorder: const OutlineInputBorder(
-                    //       // width: 0.0 produces a thin "hairline" border
-                    //         borderSide: const BorderSide(
-                    //             color: AppTheme.themeColor, width: 2.0),
-                    //         borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    //     contentPadding: const EdgeInsets.only(
-                    //         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    //     suffixText: 'MMK',
-                    //     suffixStyle: TextStyle(
-                    //       color: Colors.grey,
-                    //       fontSize: 12,
-                    //       fontFamily: 'capsulesans',
-                    //     ),
-                    //     errorStyle: TextStyle(
-                    //         backgroundColor: Colors.white,
-                    //         fontSize: 12,
-                    //         fontFamily: 'capsulesans',
-                    //         height: 0.1
-                    //     ),
-                    //     labelStyle: TextStyle(
-                    //       fontWeight: FontWeight.w500,
-                    //       color: Colors.black,
-                    //     ),
-                    //     // errorText: 'Error message',
-                    //     labelText: 'other amount',
-                    //     floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //     //filled: true,
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-                    //   keyboardType: TextInputType.number,
-                    //   onChanged: (value) {
-                    //     setState(() {
-                    //       value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                    //       if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
-                    //         debtAmount = 0;
-                    //       } else { debtAmount = (double.parse(widget.debt.toString()) - paidAmount);
-                    //       }
-                    //       if((paidAmount - double.parse(widget.debt.toString())).isNegative){
-                    //         refund = 0;
-                    //       } else { refund = (paidAmount - double.parse(widget.debt.toString()));
-                    //       }
-                    //     });
-                    //   },
-                    //   controller: _textFieldController,
-                    // ),
+                          //       SizedBox(height: 20),
+                          //       Text('(OR)', style: TextStyle(
+                          //         fontSize: 16, fontWeight: FontWeight.w500,
+                          //       )),
+                          //       SizedBox(height: 20),
+                          //       Text('Type other amount', style: TextStyle(
+                          //         fontSize: 16, fontWeight: FontWeight.w500,
+                          //       )),
+                          //       SizedBox(height: 20),
+                          // TextFormField(
+                          //   validator: (value) {
+                          //     if (value == null || value.isEmpty) {
+                          //       return ' This field is required ';
+                          //     }
+                          //     // prodFieldsValue.add(value);
+                          //     return null;
+                          //   },
+                          //   decoration: InputDecoration(
+                          //     enabledBorder: const OutlineInputBorder(
+                          //       // width: 0.0 produces a thin "hairline" border
+                          //         borderSide: const BorderSide(
+                          //             color: AppTheme.skBorderColor, width: 2.0),
+                          //         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                          //
+                          //     focusedBorder: const OutlineInputBorder(
+                          //       // width: 0.0 produces a thin "hairline" border
+                          //         borderSide: const BorderSide(
+                          //             color: AppTheme.themeColor, width: 2.0),
+                          //         borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                          //     contentPadding: const EdgeInsets.only(
+                          //         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                          //     suffixText: 'MMK',
+                          //     suffixStyle: TextStyle(
+                          //       color: Colors.grey,
+                          //       fontSize: 12,
+                          //       fontFamily: 'capsulesans',
+                          //     ),
+                          //     errorStyle: TextStyle(
+                          //         backgroundColor: Colors.white,
+                          //         fontSize: 12,
+                          //         fontFamily: 'capsulesans',
+                          //         height: 0.1
+                          //     ),
+                          //     labelStyle: TextStyle(
+                          //       fontWeight: FontWeight.w500,
+                          //       color: Colors.black,
+                          //     ),
+                          //     // errorText: 'Error message',
+                          //     labelText: 'other amount',
+                          //     floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          //     //filled: true,
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //     ),
+                          //   ),
+                          //   keyboardType: TextInputType.number,
+                          //   onChanged: (value) {
+                          //     setState(() {
+                          //       value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                          //       if((double.parse(widget.debt.toString()) - paidAmount).isNegative){
+                          //         debtAmount = 0;
+                          //       } else { debtAmount = (double.parse(widget.debt.toString()) - paidAmount);
+                          //       }
+                          //       if((paidAmount - double.parse(widget.debt.toString())).isNegative){
+                          //         refund = 0;
+                          //       } else { refund = (paidAmount - double.parse(widget.debt.toString()));
+                          //       }
+                          //     });
+                          //   },
+                          //   controller: _textFieldController,
+                          // ),
                           SizedBox(height: 20,),
                           // Center(
                           //   child: Text('Debt Remaining - ' + debtAmount.toString(), style: TextStyle(
@@ -437,9 +544,28 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                       ),
 
                     ),
+                  ),
+                  Container(
+                    height: 700,
+                    color: Colors.green,
+                  ),
+                  Container(
+                    height: 50,
+                    color: Colors.yellow,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141 < 0? 0: MediaQuery.of(context).viewInsets.bottom - 141,
+                  )
 
-                Padding(
-                  padding: const EdgeInsets.only(right: 15.0, left:15.0, bottom: 15.0),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: homeBotPadding),
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
                   child: ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width,
                     splashColor: Colors.transparent,
@@ -454,68 +580,68 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                         ),
                       ),
                       onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                        String dataRm = widget.data.split('^')[0] +
-                            '^' +
-                            widget.data.split('^')[1] +
-                            '^' +
-                            widget.data.split('^')[2] +
-                            '^' +
-                            widget.data.split('^')[3].split('&')[1] +
-                            '^' +
-                            widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
-                        String data = widget.data.split('^')[0] +
-                            '^' +
-                            widget.data.split('^')[1] +
-                            '^' +
-                            widget.data.split('^')[2] +
-                            '^' +
-                            widget.data.split('^')[3].split('&')[1] +
-                            '^' +
-                            widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
+                        if (_formKey.currentState!.validate()) {
+                          String dataRm = widget.data.split('^')[0] +
+                              '^' +
+                              widget.data.split('^')[1] +
+                              '^' +
+                              widget.data.split('^')[2] +
+                              '^' +
+                              widget.data.split('^')[3].split('&')[1] +
+                              '^' +
+                              widget.data.split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data.split('^')[6];
+                          String data = widget.data.split('^')[0] +
+                              '^' +
+                              widget.data.split('^')[1] +
+                              '^' +
+                              widget.data.split('^')[2] +
+                              '^' +
+                              widget.data.split('^')[3].split('&')[1] +
+                              '^' +
+                              widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
 
-                        CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
-                        CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
-                        CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
+                          CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
+                          CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
+                          CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
 
-                        dailyOrders.doc(widget.documentId).update({
-                          'daily_order':
-                          FieldValue.arrayRemove([dataRm])
-                        }).then((value) {print('array removed');})
-                            .catchError((error) => print("Failed to update user: $error"));
+                          dailyOrders.doc(widget.documentId).update({
+                            'daily_order':
+                            FieldValue.arrayRemove([dataRm])
+                          }).then((value) {print('array removed');})
+                              .catchError((error) => print("Failed to update user: $error"));
 
-                        dailyOrders.doc(widget.documentId).update({
-                          'daily_order':
-                          FieldValue.arrayUnion([data])
-                        }).then((value) { print('array updated');})
-                            .catchError((error) => print("Failed to update user: $error"));
+                          dailyOrders.doc(widget.documentId).update({
+                            'daily_order':
+                            FieldValue.arrayUnion([data])
+                          }).then((value) { print('array updated');})
+                              .catchError((error) => print("Failed to update user: $error"));
 
-                        order.doc(
-                            widget.docId)
-                            .update({
-                          'debt' : debtAmount
-                        })
-                            .then((value) => print("User Updated"))
-                            .catchError((error) => print("Failed to update user: $error"));
-
-                        double debts = 0;
-                        if(debtAmount == 0.0) {
-                          debts = 1;
-                        } else debts = 0;
-                        if( widget.data.split('^')[3].split('&')[1] !='name') {
-                          customerDebt.doc(
-                              widget.data.split('^')[3].split('&')[1])
+                          order.doc(
+                              widget.docId)
                               .update({
-                            'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
-                            'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
+                            'debt' : debtAmount
                           })
                               .then((value) => print("User Updated"))
-                              .catchError((error) => print("Failed to update user: $error"));}
+                              .catchError((error) => print("Failed to update user: $error"));
 
-                        _textFieldController.clear();
-                        Navigator.of(context).popUntil((route) => route.isFirst);
-                        smartKyatFlash('$debtAmount MMK is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
-                      } },
+                          double debts = 0;
+                          if(debtAmount == 0.0) {
+                            debts = 1;
+                          } else debts = 0;
+                          if( widget.data.split('^')[3].split('&')[1] !='name') {
+                            customerDebt.doc(
+                                widget.data.split('^')[3].split('&')[1])
+                                .update({
+                              'debtAmount' : FieldValue.increment( 0 - double.parse(paidAmount.toString())),
+                              'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
+                            })
+                                .then((value) => print("User Updated"))
+                                .catchError((error) => print("Failed to update user: $error"));}
+
+                          _textFieldController.clear();
+                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          smartKyatFlash('$debtAmount MMK is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
+                        } },
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 5.0,
@@ -536,14 +662,11 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                     ),
                   ),
                 ),
-                  ],
-                ),
               ),
             ),
           ],
         ),
       ),
-
     );
   }
   void smartKyatFlash(String text, String type) {
