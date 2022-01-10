@@ -444,7 +444,7 @@ class HomePageState extends State<HomePage>
             ),
             page: OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(), togG2Cart: () {  },),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(), togG2Cart: toggleGoToCart,),
           ),
           TabItem(
             tabName: "Settings",

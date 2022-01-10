@@ -551,12 +551,18 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                           ),
                                         ),
                                         SizedBox(height: 20,),
-                                        Text('PURCHASED ITEMS', style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                          letterSpacing: 2,
-                                          color: Colors.grey,
-                                        ),),
+                                        GestureDetector(
+                                          onTap: () {
+                                            print('gggg');
+                                            widget._togG2Cart();
+                                          },
+                                          child: Text('PURCHASED ITEMS', style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            letterSpacing: 2,
+                                            color: Colors.grey,
+                                          ),),
+                                        ),
                                         Text('Connection Status: $_connectionStatus', style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
