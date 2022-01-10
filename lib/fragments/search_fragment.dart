@@ -2042,7 +2042,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), togG2Cart: () {  },)),
                                           );
                                         },
                                         child: Stack(
