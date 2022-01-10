@@ -31,7 +31,6 @@ class OrdersFragment extends StatefulWidget {
 
   OrdersFragment(
       {
-        required this.gBotPadding,
         required this.ordersSnapshot,
         required this.customersSnapshot,
         required this.shopId,
@@ -54,7 +53,6 @@ class OrdersFragment extends StatefulWidget {
         _togG2Cart = togG2Cart,
         super(key: key);
 
-  final double gBotPadding;
   final String shopId;
   final ordersSnapshot;
   final customersSnapshot;
