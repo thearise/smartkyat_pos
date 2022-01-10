@@ -129,7 +129,6 @@ class _BuyListRefundState extends State<BuyListRefund>
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey,
                                     ),),
 
                                   StreamBuilder<
@@ -153,7 +152,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               widget.data.split('^')[1] +' - ' + mainUnit,
                                             style: TextStyle(
                                               fontSize: 18,
-                                              fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           );
                                         }

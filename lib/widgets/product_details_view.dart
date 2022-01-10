@@ -19,6 +19,7 @@ import 'fill_product.dart';
 class ProductDetailsView2 extends StatefulWidget {
   final _callback;
   final _callback3;
+  final goCartBtn;
 
   const ProductDetailsView2(
       {Key? key,
@@ -26,9 +27,11 @@ class ProductDetailsView2 extends StatefulWidget {
         required this.idString,
         required void toggleCoinCallback(String str),
         required void toggleCoinCallback3(String str),
+        required void goCartBtn(),
       })
       : _callback = toggleCoinCallback,
-        _callback3 = toggleCoinCallback3;
+        _callback3 = toggleCoinCallback3,
+        goCartBtn = goCartBtn;
 
   final String idString;
   final String shopId;
@@ -293,7 +296,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                           prodName,
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -699,10 +702,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                           child: Container(
                                             child: GestureDetector(
                                               onTap: (){
+                                                widget.goCartBtn();
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist)));
+                                                        builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, clearCartBtn: widget.goCartBtn,)));
                                               },
                                               child: Text(
                                                 'EDIT',

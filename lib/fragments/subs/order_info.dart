@@ -180,13 +180,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey,
                                     ),),
 
                                   Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
                                             style: TextStyle(
                                               fontSize: 18,
-                                              fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),],
                               ),
