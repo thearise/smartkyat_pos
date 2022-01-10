@@ -451,7 +451,7 @@ class HomePageState extends State<HomePage>
          icon: Icon(
            Icons.add,
          ),
-         page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust,),
+         page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: toggleGoToCart,),
        ),
        TabItem(
          tabName: "Settings",
@@ -462,14 +462,14 @@ class HomePageState extends State<HomePage>
            key: prodGlobalKey,
            toggleCoinCallback: addNewProd2,
            toggleCoinCallback2: addProduct,
-           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot,),
+           toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot, clearCartBtn: toggleGoToCart,),
        ),
        TabItem(
          tabName: "Settings",
          icon: Icon(
            Icons.add,
          ),
-         page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch,),
+         page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: toggleGoToCart,),
        ),
        TabItem(
          tabName: "Settings",
@@ -503,7 +503,7 @@ class HomePageState extends State<HomePage>
          icon: Icon(
            Icons.add,
          ),
-         page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2,),
+         page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, clearCartBtn: toggleGoToCart,),
        ),
       ];
     });
@@ -2168,7 +2168,7 @@ class HomePageState extends State<HomePage>
                                       // if not on the 'main' tab
                                       if (currentTab != 0) {
                                         // select 'main' tab
-                                        _selectTab(0);
+                                        //_selectTab(0);
                                         // back button handled by app
                                         return false;
                                       }
@@ -2191,7 +2191,7 @@ class HomePageState extends State<HomePage>
                                                 : MediaQuery.of(context).size.width,
                                             child: AnimatedPadding(
                                               duration: const Duration(milliseconds: 200),
-                                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 41.0: !closeGoToCart? homeBotPadding + 41 + 80 : homeBotPadding + 41.0),
+                                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
                                               child: IndexedStack(
                                                 index: currentTab,
                                                 children: tabs.map((e) => e.page).toList(),
@@ -2260,7 +2260,7 @@ class HomePageState extends State<HomePage>
                                                                               child: Container(
                                                                                   child: ListView(
                                                                                     children: [
-                                                                                      customerId != null && address != null && customerId.split('^')[1].toString() != 'name' ? Slidable(
+                                                                                      Slidable(
                                                                                         key: UniqueKey(),
                                                                                         actionPane:
                                                                                         SlidableDrawerActionPane(),
@@ -2346,7 +2346,7 @@ class HomePageState extends State<HomePage>
                                                                                             },
                                                                                           ),
                                                                                         ],
-                                                                                      ): Container(),
+                                                                                      ),
                                                                                       for (int i = 0;
                                                                                       i < prodList.length;
                                                                                       i++)
@@ -2953,15 +2953,15 @@ class HomePageState extends State<HomePage>
                                                                           child: Column(
                                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                                             children: [
-                                                                              Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
+                                                                              Text(customerId.split('^')[1] == 'name'? 'No customer' : customerId.split('^')[1], style: TextStyle(
                                                                                   fontWeight: FontWeight.w500,
                                                                                   color: Colors.black,
                                                                                 fontSize: 13,
                                                                               )),
-                                                                              SizedBox(height: 1),
+                                                                             // SizedBox(height: 1),
                                                                               Text('Cash acceptance', style: TextStyle(
                                                                                   fontWeight: FontWeight.w600,
-                                                                                  fontSize: 20
+                                                                                  fontSize: 18
                                                                               )),
                                                                             ],
                                                                           ),
@@ -3307,7 +3307,7 @@ class HomePageState extends State<HomePage>
                                                                                             discountAmount = discount;
                                                                                             subList = [];
                                                                                             DateTime now = DateTime.now();
-                                                                                            CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+                                                                                            //CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
                                                                                             int length = 0;
                                                                                             int totalOrders = 0;
                                                                                             int debts = 0;
@@ -3326,12 +3326,14 @@ class HomePageState extends State<HomePage>
                                                                                               print('CHECK POINT 0' + deviceIdNum.toString());
                                                                                               print('CHECK POINT 1');
                                                                                               orderLengthIncrease();
+                                                                                              print('productList' + prodList.toString());
 
                                                                                               for (String str in prodList) {
 
                                                                                                 CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                                                subList.add(str.split('-')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
+                                                                                                subList.add(str.split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
+                                                                                                print('strsplit' + str.split('-')[0].toString());
 
                                                                                                 productsFire.doc(str.split('^')[0])
                                                                                                     .get().then((val22) async {
@@ -4160,20 +4162,20 @@ class HomePageState extends State<HomePage>
                                                                           padding: EdgeInsets.only(
                                                                               left: 15.0,
                                                                               right: 15.0,
-                                                                              top: 5.0,
+                                                                              top: 5.5,
                                                                               bottom: 0.0
                                                                           ),
                                                                           child: Column(
                                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                                             children: [
                                                                               Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.grey
+                                                                                  fontWeight: FontWeight.w500,fontSize: 13
+
                                                                               )),
-                                                                              SizedBox(height: 2.5),
+                                                                              //SizedBox(height: 2.5),
                                                                               Text('Invoice receipt', style: TextStyle(
                                                                                   fontWeight: FontWeight.w600,
-                                                                                  fontSize: 19
+                                                                                  fontSize: 18
                                                                               )),
                                                                             ],
                                                                           ),
@@ -7019,13 +7021,12 @@ class HomePageState extends State<HomePage>
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.grey
+                                                        fontWeight: FontWeight.w500,fontSize: 13
                                                     )),
-                                                    SizedBox(height: 2.5),
+                                                    //SizedBox(height: 2.5),
                                                     Text('Cash acceptance', style: TextStyle(
                                                         fontWeight: FontWeight.w600,
-                                                        fontSize: 19
+                                                        fontSize: 18
                                                     )),
                                                   ],
                                                 ),
@@ -8306,13 +8307,12 @@ class HomePageState extends State<HomePage>
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.grey,
+                                                      fontWeight: FontWeight.w500,fontSize: 13
                                                     )),
-                                                    SizedBox(height: 2.5),
+                                                   // SizedBox(height: 2.5),
                                                     Text('Invoice receipt', style: TextStyle(
                                                         fontWeight: FontWeight.w600,
-                                                        fontSize: 19
+                                                        fontSize: 18
                                                     )),
                                                   ],
                                                 ),

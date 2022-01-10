@@ -119,7 +119,7 @@ class _FillProductState extends State<FillProduct> {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(

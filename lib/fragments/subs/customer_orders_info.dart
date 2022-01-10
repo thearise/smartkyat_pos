@@ -103,8 +103,8 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500,
+                                             // color: Colors.grey,
                                             ),
                                           ),
                                         ],
@@ -113,7 +113,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                         customerName,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),

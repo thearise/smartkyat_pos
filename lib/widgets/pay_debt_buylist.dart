@@ -253,13 +253,13 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.grey,
+                               // color: Colors.grey,
                               ),),
                             Text('#' +
                                 widget.data.split('^')[1].toString() + ' - ' + widget.data.split('^')[3].split('&')[0].toString(),
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                             )
                           ],
