@@ -1,3 +1,4 @@
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -11,37 +12,25 @@ import 'package:smartkyat_pos/src/app.dart';
 import 'package:smartkyat_pos/widgets/product_versions_view.dart';
 final themeMode = ValueNotifier(2);
 
-PackageInfo? packageInfo;
-Future<void> main() async {
+// PackageInfo? packageInfo;
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // MobileAds.instance.initialize();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
 
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-class MyApp extends StatelessWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final navigatorKey = GlobalKey<NavigatorState>();
   @override
-  void initState() {
-
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
-  }
-
-  // This widget is the root of your application.
-  @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
-
-
     return MaterialApp(
       navigatorKey: OneContext().key,
       title: 'Flutter UI',
@@ -50,17 +39,87 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         canvasColor: Colors.transparent,
         bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
-        // fontFamily: 'sf_ui_display',
-        // fontFamily: 'sf_pro_display'
       ),
-
       navigatorObservers: [OneContext().heroController],
       builder: OneContext().builder,
-      // home: HomePage(),
       home: Welcome(),
     );
   }
+
 }
+
+
+// class MyApp extends StatelessWidget {
+//   final navigatorKey = GlobalKey<NavigatorState>();
+//   @override
+//   void initState() {
+//
+//     // SystemChrome.setPreferredOrientations([
+//     //   DeviceOrientation.portraitUp,
+//     //   DeviceOrientation.portraitDown,
+//     // ]);
+//   }
+//
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+//
+//     // SystemChrome.setPreferredOrientations([
+//     //   DeviceOrientation.portraitUp,
+//     //   DeviceOrientation.portraitDown,
+//     // ]);
+//
+//
+//     // return MaterialApp(
+//     //   navigatorKey: OneContext().key,
+//     //   title: 'Flutter UI',
+//     //   debugShowCheckedModeBanner: false,
+//     //
+//     //   // theme: new ThemeData(
+//     //   //   canvasColor: Colors.white,
+//     //   //   bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
+//     //   //   // fontFamily: 'sf_ui_display',
+//     //   //   // fontFamily: 'sf_pro_display'
+//     //   // ),
+//     //
+//     //   navigatorObservers: [OneContext().heroController],
+//     //   builder: OneContext().builder,
+//     //   // home: HomePage(),
+//     //   home: Container(),
+//     // );
+//
+//     return MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text('MM Printer'),
+//         ),
+//         body: SafeArea(
+//           child: Center(
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: const <Widget>[
+//                 Text(
+//                   'Scan bluetooth device',
+//                   style: TextStyle(fontSize: 24, color: Colors.blue),
+//                 ),
+//                 Text(
+//                   'Press button scan',
+//                   style: TextStyle(fontSize: 14, color: Colors.grey),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//         floatingActionButton: FloatingActionButton(
+//           onPressed: () {},
+//           child: const Icon(Icons.search),
+//           backgroundColor: Colors.blue,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 
