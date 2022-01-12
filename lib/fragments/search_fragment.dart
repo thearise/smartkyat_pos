@@ -28,7 +28,8 @@ class SearchFragment extends StatefulWidget {
   final _callback4;
   final _barcodeBtn;
   final _chgIndex;
-  final _clearCartBtn;
+  final _closeCartBtn;
+  final _openCartBtn;
 
   SearchFragment( {
     required this.productsSnapshot,
@@ -37,10 +38,12 @@ class SearchFragment extends StatefulWidget {
     required void toggleCoinCallback(String str),
     required void toggleCoinCallback2(String str),
     required void toggleCoinCallback4(String str),
-    required void clearCartBtn(),
+    required void closeCartBtn(),
+    required void openCartBtn(),
     Key? key,
     required Function(dynamic index) chgIndexFromSearch,}
-    ) : _clearCartBtn = clearCartBtn,
+    ) : _closeCartBtn = closeCartBtn,
+        _openCartBtn = openCartBtn,
         _chgIndex = chgIndexFromSearch,
         _barcodeBtn = barcodeBtn,
         _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
@@ -1067,7 +1070,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           MaterialPageRoute(
                                               builder: (context) => ProductDetailsView2(
                                                 idString: item.split('^sps^')[0], toggleCoinCallback:
-                                              addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(), goCartBtn: widget._clearCartBtn,)),);
+                                              addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),);
                                       },
                                       child: Container(
                                         color: AppTheme.lightBgColor,
@@ -1266,7 +1269,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                   context) =>
                                                   CustomerInfoSubs(
                                                     id: item.split('^sps^')[0],
-                                                    toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: widget._clearCartBtn,)),
+                                                    toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                         );
                                       },
                                       child: Padding(
@@ -1465,7 +1468,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                     context) =>
                                                     CustomerInfoSubs(
                                                       id: item.split('^sps^')[0],
-                                                      toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: widget._clearCartBtn ,)),
+                                                      toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                           );
                                         },
                                         child: Container(
@@ -1631,7 +1634,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 context) =>
                                                 MerchantInfoSubs(
                                                   id: item.split('^sps^')[0],
-                                                  toggleCoinCallback: addMerchant2Cart, shopId: shopId.toString(), closeCartBtn: widget._clearCartBtn,)),
+                                                  toggleCoinCallback: addMerchant2Cart, shopId: shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                       );
                                     },
                                     child: Container(
@@ -1811,7 +1814,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),)),
+                                                builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                           );
                                         },
                                         child: Stack(
@@ -2044,7 +2047,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), togG2Cart: () {  },)),
+                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                           );
                                         },
                                         child: Stack(

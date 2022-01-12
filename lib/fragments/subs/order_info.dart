@@ -21,11 +21,13 @@ import 'package:dotted_line/dotted_line.dart';
 
 class OrderInfoSub extends StatefulWidget {
   final _callback;
-  final _togG2Cart;
+  final _closeCartBtn;
+  final _openCartBtn;
   const OrderInfoSub(
-      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback(), required void togG2Cart()})
+      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback(), required void closeCartBtn(), required void openCartBtn()})
       : _callback = toggleCoinCallback,
-        _togG2Cart = togG2Cart;
+        _closeCartBtn = closeCartBtn,
+        _openCartBtn = openCartBtn;
   final String data;
   final String shopId;
 
@@ -328,6 +330,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     ),
                                                   ),
                                                   onPressed: () async {
+                                                    widget._closeCartBtn();
                                                     String isRef = 'p';
                                                     double debt = double.parse(widget.data.split('^')[5]);
                                                     print('result__1 ' + result.toString());
@@ -369,7 +372,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                   data2: prodList,
                                                                   realPrice: totalRealPrice,
                                                                   toggleCoinCallback:
-                                                                      () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString())),
+                                                                      () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(), openCartBtn: widget._openCartBtn,)),
                                                     );
 
                                                     print('result__2 ' + result.toString());
@@ -416,11 +419,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     ),
                                                   ),
                                                   onPressed: () async {
-                                                    widget._togG2Cart();
+                                                    widget._closeCartBtn();
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                            builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(), openCartBtn: widget._openCartBtn,))
                                                     );
                                                   },
                                                   child: Container(
@@ -554,7 +557,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         GestureDetector(
                                           onTap: () {
                                             print('gggg');
-                                            widget._togG2Cart();
+                                            widget._closeCartBtn();
                                           },
                                           child: Text('PURCHASED ITEMS', style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -629,31 +632,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           fit: BoxFit
                                                               .cover,
                                                         )
-                                                            : CachedNetworkImage(
-                                                          imageUrl:
-                                                          'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                          width: 58,
-                                                          height: 58,
-                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                          errorWidget: (context,
-                                                              url,
-                                                              error) =>
-                                                              Icon(Icons
-                                                                  .error),
-                                                          fadeInDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              100),
-                                                          fadeOutDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              10),
-                                                          fadeInCurve:
-                                                          Curves
-                                                              .bounceIn,
-                                                          fit: BoxFit
-                                                              .cover,
-                                                        )),
+                                                            :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
                                                     title: Text(
                                                       output2?[
                                                       'prod_name'],
@@ -818,18 +797,15 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                   padding: const EdgeInsets.only(bottom: 18.0, top: 10),
                                   child: DottedLine(lineThickness: 2,dashLength: 8, dashColor: AppTheme.skBorderColor2,),
                                 ),
-                                for (int i = 0; i < prodListView.length; i++)
-                                  if (prodListView[i].split('-')[7] != '0')
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                      child: Text('REFUNDED ITEMS', style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        letterSpacing: 2,
-                                        color: Colors.grey,
-                                      ),),
-                                    ),
-
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                    child: Text('REFUNDED ITEMS', style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      letterSpacing: 2,
+                                      color: Colors.grey,
+                                    ),),
+                                  ),
                                 for (int i = 0; i < prodListView.length; i++)
                                   if (prodListView[i].split('-')[7] != '0')
                                     StreamBuilder<
@@ -893,31 +869,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               fit: BoxFit
                                                                   .cover,
                                                             )
-                                                                : CachedNetworkImage(
-                                                              imageUrl:
-                                                              'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                              width: 58,
-                                                              height: 58,
-                                                              // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                              errorWidget: (context,
-                                                                  url,
-                                                                  error) =>
-                                                                  Icon(Icons
-                                                                      .error),
-                                                              fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  100),
-                                                              fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  10),
-                                                              fadeInCurve:
-                                                              Curves
-                                                                  .bounceIn,
-                                                              fit: BoxFit
-                                                                  .cover,
-                                                            )),
+                                                                : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
                                                         title: Text(
                                                           output2?[
                                                           'prod_name'],

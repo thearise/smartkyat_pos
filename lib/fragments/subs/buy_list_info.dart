@@ -23,9 +23,11 @@ import 'package:dotted_line/dotted_line.dart';
 
 class BuyListInfo extends StatefulWidget {
   final _callback;
+  final _openCartBtn;
+  final _closeCartBtn;
   const BuyListInfo(
-      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback()})
-      : _callback = toggleCoinCallback;
+      {Key? key, required void openCartBtn(), required void closeCartBtn(), required this.data, required this.shopId,required void toggleCoinCallback()})
+      : _callback = toggleCoinCallback, _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn;
   final String data;
   final String shopId;
 
@@ -56,9 +58,6 @@ class _BuyListInfoState extends State<BuyListInfo>
       print(e.toString());
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) {
       return Future.value(null);
     }
@@ -554,6 +553,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             .split('^')[4] + '^' + debt.toString() + '^' + widget.data
                                                         .split('^')[6];
 
+                                                    widget._closeCartBtn();
 
                                                     result = await Navigator.push(
                                                       context,
@@ -564,9 +564,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                 data2: prodList,
                                                                 realPrice: totalRealPrice,
                                                                 toggleCoinCallback:
-                                                                    () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString()),
+                                                                    () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(), openCartBtn: widget._openCartBtn,),
                                                     ));
-
                                                     print('result__2 ' + result.toString());
                                                   },
                                                   child: Container(
@@ -611,10 +610,11 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     ),
                                                   ),
                                                   onPressed: () async {
+                                                    widget._closeCartBtn();
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => PayDebtBuyList(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString()))
+                                                            builder: (context) => PayDebtBuyList(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(), openCartBtn: widget._openCartBtn,))
                                                     );
                                                   },
                                                   child: Container(
@@ -810,31 +810,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           fit: BoxFit
                                                               .cover,
                                                         )
-                                                            : CachedNetworkImage(
-                                                          imageUrl:
-                                                          'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                          width: 58,
-                                                          height: 58,
-                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                          errorWidget: (context,
-                                                              url,
-                                                              error) =>
-                                                              Icon(Icons
-                                                                  .error),
-                                                          fadeInDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              100),
-                                                          fadeOutDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              10),
-                                                          fadeInCurve:
-                                                          Curves
-                                                              .bounceIn,
-                                                          fit: BoxFit
-                                                              .cover,
-                                                        )),
+                                                            :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
                                                     title: Text(
                                                       output2?[
                                                       'prod_name'],

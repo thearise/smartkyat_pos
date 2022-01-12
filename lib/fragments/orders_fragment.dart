@@ -26,7 +26,8 @@ class OrdersFragment extends StatefulWidget {
   final _callback5;
   final _barcodeBtn;
   final _searchBtn;
-  final _togG2Cart;
+  final _closeCartBtn;
+  final _openCartBtn;
 
 
   OrdersFragment(
@@ -40,7 +41,8 @@ class OrdersFragment extends StatefulWidget {
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
         required void searchBtn(),
-        required void togG2Cart(),
+        required void closeCartBtn(),
+        required void openCartBtn(),
         Key? key,
       })
       :
@@ -50,7 +52,8 @@ class OrdersFragment extends StatefulWidget {
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
         _searchBtn = searchBtn,
-        _togG2Cart = togG2Cart,
+        _closeCartBtn = closeCartBtn,
+        _openCartBtn = openCartBtn,
         super(key: key);
 
   final String shopId;
@@ -3951,7 +3954,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                             ),
                                                             onPressed: () {
                                                               // _showDatePicker(OneContext().context);
-                                                              widget._togG2Cart();
+                                                              widget._closeCartBtn();
                                                             },
                                                             child: Container(
                                                               child: Row(
@@ -4142,7 +4145,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => OrderInfoSub(togG2Cart: toggleGoToCart, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                                              builder: (context) => OrderInfoSub(closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -4373,7 +4376,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => OrderInfoSub(togG2Cart: toggleGoToCart, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                                            builder: (context) => OrderInfoSub(closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
                                                       );
                                                     },
                                                     child: Stack(
@@ -5361,11 +5364,6 @@ class OrdersFragmentState extends State<OrdersFragment>
     }
 
   }
-
-  toggleGoToCart() {
-    widget._togG2Cart();
-  }
-
 // List<String> orderItems(String id) {}
 }
 

@@ -9,7 +9,8 @@ import 'customer_orders_info2.dart';
 class CustomerInfoSubs extends StatefulWidget {
   final _callback;
   final _closeCartBtn;
-  const CustomerInfoSubs({Key? key, required void closeCartBtn(), required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn;
+  final _openCartBtn;
+  const CustomerInfoSubs({Key? key, required void closeCartBtn(), required this.id, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn;
   final String id;
   final String shopId;
 
@@ -227,7 +228,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId,)
+                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId, closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)
                                                 ),
                                               );
                                             },
@@ -287,7 +288,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone, closeCartBtn: widget._closeCartBtn,)),);
+                                                      builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone, openCartBtn: widget._openCartBtn,)),);
                                               },
                                               child: Text(
                                                 'EDIT',

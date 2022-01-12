@@ -22,12 +22,12 @@ import '../app_theme.dart';
 import 'package:async/async.dart';
 
 class EditProduct extends StatefulWidget {
-  final _clearCartBtn;
+  final _openCartBtn;
   const EditProduct({Key? key,
     required this.image, required this.shopId, required this.prodId, required this.prodName, required this.mainQty,  required this.mainName,
     required this.mainBuy, required this.mainSell, required this.barcode,  required this.sub1perUnit, required this.sub1UnitName,
     required this.sub1Qty, required this.sub1Sell, required this.sub2perUnit, required this.sub2UnitName,
-    required this.sub2Qty, required this.sub2Sell, required this.subExist, required void clearCartBtn()}) : _clearCartBtn = clearCartBtn,
+    required this.sub2Qty, required this.sub2Sell, required this.subExist, required void openCartBtn()}) : _openCartBtn = openCartBtn,
         super(key: key);
   final String shopId;
   final String prodId;
@@ -128,18 +128,23 @@ class _EditProductState extends State<EditProduct> {
 
 
   int addSubUnit = 0;
+  bool firstTime = true;
+  double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
     return WillPopScope(
       onWillPop: () async {
-        widget._clearCartBtn();
+        widget._openCartBtn();
         print('back key detected');
         return true;
       },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
-        body: IgnorePointer(
+      child: Container(
+        color: Colors.white,
+        child: IgnorePointer(
           ignoring: disableTouch,
           child: SafeArea(
             top: true,
@@ -177,7 +182,7 @@ class _EditProductState extends State<EditProduct> {
                                     color: Colors.black,
                                   ),
                                   onPressed: () {
-                                    widget._clearCartBtn();
+                                    widget._openCartBtn();
                                     Navigator.pop(context);
                                   }),
                             ),
@@ -698,9 +703,11 @@ class _EditProductState extends State<EditProduct> {
                                 createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
                               ],
                             ) : Container(),
+
                             addSubUnit == 1 && subExist == '0'? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) : Container(),
                             addSubUnit == 1 && subExist == '1' ?  createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl) : Container(),
-                            addSubUnit == 2 && subExist == '0' ?  Column(
+                            addSubUnit == 2 && subExist == '0' ?
+                            Column(
                               children: [
                                 createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
                                 createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
@@ -709,165 +716,173 @@ class _EditProductState extends State<EditProduct> {
                           ],
                         ),
                       ),
+                      Container(
+                        color: Colors.white,
+                        height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
+                      ),
                     ],
                   ),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                    child: ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width,
-                      splashColor: Colors.transparent,
-                      height: 50,
-                      child: FlatButton(
-                        color: AppTheme.themeColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.circular(10.0),
-                          side: BorderSide(
+                    padding: EdgeInsets.only(bottom: homeBotPadding),
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                        child:  ButtonTheme(
+                          minWidth: MediaQuery.of(context).size.width,
+                          splashColor: Colors.transparent,
+                          height: 50,
+                          child: FlatButton(
                             color: AppTheme.themeColor,
-                          ),
-                        ),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              prodAdding = true;
-                              disableTouch = true;
-                            });
-                            String subExistChange;
-                            String sub1Buy;
-                            String sub2Buy;
-                            var prodExist = false;
-
-                            CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
-
-                            if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
-                              subExistChange = '1';
-                              sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                              sub2Buy = '0';
-                            } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
-                              subExistChange = '2';
-                              sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
-                              sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
-                            } else {
-                              subExistChange ='0';
-                              sub1Buy = '0';
-                              sub2Buy = '0';
-                            }
-                            productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
-                            querySnapshot) async {
-                              querySnapshot.docs
-                                  .forEach((doc) {
-                                prodExist = true;
-                              });
-
-                              if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
-                                print('product already');
-                                var result =
-                                await showOkAlertDialog(
-                                  context: context,
-                                  title: 'Warning',
-                                  message:
-                                  'Product name already!',
-                                  okLabel: 'OK',
-                                );
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                color: AppTheme.themeColor,
+                              ),
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
                                 setState(() {
-                                 disableTouch = false;
-                                  prodAdding = false;
+                                  prodAdding = true;
+                                  disableTouch = true;
                                 });
-                              } else {
-                            if (assets.length == 0) {
-                              productId.doc(widget.prodId).update({
-                                'prod_name' : prodNameCtrl.text,
-                                'bar_code' : barCodeCtrl.text,
-                                'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                                'unit_name' : mainUnitNameCtrl.text,
-                                'buyPrice1' : mainBuyCtrl.text,
-                                'unit_sell' : mainSellCtrl.text,
-                                'sub_exist' : subExistChange,
-                                'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                                'sub1_link' : sub1perUnitCtrl.text,
-                                'sub1_name' : sub1UnitNameCtrl.text,
-                                'sub1_sell' : sub1SellCtrl.text,
-                                'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                                'sub2_link' : sub2perUnitCtrl.text,
-                                'sub2_name' : sub2UnitNameCtrl.text,
-                                'sub2_sell' : sub2SellCtrl.text,
-                                'buyPrice2' : sub1Buy,
-                                'buyPrice3' : sub2Buy,
-                              }).then((value) {
-                              }).catchError((error) => print("Failed to update: $error"));
+                                String subExistChange;
+                                String sub1Buy;
+                                String sub2Buy;
+                                var prodExist = false;
 
-                              Future.delayed(const Duration(milliseconds: 3000), () {
-                                setState(() {
-                                  prodAdding = false;
-                                disableTouch = false;
+                                CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
 
-                                });
-                                Navigator.pop(context);
-                                widget._clearCartBtn();
-                                smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                              });
+                                if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
+                                  subExistChange = '1';
+                                  sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                                  sub2Buy = '0';
+                                } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
+                                  subExistChange = '2';
+                                  sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                                  sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
+                                } else {
+                                  subExistChange ='0';
+                                  sub1Buy = '0';
+                                  sub2Buy = '0';
+                                }
+                                productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
+                                querySnapshot) async {
+                                  querySnapshot.docs
+                                      .forEach((doc) {
+                                    prodExist = true;
+                                  });
 
-                              // });
-                            } else {
-                              for (int i = 0;
-                              i < assets.length;
-                              i++)
-                              {
-                                AssetEntity asset = assets.elementAt(i);
-                                asset.originFile.then((value) async {
-                                  addProduct(value!, photoArray).then((value) {
-                                    photoArray = value.toString();
-                                    productId.doc(widget.prodId).update({
-                                      'prod_name' : prodNameCtrl.text,
-                                      'bar_code' : barCodeCtrl.text,
-                                      'inStock1' : int.parse(mainQtyCtrl.text.toString()),
-                                      'unit_name' : mainUnitNameCtrl.text,
-                                      'buyPrice1' : mainBuyCtrl.text,
-                                      'unit_sell' : mainSellCtrl.text,
-                                      'sub_exist' : subExistChange,
-                                      'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
-                                      'sub1_link' : sub1perUnitCtrl.text,
-                                      'sub1_name' : sub1UnitNameCtrl.text,
-                                      'sub1_sell' : sub1SellCtrl.text,
-                                      'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
-                                      'sub2_link' : sub2perUnitCtrl.text,
-                                      'sub2_name' : sub2UnitNameCtrl.text,
-                                      'sub2_sell' : sub2SellCtrl.text,
-                                      'buyPrice2' : sub1Buy,
-                                      'buyPrice3' : sub2Buy,
-                                      'img_1' : photoArray.toString(),
-                                    }).then((value){ Navigator.pop(context);
-                                    widget._clearCartBtn();
+                                  if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
+                                    print('product already');
+                                    var result =
+                                    await showOkAlertDialog(
+                                      context: context,
+                                      title: 'Warning',
+                                      message:
+                                      'Product name already!',
+                                      okLabel: 'OK',
+                                    );
                                     setState(() {
-                                      prodAdding = false;
                                       disableTouch = false;
+                                      prodAdding = false;
                                     });
-                                    Navigator.pop(context);
-                                    widget._clearCartBtn();
-                                    smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
-                                    }).catchError((error) => print("Failed to update: $error"));
-                                  }
-                                  );
-                                });
-                              }
-                            }  } });} },
-                        child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                            child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                          padding: const EdgeInsets.only(
-                              left: 5.0,
-                              right: 5.0,
-                              bottom: 2.0),
-                          child: Container(
-                            child: Text(
-                              'Save Product',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing:-0.1
+                                  } else {
+                                    if (assets.length == 0) {
+                                      productId.doc(widget.prodId).update({
+                                        'prod_name' : prodNameCtrl.text,
+                                        'bar_code' : barCodeCtrl.text,
+                                        'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                                        'unit_name' : mainUnitNameCtrl.text,
+                                        'buyPrice1' : mainBuyCtrl.text,
+                                        'unit_sell' : mainSellCtrl.text,
+                                        'sub_exist' : subExistChange,
+                                        'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                                        'sub1_link' : sub1perUnitCtrl.text,
+                                        'sub1_name' : sub1UnitNameCtrl.text,
+                                        'sub1_sell' : sub1SellCtrl.text,
+                                        'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                                        'sub2_link' : sub2perUnitCtrl.text,
+                                        'sub2_name' : sub2UnitNameCtrl.text,
+                                        'sub2_sell' : sub2SellCtrl.text,
+                                        'buyPrice2' : sub1Buy,
+                                        'buyPrice3' : sub2Buy,
+                                      }).then((value) {
+                                      }).catchError((error) => print("Failed to update: $error"));
+
+                                      Future.delayed(const Duration(milliseconds: 2000), () {
+                                        setState(() {
+                                          prodAdding = false;
+                                          disableTouch = false;
+                                        });
+                                        Navigator.pop(context);
+                                        widget._openCartBtn();
+                                        smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                      });
+
+                                      // });
+                                    } else {
+                                      for (int i = 0;
+                                      i < assets.length;
+                                      i++)
+                                      {
+                                        AssetEntity asset = assets.elementAt(i);
+                                        asset.originFile.then((value) async {
+                                          addProduct(value!, photoArray).then((value) {
+                                            photoArray = value.toString();
+                                            productId.doc(widget.prodId).update({
+                                              'prod_name' : prodNameCtrl.text,
+                                              'bar_code' : barCodeCtrl.text,
+                                              'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                                              'unit_name' : mainUnitNameCtrl.text,
+                                              'buyPrice1' : mainBuyCtrl.text,
+                                              'unit_sell' : mainSellCtrl.text,
+                                              'sub_exist' : subExistChange,
+                                              'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                                              'sub1_link' : sub1perUnitCtrl.text,
+                                              'sub1_name' : sub1UnitNameCtrl.text,
+                                              'sub1_sell' : sub1SellCtrl.text,
+                                              'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                                              'sub2_link' : sub2perUnitCtrl.text,
+                                              'sub2_name' : sub2UnitNameCtrl.text,
+                                              'sub2_sell' : sub2SellCtrl.text,
+                                              'buyPrice2' : sub1Buy,
+                                              'buyPrice3' : sub2Buy,
+                                              'img_1' : photoArray.toString(),
+                                            }).then((value){ Navigator.pop(context);
+                                            widget._openCartBtn();
+                                            setState(() {
+                                              prodAdding = false;
+                                              disableTouch = false;
+                                            });
+                                            Navigator.pop(context);
+                                            smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                                            }).catchError((error) => print("Failed to update: $error"));
+                                          }
+                                          );
+                                        });
+                                      }
+                                    }  } });} },
+                            child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5.0,
+                                  right: 5.0,
+                                  bottom: 2.0),
+                              child: Container(
+                                child: Text(
+                                  'Save Product',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing:-0.1
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -875,7 +890,7 @@ class _EditProductState extends State<EditProduct> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

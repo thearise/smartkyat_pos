@@ -19,19 +19,21 @@ import 'fill_product.dart';
 class ProductDetailsView2 extends StatefulWidget {
   final _callback;
   final _callback3;
-  final goCartBtn;
-
+  final _closeCartBtn;
+  final _openCartBtn;
   const ProductDetailsView2(
       {Key? key,
         required this.shopId,
         required this.idString,
         required void toggleCoinCallback(String str),
         required void toggleCoinCallback3(String str),
-        required void goCartBtn(),
+        required void openCartBtn(),
+        required void closeCartBtn(),
       })
       : _callback = toggleCoinCallback,
         _callback3 = toggleCoinCallback3,
-        goCartBtn = goCartBtn;
+        _openCartBtn = openCartBtn,
+        _closeCartBtn = closeCartBtn;
 
   final String idString;
   final String shopId;
@@ -60,13 +62,15 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   }
 
   routeLoss(res, buyPrice1, buyPrice2, buyPrice3) {
+    widget._closeCartBtn();
     Navigator.push(
-      context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: res, shopId: widget.shopId, price1: buyPrice1, price2: buyPrice2, price3: buyPrice3,
+      context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: res, shopId: widget.shopId, price1: buyPrice1, price2: buyPrice2, price3: buyPrice3, openCartBtn: widget._openCartBtn,
     )
     ));
   }
 
   routeFill(res) {
+    widget._closeCartBtn();
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -74,7 +78,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
               idString: widget.idString,
               toggleCoinCallback: addProduct2,
               toggleCoinCallback3: addProduct3,
-              unitname: res, shopId: widget.shopId,
+              unitname: res, shopId: widget.shopId, openCartBtn: widget._openCartBtn,
             )));
   }
 
@@ -702,11 +706,11 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                           child: Container(
                                             child: GestureDetector(
                                               onTap: (){
-                                                widget.goCartBtn();
+                                                widget._closeCartBtn();
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, clearCartBtn: widget.goCartBtn,)));
+                                                        builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, openCartBtn: widget._openCartBtn,)));
                                               },
                                               child: Text(
                                                 'EDIT',
