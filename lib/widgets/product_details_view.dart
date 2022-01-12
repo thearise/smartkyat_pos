@@ -180,6 +180,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     super.initState();
   }
 
+  void openCartFrom() {
+    widget._openCartBtn();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -710,7 +713,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, openCartBtn: widget._openCartBtn,)));
+                                                        builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, openCartBtn: openCartFrom,)));
                                               },
                                               child: Text(
                                                 'EDIT',

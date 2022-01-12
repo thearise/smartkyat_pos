@@ -450,14 +450,14 @@ class HomePageState extends State<HomePage>
             ),
             page: OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(),  closeCartBtn: closeCart, openCartBtn: openCart,),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(),  closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
           ),
           TabItem(
             tabName: "Settings",
             icon: Icon(
               Icons.add,
             ),
-            page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCart, openCartBtn: openCart,),
+            page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -468,14 +468,14 @@ class HomePageState extends State<HomePage>
               key: prodGlobalKey,
               toggleCoinCallback: addNewProd2,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot, closeCartBtn: closeCart, openCartBtn: openCart,),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
           ),
           TabItem(
             tabName: "Settings",
             icon: Icon(
               Icons.add,
             ),
-            page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCart, openCartBtn: openCart,),
+            page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -502,14 +502,14 @@ class HomePageState extends State<HomePage>
             page: BuyListFragment(
                 key: bordGlobalKey, searchBtn: openSearchFromFrag,
                 toggleCoinCallback2: addProduct,
-                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2, closeCartBtn: closeCart, openCartBtn: openCart,),
+                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
           ),
           TabItem(
             tabName: "Champions",
             icon: Icon(
               Icons.add,
             ),
-            page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCart, closeCartBtn: closeCart,),
+            page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,),
           ),
         ];
       });
@@ -648,9 +648,10 @@ class HomePageState extends State<HomePage>
     });
   }
 
-  openSearchFromFrag() {
+  openSearchFromFrag() async {
     ayinIndex = _selectIndex;
     _selectTab(8);
+    tabs[8].key.currentState!.popUntil((route) => route.isFirst);
     globalSearching = true;
     searchGlobalKey.currentState!.focusSearch();
     homeGlobalKey.currentState!.changeSearchOpening(true);
@@ -1151,8 +1152,16 @@ class HomePageState extends State<HomePage>
   String ayinHar = '';
   bool firstTime = true;
   bool disableTouch = false;
+
+  openOrHideCart() {
+    if(_selectIndex != null) {
+      print('select index' + _selectIndex.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    openOrHideCart();
     if(firstTime) {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
     }
@@ -1395,6 +1404,7 @@ class HomePageState extends State<HomePage>
                                                           _selectTab(0);
                                                           _selectIndex = 0;
                                                         });
+                                                        closeByClick();
                                                         if(globalSearching) {
                                                           Future.delayed(const Duration(milliseconds: 500), () {
                                                             // homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -1455,6 +1465,7 @@ class HomePageState extends State<HomePage>
                                                         _selectTab(3);
                                                         _selectIndex = 1;
                                                       });
+                                                      closeByClick();
                                                       // });
 
                                                       if(globalSearching) {
@@ -1540,6 +1551,7 @@ class HomePageState extends State<HomePage>
                                                         _selectTab(1);
                                                         _selectIndex = 2;
                                                       });
+                                                      closeByClick();
                                                       if(globalSearching) {
                                                         Future.delayed(const Duration(milliseconds: 500), () {
                                                           // homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -1587,6 +1599,7 @@ class HomePageState extends State<HomePage>
                                                           _selectTab(7);
                                                           _selectIndex = 3;
                                                         });
+                                                        closeByClick();
                                                         if(globalSearching) {
                                                           Future.delayed(const Duration(milliseconds: 500), () {
                                                             // homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -1633,6 +1646,7 @@ class HomePageState extends State<HomePage>
                                                         _selectTab(2);
                                                         _selectIndex = 4;
                                                       });
+                                                      closeByClick();
                                                       if(globalSearching) {
                                                         Future.delayed(const Duration(milliseconds: 500), () {
                                                           // homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -1719,6 +1733,7 @@ class HomePageState extends State<HomePage>
                                                           _selectTab(4);
                                                           _selectIndex = 5;
                                                         });
+                                                        closeByClick();
                                                         if(globalSearching) {
                                                           Future.delayed(const Duration(milliseconds: 500), () {
                                                             // homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -1770,6 +1785,7 @@ class HomePageState extends State<HomePage>
                                                         _selectTab(6);
                                                         _selectIndex = 6;
                                                       });
+                                                      closeByClick();
                                                       if(globalSearching) {
                                                         Future.delayed(const Duration(milliseconds: 500), () {
                                                           // homeGlobalKey.currentState!.changeSearchOpening(false);
@@ -10239,6 +10255,155 @@ class HomePageState extends State<HomePage>
       setState(() {
         _goToCartHeight = 61;
       });
+    });
+  }
+
+  bool homeCartOpen = true;
+  bool prodCartOpen = true;
+  bool sordCartOpen = true;
+  bool bordCartOpen = true;
+  bool custCartOpen = true;
+  bool mercCartOpen = true;
+  bool settCartOpen = true;
+  bool searCartOpen = true;
+
+  int ayinIndex2 = 1;
+  closeByClick() async {
+    print('closebyclick' + _selectIndex.toString());
+    // setState(() {
+    //
+    //
+    // });
+    if(ayinIndex2 != _selectIndex) {
+      if(_selectIndex == 0) {
+        closeGoToCart = !homeCartOpen;
+      } else if(_selectIndex == 1) {
+        closeGoToCart = !prodCartOpen;
+        // bool isFirstRouteInCur = await tabs[currentTab].key.currentState!.maybePop();
+        // print('shwwwwww' + isFirstRouteInCur.toString());
+        // if(isFirstRouteInCur) {
+        //   closeGoToCart = false;
+        //   prodCartOpen = true;
+        //
+        //   // print('shwwwwww');
+        // } else {
+        //
+        // }
+      } else if(_selectIndex == 2) {
+        closeGoToCart = !sordCartOpen;
+      } else if(_selectIndex == 3) {
+        closeGoToCart = !bordCartOpen;
+      } else if(_selectIndex == 4) {
+        closeGoToCart = !custCartOpen;
+      } else if(_selectIndex == 5) {
+        closeGoToCart = !mercCartOpen;
+      } else if(_selectIndex == 6) {
+        closeGoToCart = true;
+      } else if(_selectIndex == 7) {
+        closeGoToCart = !searCartOpen;
+      }
+    } else {
+      if(_selectIndex == 0) {
+        closeGoToCart = false;
+        homeCartOpen = true;
+      } else if(_selectIndex == 1) {
+        closeGoToCart = false;
+        prodCartOpen = true;
+      } else if(_selectIndex == 2) {
+        closeGoToCart = false;
+        sordCartOpen = true;
+      } else if(_selectIndex == 3) {
+        closeGoToCart = false;
+        bordCartOpen = true;
+      } else if(_selectIndex == 4) {
+        closeGoToCart = false;
+        custCartOpen = true;
+      } else if(_selectIndex == 5) {
+        closeGoToCart = false;
+        mercCartOpen = true;
+      } else if(_selectIndex == 6) {
+        closeGoToCart = true;
+      } else if(_selectIndex == 7) {
+        closeGoToCart = false;
+        searCartOpen = true;
+      }
+
+
+    }
+    ayinIndex2 = _selectIndex;
+
+    if(!closeGoToCart) {
+      Future.delayed(const Duration(milliseconds: 200), () {
+        setState(() {
+          closeGoToCart = false;
+        });
+      });
+      setState(() {
+        _goToCartHeight = 142;
+      });
+    } else {
+      setState(() {
+        closeGoToCart = true;
+      });
+      Future.delayed(const Duration(milliseconds: 200), () {
+        setState(() {
+          _goToCartHeight = 61;
+        });
+      });
+    }
+  }
+
+  closeCartFrom(String from) {
+    print('FROM close' + from);
+    if(from == 'products') {
+      prodCartOpen = false;
+    } else if(from == 'saleorders') {
+      sordCartOpen = false;
+    } else if(from == 'buyorders') {
+      bordCartOpen = false;
+    } else if(from == 'customers') {
+      custCartOpen = false;
+    } else if(from == 'merchants') {
+      mercCartOpen = false;
+    } else if(from == 'settings') {
+      settCartOpen = false;
+    } else if(from == 'search') {
+      searCartOpen = false;
+    }
+    setState(() {
+      closeGoToCart = true;
+    });
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        _goToCartHeight = 61;
+      });
+    });
+  }
+
+  openCartFrom(String from) {
+    print('FROM open' + from);
+    if(from == 'products') {
+      prodCartOpen = true;
+    } else if(from == 'saleorders') {
+      sordCartOpen = true;
+    } else if(from == 'buyorders') {
+      bordCartOpen = true;
+    } else if(from == 'customers') {
+      custCartOpen = true;
+    } else if(from == 'merchants') {
+      mercCartOpen = true;
+    } else if(from == 'settings') {
+      settCartOpen = true;
+    } else if(from == 'search') {
+      searCartOpen = true;
+    }
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        closeGoToCart = false;
+      });
+    });
+    setState(() {
+      _goToCartHeight = 142;
     });
   }
 

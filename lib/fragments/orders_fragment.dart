@@ -41,8 +41,8 @@ class OrdersFragment extends StatefulWidget {
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
         required void searchBtn(),
-        required void closeCartBtn(),
-        required void openCartBtn(),
+        required void closeCartBtn(String str),
+        required void openCartBtn(String str),
         Key? key,
       })
       :
@@ -115,6 +115,14 @@ class OrdersFragmentState extends State<OrdersFragment>
       return 'english';
     }
     return prefs.getString('lang');
+  }
+
+  void closeCartFrom() {
+    widget._closeCartBtn('saleorders');
+  }
+
+  void openCartFrom() {
+    widget._openCartBtn('saleorders');
   }
 
   @override
@@ -4145,7 +4153,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => OrderInfoSub(closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                                                              builder: (context) => OrderInfoSub(closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -4376,7 +4384,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => OrderInfoSub(closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                                                            builder: (context) => OrderInfoSub(closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
                                                       );
                                                     },
                                                     child: Stack(
