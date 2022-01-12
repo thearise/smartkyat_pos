@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 
 class EditCustomer extends StatefulWidget {
-  final _closeCartBtn;
-  const EditCustomer({Key? key, required void closeCartBtn(), required this.shopId, required this.cusId, required this.cusName, required this.cusAddress, required this.cusPhone}) : _closeCartBtn = closeCartBtn,
+  final _openCartBtn;
+  const EditCustomer({Key? key, required void openCartBtn(), required this.shopId, required this.cusId, required this.cusName, required this.cusAddress, required this.cusPhone}) : _openCartBtn = openCartBtn,
         super(key: key);
   final String shopId;
   final String cusId;
@@ -39,20 +39,28 @@ class _EditCustomerState extends State<EditCustomer> {
   void dispose() {
     super.dispose();
   }
+
   bool cusLoading = false;
   bool disableTouch = false;
 
+  bool firstTime = true;
+  double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
 
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
+
     return WillPopScope(
       onWillPop: () async {
-        widget._closeCartBtn();
+        widget._openCartBtn();
         return true;
       },
-      child: Scaffold(
-        //resizeToAvoidBottomInset: false,
-        body: IgnorePointer(
+      child: Container(
+        color: Colors.white,
+        child: IgnorePointer(
           ignoring: disableTouch,
           child: SafeArea(
             top: true,
@@ -90,7 +98,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                     color: Colors.black,
                                   ),
                                   onPressed: () {
-                                    widget._closeCartBtn();
+                                    widget._openCartBtn();
                                     Navigator.pop(context);
                                   }),
                             ),
@@ -127,279 +135,361 @@ class _EditCustomerState extends State<EditCustomer> {
                 Expanded(
                   child: ListView(
                     children: [
-                      Form(
-                        key: _formKey,
-                        child: Stack(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                              child: Text(
-                                'CUSTOMER INFORMATION',
-                                style: TextStyle(
-                                  letterSpacing: 1.5,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 45.0, right: 15.0, left:15.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.text,
-                                controller: cusNameCtrl,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return ' This field is required ';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(
-                                  height: 0.95,
-                                ),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(
-                                          color: AppTheme.skBorderColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-
-                                  focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(
-                                          color: AppTheme.themeColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-                                  contentPadding: EdgeInsets.only(
-                                      left: 15.0,
-                                      right: 15.0,
-                                      top: 20.0,
-                                      bottom: 20.0),
-                                  //suffixText: 'Required',
-                                  suffixStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                  ),
-                                  // errorText: wrongPassword,
-                                  errorStyle: TextStyle(
-                                      backgroundColor: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'capsulesans',
-                                      height: 0.1
-                                  ),
-                                  labelStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  ),
-// errorText: 'Error message',
-                                  labelText: 'Name',
-                                  floatingLabelBehavior:
-                                  FloatingLabelBehavior.auto,
-//filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                       Form(
+                         key: _formKey,
+                         child: Stack(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                                child: Text(
+                                  'CUSTOMER INFORMATION',
+                                  style: TextStyle(
+                                    letterSpacing: 1.5,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,color: Colors.grey,
                                   ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 117.0, right: 15.0, left:15.0),
-                              child: TextFormField(
-                                controller: cusAddressCtrl,
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return ' This field is required ';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(
-                                  height: 0.95,
-                                ),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(
-                                          color: AppTheme.skBorderColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-
-                                  focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(
-                                          color: AppTheme.themeColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-                                  contentPadding: EdgeInsets.only(
-                                      left: 15.0,
-                                      right: 15.0,
-                                      top: 20.0,
-                                      bottom: 20.0),
-                                  //suffixText: 'Required',
-                                  suffixStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                  ),
-                                  // errorText: wrongPassword,
-                                  errorStyle: TextStyle(
-                                      backgroundColor: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'capsulesans',
-                                      height: 0.1
-                                  ),
-                                  labelStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  ),
-// errorText: 'Error message',
-                                  labelText: 'Address',
-                                  floatingLabelBehavior:
-                                  FloatingLabelBehavior.auto,
-//filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 189.0, right: 15.0, left:15.0),
-                              child: TextFormField(
-                                controller: cusPhoneCtrl,
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return ' This field is required ';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(
-                                  height: 0.95,
-                                ),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(
-                                          color: AppTheme.skBorderColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-
-                                  focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(
-                                          color: AppTheme.themeColor,
-                                          width: 2.0),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-                                  contentPadding: EdgeInsets.only(
-                                      left: 15.0,
-                                      right: 15.0,
-                                      top: 20.0,
-                                      bottom: 20.0),
-                                  //suffixText: 'Required',
-                                  suffixStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                    fontFamily: 'capsulesans',
-                                  ),
-                                  // errorText: wrongPassword,
-                                  errorStyle: TextStyle(
-                                      backgroundColor: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'capsulesans',
-                                      height: 0.1
-                                  ),
-                                  labelStyle: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  ),
-// errorText: 'Error message',
-                                  labelText: 'Phone Number',
-                                  floatingLabelBehavior:
-                                  FloatingLabelBehavior.auto,
-//filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 261.0, right: 15.0, left:15.0),
-                              child: ButtonTheme(
-                                minWidth: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                splashColor: Colors.transparent,
-                                height: 50,
-                                child: FlatButton(
-                                  color: AppTheme.themeColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
-                                    side: BorderSide(
-                                      color: AppTheme.themeColor,
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    setState(() {
-                                      cusLoading = true;
-                                      disableTouch = true;
-                                    });
-                                    CollectionReference customerLocate = await FirebaseFirestore.instance.collection('shops')
-                                        .doc(widget.shopId)
-                                        .collection('customers');
-                                    if (_formKey.currentState!.validate()) {
-                                      customerLocate.doc(widget.cusId).update({
-                                        'customer_name': cusNameCtrl.text,
-                                        'customer_address': cusAddressCtrl.text,
-                                        'customer_phone' : cusPhoneCtrl.text,
-                                      });
-                                      setState(() {
-                                        cusLoading = false;
-                                        disableTouch = false;
-                                      });
-                                      widget._closeCartBtn();
-                                      Navigator.pop(context);
-                                      smartKyatFlash(cusNameCtrl.text + ' is successfully updated.', 's');
+                              Padding(
+                                padding: const EdgeInsets.only(top: 45.0, right: 15.0, left:15.0),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  controller: cusNameCtrl,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return ' This field is required ';
                                     }
-
+                                    return null;
                                   },
-                                  child: cusLoading == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                      child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0,
-                                        right: 5.0,
-                                        bottom: 2.0),
-                                    child: Container(
-                                      child: Text(
-                                        'Save Customer',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: -0.1
-                                        ),
-                                      ),
+                                  style: TextStyle(
+                                    height: 0.95,
+                                  ),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                        borderSide: BorderSide(
+                                            color: AppTheme.skBorderColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+
+                                    focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                        borderSide: BorderSide(
+                                            color: AppTheme.themeColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15.0,
+                                        right: 15.0,
+                                        top: 20.0,
+                                        bottom: 20.0),
+                                    //suffixText: 'Required',
+                                    suffixStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                    ),
+                                    // errorText: wrongPassword,
+                                    errorStyle: TextStyle(
+                                        backgroundColor: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: 'capsulesans',
+                                        height: 0.1
+                                    ),
+                                    labelStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+// errorText: 'Error message',
+                                    labelText: 'Name',
+                                    floatingLabelBehavior:
+                                    FloatingLabelBehavior.auto,
+//filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 117.0, right: 15.0, left:15.0),
+                                child: TextFormField(
+                                  controller: cusAddressCtrl,
+                                  keyboardType: TextInputType.text,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return ' This field is required ';
+                                    }
+                                    return null;
+                                  },
+                                  style: TextStyle(
+                                    height: 0.95,
+                                  ),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                        borderSide: BorderSide(
+                                            color: AppTheme.skBorderColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+
+                                    focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                        borderSide: BorderSide(
+                                            color: AppTheme.themeColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15.0,
+                                        right: 15.0,
+                                        top: 20.0,
+                                        bottom: 20.0),
+                                    //suffixText: 'Required',
+                                    suffixStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                    ),
+                                    // errorText: wrongPassword,
+                                    errorStyle: TextStyle(
+                                        backgroundColor: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: 'capsulesans',
+                                        height: 0.1
+                                    ),
+                                    labelStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+// errorText: 'Error message',
+                                    labelText: 'Address',
+                                    floatingLabelBehavior:
+                                    FloatingLabelBehavior.auto,
+//filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 189.0, right: 15.0, left:15.0),
+                                child: TextFormField(
+                                  controller: cusPhoneCtrl,
+                                  keyboardType: TextInputType.number,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return ' This field is required ';
+                                    }
+                                    return null;
+                                  },
+                                  style: TextStyle(
+                                    height: 0.95,
+                                  ),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                        borderSide: BorderSide(
+                                            color: AppTheme.skBorderColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+
+                                    focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                        borderSide: BorderSide(
+                                            color: AppTheme.themeColor,
+                                            width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15.0,
+                                        right: 15.0,
+                                        top: 20.0,
+                                        bottom: 20.0),
+                                    //suffixText: 'Required',
+                                    suffixStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                      fontFamily: 'capsulesans',
+                                    ),
+                                    // errorText: wrongPassword,
+                                    errorStyle: TextStyle(
+                                        backgroundColor: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: 'capsulesans',
+                                        height: 0.1
+                                    ),
+                                    labelStyle: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+// errorText: 'Error message',
+                                    labelText: 'Phone Number',
+                                    floatingLabelBehavior:
+                                    FloatingLabelBehavior.auto,
+//filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(top: 261.0, right: 15.0, left:15.0),
+                              //   child: ButtonTheme(
+                              //     minWidth: MediaQuery
+                              //         .of(context)
+                              //         .size
+                              //         .width,
+                              //     splashColor: Colors.transparent,
+                              //     height: 50,
+                              //     child: FlatButton(
+                              //       color: AppTheme.themeColor,
+                              //       shape: RoundedRectangleBorder(
+                              //         borderRadius:
+                              //         BorderRadius.circular(10.0),
+                              //         side: BorderSide(
+                              //           color: AppTheme.themeColor,
+                              //         ),
+                              //       ),
+                              //       onPressed: () async {
+                              //         setState(() {
+                              //           cusLoading = true;
+                              //           disableTouch = true;
+                              //         });
+                              //         CollectionReference customerLocate = await FirebaseFirestore.instance.collection('shops')
+                              //             .doc(widget.shopId)
+                              //             .collection('customers');
+                              //         if (_formKey.currentState!.validate()) {
+                              //           customerLocate.doc(widget.cusId).update({
+                              //             'customer_name': cusNameCtrl.text,
+                              //             'customer_address': cusAddressCtrl.text,
+                              //             'customer_phone' : cusPhoneCtrl.text,
+                              //           });
+                              //           setState(() {
+                              //             cusLoading = false;
+                              //             disableTouch = false;
+                              //           });
+                              //           widget._openCartBtn();
+                              //           Navigator.pop(context);
+                              //           smartKyatFlash(cusNameCtrl.text + ' is successfully updated.', 's');
+                              //         }
+                              //
+                              //       },
+                              //       child: cusLoading == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                              //           child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                              //         padding: const EdgeInsets.only(
+                              //             left: 5.0,
+                              //             right: 5.0,
+                              //             bottom: 2.0),
+                              //         child: Container(
+                              //           child: Text(
+                              //             'Save Customer',
+                              //             textAlign: TextAlign.center,
+                              //             style: TextStyle(
+                              //                 fontSize: 18,
+                              //                 fontWeight: FontWeight.w600,
+                              //                 letterSpacing: -0.1
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                       ),
+                      Container(
+                        color: Colors.white,
+                        height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
                       ),
                     ],
                   ),
-                )
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: homeBotPadding),
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                        child: ButtonTheme(
+                          minWidth: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          splashColor: Colors.transparent,
+                          height: 50,
+                          child: FlatButton(
+                            color: AppTheme.themeColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                color: AppTheme.themeColor,
+                              ),
+                            ),
+                            onPressed: () async {
+                              CollectionReference customerLocate = await FirebaseFirestore.instance.collection('shops')
+                                  .doc(widget.shopId)
+                                  .collection('customers');
+                              if (_formKey.currentState!.validate()) {
+
+                                setState(() {
+                                  cusLoading = true;
+                                  disableTouch = true;
+                                });
+
+                                customerLocate.doc(widget.cusId).update({
+                                  'customer_name': cusNameCtrl.text,
+                                  'customer_address': cusAddressCtrl.text,
+                                  'customer_phone' : cusPhoneCtrl.text,
+                                }).then((value) {
+                                  Future.delayed(const Duration(milliseconds: 2000), () {
+                                    setState(() {
+                                      cusLoading = false;
+                                      disableTouch = false;
+                                    });
+                                  });
+                                  }).catchError((error) => print("Failed to update user: $error"));
+
+                                widget._openCartBtn();
+                                Navigator.pop(context);
+                                smartKyatFlash(cusNameCtrl.text + ' is successfully updated.', 's');
+                              }
+
+                            },
+                            child: cusLoading == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5.0,
+                                  right: 5.0,
+                                  bottom: 2.0),
+                              child: Container(
+                                child: Text(
+                                  'Save Customer',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: -0.1
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

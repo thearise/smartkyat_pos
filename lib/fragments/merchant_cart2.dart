@@ -557,31 +557,7 @@ class MerchantCartState extends State<MerchantCart>
                                                         fit: BoxFit
                                                             .cover,
                                                       )
-                                                          : CachedNetworkImage(
-                                                        imageUrl:
-                                                        'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
-                                                        width: 58,
-                                                        height: 58,
-                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                        errorWidget: (context,
-                                                            url,
-                                                            error) =>
-                                                            Icon(Icons
-                                                                .error),
-                                                        fadeInDuration:
-                                                        -  Duration(
-                                                            milliseconds:
-                                                            100),
-                                                        fadeOutDuration:
-                                                        Duration(
-                                                            milliseconds:
-                                                            10),
-                                                        fadeInCurve:
-                                                        Curves
-                                                            .bounceIn,
-                                                        fit: BoxFit
-                                                            .cover,
-                                                      )),
+                                                          : Image.asset('assets/system/default-product.png', height: 75, width: 75),),
                                                   title: Text(
                                                     output2?[
                                                       'prod_name'],

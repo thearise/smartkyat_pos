@@ -13,7 +13,8 @@ import 'merchant_orders_info2.dart';
 class MerchantInfoSubs extends StatefulWidget {
   final _callback;
   final _closeCartBtn;
-  const MerchantInfoSubs({Key? key,required void closeCartBtn(), required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn;
+  final _openCartBtn;
+  const MerchantInfoSubs({Key? key,required void closeCartBtn(), required void openCartBtn(),required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn;
   final String id;
   final String shopId;
 
@@ -224,8 +225,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => MerchantOrdersInfoSubs(id: widget.id, shopId: widget.shopId.toString(),)
-                                                ),
+                                                    builder: (context) => MerchantOrdersInfoSubs(id: widget.id, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                               );
 
                                             },
@@ -285,7 +285,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone, closeCartBtn: widget._closeCartBtn,)),);
+                                                      builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone, openCartBtn: widget._openCartBtn,)),);
                                               },
                                               child: Text(
                                                 'EDIT',

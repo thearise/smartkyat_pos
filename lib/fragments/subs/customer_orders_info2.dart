@@ -7,7 +7,9 @@ import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 import '../../app_theme.dart';
 
 class CustomerOrdersInfoSubs extends StatefulWidget {
-  const CustomerOrdersInfoSubs({Key? key, required this.id, required this.shopId});
+  final _openCartBtn;
+  final _closeCartBtn;
+  const CustomerOrdersInfoSubs({Key? key, required this.id, required this.shopId, required void openCartBtn(), required void closeCartBtn()}) : _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn;
   final String id;
   final String shopId;
 
@@ -285,7 +287,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), togG2Cart: () {  },)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                           );
                         },
                         child: Stack(
@@ -509,7 +511,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), togG2Cart: () {  },)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                           );
                         },
                         child: Stack(
@@ -733,7 +735,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), togG2Cart: () {  },)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                           );
                         },
                         child: Stack(
@@ -957,7 +959,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), togG2Cart: () {  },)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                           );
                         },
                         child: Stack(

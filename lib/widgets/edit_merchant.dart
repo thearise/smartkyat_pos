@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 
 class EditMerchant extends StatefulWidget {
-  final _closeCartBtn;
+  final _openCartBtn;
 
-  const EditMerchant({Key? key, required void closeCartBtn(), required this.shopId, required this.merchId, required this.merchName, required this.merchAddress, required this.merchPhone}) : _closeCartBtn = closeCartBtn;
+  const EditMerchant({Key? key, required void openCartBtn(), required this.shopId, required this.merchId, required this.merchName, required this.merchAddress, required this.merchPhone}) : _openCartBtn = openCartBtn;
   final String shopId;
   final String merchId;
   final String merchName;
@@ -43,17 +43,23 @@ class _EditMerchantState extends State<EditMerchant> {
   bool merchLoading = false;
   bool disableTouch = false;
 
+  bool firstTime = true;
+  double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
 
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
     return WillPopScope(
       onWillPop: () async {
-        widget._closeCartBtn();
+        widget._openCartBtn();
         return true;
       },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: IgnorePointer(
+      child: Container(
+        color: Colors.white,
+        child: IgnorePointer(
           ignoring: disableTouch,
           child: SafeArea(
             top: true,
@@ -92,7 +98,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                   ),
                                   onPressed: () {
                                     Navigator.pop(context);
-                                    widget._closeCartBtn();
+                                    widget._openCartBtn();
                                   }),
                             ),
                           ),
@@ -332,74 +338,155 @@ class _EditMerchantState extends State<EditMerchant> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 261.0, right: 15.0, left:15.0),
-                              child: ButtonTheme(
-                                minWidth: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                splashColor: Colors.transparent,
-                                height: 50,
-                                child: FlatButton(
-                                  color: AppTheme.themeColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
-                                    side: BorderSide(
-                                      color: AppTheme.themeColor,
-                                    ),
-                                  ),
-                                  onPressed: () async {
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 261.0, right: 15.0, left:15.0),
+                            //   child: ButtonTheme(
+                            //     minWidth: MediaQuery
+                            //         .of(context)
+                            //         .size
+                            //         .width,
+                            //     splashColor: Colors.transparent,
+                            //     height: 50,
+                            //     child: FlatButton(
+                            //       color: AppTheme.themeColor,
+                            //       shape: RoundedRectangleBorder(
+                            //         borderRadius:
+                            //         BorderRadius.circular(10.0),
+                            //         side: BorderSide(
+                            //           color: AppTheme.themeColor,
+                            //         ),
+                            //       ),
+                            //       onPressed: () async {
+                            //
+                            //         CollectionReference customerLocate = await FirebaseFirestore.instance.collection('shops')
+                            //             .doc(widget.shopId)
+                            //             .collection('merchants');
+                            //         if (_formKey.currentState!.validate()) {
+                            //           setState(() {
+                            //             merchLoading = true;
+                            //             disableTouch = true;
+                            //           });
+                            //           customerLocate.doc(widget.merchId).update({
+                            //             'merchant_name': merchNameCtrl.text,
+                            //             'merchant_address': merchAddressCtrl.text,
+                            //             'merchant_phone' : merchPhoneCtrl.text,
+                            //           }).then((value) {
+                            //             setState(() {
+                            //             merchLoading = false;
+                            //             disableTouch = false;
+                            //           });
+                            //           }).catchError((error){print("Failed to update user: $error");});
+                            //           Navigator.pop(context);
+                            //           widget._openCartBtn();
+                            //           smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
+                            //         }
+                            //       },
+                            //       child: merchLoading == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                            //           child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                            //         padding: const EdgeInsets.only(
+                            //             left: 5.0,
+                            //             right: 5.0,
+                            //             bottom: 2.0),
+                            //         child: Container(
+                            //           child: Text(
+                            //             'Save Merchant',
+                            //             textAlign: TextAlign.center,
+                            //             style: TextStyle(
+                            //                 fontSize: 18,
+                            //                 fontWeight: FontWeight.w600,
+                            //                 letterSpacing: -0.1
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: homeBotPadding),
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                        child: ButtonTheme(
+                          minWidth: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          splashColor: Colors.transparent,
+                          height: 50,
+                          child: FlatButton(
+                            color: AppTheme.themeColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                color: AppTheme.themeColor,
+                              ),
+                            ),
+                            onPressed: () async {
+
+                              CollectionReference customerLocate = await FirebaseFirestore.instance.collection('shops')
+                                  .doc(widget.shopId)
+                                  .collection('merchants');
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  merchLoading = true;
+                                  disableTouch = true;
+                                });
+                                customerLocate.doc(widget.merchId).update({
+                                  'merchant_name': merchNameCtrl.text,
+                                  'merchant_address': merchAddressCtrl.text,
+                                  'merchant_phone' : merchPhoneCtrl.text,
+                                }).then((value) {
+                                  Future.delayed(const Duration(milliseconds: 2000), () {
                                     setState(() {
-                                      merchLoading = true;
-                                      disableTouch = true;
+                                      merchLoading = false;
+                                      disableTouch = false;
                                     });
-                                    CollectionReference customerLocate = await FirebaseFirestore.instance.collection('shops')
-                                        .doc(widget.shopId)
-                                        .collection('merchants');
-                                    if (_formKey.currentState!.validate()) {
-                                      customerLocate.doc(widget.merchId).update({
-                                        'merchant_name': merchNameCtrl.text,
-                                        'merchant_address': merchAddressCtrl.text,
-                                        'merchant_phone' : merchPhoneCtrl.text,
-                                      });
-                                      setState(() {
-                                        merchLoading = false;
-                                        disableTouch = false;
-                                      });
-                                      Navigator.pop(context);
-                                      widget._closeCartBtn();
-                                      smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
-                                    }
-                                  },
-                                  child: merchLoading == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                      child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0,
-                                        right: 5.0,
-                                        bottom: 2.0),
-                                    child: Container(
-                                      child: Text(
-                                        'Save Merchant',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: -0.1
-                                        ),
-                                      ),
-                                    ),
+                                  });
+                                }).catchError((error){print("Failed to update user: $error");});
+                                Navigator.pop(context);
+                                widget._openCartBtn();
+                                smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
+                              }
+                            },
+                            child: merchLoading == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5.0,
+                                  right: 5.0,
+                                  bottom: 2.0),
+                              child: Container(
+                                child: Text(
+                                  'Save Merchant',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: -0.1
                                   ),
                                 ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),

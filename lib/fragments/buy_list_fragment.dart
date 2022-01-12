@@ -26,9 +26,13 @@ class BuyListFragment extends StatefulWidget {
   final _callback5;
   final _barcodeBtn;
   final _searchBtn;
+  final _openCartBtn;
+  final _closeCartBtn;
 
   BuyListFragment(
       {
+        required void openCartBtn(),
+        required void closeCartBtn(),
         required this.buyOrdersSnapshot,
         required this.merchantsSnapshot,
         required this.shopId,
@@ -47,6 +51,8 @@ class BuyListFragment extends StatefulWidget {
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
         _searchBtn = searchBtn,
+        _openCartBtn = openCartBtn,
+        _closeCartBtn = closeCartBtn,
         super(key: key);
   final String shopId;
   final buyOrdersSnapshot;
@@ -4146,7 +4152,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                               builder: (context) => BuyListInfo(
                                                                 data: item,
                                                                 toggleCoinCallback:
-                                                                    () {}, shopId: widget.shopId.toString(),)),
+                                                                    () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn, closeCartBtn: widget._closeCartBtn,)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -4381,7 +4387,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                             builder: (context) => BuyListInfo(
                                                               data: item,
                                                               toggleCoinCallback:
-                                                                  () {}, shopId: widget.shopId.toString(),)),
+                                                                  () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                                       );
                                                     },
                                                     child: Stack(
