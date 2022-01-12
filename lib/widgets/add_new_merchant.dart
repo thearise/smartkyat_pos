@@ -38,11 +38,17 @@ class _AddMerchantState extends State<AddMerchant> {
     super.initState();
   }
 
+  bool firstTime = true;
+  double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Stack(
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
+    return Container(
+      color: Colors.white,
+      child: Stack(
         children: [
           SafeArea(
             top: true,
@@ -293,14 +299,14 @@ class _AddMerchantState extends State<AddMerchant> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
-                                    height: 50,
-                                  ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height: 50,),
+                          Container(
+                            color: Colors.white,
+                            height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
+                          ),
                         ],
                       ),
                     ),

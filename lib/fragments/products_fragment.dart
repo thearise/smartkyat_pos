@@ -52,7 +52,8 @@ class ProductsFragment extends StatefulWidget {
   final _callback5;
   final _barcodeBtn;
   final _searchBtn;
-  final _clearCartBtn;
+  final _closeCartBtn;
+  final _openCartBtn;
 
   ProductsFragment(
       {
@@ -65,7 +66,8 @@ class ProductsFragment extends StatefulWidget {
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
         required void searchBtn(),
-        required void clearCartBtn(),
+        required void closeCartBtn(),
+        required void openCartBtn(),
         required this.lowStockSnapshot,
         Key? key,
       })
@@ -76,7 +78,8 @@ class ProductsFragment extends StatefulWidget {
         _callback5 = toggleCoinCallback5,
         _barcodeBtn = barcodeBtn,
         _searchBtn = searchBtn,
-        _clearCartBtn = clearCartBtn,
+        _openCartBtn = openCartBtn,
+        _closeCartBtn = closeCartBtn,
         super(key: key);
   final String shopId;
   final productsSnapshot;
@@ -804,7 +807,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                             onTap: () {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                    builder: (context) => ProductDetailsView2(idString: version, toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), goCartBtn: widget._clearCartBtn,)),);
+                                                    builder: (context) => ProductDetailsView2(idString: version, toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),);
                                             },
                                             child: Padding(
                                               padding:

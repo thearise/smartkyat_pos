@@ -38,11 +38,17 @@ class _AddCustomerState extends State<AddCustomer> {
   
   bool cusCreating = false;
 
+  bool firstTime = true;
+  double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Stack(
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
+    return Container(
+      color: Colors.white,
+      child: Stack(
         children: [
           SafeArea(
             top: true,
@@ -293,14 +299,15 @@ class _AddCustomerState extends State<AddCustomer> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
-                                    height: 50,
-                                  ),
+
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height: 50,),
+                          Container(
+                            color: Colors.white,
+                            height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
+                          ),
                         ],
                       ),
                     ),
@@ -331,7 +338,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                 onPressed: () async {
                                   merchFieldsValue = [];
                                   if (_formKey.currentState!.validate()) {
-                                    
+
                                     setState(() {
                                       cusCreating = true;
                                       widget.cusLoadingState();

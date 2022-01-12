@@ -32,15 +32,17 @@ class CustomersFragment extends StatefulWidget {
   final _searchBtn;
   final addCust;
   final _closeCartBtn;
+  final _openCartBtn;
 
   CustomersFragment({
+    required void openCartBtn(),
     required void closeCartBtn(),
     required void toggleCoinCallback6(),
     required void searchBtn(),
     required this.customersSnapshot,
     required this.shopId,
     required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),Key? key,
-    }) : _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4,super(key: key);
+    }) : _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, _openCartBtn = openCartBtn,super(key: key);
   final String shopId;
   final customersSnapshot;
   @override
@@ -3804,7 +3806,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                           id: version,
-                                                          toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn,)),
+                                                          toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                             );
                                           },
                                           child: Padding(
@@ -4006,7 +4008,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                         id: version,
-                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn,)),
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
                                             );
                                           },
                                           child: Padding(

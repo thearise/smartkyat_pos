@@ -7,9 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../app_theme.dart';
 
 class LossProduct extends StatefulWidget {
+  final _openCartBtn;
   const LossProduct(
       {Key? key,
-        required this.idString, required this.prodID, required this.shopId, required this.price1, required this.price2, required this.price3,});
+        required void openCartBtn(), required this.idString, required this.prodID, required this.shopId, required this.price1, required this.price2, required this.price3,}) : _openCartBtn = openCartBtn;
   final String idString;
   final String prodID;
   final String shopId;
@@ -65,443 +66,470 @@ class _LossProductState extends State<LossProduct> {
   }
 
 
+  bool firstTime = true;
+  double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          top: true,
-          bottom: true,
-          child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
-                  .collection('shops')
-                  .doc(widget.shopId)
-                  .collection('products')
-                  .doc(widget.idString)
-                  .snapshots(),
-              builder: (BuildContext context, snapshot2) {
-                if (snapshot2.hasData) {
-                  var output1 = snapshot2.data!.data();
-                  var prodName = output1?['prod_name'];
-                  var mainName = output1?[widget.prodID.split('-')[3]];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        height: 81,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    width: 1.0))),
-                        child: Padding(
-                          padding:
-                          const EdgeInsets.only(left: 15.0, right: 15.0,),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 0),
-                                child: Container(
-                                  width: 37,
-                                  height: 37,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(35.0),
-                                      ),
-                                      color: Colors.grey.withOpacity(0.3)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 3.0),
-                                    child: IconButton(
-                                        icon: Icon(
-                                          Icons.arrow_back_ios_rounded,
-                                          size: 17,
-                                          color: Colors.black,
+
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
+    return WillPopScope(
+      onWillPop: () async{
+        widget._openCartBtn();
+        return true;
+      },
+      child: Container(
+          color: Colors.white,
+          child: SafeArea(
+            top: true,
+            bottom: true,
+            child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance
+                    .collection('shops')
+                    .doc(widget.shopId)
+                    .collection('products')
+                    .doc(widget.idString)
+                    .snapshots(),
+                builder: (BuildContext context, snapshot2) {
+                  if (snapshot2.hasData) {
+                    var output1 = snapshot2.data!.data();
+                    var prodName = output1?['prod_name'];
+                    var mainName = output1?[widget.prodID.split('-')[3]];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          height: 81,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      width: 1.0))),
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.only(left: 15.0, right: 15.0,),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 0),
+                                  child: Container(
+                                    width: 37,
+                                    height: 37,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(35.0),
                                         ),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        }),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        prodName,
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Loss Product',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: ListView(
-                          children: [
-                            Form(
-                              key: _formKey,
-                              child:  Stack(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
-                                    child: Text(
-                                      "Add Loss Product",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                        letterSpacing: 2,
-                                        color: Colors.grey,
-                                      ),
+                                        color: Colors.grey.withOpacity(0.3)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 3.0),
+                                      child: IconButton(
+                                          icon: Icon(
+                                            Icons.arrow_back_ios_rounded,
+                                            size: 17,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            widget._openCartBtn();
+                                            Navigator.pop(context);
+                                          }),
                                     ),
                                   ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0, top: 45),
-                                    child: Row(
+                                ),
+                                Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
-                                        Container(
-                                          width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
-                                          child: TextFormField(
-                                            controller: lossAmount,
-                                            keyboardType: TextInputType.number,
-// The validator receives the text that the user has entered.
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'This field is required';
-                                              }
-                                              return null;
-                                            },
-                                            style: TextStyle(
-                                              height: 0.95,
-                                            ),
-                                            decoration: InputDecoration(
-                                              enabledBorder: OutlineInputBorder(
-
-                                                  borderSide: BorderSide(
-                                                      color: AppTheme.skBorderColor,
-                                                      width: 2.0),
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10.0))),
-
-                                              focusedBorder: OutlineInputBorder(
-
-                                                  borderSide: BorderSide(
-                                                      color: AppTheme.themeColor,
-                                                      width: 2.0),
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10.0))),
-                                              contentPadding: const EdgeInsets.only(
-                                                  left: 15.0,
-                                                  right: 15.0,
-                                                  top: 20.0,
-                                                  bottom: 20.0),
-                                             // suffixText: 'Required',
-                                              suffixStyle: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 12,
-                                                fontFamily: 'capsulesans',
-                                              ),
-                                              errorStyle: TextStyle(
-                                                  backgroundColor: Colors.white,
-                                                  fontSize: 12,
-                                                  fontFamily: 'capsulesans',
-                                                  height: 0.1
-                                              ),
-                                              labelStyle: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black,
-                                              ),
-// errorText: 'Error message',
-                                              labelText: 'Loss Quantity',
-                                              floatingLabelBehavior:
-                                              FloatingLabelBehavior.auto,
-//filled: true
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                            ),
+                                        Text(
+                                          prodName,
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        Spacer(),
-                                        Container(
-                                          width: (MediaQuery.of(context)
-                                              .size
-                                              .width -
-                                              30) *
-                                              (1.41 / 4),
-                                          child: Text(
-                                            mainName,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                        Text(
+                                          'Loss Product',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0, top: 118),
-                                    child: TextFormField(
-                                      controller: priceAmount,
-                                      keyboardType: TextInputType.number,
-// The validator receives the text that the user has entered.
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.isEmpty) {
-                                          return 'This field is required';
-                                        }
-                                        return null;
-                                      },
-                                      style: TextStyle(
-                                        height: 0.95,
-                                      ),
-                                      decoration: InputDecoration(
-                                        enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                            borderSide: const BorderSide(
-                                                color: AppTheme.skBorderColor,
-                                                width: 2.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-
-                                        focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                            borderSide: const BorderSide(
-                                                color: AppTheme.themeColor,
-                                                width: 2.0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        contentPadding: const EdgeInsets.only(
-                                            left: 15.0,
-                                            right: 15.0,
-                                            top: 20.0,
-                                            bottom: 20.0),
-                                        suffixText: 'MMK',
-                                        suffixStyle: TextStyle(
+                                    )
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView(
+                            children: [
+                              Form(
+                                key: _formKey,
+                                child:  Stack(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      padding: EdgeInsets.only(top: 15, left: 15, right: 15.0),
+                                      child: Text(
+                                        "Add Loss Product",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                          letterSpacing: 2,
                                           color: Colors.grey,
-                                          fontSize: 12,
-                                          fontFamily: 'capsulesans',
-                                        ),
-                                        errorStyle: TextStyle(
-                                            backgroundColor: Colors.white,
-                                            fontSize: 12,
-                                            fontFamily: 'capsulesans',
-                                            height: 0.1
-                                        ),
-                                        labelStyle: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                        labelText: 'Buy Price',
-                                        floatingLabelBehavior:
-                                        FloatingLabelBehavior.auto,
-//filled: true
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                       ),
                                     ),
-                                  ),
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 15.0, left: 15.0, top: 195),
-                                    child: ButtonTheme(
-                                      minWidth: MediaQuery.of(context).size.width,
-                                      splashColor: Colors.transparent,
-                                      height: 50,
-                                      child: FlatButton(
-                                        color: AppTheme.themeColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(10.0),
-                                          side: BorderSide(
-                                            color: AppTheme.themeColor,
-                                          ),
-                                        ),
-                                        onPressed: () async {
-                                          if (_formKey.currentState!.validate()) {
-                                            var dateExist = false;
-
-                                            List<String> subLink1 = [];
-                                            List<String> subName1 = [];
-                                            List<double> subStock1 = [];
-                                            var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(
-                                                widget.shopId).collection('products').doc(
-                                                widget.prodID.split('-')[0])
-                                                .get();
-
-                                            if (docSnapshot10.exists) {
-                                              Map<String, dynamic>? data10 = docSnapshot10.data();
-                                              for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                subLink1.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                subName1.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                print('inStock' + (i+1).toString());
-                                                subStock1.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                              }
-                                            }
-                                            DateTime now = DateTime.now();
-                                            String buyPriceUnit = '';
-                                            String buyPrice = '';
-                                            String unit = '';
-                                            CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('loss');
-
-                                            if (widget.prodID.split('-')[3] == 'unit_name') {
-                                              decStockFromInv(widget.prodID.split('-')[0], 'main', lossAmount.text.toString());
-                                              lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                                'date': now,
-                                                'prod_id' : widget.prodID.split('-')[0],
-                                                'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
-                                                'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
-                                                'type': 'loss1',
-                                              }).then((value) =>
-                                                  print("User Updated"))
-                                                  .catchError((error) =>
-                                                  print(
-                                                      "Failed to update datenotexist: $error"));
-                                              // unit = 'loss1';
-                                              // buyPriceUnit = 'buyPrice1';
-                                            }
-                                            else if (widget.prodID.split('-')[3] == 'sub1_name') {
-                                              sub1Execution(subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString());
-                                              // unit = 'loss2';
-                                              // buyPriceUnit = 'buyPrice2';
-                                              lossProduct.add({
-                                                //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                                'date': now,
-                                                'prod_id' : widget.prodID.split('-')[0],
-                                                'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
-                                                'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
-                                                'type': 'loss2',
-                                              }).then((value) =>
-                                                  print("User Updated"))
-                                                  .catchError((error) =>
-                                                  print(
-                                                      "Failed to update datenotexist: $error"));
-                                            }
-                                            else if (widget.prodID.split('-')[3] == 'sub2_name') {
-                                              sub2Execution(subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString());
-                                              lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                                'date': now,
-                                                'prod_id' : widget.prodID.split('-')[0],
-                                                'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
-                                                'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
-                                                'type': 'loss3',
-                                              }).then((value) =>
-                                                  print("User Updated"))
-                                                  .catchError((error) =>
-                                                  print(
-                                                      "Failed to update datenotexist: $error"));
-                                              // unit = 'loss3';
-                                              // buyPriceUnit = 'buyPrice3';
-                                            }
-                                            // var dateId = '';
-                                            //
-                                            // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).get().then((value) async {
-                                            //   buyPrice = value.data()![buyPriceUnit].toString();
-                                            //
-                                            //   print("SHOP ID " + widget.shopId + ' ' + widget.prodID.split('-')[0]);
-                                            //   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).collection(unit)
-                                            //       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
-                                            //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                            //       .get()
-                                            //       .then((QuerySnapshot qsNew)  async {
-                                            //
-                                            //     print("LENGTH " + qsNew.docs.length.toString());
-                                            //
-                                            //     qsNew.docs.forEach((doc) {
-                                            //       dateExist = true;
-                                            //       dateId = doc.id;
-                                            //       print('UNIT ' + doc.id.toString());
-                                            //     });
-                                            //
-                                            //     print('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
-                                            //     print('dick exist - > ' + dateExist.toString());
-                                            //
-                                            //     //
-                                            //     if(dateExist){
-                                            //       lossProduct.doc(dateId).update({
-                                            //         'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                            //         // 'count': FieldValue.increment(double.parse(lossAmount.text.toString())),
-                                            //         // 'buy_price': buyPrice,
-                                            //       }).then((value) => print("User Updated"))
-                                            //           .catchError((error) => print("Failed to update dateexist: $error"));
-                                            //     }
-                                            //     else {
-                                            //       lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum).set({
-                                            //         // 'count': FieldValue
-                                            //         //     .increment(
-                                            //         //     double.parse(
-                                            //         //         lossAmount.text.toString())),
-                                            //         // 'buy_price': buyPrice,
-                                            //         'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
-                                            //         'date': now,
-                                            //       }).then((value) =>
-                                            //           print("User Updated"))
-                                            //           .catchError((error) =>
-                                            //           print(
-                                            //               "Failed to update datenotexist: $error"));
-                                            //     }
-                                            //   });
-                                            // });
-                                            Navigator.pop(context);
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 5.0,
-                                              right: 5.0,
-                                              bottom: 2.0),
-                                          child: Container(
-                                            child: Text(
-                                              'Save Loss Product',
-                                              textAlign: TextAlign.center,
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0, top: 45),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+                                            child: TextFormField(
+                                              controller: lossAmount,
+                                              keyboardType: TextInputType.number,
+// The validator receives the text that the user has entered.
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'This field is required';
+                                                }
+                                                return null;
+                                              },
                                               style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
-                                                  letterSpacing:-0.1
+                                                height: 0.95,
+                                              ),
+                                              decoration: InputDecoration(
+                                                enabledBorder: OutlineInputBorder(
+
+                                                    borderSide: BorderSide(
+                                                        color: AppTheme.skBorderColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+
+                                                focusedBorder: OutlineInputBorder(
+
+                                                    borderSide: BorderSide(
+                                                        color: AppTheme.themeColor,
+                                                        width: 2.0),
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                contentPadding: const EdgeInsets.only(
+                                                    left: 15.0,
+                                                    right: 15.0,
+                                                    top: 20.0,
+                                                    bottom: 20.0),
+                                               // suffixText: 'Required',
+                                                suffixStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12,
+                                                  fontFamily: 'capsulesans',
+                                                ),
+                                                errorStyle: TextStyle(
+                                                    backgroundColor: Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily: 'capsulesans',
+                                                    height: 0.1
+                                                ),
+                                                labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+// errorText: 'Error message',
+                                                labelText: 'Loss Quantity',
+                                                floatingLabelBehavior:
+                                                FloatingLabelBehavior.auto,
+//filled: true
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
                                               ),
                                             ),
                                           ),
+                                          Spacer(),
+                                          Container(
+                                            width: (MediaQuery.of(context)
+                                                .size
+                                                .width -
+                                                30) *
+                                                (1.41 / 4),
+                                            child: Text(
+                                              mainName,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0, top: 118),
+                                      child: TextFormField(
+                                        controller: priceAmount,
+                                        keyboardType: TextInputType.number,
+// The validator receives the text that the user has entered.
+                                        validator: (value) {
+                                          if (value == null ||
+                                              value.isEmpty) {
+                                            return 'This field is required';
+                                          }
+                                          return null;
+                                        },
+                                        style: TextStyle(
+                                          height: 0.95,
+                                        ),
+                                        decoration: InputDecoration(
+                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.skBorderColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+
+                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                              borderSide: const BorderSide(
+                                                  color: AppTheme.themeColor,
+                                                  width: 2.0),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 15.0,
+                                              right: 15.0,
+                                              top: 20.0,
+                                              bottom: 20.0),
+                                          suffixText: 'MMK',
+                                          suffixStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                            fontFamily: 'capsulesans',
+                                          ),
+                                          errorStyle: TextStyle(
+                                              backgroundColor: Colors.white,
+                                              fontSize: 12,
+                                              fontFamily: 'capsulesans',
+                                              height: 0.1
+                                          ),
+                                          labelStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                          ),
+                                          labelText: 'Buy Price',
+                                          floatingLabelBehavior:
+                                          FloatingLabelBehavior.auto,
+//filled: true
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                color: Colors.white,
+                                height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
+                              ),
+                            ],
+                          ),
+
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: homeBotPadding),
+                            child: Container(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+                                child: ButtonTheme(
+                                  minWidth: MediaQuery.of(context).size.width,
+                                  splashColor: Colors.transparent,
+                                  height: 50,
+                                  child: FlatButton(
+                                    color: AppTheme.themeColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: AppTheme.themeColor,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        var dateExist = false;
+
+                                        List<String> subLink1 = [];
+                                        List<String> subName1 = [];
+                                        List<double> subStock1 = [];
+                                        var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(
+                                            widget.shopId).collection('products').doc(
+                                            widget.prodID.split('-')[0])
+                                            .get();
+
+                                        if (docSnapshot10.exists) {
+                                          Map<String, dynamic>? data10 = docSnapshot10.data();
+                                          for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                            subLink1.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                            subName1.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                            print('inStock' + (i+1).toString());
+                                            subStock1.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                          }
+                                        }
+                                        DateTime now = DateTime.now();
+                                        String buyPriceUnit = '';
+                                        String buyPrice = '';
+                                        String unit = '';
+                                        CollectionReference lossProduct = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('loss');
+
+                                        if (widget.prodID.split('-')[3] == 'unit_name') {
+                                          decStockFromInv(widget.prodID.split('-')[0], 'main', lossAmount.text.toString());
+                                          lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                            'date': now,
+                                            'prod_id' : widget.prodID.split('-')[0],
+                                            'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                            'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
+                                            'type': 'loss1',
+                                          }).then((value) =>
+                                              print("User Updated"))
+                                              .catchError((error) =>
+                                              print(
+                                                  "Failed to update datenotexist: $error"));
+                                          // unit = 'loss1';
+                                          // buyPriceUnit = 'buyPrice1';
+                                        }
+                                        else if (widget.prodID.split('-')[3] == 'sub1_name') {
+                                          sub1Execution(subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString());
+                                          // unit = 'loss2';
+                                          // buyPriceUnit = 'buyPrice2';
+                                          lossProduct.add({
+                                            //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                            'date': now,
+                                            'prod_id' : widget.prodID.split('-')[0],
+                                            'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                            'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
+                                            'type': 'loss2',
+                                          }).then((value) =>
+                                              print("User Updated"))
+                                              .catchError((error) =>
+                                              print(
+                                                  "Failed to update datenotexist: $error"));
+                                        }
+                                        else if (widget.prodID.split('-')[3] == 'sub2_name') {
+                                          sub2Execution(subStock1, subLink1, widget.prodID.split('-')[0], lossAmount.text.toString());
+                                          lossProduct.add({                                      //'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                            'date': now,
+                                            'prod_id' : widget.prodID.split('-')[0],
+                                            'amount' : FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                            'buy_price' : FieldValue.increment(double.parse(priceAmount.text.toString())),
+                                            'type': 'loss3',
+                                          }).then((value) =>
+                                              print("User Updated"))
+                                              .catchError((error) =>
+                                              print(
+                                                  "Failed to update datenotexist: $error"));
+                                          // unit = 'loss3';
+                                          // buyPriceUnit = 'buyPrice3';
+                                        }
+                                        // var dateId = '';
+                                        //
+                                        // FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).get().then((value) async {
+                                        //   buyPrice = value.data()![buyPriceUnit].toString();
+                                        //
+                                        //   print("SHOP ID " + widget.shopId + ' ' + widget.prodID.split('-')[0]);
+                                        //   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').doc(widget.prodID.split('-')[0]).collection(unit)
+                                        //       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
+                                        //       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
+                                        //       .get()
+                                        //       .then((QuerySnapshot qsNew)  async {
+                                        //
+                                        //     print("LENGTH " + qsNew.docs.length.toString());
+                                        //
+                                        //     qsNew.docs.forEach((doc) {
+                                        //       dateExist = true;
+                                        //       dateId = doc.id;
+                                        //       print('UNIT ' + doc.id.toString());
+                                        //     });
+                                        //
+                                        //     print('Unit' + unit + ' ' + now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum);
+                                        //     print('dick exist - > ' + dateExist.toString());
+                                        //
+                                        //     //
+                                        //     if(dateExist){
+                                        //       lossProduct.doc(dateId).update({
+                                        //         'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                        //         // 'count': FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                        //         // 'buy_price': buyPrice,
+                                        //       }).then((value) => print("User Updated"))
+                                        //           .catchError((error) => print("Failed to update dateexist: $error"));
+                                        //     }
+                                        //     else {
+                                        //       lossProduct.doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + '0' + deviceIdNum).set({
+                                        //         // 'count': FieldValue
+                                        //         //     .increment(
+                                        //         //     double.parse(
+                                        //         //         lossAmount.text.toString())),
+                                        //         // 'buy_price': buyPrice,
+                                        //         'loss_count' : FieldValue.arrayUnion([lossAmount.text.toString() + '-' + priceAmount.text.toString()]),
+                                        //         'date': now,
+                                        //       }).then((value) =>
+                                        //           print("User Updated"))
+                                        //           .catchError((error) =>
+                                        //           print(
+                                        //               "Failed to update datenotexist: $error"));
+                                        //     }
+                                        //   });
+                                        // });
+                                        widget._openCartBtn();
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0,
+                                          right: 5.0,
+                                          bottom: 2.0),
+                                      child: Container(
+                                        child: Text(
+                                          'Save Loss Product',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing:-0.1
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
-                  );
+                      ],
+                    );
+                  }
+                  return Container();
                 }
-                return Container();
-              }
-          ),
-        )
+            ),
+          )
+      ),
     );
   }
   changeUnitName2Stock(String split) {

@@ -83,6 +83,8 @@ class HomePageState extends State<HomePage>
 
   bool globalSearching = false;
 
+  bool globalCart = false;
+
   bool orderCreating = false;
 
   bool closeGoToCart = false;
@@ -448,14 +450,14 @@ class HomePageState extends State<HomePage>
             ),
             page: OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(), togG2Cart: toggleGoToCart,),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(),  closeCartBtn: closeCart, openCartBtn: openCart,),
           ),
           TabItem(
             tabName: "Settings",
             icon: Icon(
               Icons.add,
             ),
-            page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: toggleGoToCart,),
+            page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCart, openCartBtn: openCart,),
           ),
           TabItem(
             tabName: "Settings",
@@ -466,14 +468,14 @@ class HomePageState extends State<HomePage>
               key: prodGlobalKey,
               toggleCoinCallback: addNewProd2,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot, clearCartBtn: toggleGoToCart,),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot, closeCartBtn: closeCart, openCartBtn: openCart,),
           ),
           TabItem(
             tabName: "Settings",
             icon: Icon(
               Icons.add,
             ),
-            page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: toggleGoToCart,),
+            page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCart, openCartBtn: openCart,),
           ),
           TabItem(
             tabName: "Settings",
@@ -500,14 +502,14 @@ class HomePageState extends State<HomePage>
             page: BuyListFragment(
                 key: bordGlobalKey, searchBtn: openSearchFromFrag,
                 toggleCoinCallback2: addProduct,
-                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2),
+                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2, closeCartBtn: closeCart, openCartBtn: openCart,),
           ),
           TabItem(
             tabName: "Champions",
             icon: Icon(
               Icons.add,
             ),
-            page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, clearCartBtn: toggleGoToCart,),
+            page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCart, closeCartBtn: closeCart,),
           ),
         ];
       });
@@ -2319,7 +2321,7 @@ class HomePageState extends State<HomePage>
                                                                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                                                                         children: [
                                                                                                           Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                                                          // Text((address != null && customerId.split('^')[1] != null && customerId.split('^')[1].toString() == 'name') ? 'Unknown' : address,
+                                                                                                          // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
                                                                                                           //     style: TextStyle(
                                                                                                           //       fontSize: 14,
                                                                                                           //       color: Colors.grey
@@ -2332,14 +2334,16 @@ class HomePageState extends State<HomePage>
                                                                                                 SizedBox(height: 8,),
                                                                                                 Padding(
                                                                                                   padding: const EdgeInsets.only(left: 15.0),
-                                                                                                  child: Container(height: 12,
+                                                                                                  child: Container(
+                                                                                                    height: 12,
                                                                                                     decoration: BoxDecoration(
                                                                                                         border: Border(
                                                                                                           bottom:
                                                                                                           BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                                                                        )),),
+                                                                                                        )
+                                                                                                    ),
+                                                                                                  ),
                                                                                                 ),
-
                                                                                               ],
                                                                                             ),
                                                                                           ),
@@ -2362,18 +2366,11 @@ class HomePageState extends State<HomePage>
                                                                                               icon:
                                                                                               Icons.delete,
                                                                                               onTap: () {
-                                                                                                setState((){
-                                                                                                  // mystate((){
-                                                                                                  //   customerId = 'name^name';
-                                                                                                  // });
-                                                                                                });
                                                                                               },
                                                                                             ),
                                                                                           ],
                                                                                         ),
-                                                                                        for (int i = 0;
-                                                                                        i < prodList.length;
-                                                                                        i++)
+                                                                                        for (int i = 0; i < prodList.length; i++)
                                                                                           StreamBuilder<
                                                                                               DocumentSnapshot<
                                                                                                   Map<String,
@@ -4453,7 +4450,7 @@ class HomePageState extends State<HomePage>
                                                                                             .w500),
                                                                                   ),
                                                                                   trailing: Text('MMK '+
-                                                                                      debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                      TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                     style: TextStyle(
                                                                                         fontSize: 17,
                                                                                         fontWeight:
@@ -9079,7 +9076,7 @@ class HomePageState extends State<HomePage>
                                                                   .w500),
                                                         ),
                                                         trailing: Text('MMK '+
-                                                            debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                            TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                           style: TextStyle(
                                                               fontSize: 17,
                                                               fontWeight:
@@ -10232,6 +10229,28 @@ class HomePageState extends State<HomePage>
         );
       },
     );
+  }
+
+  closeCart() {
+    setState(() {
+      closeGoToCart = true;
+    });
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        _goToCartHeight = 61;
+      });
+    });
+  }
+
+  openCart() {
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        closeGoToCart = false;
+      });
+    });
+    setState(() {
+      _goToCartHeight = 142;
+    });
   }
 
   void toggleGoToCart() {
