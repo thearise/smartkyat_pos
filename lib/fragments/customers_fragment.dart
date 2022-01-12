@@ -35,8 +35,8 @@ class CustomersFragment extends StatefulWidget {
   final _openCartBtn;
 
   CustomersFragment({
-    required void openCartBtn(),
-    required void closeCartBtn(),
+    required void closeCartBtn(String str),
+    required void openCartBtn(String str),
     required void toggleCoinCallback6(),
     required void searchBtn(),
     required this.customersSnapshot,
@@ -101,6 +101,14 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
       return 'english';
     }
     return prefs.getString('lang');
+  }
+
+  void closeCartFrom() {
+    widget._closeCartBtn('customers');
+  }
+
+  void openCartFrom() {
+    widget._openCartBtn('customers');
   }
 
   @override
@@ -3806,7 +3814,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                           id: version,
-                                                          toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
+                                                          toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
                                             );
                                           },
                                           child: Padding(
@@ -4008,7 +4016,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                         id: version,
-                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
                                             );
                                           },
                                           child: Padding(
