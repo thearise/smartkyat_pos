@@ -31,8 +31,8 @@ class BuyListFragment extends StatefulWidget {
 
   BuyListFragment(
       {
-        required void openCartBtn(),
-        required void closeCartBtn(),
+        required void closeCartBtn(String str),
+        required void openCartBtn(String str),
         required this.buyOrdersSnapshot,
         required this.merchantsSnapshot,
         required this.shopId,
@@ -113,6 +113,14 @@ class BuyListFragmentState extends State<BuyListFragment>
       return 'english';
     }
     return prefs.getString('lang');
+  }
+
+  void closeCartFrom() {
+    widget._closeCartBtn('buyorders');
+  }
+
+  void openCartFrom() {
+    widget._openCartBtn('buyorders');
   }
 
   @override
@@ -4152,7 +4160,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                               builder: (context) => BuyListInfo(
                                                                 data: item,
                                                                 toggleCoinCallback:
-                                                                    () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn, closeCartBtn: widget._closeCartBtn,)),
+                                                                    () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -4387,7 +4395,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                             builder: (context) => BuyListInfo(
                                                               data: item,
                                                               toggleCoinCallback:
-                                                                  () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
+                                                                  () {}, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
                                                       );
                                                     },
                                                     child: Stack(
