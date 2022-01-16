@@ -140,6 +140,7 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   @override
   initState() {
+    print('home frag4');
     _bannerAd = BannerAd(
       // Change Banner Size According to Ur Need
         size: AdSize.fullBanner,

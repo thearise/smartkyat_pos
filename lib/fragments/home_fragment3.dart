@@ -61,8 +61,12 @@ class HomeFragment extends StatefulWidget {
   final _callback4;
   final _barcodeBtn;
   final _searchBtn;
+  final _openDrawerBtn;
+  final _closeDrawerBtn;
 
   HomeFragment({
+    required void closeDrawerBtn(String str),
+    required void openDrawerBtn(String str),
     required this.ordersSnapshot,
     required this.buyOrdersSnapshot,
     required this.lossSnapshot,
@@ -80,6 +84,8 @@ class HomeFragment extends StatefulWidget {
         _callback4 = toggleCoinCallback4,
         _barcodeBtn = barcodeBtn,
         _searchBtn = searchBtn,
+        _openDrawerBtn = openDrawerBtn,
+        _closeDrawerBtn = closeDrawerBtn,
         super(key: key);
   final shopId;
   final ordersSnapshot;
@@ -110,7 +116,13 @@ class HomeFragmentState extends State<HomeFragment>
   DateTime today = DateTime.now();
 
 
+  void closeDrawerFrom() {
+    widget._closeDrawerBtn('home');
+  }
 
+  void openDrawerFrom() {
+    widget._openDrawerBtn('home');
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -121,6 +133,7 @@ class HomeFragmentState extends State<HomeFragment>
   // void _jiggleStuff() {
   //   controller.toggle();
   // }
+
 
   var sectionList;
   var sectionList1;
@@ -192,6 +205,7 @@ class HomeFragmentState extends State<HomeFragment>
 
   @override
   initState() {
+    print('home frag3');
     // super.initState();
     // _bannerAd = BannerAd(
     //   // Change Banner Size According to Ur Need
