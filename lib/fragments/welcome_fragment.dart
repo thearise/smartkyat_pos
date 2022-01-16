@@ -95,8 +95,8 @@ class _WelcomeState extends State<Welcome>
           Future.delayed(const Duration(milliseconds: 1000), () {
             if(value.toString() != '' && value.toString() != 'idk') {
               // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
-              Navigator.of(context).pushReplacement(
-                FadeRoute(page: HomePage()),);
+
+              Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()),);
             } else {
               Future.delayed(const Duration(milliseconds: 1000), () {
                 setState(() {
@@ -148,7 +148,7 @@ class _WelcomeState extends State<Welcome>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       body: SafeArea(
         bottom: true,
@@ -171,7 +171,7 @@ class _WelcomeState extends State<Welcome>
                         Form(
                           key: _formKey,
                           child: Container(
-                            height: MediaQuery.of(context).size.height/1.2,
+                            height: 556,
                             child: TabBarView(
                               physics: NeverScrollableScrollPhysics(),
                               controller: _signupController,

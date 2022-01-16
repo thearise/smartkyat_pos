@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,6 +31,7 @@ class OrdersFragment extends StatefulWidget {
   final _searchBtn;
   final _closeCartBtn;
   final _openCartBtn;
+  final _printFromOrders;
 
 
   OrdersFragment(
@@ -35,6 +39,7 @@ class OrdersFragment extends StatefulWidget {
         required this.ordersSnapshot,
         required this.customersSnapshot,
         required this.shopId,
+        this.selectedDev,
         required void toggleCoinCallback2(String str),
         required void toggleCoinCallback3(String str),
         required void toggleCoinCallback4(String str),
@@ -43,6 +48,7 @@ class OrdersFragment extends StatefulWidget {
         required void searchBtn(),
         required void closeCartBtn(String str),
         required void openCartBtn(String str),
+        required void printFromOrders(File file),
         Key? key,
       })
       :
@@ -54,11 +60,13 @@ class OrdersFragment extends StatefulWidget {
         _searchBtn = searchBtn,
         _closeCartBtn = closeCartBtn,
         _openCartBtn = openCartBtn,
+        _printFromOrders = printFromOrders,
         super(key: key);
 
   final String shopId;
   final ordersSnapshot;
   final customersSnapshot;
+  final BlueDevice? selectedDev;
 
   @override
   OrdersFragmentState createState() => OrdersFragmentState();
@@ -123,6 +131,10 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   void openCartFrom() {
     widget._openCartBtn('saleorders');
+  }
+
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
   }
 
   @override
@@ -3961,8 +3973,8 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                               ),
                                                             ),
                                                             onPressed: () {
-                                                              // _showDatePicker(OneContext().context);
-                                                              widget._closeCartBtn();
+                                                              _showDatePicker(OneContext().context);
+                                                              // widget._closeCartBtn();
                                                             },
                                                             child: Container(
                                                               child: Row(
@@ -4153,7 +4165,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => OrderInfoSub(closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
+                                                              builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
                                                         );
                                                       },
                                                       child: Stack(
@@ -4384,7 +4396,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                       Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => OrderInfoSub(closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
+                                                            builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
                                                       );
                                                     },
                                                     child: Stack(
