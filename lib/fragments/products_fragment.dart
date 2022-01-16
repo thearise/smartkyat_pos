@@ -54,9 +54,13 @@ class ProductsFragment extends StatefulWidget {
   final _searchBtn;
   final _closeCartBtn;
   final _openCartBtn;
+  final _openDrawerBtn;
+  final _closeDrawerBtn;
 
   ProductsFragment(
       {
+        required void closeDrawerBtn(String str),
+        required void openDrawerBtn(String str),
         required this.productsSnapshot,
         required this.shopId,
         required void toggleCoinCallback(),
@@ -71,7 +75,9 @@ class ProductsFragment extends StatefulWidget {
         required this.lowStockSnapshot,
         Key? key,
       })
-      : _callback = toggleCoinCallback,
+      : _openDrawerBtn = openDrawerBtn,
+        _closeDrawerBtn = closeDrawerBtn,
+        _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2,
         _callback3 = toggleCoinCallback3,
         _callback4 = toggleCoinCallback4,
@@ -243,6 +249,14 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   addProduct1(data) {
     widget._callback2(data);
+  }
+
+  void closeDrawerFrom() {
+    widget._closeDrawerBtn('products');
+  }
+
+  void openDrawerFrom() {
+    widget._openDrawerBtn('products');
   }
 
   // slidingSearchCont() {
@@ -804,11 +818,13 @@ class ProductsFragmentState extends State<ProductsFragment>
                                           //   // return Container(height: 100, width: double.infinity, color: Colors.yellow);
                                           // }
                                           return GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).push(
+                                            onTap: () async {
+                                              closeDrawerFrom();
+                                              await Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (context) => ProductDetailsView2(idString: version, toggleCoinCallback: addProduct1, toggleCoinCallback3: addProduct3, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
-                                            },
+                                              openDrawerFrom();
+                                              },
                                             child: Padding(
                                               padding:
                                               EdgeInsets.only(top: index == 0? 7.0: 13.0),

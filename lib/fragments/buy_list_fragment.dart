@@ -28,6 +28,9 @@ class BuyListFragment extends StatefulWidget {
   final _searchBtn;
   final _openCartBtn;
   final _closeCartBtn;
+  final _openDrawerBtn;
+  final _closeDrawerBtn;
+
 
   BuyListFragment(
       {
@@ -42,6 +45,8 @@ class BuyListFragment extends StatefulWidget {
         required void toggleCoinCallback5(String str),
         required void barcodeBtn(),
         required void searchBtn(),
+        required void closeDrawerBtn(String str),
+        required void openDrawerBtn(String str),
         Key? key,
       })
       :
@@ -53,6 +58,7 @@ class BuyListFragment extends StatefulWidget {
         _searchBtn = searchBtn,
         _openCartBtn = openCartBtn,
         _closeCartBtn = closeCartBtn,
+        _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn,
         super(key: key);
   final String shopId;
   final buyOrdersSnapshot;
@@ -121,6 +127,14 @@ class BuyListFragmentState extends State<BuyListFragment>
 
   void openCartFrom() {
     widget._openCartBtn('buyorders');
+  }
+
+  void closeDrawerFrom() {
+    widget._closeDrawerBtn('buyorders');
+  }
+
+  void openDrawerFrom() {
+    widget._openDrawerBtn('buyorders');
   }
 
   @override
@@ -4152,9 +4166,10 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                   // )
                                                   if(itemIndex == length-1) {
                                                     return GestureDetector(
-                                                      onTap: () {
+                                                      onTap: () async{
+                                                        closeDrawerFrom();
                                                         // print(item.split('^')[1]);
-                                                        Navigator.push(
+                                                        await Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) => BuyListInfo(
@@ -4162,6 +4177,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                                 toggleCoinCallback:
                                                                     () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,)),
                                                         );
+                                                        openDrawerFrom();
                                                       },
                                                       child: Stack(
                                                         alignment: Alignment.center,
@@ -4387,9 +4403,10 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                     );
                                                   }
                                                   return GestureDetector(
-                                                    onTap: () {
+                                                    onTap: () async {
+                                                      closeDrawerFrom();
                                                       print('Items'+item);
-                                                      Navigator.push(
+                                                      await Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) => BuyListInfo(
@@ -4397,6 +4414,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                               toggleCoinCallback:
                                                                   () {}, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
                                                       );
+                                                      openDrawerFrom();
                                                     },
                                                     child: Stack(
                                                       alignment: Alignment.center,

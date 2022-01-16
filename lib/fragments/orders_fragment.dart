@@ -32,10 +32,13 @@ class OrdersFragment extends StatefulWidget {
   final _closeCartBtn;
   final _openCartBtn;
   final _printFromOrders;
-
+  final _openDrawerBtn;
+  final _closeDrawerBtn;
 
   OrdersFragment(
       {
+        required void closeDrawerBtn(String str),
+        required void openDrawerBtn(String str),
         required this.ordersSnapshot,
         required this.customersSnapshot,
         required this.shopId,
@@ -61,6 +64,8 @@ class OrdersFragment extends StatefulWidget {
         _closeCartBtn = closeCartBtn,
         _openCartBtn = openCartBtn,
         _printFromOrders = printFromOrders,
+        _openDrawerBtn = openDrawerBtn,
+        _closeDrawerBtn = closeDrawerBtn,
         super(key: key);
 
   final String shopId;
@@ -131,6 +136,14 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   void openCartFrom() {
     widget._openCartBtn('saleorders');
+  }
+
+  void closeDrawerFrom() {
+    widget._closeDrawerBtn('saleorders');
+  }
+
+  void openDrawerFrom() {
+    widget._openDrawerBtn('saleorders');
   }
 
   void printFromOrdersFun(File file) {
@@ -4160,13 +4173,15 @@ class OrdersFragmentState extends State<OrdersFragment>
 
                                                   if(itemIndex == length-1) {
                                                     return GestureDetector(
-                                                      onTap: () {
+                                                      onTap: () async {
+                                                        closeDrawerFrom();
                                                         // print(item.split('^')[1]);
-                                                        Navigator.push(
+                                                        await Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
                                                         );
+                                                        openDrawerFrom();
                                                       },
                                                       child: Stack(
                                                         alignment: Alignment.center,
@@ -4391,13 +4406,15 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                     );
                                                   }
                                                   return GestureDetector(
-                                                    onTap: () {
+                                                    onTap: () async {
+                                                      closeDrawerFrom();
                                                       print('Items'+item);
-                                                      Navigator.push(
+                                                      await Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) => OrderInfoSub(printFromOrders: printFromOrdersFun, closeCartBtn: closeCartFrom, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom,)),
                                                       );
+                                                      openDrawerFrom();
                                                     },
                                                     child: Stack(
                                                       alignment: Alignment.center,

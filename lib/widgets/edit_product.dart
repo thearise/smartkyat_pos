@@ -122,6 +122,7 @@ class _EditProductState extends State<EditProduct> {
 
   @override
   void dispose() {
+    print('loser');
     widget._openCartBtn();
     super.dispose();
   }
