@@ -38,6 +38,7 @@ class SmartKyat_POS {
   static const IconData prods2 = IconData(0xe83f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData product = IconData(0xe840, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home = IconData(0xe842, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData pay = IconData(0xe845, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData merge_arrow2 = IconData(0xe87a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData setting = IconData(0xe87b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
