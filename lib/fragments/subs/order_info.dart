@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
@@ -15,6 +16,7 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_items.dart';
 import 'package:intl/intl.dart';
+import 'package:smartkyat_pos/widgets/print_receipt_route.dart';
 import '../../app_theme.dart';
 import 'order_refund_sub2.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -23,13 +25,16 @@ class OrderInfoSub extends StatefulWidget {
   final _callback;
   final _closeCartBtn;
   final _openCartBtn;
+  final _printFromOrders;
   const OrderInfoSub(
-      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback(), required void closeCartBtn(), required void openCartBtn()})
+      {Key? key, required this.data, required this.shopId,required void toggleCoinCallback(), required void closeCartBtn(), required void openCartBtn(), this.selectedDev, required void printFromOrders(File file)})
       : _callback = toggleCoinCallback,
         _closeCartBtn = closeCartBtn,
-        _openCartBtn = openCartBtn;
+        _openCartBtn = openCartBtn,
+        _printFromOrders = printFromOrders;
   final String data;
   final String shopId;
+  final BlueDevice? selectedDev;
 
   @override
   _OrderInfoSubState createState() => _OrderInfoSubState();
@@ -93,6 +98,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     }
   }
 
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
+  }
   @override
   initState() {
     initConnectivity();
@@ -130,6 +138,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
   double totalPrice = 0;
   double totalRealPrice = 0.0;
+
+  List prodListPrint = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,7 +199,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
                                             ),
-                                          ),],
+                                          ),
+                                  // Text(widget.selectedDev.toString())
+                                ],
                               ),
                             ),
                           ],
@@ -308,272 +320,251 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 15.0),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        _connectionStatus ? Container(
-                                          height: 100,
-                                          child: ListView(
-                                            scrollDirection: Axis.horizontal,
-                                            children: [
-                                              ButtonTheme(
-                                                minWidth: 133,
-                                                child: FlatButton(
-                                                  color: AppTheme.buttonColor2,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(7.0),
-                                                    side: BorderSide(
-                                                      color: Colors.white.withOpacity(0.85),
-                                                    ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 100,
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          children: [
+                                            SizedBox(width: 15),
+                                            ButtonTheme(
+                                              minWidth: 133,
+                                              child: FlatButton(
+                                                color: AppTheme.buttonColor2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(7.0),
+                                                  side: BorderSide(
+                                                    color: Colors.white.withOpacity(0.85),
                                                   ),
-                                                  onPressed: () async {
-                                                    widget._closeCartBtn();
-                                                    String isRef = 'p';
-                                                    double debt = double.parse(widget.data.split('^')[5]);
-                                                    print('result__1 ' + result.toString());
-                                                    for (int i = 0; i < prodListView.length; i++) {
-                                                      if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
-                                                        isRef = 'r';
-                                                      }
-                                                      if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
-                                                        isRef = 's';
-                                                      }
+                                                ),
+                                                onPressed: () async {
+                                                  widget._closeCartBtn();
+                                                  String isRef = 'p';
+                                                  double debt = double.parse(widget.data.split('^')[5]);
+                                                  print('result__1 ' + result.toString());
+                                                  for (int i = 0; i < prodListView.length; i++) {
+                                                    if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
+                                                      isRef = 'r';
                                                     }
-
-                                                    if(totalPrice <= double.parse(widget.data.split('^')[5])) {
-                                                      debt = totalPrice;
+                                                    if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
+                                                      isRef = 's';
                                                     }
+                                                  }
 
-                                                    result = widget.data
-                                                        .split('^')[0] +
-                                                        '^' +
-                                                        widget.data
-                                                            .split('^')[1] +
-                                                        '^' +
-                                                        totalPrice
-                                                            .toString() +
-                                                        '^' +
-                                                        widget.data
-                                                            .split('^')[3] +
-                                                        '^' +
-                                                        widget.data
-                                                            .split('^')[4] + '^' + debt.toString() + '^' + widget.data
-                                                        .split('^')[6];
+                                                  if(totalPrice <= double.parse(widget.data.split('^')[5])) {
+                                                    debt = totalPrice;
+                                                  }
 
-                                                    result = await Navigator.push(
+                                                  result = widget.data
+                                                      .split('^')[0] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[1] +
+                                                      '^' +
+                                                      totalPrice
+                                                          .toString() +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[3] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                      .split('^')[6];
+
+                                                  result = await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            OrderRefundsSub(
+                                                              data: result,
+                                                              data2: prodList,
+                                                              realPrice: totalRealPrice,
+                                                              toggleCoinCallback:
+                                                                  () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(), openCartBtn: widget._openCartBtn,)),
+                                                  );
+
+                                                  print('result__2 ' + result.toString());
+                                                },
+                                                child: Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        height: 40,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 10.0),
+                                                          child: Icon(
+                                                            SmartKyat_POS.product,
+                                                            size: 18,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 6),
+                                                          child: Container(
+                                                            child: Text(
+                                                              'Refund items',
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 12),
+                                            ButtonTheme(
+                                              minWidth: 133,
+                                              child: FlatButton(
+                                                color: AppTheme.buttonColor2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(7.0),
+                                                  side: BorderSide(
+                                                    color: Colors.white.withOpacity(0.85),
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  widget._closeCartBtn();
+                                                  Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              OrderRefundsSub(
-                                                                  data: result,
-                                                                  data2: prodList,
-                                                                  realPrice: totalRealPrice,
-                                                                  toggleCoinCallback:
-                                                                      () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(), openCartBtn: widget._openCartBtn,)),
-                                                    );
-
-                                                    print('result__2 ' + result.toString());
-                                                  },
-                                                  child: Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    child: Stack(
-                                                      children: [
-                                                        Positioned(
-                                                          top: 17,
-                                                          left: 0,
+                                                          builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(), openCartBtn: widget._openCartBtn,))
+                                                  );
+                                                },
+                                                child: Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        height: 40,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 10.0),
                                                           child: Icon(
-                                                            SmartKyat_POS.product,
-                                                            size: 18,
+                                                            SmartKyat_POS.pay,
+                                                            size: 22,
                                                           ),
                                                         ),
-                                                        Positioned(
-                                                          bottom: 15,
-                                                          left: 0,
-                                                          child: Text(
-                                                            'Refund\nitems',
-                                                            style: TextStyle(
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 16,
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 6),
+                                                          child: Container(
+                                                            child: Text(
+                                                              'Pay cash remains',
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(width: 12),
-                                              ButtonTheme(
-                                                minWidth: 133,
-                                                child: FlatButton(
-                                                  color: AppTheme.buttonColor2,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(7.0),
-                                                    side: BorderSide(
-                                                      color: Colors.white.withOpacity(0.85),
-                                                    ),
+                                            ),
+                                            SizedBox(width: 12),
+                                            ButtonTheme(
+                                              minWidth: 133,
+                                              child: FlatButton(
+                                                color: AppTheme.buttonColor2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(7.0),
+                                                  side: BorderSide(
+                                                    color: Colors.white.withOpacity(0.85),
                                                   ),
-                                                  onPressed: () async {
-                                                    widget._closeCartBtn();
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(), openCartBtn: widget._openCartBtn,))
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    child: Stack(
-                                                      children: [
-                                                        Positioned(
-                                                          top: 17,
-                                                          left: 0,
+                                                ),
+                                                onPressed: () async {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: widget.data, prodList: prodListPrint, shopId: widget.shopId))
+                                                  );
+                                                },
+                                                child: Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        height: 40,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 10.0),
                                                           child: Icon(
-                                                            SmartKyat_POS.product,
-                                                            size: 18,
+                                                            Icons.print_rounded,
+                                                            size: 23,
                                                           ),
                                                         ),
-                                                        Positioned(
-                                                          bottom: 15,
-                                                          left: 0,
-                                                          child: Text(
-                                                            'Pay debt\nitems',
-                                                            style: TextStyle(
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 16,
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 6),
+                                                          child: Container(
+                                                            child: Text(
+                                                              'Print\nreceipt',
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        )
-                                            : Container(
-                                          height: 100,
-                                          child: ListView(
-                                            scrollDirection: Axis.horizontal,
-                                            children: [
-                                              ButtonTheme(
-                                                minWidth: 133,
-                                                child: FlatButton(
-                                                  color: AppTheme.buttonColor2,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(7.0),
-                                                    side: BorderSide(
-                                                      color: Colors.white.withOpacity(0.85),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                  },
-                                                  child: Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    child: Stack(
-                                                      children: [
-                                                        Positioned(
-                                                          top: 17,
-                                                          left: 0,
-                                                          child: Icon(
-                                                            SmartKyat_POS.product,
-                                                            size: 18,
-                                                          ),
-                                                        ),
-                                                        Positioned(
-                                                          bottom: 15,
-                                                          left: 0,
-                                                          child: Text(
-                                                            'Refund\nitems',
-                                                            style: TextStyle(
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 16,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 12),
-                                              ButtonTheme(
-                                                minWidth: 133,
-                                                child: FlatButton(
-                                                  color: AppTheme.buttonColor2,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(7.0),
-                                                    side: BorderSide(
-                                                      color: Colors.white.withOpacity(0.85),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                  },
-                                                  child: Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    child: Stack(
-                                                      children: [
-                                                        Positioned(
-                                                          top: 17,
-                                                          left: 0,
-                                                          child: Icon(
-                                                            SmartKyat_POS.product,
-                                                            size: 18,
-                                                          ),
-                                                        ),
-                                                        Positioned(
-                                                          bottom: 15,
-                                                          left: 0,
-                                                          child: Text(
-                                                            'Pay debt\nitems',
-                                                            style: TextStyle(
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 16,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                            SizedBox(width: 15),
+                                          ],
                                         ),
-                                        SizedBox(height: 20,),
-                                        GestureDetector(
-                                          onTap: () {
-                                            print('gggg');
-                                            widget._closeCartBtn();
-                                          },
-                                          child: Text('PURCHASED ITEMS', style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            letterSpacing: 2,
-                                            color: Colors.grey,
-                                          ),),
-                                        ),
-                                        Text('Connection Status: $_connectionStatus', style: TextStyle(
+                                      ),
+                                      SizedBox(height: 20,),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print('gggg');
+                                          widget._closeCartBtn();
+                                        },
+                                        child: Text('PURCHASED ITEMS', style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           letterSpacing: 2,
                                           color: Colors.grey,
                                         ),),
-                                      ],
-                                    ),
+                                      ),
+                                      Text('Connection Status: $_connectionStatus', style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        letterSpacing: 2,
+                                        color: Colors.grey,
+                                      ),),
+                                    ],
                                   ),
                                 ),
 
@@ -588,10 +579,26 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         .snapshots(),
                                     builder: (BuildContext context, snapshot2) {
                                       if (snapshot2.hasData) {
+
                                         var output2 = snapshot2.data!.data();
                                         var image = output2?['img_1'];
                                         print('image htwet ' + prodListView[i].toString());
-
+                                        if(i == 0) {
+                                          prodListPrint = [];
+                                          prodListPrint.add(
+                                            output2?['prod_name'] + '^' +
+                                            output2?[prodListView[i].split('-')[5]] + '^' +
+                                            prodListView[i].split('-')[4] + '^' +
+                                            prodListView[i].split('-')[3] + '^'
+                                          );
+                                        } else {
+                                          prodListPrint.add(
+                                            output2?['prod_name'] + '^' +
+                                            output2?[prodListView[i].split('-')[5]] + '^' +
+                                            prodListView[i].split('-')[4] + '^' +
+                                            prodListView[i].split('-')[3] + '^'
+                                          );
+                                        }
                                         return  Stack(
                                           children: [
                                             Container(

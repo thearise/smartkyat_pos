@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -2055,7 +2057,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: (File file) {  },)),
                                           );
                                         },
                                         child: Stack(
@@ -3560,138 +3562,157 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                           });
                           SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: loadingSearch? Colors.blue: Colors.transparent,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: AppTheme.secButtonColor,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          height: 50,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10.0, bottom: 11.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    // if(loadingSearch) {
-                                    //   _searchController.clear();
-                                    //   FocusScope.of(context).unfocus();
-                                    //   setState(() {
-                                    //     loadingSearch = false;
-                                    //   });
-                                    // } else {
-                                    //   FocusScope.of(context).requestFocus(nodeFirst);
-                                    //   setState(() {
-                                    //     loadingSearch = true;
-                                    //   });
-                                    //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                    // }
-                                    widget._chgIndex(0);
-                                    FocusScope.of(context).unfocus();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 12.0),
-                                    child: Container(
-                                      child: Stack(
-                                        children: [
-                                          !loadingSearch? Padding(
-                                            padding: const EdgeInsets.only(left: 5.0),
-                                            child: Icon(
-                                              SmartKyat_POS.search,
-                                              size: 17,
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: loadingSearch? Colors.blue: Colors.transparent,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                color: AppTheme.secButtonColor,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              height: 50,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 11.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(width: 38),
+                                    Expanded(
+                                      child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: !loadingSearch? 8.0: 4,
+                                              right: 8.0,
+                                              top: 0.2),
+                                          child: TextField(
+                                            textInputAction: TextInputAction.search,
+                                            focusNode: nodeFirst,
+                                            controller: _searchController,
+                                            onSubmitted: (value) async {
+                                            },
+                                            maxLines: 1,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black
                                             ),
-                                          ): Padding(
-                                            padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                            child: Icon(
-                                              Icons.close_rounded,
-                                              size: 24,
-                                            ),
-                                          )
 
-                                        ],
+                                            decoration: InputDecoration(
+                                              hintText: 'Search',
+                                              isDense: true,
+                                              // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                              enabledBorder: const OutlineInputBorder(
+                                                // width: 0.0 produces a thin "hairline" border
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.transparent, width: 2.0),
+                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                                              focusedBorder: const OutlineInputBorder(
+                                                // width: 0.0 produces a thin "hairline" border
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.transparent, width: 2.0),
+                                                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                              contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
+                                              floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                              //filled: true,
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            keyboardType: TextInputType.text,
+                                            onChanged: (value) {
+                                              // setState(() {
+                                              //   quantity = int.parse(value);
+                                              // });
+                                            },
+                                            // controller: myController,
+                                          )
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: !loadingSearch? 8.0: 4,
-                                          right: 8.0,
-                                          top: 0.5),
-                                      child: TextField(
-                                        textInputAction: TextInputAction.search,
-                                        focusNode: nodeFirst,
-                                        controller: _searchController,
-                                        onSubmitted: (value) async {
-                                        },
-                                        maxLines: 1,
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black
+                                    GestureDetector(
+                                      onTap: () {
+                                        widget._barcodeBtn();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 15.0,
                                         ),
-
-                                        decoration: InputDecoration(
-                                          hintText: 'Search',
-                                          isDense: true,
-                                          // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                          enabledBorder: const OutlineInputBorder(
-                                            // width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: Colors.transparent, width: 2.0),
-                                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                                          focusedBorder: const OutlineInputBorder(
-                                            // width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: Colors.transparent, width: 2.0),
-                                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                          contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
-                                          floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                          //filled: true,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
+                                        // child: Icon(
+                                        //   SmartKyat_POS.barcode,
+                                        //   color: Colors.black,
+                                        //   size: 25,
+                                        // ),
+                                        child: Container(
+                                            child: Image.asset('assets/system/barcode.png', height: 28,)
                                         ),
-                                        keyboardType: TextInputType.text,
-                                        onChanged: (value) {
-                                          // setState(() {
-                                          //   quantity = int.parse(value);
-                                          // });
-                                        },
-                                        // controller: myController,
-                                      )
-                                  ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    widget._barcodeBtn();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 15.0,
-                                    ),
-                                    // child: Icon(
-                                    //   SmartKyat_POS.barcode,
-                                    //   color: Colors.black,
-                                    //   size: 25,
-                                    // ),
-                                    child: Container(
-                                        child: Image.asset('assets/system/barcode.png', height: 28,)
-                                    ),
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
-                          ),
+                            GestureDetector(
+                              onTap: () {
+                                // if(loadingSearch) {
+                                //   _searchController.clear();
+                                //   FocusScope.of(context).unfocus();
+                                //   setState(() {
+                                //     loadingSearch = false;
+                                //   });
+                                // } else {
+                                //   FocusScope.of(context).requestFocus(nodeFirst);
+                                //   setState(() {
+                                //     loadingSearch = true;
+                                //   });
+                                //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                                // }
+                                widget._chgIndex(0);
+                                FocusScope.of(context).unfocus();
+                              },
+                              child: Container(
+                                height: 50,
+                                width: 38,
+                                color: Colors.transparent,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 12.0),
+                                  child: Container(
+                                    child: Stack(
+                                      alignment: AlignmentDirectional.centerStart,
+                                      children: [
+                                        !loadingSearch? Padding(
+                                          padding: const EdgeInsets.only(left: 5.0),
+                                          child: Icon(
+                                            SmartKyat_POS.search,
+                                            size: 17,
+                                          ),
+                                        ):
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 2, bottom: 0.5, right: 3),
+                                          child: Icon(
+                                            Icons.arrow_back_ios_rounded,
+                                            size: 21,
+                                          ),
+                                        )
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                                        //   child: Icon(
+                                        //     Icons.close_rounded,
+                                        //     size: 24,
+                                        //   ),
+                                        // )
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
