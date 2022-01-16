@@ -29,12 +29,13 @@ class MerchantsFragment extends StatefulWidget {
   final _barcodeBtn;
   final _searchBtn;
   final addMerch;
+  final _closeDrawerBtn;
+  final _openDrawerBtn;
   final _closeCartBtn;
   final _openCartBtn;
 
-  MerchantsFragment( {required void closeCartBtn(String str),
-    required void openCartBtn(String str), required void toggleCoinCallback6(), required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
-        addMerch = toggleCoinCallback6 ,_searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,super(key: key);
+  MerchantsFragment( {required void closeCartBtn(String str), required void openCartBtn(String str), required void closeDrawerBtn(String str), required void openDrawerBtn(String str),required void toggleCoinCallback6(), required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
+        _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, addMerch = toggleCoinCallback6 ,_searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,super(key: key);
  final String shopId;
  final merchantsSnapshot;
 
@@ -101,6 +102,14 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
   void openCartFrom() {
     widget._openCartBtn('merchants');
+  }
+
+  void closeDrawerFrom() {
+    widget._closeDrawerBtn('merchants');
+  }
+
+  void openDrawerFrom() {
+    widget._openDrawerBtn('merchants');
   }
 
   @override
@@ -3713,8 +3722,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                           var version = snapshot.data!.docs[index].id;
                                          // var debts = data['debts'].toInt();
                                           return cateScIndex == 1 && data['debts'] != 0.0 ? GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
+                                            onTap: () async {
+                                              closeDrawerFrom();
+                                              await Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (
@@ -3723,6 +3733,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                           id: version,
                                                           toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
                                               );
+                                              openDrawerFrom();
                                             },
                                             child: Padding(
                                               padding:
@@ -3901,8 +3912,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                             ),
                                           ):
                                           cateScIndex == 0  ? GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
+                                            onTap: () async {
+                                              closeDrawerFrom();
+                                              await Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (
@@ -3911,6 +3923,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                           id: version,
                                                           toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
                                               );
+                                              openDrawerFrom();
                                             },
                                             child: Padding(
                                               padding:

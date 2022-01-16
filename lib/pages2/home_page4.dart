@@ -92,7 +92,7 @@ class HomePageState extends State<HomePage>
 
   double _goToCartHeight = 142;
 
-  bool drawerDrag = true;
+  bool drawerDrag = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -497,7 +497,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             page: HomeFragment(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
-                toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot
+                toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,
             ),
           ),
           TabItem(
@@ -507,14 +507,14 @@ class HomePageState extends State<HomePage>
             ),
             page: OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag, selectedDev: _selectedDevice, printFromOrders: printFromOrders,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(),  closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, ordersSnapshot: orderSnapshot, customersSnapshot: customerSnapshot2, shopId: shopId.toString(),  closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
             icon: Icon(
               Icons.add,
             ),
-            page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
+            page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -526,14 +526,14 @@ class HomePageState extends State<HomePage>
               // checkDOpen: checkDrawerOpen,
               toggleCoinCallback: addNewProd2,
               toggleCoinCallback2: addProduct,
-              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
             icon: Icon(
               Icons.add,
             ),
-            page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
+            page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, closeDrawerBtn: closeDrawerFrom, openDrawerBtn: openDrawerFrom),
           ),
           TabItem(
             tabName: "Settings",
@@ -549,7 +549,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             // page: BuyListFragment(),
-            page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot2,),
+            page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot2, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -560,7 +560,7 @@ class HomePageState extends State<HomePage>
             page: BuyListFragment(
                 key: bordGlobalKey, searchBtn: openSearchFromFrag,
                 toggleCoinCallback2: addProduct,
-                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,),
+                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Champions",
@@ -668,7 +668,6 @@ class HomePageState extends State<HomePage>
       _selectIndex = 0;
     });
   }
-
 
   chgIndexFromSearch(index) {
     setState(() {
@@ -1217,6 +1216,19 @@ class HomePageState extends State<HomePage>
     }
   }
 
+  drawerOpen() {
+    setState((){
+      drawerDrag = true;
+    });
+  }
+
+  drawerClose() {
+    setState((){
+      drawerDrag = false;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     openOrHideCart();
@@ -1326,15 +1338,14 @@ class HomePageState extends State<HomePage>
                           resizeToAvoidBottomInset: false,
                           backgroundColor: Colors.white,
                           key: _scaffoldKey,
-                          // drawerEdgeDragWidth: drawerDrag? 20: 0,
-                          drawerEdgeDragWidth: 0,
+                          drawerEdgeDragWidth: drawerDrag? 0: 20,
+                          //drawerEdgeDragWidth: 0,
                           drawer: new Drawer(
                             child: Container(
                               color: Colors.white,
                               child: SafeArea(
                                 top: true,
                                 bottom: true,
-
                                 child: Column(
                                     children: [
                                       Column(
@@ -10338,6 +10349,14 @@ class HomePageState extends State<HomePage>
   bool mercCartOpen = true;
   bool settCartOpen = true;
   bool searCartOpen = true;
+  bool homeDrawerOpen = true;
+  bool prodDrawerOpen = true;
+  bool sordDrawerOpen = true;
+  bool bordDrawerOpen = true;
+  bool custDrawerOpen = true;
+  bool merchDrawerOpen = true;
+  bool settDrawerOpen = true;
+  bool searDrawerOpen = true;
 
   int ayinIndex2 = 1;
 
@@ -10348,15 +10367,14 @@ class HomePageState extends State<HomePage>
 
   closeByClick() async {
     print('closebyclick' + _selectIndex.toString());
-    // setState(() {
-    //
-    //
-    // });
     if(ayinIndex2 != _selectIndex) {
       if(_selectIndex == 0) {
         closeGoToCart = !homeCartOpen;
+        drawerDrag = !homeDrawerOpen;
+
       } else if(_selectIndex == 1) {
         closeGoToCart = !prodCartOpen;
+        drawerDrag = !prodDrawerOpen;
         // bool isFirstRouteInCur = await tabs[currentTab].key.currentState!.maybePop();
         // print('shwwwwww' + isFirstRouteInCur.toString());
         // if(isFirstRouteInCur) {
@@ -10368,40 +10386,62 @@ class HomePageState extends State<HomePage>
         //
         // }
       } else if(_selectIndex == 2) {
+        drawerDrag = !sordDrawerOpen;
         closeGoToCart = !sordCartOpen;
       } else if(_selectIndex == 3) {
+        drawerDrag = !bordDrawerOpen;
         closeGoToCart = !bordCartOpen;
       } else if(_selectIndex == 4) {
+        drawerDrag = !custDrawerOpen;
         closeGoToCart = !custCartOpen;
       } else if(_selectIndex == 5) {
+        drawerDrag = !merchDrawerOpen;
         closeGoToCart = !mercCartOpen;
       } else if(_selectIndex == 6) {
+        drawerDrag = !settDrawerOpen;
         closeGoToCart = true;
       } else if(_selectIndex == 7) {
+        drawerDrag = !searDrawerOpen;
         closeGoToCart = !searCartOpen;
       }
     } else {
       if(_selectIndex == 0) {
+        drawerDrag = false;
+        homeDrawerOpen = true;
         closeGoToCart = false;
         homeCartOpen = true;
       } else if(_selectIndex == 1) {
+        drawerDrag = false;
+        prodDrawerOpen = true;
         closeGoToCart = false;
         prodCartOpen = true;
       } else if(_selectIndex == 2) {
+        drawerDrag = false;
+        sordDrawerOpen = true;
         closeGoToCart = false;
         sordCartOpen = true;
       } else if(_selectIndex == 3) {
+        drawerDrag = false;
+        bordDrawerOpen = true;
         closeGoToCart = false;
         bordCartOpen = true;
       } else if(_selectIndex == 4) {
+        drawerDrag = false;
+        custDrawerOpen = true;
         closeGoToCart = false;
         custCartOpen = true;
       } else if(_selectIndex == 5) {
+        drawerDrag = false;
+        merchDrawerOpen = true;
         closeGoToCart = false;
         mercCartOpen = true;
       } else if(_selectIndex == 6) {
+        drawerDrag = false;
+        settDrawerOpen = true;
         closeGoToCart = true;
       } else if(_selectIndex == 7) {
+        drawerDrag = false;
+        searDrawerOpen = true;
         closeGoToCart = false;
         searCartOpen = true;
       }
@@ -10483,6 +10523,55 @@ class HomePageState extends State<HomePage>
     setState(() {
       _goToCartHeight = 142;
     });
+  }
+
+  closeDrawerFrom(String from) {
+    print('FROM close' + from);
+    if(from == 'products') {
+      prodDrawerOpen = false;
+    } else if(from == 'saleorders') {
+      sordDrawerOpen = false;
+    } else if(from == 'buyorders') {
+      bordDrawerOpen = false;
+    } else if(from == 'customers') {
+      custDrawerOpen = false;
+    } else if(from == 'merchants') {
+      merchDrawerOpen = false;
+    } else if(from == 'settings') {
+      settDrawerOpen = false;
+    } else if(from == 'search') {
+      searDrawerOpen = false;
+    }else if(from == 'home') {
+      homeDrawerOpen = false;
+    }
+    setState(() {
+      drawerDrag = true;
+    });
+  }
+
+  openDrawerFrom(String from) {
+    print('FROM open' + from);
+    if(from == 'products') {
+      prodDrawerOpen = true;
+    } else if(from == 'saleorders') {
+      sordDrawerOpen = true;
+    } else if(from == 'buyorders') {
+      bordDrawerOpen = true;
+    } else if(from == 'customers') {
+      custDrawerOpen = true;
+    } else if(from == 'merchants') {
+      merchDrawerOpen = true;
+    } else if(from == 'settings') {
+      settDrawerOpen = true;
+    } else if(from == 'search') {
+      searDrawerOpen = true;
+    } else if(from == 'home') {
+      homeDrawerOpen = true;
+    }
+
+      setState(() {
+        drawerDrag = false;
+      });
   }
 
   openCart() {

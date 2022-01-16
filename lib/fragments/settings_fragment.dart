@@ -18,9 +18,12 @@ import 'subs/switch_shop_sub.dart';
 
 class SettingsFragment extends StatefulWidget {
   final _chgShopCB;
-
-  SettingsFragment({required this.usersSnapshot, required void changeShopCallback(), Key? key,}):
-        _chgShopCB = changeShopCallback, super(key: key);
+  final _openDrawerBtn;
+  final _closeDrawerBtn;
+  SettingsFragment({required this.usersSnapshot, required void changeShopCallback(), required void closeDrawerBtn(String str),
+    required void openDrawerBtn(String str), Key? key,}):
+        _chgShopCB = changeShopCallback,_openDrawerBtn = openDrawerBtn,
+        _closeDrawerBtn = closeDrawerBtn, super(key: key);
   final usersSnapshot;
 
   @override
@@ -64,6 +67,14 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
       return 'Myanmar Kyat (MMK)';
     }
     return prefs.getString('currency');
+  }
+
+  void closeDrawerFrom() {
+    widget._closeDrawerBtn('settings');
+  }
+
+  void openDrawerFrom() {
+    widget._openDrawerBtn('settings');
   }
 
   getPaperId() async {
@@ -289,13 +300,15 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                 fontSize: 14,color: Colors.grey,
                               ),),),
                             GestureDetector(
-                              onTap: (){
-                                Navigator.push(
+                              onTap: () async {
+                                closeDrawerFrom();
+                               await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           AccountSetting(email: email, name: name, id: version.toString(),)),
                                 );
+                                openDrawerFrom();
                               },
                               child: Container(
                                 height: 72,
@@ -367,11 +380,13 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                               ),
                             ),
                             GestureDetector(
-                              onTap: (){
-                                Navigator.push(
+                              onTap: () async {
+                                closeDrawerFrom();
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => ShopSettingsSub(changeShopCallback2: chgShopFromSubSet)),
                                 );
+                                openDrawerFrom();
                               },
                               child: Container(
                                 color: Colors.white,
@@ -450,11 +465,13 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                closeDrawerFrom();
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => LanguageSettings(changeShopCallback3: () {  },)),
                                 );
+                                openDrawerFrom();
                               },
                               child: Container(
                                 height: 72,
@@ -489,11 +506,13 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                closeDrawerFrom();
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => ChangeCurrency(changeShopCallback3: () {  },)),
                                 );
+                                openDrawerFrom();
                               },
                               child: Container(
                                 height: 72,
@@ -586,11 +605,13 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                               ),),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                closeDrawerFrom();
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => PrintSettingsSub(changeShopCallback3: () {  },)),
                                 );
+                                openDrawerFrom();
                               },
                               child: Container(
                                 height: 72,
