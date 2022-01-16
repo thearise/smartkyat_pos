@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:one_context/one_context.dart';
@@ -44,7 +45,7 @@ class SearchFragment extends StatefulWidget {
     required void openCartBtn(String str),
     Key? key,
     required Function(dynamic index) chgIndexFromSearch,}
-    ) : _closeCartBtn = closeCartBtn,
+      ) : _closeCartBtn = closeCartBtn,
         _openCartBtn = openCartBtn,
         _chgIndex = chgIndexFromSearch,
         _barcodeBtn = barcodeBtn,
@@ -114,8 +115,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     getStoreId().then((value) => shopId = value);
     _searchController.addListener((){
       // setState(() {
-        gloSearchText = _searchController.text;
-        searchValue = _searchController.text;
+      gloSearchText = _searchController.text;
+      searchValue = _searchController.text;
       // });
       searchKeyChanged();
       print(searchValue);
@@ -1045,7 +1046,6 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     ),
                                   ),
                                 ),
-
                               ),
                             ),
                             // Display a placeholder widget to visualize the shrinking size.
@@ -1297,13 +1297,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               border: Border(
                                                   bottom: index ==
                                                       length -
-                                                          1
-                                                      ?
+                                                          1 ?
                                                   BorderSide(
                                                       color: Colors.transparent,
                                                       width: 1.0)
                                                       :
-
                                                   BorderSide(
                                                       color: Colors.grey
                                                           .withOpacity(
@@ -1423,10 +1421,12 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                       ),
                                                     ),
                                                   ),
-
                                                 ),
-                                              )
-
+                                              ),
+                                              Container(
+                                                color: Colors.blue,
+                                                height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60,
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -2289,1010 +2289,6 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                 },
                               ),
                             ),
-                          // SliverPersistentHeader(
-                          //   pinned: true,
-                          //   delegate: SliverAppBarDelegate2(
-                          //       child: PreferredSize(
-                          //         preferredSize: Size.fromHeight(33.0),
-                          //         child: Container(
-                          //           width: double.infinity,
-                          //           height: 33,
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               border: Border(
-                          //                 bottom: BorderSide(
-                          //                     color: AppTheme.skBorderColor2,
-                          //                     width: 1.0),
-                          //               )
-                          //           ),
-                          //           child: Padding(
-                          //             // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                          //             padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                          //             child: Row(
-                          //               children: [
-                          //                 Text(
-                          //                   'BUY',
-                          //                   // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                   style: TextStyle(
-                          //                       height: 0.8,
-                          //                       fontSize: 14,
-                          //                       fontWeight: FontWeight.w600,
-                          //                       letterSpacing: 1.2,
-                          //                       color: Colors.black
-                          //                   ),
-                          //                 ),
-                          //                 Padding(
-                          //                   padding: const EdgeInsets.only(left: 4.0, right: 5.0, bottom: 3.0),
-                          //                   child: FlutterSwitch(
-                          //                     width: 31.0,
-                          //                     height: 18.0,
-                          //                     valueFontSize: 5.0,
-                          //                     toggleSize: 13.0,
-                          //                     padding: 2.5,
-                          //                     value: buySellerStatus,
-                          //                     onToggle: (val) {
-                          //                       setState(() {
-                          //                         buySellerStatus = val;
-                          //                       });
-                          //                     },
-                          //                   ),
-                          //                 ),
-                          //                 Text(
-                          //                   'SELL ORDERS',
-                          //                   // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                   style: TextStyle(
-                          //                       height: 0.8,
-                          //                       fontSize: 14,
-                          //                       fontWeight: FontWeight.w600,
-                          //                       letterSpacing: 1.2,
-                          //                       color: Colors.black
-                          //                   ),
-                          //                 ),
-                          //                 Expanded(
-                          //                   child: Padding(
-                          //                     padding: const EdgeInsets.only(right: 15.0),
-                          //                     child: Text(
-                          //                       '0',
-                          //                       // '#' + sectionList[sectionIndex].items.length.toString(),
-                          //                       // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                       style: TextStyle(
-                          //                         height: 0.8,
-                          //                         fontSize: 14,
-                          //                         fontWeight: FontWeight.w600,
-                          //                         letterSpacing: 1.2,
-                          //                         color: Colors.black,
-                          //                       ),
-                          //                       textAlign: TextAlign.right,
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //               ],
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       )
-                          //   ),
-                          // ),
-                          // if(slidingSearch == 2)
-                          //   SliverList(
-                          //     delegate: SliverChildListDelegate(
-                          //       [
-                          //         Container(
-                          //           height: 100,
-                          //           color: AppTheme.lightBgColor,
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(15.0),
-                          //             child: Text('Each buyorder'),
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-
-
-                          // if(slidingSearch == 2)
-                          //   SliverPersistentHeader(
-                          //     pinned: true,
-                          //     delegate: SliverAppBarDelegate2(
-                          //         child: PreferredSize(
-                          //           preferredSize: Size.fromHeight(33.0),
-                          //           child: Container(
-                          //             width: double.infinity,
-                          //             height: 33,
-                          //             decoration: BoxDecoration(
-                          //                 color: Colors.white,
-                          //                 border: Border(
-                          //                   bottom: BorderSide(
-                          //                       color: AppTheme.skBorderColor2,
-                          //                       width: 1.0),
-                          //                 )
-                          //             ),
-                          //             child: Padding(
-                          //               // padding: const EdgeInsets.only(left: 15.0, top: 12, bottom: 0),
-                          //               padding: const EdgeInsets.only(left: 15.0, top: 1, bottom: 0),
-                          //               child: Row(
-                          //                 children: [
-                          //                   Text(
-                          //                     'SELL ORDERS',
-                          //                     // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                     style: TextStyle(
-                          //                         height: 0.8,
-                          //                         fontSize: 14,
-                          //                         fontWeight: FontWeight.w600,
-                          //                         letterSpacing: 1.2,
-                          //                         color: Colors.black
-                          //                     ),
-                          //                   ),
-                          //
-                          //                   Expanded(
-                          //                     child: Padding(
-                          //                       padding: const EdgeInsets.only(right: 15.0),
-                          //                       child: Text(
-                          //                         '0',
-                          //                         // '#' + sectionList[sectionIndex].items.length.toString(),
-                          //                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
-                          //                         style: TextStyle(
-                          //                           height: 0.8,
-                          //                           fontSize: 14,
-                          //                           fontWeight: FontWeight.w600,
-                          //                           letterSpacing: 1.2,
-                          //                           color: Colors.black,
-                          //                         ),
-                          //                         textAlign: TextAlign.right,
-                          //                       ),
-                          //                     ),
-                          //                   ),
-                          //                 ],
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         )
-                          //     ),
-                          //   ),
-                          // if(slidingSearch == 2)
-                          //   SliverList(
-                          //     delegate: SliverChildListDelegate(
-                          //       [
-                          //         Container(
-                          //           height: 100,
-                          //           color: AppTheme.lightBgColor,
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(15.0),
-                          //             child: Text('Each sellorder'),
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-
-
-                          // SliverFillRemaining(
-                          //   child: TabBarView(
-                          //     physics: NeverScrollableScrollPhysics(),
-                          //     controller: subTabController,
-                          //     children: <Widget>[
-                          //       Column(
-                          //         children: [
-                          //           Container(
-                          //             height: 100,
-                          //               color: Colors.green,
-                          //               child: Center(child: Text('Content of SubTab1'))
-                          //           ),
-                          //         ],
-                          //       ),
-                          //       Column(
-                          //         children: [
-                          //           Container(
-                          //               height: 100,
-                          //               color: Colors.blue,
-                          //               child: Center(child: Text('Content of SubTab1'))
-                          //           ),
-                          //         ],
-                          //       ),
-                          //       Column(
-                          //         children: [
-                          //           Container(
-                          //               height: 100,
-                          //               color: Colors.yellow,
-                          //               child: Center(child: Text('Content of SubTab1'))
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-
-
-                          // SliverFillRemaining(
-                          //   // 剩余补充内容TabBarView
-                          //   child: TabBarView(
-                          //     controller: this.tabController,
-                          //     children: <Widget>[
-                          //       Center(child: Text('Content of Home')),
-                          //       Center(child: Text('Content of Profile')),
-                          //     ],
-                          //   ),
-                          // ),
-
-
-                          // if(!searchingOverAll && noSearchData)
-                          //   SliverExpandableList(
-                          //     builder: SliverExpandableChildDelegate(
-                          //       sectionList: sectionListNo,
-                          //       headerBuilder: _buildHeader2,
-                          //       itemBuilder: (context, sectionIndex, itemIndex, index) {
-                          //         String item = sectionListNo[sectionIndex].items[itemIndex];
-                          //         int length = sectionListNo[sectionIndex].items.length;
-                          //         return Container(
-                          //           height: 0.1,
-                          //         );
-                          //       },
-                          //     ),
-                          //   ),
-                          // if(searchingOverAll)
-                          //   SliverExpandableList(
-                          //     builder: SliverExpandableChildDelegate(
-                          //       sectionList: sectionListNo,
-                          //       headerBuilder: _buildHeader3,
-                          //       itemBuilder: (context, sectionIndex, itemIndex, index) {
-                          //         String item = sectionListNo[sectionIndex].items[itemIndex];
-                          //         int length = sectionListNo[sectionIndex].items.length;
-                          //         return Container(
-                          //           height: 0.1,
-                          //         );
-                          //       },
-                          //     ),
-                          //   ),
-
-
-
-
-                          // if(!noSearchData && !searchingOverAll)
-
-                          // SliverExpandableList(
-                          //   builder: SliverExpandableChildDelegate(
-                          //     sectionList: sectionList,
-                          //     headerBuilder: _buildHeader,
-                          //     itemBuilder: (context, sectionIndex, itemIndex, index) {
-                          //       String item = sectionList[sectionIndex].items[itemIndex];
-                          //       int length = sectionList[sectionIndex].items.length;
-                          //       if(sectionIndex == 0) {
-                          //         return Container(
-                          //           height: 0.1,
-                          //         );
-                          //         // return SliverFillRemaining(
-                          //         //   child: new Container(
-                          //         //     color: Colors.red,
-                          //         //   ),
-                          //         // );
-                          //       }
-                          //
-                          //       if(slidingSearch == 0 && item.contains('^sps^')) {
-                          //         return GestureDetector(
-                          //           onTap: () {
-                          //             // Navigator.push(
-                          //             //   context,
-                          //             //   MaterialPageRoute(
-                          //             //       builder: (context) => ProductDetailsView2(
-                          //             //           idString: version, toggleCoinCallback:
-                          //             //       addProduct1, toggleCoinCallback3: addProduct3)),);
-                          //           },
-                          //           child: Padding(
-                          //             padding:
-                          //             EdgeInsets.only(top: index == 0? 10.0: 20.0),
-                          //             child: Container(
-                          //               width: MediaQuery.of(context).size.width,
-                          //               decoration: BoxDecoration(
-                          //                   border: Border(
-                          //                       bottom: index == length-1 ?
-                          //                       BorderSide(
-                          //                           color: Colors.transparent,
-                          //                           width: 1.0) :
-                          //
-                          //                       BorderSide(
-                          //                           color: Colors.grey
-                          //                               .withOpacity(0.3),
-                          //                           width: 1.0)
-                          //                   )),
-                          //               child: Padding(
-                          //                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          //                 child: Column(
-                          //                   children: [
-                          //                     Row(
-                          //                       children: [
-                          //                         Column(
-                          //                           children: [
-                          //                             ClipRRect(
-                          //                                 borderRadius: BorderRadius
-                          //                                     .circular(
-                          //                                     5.0),
-                          //                                 child: item.split('^sps^')[2] != ""
-                          //                                     ? CachedNetworkImage(
-                          //                                   imageUrl:
-                          //                                   'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                          //                                       item.split('^sps^')[2],
-                          //                                   width: 75,
-                          //                                   height: 75,
-                          //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                          //                                   errorWidget: (context,
-                          //                                       url,
-                          //                                       error) =>
-                          //                                       Icon(Icons
-                          //                                           .error),
-                          //                                   fadeInDuration:
-                          //                                   Duration(
-                          //                                       milliseconds:
-                          //                                       100),
-                          //                                   fadeOutDuration:
-                          //                                   Duration(
-                          //                                       milliseconds:
-                          //                                       10),
-                          //                                   fadeInCurve:
-                          //                                   Curves
-                          //                                       .bounceIn,
-                          //                                   fit: BoxFit
-                          //                                       .cover,
-                          //                                 )
-                          //                                     : CachedNetworkImage(
-                          //                                   imageUrl:
-                          //                                   'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
-                          //                                   width: 75,
-                          //                                   height: 75,
-                          //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                          //                                   errorWidget: (context,
-                          //                                       url,
-                          //                                       error) =>
-                          //                                       Icon(Icons
-                          //                                           .error),
-                          //                                   fadeInDuration:
-                          //                                   Duration(
-                          //                                       milliseconds:
-                          //                                       100),
-                          //                                   fadeOutDuration:
-                          //                                   Duration(
-                          //                                       milliseconds:
-                          //                                       10),
-                          //                                   fadeInCurve:
-                          //                                   Curves
-                          //                                       .bounceIn,
-                          //                                   fit: BoxFit
-                          //                                       .cover,
-                          //                                 )),
-                          //                           ],
-                          //                         ),
-                          //                         SizedBox(
-                          //                           width: 15,
-                          //                         ),
-                          //                         Column(
-                          //                           crossAxisAlignment:
-                          //                           CrossAxisAlignment
-                          //                               .start,
-                          //                           children: [
-                          //                             Text(
-                          //                               item.split('^sps^')[1],
-                          //                               style: TextStyle(
-                          //                                 fontSize: 18,
-                          //                                 fontWeight:
-                          //                                 FontWeight.w500,
-                          //                               ),
-                          //                             ),
-                          //                             SizedBox(
-                          //                               height: 10,
-                          //                             ),
-                          //                             Row(
-                          //                               children: [
-                          //                                 Text(
-                          //                                   'MMK ' + item.split('^sps^')[3].split('-')[0],
-                          //                                   style: TextStyle(
-                          //                                     fontSize: 15,
-                          //                                     fontWeight:
-                          //                                     FontWeight.w500,
-                          //                                   ),
-                          //                                 ),
-                          //                                 Text(
-                          //                                   item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == '' ? ' - ' + item.split('^sps^')[4].split('-')[0] : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? ' - ' + item.split('^sps^')[5].split('-')[0] : '',
-                          //                                   style: TextStyle(
-                          //                                     fontSize: 15,
-                          //                                     fontWeight:
-                          //                                     FontWeight.w500,
-                          //                                   ),
-                          //                                 ),
-                          //                               ],
-                          //                             ),
-                          //                             SizedBox(
-                          //                               height: 2,
-                          //                             ),
-                          //                             Row(
-                          //                               children: [
-                          //                                 Row(
-                          //                                   children: [
-                          //                                     Text(
-                          //                                         item.split('^sps^')[3].split('-')[1].toString()+ ' '  + item.split('^sps^')[3].split('-')[2] + ' ', style: TextStyle(
-                          //                                       fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                          //                                     )),
-                          //                                     Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                          //                                     // sub1Name != '' ? Text(' | ', style: TextStyle(
-                          //                                     //   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                          //                                     // )) : Text(''),
-                          //                                   ],
-                          //                                 ),
-                          //
-                          //                                 item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == ''?
-                          //                                 Text(
-                          //                                     '  (+1 Sub item)', style: TextStyle(
-                          //                                   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                          //                                 )) : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? Text(
-                          //                                     '  (+2 Sub items)', style: TextStyle(
-                          //                                   fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                          //                                 )): Container(),
-                          //
-                          //                                 // StreamBuilder(
-                          //                                 //     stream: FirebaseFirestore
-                          //                                 //         .instance
-                          //                                 //         .collection(
-                          //                                 //         'space')
-                          //                                 //         .doc(
-                          //                                 //         '0NHIS0Jbn26wsgCzVBKT')
-                          //                                 //         .collection(
-                          //                                 //         'shops')
-                          //                                 //         .doc(
-                          //                                 //         'PucvhZDuUz3XlkTgzcjb')
-                          //                                 //         .collection(
-                          //                                 //         'products')
-                          //                                 //         .doc(version)
-                          //                                 //         .collection(
-                          //                                 //         'versions')
-                          //                                 //         .where('type',
-                          //                                 //         isEqualTo:
-                          //                                 //         'sub3')
-                          //                                 //         .snapshots(),
-                          //                                 //     builder: (BuildContext
-                          //                                 //     context,
-                          //                                 //         AsyncSnapshot<
-                          //                                 //             QuerySnapshot>
-                          //                                 //         snapshot5) {
-                          //                                 //       if (snapshot5
-                          //                                 //           .hasData) {
-                          //                                 //         int quantity3 =
-                          //                                 //         0;
-                          //                                 //         var sub3Quantity;
-                          //                                 //         snapshot5
-                          //                                 //             .data!
-                          //                                 //             .docs
-                          //                                 //             .map((DocumentSnapshot
-                          //                                 //         document) {
-                          //                                 //           Map<String,
-                          //                                 //               dynamic>
-                          //                                 //           data4 =
-                          //                                 //           document.data()! as Map<
-                          //                                 //               String,
-                          //                                 //               dynamic>;
-                          //                                 //           if (data4[
-                          //                                 //           'unit_qtity'] !=
-                          //                                 //               '') {
-                          //                                 //             quantity3 +=
-                          //                                 //                 int.parse(
-                          //                                 //                     data4['unit_qtity']);
-                          //                                 //             sub3Quantity =
-                          //                                 //                 quantity3
-                          //                                 //                     .toString();
-                          //                                 //           } else
-                          //                                 //             return Container();
-                          //                                 //         }).toList();
-                          //                                 //         // print(sub1Quantity);
-                          //                                 //         // print(mainQuantity);
-                          //                                 //         if (sub3Quantity !=
-                          //                                 //             null) {
-                          //                                 //           return Text(
-                          //                                 //               '$sub3Quantity $sub3Name');
-                          //                                 //         }
-                          //                                 //         return Container();
-                          //                                 //       }
-                          //                                 //       return Container();
-                          //                                 //     }),
-                          //                               ],
-                          //                             ),
-                          //
-                          //                             // Text(
-                          //                             //   'MMK',
-                          //                             //   style:
-                          //                             //       TextStyle(
-                          //                             //     fontSize: 14,
-                          //                             //     fontWeight: FontWeight.w400,
-                          //                             //     color: Colors.blueGrey.withOpacity(1.0),
-                          //                             //   ),
-                          //                             // ),
-                          //                             // SizedBox(
-                          //                             //   height:
-                          //                             //       7,
-                          //                             // ),
-                          //                             // Text(
-                          //                             //   '55',
-                          //                             //   style:
-                          //                             //       TextStyle(
-                          //                             //     fontSize: 14,
-                          //                             //     fontWeight: FontWeight.w400,
-                          //                             //     color: Colors.blueGrey.withOpacity(1.0),
-                          //                             //   ),
-                          //                             // ),
-                          //                           ],
-                          //                         ),
-                          //                         // Padding(
-                          //                         //   padding:
-                          //                         //       const EdgeInsets.only(
-                          //                         //           bottom: 20.0),
-                          //                         //   child: IconButton(
-                          //                         //     icon: Icon(
-                          //                         //       Icons
-                          //                         //           .arrow_forward_ios_rounded,
-                          //                         //       size: 16,
-                          //                         //       color: Colors.blueGrey
-                          //                         //           .withOpacity(0.8),
-                          //                         //     ),
-                          //                         //     onPressed: () {
-                          //                         //       Navigator.push(
-                          //                         //         context,
-                          //                         //         MaterialPageRoute(
-                          //                         //             builder: (context) => ProductDetailsView(
-                          //                         //                 idString: version, toggleCoinCallback:
-                          //                         //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                          //                         //     },
-                          //                         //   ),
-                          //                         // ),
-                          //                         Spacer(),
-                          //                         Padding(
-                          //                           padding:
-                          //                           const EdgeInsets.only(
-                          //                               bottom: 12.0),
-                          //                           child: Icon(
-                          //                             Icons
-                          //                                 .arrow_forward_ios_rounded,
-                          //                             size: 16,
-                          //                             color: Colors.blueGrey
-                          //                                 .withOpacity(0.8),
-                          //                           ),),
-                          //                       ],
-                          //                     ),
-                          //                     SizedBox(height: 20),
-                          //                   ],
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         );
-                          //       } else if(slidingSearch == 1 && item.contains('^sps^')) {
-                          //         return GestureDetector(
-                          //           onTap: () {
-                          //             Navigator.push(
-                          //               context,
-                          //               MaterialPageRoute(
-                          //                   builder: (
-                          //                       context) =>
-                          //                       CustomerInfoSubs(
-                          //                           id: item.split('^sps^')[0],
-                          //                           toggleCoinCallback: addCustomer2Cart1)),
-                          //             );
-                          //           },
-                          //           child: Padding(
-                          //             padding:
-                          //             EdgeInsets.only(
-                          //                 top: index == 0
-                          //                     ? 10.0
-                          //                     : 15.0),
-                          //             child: Container(
-                          //               width: MediaQuery
-                          //                   .of(context)
-                          //                   .size
-                          //                   .width,
-                          //               decoration: BoxDecoration(
-                          //                   border: Border(
-                          //                       bottom: index ==
-                          //                           length -
-                          //                               1
-                          //                           ?
-                          //                       BorderSide(
-                          //                           color: Colors
-                          //                               .Colors.transparent,
-                          //                           width: 1.0)
-                          //                           :
-                          //
-                          //                       BorderSide(
-                          //                           color: Colors
-                          //                               .Colors.grey
-                          //                               .withOpacity(
-                          //                               0.3),
-                          //                           width: 1.0)
-                          //                   )),
-                          //               child: Column(
-                          //                 children: [
-                          //                   Padding(
-                          //                     padding: const EdgeInsets
-                          //                         .only(
-                          //                         bottom: 18.0),
-                          //                     child: ListTile(
-                          //                       title: Text(
-                          //                         item.split('^sps^')[1].toString(),
-                          //                         style: TextStyle(
-                          //                           fontSize: 18,
-                          //                           fontWeight:
-                          //                           FontWeight
-                          //                               .w500,
-                          //                         ),),
-                          //                       subtitle: Padding(
-                          //                         padding: const EdgeInsets
-                          //                             .only(
-                          //                             top: 8.0),
-                          //                         child: Column(
-                          //                           crossAxisAlignment: CrossAxisAlignment
-                          //                               .start,
-                          //                           children: [
-                          //                             Text(
-                          //                                 item.split('^sps^')[2].toString(),
-                          //                                 style: TextStyle(
-                          //                                   fontSize: 14,
-                          //                                   fontWeight: FontWeight
-                          //                                       .w500,
-                          //                                   color: Colors
-                          //                                       .Colors.grey,
-                          //                                 )),
-                          //                             SizedBox(
-                          //                               height: 5,),
-                          //                             Text(
-                          //                                 item.split('^sps^')[3].toString(),
-                          //                                 style: TextStyle(
-                          //                                   fontSize: 14,
-                          //                                   fontWeight: FontWeight
-                          //                                       .w500,
-                          //                                   color: Colors
-                          //                                       .Colors.grey,
-                          //                                 )),
-                          //                           ],
-                          //                         ),
-                          //                       ),
-                          //                       trailing: Padding(
-                          //                         padding: const EdgeInsets
-                          //                             .only(
-                          //                             top: 10.0),
-                          //                         child: Container(
-                          //                           child: Row(
-                          //                             mainAxisSize: MainAxisSize.min,
-                          //                             mainAxisAlignment: MainAxisAlignment.start,
-                          //                             crossAxisAlignment: CrossAxisAlignment.start,
-                          //                             children: [
-                          //                               StreamBuilder(
-                          //                                   stream: FirebaseFirestore.instance
-                          //                                       .collection('space')
-                          //                                       .doc('0NHIS0Jbn26wsgCzVBKT')
-                          //                                       .collection('shops')
-                          //                                       .doc('PucvhZDuUz3XlkTgzcjb')
-                          //                                       .collection('customers')
-                          //                                       .doc(item.split('^sps^')[0].toString())
-                          //                                       .collection('orders')
-                          //                                       .where('debt', isGreaterThan: 0)
-                          //                                       .snapshots(),
-                          //                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot2) {
-                          //                                     // orderList[index] = 0;
-                          //                                     int orderLength = 0;
-                          //                                     int i = 0;
-                          //                                     if(snapshot2.hasData) {
-                          //                                       return snapshot2.data!.docs.length > 0? Container(
-                          //                                         height: 21,
-                          //                                         decoration: BoxDecoration(
-                          //                                           borderRadius: BorderRadius.circular(20.0),
-                          //                                           color: AppTheme.badgeFgDanger,
-                          //                                         ),
-                          //                                         child: Padding(
-                          //                                           padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                          //                                           child: Text(snapshot2.data!.docs.length.toString() + ' unpaid',
-                          //                                             style: TextStyle(
-                          //                                                 fontSize: 13,
-                          //                                                 fontWeight: FontWeight.w500,
-                          //                                                 color: Colors.white
-                          //                                             ),
-                          //                                           ),
-                          //                                         ),
-                          //                                       ): Container(
-                          //                                       );
-                          //                                       // int quantity = 0;
-                          //                                       // snapshot2.data!.docs.map((DocumentSnapshot document2) {
-                          //                                       //   Map<String, dynamic> data2 = document2.data()! as Map<String, dynamic>;
-                          //                                       //   orders = data2['daily_order'];
-                          //                                       //   quantity += int.parse(orders.length.toString());
-                          //                                       //
-                          //                                       //   return Text(snapshot2.data!.docs[index].id);
-                          //                                       // }).toList();
-                          //                                     }
-                          //                                     return Container();
-                          //                                   }
-                          //                               ),
-                          //
-                          //                               // Container(
-                          //                               //   height: 21,
-                          //                               //   decoration: BoxDecoration(
-                          //                               //     borderRadius: BorderRadius.circular(20.0),
-                          //                               //     color: AppTheme.badgeFgDanger,
-                          //                               //   ),
-                          //                               //   child: Padding(
-                          //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                          //                               //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                          //                               //       style: TextStyle(
-                          //                               //           fontSize: 13,
-                          //                               //           fontWeight: FontWeight.w500,
-                          //                               //           color: Colors.white
-                          //                               //       ),
-                          //                               //     ),
-                          //                               //   ),
-                          //                               // ),
-                          //
-                          //                               // Text(orderList.toString()),
-                          //
-                          //                               // Container(
-                          //                               //   height: 21,
-                          //                               //   decoration: BoxDecoration(
-                          //                               //     borderRadius: BorderRadius.circular(20.0),
-                          //                               //     color: AppTheme.badgeFgDanger,
-                          //                               //   ),
-                          //                               //   child: Padding(
-                          //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                          //                               //     child: Text('2 unpaid',
-                          //                               //       style: TextStyle(
-                          //                               //           fontSize: 13,
-                          //                               //           fontWeight: FontWeight.w500,
-                          //                               //           color: Colors.white
-                          //                               //       ),
-                          //                               //     ),
-                          //                               //   ),
-                          //                               // )
-                          //
-                          //                               // Container(
-                          //                               //   height: 21,
-                          //                               //   decoration: BoxDecoration(
-                          //                               //     borderRadius: BorderRadius.circular(20.0),
-                          //                               //     color: AppTheme.badgeFgDanger,
-                          //                               //   ),
-                          //                               //   child: Padding(
-                          //                               //     padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                          //                               //     child: Text(unpaidCount(index).toString() + ' unpaid',
-                          //                               //       style: TextStyle(
-                          //                               //           fontSize: 13,
-                          //                               //           fontWeight: FontWeight.w500,
-                          //                               //           color: Colors.white
-                          //                               //       ),
-                          //                               //     ),
-                          //                               //   ),
-                          //                               // ),
-                          //                               SizedBox(
-                          //                                   width: 12),
-                          //                               Padding(
-                          //                                 padding: const EdgeInsets.only(top: 2.0),
-                          //                                 child: Icon(
-                          //                                   Icons
-                          //                                       .arrow_forward_ios_rounded,
-                          //                                   size: 16,
-                          //                                   color: Colors
-                          //                                       .Colors.blueGrey
-                          //                                       .withOpacity(
-                          //                                       0.8),
-                          //                                 ),
-                          //                               ),
-                          //                             ],
-                          //                           ),
-                          //                         ),
-                          //                       ),
-                          //
-                          //                     ),
-                          //                   )
-                          //
-                          //                 ],
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         );
-                          //       }
-                          //       return GestureDetector(
-                          //         onTap: () {
-                          //           print('Items'+item);
-                          //           // Navigator.push(
-                          //           //   context,
-                          //           //   MaterialPageRoute(
-                          //           //       builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {})),
-                          //           // );
-                          //         },
-                          //         child: Stack(
-                          //           alignment: Alignment.center,
-                          //
-                          //           children: [
-                          //             Padding(
-                          //               padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                          //               child: Container(
-                          //                 decoration: BoxDecoration(
-                          //                     color: AppTheme.lightBgColor,
-                          //                     border: Border(
-                          //                       bottom: BorderSide(
-                          //                           color: AppTheme.skBorderColor2,
-                          //                           width: 1.0),
-                          //                     )),
-                          //                 child: Padding(
-                          //                   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                          //                   child: Column(
-                          //                     mainAxisAlignment: MainAxisAlignment.start,
-                          //                     crossAxisAlignment: CrossAxisAlignment.start,
-                          //                     children: [
-                          //                       Padding(
-                          //                         padding: const EdgeInsets.only(left: 1.0),
-                          //                         child: Column(
-                          //                           mainAxisAlignment: MainAxisAlignment.start,
-                          //                           crossAxisAlignment: CrossAxisAlignment.start,
-                          //                           children: [
-                          //                             Row(
-                          //                               mainAxisAlignment: MainAxisAlignment.start,
-                          //                               children: [
-                          //                                 Text('#Text',
-                          //                                   style: TextStyle(
-                          //                                       fontSize: 16,
-                          //                                       fontWeight: FontWeight.w500
-                          //                                   ),
-                          //                                 ),
-                          //                                 SizedBox(width: 8),
-                          //                                 Padding(
-                          //                                   padding: const EdgeInsets.only(bottom: 1.0),
-                          //                                   child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                          //                                 ),
-                          //                                 SizedBox(width: 4),
-                          //                                 Text('Text1',
-                          //                                   style: TextStyle(
-                          //                                     fontSize: 14,
-                          //                                     fontWeight: FontWeight.w500,
-                          //                                     color: Colors.grey,
-                          //                                   ),
-                          //                                 ),
-                          //                               ],
-                          //                             ),
-                          //                             SizedBox(
-                          //                               height: 6,
-                          //                             ),
-                          //                             Row(
-                          //                               children: [
-                          //                                 Text('Text2', style: TextStyle(
-                          //                                   fontSize: 15,
-                          //                                   fontWeight: FontWeight.w500,
-                          //                                   color: Colors.grey,
-                          //                                 )),
-                          //
-                          //                               ],
-                          //                             ),
-                          //                           ],
-                          //                         ),
-                          //                       ),
-                          //                       SizedBox(
-                          //                         height: 8,
-                          //                       ),
-                          //                       Row(
-                          //                         children: [
-                          //                           // if(item.split('^')[5] == '0.0')
-                          //                           Padding(
-                          //                             padding: const EdgeInsets.only(right: 6.0),
-                          //                             child: Container(
-                          //                               height: 21,
-                          //                               decoration: BoxDecoration(
-                          //                                 borderRadius: BorderRadius.circular(20.0),
-                          //                                 color: AppTheme.badgeBgSuccess,
-                          //                               ),
-                          //                               child: Padding(
-                          //                                 padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                          //                                 child: Text('Paid',
-                          //                                   style: TextStyle(
-                          //                                       fontSize: 13,
-                          //                                       fontWeight: FontWeight.w500,
-                          //                                       color: Colors.white
-                          //                                   ),
-                          //                                 ),
-                          //                               ),
-                          //                             ),
-                          //                           ),
-                          //
-                          //                           // if(item.split('^')[5] != '0.0')
-                          //                           //   Padding(
-                          //                           //     padding: const EdgeInsets.only(right: 6.0),
-                          //                           //     child: Container(
-                          //                           //       height: 21,
-                          //                           //       decoration: BoxDecoration(
-                          //                           //         borderRadius: BorderRadius.circular(20.0),
-                          //                           //         color: AppTheme.badgeFgDanger,
-                          //                           //       ),
-                          //                           //       child: Padding(
-                          //                           //         padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                          //                           //         child: Text('Unpaid',
-                          //                           //           style: TextStyle(
-                          //                           //               fontSize: 13,
-                          //                           //               fontWeight: FontWeight.w500,
-                          //                           //               color: Colors.white
-                          //                           //           ),
-                          //                           //         ),
-                          //                           //       ),
-                          //                           //     ),
-                          //                           //   ),
-                          //
-                          //                           // if(item.split('^')[4][0] == 'r')
-                          //                           //   Padding(
-                          //                           //     padding: const EdgeInsets.only(right: 6.0),
-                          //                           //     child: Container(
-                          //                           //       height: 21,
-                          //                           //       decoration: BoxDecoration(
-                          //                           //         borderRadius: BorderRadius.circular(20.0),
-                          //                           //         color: AppTheme.badgeBgSecond,
-                          //                           //       ),
-                          //                           //       child: Padding(
-                          //                           //         padding: const EdgeInsets.only(top: 2.5, left: 12.0, right: 12.0),
-                          //                           //         child: Text('Refunded',
-                          //                           //           style: TextStyle(
-                          //                           //               fontSize: 13,
-                          //                           //               fontWeight: FontWeight.w500,
-                          //                           //               color: Colors.white
-                          //                           //           ),
-                          //                           //         ),
-                          //                           //       ),
-                          //                           //     ),
-                          //                           //   ),
-                          //
-                          //                           // if(item.split('^')[4][0] == 's')
-                          //                           //   Padding(
-                          //                           //     padding: const EdgeInsets.only(right: 6.0),
-                          //                           //     child: Container(
-                          //                           //       height: 21,
-                          //                           //       decoration: BoxDecoration(
-                          //                           //         borderRadius: BorderRadius.circular(20.0),
-                          //                           //         color: AppTheme.badgeBgSecond,
-                          //                           //       ),
-                          //                           //       child: Padding(
-                          //                           //         padding: const EdgeInsets.only(top: 2.0, left: 13.0, right: 13.0),
-                          //                           //         child: Text('Partially refunded',
-                          //                           //           style: TextStyle(
-                          //                           //               fontSize: 13,
-                          //                           //               fontWeight: FontWeight.w500,
-                          //                           //               color: Colors.white
-                          //                           //           ),
-                          //                           //         ),
-                          //                           //       ),
-                          //                           //     ),
-                          //                           //   ),
-                          //
-                          //
-                          //                         ],
-                          //                       )
-                          //                     ],
-                          //                   ),
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //             Padding(
-                          //               padding: const EdgeInsets.only(right: 15.0, bottom: 1),
-                          //               child: Align(
-                          //                 alignment: Alignment.centerRight,
-                          //                 child: Row(
-                          //                   mainAxisAlignment: MainAxisAlignment.end,
-                          //                   children: [
-                          //                     Text('MMK ', style: TextStyle(
-                          //                       fontSize: 15,
-                          //                       fontWeight: FontWeight.w500,
-                          //                     )),
-                          //                     SizedBox(width: 10),
-                          //                     Icon(
-                          //                       Icons
-                          //                           .arrow_forward_ios_rounded,
-                          //                       size: 16,
-                          //                       color: Colors.blueGrey.withOpacity(0.8),
-                          //                     ),
-                          //                   ],
-                          //                 ),
-                          //               ),
-                          //             )
-                          //           ],
-                          //         ),
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -3501,7 +2497,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           color: Colors.black,
         ),
         textAlign: TextAlign.right,
-      ): Padding(
+      ):
+      Padding(
         padding: const EdgeInsets.only(bottom: 1.0),
         child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
             child: CupertinoActivityIndicator(radius: 8,)),
@@ -3530,8 +2527,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         elevation: 0,
       ),
       body: GestureDetector(
-        onTap: () {
+        onTapDown: (TapDownDetails tapDownDetails) {
           FocusScope.of(context).unfocus();
+          print('Hello World');
         },
         child: Container(
           color: Colors.white,
@@ -3671,8 +2669,12 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                 //   });
                                 //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                                 // }
-                                widget._chgIndex(0);
-                                FocusScope.of(context).unfocus();
+                                if( (loadingSearch && _searchController.text == '' ) || !loadingSearch) {
+                                  widget._chgIndex(0);
+                                  FocusScope.of(context).unfocus();
+                                } else {
+                                  _searchController.clear();
+                                }
                               },
                               child: Container(
                                 height: 50,
@@ -3690,22 +2692,20 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                             SmartKyat_POS.search,
                                             size: 17,
                                           ),
-                                        ):
+                                        ): loadingSearch && _searchController.text == '' ?
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 2, bottom: 0.5, right: 3),
+                                            padding: const EdgeInsets.only(left: 2, bottom: 0.5, right: 3),
+                                            child: Icon(
+                                              Icons.arrow_back_ios_rounded,
+                                              size: 21,
+                                            )
+                                        ) : Padding(
+                                          padding: const EdgeInsets.only(left: 2, bottom: 1.0),
                                           child: Icon(
-                                            Icons.arrow_back_ios_rounded,
-                                            size: 21,
+                                            Icons.close_rounded,
+                                            size: 24,
                                           ),
                                         )
-                                        // Padding(
-                                        //   padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                        //   child: Icon(
-                                        //     Icons.close_rounded,
-                                        //     size: 24,
-                                        //   ),
-                                        // )
-
                                       ],
                                     ),
                                   ),
@@ -3718,7 +2718,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     ),
                   ),
                 ),
-                overAllSearch()
+                overAllSearch(),
+
 
               ],
             ),
@@ -3736,10 +2737,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     }
 
   }
+
   unpaidCount(int index) {
     return orderList;
   }
-
 }
 
 Future<String> getStoreId() async {

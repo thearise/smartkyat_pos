@@ -46,9 +46,10 @@ class _AddCustomerState extends State<AddCustomer> {
       homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
     }
-    return Container(
-      color: Colors.white,
-      child: Stack(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
+      body: Stack(
         children: [
           SafeArea(
             top: true,
@@ -304,187 +305,188 @@ class _AddCustomerState extends State<AddCustomer> {
                               ),
                             ),
                           ),
-                          Container(
-                            color: Colors.white,
-                            height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
-                          ),
+                          // Container(
+                          //   color: Colors.white,
+                          //   height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
+                          // ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      color: Colors.white,
-                      height: 91,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
-                        child: Column(
-                          children: [
-                            ButtonTheme(
-                              minWidth: MediaQuery.of(context).size.width,
-                              splashColor: Colors.transparent,
-                              height: 50,
-                              child: FlatButton(
-                                color: AppTheme.themeColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(10.0),
-                                  side: BorderSide(
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          color: Colors.white,
+                          height: 91,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
+                            child: Column(
+                              children: [
+                                ButtonTheme(
+                                  minWidth: MediaQuery.of(context).size.width,
+                                  splashColor: Colors.transparent,
+                                  height: 50,
+                                  child: FlatButton(
                                     color: AppTheme.themeColor,
-                                  ),
-                                ),
-                                onPressed: () async {
-                                  merchFieldsValue = [];
-                                  if (_formKey.currentState!.validate()) {
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: AppTheme.themeColor,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      merchFieldsValue = [];
+                                      if (_formKey.currentState!.validate()) {
 
-                                    setState(() {
-                                      cusCreating = true;
-                                      widget.cusLoadingState();
-                                    });
+                                        setState(() {
+                                          cusCreating = true;
+                                          widget.cusLoadingState();
+                                        });
 
-                                    bool exist = false;
-                                    CollectionReference merchants =  await FirebaseFirestore.instance
-                                        .collection('shops')
-                                        .doc(shopId)
-                                        .collection('customers');
+                                        bool exist = false;
+                                        CollectionReference merchants =  await FirebaseFirestore.instance
+                                            .collection('shops')
+                                            .doc(shopId)
+                                            .collection('customers');
 
-                                    print(
-                                        'validate ' + merchFieldsValue.toString());
+                                        print(
+                                            'validate ' + merchFieldsValue.toString());
 
-                                    merchants.doc('name').get().then((DocumentSnapshot documentSnapshot) {
-                                      if (documentSnapshot.exists) {
-                                        exist = true;
-                                        print('Document exists on the database');
+                                        merchants.doc('name').get().then((DocumentSnapshot documentSnapshot) {
+                                          if (documentSnapshot.exists) {
+                                            exist = true;
+                                            print('Document exists on the database');
+                                          }
+                                        });
+
+                                        if(exist) {
+                                          merchants.add({
+                                            'customer_name': merchFieldsValue[0],
+                                            'customer_address': merchFieldsValue[1],
+                                            'customer_phone': merchFieldsValue[2],
+                                            'total_orders' : 0,
+                                            'debts' : 0,
+                                            'debtAmount' : 0,
+                                            'total_refunds' : 0,
+                                          }).then((value) {
+                                            print('product added 2');
+                                            // showFlash(
+                                            //   context: context,
+                                            //   duration: const Duration(seconds: 2),
+                                            //   persistent: true,
+                                            //   builder: (_, controller) {
+                                            //     return Flash(
+                                            //       controller: controller,
+                                            //       backgroundColor: Colors.transparent,
+                                            //       brightness: Brightness.light,
+                                            //       // boxShadows: [BoxShadow(blurRadius: 4)],
+                                            //       // barrierBlur: 3.0,
+                                            //       // barrierColor: Colors.black38,
+                                            //       barrierDismissible: true,
+                                            //       behavior: FlashBehavior.floating,
+                                            //       position: FlashPosition.top,
+                                            //       child: Padding(
+                                            //         padding: const EdgeInsets.only(
+                                            //             top: 80.0),
+                                            //         child: Padding(
+                                            //           padding: const EdgeInsets.only(
+                                            //               left: 15.0, right: 15.0),
+                                            //           child: Container(
+                                            //             decoration: BoxDecoration(
+                                            //               borderRadius:
+                                            //               BorderRadius.circular(
+                                            //                   10.0),
+                                            //               color: Colors.green,
+                                            //             ),
+                                            //             child: FlashBar(
+                                            //               title: Text('Success'),
+                                            //               content:
+                                            //               Text('New customer added'),
+                                            //               // showProgressIndicator: true,
+                                            //               primaryAction: TextButton(
+                                            //                 onPressed: () =>
+                                            //                     controller.dismiss(),
+                                            //                 child: Text('DISMISS',
+                                            //                     style: TextStyle(
+                                            //                         color: Colors
+                                            //                             .amber)),
+                                            //               ),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //       ),
+                                            //     );
+                                            //   },
+                                            // );
+                                          });
+                                          Future.delayed(const Duration(milliseconds: 3000), () {
+                                            setState(() {
+                                              cusCreating = false;
+                                              widget.endCusLoadingState();
+
+                                            });
+                                            Navigator.pop(context);
+                                            smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+
+                                          });
+                                        } else
+                                        {
+                                          merchants.doc('name').set({
+                                            'customer_name': 'Unknown',
+                                            'debt': 0, }).then((value) {
+                                            print('name created');
+                                          });
+
+                                          merchants.add({
+                                            'customer_name': merchFieldsValue[0],
+                                            'customer_address': merchFieldsValue[1],
+                                            'customer_phone': merchFieldsValue[2],
+                                            'total_orders' : 0,
+                                            'debts' : 0,
+                                            'debtAmount' : 0,
+                                            'total_refunds' : 0,
+                                          }).then((value) {
+                                            print('product added 2');
+                                          });
+                                          Future.delayed(const Duration(milliseconds: 3000), () {
+                                            setState(() {
+                                              cusCreating = false;
+                                              widget.endCusLoadingState();
+                                              Navigator.pop(context);
+                                            });
+                                            smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
+                                          });
+                                        }
                                       }
-                                    });
-
-                                    if(exist) {
-                                      merchants.add({
-                                        'customer_name': merchFieldsValue[0],
-                                        'customer_address': merchFieldsValue[1],
-                                        'customer_phone': merchFieldsValue[2],
-                                        'total_orders' : 0,
-                                        'debts' : 0,
-                                        'debtAmount' : 0,
-                                        'total_refunds' : 0,
-                                      }).then((value) {
-                                        print('product added 2');
-                                        // showFlash(
-                                        //   context: context,
-                                        //   duration: const Duration(seconds: 2),
-                                        //   persistent: true,
-                                        //   builder: (_, controller) {
-                                        //     return Flash(
-                                        //       controller: controller,
-                                        //       backgroundColor: Colors.transparent,
-                                        //       brightness: Brightness.light,
-                                        //       // boxShadows: [BoxShadow(blurRadius: 4)],
-                                        //       // barrierBlur: 3.0,
-                                        //       // barrierColor: Colors.black38,
-                                        //       barrierDismissible: true,
-                                        //       behavior: FlashBehavior.floating,
-                                        //       position: FlashPosition.top,
-                                        //       child: Padding(
-                                        //         padding: const EdgeInsets.only(
-                                        //             top: 80.0),
-                                        //         child: Padding(
-                                        //           padding: const EdgeInsets.only(
-                                        //               left: 15.0, right: 15.0),
-                                        //           child: Container(
-                                        //             decoration: BoxDecoration(
-                                        //               borderRadius:
-                                        //               BorderRadius.circular(
-                                        //                   10.0),
-                                        //               color: Colors.green,
-                                        //             ),
-                                        //             child: FlashBar(
-                                        //               title: Text('Success'),
-                                        //               content:
-                                        //               Text('New customer added'),
-                                        //               // showProgressIndicator: true,
-                                        //               primaryAction: TextButton(
-                                        //                 onPressed: () =>
-                                        //                     controller.dismiss(),
-                                        //                 child: Text('DISMISS',
-                                        //                     style: TextStyle(
-                                        //                         color: Colors
-                                        //                             .amber)),
-                                        //               ),
-                                        //             ),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //     );
-                                        //   },
-                                        // );
-                                      });
-                                      Future.delayed(const Duration(milliseconds: 3000), () {
-                                        setState(() {
-                                          cusCreating = false;
-                                          widget.endCusLoadingState();
-
-                                        });
-                                        Navigator.pop(context);
-                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
-
-                                      });
-                                    } else
-                                    {
-                                      merchants.doc('name').set({
-                                        'customer_name': 'Unknown',
-                                        'debt': 0, }).then((value) {
-                                        print('name created');
-                                      });
-
-                                      merchants.add({
-                                        'customer_name': merchFieldsValue[0],
-                                        'customer_address': merchFieldsValue[1],
-                                        'customer_phone': merchFieldsValue[2],
-                                        'total_orders' : 0,
-                                        'debts' : 0,
-                                        'debtAmount' : 0,
-                                        'total_refunds' : 0,
-                                      }).then((value) {
-                                        print('product added 2');
-                                      });
-                                      Future.delayed(const Duration(milliseconds: 3000), () {
-                                        setState(() {
-                                          cusCreating = false;
-                                          widget.endCusLoadingState();
-                                          Navigator.pop(context);
-                                        });
-                                        smartKyatFlash(merchFieldsValue[0]  + ' has been added successfully', 's');
-                                      });
-                                    }
-                                  }
-                                },
-                                child:  cusCreating == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                    child: CupertinoActivityIndicator(radius: 10,)) :Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5.0,
-                                      right: 5.0,
-                                      bottom: 3.0),
-                                  child: Container(
-                                    child: Text(
-                                      'Add customer',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing:-0.1
+                                    },
+                                    child:  cusCreating == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                        child: CupertinoActivityIndicator(radius: 10,)) :Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0,
+                                          right: 5.0,
+                                          bottom: 3.0),
+                                      child: Container(
+                                        child: Text(
+                                          'Add customer',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing:-0.1
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        )
                     )
-                )
+                  ],
+                ),
+
               ],
             ),
           ),
