@@ -5100,10 +5100,8 @@ class HomePageState extends State<HomePage>
                                                             color: customerId == 'name^name' ? AppTheme.buttonColor2 : AppTheme.themeColor,
                                                             // color: Colors.blue
                                                           ),
-
                                                           child: Padding(
-                                                            padding: const EdgeInsets.only(
-                                                                top: 13.0, bottom: 15.0),
+                                                            padding: const EdgeInsets.only(top: 13.0, bottom: 15.0),
                                                             child: Row(
                                                               mainAxisAlignment:
                                                               MainAxisAlignment.center,
@@ -5216,7 +5214,7 @@ class HomePageState extends State<HomePage>
                                                           },
                                                           child: Container(
                                                               child: Text(
-                                                                'Lee',
+                                                                '',
                                                                 textAlign: TextAlign.center,
                                                                 style: TextStyle(
                                                                     fontSize: 16.5,
@@ -10327,8 +10325,6 @@ class HomePageState extends State<HomePage>
         closeGoToCart = false;
         searCartOpen = true;
       }
-
-
     }
     ayinIndex2 = _selectIndex;
 

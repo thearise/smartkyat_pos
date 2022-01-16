@@ -75,7 +75,7 @@ class _EditProductState extends State<EditProduct> {
   String subExist= '';
   var photoArray = '';
   bool prodAdding = false;
- bool disableTouch = false;
+  bool disableTouch = false;
 
 
   getLangId() async {
@@ -122,6 +122,7 @@ class _EditProductState extends State<EditProduct> {
 
   @override
   void dispose() {
+    widget._openCartBtn();
     super.dispose();
   }
 
@@ -148,7 +149,7 @@ class _EditProductState extends State<EditProduct> {
           ignoring: disableTouch,
           child: SafeArea(
             top: true,
-            bottom: true,
+            bottom: false,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -369,8 +370,8 @@ class _EditProductState extends State<EditProduct> {
                                       var code = await  Navigator.of(context).push(
                                           FadeRoute(page:
                                           QREditExample(prodName: widget.prodName,),
-                                            )
-                                        );
+                                          )
+                                      );
                                       barCodeCtrl.text = code;
                                       print('bar bar ' + code);
                                     },
@@ -695,9 +696,8 @@ class _EditProductState extends State<EditProduct> {
                                 ),
                               ),
                             ),
-                            (sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1SellCtrl.text != '') && (sub2perUnitCtrl.text == '' && sub2UnitNameCtrl.text == '' &&  sub2SellCtrl.text == '')? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) :Container(),
-                            sub1perUnitCtrl.text != '' && sub1UnitNameCtrl.text != '' && sub1SellCtrl.text != '' &&
-                                sub2perUnitCtrl.text != '' && sub2UnitNameCtrl.text != '' && sub2SellCtrl.text != ''? Column(
+                            (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '')? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) : Container(),
+                            (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' ) ? Column(
                               children: [
                                 createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
                                 createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
@@ -716,10 +716,166 @@ class _EditProductState extends State<EditProduct> {
                           ],
                         ),
                       ),
-                      Container(
-                        color: Colors.white,
-                        height: MediaQuery.of(context).viewInsets.bottom - 80 < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 141,
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 5.0, right: 15.0, left:15.0, bottom: 15.0),
+                      //   child:  ButtonTheme(
+                      //     minWidth: MediaQuery.of(context).size.width,
+                      //     splashColor: Colors.transparent,
+                      //     height: 50,
+                      //     child: FlatButton(
+                      //       color: AppTheme.themeColor,
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius:
+                      //         BorderRadius.circular(10.0),
+                      //         side: BorderSide(
+                      //           color: AppTheme.themeColor,
+                      //         ),
+                      //       ),
+                      //       onPressed: () async {
+                      //         if (_formKey.currentState!.validate()) {
+                      //           setState(() {
+                      //             prodAdding = true;
+                      //             disableTouch = true;
+                      //           });
+                      //           String subExistChange;
+                      //           String sub1Buy;
+                      //           String sub2Buy;
+                      //           var prodExist = false;
+                      //
+                      //           CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products');
+                      //
+                      //           if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text == '') {
+                      //             subExistChange = '1';
+                      //             sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                      //             sub2Buy = '0';
+                      //           } else  if (sub1perUnitCtrl.text != '' && sub2perUnitCtrl.text != '') {
+                      //             subExistChange = '2';
+                      //             sub1Buy = (double.parse(mainBuyCtrl.text)/double.parse(sub1perUnitCtrl.text)).toString();
+                      //             sub2Buy = (double.parse(sub1Buy)/double.parse(sub2perUnitCtrl.text)).toString();
+                      //           } else {
+                      //             subExistChange ='0';
+                      //             sub1Buy = '0';
+                      //             sub2Buy = '0';
+                      //           }
+                      //           productId.where('prod_name', isEqualTo: prodNameCtrl.text).get().then((QuerySnapshot
+                      //           querySnapshot) async {
+                      //             querySnapshot.docs
+                      //                 .forEach((doc) {
+                      //               prodExist = true;
+                      //             });
+                      //
+                      //             if ( prodExist == true && prodNameCtrl.text != widget.prodName ) {
+                      //               print('product already');
+                      //               var result =
+                      //               await showOkAlertDialog(
+                      //                 context: context,
+                      //                 title: 'Warning',
+                      //                 message:
+                      //                 'Product name already!',
+                      //                 okLabel: 'OK',
+                      //               );
+                      //               setState(() {
+                      //                 disableTouch = false;
+                      //                 prodAdding = false;
+                      //               });
+                      //             } else {
+                      //               if (assets.length == 0) {
+                      //                 productId.doc(widget.prodId).update({
+                      //                   'prod_name' : prodNameCtrl.text,
+                      //                   'bar_code' : barCodeCtrl.text,
+                      //                   'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                      //                   'unit_name' : mainUnitNameCtrl.text,
+                      //                   'buyPrice1' : mainBuyCtrl.text,
+                      //                   'unit_sell' : mainSellCtrl.text,
+                      //                   'sub_exist' : subExistChange,
+                      //                   'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                      //                   'sub1_link' : sub1perUnitCtrl.text,
+                      //                   'sub1_name' : sub1UnitNameCtrl.text,
+                      //                   'sub1_sell' : sub1SellCtrl.text,
+                      //                   'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                      //                   'sub2_link' : sub2perUnitCtrl.text,
+                      //                   'sub2_name' : sub2UnitNameCtrl.text,
+                      //                   'sub2_sell' : sub2SellCtrl.text,
+                      //                   'buyPrice2' : sub1Buy,
+                      //                   'buyPrice3' : sub2Buy,
+                      //                 }).then((value) {
+                      //                 }).catchError((error) => print("Failed to update: $error"));
+                      //
+                      //                 Future.delayed(const Duration(milliseconds: 2000), () {
+                      //                   setState(() {
+                      //                     prodAdding = false;
+                      //                     disableTouch = false;
+                      //                   });
+                      //                   Navigator.pop(context);
+                      //                   widget._openCartBtn();
+                      //                   smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                      //                 });
+                      //
+                      //                 // });
+                      //               } else {
+                      //                 for (int i = 0;
+                      //                 i < assets.length;
+                      //                 i++)
+                      //                 {
+                      //                   AssetEntity asset = assets.elementAt(i);
+                      //                   asset.originFile.then((value) async {
+                      //                     addProduct(value!, photoArray).then((value) {
+                      //                       photoArray = value.toString();
+                      //                       productId.doc(widget.prodId).update({
+                      //                         'prod_name' : prodNameCtrl.text,
+                      //                         'bar_code' : barCodeCtrl.text,
+                      //                         'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                      //                         'unit_name' : mainUnitNameCtrl.text,
+                      //                         'buyPrice1' : mainBuyCtrl.text,
+                      //                         'unit_sell' : mainSellCtrl.text,
+                      //                         'sub_exist' : subExistChange,
+                      //                         'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                      //                         'sub1_link' : sub1perUnitCtrl.text,
+                      //                         'sub1_name' : sub1UnitNameCtrl.text,
+                      //                         'sub1_sell' : sub1SellCtrl.text,
+                      //                         'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                      //                         'sub2_link' : sub2perUnitCtrl.text,
+                      //                         'sub2_name' : sub2UnitNameCtrl.text,
+                      //                         'sub2_sell' : sub2SellCtrl.text,
+                      //                         'buyPrice2' : sub1Buy,
+                      //                         'buyPrice3' : sub2Buy,
+                      //                         'img_1' : photoArray.toString(),
+                      //                       }).then((value){ Navigator.pop(context);
+                      //                       widget._openCartBtn();
+                      //                       setState(() {
+                      //                         prodAdding = false;
+                      //                         disableTouch = false;
+                      //                       });
+                      //                       Navigator.pop(context);
+                      //                       smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
+                      //                       }).catchError((error) => print("Failed to update: $error"));
+                      //                     }
+                      //                     );
+                      //                   });
+                      //                 }
+                      //               }  } });} },
+                      //       child: prodAdding == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                      //           child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                      //         padding: const EdgeInsets.only(
+                      //             left: 5.0,
+                      //             right: 5.0,
+                      //             bottom: 2.0),
+                      //         child: Container(
+                      //           child: Text(
+                      //             'Save Product',
+                      //             textAlign: TextAlign.center,
+                      //             style: TextStyle(
+                      //                 fontSize: 18,
+                      //                 fontWeight: FontWeight.w600,
+                      //                 letterSpacing:-0.1
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
                     ],
                   ),
                 ),
@@ -890,6 +1046,10 @@ class _EditProductState extends State<EditProduct> {
                       ),
                     ),
                   ),
+                ),
+                Container(
+                  color: Colors.white,
+                  height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
                 ),
               ],
             ),

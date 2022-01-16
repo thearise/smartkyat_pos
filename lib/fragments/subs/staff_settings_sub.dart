@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -5,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 // import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:one_context/one_context.dart';
@@ -271,28 +273,18 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                     ),
                                   ),
                                   onPressed: () async {
-                                    // final textInput = await showTextInputDialog(
-                                    //   context: context,
-                                    //   textFields: const [
-                                    //     DialogTextField(
-                                    //       hintText: 'johndoe@gmail.com',
-                                    //     ),
-                                    //   ],
-                                    //   title: 'Enter an email',
-                                    //   message: 'To add an staff, we need an email associated with that user account',
-                                    // );
-                                    // // print('Text ' + textInput![0].toString());
-                                    // // logger.info(text);
-                                    //
-                                    // await FirebaseFirestore.instance.collection('shops').doc(_result).update(
-                                    //     {'users': FieldValue.arrayUnion([textInput![0].toString()]),}
-                                    // ).then((value) async {
-                                    //   print('users added');
-                                    // });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => AddStaffSub()),
-                                    );
+                                    try {
+                                      final result = await InternetAddress.lookup('google.com');
+                                      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => AddStaffSub()),
+                                        );
+                                      }
+                                    } on SocketException catch (_) {
+                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                    }
+
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -466,30 +458,36 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                 size: 20,
                                                                                 color: Colors.red,
                                                                               ),
-                                                                              onPressed: () {
-                                                                                showOkCancelAlertDialog(
-                                                                                  context: context,
-                                                                                  title: 'Confirmation alert!\n',
-                                                                                  message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
-                                                                                  defaultType: OkCancelAlertDefaultType.cancel,
-                                                                                ).then((result) async {
-                                                                                  if(result == OkCancelResult.ok) {
-                                                                                    CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                                                                    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
-                                                                                    shops.doc(_result).update(
-                                                                                        {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                                                    ).then((value) async {
+                                                                              onPressed: () async {
+                                                                                try {
+                                                                                  final result = await InternetAddress.lookup('google.com');
+                                                                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                    showOkCancelAlertDialog(
+                                                                                      context: context,
+                                                                                      title: 'Confirmation alert!\n',
+                                                                                      message: 'Are you sure you want to remove unknown user (' + usersList[i].toString() + ') from current shop?',
+                                                                                      defaultType: OkCancelAlertDefaultType.cancel,
+                                                                                    ).then((result) async {
+                                                                                      if(result == OkCancelResult.ok) {
+                                                                                        CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                                                                        CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
+                                                                                        shops.doc(_result).update(
+                                                                                            {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                                                        ).then((value) async {
                                                                                           users.doc(userDocId)
-                                                                                          .delete()
-                                                                                          .then((value) {
-                                                                                        print('users removed');
-                                                                                      })
-                                                                                          .catchError((error) {
-                                                                                      });
+                                                                                              .delete()
+                                                                                              .then((value) {
+                                                                                            print('users removed');
+                                                                                          })
+                                                                                              .catchError((error) {
+                                                                                          });
+                                                                                        });
+                                                                                      }
                                                                                     });
                                                                                   }
+                                                                                } on SocketException catch (_) {
+                                                                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                                                 }
-                                                                                );
                                                                               }
                                                                           ),
                                                                         ),
@@ -533,14 +531,14 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                   ),
                                                                                 ),
                                                                                 onPressed: () async {
-                                                                                  print('onpressed');
-                                                                                  _openSimpleItemPicker(context, permissionList, userDocId, role, 'Unknown');
-                                                                                  // _selectTab(0);
-                                                                                  // await FirebaseAuth.instance.signOut();
-                                                                                  // setStoreId('');
-                                                                                  // Navigator.of(context).pushReplacement(
-                                                                                  //   FadeRoute(page: Welcome()),
-                                                                                  // );
+                                                                                  try {
+                                                                                    final result = await InternetAddress.lookup('google.com');
+                                                                                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                      _openSimpleItemPicker(context, permissionList, userDocId, role, 'Unknown');
+                                                                                    }
+                                                                                  } on SocketException catch (_) {
+                                                                                    smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                                                  }
                                                                                 },
                                                                                 child: Container(
                                                                                   child: Text(
@@ -620,30 +618,38 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                             size: 20,
                                                                             color: Colors.red,
                                                                           ),
-                                                                          onPressed: () {
-                                                                            showOkCancelAlertDialog(
-                                                                              context: context,
-                                                                              title: 'Confirmation alert!\n',
-                                                                              message: 'Are you sure you want to remove ' + data['name'] + ' (' + usersList[i].toString() + ') from current shop?',
-                                                                              defaultType: OkCancelAlertDefaultType.cancel,
-                                                                            ).then((result) async {
-                                                                              if(result == OkCancelResult.ok) {
-                                                                                CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                                                                CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
-                                                                               shops.doc(_result).update(
-                                                                                    {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
-                                                                                ).then((value) async {
+                                                                          onPressed: () async {
+                                                                            try {
+                                                                              final result = await InternetAddress.lookup('google.com');
+                                                                              if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                showOkCancelAlertDialog(
+                                                                                  context: context,
+                                                                                  title: 'Confirmation alert!\n',
+                                                                                  message: 'Are you sure you want to remove ' + data['name'] + ' (' + usersList[i].toString() + ') from current shop?',
+                                                                                  defaultType: OkCancelAlertDefaultType.cancel,
+                                                                                ).then((result) async {
+                                                                                  if(result == OkCancelResult.ok) {
+                                                                                    CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                                                                    CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(_result).collection('users');
+                                                                                    shops.doc(_result).update(
+                                                                                        {'users': FieldValue.arrayRemove([usersList[i].toString()]),}
+                                                                                    ).then((value) async {
                                                                                       users.doc(userDocId)
-                                                                                      .delete()
-                                                                                      .then((value) {
+                                                                                          .delete()
+                                                                                          .then((value) {
                                                                                         print('users removed');
                                                                                       })
-                                                                                      .catchError((error) {
+                                                                                          .catchError((error) {
                                                                                       });
-                                                                                });
+                                                                                    });
+                                                                                  }
+                                                                                }
+                                                                                );
                                                                               }
+                                                                            } on SocketException catch (_) {
+                                                                              smartKyatFlash('Internet connection is required to take this action.', 'w');
                                                                             }
-                                                                            );
+
                                                                           }
                                                                       ),
                                                                     ),
@@ -687,8 +693,15 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                               ),
                                                                             ),
                                                                             onPressed: () async {
-                                                                              print('onpressed');
-                                                                              await _openSimpleItemPicker(OneContext().context, permissionList, userDocId, role, data['name']);
+                                                                              try {
+                                                                                final result = await InternetAddress.lookup('google.com');
+                                                                                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                                                  await _openSimpleItemPicker(OneContext().context, permissionList, userDocId, role, data['name']);
+                                                                                }
+                                                                              } on SocketException catch (_) {
+                                                                                smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                                              }
+
                                                                               // print('resultPicker ' + resultPicker.toString());
 
                                                                               // _selectTab(0);
@@ -885,26 +898,186 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
       ),
     );
   }
-// var ownerEmail = '';
-//   getEmail(ownerId) {
-//     var getOwnerEmail;
-//     FirebaseFirestore.instance
-//         .collection('users')
-//         .where('user_id', isEqualTo: ownerId.toString())
-//         .get()
-//         .then((QuerySnapshot querySnapshot) {
-//       querySnapshot.docs.forEach((doc) {
-//         getOwnerEmail = doc['email'];
-//         setState(() {
-//           ownerEmail = getOwnerEmail;
-//         });
-//       });
-//
-//
-//     });
-//     print('ownerEmail' +ownerEmail);
-//     return ownerEmail.toString();
-//   }
+
+  void smartKyatFlash(String text, String type) {
+    Widget widgetCon = Container();
+    Color bdColor = Color(0xffffffff);
+    Color bgColor = Color(0xffffffff);
+    if(type == 's') {
+      bdColor = Color(0xffB1D3B1);
+      bgColor = Color(0xffCFEEE0);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff419373)),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 1.0),
+          child: Icon(
+            Icons.check_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'w') {
+      bdColor = Color(0xffF2E0BC);
+      bgColor = Color(0xffFCF4E2);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffF5C04A)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.0, top: 1.0),
+          child: Text('!', textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w800, color: Colors.white)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    } else if(type == 'e') {
+      bdColor = Color(0xffEAD2C8);
+      bgColor = Color(0xffFAEEEC);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xffE9625E)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: Icon(
+            Icons.close_rounded,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else if(type == 'i') {
+      bdColor = Color(0xffBCCEEA);
+      bgColor = Color(0xffE8EEF9);
+      widgetCon = Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(35.0),
+            ),
+            color: Color(0xff4788E2)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 6.5, top: 1.5),
+          child: Text ('i', textScaleFactor: 1, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white,)),
+          // child: Icon(
+          //   Icons.warning_rounded,
+          //   size: 15,
+          //   color: Colors.white,
+          // ),
+        ),
+      );
+    }
+    showFlash(
+      context: context,
+      duration: const Duration(milliseconds: 2500),
+      persistent: true,
+      transitionDuration: Duration(milliseconds: 300),
+      builder: (_, controller) {
+        return Flash(
+          controller: controller,
+          backgroundColor: Colors.transparent,
+          brightness: Brightness.light,
+          // boxShadows: [BoxShadow(blurRadius: 4)],
+          // barrierBlur: 3.0,
+          // barrierColor: Colors.black38,
+          barrierDismissible: true,
+          behavior: FlashBehavior.floating,
+          position: FlashPosition.top,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 93.0, left: 15, right: 15),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                color: bgColor,
+                border: Border.all(
+                    color: bdColor,
+                    width: 1.0
+                ),
+              ),
+              child: ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: widgetCon,
+                ),
+                minLeadingWidth: 15,
+                horizontalTitleGap: 10,
+                minVerticalPadding: 0,
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 16.3),
+                  child: Container(
+                    child: Text(text, textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                  ),
+                ),
+                // subtitle: Text('shit2'),
+                // trailing: Text('GGG',
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w500,
+                //   ),),
+              ),
+            ),
+          ),
+          // child: Padding(
+          //   padding: const EdgeInsets.only(
+          //       top: 93.0, left: 15, right: 15),
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.all(
+          //         Radius.circular(10.0),
+          //       ),
+          //       color: bgColor,
+          //       border: Border.all(
+          //           color: bdColor,
+          //           width: 1.0
+          //       ),
+          //     ),
+          //     child: Padding(
+          //         padding: const EdgeInsets.only(
+          //             top: 15.0, left: 10, right: 10, bottom: 15),
+          //         child: Row(
+          //           children: [
+          //             SizedBox(width: 5),
+          //             widgetCon,
+          //             SizedBox(width: 10),
+          //             Padding(
+          //               padding: const EdgeInsets.only(bottom: 2.5),
+          //               child: Container(
+          //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
+          //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
+          //               ),
+          //             )
+          //           ],
+          //         )
+          //     ),
+          //   ),
+          // ),
+        );
+      },
+    );
+  }
 
   List _testList = [
     {'no': 1, 'keyword': 'Cashier'},
