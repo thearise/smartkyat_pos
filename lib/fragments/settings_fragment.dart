@@ -20,10 +20,11 @@ class SettingsFragment extends StatefulWidget {
   final _chgShopCB;
   final _openDrawerBtn;
   final _closeDrawerBtn;
+  final _premiumCart;
   SettingsFragment({required this.usersSnapshot, required void changeShopCallback(), required void closeDrawerBtn(String str),
-    required void openDrawerBtn(String str), Key? key,}):
+    required void openDrawerBtn(String str), required void premiumCart(), Key? key,}):
         _chgShopCB = changeShopCallback,_openDrawerBtn = openDrawerBtn,
-        _closeDrawerBtn = closeDrawerBtn, super(key: key);
+        _closeDrawerBtn = closeDrawerBtn, _premiumCart = premiumCart, super(key: key);
   final usersSnapshot;
 
   @override
@@ -267,19 +268,24 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                               fontWeight: FontWeight.w600,
                             ),),
                           Spacer(),
-                          Container(
-                            height: 30,
-                            width: 100,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                                color: Colors.grey.withOpacity(0.3)),
-                            child: Text(isPro == 'free'? 'Free Version': 'Pro Version', style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 13
-                            ),),
+                          GestureDetector(
+                            onTap: () {
+                              widget._premiumCart();
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 100,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                  color: Colors.grey.withOpacity(0.3)),
+                              child: Text(isPro == 'free'? 'Free Version': 'Pro Version', style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13
+                              ),),
+                            ),
                           ),
                         ],
                       ),

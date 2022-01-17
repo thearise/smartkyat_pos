@@ -440,11 +440,12 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                 ),
                                                 onPressed: () async {
                                                   widget._closeCartBtn();
-                                                  Navigator.push(
+                                                  await Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(), openCartBtn: widget._openCartBtn,))
                                                   );
+                                                  widget._openCartBtn();
                                                 },
                                                 child: Container(
                                                   width: 100,

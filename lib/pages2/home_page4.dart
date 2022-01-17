@@ -300,6 +300,9 @@ class HomePageState extends State<HomePage>
   
   @override
   void initState() {
+    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    //   premiumCart();
+    // });
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
@@ -549,7 +552,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             // page: BuyListFragment(),
-            page: SettingsFragment(key: settGlobalKey, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot2, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+            page: SettingsFragment(key: settGlobalKey, premiumCart: premiumCart, changeShopCallback: chgShopIdFromSetting, usersSnapshot: userSnapshot2, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -806,6 +809,371 @@ class HomePageState extends State<HomePage>
   //   });
   //   print('disable2' + disableTouch.toString());
   // }
+
+  premiumCart() {
+    final List<String> prodFieldsValue = [];
+    // myController.clear();
+    showModalBottomSheet(
+        isDismissible: !disableTouch,
+        enableDrag: !disableTouch,
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 60.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(18.0),
+                      topRight: Radius.circular(18.0),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(18.0),
+                          topRight: Radius.circular(18.0),
+                        ),
+                        color: Colors.white,
+                      ),
+                      height:
+                      MediaQuery.of(context).size.height -
+                          45,
+                      width: double.infinity,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height -
+                                45,
+                            // color: Colors.yellow,
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
+                                  ),
+                                  height: (MediaQuery.of(context).size.height -
+                                      60)/ 2,
+                                ),
+                                Container(
+                                  color: Color(0xFFF2F1F6),
+                                  height: (MediaQuery.of(context).size.height -
+                                      60)/ 2,
+                                )
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Expanded(
+                                child: ListView(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(15.0),
+                                          topRight: Radius.circular(15.0),
+                                        ),
+                                        color: Colors.white,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                            child: Container(
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(height: 40),
+                                                  Center(
+                                                    child: Text(
+                                                        'You are on pro version', style: TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 26,
+                                                        letterSpacing: -0.4
+                                                    )),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 20.0),
+                                                    child: Text('Your last updated (at 22 April 2022) plan will end at 22 December 2022.', style: TextStyle( fontSize: 14),),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                    Radius.circular(15.0),
+                                                  ),
+                                                  color: Color(0xFFF5F5F5),
+                                                  border: Border.all(
+                                                      color: Colors.grey.withOpacity(0.2),
+                                                      width: 1.0),
+                                                ),
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 20.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SizedBox(height: 18),
+                                                      Text('1 month pro version', style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 18,
+                                                          letterSpacing: -0.3
+                                                      )),
+                                                      SizedBox(height: 5),
+                                                      Text('10,000 Kyats /month', style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14,
+                                                          letterSpacing: -0.3
+                                                      )),
+                                                      SizedBox(height: 22),
+                                                    ],
+                                                  ),
+                                                )),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(15.0),
+                                                    ),
+                                                    gradient: LinearGradient(
+                                                        colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
+                                                        begin: Alignment(-1.0, -2.0),
+                                                        end: Alignment(1.0, 2.0),
+                                                        tileMode: TileMode.clamp)),
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 20.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SizedBox(height: 18),
+                                                      Text('3 month pro version (save 20%)', style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 18,
+                                                          letterSpacing: -0.3
+                                                      )),
+                                                      SizedBox(height: 5),
+                                                      Text('8,000 Kyats /month', style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14,
+                                                          letterSpacing: -0.3
+                                                      )),
+                                                      SizedBox(height: 22),
+                                                    ],
+                                                  ),
+                                                )),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(15.0),
+                                                    ),
+                                                    gradient: LinearGradient(
+                                                        colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
+                                                        begin: Alignment(-1.0, -2.0),
+                                                        end: Alignment(1.0, 2.0),
+                                                        tileMode: TileMode.clamp)),
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 20.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      SizedBox(height: 18),
+                                                      Text('5 month pro version (save 30%)', style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 18,
+                                                          letterSpacing: -0.3
+                                                      )),
+                                                      SizedBox(height: 5),
+                                                      Text('7,000 Kyats /month', style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14,
+                                                          letterSpacing: -0.3
+                                                      )),
+                                                      SizedBox(height: 22),
+                                                    ],
+                                                  ),
+                                                )),
+                                          ),
+                                          SizedBox(height: 20),
+                                        ]
+                                      ),
+                                    ),
+                                    Container(
+                                      color: Color(0xFFF2F1F6),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(15.0),
+                                                ),
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color: Colors.grey.withOpacity(0.2),
+                                                    width: 1.0),
+                                              ),
+                                              child: ListTile(
+                                                leading: Padding(
+                                                  padding: const EdgeInsets.only(left:3.0, top: 3.0),
+                                                  child: Image(image: AssetImage('assets/system/call_now.png'), width: 28,),
+                                                ),
+                                                title: Padding(
+                                                  padding: const EdgeInsets.only(top: 10.0),
+                                                  child: Text('Contact us via phone', style: TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 18,
+                                                      letterSpacing: -0.3
+                                                  )),
+                                                ),
+                                                subtitle: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(height: 6),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(0.3),
+                                                                  width: 1.0))),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(bottom: 10.0),
+                                                        child: Text('You can contact us now to purchase above plans.', style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 15, color: Colors.black,
+                                                        )),
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Text('Call now', style: TextStyle(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 17, color: Colors.blue,
+                                                    )),
+                                                    SizedBox(height: 10),
+                                                  ],
+                                                ),
+
+                                              ),
+                                            ),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(15.0),
+                                                ),
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color: Colors.grey.withOpacity(0.2),
+                                                    width: 1.0),
+                                              ),
+                                              child: ListTile(
+                                                leading: Padding(
+                                                  padding: const EdgeInsets.only(left:3.0, top: 3.0),
+                                                  child: Image(image: AssetImage('assets/system/messenger.png'), width: 28,),
+                                                ),
+                                                title: Padding(
+                                                  padding: const EdgeInsets.only(top: 10.0),
+                                                  child: Text('Via messenger', style: TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 18,
+                                                      letterSpacing: -0.3
+                                                  )),
+                                                ),
+                                                subtitle: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(height: 6),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(0.3),
+                                                                  width: 1.0))),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(bottom: 10.0),
+                                                        child: Text('You can contact us now to purchase above plans (delay response).', style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 15, color: Colors.black,
+                                                        )),
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Text('Messenger', style: TextStyle(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 17, color: Colors.blue,
+                                                    )),
+                                                    SizedBox(height: 10),
+                                                  ],
+                                                ),
+
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 42,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: 50,
+                        height: 5,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25.0),
+                            ),
+                            color: Colors.white.withOpacity(0.5)),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+          // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+        });
+  }
 
   addMerch() {
     showModalBottomSheet(
@@ -5292,98 +5660,77 @@ class HomePageState extends State<HomePage>
                                                             child: Container(),
                                                           ),
                                                         ),
-                                                        GestureDetector(
-                                                          onTap: () async {
-                                                            // // smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');
-                                                            // DateTime _myTime;
-                                                            // DateTime _ntpTime;
-                                                            //
-                                                            // /// Or you could get NTP current (It will call DateTime.now() and add NTP offset to it)
-                                                            // _myTime = await NTP.now();
-                                                            //
-                                                            // /// Or get NTP offset (in milliseconds) and add it yourself
-                                                            // final int offset = await NTP.getNtpOffset(localTime: DateTime.now());
-                                                            // _ntpTime = _myTime.add(Duration(milliseconds: offset));
-                                                            //
-                                                            // print('Date time: ' + DateTime.now().toString());
-                                                            // print('My time: $_myTime');
-                                                            // print('NTP time: $_ntpTime');
-                                                            // print('Difference: ${_myTime.difference(_ntpTime).inMilliseconds}ms');
-
-                                                            // Navigator.of(context).push(
-                                                            //     FadeRoute(page: FirstLaunchPage(),)
-                                                            // );
-                                                            toggleGoToCart();
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              // Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'Pro': 'Free'),
-                                                              //SizedBox(width:15),
-                                                              Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                      right: 15.0, left: 10.0
+                                                        Row(
+                                                          children: [
+                                                            // Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'Pro': 'Free'),
+                                                            //SizedBox(width:15),
+                                                            Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    right: 15.0, left: 10.0, top: 2.0
+                                                                ),
+                                                                child: _connectionStatus?
+                                                                Center(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(bottom: 2),
+                                                                    child: Icon(
+                                                                      Icons.wifi_tethering_rounded,
+                                                                      size: 24.5,
+                                                                      color: Colors.green,
+                                                                    ),
                                                                   ),
-                                                                  child: _connectionStatus? 
-                                                                  Center(
-                                                                    child: Icon(
-                                                                      Icons.cloud_rounded,
-                                                                      size: 25,
-                                                                      color: Colors.black,
-                                                                    ),
-                                                                  ) :
-                                                                  Center(
-                                                                    child: Icon(
-                                                                      Icons.cloud_off_rounded,
-                                                                      size: 25,
-                                                                      color: Colors.black,
-                                                                    ),
-                                                                  )
-                                                                  // child: StreamBuilder(
-                                                                  //     stream: Connectivity().onConnectivityChanged,
-                                                                  //     builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
-                                                                  //       if (!snapShot.hasData)
-                                                                  //         return Center(
-                                                                  //           child: Icon(
-                                                                  //             Icons.cloud_off_rounded,
-                                                                  //             size: 25,
-                                                                  //             color: Colors.black,
-                                                                  //           ),
-                                                                  //         );
-                                                                  //       var result = snapShot.data;
-                                                                  //       switch (result) {
-                                                                  //         case ConnectivityResult.none:
-                                                                  //
-                                                                  //           return Center(
-                                                                  //             child: Icon(
-                                                                  //               Icons.cloud_off_rounded,
-                                                                  //               size: 25,
-                                                                  //               color: Colors.black,
-                                                                  //             ),
-                                                                  //           );
-                                                                  //         case ConnectivityResult.mobile:
-                                                                  //         case ConnectivityResult.wifi:
-                                                                  //
-                                                                  //           return Center(
-                                                                  //             child: Icon(
-                                                                  //               Icons.cloud_rounded,
-                                                                  //               size: 25,
-                                                                  //               color: Colors.black,
-                                                                  //             ),
-                                                                  //           );
-                                                                  //         default:
-                                                                  //           return Center(
-                                                                  //             child: Icon(
-                                                                  //               Icons.cloud_off_rounded,
-                                                                  //               size: 25,
-                                                                  //               color: Colors.black,
-                                                                  //             ),
-                                                                  //           );
-                                                                  //       }
-                                                                  //
-                                                                  //     })
-                                                              ),
-                                                            ],
-                                                          ),
+                                                                ) :
+                                                                Center(
+                                                                  child: Icon(
+                                                                    Icons.portable_wifi_off_rounded,
+                                                                    size: 24.5,
+                                                                    color: Colors.grey,
+                                                                  ),
+                                                                )
+                                                              // child: StreamBuilder(
+                                                              //     stream: Connectivity().onConnectivityChanged,
+                                                              //     builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
+                                                              //       if (!snapShot.hasData)
+                                                              //         return Center(
+                                                              //           child: Icon(
+                                                              //             Icons.cloud_off_rounded,
+                                                              //             size: 25,
+                                                              //             color: Colors.black,
+                                                              //           ),
+                                                              //         );
+                                                              //       var result = snapShot.data;
+                                                              //       switch (result) {
+                                                              //         case ConnectivityResult.none:
+                                                              //
+                                                              //           return Center(
+                                                              //             child: Icon(
+                                                              //               Icons.cloud_off_rounded,
+                                                              //               size: 25,
+                                                              //               color: Colors.black,
+                                                              //             ),
+                                                              //           );
+                                                              //         case ConnectivityResult.mobile:
+                                                              //         case ConnectivityResult.wifi:
+                                                              //
+                                                              //           return Center(
+                                                              //             child: Icon(
+                                                              //               Icons.cloud_rounded,
+                                                              //               size: 25,
+                                                              //               color: Colors.black,
+                                                              //             ),
+                                                              //           );
+                                                              //         default:
+                                                              //           return Center(
+                                                              //             child: Icon(
+                                                              //               Icons.cloud_off_rounded,
+                                                              //               size: 25,
+                                                              //               color: Colors.black,
+                                                              //             ),
+                                                              //           );
+                                                              //       }
+                                                              //
+                                                              //     })
+                                                            ),
+                                                          ],
                                                         )
                                                       ],
                                                     ),
