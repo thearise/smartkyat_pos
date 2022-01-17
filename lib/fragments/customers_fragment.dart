@@ -1,5 +1,8 @@
 
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +38,9 @@ class CustomersFragment extends StatefulWidget {
   final _openCartBtn;
   final _openDrawerBtn;
   final _closeDrawerBtn;
+  final _printFromOrders;
   CustomersFragment({
+    this.selectedDev, required void printFromOrders(File file),
     required void closeDrawerBtn(String str),
     required void openDrawerBtn(String str),
     required void closeCartBtn(String str),
@@ -45,9 +50,10 @@ class CustomersFragment extends StatefulWidget {
     required this.customersSnapshot,
     required this.shopId,
     required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),Key? key,
-    }) : _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, _openCartBtn = openCartBtn,super(key: key);
+    }) : _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, _openCartBtn = openCartBtn,_printFromOrders = printFromOrders, super(key: key);
   final String shopId;
   final customersSnapshot;
+  final BlueDevice? selectedDev;
   @override
   CustomersFragmentState createState() => CustomersFragmentState();
 }
@@ -182,6 +188,9 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
     super.initState();
   }
 
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
+  }
   // chgShopIdFrmHomePage() {
   //   setState(() {
   //     HomePageState().getStoreId().then((value) => shopId = value);
@@ -3826,7 +3835,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                         id: version,
-                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                             );
                                             openDrawerFrom();
                                           },
@@ -4030,7 +4039,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       context) =>
                                                       CustomerInfoSubs(
                                                         id: version,
-                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                             );
                                             openDrawerFrom();
                                           },

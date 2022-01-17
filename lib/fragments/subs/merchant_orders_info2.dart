@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,9 +14,11 @@ import '../../app_theme.dart';
 class MerchantOrdersInfoSubs extends StatefulWidget {
   final _openCartBtn;
   final _closeCartBtn;
-  const MerchantOrdersInfoSubs({Key? key, required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn;
+  final _printFromOrders;
+  const MerchantOrdersInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
   final String id;
   final String shopId;
+  final BlueDevice? selectedDev;
 
   @override
   _MerchantOrdersInfoSubsState createState() => _MerchantOrdersInfoSubsState();
@@ -43,7 +48,9 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
       return '0' + string;
     }
   }
-
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -287,7 +294,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             onTap: () {
                               Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
+                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                               );
                             },
                             child: Stack(
@@ -511,7 +518,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             onTap: () {
                               Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
+                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                               );
                             },
                             child: Stack(
@@ -735,7 +742,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             onTap: () {
                               Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
+                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                               );
                             },
                             child: Stack(
@@ -959,7 +966,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             onTap: () {
                               Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
+                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                               );
                             },
                             child: Stack(

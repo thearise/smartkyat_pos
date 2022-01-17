@@ -22,12 +22,11 @@ import '../app_theme.dart';
 import 'package:async/async.dart';
 
 class EditProduct extends StatefulWidget {
-  final _openCartBtn;
   const EditProduct({Key? key,
     required this.image, required this.shopId, required this.prodId, required this.prodName, required this.mainQty,  required this.mainName,
     required this.mainBuy, required this.mainSell, required this.barcode,  required this.sub1perUnit, required this.sub1UnitName,
     required this.sub1Qty, required this.sub1Sell, required this.sub2perUnit, required this.sub2UnitName,
-    required this.sub2Qty, required this.sub2Sell, required this.subExist, required void openCartBtn()}) : _openCartBtn = openCartBtn,
+    required this.sub2Qty, required this.sub2Sell, required this.subExist, }) :
         super(key: key);
   final String shopId;
   final String prodId;
@@ -122,8 +121,6 @@ class _EditProductState extends State<EditProduct> {
 
   @override
   void dispose() {
-    print('loser');
-    widget._openCartBtn();
     super.dispose();
   }
 
@@ -178,7 +175,6 @@ class _EditProductState extends State<EditProduct> {
                                   color: Colors.black,
                                 ),
                                 onPressed: () {
-                                  widget._openCartBtn();
                                   Navigator.pop(context);
                                 }),
                           ),
@@ -691,8 +687,8 @@ class _EditProductState extends State<EditProduct> {
                               ),
                             ),
                           ),
-                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '')? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) : Container(),
-                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' ) ? Column(
+                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == '1' ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl) : Container(),
+                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' )  && subExist == '2' ? Column(
                             children: [
                               createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl),
                               createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl),
@@ -971,7 +967,6 @@ class _EditProductState extends State<EditProduct> {
                                         disableTouch = false;
                                       });
                                       Navigator.pop(context);
-                                      widget._openCartBtn();
                                       smartKyatFlash(prodNameCtrl.text + ' is successfully updated.', 's');
                                     });
 
@@ -1005,7 +1000,6 @@ class _EditProductState extends State<EditProduct> {
                                             'buyPrice3' : sub2Buy,
                                             'img_1' : photoArray.toString(),
                                           }).then((value){ Navigator.pop(context);
-                                          widget._openCartBtn();
                                           setState(() {
                                             prodAdding = false;
                                             disableTouch = false;

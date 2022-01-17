@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
@@ -10,9 +13,11 @@ class CustomerInfoSubs extends StatefulWidget {
   final _callback;
   final _closeCartBtn;
   final _openCartBtn;
-  const CustomerInfoSubs({Key? key, required void closeCartBtn(), required this.id, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn;
+  final _printFromOrders;
+  const CustomerInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file), required void closeCartBtn(), required this.id, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
   final String id;
   final String shopId;
+  final BlueDevice? selectedDev;
 
   @override
   _CustomerInfoSubsState createState() => _CustomerInfoSubsState();
@@ -27,7 +32,9 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
     //getStoreId().then((value) => shopId = value);
   super.initState();
   }
-
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +235,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId, closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)
+                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId, closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),
                                                 ),
                                               );
                                             },
@@ -283,13 +290,14 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> {
                                             ),
                                             Spacer(),
                                             GestureDetector(
-                                              onTap: () {
+                                              onTap: () async {
                                                 widget._closeCartBtn();
-                                                Navigator.push(
+                                                await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone, openCartBtn: widget._openCartBtn,)),);
-                                              },
+                                                      builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone,)),);
+                                                widget._openCartBtn();
+                                                },
                                               child: Text(
                                                 'EDIT',
                                                 style: TextStyle(
