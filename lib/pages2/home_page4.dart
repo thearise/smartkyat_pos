@@ -2671,12 +2671,12 @@ class HomePageState extends State<HomePage>
                                           Row(
                                             children: [
                                               Container(
-                                                width: MediaQuery.of(context).size.width > 600
+                                                width: MediaQuery.of(context).size.width > 900
                                                     ? MediaQuery.of(context).size.width * (2 / 3.5)
                                                     : MediaQuery.of(context).size.width,
                                                 child: AnimatedPadding(
                                                   duration: const Duration(milliseconds: 200),
-                                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 600 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
+                                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
                                                   child: IndexedStack(
                                                     index: currentTab,
                                                     children: tabs.map((e) => e.page).toList(),
@@ -2689,7 +2689,7 @@ class HomePageState extends State<HomePage>
                                             ],
                                           ),
                                           Visibility(
-                                            visible: MediaQuery.of(context).size.width > 600,
+                                            visible: MediaQuery.of(context).size.width > 900,
                                             child: Align(
                                               alignment: Alignment.centerRight,
                                               child: Container(
@@ -2712,7 +2712,7 @@ class HomePageState extends State<HomePage>
                                                           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                                                           child: Container(
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(top: 14.0, bottom: 82),
+                                                              padding: EdgeInsets.only(top: 14.0, bottom: 61 + homeBotPadding),
                                                               child: TabBarView(
                                                                 physics: NeverScrollableScrollPhysics(),
                                                                 controller: _controllerTablet,
@@ -3300,7 +3300,7 @@ class HomePageState extends State<HomePage>
                                                                           alignment: Alignment.bottomCenter,
                                                                           child: Container(
                                                                             decoration: BoxDecoration(
-                                                                                color: Colors.white,
+                                                                                color: Colors.green,
                                                                                 border: Border(
                                                                                   top: BorderSide(
                                                                                       color:
@@ -5321,7 +5321,7 @@ class HomePageState extends State<HomePage>
                                                                     borderRadius: BorderRadius.all(
                                                                       Radius.circular(25.0),
                                                                     ),
-                                                                    color: Colors.white.withOpacity(0.5)),
+                                                                    color: Colors.blue),
                                                               ),
                                                             ),
                                                           ),
@@ -5407,10 +5407,10 @@ class HomePageState extends State<HomePage>
                                         child: Container(
                                           color: Colors.transparent,
                                           // height: MediaQuery.of(context).size.width > 900 ? 61 : 142,
-                                          height: MediaQuery.of(context).size.width > 600 ? 61: _goToCartHeight,
+                                          height: MediaQuery.of(context).size.width > 900 ? 61: _goToCartHeight,
                                           child: Stack(
                                             children: [
-                                              if (MediaQuery.of(context).size.width > 600) Container() else
+                                              if (MediaQuery.of(context).size.width > 900) Container() else
                                               // Container(
                                               //     decoration: BoxDecoration(
                                               //         color: Colors.white,
