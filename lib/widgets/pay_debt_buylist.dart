@@ -54,7 +54,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
     super.initState();
   }
 
- bool disableTouch = false;
+  bool disableTouch = false;
   bool loadingState = false;
   bool firstTime = true;
   double homeBotPadding = 0;
@@ -366,7 +366,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                               // color: Colors.grey,
+                                // color: Colors.grey,
                               ),),
                             Text('#' +
                                 widget.data.split('^')[1].toString() + ' - ' + widget.data.split('^')[3].split('&')[0].toString(),

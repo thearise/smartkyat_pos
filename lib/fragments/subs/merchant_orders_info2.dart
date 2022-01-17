@@ -294,7 +294,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             onTap: () {
                               Navigator.push(context,
                                 MaterialPageRoute(
-                                    builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
+                                  builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                               );
                             },
                             child: Stack(

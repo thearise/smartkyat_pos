@@ -296,7 +296,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                                   MaterialPageRoute(
                                                       builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone, )),);
                                                 widget._openCartBtn();
-                                                },
+                                              },
                                               child: Text(
                                                 'EDIT',
                                                 style: TextStyle(

@@ -221,7 +221,7 @@ class _LossProductState extends State<LossProduct> {
                                                   right: 15.0,
                                                   top: 20.0,
                                                   bottom: 20.0),
-                                             // suffixText: 'Required',
+                                              // suffixText: 'Required',
                                               suffixStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 12,

@@ -50,7 +50,7 @@ class CustomersFragment extends StatefulWidget {
     required this.customersSnapshot,
     required this.shopId,
     required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),Key? key,
-    }) : _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, _openCartBtn = openCartBtn,_printFromOrders = printFromOrders, super(key: key);
+  }) : _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, _openCartBtn = openCartBtn,_printFromOrders = printFromOrders, super(key: key);
   final String shopId;
   final customersSnapshot;
   final BlueDevice? selectedDev;
@@ -130,7 +130,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
 
   @override
   initState() {
-   // customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').snapshots();
+    // customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers').snapshots();
     // _searchController.addListener((){
     //   setState(() {
     //     gloSearchText = _searchController.text;
