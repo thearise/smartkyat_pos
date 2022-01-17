@@ -2671,12 +2671,12 @@ class HomePageState extends State<HomePage>
                                           Row(
                                             children: [
                                               Container(
-                                                width: MediaQuery.of(context).size.width > 900
+                                                width: MediaQuery.of(context).size.width > 600
                                                     ? MediaQuery.of(context).size.width * (2 / 3.5)
                                                     : MediaQuery.of(context).size.width,
                                                 child: AnimatedPadding(
                                                   duration: const Duration(milliseconds: 200),
-                                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
+                                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 600 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
                                                   child: IndexedStack(
                                                     index: currentTab,
                                                     children: tabs.map((e) => e.page).toList(),
@@ -2689,7 +2689,7 @@ class HomePageState extends State<HomePage>
                                             ],
                                           ),
                                           Visibility(
-                                            visible: MediaQuery.of(context).size.width > 900,
+                                            visible: MediaQuery.of(context).size.width > 600,
                                             child: Align(
                                               alignment: Alignment.centerRight,
                                               child: Container(
@@ -2851,7 +2851,7 @@ class HomePageState extends State<HomePage>
                                                                                                       .data!
                                                                                                       .data();
                                                                                                   var image = output2?[
-                                                                                                  'img_1'];
+                                                                                                    'img_1'];
                                                                                                   prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                       prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                   return GestureDetector(
@@ -2934,7 +2934,7 @@ class HomePageState extends State<HomePage>
                                                                                                                           : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                                                   title: Text(
                                                                                                                     output2?[
-                                                                                                                    'prod_name'],
+                                                                                                                      'prod_name'],
                                                                                                                     style:
                                                                                                                     TextStyle(
                                                                                                                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -3300,7 +3300,7 @@ class HomePageState extends State<HomePage>
                                                                           alignment: Alignment.bottomCenter,
                                                                           child: Container(
                                                                             decoration: BoxDecoration(
-                                                                                color: Colors.green,
+                                                                                color: Colors.white,
                                                                                 border: Border(
                                                                                   top: BorderSide(
                                                                                       color:
@@ -5321,7 +5321,7 @@ class HomePageState extends State<HomePage>
                                                                     borderRadius: BorderRadius.all(
                                                                       Radius.circular(25.0),
                                                                     ),
-                                                                    color: Colors.blue),
+                                                                    color: Colors.white.withOpacity(0.5)),
                                                               ),
                                                             ),
                                                           ),
@@ -5407,10 +5407,10 @@ class HomePageState extends State<HomePage>
                                         child: Container(
                                           color: Colors.transparent,
                                           // height: MediaQuery.of(context).size.width > 900 ? 61 : 142,
-                                          height: MediaQuery.of(context).size.width > 900 ? 61: _goToCartHeight,
+                                          height: MediaQuery.of(context).size.width > 600 ? 61: _goToCartHeight,
                                           child: Stack(
                                             children: [
-                                              if (MediaQuery.of(context).size.width > 900) Container() else
+                                              if (MediaQuery.of(context).size.width > 600) Container() else
                                               // Container(
                                               //     decoration: BoxDecoration(
                                               //         color: Colors.white,
@@ -7549,7 +7549,7 @@ class HomePageState extends State<HomePage>
                                                                         .data!
                                                                         .data();
                                                                     var image = output2?[
-                                                                    'img_1'];
+                                                                      'img_1'];
                                                                     prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                         prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                     return GestureDetector(

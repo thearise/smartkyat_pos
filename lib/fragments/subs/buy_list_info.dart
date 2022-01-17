@@ -139,9 +139,9 @@ class _BuyListInfoState extends State<BuyListInfo>
     //     docId = innerId;
     //   });
     docId = (widget.data.split('^')[1].split('-')[0] + widget.data.split('^')[1].split('-')[1]).toString();
-      print('DOC ID ' + docId.toString());
-      // return docId;
-      // return Container();
+    print('DOC ID ' + docId.toString());
+    // return docId;
+    // return Container();
     super.initState();
   }
 
@@ -392,12 +392,12 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       fontWeight: FontWeight.w500,
                                     ),),
 
-                                       Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
+                                  Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
 
                                 ],
                               ),
@@ -571,8 +571,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   widget._closeCartBtn();
 
                                                   await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
+                                                      context,
+                                                      MaterialPageRoute(
                                                         builder: (context) =>
                                                             BuyListRefund(
                                                               data: result,
@@ -580,7 +580,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                               realPrice: totalRealPrice,
                                                               toggleCoinCallback:
                                                                   () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(),),
-                                                  ));
+                                                      ));
                                                   widget._openCartBtn();
                                                   print('result__2 ' + result.toString());
                                                 },
@@ -685,7 +685,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   ),
                                                 ),
                                                 onPressed: () async {
-                                                   Navigator.push(
+                                                  Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: widget.data, prodList: prodListPrint, shopId: widget.shopId))
@@ -950,41 +950,41 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   SizedBox(height: 12),
                                                   ListTile(
                                                     leading: ClipRRect(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            5.0),
-                                                        child: image != ""
-                                                            ? CachedNetworkImage(
-                                                          imageUrl:
-                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                              image,
-                                                          width: 58,
-                                                          height: 58,
-                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                          errorWidget: (context,
-                                                              url,
-                                                              error) =>
-                                                              Icon(Icons
-                                                                  .error),
-                                                          fadeInDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              100),
-                                                          fadeOutDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              10),
-                                                          fadeInCurve:
-                                                          Curves
-                                                              .bounceIn,
-                                                          fit: BoxFit
-                                                              .cover,
-                                                        )
-                                                            :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          5.0),
+                                                      child: image != ""
+                                                          ? CachedNetworkImage(
+                                                        imageUrl:
+                                                        'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                            image,
+                                                        width: 58,
+                                                        height: 58,
+                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                        errorWidget: (context,
+                                                            url,
+                                                            error) =>
+                                                            Icon(Icons
+                                                                .error),
+                                                        fadeInDuration:
+                                                        Duration(
+                                                            milliseconds:
+                                                            100),
+                                                        fadeOutDuration:
+                                                        Duration(
+                                                            milliseconds:
+                                                            10),
+                                                        fadeInCurve:
+                                                        Curves
+                                                            .bounceIn,
+                                                        fit: BoxFit
+                                                            .cover,
+                                                      )
+                                                          :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
                                                     title: Text(
                                                       output2?[
-                                                      'prod_name'],
+                                                        'prod_name'],
                                                       style:
                                                       TextStyle(
                                                           fontWeight: FontWeight.w500, fontSize: 16),
@@ -1249,7 +1249,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             )),
                                                         title: Text(
                                                           output2?[
-                                                          'prod_name'],
+                                                            'prod_name'],
                                                           style:
                                                           TextStyle(
                                                               fontWeight: FontWeight.w500, fontSize: 16),
@@ -1339,15 +1339,15 @@ class _BuyListInfoState extends State<BuyListInfo>
                           );
                         }
 
-                       return Expanded(
-                         child: Center(
-                           child: Padding(
-                             padding: const EdgeInsets.only(bottom: 15.0),
-                             child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                 child: CupertinoActivityIndicator(radius: 15,)),
-                           ),
-                         ),
-                       );
+                        return Expanded(
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 15.0),
+                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                  child: CupertinoActivityIndicator(radius: 15,)),
+                            ),
+                          ),
+                        );
                       })
               ])),
     );
