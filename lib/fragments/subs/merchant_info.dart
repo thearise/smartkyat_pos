@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +17,11 @@ class MerchantInfoSubs extends StatefulWidget {
   final _callback;
   final _closeCartBtn;
   final _openCartBtn;
-  const MerchantInfoSubs({Key? key,required void closeCartBtn(), required void openCartBtn(),required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn;
+  final _printFromOrders;
+  const MerchantInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file),required void closeCartBtn(), required void openCartBtn(),required this.id, required this.shopId, required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
   final String id;
   final String shopId;
+  final BlueDevice? selectedDev;
 
 
   @override
@@ -26,6 +31,10 @@ class MerchantInfoSubs extends StatefulWidget {
 class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
   List<String> prodFieldsValue = [];
   static final _formKey = GlobalKey<FormState>();
+
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +234,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => MerchantOrdersInfoSubs(id: widget.id, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn,)),
+                                                    builder: (context) => MerchantOrdersInfoSubs(id: widget.id, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                               );
 
                                             },
@@ -280,13 +289,14 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs> {
                                             ),
                                             Spacer(),
                                             GestureDetector(
-                                              onTap: () {
+                                              onTap: () async {
                                                 widget._closeCartBtn();
-                                                Navigator.push(
+                                                await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone, openCartBtn: widget._openCartBtn,)),);
-                                              },
+                                                      builder: (context) => EditMerchant(shopId: widget.shopId, merchId: widget.id, merchName: merchantName, merchAddress: address, merchPhone: phone, )),);
+                                                widget._openCartBtn();
+                                                },
                                               child: Text(
                                                 'EDIT',
                                                 style: TextStyle(

@@ -15,10 +15,10 @@ import '../../app_theme.dart';
 
 class BuyListRefund extends StatefulWidget {
   final _callback;
-  final _openCartBtn;
+
   const BuyListRefund(
-      {Key? key, required void openCartBtn(), required this.documentId, required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
-      : _callback = toggleCoinCallback, _openCartBtn = openCartBtn;
+      {Key? key,  required this.documentId, required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
+      : _callback = toggleCoinCallback;
   final String data;
   final List data2;
   final double realPrice;
@@ -241,7 +241,6 @@ class _BuyListRefundState extends State<BuyListRefund>
   }
   @override
   void dispose() {
-    widget._openCartBtn();
     super.dispose();
   }
 
@@ -296,7 +295,6 @@ class _BuyListRefundState extends State<BuyListRefund>
                                           color: Colors.black,
                                         ),
                                         onPressed: () {
-                                          widget._openCartBtn();
                                           Navigator.pop(context);
                                         }
                                     ),
@@ -884,8 +882,6 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                         loadingState = false;
                                                         disableTouch = false;
                                                       });
-
-                                                    widget._openCartBtn();
 
                                                     Navigator.of(context).popUntil((route) => route.isFirst);
                                                     smartKyatFlash('MMK' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');

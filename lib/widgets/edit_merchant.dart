@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 
 class EditMerchant extends StatefulWidget {
-  final _openCartBtn;
 
-  const EditMerchant({Key? key, required void openCartBtn(), required this.shopId, required this.merchId, required this.merchName, required this.merchAddress, required this.merchPhone}) : _openCartBtn = openCartBtn;
+  const EditMerchant({Key? key, required this.shopId, required this.merchId, required this.merchName, required this.merchAddress, required this.merchPhone});
   final String shopId;
   final String merchId;
   final String merchName;
@@ -37,7 +36,6 @@ class _EditMerchantState extends State<EditMerchant> {
 
   @override
   void dispose() {
-    widget._openCartBtn();
     super.dispose();
   }
 
@@ -94,7 +92,6 @@ class _EditMerchantState extends State<EditMerchant> {
                                 ),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  widget._openCartBtn();
                                 }),
                           ),
                         ),
@@ -451,7 +448,6 @@ class _EditMerchantState extends State<EditMerchant> {
                                 });
                               }).catchError((error){print("Failed to update user: $error");});
                               Navigator.pop(context);
-                              widget._openCartBtn();
                               smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
                             }
                           },

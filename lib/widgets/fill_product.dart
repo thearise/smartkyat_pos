@@ -11,14 +11,12 @@ import '../app_theme.dart';
 class FillProduct extends StatefulWidget {
   final _callback;
   final _callback3;
-  final _openCartBtn;
   const FillProduct(
       {Key? key,
-      required this.idString, required void openCartBtn(), required this.unitname, required this.shopId,
+      required this.idString, required this.unitname, required this.shopId,
       required void toggleCoinCallback(String str),
       required void toggleCoinCallback3(String str),})
       : _callback = toggleCoinCallback,
-        _openCartBtn = openCartBtn,
         _callback3 = toggleCoinCallback3;
   final String idString;
   final String unitname;
@@ -54,7 +52,6 @@ class _FillProductState extends State<FillProduct> {
 
   @override
   void dispose() {
-    widget._openCartBtn();
     super.dispose();
   }
 
@@ -120,7 +117,6 @@ class _FillProductState extends State<FillProduct> {
                                   color: Colors.black,
                                 ),
                                 onPressed: () {
-                                  widget._openCartBtn();
                                   Navigator.pop(context);
                                 }),
                           ),
@@ -434,7 +430,6 @@ class _FillProductState extends State<FillProduct> {
                                   'Phyo' +
 
                                   '^'+ widget.unitname + '^' + '1'.toString());
-                              widget._openCartBtn();
                               Navigator.pop(context);
                             } },
                           child: Padding(

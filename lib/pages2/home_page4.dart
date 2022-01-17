@@ -250,7 +250,7 @@ class HomePageState extends State<HomePage>
   bool _connectionStatus = false;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  
+
   Future<void> initConnectivity() async {
     ConnectivityResult result = ConnectivityResult.none;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -297,7 +297,7 @@ class HomePageState extends State<HomePage>
         break;
     }
   }
-  
+
   @override
   void initState() {
     // WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -500,7 +500,7 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             page: HomeFragment(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
-                toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,
+              toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,
             ),
           ),
           TabItem(
@@ -517,7 +517,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: CustomersFragment(searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+            page: CustomersFragment(selectedDev: _selectedDevice, printFromOrders: printFromOrders, searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Settings",
@@ -536,7 +536,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: MerchantsFragment(searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, closeDrawerBtn: closeDrawerFrom, openDrawerBtn: openDrawerFrom),
+            page: MerchantsFragment(selectedDev: _selectedDevice, printFromOrders: printFromOrders,searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, closeDrawerBtn: closeDrawerFrom, openDrawerBtn: openDrawerFrom),
           ),
           TabItem(
             tabName: "Settings",
@@ -560,17 +560,17 @@ class HomePageState extends State<HomePage>
               Icons.add,
             ),
             // page: BuyListFragment(),
-            page: BuyListFragment(
-                key: bordGlobalKey, searchBtn: openSearchFromFrag,
-                toggleCoinCallback2: addProduct,
-                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+            page: BuyListFragment( selectedDev: _selectedDevice, printFromOrders: printFromOrders,
+              key: bordGlobalKey, searchBtn: openSearchFromFrag,
+              toggleCoinCallback2: addProduct,
+              toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), buyOrdersSnapshot: buyOrderSnapshot, merchantsSnapshot: merchantSnapshot2, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
           ),
           TabItem(
             tabName: "Champions",
             icon: Icon(
               Icons.add,
             ),
-            page: SearchFragment(key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,),
+            page: SearchFragment( openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, selectedDev: _selectedDevice, printFromOrders: printFromOrders, key: searchGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, chgIndexFromSearch: chgIndexFromSearch, productsSnapshot: productSnapshot2, openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,),
           ),
         ];
       });
@@ -886,139 +886,139 @@ class HomePageState extends State<HomePage>
                                         color: Colors.white,
                                       ),
                                       child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: Container(
-                                              child: Column(
-                                                children: [
-                                                  SizedBox(height: 40),
-                                                  Center(
-                                                    child: Text(
-                                                        'You are on pro version', style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 26,
-                                                        letterSpacing: -0.4
-                                                    )),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 20.0),
-                                                    child: Text('Your last updated (at 22 April 2022) plan will end at 22 December 2022.', style: TextStyle( fontSize: 14),),
-                                                  ),
-                                                ],
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(height: 40),
+                                                    Center(
+                                                      child: Text(
+                                                          'You are on pro version', style: TextStyle(
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 26,
+                                                          letterSpacing: -0.4
+                                                      )),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 20.0),
+                                                      child: Text('Your last updated (at 22 April 2022) plan will end at 22 December 2022.', style: TextStyle( fontSize: 14),),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
-                                            child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
-                                                    Radius.circular(15.0),
-                                                  ),
-                                                  color: Color(0xFFF5F5F5),
-                                                  border: Border.all(
-                                                      color: Colors.grey.withOpacity(0.2),
-                                                      width: 1.0),
-                                                ),
-                                                width: MediaQuery.of(context).size.width,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left: 20.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      SizedBox(height: 18),
-                                                      Text('1 month pro version', style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 18,
-                                                          letterSpacing: -0.3
-                                                      )),
-                                                      SizedBox(height: 5),
-                                                      Text('10,000 Kyats /month', style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 14,
-                                                          letterSpacing: -0.3
-                                                      )),
-                                                      SizedBox(height: 22),
-                                                    ],
-                                                  ),
-                                                )),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                            child: Container(
-                                                decoration: BoxDecoration(
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
+                                              child: Container(
+                                                  decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.all(
                                                       Radius.circular(15.0),
                                                     ),
-                                                    gradient: LinearGradient(
-                                                        colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
-                                                        begin: Alignment(-1.0, -2.0),
-                                                        end: Alignment(1.0, 2.0),
-                                                        tileMode: TileMode.clamp)),
-                                                width: MediaQuery.of(context).size.width,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left: 20.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      SizedBox(height: 18),
-                                                      Text('3 month pro version (save 20%)', style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 18,
-                                                          letterSpacing: -0.3
-                                                      )),
-                                                      SizedBox(height: 5),
-                                                      Text('8,000 Kyats /month', style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 14,
-                                                          letterSpacing: -0.3
-                                                      )),
-                                                      SizedBox(height: 22),
-                                                    ],
+                                                    color: Color(0xFFF5F5F5),
+                                                    border: Border.all(
+                                                        color: Colors.grey.withOpacity(0.2),
+                                                        width: 1.0),
                                                   ),
-                                                )),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                            child: Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
-                                                      Radius.circular(15.0),
+                                                  width: MediaQuery.of(context).size.width,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 20.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        SizedBox(height: 18),
+                                                        Text('1 month pro version', style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 18,
+                                                            letterSpacing: -0.3
+                                                        )),
+                                                        SizedBox(height: 5),
+                                                        Text('10,000 Kyats /month', style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 14,
+                                                            letterSpacing: -0.3
+                                                        )),
+                                                        SizedBox(height: 22),
+                                                      ],
                                                     ),
-                                                    gradient: LinearGradient(
-                                                        colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
-                                                        begin: Alignment(-1.0, -2.0),
-                                                        end: Alignment(1.0, 2.0),
-                                                        tileMode: TileMode.clamp)),
-                                                width: MediaQuery.of(context).size.width,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left: 20.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      SizedBox(height: 18),
-                                                      Text('5 month pro version (save 30%)', style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 18,
-                                                          letterSpacing: -0.3
-                                                      )),
-                                                      SizedBox(height: 5),
-                                                      Text('7,000 Kyats /month', style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 14,
-                                                          letterSpacing: -0.3
-                                                      )),
-                                                      SizedBox(height: 22),
-                                                    ],
-                                                  ),
-                                                )),
-                                          ),
-                                          SizedBox(height: 20),
-                                        ]
+                                                  )),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.all(
+                                                        Radius.circular(15.0),
+                                                      ),
+                                                      gradient: LinearGradient(
+                                                          colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
+                                                          begin: Alignment(-1.0, -2.0),
+                                                          end: Alignment(1.0, 2.0),
+                                                          tileMode: TileMode.clamp)),
+                                                  width: MediaQuery.of(context).size.width,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 20.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        SizedBox(height: 18),
+                                                        Text('3 month pro version (save 20%)', style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 18,
+                                                            letterSpacing: -0.3
+                                                        )),
+                                                        SizedBox(height: 5),
+                                                        Text('8,000 Kyats /month', style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 14,
+                                                            letterSpacing: -0.3
+                                                        )),
+                                                        SizedBox(height: 22),
+                                                      ],
+                                                    ),
+                                                  )),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.all(
+                                                        Radius.circular(15.0),
+                                                      ),
+                                                      gradient: LinearGradient(
+                                                          colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
+                                                          begin: Alignment(-1.0, -2.0),
+                                                          end: Alignment(1.0, 2.0),
+                                                          tileMode: TileMode.clamp)),
+                                                  width: MediaQuery.of(context).size.width,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 20.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        SizedBox(height: 18),
+                                                        Text('5 month pro version (save 30%)', style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 18,
+                                                            letterSpacing: -0.3
+                                                        )),
+                                                        SizedBox(height: 5),
+                                                        Text('7,000 Kyats /month', style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 14,
+                                                            letterSpacing: -0.3
+                                                        )),
+                                                        SizedBox(height: 22),
+                                                      ],
+                                                    ),
+                                                  )),
+                                            ),
+                                            SizedBox(height: 20),
+                                          ]
                                       ),
                                     ),
                                     Container(
@@ -2851,7 +2851,7 @@ class HomePageState extends State<HomePage>
                                                                                                       .data!
                                                                                                       .data();
                                                                                                   var image = output2?[
-                                                                                                    'img_1'];
+                                                                                                  'img_1'];
                                                                                                   prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                       prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                   return GestureDetector(
@@ -2934,7 +2934,7 @@ class HomePageState extends State<HomePage>
                                                                                                                           : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                                                   title: Text(
                                                                                                                     output2?[
-                                                                                                                      'prod_name'],
+                                                                                                                    'prod_name'],
                                                                                                                     style:
                                                                                                                     TextStyle(
                                                                                                                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -7549,7 +7549,7 @@ class HomePageState extends State<HomePage>
                                                                         .data!
                                                                         .data();
                                                                     var image = output2?[
-                                                                      'img_1'];
+                                                                    'img_1'];
                                                                     prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                         prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                     return GestureDetector(
@@ -9678,14 +9678,14 @@ class HomePageState extends State<HomePage>
                                                                             Text(
                                                                               _blueDevices[index].name,
                                                                               style: TextStyle(
-                                                                                color:
-                                                                                _selectedDevice?.address ==
-                                                                                    _blueDevices[index]
-                                                                                        .address
-                                                                                    ? AppTheme.themeColor
-                                                                                    : Colors.black,
-                                                                                fontWeight: FontWeight.w600,
-                                                                                fontSize: 19
+                                                                                  color:
+                                                                                  _selectedDevice?.address ==
+                                                                                      _blueDevices[index]
+                                                                                          .address
+                                                                                      ? AppTheme.themeColor
+                                                                                      : Colors.black,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  fontSize: 19
                                                                               ),
                                                                             ),
                                                                             Text(
@@ -9714,10 +9714,10 @@ class HomePageState extends State<HomePage>
                                                                     margin: const EdgeInsets.only(right: 8.0),
                                                                     child: Center(
                                                                       child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                                                                          child: CupertinoActivityIndicator(radius: 10,),
-                                                                        )
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                                                            child: CupertinoActivityIndicator(radius: 10,),
+                                                                          )
                                                                       ),
                                                                     ),
                                                                   ),
@@ -9750,24 +9750,24 @@ class HomePageState extends State<HomePage>
                                                                       ),
                                                                     ),
                                                                     style: ButtonStyle(
-                                                                      backgroundColor: MaterialStateProperty
-                                                                          .resolveWith<Color>(
-                                                                            (Set<MaterialState> states) {
-                                                                          if (states.contains(
-                                                                              MaterialState.pressed)) {
-                                                                            return AppTheme.themeColor.withOpacity(0.5);
-                                                                          }
-                                                                          return AppTheme.themeColor;
-                                                                        },
-                                                                      ),
-                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                          RoundedRectangleBorder(
+                                                                        backgroundColor: MaterialStateProperty
+                                                                            .resolveWith<Color>(
+                                                                              (Set<MaterialState> states) {
+                                                                            if (states.contains(
+                                                                                MaterialState.pressed)) {
+                                                                              return AppTheme.themeColor.withOpacity(0.5);
+                                                                            }
+                                                                            return AppTheme.themeColor;
+                                                                          },
+                                                                        ),
+                                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                            RoundedRectangleBorder(
                                                                               borderRadius: BorderRadius.circular(10.0),
-                                                                          )
-                                                                      )
+                                                                            )
+                                                                        )
                                                                     ),
                                                                   ),
-                                                                  SizedBox(width: 8.5)
+                                                                SizedBox(width: 8.5)
                                                               ],
                                                             );
                                                           }),
@@ -10916,9 +10916,9 @@ class HomePageState extends State<HomePage>
       homeDrawerOpen = true;
     }
 
-      setState(() {
-        drawerDrag = false;
-      });
+    setState(() {
+      drawerDrag = false;
+    });
   }
 
   openCart() {

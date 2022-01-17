@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,11 +36,13 @@ class MerchantsFragment extends StatefulWidget {
   final _openDrawerBtn;
   final _closeCartBtn;
   final _openCartBtn;
+  final _printFromOrders;
 
-  MerchantsFragment( {required void closeCartBtn(String str), required void openCartBtn(String str), required void closeDrawerBtn(String str), required void openDrawerBtn(String str),required void toggleCoinCallback6(), required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
-        _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, addMerch = toggleCoinCallback6 ,_searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,super(key: key);
+  MerchantsFragment( {this.selectedDev, required void printFromOrders(File file),required void closeCartBtn(String str), required void openCartBtn(String str), required void closeDrawerBtn(String str), required void openDrawerBtn(String str),required void toggleCoinCallback6(), required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
+        _printFromOrders = printFromOrders, _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, addMerch = toggleCoinCallback6 ,_searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,super(key: key);
  final String shopId;
  final merchantsSnapshot;
+  final BlueDevice? selectedDev;
 
   @override
   MerchantsFragmentState createState() => MerchantsFragmentState();
@@ -86,6 +91,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     setState(() {
       searchOpening = index;
     });
+  }
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
   }
 
   getLangId() async {
@@ -3731,7 +3739,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         context) =>
                                                         MerchantInfoSubs(
                                                           id: version,
-                                                          toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                          toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                               );
                                               openDrawerFrom();
                                             },
@@ -3921,7 +3929,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                         context) =>
                                                         MerchantInfoSubs(
                                                           id: version,
-                                                          toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                          toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                               );
                                               openDrawerFrom();
                                             },

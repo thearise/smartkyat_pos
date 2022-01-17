@@ -61,26 +61,24 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     return prefs.getString('device');
   }
 
-  routeLoss(res, buyPrice1, buyPrice2, buyPrice3) {
-    widget._closeCartBtn();
-    Navigator.push(
-      context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: res, shopId: widget.shopId, price1: buyPrice1, price2: buyPrice2, price3: buyPrice3, openCartBtn: widget._openCartBtn,
-    )
-    ));
-  }
+  // routeLoss(res, buyPrice1, buyPrice2, buyPrice3) {
+  //   Navigator.push(
+  //     context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: res, shopId: widget.shopId, price1: buyPrice1, price2: buyPrice2, price3: buyPrice3, openCartBtn: widget._openCartBtn,
+  //   )
+  //   ));
+  // }
 
-  routeFill(res) {
-    widget._closeCartBtn();
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FillProduct(
-              idString: widget.idString,
-              toggleCoinCallback: addProduct2,
-              toggleCoinCallback3: addProduct3,
-              unitname: res, shopId: widget.shopId, openCartBtn: widget._openCartBtn,
-            )));
-  }
+  // routeFill(res) {
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (context) => FillProduct(
+  //             idString: widget.idString,
+  //             toggleCoinCallback: addProduct2,
+  //             toggleCoinCallback3: addProduct3,
+  //             unitname: res, shopId: widget.shopId,
+  //           )));
+  // }
 
 
 
@@ -178,10 +176,6 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     });
 
     super.initState();
-  }
-
-  void openCartFrom() {
-    widget._openCartBtn();
   }
 
   @override
@@ -449,7 +443,17 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                 ),
                                                 onPressed: () async {
                                                   if (subExist == '0') {
-                                                    routeFill('unit_name');
+                                                    widget._closeCartBtn();
+                                                    await Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => FillProduct(
+                                                              idString: widget.idString,
+                                                              toggleCoinCallback: addProduct2,
+                                                              toggleCoinCallback3: addProduct3,
+                                                              unitname: 'unit_name', shopId: widget.shopId,
+                                                            )));
+                                                    widget._openCartBtn();
                                                   } else {
                                                     final result =
                                                     await showModalActionSheet<String>(
@@ -477,7 +481,17 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                       ],
                                                     );
                                                     if (result != null) {
-                                                      routeFill(result);
+                                                      widget._closeCartBtn();
+                                                      await Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => FillProduct(
+                                                                idString: widget.idString,
+                                                                toggleCoinCallback: addProduct2,
+                                                                toggleCoinCallback3: addProduct3,
+                                                                unitname: result, shopId: widget.shopId,
+                                                              )));
+                                                      widget._openCartBtn();
                                                     }
                                                   }
 
@@ -528,8 +542,13 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                   ),
                                                   onPressed: () async {
                                                     if (subExist == '0') {
-                                                      routeLoss(widget.idString + '-' + '-' + output?['unit_sell'] +
-                                                          '-unit_name', buyPrice1, buyPrice2, buyPrice3);
+                                                      widget._closeCartBtn();
+                                                      await Navigator.push(
+                                                          context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: widget.idString + '-' + '-' + output?['unit_sell'] +
+                                                          '-unit_name', shopId: widget.shopId, price1: buyPrice1, price2: buyPrice2, price3: buyPrice3,
+                                                      )
+                                                      ));
+                                                      widget._openCartBtn();
                                                     } else {
                                                       final result =
                                                       await showModalActionSheet<String>(
@@ -558,7 +577,12 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         ],
                                                       );
                                                       if (result != null) {
-                                                        routeLoss(result, buyPrice1, buyPrice2, buyPrice3);
+                                                        widget._closeCartBtn();
+                                                        await Navigator.push(
+                                                            context, MaterialPageRoute( builder: (context) => LossProduct(idString: widget.idString, prodID: result, shopId: widget.shopId, price1: buyPrice1, price2: buyPrice2, price3: buyPrice3,
+                                                        )
+                                                        ));
+                                                        widget._openCartBtn();
                                                       }
 
                                                     }
@@ -762,7 +786,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                       var result = await Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist, openCartBtn: openCartFrom,)));
+                                                              builder: (context) => EditProduct(image: image, shopId: widget.shopId, prodId: widget.idString, prodName: prodName, mainQty: mainQty.toString(), mainName: mainName, mainBuy: buyPrice1, mainSell: mainPrice, barcode: barcode, sub1perUnit: sub1Unit, sub1UnitName: sub1Name, sub1Qty: sub1Qty.toString(), sub1Sell: sub1Price, sub2perUnit: sub2Unit, sub2UnitName: sub2Name, sub2Qty: sub2Qty.toString(), sub2Sell: sub2Price, subExist: subExist,)));
                                                       widget._openCartBtn();
                                                       print('result check ' + result.toString());
                                                     },
