@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,8 +34,14 @@ class SearchFragment extends StatefulWidget {
   final _chgIndex;
   final _closeCartBtn;
   final _openCartBtn;
+  final _openDrawerBtn;
+  final _closeDrawerBtn;
+  final _printFromOrders;
 
   SearchFragment( {
+    this.selectedDev, required void printFromOrders(File file),
+    required void closeDrawerBtn(String str),
+    required void openDrawerBtn(String str),
     required this.productsSnapshot,
     required void barcodeBtn(),
     required void toggleCoinCallback3(String str),
@@ -49,8 +56,9 @@ class SearchFragment extends StatefulWidget {
         _openCartBtn = openCartBtn,
         _chgIndex = chgIndexFromSearch,
         _barcodeBtn = barcodeBtn,
-        _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, super(key: key);
+        _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, _printFromOrders = printFromOrders, super(key: key);
   final productsSnapshot;
+  final BlueDevice? selectedDev;
 
   @override
   SearchFragmentState createState() => SearchFragmentState();
@@ -108,6 +116,18 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
   void openCartFrom() {
     widget._openCartBtn('search');
+  }
+
+  void closeDrawerFrom() {
+    widget._closeDrawerBtn('search');
+  }
+
+  void openDrawerFrom() {
+    widget._openDrawerBtn('search');
+  }
+
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
   }
 
   @override
@@ -1073,15 +1093,16 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
                                   if(searchValue != '' && slidingSearch == 0 && item.contains('^sps^')) {
                                     return GestureDetector(
-                                      onTap: () {
-
-                                        Navigator.push(
+                                      onTap: () async {
+                                        closeDrawerFrom();
+                                        await Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => ProductDetailsView2(
                                                 idString: item.split('^sps^')[0], toggleCoinCallback:
                                               addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
-                                      },
+                                        openDrawerFrom();
+                                        },
                                       child: Container(
                                         color: AppTheme.lightBgColor,
                                         child: Padding(
@@ -1271,16 +1292,18 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     );
                                   } else if(slidingSearch == 1 && item.contains('^sps^')) {
                                     return GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
+                                      onTap: () async {
+                                        closeDrawerFrom();
+                                        await Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (
                                                   context) =>
                                                   CustomerInfoSubs(
                                                     id: item.split('^sps^')[0],
-                                                    toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                    toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                         );
+                                        openDrawerFrom();
                                       },
                                       child: Padding(
                                         padding:
@@ -1470,16 +1493,18 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   } else {
                                     if(sectionIndex == 0) {
                                       return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
+                                        onTap: () async {
+                                          closeDrawerFrom();
+                                          await Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (
                                                     context) =>
                                                     CustomerInfoSubs(
                                                       id: item.split('^sps^')[0],
-                                                      toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                      toggleCoinCallback: addCustomer2Cart1, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                           );
+                                          openDrawerFrom();
                                         },
                                         child: Container(
                                           color: AppTheme.lightBgColor,
@@ -1636,16 +1661,18 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                     }
                                   }
                                   return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
+                                    onTap: () async {
+                                      closeDrawerFrom();
+                                      await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (
                                                 context) =>
                                                 MerchantInfoSubs(
                                                   id: item.split('^sps^')[0],
-                                                  toggleCoinCallback: addMerchant2Cart, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                  toggleCoinCallback: addMerchant2Cart, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                       );
+                                      openDrawerFrom();
                                     },
                                     child: Container(
                                       color: AppTheme.lightBgColor,
@@ -1819,13 +1846,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                   } else {
                                     if(item.split('^')[9] == 'b') {
                                       return GestureDetector(
-                                        onTap: () {
+                                        onTap: () async {
+                                          closeDrawerFrom();
                                           // print(item.split('^')[1]);
-                                          Navigator.push(
+                                          await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
+                                                builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),
                                           );
+                                          openDrawerFrom();
                                         },
                                         child: Stack(
                                           alignment: Alignment.center,
@@ -2052,13 +2081,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                       );
                                     } else {
                                       return GestureDetector(
-                                        onTap: () {
+                                        onTap: () async {
+                                          closeDrawerFrom();
                                           // print(item.split('^')[1]);
-                                          Navigator.push(
+                                          await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: (File file) {  },)),
+                                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                           );
+                                          openDrawerFrom();
                                         },
                                         child: Stack(
                                           alignment: Alignment.center,

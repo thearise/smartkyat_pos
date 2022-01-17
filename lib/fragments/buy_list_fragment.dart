@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,10 +33,13 @@ class BuyListFragment extends StatefulWidget {
   final _closeCartBtn;
   final _openDrawerBtn;
   final _closeDrawerBtn;
+  final _printFromOrders;
 
 
   BuyListFragment(
       {
+        required void printFromOrders(File file),
+        this.selectedDev,
         required void closeCartBtn(String str),
         required void openCartBtn(String str),
         required this.buyOrdersSnapshot,
@@ -58,11 +64,12 @@ class BuyListFragment extends StatefulWidget {
         _searchBtn = searchBtn,
         _openCartBtn = openCartBtn,
         _closeCartBtn = closeCartBtn,
-        _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn,
+        _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, _printFromOrders = printFromOrders,
         super(key: key);
   final String shopId;
   final buyOrdersSnapshot;
   final merchantsSnapshot;
+  final BlueDevice? selectedDev;
 
   @override
   BuyListFragmentState createState() => BuyListFragmentState();
@@ -135,6 +142,10 @@ class BuyListFragmentState extends State<BuyListFragment>
 
   void openDrawerFrom() {
     widget._openDrawerBtn('buyorders');
+  }
+
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
   }
 
   @override
@@ -4172,7 +4183,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                         await Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) => BuyListInfo(
+                                                              builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
                                                                 data: item,
                                                                 toggleCoinCallback:
                                                                     () {}, shopId: widget.shopId.toString(), openCartBtn: openCartFrom, closeCartBtn: closeCartFrom,)),
@@ -4409,7 +4420,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                       await Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => BuyListInfo(
+                                                            builder: (context) => BuyListInfo(printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,
                                                               data: item,
                                                               toggleCoinCallback:
                                                                   () {}, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),

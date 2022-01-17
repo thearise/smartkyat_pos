@@ -15,10 +15,9 @@ import '../../app_theme.dart';
 
 class OrderRefundsSub extends StatefulWidget {
   final _callback;
-  final _openCartBtn;
   const OrderRefundsSub(
-      {Key? key, required this.documentId, required void openCartBtn(), required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
-      : _callback = toggleCoinCallback, _openCartBtn = openCartBtn;
+      {Key? key, required this.documentId,  required this.data, required this.docId, required this.shopId, required this.data2, required this.realPrice, required void toggleCoinCallback()})
+      : _callback = toggleCoinCallback;
   final String data;
   final List data2;
   final double realPrice;
@@ -66,7 +65,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   @override
   void dispose() {
-    widget._openCartBtn();
     super.dispose();
   }
   bool initAttempt = false;
@@ -120,7 +118,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           color: Colors.black,
                                         ),
                                         onPressed: () {
-                                          widget._openCartBtn();
                                           Navigator.pop(context);
                                         }
                                     ),
@@ -696,9 +693,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     print('customer updated');
                                                   }).catchError((error) => print("Failed to update user: $error"));
                                                 }
-                                                widget._openCartBtn();
-
-
                                                   setState(() {
                                                     loadingState = false;
                                                     disableTouch = false;

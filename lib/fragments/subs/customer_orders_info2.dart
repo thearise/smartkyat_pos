@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,9 +12,11 @@ import '../../app_theme.dart';
 class CustomerOrdersInfoSubs extends StatefulWidget {
   final _openCartBtn;
   final _closeCartBtn;
-  const CustomerOrdersInfoSubs({Key? key, required this.id, required this.shopId, required void openCartBtn(), required void closeCartBtn()}) : _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn;
+  final _printFromOrders;
+  const CustomerOrdersInfoSubs({Key? key,this.selectedDev, required void printFromOrders(File file), required this.id, required this.shopId, required void openCartBtn(), required void closeCartBtn()}) : _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn, _printFromOrders = printFromOrders;
   final String id;
   final String shopId;
+  final BlueDevice? selectedDev;
 
   @override
   _CustomerOrdersInfoSubsState createState() => _CustomerOrdersInfoSubsState();
@@ -37,6 +40,9 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
 
   bool endOfResult = false;
 
+  void printFromOrdersFun(File file) {
+    widget._printFromOrders(file);
+  }
 
   zeroToTen(String string) {
     if (int.parse(string) > 9) {
@@ -289,7 +295,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: (File file) {  },)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                           );
                         },
                         child: Stack(
@@ -513,7 +519,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: (File file) {  },)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                           );
                         },
                         child: Stack(
@@ -737,7 +743,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: (File file) {  },)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                           );
                         },
                         child: Stack(
@@ -961,7 +967,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         onTap: () {
                           Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: (File file) {  },)),
+                                builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                           );
                         },
                         child: Stack(

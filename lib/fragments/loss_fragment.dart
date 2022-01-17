@@ -7,10 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../app_theme.dart';
 
 class LossProduct extends StatefulWidget {
-  final _openCartBtn;
   const LossProduct(
-      {Key? key,
-        required void openCartBtn(), required this.idString, required this.prodID, required this.shopId, required this.price1, required this.price2, required this.price3,}) : _openCartBtn = openCartBtn;
+      {Key? key, required this.idString, required this.prodID, required this.shopId, required this.price1, required this.price2, required this.price3,});
   final String idString;
   final String prodID;
   final String shopId;
@@ -50,10 +48,8 @@ class _LossProductState extends State<LossProduct> {
 
   @override
   void dispose() {
-    widget._openCartBtn();
     lossAmount.clear();
     priceAmount.clear();
-    // TODO: implement dispose
     super.dispose();
   }
   priceUnit(){
@@ -129,7 +125,6 @@ class _LossProductState extends State<LossProduct> {
                                           color: Colors.black,
                                         ),
                                         onPressed: () {
-                                          widget._openCartBtn();
                                           Navigator.pop(context);
                                         }),
                                   ),
@@ -490,7 +485,6 @@ class _LossProductState extends State<LossProduct> {
                                       //     }
                                       //   });
                                       // });
-                                      widget._openCartBtn();
                                       Navigator.pop(context);
                                     }
                                   },

@@ -8,10 +8,8 @@ import 'package:intl/intl.dart';
 import '../app_theme.dart';
 
 class PayDebtItems extends StatefulWidget {
-  final _openCartBtn;
 
-  const PayDebtItems({Key? key, required this.documentId, required this.debt, required this.shopId, required this.data, required this.docId, required void openCartBtn()})
-      : _openCartBtn = openCartBtn;
+  const PayDebtItems({Key? key, required this.documentId, required this.debt, required this.shopId, required this.data, required this.docId,});
 
 final String debt;
 final String data;
@@ -34,7 +32,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
   @override
   void dispose() {
-    widget._openCartBtn();
     _textFieldController.dispose();
     super.dispose();
   }
@@ -211,7 +208,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                           color: Colors.black,
                                         ),
                                         onPressed: () {
-                                          widget._openCartBtn();
                                           Navigator.pop(context);
                                         }),
                                   ),
@@ -651,7 +647,6 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       disableTouch = false;
                                     });
                                   });
-                                  widget._openCartBtn();
                                   _textFieldController.clear();
                                   Navigator.of(context).popUntil((route) => route.isFirst);
                                   smartKyatFlash('$debtAmount MMK is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
