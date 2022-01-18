@@ -131,8 +131,9 @@ class _EditProductState extends State<EditProduct> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    homeBotPadding = MediaQuery.of(context).padding.bottom;
     if(firstTime) {
-      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      // homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
     }
     return Container(
@@ -873,7 +874,7 @@ class _EditProductState extends State<EditProduct> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: homeBotPadding),
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 20: homeBotPadding),
                   child: Container(
                     color: Colors.white,
                     child: Padding(

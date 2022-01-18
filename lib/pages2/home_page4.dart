@@ -2822,7 +2822,7 @@ class HomePageState extends State<HomePage>
                                                                                                       .data!
                                                                                                       .data();
                                                                                                   var image = output2?[
-                                                                                                  'img_1'];
+                                                                                                    'img_1'];
                                                                                                   prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                       prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                   return GestureDetector(
@@ -2905,7 +2905,7 @@ class HomePageState extends State<HomePage>
                                                                                                                           : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
                                                                                                                   title: Text(
                                                                                                                     output2?[
-                                                                                                                    'prod_name'],
+                                                                                                                      'prod_name'],
                                                                                                                     style:
                                                                                                                     TextStyle(
                                                                                                                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -7407,7 +7407,7 @@ class HomePageState extends State<HomePage>
                                                         top: 67.0,
                                                         left: 0.0,
                                                         right: 0.0,
-                                                        bottom: MediaQuery.of(context).padding.bottom + 104
+                                                        bottom: 138
                                                     ),
                                                     child: Container(
                                                         child: ListView(
@@ -7470,7 +7470,7 @@ class HomePageState extends State<HomePage>
                                                                           decoration: BoxDecoration(
                                                                               border: Border(
                                                                                 bottom:
-                                                                                BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                                                BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
                                                                               )),),
                                                                       ),
 
@@ -7529,7 +7529,7 @@ class HomePageState extends State<HomePage>
                                                                         .data!
                                                                         .data();
                                                                     var image = output2?[
-                                                                    'img_1'];
+                                                                      'img_1'];
                                                                     prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                         prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                     return GestureDetector(
@@ -7637,7 +7637,7 @@ class HomePageState extends State<HomePage>
                                                                                       decoration: BoxDecoration(
                                                                                           border: Border(
                                                                                             bottom:
-                                                                                            BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                                                            BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
                                                                                           )),),
                                                                                   ),
                                                                                 ],

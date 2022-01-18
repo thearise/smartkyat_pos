@@ -1102,7 +1102,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 idString: item.split('^sps^')[0], toggleCoinCallback:
                                               addProduct1, toggleCoinCallback3: addProduct3, shopId: shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,)),);
                                         openDrawerFrom();
-                                        },
+                                      },
                                       child: Container(
                                         color: AppTheme.lightBgColor,
                                         child: Padding(

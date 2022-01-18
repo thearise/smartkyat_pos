@@ -40,8 +40,8 @@ class MerchantsFragment extends StatefulWidget {
 
   MerchantsFragment( {this.selectedDev, required void printFromOrders(File file),required void closeCartBtn(String str), required void openCartBtn(String str), required void closeDrawerBtn(String str), required void openDrawerBtn(String str),required void toggleCoinCallback6(), required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
         _printFromOrders = printFromOrders, _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, addMerch = toggleCoinCallback6 ,_searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,super(key: key);
- final String shopId;
- final merchantsSnapshot;
+  final String shopId;
+  final merchantsSnapshot;
   final BlueDevice? selectedDev;
 
   @override
@@ -162,9 +162,9 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-        textSetNewMerch = 'New Merchant';
-        textSetAll = 'All';
-        textSetDebts = 'Debts';
+          textSetNewMerch = 'New Merchant';
+          textSetAll = 'All';
+          textSetDebts = 'Debts';
 
         });
       } else if(value=='english') {
@@ -3602,7 +3602,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                       ),
                                                     ),
                                                     onPressed: () {
-                                                   widget.addMerch();
+                                                      widget.addMerch();
                                                     },
                                                     child: Container(
                                                       child: Row(
@@ -3728,7 +3728,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                           Map<String, dynamic> data = snapshot.data!.docs[index]
                                               .data()! as Map<String, dynamic>;
                                           var version = snapshot.data!.docs[index].id;
-                                         // var debts = data['debts'].toInt();
+                                          // var debts = data['debts'].toInt();
                                           return cateScIndex == 1 && data['debts'] != 0.0 ? GestureDetector(
                                             onTap: () async {
                                               closeDrawerFrom();
@@ -4111,7 +4111,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                           )
 
                                               : Container();
-                                            },
+                                        },
                                         // Builds 1000 ListTiles
                                         childCount: snapshot.data!.docs.length,
                                       ),
