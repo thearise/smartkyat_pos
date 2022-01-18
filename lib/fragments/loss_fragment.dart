@@ -342,7 +342,7 @@ class _LossProductState extends State<LossProduct> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Padding(
-                          padding: EdgeInsets.only(bottom: homeBotPadding),
+                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 20: homeBotPadding),
                           child: Container(
                             color: Colors.white,
                             child: Padding(

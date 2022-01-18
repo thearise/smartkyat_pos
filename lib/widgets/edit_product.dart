@@ -131,8 +131,9 @@ class _EditProductState extends State<EditProduct> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    homeBotPadding = MediaQuery.of(context).padding.bottom;
     if(firstTime) {
-      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      // homeBotPadding = MediaQuery.of(context).padding.bottom;
       firstTime = false;
     }
     return Container(
