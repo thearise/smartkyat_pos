@@ -2671,12 +2671,12 @@ class HomePageState extends State<HomePage>
                                           Row(
                                             children: [
                                               Container(
-                                                width: MediaQuery.of(context).size.width > 600
+                                                width: MediaQuery.of(context).size.width > 900
                                                     ? MediaQuery.of(context).size.width * (2 / 3.5)
                                                     : MediaQuery.of(context).size.width,
                                                 child: AnimatedPadding(
                                                   duration: const Duration(milliseconds: 200),
-                                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 600 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
+                                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 41.0: !closeGoToCart? 61 + 80 : 61.0),
                                                   child: IndexedStack(
                                                     index: currentTab,
                                                     children: tabs.map((e) => e.page).toList(),
@@ -2689,7 +2689,7 @@ class HomePageState extends State<HomePage>
                                             ],
                                           ),
                                           Visibility(
-                                            visible: MediaQuery.of(context).size.width > 600,
+                                            visible: MediaQuery.of(context).size.width > 900,
                                             child: Align(
                                               alignment: Alignment.centerRight,
                                               child: Container(
@@ -2745,89 +2745,60 @@ class HomePageState extends State<HomePage>
                                                                                   child: Container(
                                                                                       child: ListView(
                                                                                         children: [
-                                                                                          Slidable(
-                                                                                            key: UniqueKey(),
-                                                                                            actionPane:
-                                                                                            SlidableDrawerActionPane(),
-                                                                                            actionExtentRatio:
-                                                                                            0.25,
-                                                                                            child: Padding(
-                                                                                              padding: const EdgeInsets.only(top: 15.0),
-                                                                                              child: Column(
-                                                                                                children: [
-                                                                                                  Padding(
-                                                                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                                                    child: Row(
-                                                                                                      children: [
-                                                                                                        Container(
-                                                                                                          height: 58,
-                                                                                                          width: 58,
-                                                                                                          decoration: BoxDecoration(
-                                                                                                              borderRadius:
-                                                                                                              BorderRadius.circular(
-                                                                                                                  5.0),
-                                                                                                              color: Colors.grey
-                                                                                                                  .withOpacity(0.5)
-                                                                                                          ),
-                                                                                                          child: Icon(
-                                                                                                            SmartKyat_POS.order,
-                                                                                                            size: 25,
-                                                                                                          ),
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(top: 15.0),
+                                                                                            child: Column(
+                                                                                              children: [
+                                                                                                Padding(
+                                                                                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                                                  child: Row(
+                                                                                                    children: [
+                                                                                                      Container(
+                                                                                                        height: 58,
+                                                                                                        width: 58,
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            borderRadius:
+                                                                                                            BorderRadius.circular(
+                                                                                                                5.0),
+                                                                                                            color: Colors.grey
+                                                                                                                .withOpacity(0.5)
                                                                                                         ),
-                                                                                                        SizedBox(width: 15),
-                                                                                                        Column(
-                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                          children: [
-                                                                                                            Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                                                            // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                                                            //     style: TextStyle(
-                                                                                                            //       fontSize: 14,
-                                                                                                            //       color: Colors.grey
-                                                                                                            //     )),
-                                                                                                          ],
-                                                                                                        )
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  SizedBox(height: 8,),
-                                                                                                  Padding(
-                                                                                                    padding: const EdgeInsets.only(left: 15.0),
-                                                                                                    child: Container(
-                                                                                                      height: 12,
-                                                                                                      decoration: BoxDecoration(
-                                                                                                          border: Border(
-                                                                                                            bottom:
-                                                                                                            BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                                                                          )
+                                                                                                        child: Icon(
+                                                                                                          SmartKyat_POS.order,
+                                                                                                          size: 25,
+                                                                                                        ),
                                                                                                       ),
+                                                                                                      SizedBox(width: 15),
+                                                                                                      Column(
+                                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                        children: [
+                                                                                                          Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                                                          // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                                                          //     style: TextStyle(
+                                                                                                          //       fontSize: 14,
+                                                                                                          //       color: Colors.grey
+                                                                                                          //     )),
+                                                                                                        ],
+                                                                                                      )
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ),
+                                                                                                SizedBox(height: 8,),
+                                                                                                Padding(
+                                                                                                  padding: const EdgeInsets.only(left: 15.0),
+                                                                                                  child: Container(
+                                                                                                    height: 12,
+                                                                                                    decoration: BoxDecoration(
+                                                                                                        border: Border(
+                                                                                                          bottom:
+                                                                                                          BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                                                                        )
                                                                                                     ),
                                                                                                   ),
-                                                                                                ],
-                                                                                              ),
+                                                                                                ),
+                                                                                              ],
                                                                                             ),
-                                                                                            dismissal:
-                                                                                            SlidableDismissal(
-                                                                                              child:
-                                                                                              SlidableDrawerDismissal(),
-                                                                                              onDismissed:
-                                                                                                  (actionType) {
-                                                                                                setState(() {
-                                                                                                  customerId = 'name^name';
-                                                                                                });
-                                                                                              },
-                                                                                            ),
-                                                                                            secondaryActions: <
-                                                                                                Widget>[
-                                                                                              IconSlideAction(
-                                                                                                caption: 'Delete',
-                                                                                                color: Colors.red,
-                                                                                                icon:
-                                                                                                Icons.delete,
-                                                                                                onTap: () {
-                                                                                                },
-                                                                                              ),
-                                                                                            ],
                                                                                           ),
                                                                                           for (int i = 0; i < prodList.length; i++)
                                                                                             StreamBuilder<
@@ -3347,6 +3318,7 @@ class HomePageState extends State<HomePage>
                                                                                       onTap: () {
                                                                                         setState(() {
                                                                                           totalAmount = double.parse(TtlProdListPrice());
+                                                                                          debt = double.parse(TtlProdListPrice());
                                                                                         });
 
                                                                                         int i = 0;
@@ -5407,10 +5379,10 @@ class HomePageState extends State<HomePage>
                                         child: Container(
                                           color: Colors.transparent,
                                           // height: MediaQuery.of(context).size.width > 900 ? 61 : 142,
-                                          height: MediaQuery.of(context).size.width > 600 ? 61: _goToCartHeight,
+                                          height: MediaQuery.of(context).size.width > 900 ? 61: _goToCartHeight,
                                           child: Stack(
                                             children: [
-                                              if (MediaQuery.of(context).size.width > 600) Container() else
+                                              if (MediaQuery.of(context).size.width > 900) Container() else
                                               // Container(
                                               //     decoration: BoxDecoration(
                                               //         color: Colors.white,
@@ -6981,7 +6953,7 @@ class HomePageState extends State<HomePage>
       0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
     _textFieldController.clear();
     bool sellDone = false;
-
+    if(_textFieldController.text == '') { debt = double.parse(TtlProdListPrice().toString());}
     showModalBottomSheet(
         isDismissible: !disableTouch,
         enableDrag: !disableTouch,
@@ -7431,98 +7403,106 @@ class HomePageState extends State<HomePage>
                                                   var output3 = snapshot5.data!.data();
                                                   var address = output3?['customer_address'];
                                                   return Padding(
-                                                    padding: const EdgeInsets.only(
+                                                    padding: EdgeInsets.only(
                                                         top: 67.0,
                                                         left: 0.0,
-                                                        right: 0.0),
+                                                        right: 0.0,
+                                                        bottom: 138
+                                                    ),
                                                     child: Container(
                                                         child: ListView(
                                                           children: [
-                                                            Slidable(
-                                                              key: UniqueKey(),
-                                                              actionPane:
-                                                              SlidableDrawerActionPane(),
-                                                              actionExtentRatio:
-                                                              0.25,
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(top: 15.0),
-                                                                child: Column(
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Container(
-                                                                            height: 58,
-                                                                            width: 58,
-                                                                            decoration: BoxDecoration(
-                                                                                borderRadius:
-                                                                                BorderRadius.circular(
-                                                                                    5.0),
-                                                                                color: Colors.grey
-                                                                                    .withOpacity(0.5)
-                                                                            ),
-                                                                            child: Icon(
-                                                                              SmartKyat_POS.order,
-                                                                              size: 25,
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(width: 15),
-                                                                          Column(
-                                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            Stack(
+                                                              children: [
+
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(top: 19.0),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      GestureDetector(
+                                                                        onTap: () {
+                                                                          setState(() {
+                                                                            mystate(() {
+                                                                              customerId = 'name^name';
+                                                                            });
+                                                                          });
+                                                                        },
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                          child: Row(
                                                                             children: [
-                                                                              Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                              // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                              //     style: TextStyle(
-                                                                              //       fontSize: 14,
-                                                                              //       color: Colors.grey
-                                                                              //     )),
+                                                                              Container(
+                                                                                height: 58,
+                                                                                width: 58,
+                                                                                decoration: BoxDecoration(
+                                                                                    borderRadius:
+                                                                                    BorderRadius.circular(
+                                                                                        5.0),
+                                                                                    color: Colors.grey
+                                                                                        .withOpacity(0.5)
+                                                                                ),
+                                                                                child: Icon(
+                                                                                  SmartKyat_POS.order,
+                                                                                  size: 25,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: 15),
+                                                                              Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                                  // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                                  //     style: TextStyle(
+                                                                                  //       fontSize: 14,
+                                                                                  //       color: Colors.grey
+                                                                                  //     )),
+                                                                                ],
+                                                                              )
                                                                             ],
-                                                                          )
-                                                                        ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(height: 8,),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(left: 15.0),
+                                                                        child: Container(height: 12,
+                                                                          decoration: BoxDecoration(
+                                                                              border: Border(
+                                                                                bottom:
+                                                                                BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                                              )),),
+                                                                      ),
+
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                customerId != 'name^name' ? Positioned(
+                                                                  top : 11,
+                                                                  right: MediaQuery.of(context).size.width - 80,
+                                                                  child: Container(
+                                                                    // height: 20,
+                                                                    // width: 30,
+                                                                    alignment: Alignment.center,
+                                                                    decoration: BoxDecoration(
+                                                                        color: Color(0xffE9625E),
+                                                                        borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0),
+                                                                        border: Border.all(
+                                                                          color: Colors.white,
+                                                                          width: 2,
+                                                                        )),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                                                      child: Icon(
+                                                                        Icons.close_rounded,
+                                                                        size: 13,
+                                                                        color: Colors.white,
                                                                       ),
                                                                     ),
-                                                                    SizedBox(height: 8,),
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                      child: Container(height: 12,
-                                                                        decoration: BoxDecoration(
-                                                                            border: Border(
-                                                                              bottom:
-                                                                              BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                                            )),),
-                                                                    ),
-
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              dismissal:
-                                                              SlidableDismissal(
-                                                                child:
-                                                                SlidableDrawerDismissal(),
-                                                                onDismissed:
-                                                                    (actionType) {
-                                                                  setState((){
-                                                                    mystate((){
-                                                                      customerId = 'name^name';
-                                                                    });});
-                                                                },
-                                                              ),
-                                                              secondaryActions: <
-                                                                  Widget>[
-                                                                IconSlideAction(
-                                                                  caption: 'Delete',
-                                                                  color: Colors.red,
-                                                                  icon:
-                                                                  Icons.delete,
-                                                                  onTap: () {
-                                                                    setState((){
-                                                                      mystate((){
-                                                                        customerId = 'name^name';
-                                                                      });  });
-                                                                  },
-                                                                ),
+                                                                  ),
+                                                                ): Container(),
                                                               ],
                                                             ),
                                                             for (int i = 0;
@@ -7657,18 +7637,18 @@ class HomePageState extends State<HomePage>
                                                                                       decoration: BoxDecoration(
                                                                                           border: Border(
                                                                                             bottom:
-                                                                                            BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                                                            BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
                                                                                           )),),
                                                                                   ),
                                                                                 ],
                                                                               ),
                                                                             ),
                                                                             Positioned(
-                                                                              top : 8,
-                                                                              left : 50,
+                                                                              top : 11,
+                                                                              right: MediaQuery.of(context).size.width - 80,
                                                                               child: Container(
-                                                                                height: 20,
-                                                                                width: 30,
+                                                                                // height: 20,
+                                                                                // width: 30,
                                                                                 alignment: Alignment.center,
                                                                                 decoration: BoxDecoration(
                                                                                     color: AppTheme.skBorderColor2,
@@ -7679,11 +7659,14 @@ class HomePageState extends State<HomePage>
                                                                                       color: Colors.white,
                                                                                       width: 2,
                                                                                     )),
-                                                                                child: Text(prodList[i]
-                                                                                    .split(
-                                                                                    '^')[4], style: TextStyle(
-                                                                                    fontSize: 11, fontWeight: FontWeight.w500
-                                                                                )),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                                                  child: Text(prodList[i]
+                                                                                      .split(
+                                                                                      '^')[4], style: TextStyle(
+                                                                                      fontSize: 11, fontWeight: FontWeight.w500
+                                                                                  )),
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ],
@@ -7808,7 +7791,7 @@ class HomePageState extends State<HomePage>
                                                           width: 1.0),
                                                     )),
                                                 width: double.infinity,
-                                                height: 150,
+                                                height: 138,
                                                 child: Column(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -7841,7 +7824,7 @@ class HomePageState extends State<HomePage>
                                                       ),
                                                     ),
                                                     Padding(
-                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 27.0),
+                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           setState(() {
