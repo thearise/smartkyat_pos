@@ -827,11 +827,9 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               },
                                             child: Padding(
                                               padding:
-                                              EdgeInsets.only(top: index == 0? 7.0: 13.0),
+                                              EdgeInsets.only(top: index == 0? 7.0: 13.0, left: 15),
                                               child: Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
+                                                width: MediaQuery.of(context).size.width,
                                                 decoration: BoxDecoration(
                                                     border: Border(
                                                         bottom: index == snapshot.data!.docs.length-1 ?
@@ -840,12 +838,11 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             width: 1.0) :
 
                                                     BorderSide(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.3),
-                                                        width: 1.0)
+                                                        color: AppTheme.skBorderColor2,
+                                                        width: 0.5)
                                                 )),
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              padding: const EdgeInsets.only(right: 15.0),
                                               child: Column(
                                                 children: [
                                                   Row(
