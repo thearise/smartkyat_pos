@@ -314,12 +314,12 @@ class PdfInvoiceApi {
       ];
       final data = invoice.items.map((item) {
         final total = item.unitPrice * item.quantity;
-
+        RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
         return [
           // item.date.split('-')[0] == 'unit_name' ?
           Rabbit.uni2zg(item.description + ' (' + item.date + ')'),
           // Utils.formatDate(item.date),
-          '${item.quantity}',
+          '${item.quantity}'.replaceAll(regex, ''),
           '${item.unitPrice} K',
           // '${item.vat} %',
           '${total.toStringAsFixed(2)} K',
@@ -357,17 +357,17 @@ class PdfInvoiceApi {
       final headers = [
         'Item',
         // 'Date',
-        // 'Qty',
+        // 'Qty',-
         // 'UNIT PRICE',
         // 'VAT',
         'Total'
       ];
       final data = invoice.items.map((item) {
         final total = item.unitPrice * item.quantity;
-
+        RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
         return [
           // item.date.split('-')[0] == 'unit_name' ?
-          Rabbit.uni2zg(item.description + ' (' + item.date + ' - ${item.unitPrice} x ${item.quantity})'),
+          Rabbit.uni2zg(item.description + ' (' + item.date + ' - ${item.unitPrice} x ' + '${item.quantity}'.replaceAll(regex, '') + ')'),
           // Utils.formatDate(item.date),
           // '${item.quantity}',
           // '\$ ${item.unitPrice}',

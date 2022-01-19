@@ -36,6 +36,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   @override
   bool get wantKeepAlive => true;
 
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+
   List<int> refundItems = [];
   List<int> deffItems = [];
  // var documentId = '';
@@ -199,8 +201,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                             prodListView = [];
                             prodListView.add(prodList[0]);
 
-                            int ttlQtity = int.parse(prodList[0].split('-')[3]);
-                            int ttlRefun = int.parse(prodList[0].split('-')[3]);
+                            double ttlQtity = double.parse(prodList[0].split('-')[3]);
+                            double ttlRefun = double.parse(prodList[0].split('-')[3]);
                             for (int j=1;j< prodList.length; j++) {
                               int k = prodListView.length-1;
                               if(prodList[j].split('-')[0] == prodListView[k].split('-')[0] && prodList[j].split('-')[5] == prodListView[k].split('-')[5]) {
@@ -211,7 +213,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                     prodListView[k].split('-')[8] ;
                               } else {
                                 prodListView.add(prodList[j]);
-                                ttlQtity = int.parse(prodList[j].split('-')[3]);
+                                ttlQtity = double.parse(prodList[j].split('-')[3]);
                                 ttlRefun += int.parse(prodList[j].split('-')[7]);
                               }
                             }
@@ -349,7 +351,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                     onTap: () {
                                                                       setState(() {
                                                                         if ((refundItems[i]) >=
-                                                                            int.parse(prodListView[i]
+                                                                            double.parse(prodListView[i]
                                                                                 .split('-')[3])) {
                                                                         } else {
                                                                           refundItems[i] =
@@ -403,7 +405,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                               color: Colors.white,
                                                               width: 2,
                                                             )),
-                                                        child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                        child: Text((double.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString().replaceAll(regex, ''), style: TextStyle(
                                                           fontSize: 11, fontWeight: FontWeight.w500,
                                                         )),
                                                       ),
@@ -503,7 +505,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                       refundItems[i].toString() +
                                                       '-' +
                                                       prodListView[i].split('-')[8];
-                                                  total += (int.parse(prodListView[i]
+                                                  total += (double.parse(prodListView[i]
                                                       .split('-')[3]) -
                                                       refundItems[i]) *
                                                       int.parse(prodListView[i].split('-')[4]);

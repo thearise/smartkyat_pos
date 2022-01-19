@@ -46,7 +46,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   bool get wantKeepAlive => true;
   var docId = '';
   String result = '';
-
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   bool _connectionStatus = false;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -260,10 +260,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                               prodList.toString());
 
                           for (int j=0;j< prodList.length; j++) {
-                            totalPrice += int.parse(prodList[j].split('-')[4]) * (int.parse(prodList[j].split('-')[3]) - int.parse(prodList[j].split('-')[7]));
+                            totalPrice += double.parse(prodList[j].split('-')[4]) * (double.parse(prodList[j].split('-')[3]) - double.parse(prodList[j].split('-')[7]));
                           }
                           for (int j=0;j< prodList.length; j++) {
-                            totalRealPrice += int.parse(prodList[j].split('-')[4]) * int.parse(prodList[j].split('-')[3]);
+                            totalRealPrice += double.parse(prodList[j].split('-')[4]) * double.parse(prodList[j].split('-')[3]);
                           }
 
                           if(widget.data.split('^')[6] != '0.0') {
@@ -274,28 +274,25 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             }
                           }
 
-                          int ttlQtity = int.parse(prodList[0].split('-')[3]);
-                          int ttlRefun = int.parse(prodList[0].split('-')[3]);
+                          double ttlQtity = double.parse(prodList[0].split('-')[3]);
+                          double ttlRefun = double.parse(prodList[0].split('-')[3]);
                           for (int j=1;j< prodList.length; j++) {
-
                             int k = prodListView.length-1;
                             if(prodList[j].split('-')[0] == prodListView[k].split('-')[0] && prodList[j].split('-')[5] == prodListView[k].split('-')[5]) {
-                              ttlQtity += int.parse(prodList[j].split('-')[3]);
-                              ttlRefun += int.parse(prodList[j].split('-')[7]);
+                              ttlQtity += double.parse(prodList[j].split('-')[3]);
+                              ttlRefun += double.parse(prodList[j].split('-')[7]);
                               prodListView[k] = prodListView[k].split('-')[0] + '-' + prodListView[k].split('-')[1] + '-' + prodListView[k].split('-')[2] + '-' + ttlQtity.toString() + '-' +
                                   prodListView[k].split('-')[4] + '-' + prodListView[k].split('-')[5] + '-' + prodListView[k].split('-')[6] + '-' + (int.parse(prodListView[k].split('-')[7])+int.parse(prodList[j].split('-')[7])).toString() + '-' +
                                   prodListView[k].split('-')[8] ;
                             } else {
                               prodListView.add(prodList[j]);
-                              ttlQtity = int.parse(prodList[j].split('-')[3]);
-                              ttlRefun += int.parse(prodList[j].split('-')[7]);
+                              ttlQtity = double.parse(prodList[j].split('-')[3]);
+                              ttlRefun += double.parse(prodList[j].split('-')[7]);
                             }
 
                           }
 
                           print('view ' + prodListView.toString());
-
-
 
                           result = widget.data
                               .split('^')[0] +
@@ -815,7 +812,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         ],
                                                       ),
                                                     ),
-                                                    trailing: Text('MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                    trailing: Text('MMK ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                         fontWeight: FontWeight.w500,
@@ -851,7 +848,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     )),
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                  child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                  child: Text((double.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString().replaceAll(regex, ''), style: TextStyle(
                                                       fontSize: 11, fontWeight: FontWeight.w500
                                                   )),
                                                 ),
@@ -969,7 +966,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                       //   // )),
                                       //   trailing: Text('- MMK ' + (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       // ),
-
                                       if ((widget.data.split('^')[5]) != '0.0')
                                         Container(
                                           // color: Colors.green,
