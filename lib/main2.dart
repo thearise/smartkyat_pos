@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: OneContext().key,
-      title: 'Flutter UI',
+      title: 'Smart Kyat',
       debugShowCheckedModeBanner: false,
 
       theme: new ThemeData(

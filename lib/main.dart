@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       navigatorKey: OneContext().key,
-      title: 'Flutter UI',
+      title: 'Smart Kyat',
       debugShowCheckedModeBanner: false,
 
       theme: new ThemeData(

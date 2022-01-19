@@ -922,8 +922,10 @@ class _BuyListInfoState extends State<BuyListInfo>
                                         .snapshots(),
                                     builder: (BuildContext context, snapshot2) {
                                       if (snapshot2.hasData) {
+
                                         var output2 = snapshot2.data!.data();
                                         var image = output2?['img_1'];
+                                        print('image htwet ' + prodListView[i].toString());
                                         if(i == 0) {
                                           prodListPrint = [];
                                           prodListPrint.add(
@@ -940,7 +942,6 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   prodListView[i].split('-')[3] + '^'
                                           );
                                         }
-
                                         return  Stack(
                                           children: [
                                             Container(
@@ -954,7 +955,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       BorderRadius
                                                           .circular(
                                                           5.0),
-                                                      child: image != ""
+                                                      child: image != "" || image != null
                                                           ? CachedNetworkImage(
                                                         imageUrl:
                                                         'https://riftplus.me/smartkyat_pos/api/uploads/' +
@@ -987,14 +988,14 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                         'prod_name'],
                                                       style:
                                                       TextStyle(
-                                                          fontWeight: FontWeight.w500, fontSize: 16),
+                                                          fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
                                                     ),
                                                     subtitle: Padding(
                                                       padding: const EdgeInsets.only(top: 4.0),
                                                       child: Row(
                                                         children: [
                                                           Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                           )),
                                                           if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                           else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
@@ -1014,18 +1015,18 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       decoration: BoxDecoration(
                                                           border: Border(
                                                             bottom:
-                                                            BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                            BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
                                                           )),),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Positioned(
-                                              top : 8,
-                                              left : 50,
+                                              top : 11,
+                                              right: MediaQuery.of(context).size.width - 80,
                                               child: Container(
-                                                height: 20,
-                                                width: 30,
+                                                // height: 20,
+                                                // width: 30,
                                                 alignment: Alignment.center,
                                                 decoration: BoxDecoration(
                                                     color: AppTheme.skBorderColor2,
@@ -1036,11 +1037,35 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       color: Colors.white,
                                                       width: 2,
                                                     )),
-                                                child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
-                                                  fontSize: 11, fontWeight: FontWeight.w500,
-                                                )),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                  child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                      fontSize: 11, fontWeight: FontWeight.w500
+                                                  )),
+                                                ),
                                               ),
                                             ),
+                                            // Positioned(
+                                            //   top : 8,
+                                            //   left : 50,
+                                            //   child: Container(
+                                            //     height: 20,
+                                            //     width: 30,
+                                            //     alignment: Alignment.center,
+                                            //     decoration: BoxDecoration(
+                                            //         color: AppTheme.skBorderColor2,
+                                            //         borderRadius:
+                                            //         BorderRadius.circular(
+                                            //             10.0),
+                                            //         border: Border.all(
+                                            //           color: Colors.white,
+                                            //           width: 2,
+                                            //         )),
+                                            //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                            //       fontSize: 11, fontWeight: FontWeight.w500,
+                                            //     )),
+                                            //   ),
+                                            // ),
                                           ],
                                         );
                                       }
@@ -1049,7 +1074,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                   ),
 
                                 Container(
-                                  color: Colors.white,
+                                  // color: Colors.blue,
                                   child: Column(
                                     children: [
                                       // ListTile (
@@ -1075,23 +1100,38 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       // ),
+                                      if ((widget.data.split('^')[6]) != '0.0') Padding(
+                                        padding: const EdgeInsets.only(left: 15.0),
+                                        child: Container(height: 1,
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                top:
+                                                BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                              )),),
+                                      ),
                                       if ((widget.data.split('^')[6]) != '0.0') Container(
                                         child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
-                                        ListTile(
-                                          title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          subtitle: Text('Percentage (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
-                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                          )),
-                                          trailing: Text('- MMK ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
-                                          //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 1.0),
+                                          child: ListTile(
+                                            title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                            subtitle: Text('Percentage (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
+                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                            )),
+                                            trailing: Text('- MMK ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                            // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
+                                            //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
-                                        ) :  ListTile (
-                                          title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                          subtitle: Text('Amount applied', style: TextStyle(
-                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                          )),
-                                          trailing: Text('- MMK ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          ),
+                                        ) :  Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 1.0),
+                                          child: ListTile (
+                                            title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                            subtitle: Text('Amount applied', style: TextStyle(
+                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                            )),
+                                            trailing: Text('- MMK ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          ),
                                         ),
                                       ) else Container(),
                                       // Padding(
@@ -1119,38 +1159,46 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       // ),
 
                                       if ((widget.data.split('^')[5]) != '0.0')
-                                        Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 0.0),
-                                              child: Container(height: 12,
-                                                decoration: BoxDecoration(
-                                                    border: Border(
-                                                      bottom:
-                                                      BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                    )),),
-                                            ),
-                                            ListTile(
-                                              title: Text('Debt Amount',
-                                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                        Container(
+                                          // color: Colors.green,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 15.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                        top:
+                                                        BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                      )),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(top: 8.0, bottom: 11.0),
+                                                    child: ListTile(
+                                                      contentPadding: EdgeInsets.only(left: 0.0, right: 15),
+                                                      title: Text('Debt Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
-                                              trailing: Text('MMK ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                      trailing: Text('MMK ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
-                                            ),
-                                          ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ) else Container(),
 
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 18.0, top: 10),
-                                  child: DottedLine(lineThickness: 2,dashLength: 8, dashColor: AppTheme.skBorderColor2,),
-                                ),
-                                for (int i = 0; i < prodListView.length; i++)
-                                  if (prodListView[i].split('-')[7] != '0')
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                if(prodListView[0].split('-')[7] != '0')
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                          top:
+                                          BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                        )),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0),
                                       child: Text('REFUNDED ITEMS', style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
@@ -1158,7 +1206,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                         color: Colors.grey,
                                       ),),
                                     ),
-
+                                  ),
                                 for (int i = 0; i < prodListView.length; i++)
                                   if (prodListView[i].split('-')[7] != '0')
                                     StreamBuilder<
@@ -1176,155 +1224,125 @@ class _BuyListInfoState extends State<BuyListInfo>
                                           var output2 =
                                           snapshot2.data!.data();
                                           var image = output2?['img_1'];
-                                          return Slidable(
-                                            key: UniqueKey(),
-                                            actionPane:
-                                            SlidableDrawerActionPane(),
-                                            actionExtentRatio:
-                                            0.25,
-                                            child: Stack(
-                                              children: [
-                                                Container(
-                                                  color: Colors.white,
-                                                  child: Column(
-                                                    children: [
-                                                      SizedBox(height: 12),
-                                                      ListTile(
-                                                        leading: ClipRRect(
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                5.0),
-                                                            child: image != ""
-                                                                ? CachedNetworkImage(
-                                                              imageUrl:
-                                                              'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                  image,
-                                                              width: 58,
-                                                              height: 58,
-                                                              // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                              errorWidget: (context,
-                                                                  url,
-                                                                  error) =>
-                                                                  Icon(Icons
-                                                                      .error),
-                                                              fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  100),
-                                                              fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  10),
-                                                              fadeInCurve:
-                                                              Curves
-                                                                  .bounceIn,
-                                                              fit: BoxFit
-                                                                  .cover,
-                                                            )
-                                                                : CachedNetworkImage(
-                                                              imageUrl:
-                                                              'https://pbs.twimg.com/media/Bj6ZCa9CYAA95tG?format=jpg',
-                                                              width: 58,
-                                                              height: 58,
-                                                              // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                              errorWidget: (context,
-                                                                  url,
-                                                                  error) =>
-                                                                  Icon(Icons
-                                                                      .error),
-                                                              fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  100),
-                                                              fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                  10),
-                                                              fadeInCurve:
-                                                              Curves
-                                                                  .bounceIn,
-                                                              fit: BoxFit
-                                                                  .cover,
+                                          return Stack(
+                                            children: [
+                                              Container(
+                                                color: Colors.white,
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(height: 12),
+                                                    ListTile(
+                                                      leading: ClipRRect(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              5.0),
+                                                          child: image != ""
+                                                              ? CachedNetworkImage(
+                                                            imageUrl:
+                                                            'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                image,
+                                                            width: 58,
+                                                            height: 58,
+                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                            errorWidget: (context,
+                                                                url,
+                                                                error) =>
+                                                                Icon(Icons
+                                                                    .error),
+                                                            fadeInDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                100),
+                                                            fadeOutDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                10),
+                                                            fadeInCurve:
+                                                            Curves
+                                                                .bounceIn,
+                                                            fit: BoxFit
+                                                                .cover,
+                                                          )
+                                                              : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
+                                                      title: Text(
+                                                        output2?[
+                                                          'prod_name'],
+                                                        style:
+                                                        TextStyle(
+                                                            fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                      ),
+                                                      subtitle: Padding(
+                                                        padding: const EdgeInsets.only(top: 4.0),
+                                                        child: Row(
+                                                          children: [
+                                                            Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                             )),
-                                                        title: Text(
-                                                          output2?[
-                                                            'prod_name'],
-                                                          style:
-                                                          TextStyle(
-                                                              fontWeight: FontWeight.w500, fontSize: 16),
+                                                            if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                            else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                            else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                          ],
                                                         ),
-                                                        subtitle: Padding(
-                                                          padding: const EdgeInsets.only(top: 4.0),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                              )),
-                                                              if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                              else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                              else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        trailing: discTra(widget.data.split('^')[6], prodListView[i]),
                                                       ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left: 15.0),
-                                                        child: Container(height: 12,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                bottom:
-                                                                BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                              )),),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                      trailing: discTra(widget.data.split('^')[6], prodListView[i]),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 15.0),
+                                                      child: Container(height: 12,
+                                                        decoration: BoxDecoration(
+                                                            border: Border(
+                                                              bottom:
+                                                              BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
+                                                            )),),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Positioned(
-                                                  top : 8,
-                                                  left : 50,
-                                                  child: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    alignment: Alignment.center,
-                                                    decoration: BoxDecoration(
-                                                        color: AppTheme.skBorderColor2,
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                        border: Border.all(
-                                                          color: Colors.white,
-                                                          width: 2,
-                                                        )),
+                                              ),
+                                              // Positioned(
+                                              //   top : 8,
+                                              //   left : 50,
+                                              //   child: Container(
+                                              //     height: 20,
+                                              //     width: 30,
+                                              //     alignment: Alignment.center,
+                                              //     decoration: BoxDecoration(
+                                              //         color: AppTheme.skBorderColor2,
+                                              //         borderRadius:
+                                              //         BorderRadius.circular(
+                                              //             10.0),
+                                              //         border: Border.all(
+                                              //           color: Colors.white,
+                                              //           width: 2,
+                                              //         )),
+                                              //     child: Text(prodListView[i].split('-')[7].toString(), style: TextStyle(
+                                              //       fontSize: 11, fontWeight: FontWeight.w500,
+                                              //     )),
+                                              //   ),
+                                              // ),
+                                              Positioned(
+                                                top : 11,
+                                                right: MediaQuery.of(context).size.width - 80,
+                                                child: Container(
+                                                  // height: 20,
+                                                  // width: 30,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      color: AppTheme.skBorderColor2,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                      border: Border.all(
+                                                        color: Colors.white,
+                                                        width: 2,
+                                                      )),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
                                                     child: Text(prodListView[i].split('-')[7].toString(), style: TextStyle(
-                                                      fontSize: 11, fontWeight: FontWeight.w500,
+                                                        fontSize: 11, fontWeight: FontWeight.w500
                                                     )),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                            dismissal:
-                                            SlidableDismissal(
-                                              child:
-                                              SlidableDrawerDismissal(),
-                                              onDismissed:
-                                                  (actionType) {
-                                                setState((){
-                                                });
-                                              },
-                                            ),
-                                            secondaryActions: <
-                                                Widget>[
-                                              IconSlideAction(
-                                                caption: 'Delete',
-                                                color: Colors.red,
-                                                icon:
-                                                Icons.delete,
-                                                onTap: () {
-                                                  setState((){
-                                                  });
-                                                },
                                               ),
                                             ],
                                           );
