@@ -2745,60 +2745,96 @@ class HomePageState extends State<HomePage>
                                                                                   child: Container(
                                                                                       child: ListView(
                                                                                         children: [
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.only(top: 15.0),
-                                                                                            child: Column(
-                                                                                              children: [
-                                                                                                Padding(
-                                                                                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                                                  child: Row(
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                        height: 58,
-                                                                                                        width: 58,
-                                                                                                        decoration: BoxDecoration(
-                                                                                                            borderRadius:
-                                                                                                            BorderRadius.circular(
-                                                                                                                5.0),
-                                                                                                            color: Colors.grey
-                                                                                                                .withOpacity(0.5)
-                                                                                                        ),
-                                                                                                        child: Icon(
-                                                                                                          SmartKyat_POS.order,
-                                                                                                          size: 25,
+                                                                                          Stack(
+                                                                                            children: [
+
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(top: 19.0),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    GestureDetector(
+                                                                                                      onTap: () {
+                                                                                                        setState(() {
+                                                                                                          customerId = 'name^name';
+                                                                                                        });
+                                                                                                      },
+                                                                                                      child: Padding(
+                                                                                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                                                        child: Row(
+                                                                                                          children: [
+                                                                                                            Container(
+                                                                                                              height: 58,
+                                                                                                              width: 58,
+                                                                                                              decoration: BoxDecoration(
+                                                                                                                  borderRadius:
+                                                                                                                  BorderRadius.circular(
+                                                                                                                      5.0),
+                                                                                                                  color: Colors.grey
+                                                                                                                      .withOpacity(0.5)
+                                                                                                              ),
+                                                                                                              child: Icon(
+                                                                                                                SmartKyat_POS.order,
+                                                                                                                size: 25,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            SizedBox(width: 15),
+                                                                                                            Column(
+                                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                              children: [
+                                                                                                                Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                                                                // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                                                                //     style: TextStyle(
+                                                                                                                //       fontSize: 14,
+                                                                                                                //       color: Colors.grey
+                                                                                                                //     )),
+                                                                                                              ],
+                                                                                                            )
+                                                                                                          ],
                                                                                                         ),
                                                                                                       ),
-                                                                                                      SizedBox(width: 15),
-                                                                                                      Column(
-                                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                        children: [
-                                                                                                          Text(customerId.split('^')[1].toString() == 'name' ? 'No customer' : customerId.split('^')[1] , style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                                                          // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                                                          //     style: TextStyle(
-                                                                                                          //       fontSize: 14,
-                                                                                                          //       color: Colors.grey
-                                                                                                          //     )),
-                                                                                                        ],
-                                                                                                      )
-                                                                                                    ],
-                                                                                                  ),
+                                                                                                    ),
+                                                                                                    SizedBox(height: 8,),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left: 15.0),
+                                                                                                      child: Container(height: 12,
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            border: Border(
+                                                                                                              bottom:
+                                                                                                              BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                                                                            )),),
+                                                                                                    ),
+
+                                                                                                  ],
                                                                                                 ),
-                                                                                                SizedBox(height: 8,),
-                                                                                                Padding(
-                                                                                                  padding: const EdgeInsets.only(left: 15.0),
-                                                                                                  child: Container(
-                                                                                                    height: 12,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        border: Border(
-                                                                                                          bottom:
-                                                                                                          BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                                                                        )
+                                                                                              ),
+                                                                                              customerId != 'name^name' ? Positioned(
+                                                                                                top : 11,
+                                                                                                right: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
+                                                                                                child: Container(
+                                                                                                  // height: 20,
+                                                                                                  // width: 30,
+                                                                                                  alignment: Alignment.center,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                      color: Color(0xffE9625E),
+                                                                                                      borderRadius:
+                                                                                                      BorderRadius.circular(
+                                                                                                          10.0),
+                                                                                                      border: Border.all(
+                                                                                                        color: Colors.white,
+                                                                                                        width: 2,
+                                                                                                      )),
+                                                                                                  child: Padding(
+                                                                                                    padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                                                                                    child: Icon(
+                                                                                                      Icons.close_rounded,
+                                                                                                      size: 13,
+                                                                                                      color: Colors.white,
                                                                                                     ),
                                                                                                   ),
                                                                                                 ),
-                                                                                              ],
-                                                                                            ),
+                                                                                              ): Container(),
+                                                                                            ],
                                                                                           ),
                                                                                           for (int i = 0; i < prodList.length; i++)
                                                                                             StreamBuilder<
@@ -2883,33 +2919,12 @@ class HomePageState extends State<HomePage>
                                                                                                                         width: 58,
                                                                                                                         height: 58,
                                                                                                                         // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                                        errorWidget: (context,
-                                                                                                                            url,
-                                                                                                                            error) =>
-                                                                                                                            Icon(Icons
-                                                                                                                                .error),
-                                                                                                                        fadeInDuration:
-                                                                                                                        Duration(
-                                                                                                                            milliseconds:
-                                                                                                                            100),
-                                                                                                                        fadeOutDuration:
-                                                                                                                        Duration(
-                                                                                                                            milliseconds:
-                                                                                                                            10),
-                                                                                                                        fadeInCurve:
-                                                                                                                        Curves
-                                                                                                                            .bounceIn,
-                                                                                                                        fit: BoxFit
-                                                                                                                            .cover,
-                                                                                                                      )
-                                                                                                                          : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
-                                                                                                                  title: Text(
-                                                                                                                    output2?[
-                                                                                                                      'prod_name'],
-                                                                                                                    style:
-                                                                                                                    TextStyle(
-                                                                                                                        fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
-                                                                                                                  ),
+                                                                                                                        errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                                                        fadeInDuration: Duration(milliseconds: 100),
+                                                                                                                        fadeOutDuration: Duration(milliseconds: 10),
+                                                                                                                        fadeInCurve: Curves.bounceIn,
+                                                                                                                        fit: BoxFit.cover,) : Image.asset('assets/system/default-product.png', height: 58, width: 58)),
+                                                                                                                  title: Text(output2?['prod_name'], style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
                                                                                                                   subtitle: Padding(
                                                                                                                     padding: const EdgeInsets.only(top: 4.0),
                                                                                                                     child: Row(
@@ -2942,18 +2957,18 @@ class HomePageState extends State<HomePage>
                                                                                                                     decoration: BoxDecoration(
                                                                                                                         border: Border(
                                                                                                                           bottom:
-                                                                                                                          BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                                                                                          BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
                                                                                                                         )),),
                                                                                                                 ),
                                                                                                               ],
                                                                                                             ),
                                                                                                           ),
                                                                                                           Positioned(
-                                                                                                            top : 8,
-                                                                                                            left : 50,
+                                                                                                            top : 11,
+                                                                                                            right: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
                                                                                                             child: Container(
-                                                                                                              height: 20,
-                                                                                                              width: 30,
+                                                                                                              // height: 20,
+                                                                                                              // width: 30,
                                                                                                               alignment: Alignment.center,
                                                                                                               decoration: BoxDecoration(
                                                                                                                   color: AppTheme.skBorderColor2,
@@ -2964,11 +2979,14 @@ class HomePageState extends State<HomePage>
                                                                                                                     color: Colors.white,
                                                                                                                     width: 2,
                                                                                                                   )),
-                                                                                                              child: Text(prodList[i]
-                                                                                                                  .split(
-                                                                                                                  '^')[4], style: TextStyle(
-                                                                                                                  fontSize: 11, fontWeight: FontWeight.w500
-                                                                                                              )),
+                                                                                                              child: Padding(
+                                                                                                                padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                                                                                child: Text(prodList[i]
+                                                                                                                    .split(
+                                                                                                                    '^')[4], style: TextStyle(
+                                                                                                                    fontSize: 11, fontWeight: FontWeight.w500
+                                                                                                                )),
+                                                                                                              ),
                                                                                                             ),
                                                                                                           ),
                                                                                                         ],
@@ -3318,7 +3336,6 @@ class HomePageState extends State<HomePage>
                                                                                       onTap: () {
                                                                                         setState(() {
                                                                                           totalAmount = double.parse(TtlProdListPrice());
-                                                                                          debt = double.parse(TtlProdListPrice());
                                                                                         });
 
                                                                                         int i = 0;
@@ -3329,6 +3346,9 @@ class HomePageState extends State<HomePage>
 
                                                                                         print('totalAmount '+ totalAmount.toString());
                                                                                         _controllerTablet.animateTo(1);
+                                                                                        if(_textFieldControllerTablet.text == '') {
+                                                                                          debt = double.parse(TtlProdListPrice().toString());
+                                                                                        }
                                                                                         // sellDone = false;
                                                                                       },
                                                                                       child: Container(
@@ -6953,7 +6973,8 @@ class HomePageState extends State<HomePage>
       0, duration: Duration(milliseconds: 0), curve: Curves.ease,);
     _textFieldController.clear();
     bool sellDone = false;
-    if(_textFieldController.text == '') { debt = double.parse(TtlProdListPrice().toString());}
+    // bool saleCartDrag = true;
+
     showModalBottomSheet(
         isDismissible: !disableTouch,
         enableDrag: !disableTouch,
@@ -7830,9 +7851,9 @@ class HomePageState extends State<HomePage>
                                                           setState(() {
                                                             mystate(() {
                                                               totalAmount = double.parse(TtlProdListPrice());
+
                                                             });
                                                           });
-
                                                           // List<double> cashMM = [500, 1000, 5000, 10000];
                                                           // int i = 0;
                                                           // String totalCashCal = totalAmount.toInt().toString();
@@ -7900,8 +7921,8 @@ class HomePageState extends State<HomePage>
 
                                                           print('totalAmount '+ totalAmount.toString());
                                                           _controller.animateTo(1);
-
-                                                          // sellDone = false;
+                                                          if(_textFieldController.text == '') {
+                                                            debt = double.parse(TtlProdListPrice());}
                                                         },
                                                         child: Container(
                                                           width: MediaQuery.of(context).size.width - 30,
@@ -8297,6 +8318,7 @@ class HomePageState extends State<HomePage>
                                                                       setState(() {
                                                                         orderCreating = true;
                                                                         disableTouch = true;
+                                                                        //    saleCartDrag = false;
                                                                       });
                                                                     });
                                                                     Navigator.of(context).push(
@@ -8530,6 +8552,7 @@ class HomePageState extends State<HomePage>
                                                                             //   refund =0;
                                                                             //   //customerId = 'name^name';
                                                                             // });
+
                                                                             getPaperId().then((value) async {
                                                                               print('VVAALLUUEE ' + value.toString());
                                                                               pdfFile = await PdfInvoiceApi.generate(invoice, value);
@@ -8538,15 +8561,18 @@ class HomePageState extends State<HomePage>
 
 
                                                                               Future.delayed(const Duration(milliseconds: 3000), () {
-                                                                                mystate(() {
-                                                                                  // setState(() {
-                                                                                  pdfText = pdfFile!.path.toString();
-                                                                                  // });
-                                                                                  setState(() {
+                                                                                setState(() {
+                                                                                  mystate(() {
+                                                                                    // setState(() {
+                                                                                    pdfText = pdfFile!.path.toString();
+                                                                                    // });
+
                                                                                     orderCreating = false;
                                                                                     disableTouch = false;
+                                                                                    // saleCartDrag = false;
                                                                                   });
                                                                                 });
+                                                                                // print('saleCartDrag ' + saleCartDrag.toString());
                                                                                 tranGlobalKey.currentState!.disLoading();
                                                                                 _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                                               });
@@ -9173,6 +9199,8 @@ class HomePageState extends State<HomePage>
                                                                               print('leepae' + prodList[j]);
                                                                             } else print('leelar');
                                                                           _controller.animateTo(0);
+                                                                          // if(mainQty - quantity <= 0) {smartKyatFlash('Out of Stock', 'w');}
+
                                                                         }
                                                                       },
                                                                       child: Container(
@@ -9534,7 +9562,7 @@ class HomePageState extends State<HomePage>
                                                                     });
                                                                     // _controller.animateTo(0);
                                                                     // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-
+                                                                    // saleCartDrag = true;
                                                                     _textFieldController.clear();
                                                                     Navigator.pop(context);
                                                                     // sellDone = true;
