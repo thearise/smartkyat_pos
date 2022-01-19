@@ -526,38 +526,38 @@ class MerchantCartState extends State<MerchantCart>
                                                 SizedBox(height: 7,),
                                                 ListTile(
                                                   leading: ClipRRect(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          5.0),
-                                                      child: image != ""
-                                                          ? CachedNetworkImage(
-                                                        imageUrl:
-                                                        'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                            image,
-                                                        width: 58,
-                                                        height: 58,
-                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                        errorWidget: (context,
-                                                            url,
-                                                            error) =>
-                                                            Icon(Icons
-                                                                .error),
-                                                        fadeInDuration:
-                                                        Duration(
-                                                            milliseconds:
-                                                            100),
-                                                        fadeOutDuration:
-                                                        Duration(
-                                                            milliseconds:
-                                                            10),
-                                                        fadeInCurve:
-                                                        Curves
-                                                            .bounceIn,
-                                                        fit: BoxFit
-                                                            .cover,
-                                                      )
-                                                          : Image.asset('assets/system/default-product.png', height: 75, width: 75),),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        5.0),
+                                                    child: image != ""
+                                                        ? CachedNetworkImage(
+                                                      imageUrl:
+                                                      'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                          image,
+                                                      width: 58,
+                                                      height: 58,
+                                                      // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                      errorWidget: (context,
+                                                          url,
+                                                          error) =>
+                                                          Icon(Icons
+                                                              .error),
+                                                      fadeInDuration:
+                                                      Duration(
+                                                          milliseconds:
+                                                          100),
+                                                      fadeOutDuration:
+                                                      Duration(
+                                                          milliseconds:
+                                                          10),
+                                                      fadeInCurve:
+                                                      Curves
+                                                          .bounceIn,
+                                                      fit: BoxFit
+                                                          .cover,
+                                                    )
+                                                        : Image.asset('assets/system/default-product.png', height: 75, width: 75),),
                                                   title: Text(
                                                     output2?[
                                                       'prod_name'],
@@ -786,6 +786,7 @@ class MerchantCartState extends State<MerchantCart>
                                   builder: (context) => checkoutItems()
                               ),
                             );
+                            if(_textFieldController2.text == '') { debt2 = double.parse(TtlProdListPrice2().toString());}
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width - 30,
@@ -1769,8 +1770,8 @@ class MerchantCartState extends State<MerchantCart>
   }
 
   checkoutItems(){
-
     totalAmount2 = double.parse(TtlProdListPrice2());
+
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter mystate) {
           _textFieldController2.addListener((){
@@ -2246,9 +2247,9 @@ class MerchantCartState extends State<MerchantCart>
                                       Future.delayed(const Duration(milliseconds: 3000), () {
                                         mystate(() {
                                           setState(() {
-                                           widget.endMerchCartLoadingState();
+                                            widget.endMerchCartLoadingState();
                                             disableTouch = false;
-                                           merchCartCreating = false;
+                                            merchCartCreating = false;
                                           });
                                         });
                                         Navigator.of(context).popUntil((route) => route.isFirst);
