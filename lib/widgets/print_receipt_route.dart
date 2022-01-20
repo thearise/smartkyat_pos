@@ -105,7 +105,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
               description: widget.prodList[i].split('^')[0],
               // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
               date: widget.prodList[i].split('^')[1],
-              quantity: int.parse(widget.prodList[i].split('^')[3]),
+              quantity: double.parse(widget.prodList[i].split('^')[3]),
               // vat: discountAmount,
               // type: disText,
               // debt: debt,

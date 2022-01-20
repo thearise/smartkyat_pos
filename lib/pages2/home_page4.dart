@@ -54,6 +54,7 @@ import 'package:smartkyat_pos/src/screens/loading.dart';
 import 'package:smartkyat_pos/widgets/add_new_customer.dart';
 import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
+import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import '../app_theme.dart';
 import '../fragments/search_fragment.dart';
 import 'TabItem.dart';
@@ -114,6 +115,8 @@ class HomePageState extends State<HomePage>
   String shopGloName = '';
   String shopGloAddress = '';
   String shopGloPhone = '';
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+
   void handleSlideAnimationChanged(Animation<double>? slideAnimation) {
     setState(() {
       _rotationAnimation = slideAnimation;
@@ -163,19 +166,18 @@ class HomePageState extends State<HomePage>
   double paidAmount = 0;
   double refund = 0;
   double debt =0;
-  int quantity = 0;
+  double quantity = 0;
 
   double discount =0.0;
   double discountAmount =0.0;
   String disText ='';
   String isDiscount = '';
   double totalAmount = 0.0;
-  int price2 = 0;
+  double price2 = 0;
 
   double paidAmount2 = 0;
   double refund2 = 0;
   double debt2 =0;
-  int quantity2 = 0;
 
   double discount2 =0.0;
   double discountAmount2 =0.0;
@@ -329,17 +331,17 @@ class HomePageState extends State<HomePage>
     myControllerTablet.addListener((){
       setState(() {
         // mystate((){
-        (myControllerTablet.text != '' && sellPriceControllerTablet.text != '') ? totalFixAmount =int.parse(myControllerTablet.text) * double.parse(sellPriceControllerTablet.text) : totalFixAmount = 0.0;
+        (myControllerTablet.text != '' && sellPriceControllerTablet.text != '') ? totalFixAmount =double.parse(myControllerTablet.text) * double.parse(sellPriceControllerTablet.text) : totalFixAmount = 0.0;
         // });
       });
     });
 
     sellPriceControllerTablet.addListener((){
       setState(() {
-        (myControllerTablet.text != '' && sellPriceControllerTablet.text != '') ? totalFixAmount =int.parse(myControllerTablet.text) * double.parse(sellPriceControllerTablet.text) : totalFixAmount = 0.0;
+        (myControllerTablet.text != '' && sellPriceControllerTablet.text != '') ? totalFixAmount =double.parse(myControllerTablet.text) * double.parse(sellPriceControllerTablet.text) : totalFixAmount = 0.0;
         if( sellPriceControllerTablet.text != '') {
           titlePrice = double.parse(sellPriceControllerTablet.text);
-          price2 = int.parse(sellPriceControllerTablet.text); } else {
+          price2 = double.parse(sellPriceControllerTablet.text); } else {
           titlePrice = 0.0;
           price2 = 0;
         }
@@ -1595,7 +1597,9 @@ class HomePageState extends State<HomePage>
       drawerDrag = false;
     });
   }
-
+  void isProFreePage() {
+    Navigator.of(context).pushReplacement(FadeRoute(page: EndOfProService()),);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1623,7 +1627,6 @@ class HomePageState extends State<HomePage>
                   }
                 }
                 ayinHar = role;
-
 
                 return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                     stream:  shopSnapshot,
@@ -1665,6 +1668,11 @@ class HomePageState extends State<HomePage>
                             settGlobalKey.currentState!.isProSet('free');
                           }
 
+                        }
+                        if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
+                          Future.delayed(const Duration(milliseconds: 500), () {
+                            isProFreePage();
+                          });
                         }
 
                         return Scaffold(
@@ -2469,7 +2477,7 @@ class HomePageState extends State<HomePage>
                           //                                   left: 8.0,
                           //                                   right: 8.0,
                           //                                   bottom: 2.0),
-                          //                               child: int.parse(totalItems()) == 1? Container(
+                          //                               child: double.parse(totalItems()) == 1? Container(
                           //                                 child:
                           //                                 Text(
                           //                                   totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
@@ -2865,8 +2873,8 @@ class HomePageState extends State<HomePage>
                                                                                                     onTap: (){
                                                                                                       print('error prod' + prodList[i].toString());
                                                                                                       setState((){
-                                                                                                        quantity = int.parse(prodList[i].split('^')[4]);
-                                                                                                        price2 = int.parse(prodList[i].split('^')[2]);
+                                                                                                        quantity = double.parse(prodList[i].split('^')[4]);
+                                                                                                        price2 = double.parse(prodList[i].split('^')[2]);
                                                                                                         eachProd = prodList[i];
                                                                                                         unit = prodList[i].split('^')[3];
                                                                                                         mainName =  output2?['unit_name'];
@@ -2938,10 +2946,10 @@ class HomePageState extends State<HomePage>
                                                                                                                       ],
                                                                                                                     ),
                                                                                                                   ),
-                                                                                                                  trailing: Text('MMK ' + (int.parse(
+                                                                                                                  trailing: Text('MMK ' + (double.parse(
                                                                                                                       prodList[i].split('^')[
                                                                                                                       2]) *
-                                                                                                                      int.parse(prodList[
+                                                                                                                      double.parse(prodList[
                                                                                                                       i]
                                                                                                                           .split(
                                                                                                                           '^')[4]))
@@ -3313,7 +3321,7 @@ class HomePageState extends State<HomePage>
                                                                                         FontWeight
                                                                                             .w500),
                                                                                   ),
-                                                                                  subtitle: int.parse(totalItems()) == 1? Text(totalItems() + ' item set',
+                                                                                  subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' item set',
                                                                                       style: TextStyle(
                                                                                         fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                                                       )) : Text(totalItems() + ' item sets',
@@ -3820,7 +3828,7 @@ class HomePageState extends State<HomePage>
                                                                                                       if (docSnapshot10.exists) {
                                                                                                         Map<String, dynamic>? data10 = docSnapshot10.data();
 
-                                                                                                        for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                                                        for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
                                                                                                           subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
                                                                                                           subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
                                                                                                           print('inStock' + (i+1).toString());
@@ -3833,18 +3841,18 @@ class HomePageState extends State<HomePage>
 
                                                                                                       if(str.split('^')[3] == 'unit_name') {
                                                                                                         decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                                                        prodSaleData(str.split('^')[0], int.parse(str.split('^')[4].toString()));
+                                                                                                        prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
 
                                                                                                       } else if(str.split('^')[3] == 'sub1_name') {
                                                                                                         sub1Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
                                                                                                         productsFire.doc(str.split('^')[0]).update({
-                                                                                                          'sub1SellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
+                                                                                                          'sub1SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                                                         });
 
                                                                                                       } else if(str.split('^')[3] == 'sub2_name') {
                                                                                                         sub2Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
                                                                                                         productsFire.doc(str.split('^')[0]).update({
-                                                                                                          'sub2SellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
+                                                                                                          'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                                                         });
                                                                                                       }
                                                                                                     });
@@ -3928,7 +3936,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 description: prodList[i].split('^')[1],
                                                                                                                 // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
                                                                                                                 date: subNameList[i].toString(),
-                                                                                                                quantity: int.parse(prodList[i].split('^')[4]),
+                                                                                                                quantity: double.parse(prodList[i].split('^')[4]),
                                                                                                                 vat: discountAmount,
                                                                                                                 type: disText,
                                                                                                                 debt: debt,
@@ -4115,7 +4123,7 @@ class HomePageState extends State<HomePage>
 
                                                                                                 // });
                                                                                                 setState(() {
-                                                                                                  quantity = int.parse(myControllerTablet.text) -1;
+                                                                                                  quantity = double.parse(myControllerTablet.text) -1;
                                                                                                   myControllerTablet.text = quantity.toString();
                                                                                                   print('qqq' + quantity.toString());
                                                                                                 });
@@ -4179,7 +4187,7 @@ class HomePageState extends State<HomePage>
                                                                                                 keyboardType: TextInputType.number,
                                                                                                 onChanged: (value) {
                                                                                                   setState(() {
-                                                                                                    quantity = int.parse(value);
+                                                                                                    quantity = double.parse(value);
                                                                                                   });
                                                                                                 },
                                                                                                 controller: myControllerTablet,
@@ -4193,7 +4201,7 @@ class HomePageState extends State<HomePage>
 
                                                                                                   // });
                                                                                                   setState(() {
-                                                                                                    quantity = int.parse(myControllerTablet.text) +1;
+                                                                                                    quantity = double.parse(myControllerTablet.text) +1;
                                                                                                     myControllerTablet.text = quantity.toString();
                                                                                                     print('qqq' + quantity.toString());
                                                                                                   });
@@ -5476,7 +5484,7 @@ class HomePageState extends State<HomePage>
                                               //                           left: 8.0,
                                               //                           right: 8.0,
                                               //                           bottom: 2.0),
-                                              //                       child: int.parse(totalItems()) == 1? Container(
+                                              //                       child: double.parse(totalItems()) == 1? Container(
                                               //                         child:
                                               //                         Text(
                                               //                           totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
@@ -5584,7 +5592,7 @@ class HomePageState extends State<HomePage>
                                                                           left: 8.0,
                                                                           right: 8.0,
                                                                           bottom: 2.0),
-                                                                      child: int.parse(totalItems()) == 1? Container(
+                                                                      child: double.parse(totalItems()) == 1? Container(
                                                                         child:
                                                                         Text(
                                                                           totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
@@ -5772,7 +5780,7 @@ class HomePageState extends State<HomePage>
             '^' +
             data.split('^')[3] +
             '^' +
-            (int.parse(prodList[i].split('^')[4]) +  int.parse(data.split('^')[4])).toString();
+            (double.parse(prodList[i].split('^')[4]) +  double.parse(data.split('^')[4])).toString();
         setState((){prodList[i] = data + '^0'; });
         return;
       }
@@ -5885,7 +5893,7 @@ class HomePageState extends State<HomePage>
   //   querySnapshot) async {
   //     querySnapshot.docs
   //         .forEach((doc) {
-  //       length += int.parse(
+  //       length += double.parse(
   //           doc['daily_order']
   //               .length
   //               .toString());
@@ -6129,10 +6137,10 @@ class HomePageState extends State<HomePage>
   //
   // }
   TextEditingController buyPriceController = TextEditingController();
-  int qty = 0;
+  double qty = 0;
   double totalFixAmount2 = 0;
   double titlePrice2 = 0;
-  int price4 = 0;
+  double price4 = 0;
   String sellprice5 = '0';
   String instock = '';
   String loss5 = '5';
@@ -6179,14 +6187,14 @@ class HomePageState extends State<HomePage>
 
               barcodeCtrl.addListener((){
 
-                (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
+                (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =double.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
               });
 
               buyPriceController.addListener((){
 
-                (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =int.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
+                (barcodeCtrl.text != '' && buyPriceController.text != '') ? totalFixAmount2 =double.parse(barcodeCtrl.text) * double.parse(buyPriceController.text) : totalFixAmount2 = 0.0;
                 if( buyPriceController.text != '') {
-                  price4 = int.parse(buyPriceController.text); } else {
+                  price4 = double.parse(buyPriceController.text); } else {
                   price4 = 0;
                 }
 
@@ -6348,7 +6356,7 @@ class HomePageState extends State<HomePage>
                                                             onTap: () {
                                                               setState(() {
                                                                 stateful((){
-                                                                  qty = int.parse(barcodeCtrl.text) - 1;
+                                                                  qty = double.parse(barcodeCtrl.text) - 1;
                                                                   barcodeCtrl.text = qty.toString();
                                                                   print('qqq' + qty.toString());
                                                                 });});
@@ -6398,7 +6406,7 @@ class HomePageState extends State<HomePage>
                                                                 onChanged: (value) {
                                                                   setState(() {
                                                                     setState((){
-                                                                      qty = int.parse(value);
+                                                                      qty = double.parse(value);
                                                                     });
                                                                   });
                                                                 },
@@ -6411,7 +6419,7 @@ class HomePageState extends State<HomePage>
                                                             onTap: () {
                                                               setState(() {
                                                                 stateful((){
-                                                                  qty = int.parse(barcodeCtrl.text) + 1;
+                                                                  qty = double.parse(barcodeCtrl.text) + 1;
                                                                   barcodeCtrl.text = qty.toString();
                                                                   print('qqq' + qty.toString());
                                                                 });});
@@ -7002,17 +7010,17 @@ class HomePageState extends State<HomePage>
               myController.addListener((){
                 setState(() {
                   mystate((){
-                    (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =int.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
+                    (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
                   });});
               });
 
               sellPriceController.addListener((){
                 setState(() {
                   mystate((){
-                    (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =int.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
+                    (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
                     if( sellPriceController.text != '') {
                       titlePrice = double.parse(sellPriceController.text);
-                      price2 = int.parse(sellPriceController.text); } else {
+                      price2 = double.parse(sellPriceController.text); } else {
                       titlePrice = 0.0;
                       price2 = 0;
                     }
@@ -7558,8 +7566,8 @@ class HomePageState extends State<HomePage>
                                                                         print('error prod' + prodList[i].toString());
                                                                         setState((){
                                                                           mystate((){
-                                                                            quantity = int.parse(prodList[i].split('^')[4]);
-                                                                            price2 = int.parse(prodList[i].split('^')[2]);
+                                                                            quantity = double.parse(prodList[i].split('^')[4]);
+                                                                            price2 = double.parse(prodList[i].split('^')[2]);
                                                                             eachProd = prodList[i];
                                                                             unit = prodList[i].split('^')[3];
                                                                             mainName =  output2?['unit_name'];
@@ -7639,10 +7647,10 @@ class HomePageState extends State<HomePage>
                                                                                         ],
                                                                                       ),
                                                                                     ),
-                                                                                    trailing: Text('MMK ' + (int.parse(
+                                                                                    trailing: Text('MMK ' + (double.parse(
                                                                                         prodList[i].split('^')[
                                                                                         2]) *
-                                                                                        int.parse(prodList[
+                                                                                        double.parse(prodList[
                                                                                         i]
                                                                                             .split(
                                                                                             '^')[4]))
@@ -7684,7 +7692,7 @@ class HomePageState extends State<HomePage>
                                                                                   padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
                                                                                   child: Text(prodList[i]
                                                                                       .split(
-                                                                                      '^')[4], style: TextStyle(
+                                                                                      '^')[4].replaceAll(regex, ''), style: TextStyle(
                                                                                       fontSize: 11, fontWeight: FontWeight.w500
                                                                                   )),
                                                                                 ),
@@ -7828,7 +7836,7 @@ class HomePageState extends State<HomePage>
                                                             FontWeight
                                                                 .w500),
                                                       ),
-                                                      subtitle: int.parse(totalItems()) == 1? Text(totalItems() + ' item set',
+                                                      subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' item set',
                                                           style: TextStyle(
                                                               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
                                                           )) : Text(totalItems() + ' item sets',
@@ -8355,7 +8363,7 @@ class HomePageState extends State<HomePage>
                                                                           if (docSnapshot10.exists) {
                                                                             Map<String, dynamic>? data10 = docSnapshot10.data();
 
-                                                                            for(int i = 0; i < int.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                            for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
                                                                               subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
                                                                               subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
                                                                               print('inStock' + (i+1).toString());
@@ -8368,21 +8376,21 @@ class HomePageState extends State<HomePage>
 
                                                                           if(str.split('^')[3] == 'unit_name') {
                                                                             decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                            prodSaleData(str.split('^')[0], int.parse(str.split('^')[4].toString()));
+                                                                            prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
                                                                             // await productsFire.update({
-                                                                            //   'mainSellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
+                                                                            //   'mainSellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                             // });
 
                                                                           } else if(str.split('^')[3] == 'sub1_name') {
                                                                             sub1Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
                                                                             productsFire.doc(str.split('^')[0]).update({
-                                                                              'sub1SellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
+                                                                              'sub1SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                             });
 
                                                                           } else if(str.split('^')[3] == 'sub2_name') {
                                                                             sub2Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
                                                                             productsFire.doc(str.split('^')[0]).update({
-                                                                              'sub2SellUnit' : FieldValue.increment(int.parse(str.split('^')[4].toString())),
+                                                                              'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
                                                                             });
                                                                           }
                                                                         });
@@ -8471,7 +8479,7 @@ class HomePageState extends State<HomePage>
                                                                                     description: prodList[i].split('^')[1],
                                                                                     // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
                                                                                     date: subNameList[i].toString(),
-                                                                                    quantity: int.parse(prodList[i].split('^')[4]),
+                                                                                    quantity: double.parse(prodList[i].split('^')[4]),
                                                                                     vat: discountAmount,
                                                                                     debt: debt,
                                                                                     type: disText,
@@ -8708,8 +8716,8 @@ class HomePageState extends State<HomePage>
                                                                   GestureDetector(
                                                                     onTap: () {
                                                                       mystate(() {
-                                                                        quantity = int.parse(myController.text) -1;
-                                                                        myController.text = quantity.toString();
+                                                                        quantity = double.parse(myController.text) -1;
+                                                                        myController.text = quantity.toString().replaceAll(regex, '');
                                                                         print('qqq' + quantity.toString());
                                                                       });
                                                                     },
@@ -8772,7 +8780,7 @@ class HomePageState extends State<HomePage>
                                                                       keyboardType: TextInputType.number,
                                                                       onChanged: (value) {
                                                                         setState(() {
-                                                                          quantity = int.parse(value);
+                                                                          quantity = double.parse(value);
                                                                         });
                                                                       },
                                                                       controller: myController,
@@ -8783,8 +8791,8 @@ class HomePageState extends State<HomePage>
                                                                     onTap: () {
                                                                       setState(() {
                                                                         mystate(() {
-                                                                          quantity = int.parse(myController.text) +1;
-                                                                          myController.text = quantity.toString();
+                                                                          quantity = double.parse(myController.text) +1;
+                                                                          myController.text = quantity.toString().replaceAll(regex, '');
                                                                           print('qqq' + quantity.toString());
                                                                         });
                                                                       });
@@ -10031,7 +10039,7 @@ class HomePageState extends State<HomePage>
     double total = 0;
     print(prodList.toString());
     for (String str in prodList) {
-      total += double.parse(str.split('^')[2]) * int.parse(str.split('^')[4]);
+      total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
     }
     return total.toString();
   }
@@ -10040,7 +10048,7 @@ class HomePageState extends State<HomePage>
     double total = 0;
     print(prodList2.toString());
     for (String str in prodList2) {
-      total += double.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
+      total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
     }
     return total.toString();
   }
@@ -10049,7 +10057,7 @@ class HomePageState extends State<HomePage>
     double total = 0;
     print(prodList.toString());
     for (String str in prodList) {
-      total += int.parse(str.split('^')[2]) * int.parse(str.split('^')[4]);
+      total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
       disPercent = (double.parse(total.toString()) *
           (discountAmount / 100)).round();
     }
@@ -10090,7 +10098,7 @@ class HomePageState extends State<HomePage>
     return total.toString();
   }
   zeroToTen(String string) {
-    if (int.parse(string) > 9) {
+    if (double.parse(string) > 9) {
       return string;
     } else {
       return '0' + string;
@@ -10348,7 +10356,7 @@ class HomePageState extends State<HomePage>
     if(split == 'main') {
       return 'inStock1';
     } else {
-      return 'inStock' + (int.parse(split[3]) + 1).toString();
+      return 'inStock' + (double.parse(split[3]) + 1).toString();
     }
   }
 
@@ -10445,8 +10453,8 @@ class HomePageState extends State<HomePage>
       if(subStock[1] > double.parse(num)) {
         decStockFromInv(id, 'sub1', num);
       } else {
-        decStockFromInv(id, 'main', ((int.parse(num)  - subStock[1])/int.parse(subLink[0])).ceil());
-        incStockFromInv(id, 'sub1', ((int.parse(num)-subStock[1].round()) % int.parse(subLink[0])) == 0? 0: (int.parse(subLink[0]) - (int.parse(num)-subStock[1].round()) % int.parse(subLink[0])));
+        decStockFromInv(id, 'main', ((double.parse(num)  - subStock[1])/double.parse(subLink[0])).ceil());
+        incStockFromInv(id, 'sub1', ((double.parse(num)-subStock[1].round()) % double.parse(subLink[0])) == 0? 0: (double.parse(subLink[0]) - (double.parse(num)-subStock[1].round()) % double.parse(subLink[0])));
         decStockFromInv(id, 'sub1', subStock[1]);
       }
     }
@@ -10460,9 +10468,9 @@ class HomePageState extends State<HomePage>
       if(subStock[2] > double.parse(num)) {
         decStockFromInv(id, 'sub2', num);
       } else {
-        await incStockFromInv(id, 'sub2', ((int.parse(num)-subStock[2].round()) % int.parse(subLink[1])) == 0? 0: (int.parse(subLink[1]) - (int.parse(num)-subStock[2].round()) % int.parse(subLink[1])));
+        await incStockFromInv(id, 'sub2', ((double.parse(num)-subStock[2].round()) % double.parse(subLink[1])) == 0? 0: (double.parse(subLink[1]) - (double.parse(num)-subStock[2].round()) % double.parse(subLink[1])));
         await decStockFromInv(id, 'sub2', subStock[2]);
-        sub1Execution(subStock, subLink, id, ((int.parse(num)  - subStock[2])/int.parse(subLink[1])).ceil().toString());
+        sub1Execution(subStock, subLink, id, ((double.parse(num)  - subStock[2])/double.parse(subLink[1])).ceil().toString());
       }
     }
   }
