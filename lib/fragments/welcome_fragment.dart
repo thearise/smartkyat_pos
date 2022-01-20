@@ -104,6 +104,7 @@ class _WelcomeState extends State<Welcome>
                   isLoading = false;
                 });
               });
+              Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
             }
           });
         });

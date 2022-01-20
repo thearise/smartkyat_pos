@@ -1206,5 +1206,31 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
 
 }
 
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  @override
+  bool get opaque => false;
+  FadeRoute({required this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+    transitionDuration: Duration(milliseconds: 100),
+    reverseTransitionDuration: Duration(milliseconds: 150),
+  );
+}
 
 
