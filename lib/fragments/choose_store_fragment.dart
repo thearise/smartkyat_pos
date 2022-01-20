@@ -369,42 +369,76 @@ class chooseStoreState extends State<chooseStore> {
                       return Container();
                     }
                 ),
-                ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width,
-                  splashColor: Colors.transparent,
+                Container(
+                  color: Colors.white,
                   height: 50,
-                  child: FlatButton(
-                    color: AppTheme.buttonColor2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(10.0),
-                      side: BorderSide(
-                        color: AppTheme.buttonColor2,
-                      ),
-                    ),
-                    onPressed: () async {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5.0,
-                          right: 5.0,
-                          bottom: 3.0),
-                      child: Container(
-                        child: Text(
-                          'Create new shop',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing:-0.1
+                  child: Row(
+                    children: [
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => AddShop()),);
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
+                          },
+                          child: Container(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Create new shop', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),),
+                                SizedBox(width: 5),
+                                Icon(
+                                  Icons.add_circle_rounded,
+                                  color: Colors.blue,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      SizedBox(width: 15),
+                    ],
                   ),
                 ),
-                SizedBox(height: 20,),
+                // ButtonTheme(
+                //   minWidth: MediaQuery.of(context).size.width,
+                //   splashColor: Colors.transparent,
+                //   height: 50,
+                //   child: FlatButton(
+                //     color: AppTheme.buttonColor2,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius:
+                //       BorderRadius.circular(10.0),
+                //       side: BorderSide(
+                //         color: AppTheme.buttonColor2,
+                //       ),
+                //     ),
+                //     onPressed: () async {
+                //       Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
+                //     },
+                //     child: Padding(
+                //       padding: const EdgeInsets.only(
+                //           left: 5.0,
+                //           right: 5.0,
+                //           bottom: 3.0),
+                //       child: Container(
+                //         child: Text(
+                //           'Create new shop',
+                //           textAlign: TextAlign.center,
+                //           style: TextStyle(
+                //               fontSize: 18,
+                //               fontWeight: FontWeight.w600,
+                //               letterSpacing:-0.1
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                SizedBox(height: 10,),
                 Text('Set up some information about your shop later in shop settings.'),
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
@@ -440,7 +474,7 @@ class chooseStoreState extends State<chooseStore> {
                                 'Logout',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 17.5,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing:-0.1
                                 ),
@@ -466,12 +500,12 @@ class chooseStoreState extends State<chooseStore> {
                               ),
                             ),
                             onPressed: () async {
+                              setState(() {
+                                loadingState = true;
+                              });
                               try {
                                 final result = await InternetAddress.lookup('google.com');
                                 if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                  setState(() {
-                                    loadingState = true;
-                                  });
                                   setStoreId(_result);
                                   _getId().then((value1) async {
                                     print('IDD ' + value1.toString());
@@ -501,7 +535,10 @@ class chooseStoreState extends State<chooseStore> {
                                   });
                                 }
                               } on SocketException catch (_) {
-                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                setState(() {
+                                  loadingState = false;
+                                });
                               }
                             },
                             child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
@@ -515,7 +552,7 @@ class chooseStoreState extends State<chooseStore> {
                                   'Go to dashboard',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 17.5,
                                       fontWeight: FontWeight.w600,
                                       letterSpacing:-0.1
                                   ),
