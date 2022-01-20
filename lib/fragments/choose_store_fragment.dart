@@ -408,81 +408,203 @@ class chooseStoreState extends State<chooseStore> {
                 Text('Set up some information about your shop later in shop settings.'),
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
-                  child: ButtonTheme(
-                    minWidth: MediaQuery.of(context).size.width,
-                    splashColor: Colors.transparent,
-                    height: 50,
-                    child: FlatButton(
-                      color: AppTheme.themeColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(10.0),
-                        side: BorderSide(
-                          color: AppTheme.themeColor,
-                        ),
-                      ),
-                      onPressed: () async {
-                        try {
-                          final result = await InternetAddress.lookup('google.com');
-                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                            setState(() {
-                              loadingState = true;
-                            });
-                            setStoreId(_result);
-                            _getId().then((value1) async {
-                              print('IDD ' + value1.toString());
-                              await FirebaseFirestore.instance.collection('shops').doc(_result).update({
-                                'devices': FieldValue.arrayUnion([value1.toString()]),
-                              }).then((value3) async {
-                                print('done');
-                                await FirebaseFirestore.instance.collection('shops').doc(_result)
-                                // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
-                                    .get().then((value2) async {
-                                  List devicesList = value2.data()!['devices'];
-                                  int? deviceIdNum;
-                                  for(int i = 0; i < devicesList.length; i++) {
-                                    if(devicesList[i] == value1.toString()) {
-                                      print('DV LIST ' + devicesList[i].toString());
-                                      setState(() {
-                                        deviceIdNum = i;
-                                        print('DV LIST 2 ' + deviceIdNum.toString());
-                                      });
-                                    }
-                                  }
-                                  setDeviceId(deviceIdNum.toString()).then((value) {
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                  });
-                                });
-                              });
-                            });
-                          }
-                        } on SocketException catch (_) {
-                            smartKyatFlash('Internet connection is required to take this action.', 'w');
-                        }
-                      },
-                      child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                          child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                        padding: const EdgeInsets.only(
-                            left: 5.0,
-                            right: 5.0,
-                            bottom: 3.0),
-                        child: Container(
-                          child: Text(
-                            // 'Switch as $_shop',
-                            'Go to dashboard',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing:-0.1
+                  child: Row(
+                    children: [
+                      ButtonTheme(
+                        // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
+                        splashColor: Colors.transparent,
+                        height: 50,
+                        child: FlatButton(
+                          color: AppTheme.buttonColor2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(10.0),
+                            side: BorderSide(
+                              color: AppTheme.buttonColor2,
+                            ),
+                          ),
+                          onPressed: ()  async {
+                            await FirebaseAuth.instance.signOut();
+                            setStoreId('');
+                            Navigator.of(context).pushReplacement(
+                              FadeRoute(page: Welcome()),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 5.0,
+                                right: 5.0,
+                                bottom: 2.0),
+                            child: Container(
+                              child: Text(
+                                'Logout',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing:-0.1
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: ButtonTheme(
+                          // minWidth: double.infinity,
+                          // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
+                          splashColor: Colors.transparent,
+                          height: 50,
+                          child: FlatButton(
+                            color: AppTheme.themeColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                color: AppTheme.themeColor,
+                              ),
+                            ),
+                            onPressed: () async {
+                              try {
+                                final result = await InternetAddress.lookup('google.com');
+                                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                  setState(() {
+                                    loadingState = true;
+                                  });
+                                  setStoreId(_result);
+                                  _getId().then((value1) async {
+                                    print('IDD ' + value1.toString());
+                                    await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                                      'devices': FieldValue.arrayUnion([value1.toString()]),
+                                    }).then((value3) async {
+                                      print('done');
+                                      await FirebaseFirestore.instance.collection('shops').doc(_result)
+                                      // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                                          .get().then((value2) async {
+                                        List devicesList = value2.data()!['devices'];
+                                        int? deviceIdNum;
+                                        for(int i = 0; i < devicesList.length; i++) {
+                                          if(devicesList[i] == value1.toString()) {
+                                            print('DV LIST ' + devicesList[i].toString());
+                                            setState(() {
+                                              deviceIdNum = i;
+                                              print('DV LIST 2 ' + deviceIdNum.toString());
+                                            });
+                                          }
+                                        }
+                                        setDeviceId(deviceIdNum.toString()).then((value) {
+                                          Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                        });
+                                      });
+                                    });
+                                  });
+                                }
+                              } on SocketException catch (_) {
+                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
+                              }
+                            },
+                            child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5.0,
+                                  right: 5.0,
+                                  bottom: 2.0),
+                              child: Container(
+                                child: Text(
+                                  'Go to dashboard',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing:-0.1
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-
                 ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 50.0, bottom: 40.0),
+                //   child: ButtonTheme(
+                //     minWidth: MediaQuery.of(context).size.width,
+                //     splashColor: Colors.transparent,
+                //     height: 50,
+                //     child: FlatButton(
+                //       color: AppTheme.themeColor,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius:
+                //         BorderRadius.circular(10.0),
+                //         side: BorderSide(
+                //           color: AppTheme.themeColor,
+                //         ),
+                //       ),
+                //       onPressed: () async {
+                //         try {
+                //           final result = await InternetAddress.lookup('google.com');
+                //           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                //             setState(() {
+                //               loadingState = true;
+                //             });
+                //             setStoreId(_result);
+                //             _getId().then((value1) async {
+                //               print('IDD ' + value1.toString());
+                //               await FirebaseFirestore.instance.collection('shops').doc(_result).update({
+                //                 'devices': FieldValue.arrayUnion([value1.toString()]),
+                //               }).then((value3) async {
+                //                 print('done');
+                //                 await FirebaseFirestore.instance.collection('shops').doc(_result)
+                //                 // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
+                //                     .get().then((value2) async {
+                //                   List devicesList = value2.data()!['devices'];
+                //                   int? deviceIdNum;
+                //                   for(int i = 0; i < devicesList.length; i++) {
+                //                     if(devicesList[i] == value1.toString()) {
+                //                       print('DV LIST ' + devicesList[i].toString());
+                //                       setState(() {
+                //                         deviceIdNum = i;
+                //                         print('DV LIST 2 ' + deviceIdNum.toString());
+                //                       });
+                //                     }
+                //                   }
+                //                   setDeviceId(deviceIdNum.toString()).then((value) {
+                //                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                //                   });
+                //                 });
+                //               });
+                //             });
+                //           }
+                //         } on SocketException catch (_) {
+                //             smartKyatFlash('Internet connection is required to take this action.', 'w');
+                //         }
+                //       },
+                //       child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                //           child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                //         padding: const EdgeInsets.only(
+                //             left: 5.0,
+                //             right: 5.0,
+                //             bottom: 3.0),
+                //         child: Container(
+                //           child: Text(
+                //             // 'Switch as $_shop',
+                //             'Go to dashboard',
+                //             textAlign: TextAlign.center,
+                //             style: TextStyle(
+                //                 fontSize: 18,
+                //                 fontWeight: FontWeight.w600,
+                //                 letterSpacing:-0.1
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                //
+                // ),
               ],
             ),
           ),
@@ -523,4 +645,31 @@ class chooseStoreState extends State<chooseStore> {
     }
   }
 
+}
+
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  @override
+  bool get opaque => false;
+  FadeRoute({required this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+    transitionDuration: Duration(milliseconds: 100),
+    reverseTransitionDuration: Duration(milliseconds: 150),
+  );
 }
