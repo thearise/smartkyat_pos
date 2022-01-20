@@ -111,6 +111,8 @@ class ProductsFragmentState extends State<ProductsFragment>
   @override
   bool get wantKeepAlive => true;
 
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+
   var sectionList;
   var sectionList1;
   var sectionList2;
@@ -793,9 +795,9 @@ class ProductsFragmentState extends State<ProductsFragment>
                                           var sub1Name = data['sub1_name'];
                                           var sub2Name = data['sub2_name'];
                                           var mainsPrice = data['unit_sell'];
-                                          var mainQty = data['inStock1'].round();
-                                          var sub1Qty = data['inStock2'].round();
-                                          var sub2Qty = data['inStock3'].round();
+                                          var mainQty = data['inStock1'];
+                                          var sub1Qty = data['inStock2'];
+                                          var sub2Qty = data['inStock3'];
                                           var sub1Price = data['sub1_sell'];
                                           var sub2Price = data['sub2_sell'];
                                           var version = snapshot.data!.docs[index].id;
@@ -941,7 +943,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
                                                               Text(
-                                                                  mainQty.toString()+ ' '  + mainName + ' ',
+                                                                  mainQty.toString() + ' '  + mainName + ' ',
                                                                   textScaleFactor: 1.0,
                                                                   style: TextStyle(
                                                                     height: 1.3,
