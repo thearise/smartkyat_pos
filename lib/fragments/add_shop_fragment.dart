@@ -482,11 +482,12 @@ class _AddShopState extends State<AddShop> {
                                         bottom: 2.0),
                                     child: Container(
                                       child: Text(
-                                        'Cancel',
+                                        'Back',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                                            fontSize: 17.5,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing:-0.1
                                         ),
                                       ),
                                     ),
@@ -587,8 +588,9 @@ class _AddShopState extends State<AddShop> {
                                         'Create shop',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                                            fontSize: 17.5,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing:-0.1
                                         ),
                                       ),
                                     ),

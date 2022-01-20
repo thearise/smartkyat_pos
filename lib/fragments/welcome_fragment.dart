@@ -173,7 +173,7 @@ class _WelcomeState extends State<Welcome>
                         Form(
                           key: _formKey,
                           child: Container(
-                            height: 556,
+                            height: MediaQuery.of(context).size.width > 900? 305 + 40 + (((MediaQuery.of(context).size.width/2) - 30) * (752/1496)) : 305 + 40 + ((MediaQuery.of(context).size.width - 30) * (752/1496)) ,
                             child: TabBarView(
                               physics: NeverScrollableScrollPhysics(),
                               controller: _signupController,
@@ -189,7 +189,7 @@ class _WelcomeState extends State<Welcome>
                                         ),
                                       ),
                                       Container(
-                                        height: 342,
+                                        height: 305,
                                         child: TabBarView(
                                           physics: NeverScrollableScrollPhysics(),
                                           controller: _loginTabController,
@@ -252,7 +252,7 @@ class _WelcomeState extends State<Welcome>
                                                             'Create an account',
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
-                                                                fontSize: 18,
+                                                                fontSize: 17.5,
                                                                 fontWeight: FontWeight.w600,
                                                                 letterSpacing:-0.1
                                                             ),
@@ -519,7 +519,7 @@ class _WelcomeState extends State<Welcome>
                                                                           'Forgot?',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                              fontSize: 18,
+                                                                              fontSize: 17.5,
                                                                               fontWeight: FontWeight.w600,
                                                                               letterSpacing:-0.1
                                                                           ),
@@ -548,14 +548,15 @@ class _WelcomeState extends State<Welcome>
                                                                         setState(() {
                                                                           wrongEmail = null;
                                                                           wrongPassword = null;
+                                                                          loadingState = true;
                                                                         });
                                                                         try {
                                                                           final result = await InternetAddress.lookup('google.com');
                                                                           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                                                             if (_formKey.currentState!.validate()) {
-                                                                              setState(() {
-                                                                                loadingState = true;
-                                                                              });
+                                                                              // setState(() {
+                                                                              //   loadingState = true;
+                                                                              // });
                                                                               try {
                                                                                 await FirebaseAuth.instance.signInWithEmailAndPassword(
                                                                                   email: _email.text,
@@ -582,30 +583,35 @@ class _WelcomeState extends State<Welcome>
                                                                                 });
                                                                               } on FirebaseAuthException catch (e) {
                                                                                 print(e.code.toString());
-                                                                                setState(() {
-                                                                                  loadingState = false;
-                                                                                });
+
                                                                                 if (e.code == 'user-not-found') {
                                                                                   setState(() {
                                                                                     wrongEmail = ' may be incorrect ';
                                                                                     wrongPassword = ' may be incorrect ';
+                                                                                    loadingState = false;
                                                                                   });
                                                                                   print('No user found for that email.');
                                                                                 } else if (e.code == 'wrong-password') {
                                                                                   setState(() {
                                                                                     wrongEmail = ' may be incorrect ';
                                                                                     wrongPassword = ' may be incorrect ';
+                                                                                    loadingState = false;
                                                                                   });
                                                                                   print('Wrong password provided for that user.');
                                                                                 } else if (e.code == 'invalid-email') {
                                                                                   setState(() {
                                                                                     wrongEmail = ' is invalid email ';
+                                                                                    loadingState = false;
                                                                                     // wrongPassword = ' may be incorrect ';
                                                                                   });
                                                                                   print('Invalid email.');
                                                                                 }
                                                                               }
 
+                                                                            } else {
+                                                                              setState(() {
+                                                                                loadingState = false;
+                                                                              });
                                                                             }
                                                                           }
                                                                         } on SocketException catch (_) {
@@ -625,7 +631,7 @@ class _WelcomeState extends State<Welcome>
                                                                             'Login',
                                                                             textAlign: TextAlign.center,
                                                                             style: TextStyle(
-                                                                                fontSize: 18,
+                                                                                fontSize: 17.5,
                                                                                 fontWeight: FontWeight.w600,
                                                                                 letterSpacing:-0.1
                                                                             ),
@@ -1086,7 +1092,7 @@ class _WelcomeState extends State<Welcome>
 //                                                 'Sign up',
 //                                                 textAlign: TextAlign.center,
 //                                                 style: TextStyle(
-//                                                     fontSize: 18,
+//                                                     fontSize: 17.5,
 //                                                     fontWeight: FontWeight.w600,
 //                                                     letterSpacing:-0.1
 //                                                 ),
@@ -1633,7 +1639,7 @@ class _WelcomeState extends State<Welcome>
                                                           'Sign up',
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
-                                                              fontSize: 18,
+                                                              fontSize: 17.5,
                                                               fontWeight: FontWeight.w600,
                                                               letterSpacing:-0.1
                                                           ),
