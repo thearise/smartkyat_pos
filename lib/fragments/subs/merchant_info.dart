@@ -340,7 +340,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                         ),
                                                       ),
                                                       Text(
-                                                        'Edit customer',
+                                                        'Edit merchant',
                                                         textAlign: TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: 14,

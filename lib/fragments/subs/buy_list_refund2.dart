@@ -35,11 +35,16 @@ class _BuyListRefundState extends State<BuyListRefund>
         AutomaticKeepAliveClientMixin<BuyListRefund>{
   @override
   bool get wantKeepAlive => true;
-  List<int> refundItems = [];
-  List<int> deffItems = [];
-
+  List<double> refundItems = [];
+  List<double> deffItems = [];
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+  TextEditingController quantityCtrl = TextEditingController();
   @override
   initState() {
+
+    for(int i=0; i<widget.data2.length; i++) {
+      quantityCtrl.text = widget.data2[i].split('-')[7].toString();
+    }
     // var innerId = '';
     // FirebaseFirestore.instance
     //     .collection('shops')
@@ -376,8 +381,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                           prodListView = [];
                           prodListView.add(prodList[0]);
 
-                          int ttlQtity = int.parse(prodList[0].split('-')[3]);
-                          int ttlRefun = int.parse(prodList[0].split('-')[3]);
+                          double ttlQtity = double.parse(prodList[0].split('-')[3]);
+                          double ttlRefun = double.parse(prodList[0].split('-')[3]);
                           for (int j=1;j< prodList.length; j++) {
                             int k = prodListView.length-1;
                             if(prodList[j].split('-')[0] == prodListView[k].split('-')[0] && prodList[j].split('-')[5] == prodListView[k].split('-')[5]) {
@@ -388,7 +393,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                   prodListView[k].split('-')[8] ;
                             } else {
                               prodListView.add(prodList[j]);
-                              ttlQtity = int.parse(prodList[j].split('-')[3]);
+                              ttlQtity = double.parse(prodList[j].split('-')[3]);
                               ttlRefun += int.parse(prodList[j].split('-')[7]);
                             }
                           }
@@ -397,9 +402,9 @@ class _BuyListRefundState extends State<BuyListRefund>
                             for (int i = 0; i < prodListView.length; i++) {
                               // refundItems[i] = int.parse(prodList[i].split('-')[5]);
                               refundItems
-                                  .add(int.parse(prodListView[i].split('-')[7]));
+                                  .add(double.parse(prodListView[i].split('-')[7]));
                               deffItems
-                                  .add(int.parse(prodListView[i].split('-')[7]));
+                                  .add(double.parse(prodListView[i].split('-')[7]));
                             }
                             initAttempt = true;
                           }
@@ -491,12 +496,13 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                             children: [
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  if(prodListView[i].split('-')[7] == '0' || int.parse(prodListView[i].split('-')[7]) < refundItems[i]) {
+                                                                  if(prodListView[i].split('-')[7] == '0' || double.parse(prodListView[i].split('-')[7]) < refundItems[i]) {
                                                                     setState(() {
                                                                       if (refundItems[i] <= 0) {
                                                                       } else {
                                                                         refundItems[i] =
                                                                             refundItems[i] - 1;
+                                                                        quantityCtrl.text = refundItems[i].toString();
                                                                       }
                                                                     });
                                                                   }
@@ -517,22 +523,62 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                   ),
                                                                 ),
                                                               ),
-                                                              SizedBox(width: 20),
-                                                              Text(refundItems[i].toString(), style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              SizedBox(width: 20),
+                                                              SizedBox(width: 15),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.5),
+                                                                child: Container(
+                                                                  width: 55,
+                                                                  height: 42,
+                                                                  child: TextField(
+                                                                    textAlign: TextAlign.center,
+                                                                    decoration: InputDecoration(
+                                                                      enabledBorder: const OutlineInputBorder(
+                                                                        // width: 0.0 produces a thin "hairline" border
+                                                                          borderSide: const BorderSide(
+                                                                              color: AppTheme.skBorderColor, width: 2.0),
+                                                                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                                                                      focusedBorder: const OutlineInputBorder(
+                                                                        // width: 0.0 produces a thin "hairline" border
+                                                                          borderSide: const BorderSide(
+                                                                              color: AppTheme.skThemeColor2, width: 2.0),
+                                                                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                                      contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                                                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                                                      //filled: true,
+                                                                      border: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius.circular(10),
+                                                                      ),
+                                                                    ),
+                                                                    keyboardType: TextInputType.number,
+                                                                    onChanged: (value) {
+                                                                      setState(() {
+                                                                        if ((double.parse(value)) <=
+                                                                            double.parse(prodListView[i].split('-')[3])) {
+                                                                         refundItems[i] = double.parse(value);
+                                                                        } else refundItems[i] = refundItems[i];
+                                                                      });
+                                                                    },
+                                                                    controller: quantityCtrl,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              // Text(refundItems[i].toString(), style: TextStyle(
+                                                              //   fontSize: 14,
+                                                              //   fontWeight: FontWeight.w500,
+                                                              // ),),
+                                                              SizedBox(width: 15),
                                                               GestureDetector(
                                                                 onTap: () {
                                                                   setState(() {
                                                                     if ((refundItems[i]) >=
-                                                                        int.parse(prodListView[i]
+                                                                        double.parse(prodListView[i]
                                                                             .split('-')[3])) {
                                                                     } else {
                                                                       refundItems[i] =
                                                                           refundItems[i] + 1;
                                                                     }
+                                                                    quantityCtrl.text = refundItems[i].toString();
                                                                   });
                                                                 },
                                                                 child: Container(
@@ -581,7 +627,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                           color: Colors.white,
                                                           width: 2,
                                                         )),
-                                                    child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                    child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
                                                       fontSize: 11, fontWeight: FontWeight.w500,
                                                     )),
                                                   ),
@@ -683,10 +729,10 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                     refundItems[i].toString() +
                                                     '-' +
                                                     prodListView[i].split('-')[8];
-                                                total += (int.parse(prodListView[i]
+                                                total += (double.parse(prodListView[i]
                                                     .split('-')[3]) -
                                                     refundItems[i]) *
-                                                    int.parse(
+                                                    double.parse(
                                                         prodListView[i].split('-')[4]);
 
                                                 if (refundItems[i] > 0) {
@@ -725,7 +771,7 @@ class _BuyListRefundState extends State<BuyListRefund>
 
                                               for(int i=0; i < prodListView.length; i++) {
                                                 // int.parse(ref2Shop[i].split('-')[2])
-                                                int value = int.parse(prodListView[i].split('-')[7]);
+                                                double value = double.parse(prodListView[i].split('-')[7]);
                                                 String prodId = prodListView[i].split('-')[0];
                                                 String prodTp = prodListView[i].split('-')[5];
 
@@ -733,9 +779,9 @@ class _BuyListRefundState extends State<BuyListRefund>
 
                                                 for(int j=0; j< prodList.length; j++) {
                                                   print('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
-                                                  int refund = 0;
-                                                  if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= int.parse(prodList[j].split('-')[3])) {
-                                                    refund = value - int.parse(prodList[j].split('-')[7]);
+                                                  double refund = 0;
+                                                  if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= double.parse(prodList[j].split('-')[3])) {
+                                                    refund = value - double.parse(prodList[j].split('-')[7]);
                                                     print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
                                                     prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
                                                         value.toString() + '-' + prodList[j].split('-')[8];
@@ -757,7 +803,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               print('prodListBef 2 ' + prodListBefore.toString());
                                               List prodRets = prodList;
                                               for(int i=0; i < prodList.length; i++) {
-                                                int refNum = int.parse(prodList[i].split('-')[7]) - int.parse(prodListBefore[i].split('-')[7]);
+                                                double refNum = double.parse(prodList[i].split('-')[7]) - double.parse(prodListBefore[i].split('-')[7]);
                                                 if(refNum > 0) {
                                                   print('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
                                                   var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
@@ -1043,7 +1089,7 @@ class _BuyListRefundState extends State<BuyListRefund>
   }
 
   totalItems() {
-    int totalItems = 0;
+    double totalItems = 0;
     for(int i=0; i<refundItems.length; i++) {
       totalItems += refundItems[i];
     }

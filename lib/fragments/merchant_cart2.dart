@@ -43,7 +43,7 @@ class MerchantCartState extends State<MerchantCart>
   final _formKey = GlobalKey<FormState>();
   bool merchCartCreating = false;
   bool disableTouch = false;
-
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   @override
   initState() {
     deviceIdNum = widget.deviceId;
@@ -64,8 +64,8 @@ class MerchantCartState extends State<MerchantCart>
   double paidAmount2 = 0;
   double refund2 = 0;
   double debt2 = 0;
-  int quantity2 = 0;
-  int price2 = 0;
+  double quantity2 = 0;
+  double price2 = 0;
 
   double discount2 = 0.0;
   double discountAmount2 = 0.0;
@@ -482,8 +482,8 @@ class MerchantCartState extends State<MerchantCart>
                                     onTap: (){
                                       print('error prod' + widget.prodList2[i].toString());
                                       setState((){
-                                        quantity2 = int.parse(widget.prodList2[i].split('^')[2]);
-                                        price2 = int.parse(widget.prodList2[i].split('^')[1]);
+                                        quantity2 = double.parse(widget.prodList2[i].split('^')[2]);
+                                        price2 = double.parse(widget.prodList2[i].split('^')[1]);
                                         eachProd = widget.prodList2[i];
                                         unit = widget.prodList2[i].split('^')[4];
                                         mainName =  output2?['unit_name'];
@@ -578,10 +578,10 @@ class MerchantCartState extends State<MerchantCart>
                                                       ],
                                                     ),
                                                   ),
-                                                  trailing: Text('MMK ' + (int.parse(
+                                                  trailing: Text('MMK ' + (double.parse(
                                                       widget.prodList2[i].split('^')[
                                                       1]) *
-                                                      int.parse(widget.prodList2[
+                                                      double.parse(widget.prodList2[
                                                       i]
                                                           .split(
                                                           '^')[2]))
@@ -858,7 +858,7 @@ class MerchantCartState extends State<MerchantCart>
     double total = 0;
     print(widget.prodList2.toString());
     for (String str in widget.prodList2) {
-      total += int.parse(str.split('^')[1]) * int.parse(str.split('^')[2]);
+      total += double.parse(str.split('^')[1]) * double.parse(str.split('^')[2]);
       disPercent2 = (double.parse(total.toString()) *
           (discountAmount2 / 100)).round();
     }
@@ -963,7 +963,7 @@ class MerchantCartState extends State<MerchantCart>
   fixItems(){
     totalAmount2 = double.parse(TtlProdListPrice2());
     titlePrice = double.parse(buyPriceController.text);
-    totalFixAmount = int.parse(myController.text) * double.parse(buyPriceController.text);
+    totalFixAmount = double.parse(myController.text) * double.parse(buyPriceController.text);
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter mystate) {
           myController.addListener((){
@@ -979,7 +979,7 @@ class MerchantCartState extends State<MerchantCart>
                 (myController.text != '' && buyPriceController.text != '') ? totalFixAmount =int.parse(myController.text) * double.parse(buyPriceController.text) : totalFixAmount = 0.0;
                 if( buyPriceController.text != '') {
                   titlePrice = double.parse(buyPriceController.text);
-                  price2 = int.parse(buyPriceController.text); } else {
+                  price2 = double.parse(buyPriceController.text); } else {
                   titlePrice = 0.0;
                   price2 = 0;
                 }
@@ -1092,7 +1092,7 @@ class MerchantCartState extends State<MerchantCart>
                                           onTap: () {
                                             setState(() {
                                               mystate((){
-                                                quantity2 = int.parse(myController.text) - 1;
+                                                quantity2 = double.parse(myController.text) - 1;
                                                 myController.text = quantity2.toString();
                                                 print('qqq' + quantity2.toString());
                                               });});
@@ -1155,7 +1155,7 @@ class MerchantCartState extends State<MerchantCart>
                                             onChanged: (value) {
                                               setState(() {
                                                 mystate(() {
-                                                  quantity2 = int.parse(value);
+                                                  quantity2 = double.parse(value);
                                                 }); });
                                             },
                                             controller: myController,
@@ -1166,7 +1166,7 @@ class MerchantCartState extends State<MerchantCart>
                                           onTap: () {
                                             setState(() {
                                               mystate((){
-                                                quantity2 = int.parse(myController.text) + 1;
+                                                quantity2 = double.parse(myController.text) + 1;
                                                 myController.text = quantity2.toString();
                                                 print('qqq' + quantity2.toString());
                                               }); });
