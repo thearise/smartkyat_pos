@@ -894,7 +894,7 @@ class HomePageState extends State<HomePage>
                                               child: Container(
                                                 child: Column(
                                                   children: [
-                                                    SizedBox(height: 40),
+                                                    SizedBox(height: 55),
                                                     Center(
                                                       child: Text(
                                                           'You are on pro version', style: TextStyle(
@@ -1147,6 +1147,33 @@ class HomePageState extends State<HomePage>
                               ),
                             ],
                           ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 15.0, right: 15.0, bottom: 15.0, left: 15.0),
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                        color: AppTheme.buttonColor2),
+                                    child: Icon(
+                                      // Icons.home_filled,
+                                      Icons.close_rounded,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
