@@ -46,7 +46,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   bool get wantKeepAlive => true;
   var docId = '';
   String result = '';
-  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   bool _connectionStatus = false;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -812,7 +811,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         ],
                                                       ),
                                                     ),
-                                                    trailing: Text('MMK ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                    trailing: Text('MMK ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                         fontWeight: FontWeight.w500,
@@ -848,7 +847,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     )),
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                  child: Text((double.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString().replaceAll(regex, ''), style: TextStyle(
+                                                  child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
                                                       fontSize: 11, fontWeight: FontWeight.w500
                                                   )),
                                                 ),

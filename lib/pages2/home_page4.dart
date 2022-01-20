@@ -7692,7 +7692,7 @@ class HomePageState extends State<HomePage>
                                                                                   padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
                                                                                   child: Text(prodList[i]
                                                                                       .split(
-                                                                                      '^')[4].replaceAll(regex, ''), style: TextStyle(
+                                                                                      '^')[4], style: TextStyle(
                                                                                       fontSize: 11, fontWeight: FontWeight.w500
                                                                                   )),
                                                                                 ),
@@ -8717,7 +8717,7 @@ class HomePageState extends State<HomePage>
                                                                     onTap: () {
                                                                       mystate(() {
                                                                         quantity = double.parse(myController.text) -1;
-                                                                        myController.text = quantity.toString().replaceAll(regex, '');
+                                                                        myController.text = quantity.toString();
                                                                         print('qqq' + quantity.toString());
                                                                       });
                                                                     },
@@ -8792,7 +8792,7 @@ class HomePageState extends State<HomePage>
                                                                       setState(() {
                                                                         mystate(() {
                                                                           quantity = double.parse(myController.text) +1;
-                                                                          myController.text = quantity.toString().replaceAll(regex, '');
+                                                                          myController.text = quantity.toString();
                                                                           print('qqq' + quantity.toString());
                                                                         });
                                                                       });

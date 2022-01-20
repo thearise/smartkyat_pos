@@ -41,6 +41,10 @@ class _BuyListRefundState extends State<BuyListRefund>
   TextEditingController quantityCtrl = TextEditingController();
   @override
   initState() {
+
+    for(int i=0; i<widget.data2.length; i++) {
+      quantityCtrl.text = widget.data2[i].split('-')[7].toString();
+    }
     // var innerId = '';
     // FirebaseFirestore.instance
     //     .collection('shops')
@@ -404,9 +408,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                             }
                             initAttempt = true;
                           }
-                          for(int i=0; i<refundItems.length; i++) {
-                               quantityCtrl.text = refundItems[i].toString();
-                          }
+
                           return Expanded(
                             child: ListView(
                               children: [
@@ -625,7 +627,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                           color: Colors.white,
                                                           width: 2,
                                                         )),
-                                                    child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString().replaceAll(regex, ''), style: TextStyle(
+                                                    child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
                                                       fontSize: 11, fontWeight: FontWeight.w500,
                                                     )),
                                                   ),
@@ -779,7 +781,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   print('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
                                                   double refund = 0;
                                                   if(prodId == prodList[j].split('-')[0] && prodTp == prodList[j].split('-')[5] && value <= double.parse(prodList[j].split('-')[3])) {
-                                                    refund = value - int.parse(prodList[j].split('-')[7]);
+                                                    refund = value - double.parse(prodList[j].split('-')[7]);
                                                     print('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('-')[7]);
                                                     prodList[j] = prodList[j].split('-')[0] + '-' + prodList[j].split('-')[1] + '-' + prodList[j].split('-')[2] + '-' + prodList[j].split('-')[3] + '-' + prodList[j].split('-')[4] + '-' + prodList[j].split('-')[5] + '-' + prodList[j].split('-')[6] + '-' +
                                                         value.toString() + '-' + prodList[j].split('-')[8];
@@ -801,7 +803,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               print('prodListBef 2 ' + prodListBefore.toString());
                                               List prodRets = prodList;
                                               for(int i=0; i < prodList.length; i++) {
-                                                double refNum = double.parse(prodList[i].split('-')[7]) - int.parse(prodListBefore[i].split('-')[7]);
+                                                double refNum = double.parse(prodList[i].split('-')[7]) - double.parse(prodListBefore[i].split('-')[7]);
                                                 if(refNum > 0) {
                                                   print('pyan thwin ' + prodList[i].split('-')[0] + '-' + prodList[i].split('-')[1] + '-' + refNum.toString());
                                                   var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)

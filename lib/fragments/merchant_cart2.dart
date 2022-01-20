@@ -619,7 +619,7 @@ class MerchantCartState extends State<MerchantCart>
                                                     color: Colors.white,
                                                     width: 2,
                                                   )),
-                                              child: Text(widget.prodList2[i].split('^')[2].replaceAll(regex, ''), style: TextStyle(
+                                              child: Text(widget.prodList2[i].split('^')[2], style: TextStyle(
                                                 fontSize: 11, fontWeight: FontWeight.w500,
                                               )),
                                             ),
@@ -1093,7 +1093,7 @@ class MerchantCartState extends State<MerchantCart>
                                             setState(() {
                                               mystate((){
                                                 quantity2 = double.parse(myController.text) - 1;
-                                                myController.text = quantity2.toString().replaceAll(regex, '');
+                                                myController.text = quantity2.toString();
                                                 print('qqq' + quantity2.toString());
                                               });});
                                           },
@@ -1167,7 +1167,7 @@ class MerchantCartState extends State<MerchantCart>
                                             setState(() {
                                               mystate((){
                                                 quantity2 = double.parse(myController.text) + 1;
-                                                myController.text = quantity2.toString().replaceAll(regex, '');
+                                                myController.text = quantity2.toString();
                                                 print('qqq' + quantity2.toString());
                                               }); });
                                           },

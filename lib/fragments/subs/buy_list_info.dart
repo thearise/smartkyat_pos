@@ -1041,7 +1041,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     )),
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                  child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString().replaceAll(regex, ''), style: TextStyle(
+                                                  child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
                                                       fontSize: 11, fontWeight: FontWeight.w500
                                                   )),
                                                 ),

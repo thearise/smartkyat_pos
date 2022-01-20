@@ -358,7 +358,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
     super.initState();
   }
-
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -393,9 +393,9 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                 // var mainLoss = output?['Loss1'].round();
                 // var sub1Loss = output?['Loss2'].round();
                 // var sub2Loss = output?['Loss3'].round();
-                var mainQty = output?['inStock1'].round();
-                var sub1Qty = output?['inStock2'].round();
-                var sub2Qty = output?['inStock3'].round();
+                var mainQty = output?['inStock1'];
+                var sub1Qty = output?['inStock2'];
+                var sub2Qty = output?['inStock3'];
                 var image = output?['img_1'];
                 var totalSale = output?['mainSellUnit'];
                 var totalSale2 = output?['mainSellUnit'];
