@@ -494,10 +494,26 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ),
                                                 onPressed: () async {
+                                                  result = widget.data
+                                                      .split('^')[0] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[1] +
+                                                      '^' +
+                                                      totalPrice
+                                                          .toString() +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[3] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                      .split('^')[6];
+
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: widget.data, prodList: prodListPrint, shopId: widget.shopId))
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId))
                                                   );
                                                 },
                                                 child: Container(
@@ -657,10 +673,26 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ),
                                                 onPressed: () async {
+                                                  result = widget.data
+                                                      .split('^')[0] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[1] +
+                                                      '^' +
+                                                      totalPrice
+                                                          .toString() +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[3] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                      .split('^')[6];
+
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: widget.data, prodList: prodListPrint, shopId: widget.shopId))
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId))
                                                   );
                                                 },
                                                 child: Container(
@@ -739,15 +771,14 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                           prodListPrint.add(
                                             output2?['prod_name'] + '^' +
                                             output2?[prodListView[i].split('-')[5]] + '^' +
-                                            prodListView[i].split('-')[4] + '^' +
-                                            prodListView[i].split('-')[3] + '^'
+                                            prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                           );
                                         } else {
                                           prodListPrint.add(
                                             output2?['prod_name'] + '^' +
                                             output2?[prodListView[i].split('-')[5]] + '^' +
                                             prodListView[i].split('-')[4] + '^' +
-                                            prodListView[i].split('-')[3] + '^'
+                                                (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                           );
                                         }
                                         return  Stack(
@@ -847,7 +878,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     )),
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                  child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                  child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
                                                       fontSize: 11, fontWeight: FontWeight.w500
                                                   )),
                                                 ),
@@ -1145,7 +1176,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       )),
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                    child: Text(prodListView[i].split('-')[7].toString(), style: TextStyle(
+                                                    child: Text(double.parse(prodListView[i].split('-')[7]).round().toString(), style: TextStyle(
                                                         fontSize: 11, fontWeight: FontWeight.w500
                                                     )),
                                                   ),

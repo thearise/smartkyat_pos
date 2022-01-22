@@ -687,10 +687,26 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   ),
                                                 ),
                                                 onPressed: () async {
+                                                  result = widget.data
+                                                      .split('^')[0] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[1] +
+                                                      '^' +
+                                                      totalPrice
+                                                          .toString() +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[3] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                      .split('^')[6];
+
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: widget.data, prodList: prodListPrint, shopId: widget.shopId))
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId))
                                                   );
 
                                                 },
@@ -851,10 +867,26 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   ),
                                                 ),
                                                 onPressed: () async {
+                                                  result = widget.data
+                                                      .split('^')[0] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[1] +
+                                                      '^' +
+                                                      totalPrice
+                                                          .toString() +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[3] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                      .split('^')[6];
+
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: widget.data, prodList: prodListPrint, shopId: widget.shopId))
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId))
                                                   );
                                                 },
                                                 child: Container(
@@ -924,7 +956,6 @@ class _BuyListInfoState extends State<BuyListInfo>
                                         .snapshots(),
                                     builder: (BuildContext context, snapshot2) {
                                       if (snapshot2.hasData) {
-
                                         var output2 = snapshot2.data!.data();
                                         var image = output2?['img_1'];
                                         print('image htwet ' + prodListView[i].toString());
@@ -933,15 +964,14 @@ class _BuyListInfoState extends State<BuyListInfo>
                                           prodListPrint.add(
                                               output2?['prod_name'] + '^' +
                                                   output2?[prodListView[i].split('-')[5]] + '^' +
-                                                  prodListView[i].split('-')[4] + '^' +
-                                                  prodListView[i].split('-')[3] + '^'
+                                                  prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                           );
                                         } else {
                                           prodListPrint.add(
                                               output2?['prod_name'] + '^' +
                                                   output2?[prodListView[i].split('-')[5]] + '^' +
                                                   prodListView[i].split('-')[4] + '^' +
-                                                  prodListView[i].split('-')[3] + '^'
+                                                  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                           );
                                         }
                                         return  Stack(
