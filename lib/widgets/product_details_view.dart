@@ -1187,7 +1187,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(mainQty.toString() + ' ' + mainName, style:
+                                                                      Text(mainQty.round().toString() + ' ' + mainName, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1304,7 +1304,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(totalSale.toString() + ' $mainName', style:
+                                                                      Text(totalSale.round().toString() + ' $mainName', style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1454,7 +1454,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text( sub1Qty.toString() + ' ' + sub1Name, style:
+                                                                      Text( sub1Qty.round().toString() + ' ' + sub1Name, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1571,7 +1571,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(totalSale2.toString() + ' $sub1Name', style:
+                                                                      Text(totalSale2.round().toString() + ' $sub1Name', style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1721,7 +1721,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text(sub2Qty.toString() + ' ' + sub2Name, style:
+                                                                      Text(sub2Qty.round().toString() + ' ' + sub2Name, style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1835,7 +1835,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                       ),
                                                                       ),
                                                                       Spacer(),
-                                                                      Text(totalSale3.toString() + ' $sub2Name', style:
+                                                                      Text(totalSale3.round().toString() + ' $sub2Name', style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,

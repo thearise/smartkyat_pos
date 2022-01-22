@@ -89,17 +89,17 @@ class _EditProductState extends State<EditProduct> {
   void initState() {
     prodNameCtrl.text = widget.prodName;
     barCodeCtrl.text = widget.barcode;
-    mainQtyCtrl.text = widget.mainQty;
+    mainQtyCtrl.text = double.parse(widget.mainQty).round().toString();
     mainUnitNameCtrl.text = widget.mainName;
     mainBuyCtrl.text = widget.mainBuy;
     mainSellCtrl.text = widget.mainSell;
     sub1perUnitCtrl.text = widget.sub1perUnit;
     sub1UnitNameCtrl.text = widget.sub1UnitName;
-    sub1QtyCtrl.text = widget.sub1Qty;
+    sub1QtyCtrl.text = double.parse(widget.sub1Qty).round().toString();
     sub1SellCtrl.text = widget.sub1Sell;
     sub2perUnitCtrl.text = widget.sub2perUnit;
     sub2UnitNameCtrl.text = widget.sub2UnitName;
-    sub2QtyCtrl.text = widget.sub2Qty;
+    sub2QtyCtrl.text = double.parse(widget.sub2Qty).round().toString();
     sub2SellCtrl.text = widget.sub2Sell;
     subExist = widget.subExist;
     photoArray = widget.image;
@@ -944,16 +944,16 @@ class _EditProductState extends State<EditProduct> {
                                     productId.doc(widget.prodId).update({
                                       'prod_name' : prodNameCtrl.text,
                                       'bar_code' : barCodeCtrl.text,
-                                      'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                                      'inStock1' : double.parse(mainQtyCtrl.text.toString()),
                                       'unit_name' : mainUnitNameCtrl.text,
                                       'buyPrice1' : mainBuyCtrl.text,
                                       'unit_sell' : mainSellCtrl.text,
                                       'sub_exist' : subExistChange,
-                                      'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                                      'inStock2' : double.parse(sub1QtyCtrl.text.toString()),
                                       'sub1_link' : sub1perUnitCtrl.text,
                                       'sub1_name' : sub1UnitNameCtrl.text,
                                       'sub1_sell' : sub1SellCtrl.text,
-                                      'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                                      'inStock3' : double.parse(sub2QtyCtrl.text.toString()),
                                       'sub2_link' : sub2perUnitCtrl.text,
                                       'sub2_name' : sub2UnitNameCtrl.text,
                                       'sub2_sell' : sub2SellCtrl.text,
@@ -984,16 +984,16 @@ class _EditProductState extends State<EditProduct> {
                                           productId.doc(widget.prodId).update({
                                             'prod_name' : prodNameCtrl.text,
                                             'bar_code' : barCodeCtrl.text,
-                                            'inStock1' : int.parse(mainQtyCtrl.text.toString()),
+                                            'inStock1' : double.parse(mainQtyCtrl.text.toString()),
                                             'unit_name' : mainUnitNameCtrl.text,
                                             'buyPrice1' : mainBuyCtrl.text,
                                             'unit_sell' : mainSellCtrl.text,
                                             'sub_exist' : subExistChange,
-                                            'inStock2' : int.parse(sub1QtyCtrl.text.toString()),
+                                            'inStock2' : double.parse(sub1QtyCtrl.text.toString()),
                                             'sub1_link' : sub1perUnitCtrl.text,
                                             'sub1_name' : sub1UnitNameCtrl.text,
                                             'sub1_sell' : sub1SellCtrl.text,
-                                            'inStock3' : int.parse(sub2QtyCtrl.text.toString()),
+                                            'inStock3' : double.parse(sub2QtyCtrl.text.toString()),
                                             'sub2_link' : sub2perUnitCtrl.text,
                                             'sub2_name' : sub2UnitNameCtrl.text,
                                             'sub2_sell' : sub2SellCtrl.text,
