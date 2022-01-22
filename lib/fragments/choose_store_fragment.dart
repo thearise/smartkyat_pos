@@ -168,8 +168,8 @@ class chooseStoreState extends State<chooseStore> {
           behavior: FlashBehavior.floating,
           position: FlashPosition.top,
           child: Padding(
-            padding: const EdgeInsets.only(
-                top: 93.0, left: 15, right: 15),
+            padding: EdgeInsets.only(
+                top: 25, left: 15, right: 15),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
@@ -506,7 +506,6 @@ class chooseStoreState extends State<chooseStore> {
                               try {
                                 final result = await InternetAddress.lookup('google.com');
                                 if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                  setStoreId(_result);
                                   _getId().then((value1) async {
                                     print('IDD ' + value1.toString());
                                     await FirebaseFirestore.instance.collection('shops').doc(_result).update({
@@ -516,20 +515,40 @@ class chooseStoreState extends State<chooseStore> {
                                       await FirebaseFirestore.instance.collection('shops').doc(_result)
                                       // .where('date', isGreaterThanOrEqualTo: todayToYearStart(now))
                                           .get().then((value2) async {
-                                        List devicesList = value2.data()!['devices'];
-                                        int? deviceIdNum;
-                                        for(int i = 0; i < devicesList.length; i++) {
-                                          if(devicesList[i] == value1.toString()) {
-                                            print('DV LIST ' + devicesList[i].toString());
+                                        var isPro = value2.data()!['is_pro'];
+                                        String shopName = value2.data()!['shop_name'];
+                                        Timestamp isProStart = isPro['start'];
+                                        Timestamp isProEnd = isPro['end'];
+
+                                        DateTime startDate = isProStart.toDate();
+                                        DateTime endDate = isProEnd.toDate();
+
+                                        DateTime nowCheck = DateTime.now();
+
+                                        if(!(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck))) {
+                                          Future.delayed(const Duration(milliseconds: 500), () {
+                                            smartKyatFlash('$shopName shop pro version ended', 'e');
                                             setState(() {
-                                              deviceIdNum = i;
-                                              print('DV LIST 2 ' + deviceIdNum.toString());
+                                              loadingState = false;
                                             });
+                                          });
+                                        } else {
+                                          setStoreId(_result);
+                                          List devicesList = value2.data()!['devices'];
+                                          int? deviceIdNum;
+                                          for(int i = 0; i < devicesList.length; i++) {
+                                            if(devicesList[i] == value1.toString()) {
+                                              print('DV LIST ' + devicesList[i].toString());
+                                              setState(() {
+                                                deviceIdNum = i;
+                                                print('DV LIST 2 ' + deviceIdNum.toString());
+                                              });
+                                            }
                                           }
+                                          setDeviceId(deviceIdNum.toString()).then((value) {
+                                            Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
+                                          });
                                         }
-                                        setDeviceId(deviceIdNum.toString()).then((value) {
-                                          Navigator.of(context).pushReplacement(FadeRoute(page: HomePage()));
-                                        });
                                       });
                                     });
                                   });
