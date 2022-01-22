@@ -109,10 +109,10 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
               // vat: discountAmount,
               // type: disText,
               // debt: debt,
-              vat: 100,
-              type: '100',
-              debt: 100,
-              unitPrice: 100,
+              vat: double.parse(widget.data.split('^')[6].split('-')[0]),
+              type: widget.data.split('^')[6] != '0.0' ? '-' + (widget.data.split('^')[6].split('-')[1]).toString() : '',
+              debt: double.parse(widget.data.split('^')[5]),
+              unitPrice: double.parse(widget.prodList[i].split('^')[2]),
               // unitPrice: double.parse(prodList[i].split('^')[2]),
             )
 

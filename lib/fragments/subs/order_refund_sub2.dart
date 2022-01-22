@@ -40,12 +40,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   List<double> refundItems = [];
   List<double> deffItems = [];
-  TextEditingController quantityCtrl = TextEditingController();
+  // TextEditingController quantityCtrl = TextEditingController();
+  List<TextEditingController> quantityCtrlList = [];
  // var documentId = '';
   @override
   initState() {
     for(int i=0; i<widget.data2.length; i++) {
-      quantityCtrl.text = widget.data2[i].split('-')[7].toString();
+      quantityCtrlList.add(TextEditingController());
+      quantityCtrlList[i].text = widget.data2[i].split('-')[7].toString();
     }
     print('phyopyaesohn' + widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00');
     // var innerId = '';
@@ -325,7 +327,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                           } else {
                                                                             refundItems[i] =
                                                                                 refundItems[i] - 1;
-                                                                            quantityCtrl.text = refundItems[i].toString();
+                                                                            quantityCtrlList[i].text = refundItems[i].toString();
                                                                           }
                                                                         });
                                                                       }
@@ -382,7 +384,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                             } else refundItems[i] = refundItems[i];
                                                                           });
                                                                         },
-                                                                        controller: quantityCtrl,
+                                                                        controller: quantityCtrlList[i],
                                                                       ),
                                                                     ),
                                                                   ),
@@ -401,7 +403,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                           refundItems[i] =
                                                                               refundItems[i] + 1;
                                                                         }
-                                                                        quantityCtrl.text = refundItems[i].toString();
+                                                                        quantityCtrlList[i].text = refundItems[i].toString();
                                                                       });
                                                                     },
                                                                     child: Container(

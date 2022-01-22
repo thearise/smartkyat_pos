@@ -10383,7 +10383,7 @@ class HomePageState extends State<HomePage>
     if(split == 'main') {
       return 'inStock1';
     } else {
-      return 'inStock' + (double.parse(split[3]) + 1).toString();
+      return 'inStock' + (int.parse(split[3]) + 1).toString();
     }
   }
 
@@ -10449,6 +10449,7 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> decStockFromInv(id, unit, num) async {
+    print('Double Check Sub1');
     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
     // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));

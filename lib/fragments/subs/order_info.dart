@@ -194,11 +194,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                     ),),
 
                                   Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                   // Text(widget.selectedDev.toString())
                                 ],
                               ),
@@ -494,10 +494,26 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ),
                                                 onPressed: () async {
+                                                  result = widget.data
+                                                      .split('^')[0] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[1] +
+                                                      '^' +
+                                                      totalPrice
+                                                          .toString() +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[3] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                      .split('^')[6];
+
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: widget.data, prodList: prodListPrint, shopId: widget.shopId))
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId))
                                                   );
                                                 },
                                                 child: Container(
@@ -657,10 +673,26 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ),
                                                 onPressed: () async {
+                                                  result = widget.data
+                                                      .split('^')[0] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[1] +
+                                                      '^' +
+                                                      totalPrice
+                                                          .toString() +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[3] +
+                                                      '^' +
+                                                      widget.data
+                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                      .split('^')[6];
+
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: widget.data, prodList: prodListPrint, shopId: widget.shopId))
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId))
                                                   );
                                                 },
                                                 child: Container(
@@ -737,17 +769,16 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         if(i == 0) {
                                           prodListPrint = [];
                                           prodListPrint.add(
-                                            output2?['prod_name'] + '^' +
-                                            output2?[prodListView[i].split('-')[5]] + '^' +
-                                            prodListView[i].split('-')[4] + '^' +
-                                            prodListView[i].split('-')[3] + '^'
+                                              output2?['prod_name'] + '^' +
+                                                  output2?[prodListView[i].split('-')[5]] + '^' +
+                                                  prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                           );
                                         } else {
                                           prodListPrint.add(
-                                            output2?['prod_name'] + '^' +
-                                            output2?[prodListView[i].split('-')[5]] + '^' +
-                                            prodListView[i].split('-')[4] + '^' +
-                                            prodListView[i].split('-')[3] + '^'
+                                              output2?['prod_name'] + '^' +
+                                                  output2?[prodListView[i].split('-')[5]] + '^' +
+                                                  prodListView[i].split('-')[4] + '^' +
+                                                  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                           );
                                         }
                                         return  Stack(
@@ -759,41 +790,41 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   SizedBox(height: 12),
                                                   ListTile(
                                                     leading: ClipRRect(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            5.0),
-                                                        child: image != "" || image != null
-                                                            ? CachedNetworkImage(
-                                                          imageUrl:
-                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                              image,
-                                                          width: 58,
-                                                          height: 58,
-                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                          errorWidget: (context,
-                                                              url,
-                                                              error) =>
-                                                              Icon(Icons
-                                                                  .error),
-                                                          fadeInDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              100),
-                                                          fadeOutDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              10),
-                                                          fadeInCurve:
-                                                          Curves
-                                                              .bounceIn,
-                                                          fit: BoxFit
-                                                              .cover,
-                                                        )
-                                                            :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          5.0),
+                                                      child: image != "" || image != null
+                                                          ? CachedNetworkImage(
+                                                        imageUrl:
+                                                        'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                            image,
+                                                        width: 58,
+                                                        height: 58,
+                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                        errorWidget: (context,
+                                                            url,
+                                                            error) =>
+                                                            Icon(Icons
+                                                                .error),
+                                                        fadeInDuration:
+                                                        Duration(
+                                                            milliseconds:
+                                                            100),
+                                                        fadeOutDuration:
+                                                        Duration(
+                                                            milliseconds:
+                                                            10),
+                                                        fadeInCurve:
+                                                        Curves
+                                                            .bounceIn,
+                                                        fit: BoxFit
+                                                            .cover,
+                                                      )
+                                                          :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
                                                     title: Text(
                                                       output2?[
-                                                      'prod_name'],
+                                                        'prod_name'],
                                                       style:
                                                       TextStyle(
                                                           fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -803,7 +834,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       child: Row(
                                                         children: [
                                                           Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                           )),
                                                           if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                           else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
@@ -1074,7 +1105,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
                                                       title: Text(
                                                         output2?[
-                                                        'prod_name'],
+                                                          'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -1084,7 +1115,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         child: Row(
                                                           children: [
                                                             Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                             )),
                                                             if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
                                                             else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
