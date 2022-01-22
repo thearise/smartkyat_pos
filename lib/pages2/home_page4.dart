@@ -7613,7 +7613,7 @@ class HomePageState extends State<HomePage>
                                                                             sell3 =output2?['sub2_sell'];
 
                                                                             productName = output2?['prod_name'];
-                                                                            myController.text = prodList[i].split('^')[4];
+                                                                            myController.text = double.parse(prodList[i].split('^')[4]).round().toString();
                                                                             sellPriceController.text = prodList[i].split('^')[2];
                                                                             // sellDone = false;
                                                                             onChangeAmountTab = true;
@@ -7717,9 +7717,9 @@ class HomePageState extends State<HomePage>
                                                                                     )),
                                                                                 child: Padding(
                                                                                   padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                                                  child: Text(prodList[i]
+                                                                                  child: Text(double.parse(prodList[i]
                                                                                       .split(
-                                                                                      '^')[4], style: TextStyle(
+                                                                                      '^')[4]).round().toString(), style: TextStyle(
                                                                                       fontSize: 11, fontWeight: FontWeight.w500
                                                                                   )),
                                                                                 ),
@@ -7772,7 +7772,6 @@ class HomePageState extends State<HomePage>
                                                               SlidableDrawerActionPane(),
                                                               actionExtentRatio:
                                                               0.25,
-
                                                               child: Container(
                                                                 color: Colors.white,
                                                                 child: Column(
@@ -7785,7 +7784,6 @@ class HomePageState extends State<HomePage>
                                                                             fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                         )),
                                                                         trailing: Text('- MMK ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-
                                                                       ) :  ListTile (
                                                                         title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                         subtitle: Text('Amount applied', style: TextStyle(
@@ -7831,8 +7829,7 @@ class HomePageState extends State<HomePage>
                                                   );
                                                 }
                                                 return Container();
-                                              }
-                                          ),
+                                              }),
                                           Align(
                                             alignment: Alignment.bottomCenter,
                                             child: Padding(
@@ -8744,7 +8741,7 @@ class HomePageState extends State<HomePage>
                                                                     onTap: () {
                                                                       mystate(() {
                                                                         quantity = double.parse(myController.text) -1;
-                                                                        myController.text = quantity.toString();
+                                                                        myController.text = quantity.round().toString();
                                                                         print('qqq' + quantity.toString());
                                                                       });
                                                                     },
@@ -8819,7 +8816,7 @@ class HomePageState extends State<HomePage>
                                                                       setState(() {
                                                                         mystate(() {
                                                                           quantity = double.parse(myController.text) +1;
-                                                                          myController.text = quantity.toString();
+                                                                          myController.text = quantity.round().toString();
                                                                           print('qqq' + quantity.toString());
                                                                         });
                                                                       });
@@ -10383,7 +10380,7 @@ class HomePageState extends State<HomePage>
     if(split == 'main') {
       return 'inStock1';
     } else {
-      return 'inStock' + (double.parse(split[3]) + 1).toString();
+      return 'inStock' + (int.parse(split[3]) + 1).toString();
     }
   }
 

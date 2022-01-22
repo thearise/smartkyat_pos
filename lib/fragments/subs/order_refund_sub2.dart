@@ -40,32 +40,16 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   List<double> refundItems = [];
   List<double> deffItems = [];
-  TextEditingController quantityCtrl = TextEditingController();
- // var documentId = '';
+  // TextEditingController quantityCtrl = TextEditingController();
+  List<TextEditingController> quantityCtrlList = [];
+  // var documentId = '';
   @override
   initState() {
     for(int i=0; i<widget.data2.length; i++) {
-      quantityCtrl.text = widget.data2[i].split('-')[7].toString();
+      quantityCtrlList.add(TextEditingController());
+      quantityCtrlList[i].text = double.parse(widget.data2[i].split('-')[7]).round().toString();
     }
     print('phyopyaesohn' + widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00');
-    // var innerId = '';
-    // FirebaseFirestore.instance
-    //     .collection('shops')
-    //     .doc(widget.shopId)
-    //     .collection('orders')
-    //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
-    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot) {
-    //   querySnapshot.docs.forEach((doc) {
-    //     innerId = doc.id;
-    //   });
-    //   setState(() {
-    //     documentId = innerId;
-    //   });
-    //   // return docId;
-    //   // return Container();
-    // });
     super.initState();
   }
 
@@ -73,6 +57,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   void dispose() {
     super.dispose();
   }
+
   bool initAttempt = false;
   int changedPrice = 0;
   List<String> prodListView = [];
@@ -80,6 +65,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   bool loadingState = false;
   bool firstTime = true;
   double homeBotPadding = 0;
+
   @override
   Widget build(BuildContext context) {
     if(firstTime) {
@@ -218,7 +204,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                               } else {
                                 prodListView.add(prodList[j]);
                                 ttlQtity = double.parse(prodList[j].split('-')[3]);
-                                ttlRefun += int.parse(prodList[j].split('-')[7]);
+                                ttlRefun += double.parse(prodList[j].split('-')[7]);
                               }
                             }
 
@@ -250,214 +236,214 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           var output2 = snapshot10.data!.data();
                                           var image = output2?['img_1'];
                                           return Container(
-                                                color: Colors.white,
-                                                child: Stack(
-                                                  children: [
-                                                    Container(
-                                                      color: Colors.white,
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(height: 12),
-                                                          ListTile(
-                                                            leading: ClipRRect(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    5.0),
-                                                                child: image != ""
-                                                                    ? CachedNetworkImage(
-                                                                  imageUrl:
-                                                                  'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                      image,
-                                                                  width: 58,
-                                                                  height: 58,
-                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                  errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                                  fadeInDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      100),
-                                                                  fadeOutDuration:
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                      10),
-                                                                  fadeInCurve:
-                                                                  Curves
-                                                                      .bounceIn,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )
-                                                                    : Image.asset('assets/system/default-product.png', height: 75, width: 75),),
-                                                            title: Text(
-                                                              output2?[
-                                                              'prod_name'],
-                                                              style:
-                                                              TextStyle(
-                                                                  fontWeight: FontWeight.w500, fontSize: 16),
-                                                            ),
-                                                            subtitle: Padding(
-                                                              padding: const EdgeInsets.only(top: 4.0),
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                    fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                  )),
-                                                                  if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                                  else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                                  else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            trailing: Container(
+                                            color: Colors.white,
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  color: Colors.white,
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(height: 12),
+                                                      ListTile(
+                                                        leading: ClipRRect(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              5.0),
+                                                          child: image != ""
+                                                              ? CachedNetworkImage(
+                                                            imageUrl:
+                                                            'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                image,
+                                                            width: 58,
+                                                            height: 58,
+                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                            errorWidget: (context,
+                                                                url,
+                                                                error) =>
+                                                                Icon(Icons
+                                                                    .error),
+                                                            fadeInDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                100),
+                                                            fadeOutDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                10),
+                                                            fadeInCurve:
+                                                            Curves
+                                                                .bounceIn,
+                                                            fit: BoxFit
+                                                                .cover,
+                                                          )
+                                                              : Image.asset('assets/system/default-product.png', height: 75, width: 75),),
+                                                        title: Text(
+                                                          output2?[
+                                                          'prod_name'],
+                                                          style:
+                                                          TextStyle(
+                                                              fontWeight: FontWeight.w500, fontSize: 16),
+                                                        ),
+                                                        subtitle: Padding(
+                                                          padding: const EdgeInsets.only(top: 4.0),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                              )),
+                                                              if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                              else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                              else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        trailing: Container(
 
-                                                              child: Row(
-                                                                mainAxisSize: MainAxisSize.min,
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      if(prodListView[i].split('-')[7] == '0' || double.parse(prodListView[i].split('-')[7]) < refundItems[i]) {
-                                                                        setState(() {
-                                                                          if (refundItems[i] <= 0) {
-                                                                          } else {
-                                                                            refundItems[i] =
-                                                                                refundItems[i] - 1;
-                                                                            quantityCtrl.text = refundItems[i].toString();
-                                                                          }
-                                                                        });
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  if(prodListView[i].split('-')[7] == '0' || double.parse(prodListView[i].split('-')[7]) < refundItems[i]) {
+                                                                    setState(() {
+                                                                      if (refundItems[i] <= 0) {
+                                                                      } else {
+                                                                        refundItems[i] =
+                                                                            refundItems[i] - 1;
+                                                                        quantityCtrlList[i].text = refundItems[i].round().toString();
                                                                       }
-                                                                      print('dataRMM' + widget.data.toString());
+                                                                    });
+                                                                  }
+                                                                  print('dataRMM' + widget.data.toString());
 
-                                                                    },
-                                                                    child: Container(
-                                                                      width: 42,
-                                                                      height: 42,
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius:
-                                                                          BorderRadius.circular(10.0),
-                                                                          color: AppTheme.buttonColor2),
-                                                                      child: Container(
-                                                                          child: Icon(
-                                                                            Icons.remove, size: 20,
-                                                                          )
+                                                                },
+                                                                child: Container(
+                                                                  width: 42,
+                                                                  height: 42,
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(10.0),
+                                                                      color: AppTheme.buttonColor2),
+                                                                  child: Container(
+                                                                      child: Icon(
+                                                                        Icons.remove, size: 20,
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(width: 15),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top: 2.5),
+                                                                child: Container(
+                                                                  width: 55,
+                                                                  height: 42,
+                                                                  child: TextField(
+                                                                    textAlign: TextAlign.center,
+                                                                    decoration: InputDecoration(
+                                                                      enabledBorder: const OutlineInputBorder(
+                                                                        // width: 0.0 produces a thin "hairline" border
+                                                                          borderSide: const BorderSide(
+                                                                              color: AppTheme.skBorderColor, width: 2.0),
+                                                                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                                                                      focusedBorder: const OutlineInputBorder(
+                                                                        // width: 0.0 produces a thin "hairline" border
+                                                                          borderSide: const BorderSide(
+                                                                              color: AppTheme.skThemeColor2, width: 2.0),
+                                                                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                                                      contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                                                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                                                      //filled: true,
+                                                                      border: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius.circular(10),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  SizedBox(width: 15),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(top: 2.5),
-                                                                    child: Container(
-                                                                      width: 55,
-                                                                      height: 42,
-                                                                      child: TextField(
-                                                                        textAlign: TextAlign.center,
-                                                                        decoration: InputDecoration(
-                                                                          enabledBorder: const OutlineInputBorder(
-                                                                            // width: 0.0 produces a thin "hairline" border
-                                                                              borderSide: const BorderSide(
-                                                                                  color: AppTheme.skBorderColor, width: 2.0),
-                                                                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                                                                          focusedBorder: const OutlineInputBorder(
-                                                                            // width: 0.0 produces a thin "hairline" border
-                                                                              borderSide: const BorderSide(
-                                                                                  color: AppTheme.skThemeColor2, width: 2.0),
-                                                                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                                                                          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                                                          floatingLabelBehavior: FloatingLabelBehavior.auto,
-                                                                          //filled: true,
-                                                                          border: OutlineInputBorder(
-                                                                            borderRadius: BorderRadius.circular(10),
-                                                                          ),
-                                                                        ),
-                                                                        keyboardType: TextInputType.number,
-                                                                        onChanged: (value) {
-                                                                          setState(() {
-                                                                            if ((double.parse(value)) <=
-                                                                                double.parse(prodListView[i].split('-')[3])) {
-                                                                              refundItems[i] = double.parse(value);
-                                                                            } else refundItems[i] = refundItems[i];
-                                                                          });
-                                                                        },
-                                                                        controller: quantityCtrl,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  // Text(refundItems[i].toString(), style: TextStyle(
-                                                                  //   fontSize: 14,
-                                                                  //   fontWeight: FontWeight.w500,
-                                                                  // ),),
-                                                                  SizedBox(width: 15),
-                                                                  GestureDetector(
-                                                                    onTap: () {
+                                                                    keyboardType: TextInputType.number,
+                                                                    onChanged: (value) {
                                                                       setState(() {
-                                                                        if ((refundItems[i]) >=
-                                                                            double.parse(prodListView[i]
-                                                                                .split('-')[3])) {
-                                                                        } else {
-                                                                          refundItems[i] =
-                                                                              refundItems[i] + 1;
-                                                                        }
-                                                                        quantityCtrl.text = refundItems[i].toString();
+                                                                        if ((double.parse(value)) <=
+                                                                            double.parse(prodListView[i].split('-')[3])) {
+                                                                          refundItems[i] = double.parse(value);
+                                                                        } else refundItems[i] = refundItems[i];
                                                                       });
                                                                     },
-                                                                    child: Container(
-                                                                      width: 42,
-                                                                      height: 42,
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius:
-                                                                          BorderRadius.circular(10.0),
-                                                                          color: AppTheme.themeColor),
-                                                                      child: Container(
-                                                                          child: Icon(
-                                                                            Icons.add, size: 20,
-                                                                          )
-                                                                      ),
-                                                                    ),
+                                                                    controller: quantityCtrlList[i],
                                                                   ),
-                                                                ],
+                                                                ),
                                                               ),
-                                                            ),
+                                                              // Text(refundItems[i].toString(), style: TextStyle(
+                                                              //   fontSize: 14,
+                                                              //   fontWeight: FontWeight.w500,
+                                                              // ),),
+                                                              SizedBox(width: 15),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    if ((refundItems[i]) >=
+                                                                        double.parse(prodListView[i]
+                                                                            .split('-')[3])) {
+                                                                    } else {
+                                                                      refundItems[i] =
+                                                                          refundItems[i] + 1;
+                                                                    }
+                                                                    quantityCtrlList[i].text = refundItems[i].round().toString();
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  width: 42,
+                                                                  height: 42,
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(10.0),
+                                                                      color: AppTheme.themeColor),
+                                                                  child: Container(
+                                                                      child: Icon(
+                                                                        Icons.add, size: 20,
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0),
-                                                            child: Container(height: 12,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border(
-                                                                    bottom:
-                                                                    BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                                                  )),),
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Positioned(
-                                                      top : 8,
-                                                      left : 50,
-                                                      child: Container(
-                                                        height: 20,
-                                                        width: 30,
-                                                        alignment: Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                            color: AppTheme.skBorderColor2,
-                                                            borderRadius:
-                                                            BorderRadius.circular(
-                                                                10.0),
-                                                            border: Border.all(
-                                                              color: Colors.white,
-                                                              width: 2,
-                                                            )),
-                                                        child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString().replaceAll(regex, ''), style: TextStyle(
-                                                          fontSize: 11, fontWeight: FontWeight.w500,
-                                                        )),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0),
+                                                        child: Container(height: 12,
+                                                          decoration: BoxDecoration(
+                                                              border: Border(
+                                                                bottom:
+                                                                BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                                              )),),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              );
+                                                Positioned(
+                                                  top : 8,
+                                                  left : 50,
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                        color: AppTheme.skBorderColor2,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                        border: Border.all(
+                                                          color: Colors.white,
+                                                          width: 2,
+                                                        )),
+                                                    child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                                                      fontSize: 11, fontWeight: FontWeight.w500,
+                                                    )),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
                                         }
                                         return Container();
                                       },
@@ -471,7 +457,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           FontWeight
                                               .w500),
                                     ),
-                                    subtitle: totalItems() == 1? Text(totalItems().toString() + ' item',
+                                    subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
                                         style: TextStyle(
                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                         )) : Text(totalItems().toString() + ' items',
@@ -496,7 +482,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           FontWeight
                                               .w500),
                                     ),
-                                    subtitle: totalItems() == 1? Text(totalItems().toString() + ' item',
+                                    subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
                                         style: TextStyle(
                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                         )) : Text(totalItems().toString() + ' items',
@@ -656,7 +642,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     isRef = 's';
                                                     refundAmount = 'PART';
 
-                                               }
+                                                  }
                                                 }
 
                                                 String data = widget.data;
@@ -740,10 +726,10 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     print('customer updated');
                                                   }).catchError((error) => print("Failed to update user: $error"));
                                                 }
-                                                  setState(() {
-                                                    loadingState = false;
-                                                    disableTouch = false;
-                                                  });
+                                                setState(() {
+                                                  loadingState = false;
+                                                  disableTouch = false;
+                                                });
                                                 Navigator.of(context).popUntil((route) => route.isFirst);
                                                 smartKyatFlash('MMK' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
                                               },
@@ -781,6 +767,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
       ),
     );
   }
+
   void smartKyatFlash(String text, String type) {
     Widget widgetCon = Container();
     Color bdColor = Color(0xffffffff);
@@ -960,117 +947,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
       },
     );
   }
-  // addDailyExp(priContext) {
-  //   // myController.clear();
-  //   showModalBottomSheet(
-  //       enableDrag: false,
-  //       isScrollControlled: true,
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return Scaffold(
-  //           body: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.stretch,
-  //             // mainAxisAlignment: MainAxisAlignment.end,
-  //             children: [
-  //               Container(
-  //                 height: MediaQuery.of(priContext).padding.top,
-  //               ),
-  //               Expanded(
-  //                 child: Container(
-  //                   child: Column(
-  //                     children: [
-  //                       Container(
-  //                         width: 70,
-  //                         height: 6,
-  //                         decoration: BoxDecoration(
-  //                             borderRadius: BorderRadius.all(
-  //                               Radius.circular(25.0),
-  //                             ),
-  //                             color: Colors.white.withOpacity(0.5)),
-  //                       ),
-  //                       SizedBox(
-  //                         height: 14,
-  //                       ),
-  //                       Container(
-  //                         // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-  //                         width: double.infinity,
-  //                         decoration: BoxDecoration(
-  //                           borderRadius: BorderRadius.only(
-  //                             topLeft: Radius.circular(15.0),
-  //                             topRight: Radius.circular(15.0),
-  //                           ),
-  //                           color: Colors.white,
-  //                         ),
-  //
-  //                         child: Container(
-  //                           width: 150,
-  //                           child: Column(
-  //                             children: [
-  //                               Container(
-  //                                 height: 50,
-  //                                 decoration: BoxDecoration(
-  //                                   borderRadius: BorderRadius.only(
-  //                                     topLeft: Radius.circular(15.0),
-  //                                     topRight: Radius.circular(15.0),
-  //                                   ),
-  //                                   color: Colors.grey.withOpacity(0.1),
-  //                                 ),
-  //                                 child: Row(
-  //                                   mainAxisAlignment:
-  //                                   MainAxisAlignment.spaceBetween,
-  //                                   children: [
-  //                                     IconButton(
-  //                                       icon: Icon(
-  //                                         Icons.close,
-  //                                         size: 20,
-  //                                         color: Colors.transparent,
-  //                                       ),
-  //                                       onPressed: () {},
-  //                                     ),
-  //                                     Text(
-  //                                       "New Expense",
-  //                                       style: TextStyle(
-  //                                           color: Colors.black,
-  //                                           fontSize: 17,
-  //                                           fontFamily: 'capsulesans',
-  //                                           fontWeight: FontWeight.w600),
-  //                                       textAlign: TextAlign.left,
-  //                                     ),
-  //                                     IconButton(
-  //                                       icon: Icon(
-  //                                         Icons.close,
-  //                                         size: 20,
-  //                                         color: Colors.black,
-  //                                       ),
-  //                                       onPressed: () {
-  //                                         widget._openCartBtn();
-  //                                         Navigator.pop(context, changedPrice);
-  //                                         print('clicked');
-  //                                       },
-  //                                     )
-  //                                   ],
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //               Align(
-  //                 alignment: Alignment.bottomCenter,
-  //                 child: Container(
-  //                   color: Colors.yellow,
-  //                   height: 100,
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //         );
-  //       });
-  // }
+
   zeroToTen(String string) {
     if (int.parse(string) > 9) {
       return string;

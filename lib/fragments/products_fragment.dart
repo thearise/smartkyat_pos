@@ -863,8 +863,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                     image,
                                                                 width: 75,
                                                                 height: 75,
-                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                errorWidget: (context,
+                                                                placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),                                                                errorWidget: (context,
                                                                     url,
                                                                     error) =>
                                                                     Icon(Icons
@@ -943,7 +942,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
                                                               Text(
-                                                                  mainQty.toString() + ' '  + mainName + ' ',
+                                                                  mainQty.round().toString() + ' '  + mainName + ' ',
                                                                   textScaleFactor: 1.0,
                                                                   style: TextStyle(
                                                                     height: 1.3,
@@ -961,78 +960,14 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                   style: TextStyle(
                                                                     height: 1.3,
                                                                     fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                                  )) : sub1Name != '' && sub2Name != '' ? Text(
+                                                                  )) : sub1Name != '' && sub2Name != '' ?
+                                                              Text(
                                                                   '  +2 Sub items',
                                                                   textScaleFactor: 1.0,
                                                                   style: TextStyle(
                                                                     height: 1.3,
                                                                     fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                                   )): Container(),
-
-                                                              // StreamBuilder(
-                                                              //     stream: FirebaseFirestore
-                                                              //         .instance
-                                                              //         .collection(
-                                                              //         'space')
-                                                              //         .doc(
-                                                              //         '0NHIS0Jbn26wsgCzVBKT')
-                                                              //         .collection(
-                                                              //         'shops')
-                                                              //         .doc(
-                                                              //         'PucvhZDuUz3XlkTgzcjb')
-                                                              //         .collection(
-                                                              //         'products')
-                                                              //         .doc(version)
-                                                              //         .collection(
-                                                              //         'versions')
-                                                              //         .where('type',
-                                                              //         isEqualTo:
-                                                              //         'sub3')
-                                                              //         .snapshots(),
-                                                              //     builder: (BuildContext
-                                                              //     context,
-                                                              //         AsyncSnapshot<
-                                                              //             QuerySnapshot>
-                                                              //         snapshot5) {
-                                                              //       if (snapshot5
-                                                              //           .hasData) {
-                                                              //         int quantity3 =
-                                                              //         0;
-                                                              //         var sub3Quantity;
-                                                              //         snapshot5
-                                                              //             .data!
-                                                              //             .docs
-                                                              //             .map((DocumentSnapshot
-                                                              //         document) {
-                                                              //           Map<String,
-                                                              //               dynamic>
-                                                              //           data4 =
-                                                              //           document.data()! as Map<
-                                                              //               String,
-                                                              //               dynamic>;
-                                                              //           if (data4[
-                                                              //           'unit_qtity'] !=
-                                                              //               '') {
-                                                              //             quantity3 +=
-                                                              //                 int.parse(
-                                                              //                     data4['unit_qtity']);
-                                                              //             sub3Quantity =
-                                                              //                 quantity3
-                                                              //                     .toString();
-                                                              //           } else
-                                                              //             return Container();
-                                                              //         }).toList();
-                                                              //         // print(sub1Quantity);
-                                                              //         // print(mainQuantity);
-                                                              //         if (sub3Quantity !=
-                                                              //             null) {
-                                                              //           return Text(
-                                                              //               '$sub3Quantity $sub3Name');
-                                                              //         }
-                                                              //         return Container();
-                                                              //       }
-                                                              //       return Container();
-                                                              //     }),
                                                             ],
                                                           ),
 
