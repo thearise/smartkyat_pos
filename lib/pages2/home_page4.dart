@@ -10446,6 +10446,7 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> decStockFromInv(id, unit, num) async {
+    print('Double Check Sub1');
     CollectionReference users = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
     // print('gg ' + str.split('^')[0] + ' ' + changeUnitName2Stock(str.split('^')[3]));

@@ -72,6 +72,7 @@ class _EndOfProServiceState extends State<EndOfProService>
 
   @override
   initState() {
+    setStoreId('');
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     super.initState();
   }
