@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/app_theme.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:metooltip/metooltip.dart';
 
@@ -103,10 +104,9 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 210.0),
+                padding: const EdgeInsets.only(bottom: 200.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
                       border: Border(
                         bottom: BorderSide(
                             color: Colors.transparent,
@@ -189,155 +189,396 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                               // SizedBox(
                               //   height: 20,
                               // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                              //   child: Container(
+                              //     alignment: Alignment.centerLeft,
+                              //     decoration: BoxDecoration(
+                              //       borderRadius:
+                              //       BorderRadius.circular(10.0),
+                              //       color: AppTheme.lightBgColor,
+                              //     ),
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
+                              //       child: Column(
+                              //         mainAxisAlignment: MainAxisAlignment.start,
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           Text(
+                              //               'A single back office', style: TextStyle(
+                              //               fontWeight: FontWeight.w500,
+                              //               fontSize: 16,
+                              //             ),
+                              //           ),
+                              //           SizedBox(
+                              //             height: 5,
+                              //           ),
+                              //           Text(
+                              //             'Manage products, payments, and customers across all the places you sell, in store and online.', style: TextStyle(
+                              //             fontWeight: FontWeight.w400,
+                              //             fontSize: 15,
+                              //           ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                              //   child: Container(
+                              //     alignment: Alignment.centerLeft,
+                              //     decoration: BoxDecoration(
+                              //       borderRadius:
+                              //       BorderRadius.circular(10.0),
+                              //       color: AppTheme.lightBgColor,
+                              //     ),
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
+                              //       child: Column(
+                              //         mainAxisAlignment: MainAxisAlignment.start,
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           Text(
+                              //             'Unlimited products', style: TextStyle(
+                              //             fontWeight: FontWeight.w500,
+                              //             fontSize: 16,
+                              //           ),
+                              //           ),
+                              //           SizedBox(
+                              //             height: 5,
+                              //           ),
+                              //           Text(
+                              //             'Add multiple variations to products such as size, color, or materials and assign their own price, SKU, weight, and inventory.', style: TextStyle(
+                              //             fontWeight: FontWeight.w400,
+                              //             fontSize: 15,
+                              //           ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                              //   child: Container(
+                              //     alignment: Alignment.centerLeft,
+                              //     decoration: BoxDecoration(
+                              //       borderRadius:
+                              //       BorderRadius.circular(10.0),
+                              //       color: AppTheme.lightBgColor,
+                              //     ),
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
+                              //       child: Column(
+                              //         mainAxisAlignment: MainAxisAlignment.start,
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           Text(
+                              //             'Barcode labels', style: TextStyle(
+                              //             fontWeight: FontWeight.w500,
+                              //             fontSize: 16,
+                              //           ),
+                              //           ),
+                              //           SizedBox(
+                              //             height: 5,
+                              //           ),
+                              //           Text(
+                              //             'Assign existing barcodes to products or create new ones to keep track of inventory and speed up checkout.', style: TextStyle(
+                              //             fontWeight: FontWeight.w400,
+                              //             fontSize: 15,
+                              //           ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                              //   child: Container(
+                              //     alignment: Alignment.centerLeft,
+                              //     decoration: BoxDecoration(
+                              //       borderRadius:
+                              //       BorderRadius.circular(10.0),
+                              //       color: AppTheme.lightBgColor,
+                              //     ),
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
+                              //       child: Column(
+                              //         mainAxisAlignment: MainAxisAlignment.start,
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: [
+                              //           Text(
+                              //             'Inventory status', style: TextStyle(
+                              //             fontWeight: FontWeight.w500,
+                              //             fontSize: 16,
+                              //           ),
+                              //           ),
+                              //           SizedBox(
+                              //             height: 5,
+                              //           ),
+                              //           Text(
+                              //             'Use inventory states to track and share the status of your inventory as products are received, transferred, or an order is fulfilled.', style: TextStyle(
+                              //             fontWeight: FontWeight.w400,
+                              //             fontSize: 15,
+                              //           ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
                                 child: Container(
-                                  alignment: Alignment.centerLeft,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
                                     color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
+                                      child: Icon(
+                                        Icons.cloud_done_rounded, size: 24, color: Colors.black,
+                                      ),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Cloud sync (offline support)', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                            'One powerful platform', style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Real-time data supported and syncronized across all devices with offline data management supported', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
                                           ),
                                         ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Have all the tools you need to manage your business, market to customers, and sell everywhere in one place.', style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15,
-                                        ),
-                                        ),
+                                        SizedBox(height: 3),
                                       ],
                                     ),
+
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 20,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
                                 child: Container(
-                                  alignment: Alignment.centerLeft,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
                                     color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'One powerful platform', style: TextStyle(
-                                          fontWeight: FontWeight.w500,
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:3.0, top: 3.0),
+                                      child: Icon(
+                                        Icons.computer_rounded, size: 26, color: Colors.black,
+                                      ),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('A single back office', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Manage products, payments, and customers across all the places you sell, in store and online.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
                                         ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Have all the tools you need to manage your business, market to customers, and sell everywhere in one place.', style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15,
-                                        ),
-                                        ),
+                                        SizedBox(height: 3),
                                       ],
                                     ),
+
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 20,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
                                 child: Container(
-                                  alignment: Alignment.centerLeft,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
                                     color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'One powerful platform', style: TextStyle(
-                                          fontWeight: FontWeight.w500,
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
+                                      child: Icon(
+                                        SmartKyat_POS.product, size: 22, color: Colors.black,
+                                      ),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Unlimited products', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Add multiple variations to products such as size, color, or materials and assign their own price, SKU, weight, and inventory.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
                                         ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Have all the tools you need to manage your business, market to customers, and sell everywhere in one place.', style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15,
-                                        ),
-                                        ),
+                                        SizedBox(height: 3),
                                       ],
                                     ),
+
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 20,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
                                 child: Container(
-                                  alignment: Alignment.centerLeft,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
                                     color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'One powerful platform', style: TextStyle(
-                                          fontWeight: FontWeight.w500,
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
+                                      child: Icon(
+                                        Icons.qr_code_scanner_rounded, size: 22, color: Colors.black,
+                                      ),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Barcode scans', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Assign existing barcodes to products or create new ones to keep track of inventory and speed up checkout.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
                                         ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Have all the tools you need to manage your business, market to customers, and sell everywhere in one place.', style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15,
-                                        ),
-                                        ),
+                                        SizedBox(height: 3),
                                       ],
                                     ),
+
                                   ),
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                    color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
+                                  ),
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
+                                      child: Icon(
+                                        Icons.inventory_rounded, size: 24, color: Colors.black,
+                                      ),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Inventory status', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Use inventory states to track and share the status of your inventory as products are received, transferred, or an order is fulfilled.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
+                                        ),
+                                        SizedBox(height: 3),
+                                      ],
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20,)
                             ],
                           ),
                         ),
@@ -350,7 +591,6 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.transparent,
                       border: Border(
                         top: BorderSide(
                             color: Colors.transparent,
