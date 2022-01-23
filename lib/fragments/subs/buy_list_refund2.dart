@@ -41,29 +41,11 @@ class _BuyListRefundState extends State<BuyListRefund>
   List<TextEditingController> quantityCtrlList = [];
   @override
   initState() {
-
     for(int i=0; i<widget.data2.length; i++) {
       quantityCtrlList.add(TextEditingController());
-      quantityCtrlList[i].text = widget.data2[i].split('-')[7].toString();
+      quantityCtrlList[i].text = double.parse(widget.data2[i].split('-')[7]).round().toString();
     }
-    // var innerId = '';
-    // FirebaseFirestore.instance
-    //     .collection('shops')
-    //     .doc(widget.shopId)
-    //     .collection('buyOrders')
-    //     .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00'))
-    //     .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 23:59:59'))
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot) {
-    //   querySnapshot.docs.forEach((doc) {
-    //     innerId = doc.id;
-    //   });
-    //   setState(() {
-    //     documentId = innerId;
-    //   });
-    //   // return docId;
-    //   // return Container();
-    // });
+    print('phyopyaesohn' + widget.data.split('^')[0].substring(0, 4) + '-' + widget.data.split('^')[0].substring(4, 6) + '-' + widget.data.split('^')[0].substring(6, 8) + ' 00:00:00');
     super.initState();
   }
   void smartKyatFlash(String text, String type) {
@@ -395,10 +377,9 @@ class _BuyListRefundState extends State<BuyListRefund>
                             } else {
                               prodListView.add(prodList[j]);
                               ttlQtity = double.parse(prodList[j].split('-')[3]);
-                              ttlRefun += int.parse(prodList[j].split('-')[7]);
+                              ttlRefun += double.parse(prodList[j].split('-')[7]);
                             }
                           }
-
                           if (!initAttempt) {
                             for (int i = 0; i < prodListView.length; i++) {
                               // refundItems[i] = int.parse(prodList[i].split('-')[5]);
@@ -503,7 +484,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                       } else {
                                                                         refundItems[i] =
                                                                             refundItems[i] - 1;
-                                                                        quantityCtrlList[i].text = refundItems[i].toString();
+                                                                        quantityCtrlList[i].text = refundItems[i].round().toString();
                                                                       }
                                                                     });
                                                                   }
@@ -556,7 +537,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                       setState(() {
                                                                         if ((double.parse(value)) <=
                                                                             double.parse(prodListView[i].split('-')[3])) {
-                                                                         refundItems[i] = double.parse(value);
+                                                                          refundItems[i] = double.parse(value);
                                                                         } else refundItems[i] = refundItems[i];
                                                                       });
                                                                     },
@@ -579,7 +560,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                       refundItems[i] =
                                                                           refundItems[i] + 1;
                                                                     }
-                                                                    quantityCtrlList[i].text = refundItems[i].toString();
+                                                                    quantityCtrlList[i].text = refundItems[i].round().toString();
                                                                   });
                                                                 },
                                                                 child: Container(
@@ -628,7 +609,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                           color: Colors.white,
                                                           width: 2,
                                                         )),
-                                                    child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                    child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
                                                       fontSize: 11, fontWeight: FontWeight.w500,
                                                     )),
                                                   ),
@@ -828,16 +809,19 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 debt = total;
                                               }
 
-                                              String isRef = 'p';
+                                              double ttlR = 0.0;
+                                              double ttlQ = 0.0;
                                               for (int i = 0; i < prodList.length; i++) {
-                                                if (prodList[i].split('-')[7] != '0' && prodList[i].split('-')[7] == prodList[i].split('-')[3]) {
-                                                  isRef = 'r';
-                                                  refundAmount = 'TRUE';
-                                                }
-                                                if (prodList[i].split('-')[7] != '0' && prodList[i].split('-')[7] != prodList[i].split('-')[3]) {
-                                                  isRef = 's';
-                                                  refundAmount = 'PART';
-                                                }
+                                                ttlR += double.parse(prodList[i].split('-')[7]);
+                                                ttlQ += double.parse(prodList[i].split('-')[3]);
+                                              }
+
+                                              print('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
+                                              if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
+                                                refundAmount = 'TRUE';
+                                              }
+                                              if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
+                                                refundAmount = 'PART';
                                               }
 
                                               String data = widget.data;

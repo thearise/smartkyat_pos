@@ -42,7 +42,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   List<double> deffItems = [];
   // TextEditingController quantityCtrl = TextEditingController();
   List<TextEditingController> quantityCtrlList = [];
-  // var documentId = '';
   @override
   initState() {
     for(int i=0; i<widget.data2.length; i++) {
