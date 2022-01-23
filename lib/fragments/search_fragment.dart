@@ -1244,7 +1244,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
                                                               Text(
-                                                                  item.split('^sps^')[3].split('-')[1].toString()+ ' '  + item.split('^sps^')[3].split('-')[2] + ' ', style: TextStyle(
+                                                                  double.parse(item.split('^sps^')[3].split('-')[1]).round().toString()+ ' '  + item.split('^sps^')[3].split('-')[2] + ' ', style: TextStyle(
                                                                 height: 1.3,
                                                                 fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                               )),

@@ -42,7 +42,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   List<double> deffItems = [];
   // TextEditingController quantityCtrl = TextEditingController();
   List<TextEditingController> quantityCtrlList = [];
-  // var documentId = '';
   @override
   initState() {
     for(int i=0; i<widget.data2.length; i++) {
@@ -631,20 +630,20 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   debt = total;
                                                 }
 
-                                                String isRef = 'p';
+                                                double ttlR = 0.0;
+                                                double ttlQ = 0.0;
                                                 for (int i = 0; i < prodList.length; i++) {
-
-                                                  if (prodList[i].split('-')[7]  != '0' && prodList[i].split('-')[7] == prodList[i].split('-')[3]) {
-                                                    isRef = 'r';
-                                                    refundAmount = 'TRUE';
-                                                  }
-                                                  if (prodList[i].split('-')[7] != '0' && prodList[i].split('-')[7] != prodList[i].split('-')[3]) {
-                                                    isRef = 's';
-                                                    refundAmount = 'PART';
-
-                                                  }
+                                                  ttlR += double.parse(prodList[i].split('-')[7]);
+                                                  ttlQ += double.parse(prodList[i].split('-')[3]);
                                                 }
 
+                                                print('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
+                                                if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
+                                                  refundAmount = 'TRUE';
+                                                }
+                                                if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
+                                                  refundAmount = 'PART';
+                                                }
                                                 String data = widget.data;
 
                                                 String dataRm = data.split('^')[0] +
