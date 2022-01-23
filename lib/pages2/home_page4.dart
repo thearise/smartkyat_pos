@@ -302,9 +302,12 @@ class HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
-    //   premiumCart();
-    // });
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      // premiumCart();
+      // Navigator.of(context).push(
+      //     FadeRoute(page: FirstLaunchPage(),)
+      // );
+    });
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);

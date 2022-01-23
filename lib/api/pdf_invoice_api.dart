@@ -6,6 +6,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 import 'package:smartkyat_pos/api/pdf_api.dart';
 import 'package:smartkyat_pos/api/utils.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/model/customer.dart';
 import 'package:smartkyat_pos/model/invoice.dart';
 import 'package:smartkyat_pos/model/supplier.dart';
@@ -17,6 +18,8 @@ class PdfInvoiceApi {
   static Future<File> generate(Invoice invoice, String size) async {
     if(size == 'Roll-57') {
       fontSizeDesc = 11.0;
+    } else if(size == 'Roll-80') {
+      fontSizeDesc = 14;
     }
     final pdf = Document();
 
@@ -26,14 +29,22 @@ class PdfInvoiceApi {
     final font2 = await rootBundle.load("assets/ZawgyiOne2008.ttf");
     final ttfReg = pw.Font.ttf(font2);
 
-    PdfPageFormat pageFormat = PdfPageFormat.roll57;
+    PdfPageFormat pageFormat = PdfPageFormat.roll80;
     if(size == 'Roll-57') {
       pageFormat = PdfPageFormat.roll57;
+    } else if(size == 'Roll-80') {
+      pageFormat = PdfPageFormat.roll80;
     } else if(size == 'Legal') {
       pageFormat = PdfPageFormat.legal;
     } else if(size == 'A4') {
       pageFormat = PdfPageFormat.a4;
     }
+
+    var image = pw.MemoryImage(
+      (await rootBundle.load('assets/system/poweredby.png')).buffer.asUint8List(),
+    );
+
+
 
 
     pdf.addPage(pw.Page(
@@ -53,7 +64,7 @@ class PdfInvoiceApi {
                       child: Column(
                           children: [
                             pw.Text(Rabbit.uni2zg(invoice.supplier.name),
-                              textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc+5,font: ttfBold),
+                              textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc+5: fontSizeDesc+8,font: ttfBold),
                             ),
                             SizedBox(height: 0.2 * PdfPageFormat.cm),
                             // pw.Text(Rabbit.uni2zg("ဘာတွေလဲ ဘာေတွလဲ ဘာတွေဖြစ်နေတာလဲလို့ ပြောကြပါဦး Whatting?"),style: pw.TextStyle(fontSize: fontSizeDesc-4,font: ttfReg, fontWeight: FontWeight.bold)),
@@ -83,8 +94,8 @@ class PdfInvoiceApi {
                 child: Container(
                     width: double.infinity,
                     child: Column(
-                      crossAxisAlignment: size=='Roll-57'? CrossAxisAlignment.start: CrossAxisAlignment.end,
-                      mainAxisAlignment: size=='Roll-57'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
+                      crossAxisAlignment: size=='Roll-57' || size=='Roll-80'? CrossAxisAlignment.start: CrossAxisAlignment.end,
+                      mainAxisAlignment: size=='Roll-57' || size=='Roll-80'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
                       children: [
                         Text('Receipt info: ' + invoice.info.number,
                             style: TextStyle(
@@ -135,9 +146,17 @@ class PdfInvoiceApi {
 
             // SizedBox(height: 0.5 * PdfPageFormat.cm),
             // pw.Text('Thank you',style: pw.TextStyle(fontSize: fontSizeDesc+5, fontWeight: pw.FontWeight.bold)),
-            pw.Text(Rabbit.uni2zg('"Thank you"'),
-              textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc+5,font: ttfBold),
+            pw.Text(Rabbit.uni2zg('ကျေးဇူးတင်ပါသည်။'),
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc+5: fontSizeDesc+8,font: ttfBold),
             ),
+            SizedBox(height: 0.16 * PdfPageFormat.cm),
+            pw.Center(
+              child: pw.Image(image, height: fontSizeDesc + 6),
+            ),
+            // pw.Text('Powered by Smart Kyat', textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc-5),),
+            // pw.Icon(
+            //   Icons.remove, size: 20,
+            // ),
             SizedBox(height: 0.6 * PdfPageFormat.cm),
           ]
       ),
@@ -303,7 +322,7 @@ class PdfInvoiceApi {
   );
 
   static Widget buildInvoice(Invoice invoice, ttfReg, String size) {
-    if(size!='Roll-57') {
+    if(size!='Roll-57' && size!='Roll-80') {
       final headers = [
         'Name',
         // 'Date',
@@ -419,7 +438,7 @@ class PdfInvoiceApi {
     disType == '-p' ?  vat = netTotal * (vatPercent/100) : vat = vatPercent ;
     final total = netTotal - vat;
     final paid = total - debt;
-    return size != 'Roll-57' ?
+    return size != 'Roll-57' && size!='Roll-80' ?
     Padding(
         padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
         child: Container(
