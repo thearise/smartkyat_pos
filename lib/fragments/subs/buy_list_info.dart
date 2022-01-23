@@ -1114,7 +1114,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                             // ),
                                           ],
                                         )
-                                        : Container();
+                                            : Container();
                                       }
                                       return Container();
                                     },
@@ -1406,7 +1406,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                               ),
                                             ],
                                           )
-                                        : Container();
+                                              : Container();
                                         }
                                         return Container();
                                       },

@@ -279,7 +279,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                               : Image.asset('assets/system/default-product.png', height: 75, width: 75),),
                                                         title: Text(
                                                           output2?[
-                                                          'prod_name'],
+                                                            'prod_name'],
                                                           style:
                                                           TextStyle(
                                                               fontWeight: FontWeight.w500, fontSize: 16),

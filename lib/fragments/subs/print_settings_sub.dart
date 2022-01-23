@@ -32,15 +32,16 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
   @override
   bool get wantKeepAlive => true;
 
-  String paperType = 'Roll-57';
+  String paperType = 'Roll-80';
   var _result;
   var _shop ;
   bool firstTime = true;
 
   List _testList = [
-    {'no': 1, 'keyword': 'Roll-57'},
-    {'no': 2, 'keyword': 'Legal'},
-    {'no': 3, 'keyword': 'A4'}
+    {'no': 1, 'keyword': 'Roll-80'},
+    {'no': 2, 'keyword': 'Roll-57'},
+    {'no': 3, 'keyword': 'Legal'},
+    {'no': 4, 'keyword': 'A4'}
   ];
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   var _selectedTest;
@@ -110,7 +111,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
     });
 
     setPaperId(selectedTest['keyword'].toString());
-    print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'Roll-55'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+    print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'Roll-57'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 
   addShop(shopName) {
