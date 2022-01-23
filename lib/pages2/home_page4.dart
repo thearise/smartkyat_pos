@@ -1767,9 +1767,8 @@ class HomePageState extends State<HomePage>
                                                   left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
                                               child: GestureDetector(
                                                 onTap: () async {
-                                                  Navigator.of(context).pop();
-                                                  Navigator.of(context).pop();
-
+                                                  // Navigator.of(context).pop();
+                                                  // Navigator.of(context).pop();
                                                 },
                                                 child: Column(
                                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -1862,8 +1861,7 @@ class HomePageState extends State<HomePage>
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ],),
                                       Expanded(
                                         child: ListView(
                                           children: [

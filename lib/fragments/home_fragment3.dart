@@ -272,19 +272,19 @@ class HomeFragmentState extends State<HomeFragment>
       if(value=='burmese') {
         setState(() {
 
-          textSetTotalSales = 'TOTAL SALES';
-          textSetTodaySoFar = 'TODAY SO FAR';
-          textSetStockCosts = 'Stock costs';
-          textSetUnpaid = 'Unpaid';
-          textSetBuys = 'Buys';
-          textSetLoss = 'Loss';
-          textSetToday = 'Day';
-          textSetLastWeek = 'Last week';
-          textSetLastMonth = 'Last month';
-          textSetLastYear = 'Last year';
-          textSetLast7Days = 'Last 7 Days';
-          textSetLast28D = 'LAST 28 DAYS';
-          textSetLast12M = 'LAST 12 MONTHS';
+          textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
+          textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+          textSetStockCosts = 'ဝယ်ယူစရိတ်';
+          textSetUnpaid = 'အကြွေးရရန်';
+          textSetBuys = 'ဝယ်ယူစရိတ်';
+          textSetLoss = 'ဆုံးရှုံး';
+          textSetToday = 'နေ့စဉ်';
+          textSetLastWeek = 'အပတ်စဉ်';
+          textSetLastMonth = 'လစဉ်';
+          textSetLastYear = 'နှစ်စဉ်';
+          textSetLast7Days = '၇ရက်အတွင်း';
+          textSetLast28D = '၂၈ရက်အတွင်း';
+          textSetLast12M = '၁၂လအတွင်း';
 
         });
       } else if(value=='english') {
@@ -1974,6 +1974,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                 child: Text(
                                                                                   textSetTotalSales,
                                                                                   style: TextStyle(
+                                                                                    height: 0.9,
                                                                                     letterSpacing: 2,
                                                                                     fontWeight: FontWeight.bold,
                                                                                     fontSize: 14,color: Colors.Colors.black,
@@ -1982,7 +1983,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                               ),
                                                                               Text(
                                                                                 titleTextBySlide(),
-                                                                                style: TextStyle(
+                                                                                style: TextStyle( height: 0.9,
                                                                                   letterSpacing: 2,
                                                                                   fontWeight: FontWeight.bold,
                                                                                   fontSize: 14,color: Colors.Colors.grey,
@@ -2163,7 +2164,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           child: Text('?')
                                                                                       ),
                                                                                       Text(textSetStockCosts,
-                                                                                        style: TextStyle(
+                                                                                        style: TextStyle( height: 0.9,
                                                                                             fontSize: 13,
                                                                                             fontWeight: FontWeight.w500,
                                                                                             color: Colors.Colors.black.withOpacity(0.6)),
@@ -2249,7 +2250,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                       ),
                                                                                       Text(textSetUnpaid,
                                                                                         style: TextStyle(
-                                                                                            fontSize: 13,
+                                                                                            fontSize: 13, height: 0.9,
                                                                                             fontWeight: FontWeight.w500,
                                                                                             color: Colors.Colors.black.withOpacity(0.6)),
                                                                                       ),

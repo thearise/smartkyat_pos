@@ -100,6 +100,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
   void printFromOrdersFun(File file) {
     widget._printFromOrders(file);
   }
+
   @override
   initState() {
     initConnectivity();
@@ -137,7 +138,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
   double totalPrice = 0;
   double totalRealPrice = 0.0;
-
+  double ttlQ = 0;
+  double ttlR = 0;
   List prodListPrint = [];
   @override
   Widget build(BuildContext context) {
@@ -308,6 +310,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                               widget.data
                                   .split('^')[4] + '^' + widget.data.split('^')[5] + '^' + widget.data
                               .split('^')[6];
+                          for (int i = 0; i < prodListView.length; i++) {
+                            ttlR += double.parse(prodListView[i].split('-')[7]);
+                            ttlQ += double.parse(prodListView[i].split('-')[3]);
+                          }
 
                           return Expanded(
                             // height: 580,
@@ -423,7 +429,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               ),
                                             ),
                                             SizedBox(width: 12),
-                                            ButtonTheme(
+                                          debt.toString() != '0.0' ? ButtonTheme(
                                               minWidth: 133,
                                               child: FlatButton(
                                                 color: AppTheme.buttonColor2,
@@ -480,7 +486,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            ) : Container(),
                                             SizedBox(width: 12),
                                             ButtonTheme(
                                               minWidth: 133,
@@ -608,7 +614,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               ),
                                             ),
                                             SizedBox(width: 12),
-                                            ButtonTheme(
+                                            debt.toString() != '0.0' ? ButtonTheme(
                                               minWidth: 133,
                                               child: FlatButton(
                                                 color: AppTheme.buttonColor2,
@@ -659,7 +665,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            ) : Container(),
                                             SizedBox(width: 12),
                                             ButtonTheme(
                                               minWidth: 133,
@@ -738,7 +744,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         ),
                                       ),
                                       SizedBox(height: 20,),
-                                      Padding(
+                                     (ttlQ - ttlR).round().toString() != '0' ? Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                         child: Text('PURCHASED ITEMS', style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -746,11 +752,18 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                           letterSpacing: 2,
                                           color: Colors.grey,
                                         ),),
-                                      ),
+                                      ):  Padding(
+                                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                       child: Text('All Items Refunded.', style: TextStyle(
+                                         fontWeight: FontWeight.bold,
+                                         fontSize: 14,
+                                         letterSpacing: 2,
+                                         color: Colors.grey,
+                                       ),),
+                                     ),
                                     ],
                                   ),
                                 ),
-
                                 for (int i = 0; i < prodListView.length; i++)
                                 // if (prodListView[i].split('-')[3] != prodListView[i].split('-')[7])
                                   StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -762,7 +775,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         .snapshots(),
                                     builder: (BuildContext context, snapshot2) {
                                       if (snapshot2.hasData) {
-
                                         var output2 = snapshot2.data!.data();
                                         var image = output2?['img_1'];
                                         print('image htwet ' + prodListView[i].toString());
@@ -781,7 +793,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                 (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
                                           );
                                         }
-                                        return  Stack(
+                                        return (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
                                           children: [
                                             Container(
                                               color: Colors.white,
@@ -906,12 +918,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             //   ),
                                             // ),
                                           ],
-                                        );
+                                        ): Container();
                                       }
                                       return Container();
                                     },
                                   ),
-
                                 Container(
                                   // color: Colors.blue,
                                   child: Column(
@@ -939,16 +950,29 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                       //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       // ),
-                                      if ((widget.data.split('^')[6]) != '0.0') Padding(
+                                        (ttlQ - ttlR).round().toString() == '0' ?
+                                        Padding(
                                         padding: const EdgeInsets.only(left: 15.0),
-                                        child: Container(height: 1,
-                                          decoration: BoxDecoration(
-                                              border: Border(
-                                                top:
-                                                BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                              )),),
-                                      ),
-                                      if ((widget.data.split('^')[6]) != '0.0') Container(
+                                        child: Container(
+                                        ),
+                                      ): (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'?
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 15.0),
+                                          child: Container(
+                                          ),
+                                        ):
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 15.0),
+                                          child: Container(height: 1,
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                  top:
+                                                  BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                )),
+                                          ),
+                                        ),
+                                      if ((widget.data.split('^')[6]) != '0.0')
+                                        Container(
                                         child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
                                         Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 1.0),
@@ -960,7 +984,6 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             trailing: Text('- MMK ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                             // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
                                             //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-
                                           ),
                                         ) :  Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 1.0),
@@ -1028,15 +1051,17 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                     ],
                                   ),
                                 ),
-                                if(prodListView[0].split('-')[7] != '0')
+                                if(ttlR.round().toString() != '0')
                                   Container(
-                                    decoration: BoxDecoration(
+                                    decoration: (ttlQ - ttlR).round().toString() != '0' ? BoxDecoration(
                                         border: Border(
-                                          top:
-                                          BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                        )),
+                                          top: BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                        )) : (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'? BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                        )) : BoxDecoration(),
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0),
+                                      padding: (ttlQ - ttlR).round().toString() != '0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0) : (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0): EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0),
                                       child: Text('REFUNDED ITEMS', style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
@@ -1062,7 +1087,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                           var output2 =
                                           snapshot2.data!.data();
                                           var image = output2?['img_1'];
-                                          return Stack(
+                                          return double.parse(prodListView[i].split('-')[7]).round().toString() != '0' ? Stack(
                                             children: [
                                               Container(
                                                 color: Colors.white,
@@ -1183,7 +1208,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                 ),
                                               ),
                                             ],
-                                          );
+                                          ) : Container();
                                         }
                                         return Container();
                                       },
