@@ -20,6 +20,10 @@ class PdfInvoiceApi {
       fontSizeDesc = 11.0;
     } else if(size == 'Roll-80') {
       fontSizeDesc = 14;
+    } else if(size == 'A4') {
+      fontSizeDesc = 14;
+    } else if(size == 'Legal') {
+      fontSizeDesc = 14;
     }
     final pdf = Document();
 
@@ -60,13 +64,14 @@ class PdfInvoiceApi {
                     SizedBox(height: 0.5 * PdfPageFormat.cm),
 
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: size == 'Roll-80' ? 12: 10),
                       child: Column(
                           children: [
+                            if(size == 'Roll-80') SizedBox(height: 0.2 * PdfPageFormat.cm),
                             pw.Text(Rabbit.uni2zg(invoice.supplier.name),
                               textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc+5: fontSizeDesc+8,font: ttfBold),
                             ),
-                            SizedBox(height: 0.2 * PdfPageFormat.cm),
+                            SizedBox(height: size == 'Roll-80' ? 0.25 * PdfPageFormat.cm: 0.2 * PdfPageFormat.cm),
                             // pw.Text(Rabbit.uni2zg("ဘာတွေလဲ ဘာေတွလဲ ဘာတွေဖြစ်နေတာလဲလို့ ပြောကြပါဦး Whatting?"),style: pw.TextStyle(fontSize: fontSizeDesc-4,font: ttfReg, fontWeight: FontWeight.bold)),
                             // ahttps://riftplus.info/dist/img/riftplus-fg.pnga
                             pw.Text(Rabbit.uni2zg(invoice.supplier.address),style: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.black)),
@@ -74,7 +79,7 @@ class PdfInvoiceApi {
                           ]
                       ),
                     ),
-                    SizedBox(height: 0.3 * PdfPageFormat.cm),
+                    SizedBox(height: size == 'Roll-80'? 0.35 * PdfPageFormat.cm: 0.3 * PdfPageFormat.cm),
 
                     Container(decoration: BoxDecoration(
                         border: Border(
@@ -82,7 +87,7 @@ class PdfInvoiceApi {
                               width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
                         )
                     ),height: 1),
-                    SizedBox(height: 0.3 * PdfPageFormat.cm),
+                    SizedBox(height: size == 'Roll-80'? 0.35 * PdfPageFormat.cm: 0.3 * PdfPageFormat.cm),
 
 
                   ],
@@ -90,7 +95,7 @@ class PdfInvoiceApi {
             ),
             // SizedBox(height: 3 * PdfPageFormat.cm),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: size == 'Roll-80' ? 12: 10),
                 child: Container(
                     width: double.infinity,
                     child: Column(
@@ -102,7 +107,7 @@ class PdfInvoiceApi {
                               fontSize: fontSizeDesc-3,
                               fontWeight: FontWeight.bold,)
                         ),
-                        SizedBox(height: 0.1 * PdfPageFormat.cm),
+                        SizedBox(height: size == 'Roll-80'? 0.15 * PdfPageFormat.cm: 0.1 * PdfPageFormat.cm),
                         invoice.customer.name != 'name'?
                         pw.Text(Rabbit.uni2zg('Name: ' + invoice.customer.name),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)) :
                         pw.Text(Rabbit.uni2zg('Name: no customer'),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
@@ -111,13 +116,13 @@ class PdfInvoiceApi {
                         //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
                         // Text('PHONE: (+959) 751133553', style: TextStyle(
                         //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
-                        SizedBox(height: 0.2 * PdfPageFormat.cm),
+                        SizedBox(height: size == 'Roll-80'? 0.25 * PdfPageFormat.cm: 0.2 * PdfPageFormat.cm),
                       ],
                     )
                 )
             ),
             buildInvoice(invoice, ttfReg, size),
-            SizedBox(height: 0.2 * PdfPageFormat.cm),
+            SizedBox(height: size == 'Roll-80'? 0.25 * PdfPageFormat.cm: 0.2 * PdfPageFormat.cm),
             Padding(
               padding: new EdgeInsets.only(top: 5.0),
               child: Container(decoration: BoxDecoration(
@@ -149,7 +154,7 @@ class PdfInvoiceApi {
             pw.Text(Rabbit.uni2zg('ကျေးဇူးတင်ပါသည်။'),
               textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc+5: fontSizeDesc+8,font: ttfBold),
             ),
-            SizedBox(height: 0.16 * PdfPageFormat.cm),
+            SizedBox(height: size == 'Roll-80'? 0.2 * PdfPageFormat.cm: 0.15 * PdfPageFormat.cm),
             pw.Center(
               child: pw.Image(image, height: fontSizeDesc + 6),
             ),
@@ -157,7 +162,7 @@ class PdfInvoiceApi {
             // pw.Icon(
             //   Icons.remove, size: 20,
             // ),
-            SizedBox(height: 0.6 * PdfPageFormat.cm),
+            SizedBox(height: size == 'Roll-80'? 1 * PdfPageFormat.cm: 0.5 * PdfPageFormat.cm),
           ]
       ),
       // footer: (context) => buildFooter(invoice),
@@ -346,7 +351,7 @@ class PdfInvoiceApi {
       }).toList();
 
       return Padding(
-          padding: new EdgeInsets.symmetric(horizontal: 5.0),
+          padding: new EdgeInsets.symmetric(horizontal: size == 'Roll-80'? 7: 5.0),
           child: Table.fromTextArray(
             headers: headers,
             data: data,
@@ -396,7 +401,7 @@ class PdfInvoiceApi {
       }).toList();
 
       return Padding(
-          padding: new EdgeInsets.symmetric(horizontal: 5.0),
+          padding: new EdgeInsets.symmetric(horizontal: size=='Roll-80'? 7.0: 5.0),
           child: Table.fromTextArray(
             headers: headers,
             data: data,
@@ -463,9 +468,9 @@ class PdfInvoiceApi {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 2.5 * PdfPageFormat.mm),
+                      SizedBox(height: size=='Roll-80'? 3 * PdfPageFormat.mm: 2.5 * PdfPageFormat.mm),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: 'Sub total',
                             value: Utils.formatPrice(netTotal),
@@ -477,7 +482,7 @@ class PdfInvoiceApi {
                       ),
                       SizedBox(height: 1.5 * PdfPageFormat.mm),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: disType == '-p'? 'Discount (${vatPercent * 1} %)' : 'Discount',
                             value: Utils.formatPrice(vat),
@@ -489,7 +494,7 @@ class PdfInvoiceApi {
                       ),
                       SizedBox(height: 1.5 * PdfPageFormat.mm),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: 'Total price',
                             value: Utils.formatPrice(total),
@@ -501,7 +506,7 @@ class PdfInvoiceApi {
                       ),
                       SizedBox(height: 1.5 * PdfPageFormat.mm),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: 'Paid',
                             value: Utils.formatPrice(paid),
@@ -513,7 +518,7 @@ class PdfInvoiceApi {
                       ),
                       SizedBox(height: 1.5 * PdfPageFormat.mm),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: 'Total debt',
                             value: Utils.formatPrice(debt),
@@ -523,7 +528,7 @@ class PdfInvoiceApi {
                             )
                         ),
                       ),
-                      SizedBox(height: .5 * PdfPageFormat.cm),
+                      SizedBox(height: size=='Roll-80'? 1 * PdfPageFormat.cm: .5 * PdfPageFormat.cm),
 
 
                       // Container(decoration: BoxDecoration(
@@ -561,9 +566,9 @@ class PdfInvoiceApi {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 2.5 * PdfPageFormat.mm),
+                    SizedBox(height: size == 'Roll-80'? 3 * PdfPageFormat.mm: 2.5 * PdfPageFormat.mm),
                     Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title: 'Sub total',
                           value: Utils.formatPrice(netTotal),
@@ -573,9 +578,9 @@ class PdfInvoiceApi {
                           )
                       ),
                     ),
-                    SizedBox(height: 1.5 * PdfPageFormat.mm),
+                    SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),
                     Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title:  disType == '-p'? 'Discount (${vatPercent * 1}) %' : 'Discount',
                           value: Utils.formatPrice(vat),
@@ -585,9 +590,9 @@ class PdfInvoiceApi {
                           )
                       ),
                     ),
-                    SizedBox(height: 1.5 * PdfPageFormat.mm),
+                    SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),
                     Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title: 'Total price',
                           value: Utils.formatPrice(total),
@@ -597,9 +602,9 @@ class PdfInvoiceApi {
                           )
                       ),
                     ),
-                    SizedBox(height: 1.5 * PdfPageFormat.mm),
+                    SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),
                     Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title: 'Paid',
                           value: Utils.formatPrice(paid),
@@ -609,9 +614,9 @@ class PdfInvoiceApi {
                           )
                       ),
                     ),
-                    SizedBox(height: 1.5 * PdfPageFormat.mm),
+                    SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),
                     Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title: 'Total debt',
                           value: Utils.formatPrice(debt),
@@ -621,7 +626,7 @@ class PdfInvoiceApi {
                           )
                       ),
                     ),
-                    SizedBox(height: .5 * PdfPageFormat.cm),
+                    SizedBox(height: size == 'Roll-80'? 0.3 * PdfPageFormat.cm: .1 * PdfPageFormat.cm),
 
 
                     // Container(decoration: BoxDecoration(
