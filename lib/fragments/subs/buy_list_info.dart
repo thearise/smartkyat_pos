@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_refund2.dart';
@@ -103,8 +104,27 @@ class _BuyListInfoState extends State<BuyListInfo>
     widget._printFromOrders(file);
   }
 
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
   initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
@@ -389,7 +409,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text('MMK ' + (double.parse(result.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  Text('$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -622,7 +642,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                               ),
                                             ),
                                             SizedBox(width: 12),
-                                            ButtonTheme(
+                                            debt.toString() != '0.0' ? ButtonTheme(
                                               minWidth: 133,
                                               child: FlatButton(
                                                 color: AppTheme.buttonColor2,
@@ -679,8 +699,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(width: 12),
+                                            ) : Container(),
+                                            debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
                                             ButtonTheme(
                                               minWidth: 133,
                                               child: FlatButton(
@@ -712,7 +732,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId))
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
                                                   );
 
                                                 },
@@ -808,7 +828,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                               ),
                                             ),
                                             SizedBox(width: 12),
-                                            ButtonTheme(
+                                            debt.toString() != '0.0' ? ButtonTheme(
                                               minWidth: 133,
                                               child: FlatButton(
                                                 color: AppTheme.buttonColor2,
@@ -859,8 +879,8 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(width: 12),
+                                            ) : Container(),
+                                            debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
                                             ButtonTheme(
                                               minWidth: 133,
                                               child: FlatButton(
@@ -892,7 +912,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId))
+                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
                                                   );
                                                 },
                                                 child: Container(
@@ -1049,7 +1069,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                         ],
                                                       ),
                                                     ),
-                                                    trailing: Text('MMK ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                    trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                         fontWeight: FontWeight.w500,
@@ -1128,23 +1148,23 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       //   // subtitle: Text('Amount applied', style: TextStyle(
                                       //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       //   // )),
-                                      //   trailing: Text('MMK ' + totalRealPrice.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   trailing: Text('$currencyUnit ' + totalRealPrice.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       // ),
                                       // if ((widget.data.split('^')[6]) != '0.0') Container(
                                       //   child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
                                       //   ListTile(
                                       //     title: Text('SubTotal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       //
-                                      //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //     trailing: Text('$currencyUnit ' + (double.parse(widget.data.split('^')[2]) + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       //
                                       //   ) :  ListTile (
                                       //     title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       //
-                                      //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + double.parse(widget.data.split('^')[6].split('-')[0])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //     trailing: Text('$currencyUnit ' + (double.parse(widget.data.split('^')[2]) + double.parse(widget.data.split('^')[6].split('-')[0])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       //   ),
                                       // ) else ListTile (
                                       //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   trailing: Text('$currencyUnit ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       // ),
                                       (ttlQ - ttlR).round().toString() == '0' ?
                                       Padding(
@@ -1176,9 +1196,9 @@ class _BuyListInfoState extends State<BuyListInfo>
                                             subtitle: Text('Percentage (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
                                               fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                             )),
-                                            trailing: Text('- MMK ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                            // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
-                                            //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                            trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                            // trailing: Text('- $currencyUnit ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
+                                            //trailing: Text('- $currencyUnit ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                           ),
                                         ) :  Padding(
@@ -1188,7 +1208,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                             subtitle: Text('Amount applied', style: TextStyle(
                                               fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                             )),
-                                            trailing: Text('- MMK ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                            trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                           ),
                                         ),
                                       ) else Container(),
@@ -1206,14 +1226,14 @@ class _BuyListInfoState extends State<BuyListInfo>
                                       //   // subtitle: Text('Amount applied', style: TextStyle(
                                       //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       //   // )),
-                                      //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   trailing: Text('$currencyUnit ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       // ),
                                       // ListTile (
                                       //   title: Text('Paid', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       //   // subtitle: Text('Amount applied', style: TextStyle(
                                       //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       //   // )),
-                                      //   trailing: Text('- MMK ' + (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      //   trailing: Text('- $currencyUnit ' + (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       // ),
 
                                       if ((widget.data.split('^')[5]) != '0.0')
@@ -1235,7 +1255,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                       contentPadding: EdgeInsets.only(left: 0.0, right: 15),
                                                       title: Text('Debt Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
-                                                      trailing: Text('MMK ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                      trailing: Text('$currencyUnit ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                                     ),
                                                   ),
@@ -1545,8 +1565,8 @@ class _BuyListInfoState extends State<BuyListInfo>
   Widget discSub(String str, String prodList) {
     if(str != '0.0') {
       return str.split('-')[1] == 'p' ?
-      Text((double.parse(prodList.split('-')[4]) - (double.parse(prodList.split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2) + ' MMK'):
-      Text((double.parse(prodList.split('-')[4]) - (double.parse(prodList.split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2) + ' MMK');
+      Text((double.parse(prodList.split('-')[4]) - (double.parse(prodList.split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2) + ' $currencyUnit'):
+      Text((double.parse(prodList.split('-')[4]) - (double.parse(prodList.split('-')[4]) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2) + ' $currencyUnit');
     } else {
       return Text(double.parse(prodList.split('-')[4]).toStringAsFixed(2));
     }
@@ -1556,18 +1576,18 @@ class _BuyListInfoState extends State<BuyListInfo>
   discTra(String str, String prodList) {
     if(str != '0.0') {
       return widget.data.split('^')[6].split('-')[1] == 'p' ?
-      Text('MMK ' +((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) - ((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+      Text('$currencyUnit ' +((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) - ((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),) :
-      Text('MMK ' +((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) - ((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+      Text('$currencyUnit ' +((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) - ((double.parse(prodList.split('-')[4]) * (double.parse(prodList.split('-')[7]))) * (double.parse(widget.data.split('^')[6].split('-')[0])/totalRealPrice))).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),);
     } else {
-      return Text('MMK ' +(double.parse(prodList.split('-')[4]) * double.parse(prodList.split('-')[7])).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+      return Text('$currencyUnit ' +(double.parse(prodList.split('-')[4]) * double.parse(prodList.split('-')[7])).toStringAsFixed(2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 
@@ -39,8 +40,27 @@ class _BuyListRefundState extends State<BuyListRefund>
   List<double> deffItems = [];
   RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   List<TextEditingController> quantityCtrlList = [];
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
   initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     for(int i=0; i<widget.data2.length; i++) {
       quantityCtrlList.add(TextEditingController());
       quantityCtrlList[i].text = double.parse(widget.data2[i].split('-')[7]).round().toString();
@@ -294,7 +314,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text('MMK ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  Text('$currencyUnit ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(2)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
@@ -639,7 +659,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                       style: TextStyle(
                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       )),
-                                  trailing: Text('MMK '+
+                                  trailing: Text('$currencyUnit '+
                                       totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                         fontSize: 17,
@@ -664,7 +684,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                       style: TextStyle(
                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       )),
-                                  trailing: Text('MMK '+
+                                  trailing: Text('$currencyUnit '+
                                       totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                     style: TextStyle(
                                         fontSize: 17,
@@ -915,7 +935,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               });
 
                                               Navigator.of(context).popUntil((route) => route.isFirst);
-                                              smartKyatFlash('MMK' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
+                                              smartKyatFlash(currencyUnit + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
                                             },
                                             child: loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                                 child: CupertinoActivityIndicator(radius: 10,)) : Padding(

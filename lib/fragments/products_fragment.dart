@@ -136,6 +136,8 @@ class ProductsFragmentState extends State<ProductsFragment>
   String textSetBestSales = 'Best Sales';
   String textSetLowSales = 'Low Sales';
 
+
+
   bool searchOpening = false;
   changeSearchOpening(bool index) {
     setState(() {
@@ -151,8 +153,27 @@ class ProductsFragmentState extends State<ProductsFragment>
     return prefs.getString('lang');
   }
 
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
   initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     // _bannerAd = BannerAd(
     //   // Change Banner Size According to Ur Need
     //     size: AdSize.fullBanner,
@@ -915,7 +936,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                           Row(
                                                             children: [
                                                               Text(
-                                                                'MMK ' + mainsPrice,
+                                                                '$currencyUnit ' + mainsPrice,
                                                                 style: TextStyle(
                                                                   height: 1.3,
                                                                   fontSize: 15,

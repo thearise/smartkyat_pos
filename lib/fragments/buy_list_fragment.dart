@@ -113,6 +113,8 @@ class BuyListFragmentState extends State<BuyListFragment>
   String textSetTRefunds = 'Refunds';
   String textSetTPaid = 'Paids';
 
+  String currencyUnit = 'MMK';
+
   bool searchOpening = false;
   changeSearchOpening(bool index) {
     setState(() {
@@ -148,8 +150,24 @@ class BuyListFragmentState extends State<BuyListFragment>
     widget._printFromOrders(file);
   }
 
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
   initState() {
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     // _searchController.addListener((){
     //   setState(() {
     //     gloSearchText = _searchController.text;
@@ -4388,7 +4406,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                               child: Row(
                                                                 mainAxisAlignment: MainAxisAlignment.end,
                                                                 children: [
-                                                                  Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                                  Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
                                                                     fontSize: 15,
                                                                     fontWeight: FontWeight.w500,
                                                                   )),
@@ -4620,7 +4638,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.end,
                                                               children: [
-                                                                Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                                Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight.w500,
                                                                 )),

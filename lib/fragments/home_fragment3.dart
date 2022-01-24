@@ -163,6 +163,7 @@ class HomeFragmentState extends State<HomeFragment>
   String textSetLast28D = 'LAST 28 DAYS';
   String textSetLast12M = 'LAST 12 MONTHS';
 
+  String currencyUnit = 'MMK';
 
   slidingSearchCont() {
 
@@ -201,6 +202,11 @@ class HomeFragmentState extends State<HomeFragment>
       return 'english';
     }
     return prefs.getString('lang');
+  }
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
   }
 
   @override
@@ -264,6 +270,18 @@ class HomeFragmentState extends State<HomeFragment>
       if(nodeFirst.hasFocus) {
         setState(() {
           loadingSearch = true;
+        });
+      }
+    });
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
         });
       }
     });
@@ -2011,7 +2029,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                 ),
                                                                                 Padding(
                                                                                   padding: const EdgeInsets.only(top: 12.0),
-                                                                                  child: Text(' MMK',
+                                                                                  child: Text(' $currencyUnit',
                                                                                     textAlign: TextAlign.left,
                                                                                     style: GoogleFonts.roboto(
                                                                                         textStyle: TextStyle(
@@ -2183,7 +2201,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                       Positioned(
                                                                                         left: 0,
                                                                                         bottom: 2,
-                                                                                        child: Text('MMK',
+                                                                                        child: Text(currencyUnit,
                                                                                           style: TextStyle(
                                                                                               fontSize: 13,
                                                                                               fontWeight: FontWeight.w500,
@@ -2268,7 +2286,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                       Positioned(
                                                                                         left: 0,
                                                                                         bottom: 2,
-                                                                                        child: Text('MMK',
+                                                                                        child: Text(currencyUnit,
                                                                                           style: TextStyle(
                                                                                               fontSize: 13,
                                                                                               fontWeight: FontWeight.w500,
@@ -2353,7 +2371,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                       Positioned(
                                                                                         left: 0,
                                                                                         bottom: 2,
-                                                                                        child: Text('MMK',
+                                                                                        child: Text(currencyUnit,
                                                                                           style: TextStyle(
                                                                                               fontSize: 13,
                                                                                               fontWeight: FontWeight.w500,
@@ -2451,7 +2469,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                       Positioned(
                                                                                         left: 0,
                                                                                         bottom: 2,
-                                                                                        child: Text('MMK',
+                                                                                        child: Text(currencyUnit,
                                                                                           style: TextStyle(
                                                                                               fontSize: 13,
                                                                                               fontWeight: FontWeight.w500,
