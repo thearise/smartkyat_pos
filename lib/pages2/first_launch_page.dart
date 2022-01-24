@@ -352,10 +352,8 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                   ),
                                   child: ListTile(
                                     leading: Padding(
-                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
-                                      child: Icon(
-                                        Icons.cloud_done_rounded, size: 24, color: Colors.black,
-                                      ),
+                                      padding: const EdgeInsets.only(left:4.5, top: 3.0),
+                                      child: Image.asset('assets/system/features/cloud_sync.png', width: 26.5,),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
@@ -373,7 +371,237 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                         Container(
                                           child: Padding(
                                             padding: const EdgeInsets.only(bottom: 10.0),
-                                            child: Text('Real-time data supported and syncronized across all devices with offline data management supported', style: TextStyle(
+                                            child: Text('Real-time and syncronized data across all over devices with automatically offline-data-restore supported.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
+                                        ),
+                                        SizedBox(height: 3),
+                                      ],
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                    color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
+                                  ),
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:5.0, top: 2.0),
+                                      child: Image.asset('assets/system/features/finance_reports.png', width: 27,),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Finance reports', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Manage payments across all the staff\'s they sell and generate reports to review your finances including sales, stock costs and unpaid orders.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
+                                        ),
+                                        SizedBox(height: 3),
+                                      ],
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                    color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
+                                  ),
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:5.5, top: 4.0),
+                                      child: Image.asset('assets/system/features/inventory_status.png', width: 28,),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Inventory status', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Use inventory states to track and share the status of your inventory as products are received, sold, or an order is fulfilled.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
+                                        ),
+                                        SizedBox(height: 3),
+                                      ],
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                    color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
+                                  ),
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:4.0, top: 2.0),
+                                      child: Image.asset('assets/system/features/unlimited_products.png', width: 29,),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Unlimited products', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Add multiple sub-items of unlimited products such as dozens, items per package and assign their own price, SKU (Stock keeping units), units per package and inventory.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
+                                        ),
+                                        SizedBox(height: 3),
+                                      ],
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                    color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
+                                  ),
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:6.0, top: 1.5),
+                                      child: Image.asset('assets/system/features/barcode_scans.png', width: 28,),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Barcode scans (camera scanner)', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Assign barcodes to products to keeep track of inventory and speed up checkout.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
+                                        ),
+                                        SizedBox(height: 3),
+                                      ],
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                    color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
+                                  ),
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
+                                      child: Image.asset('assets/system/features/staffs.png', width: 25,),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('POS staff roles and permissions', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Assign custom roles to store staff ensuring they have the correct permissions.', style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             )),
@@ -401,13 +629,11 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                   child: ListTile(
                                     leading: Padding(
                                       padding: const EdgeInsets.only(left:3.0, top: 3.0),
-                                      child: Icon(
-                                        Icons.computer_rounded, size: 26, color: Colors.black,
-                                      ),
+                                      child: Image.asset('assets/system/features/order_refunds.png', width: 29,),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text('A single back office', style: TextStyle(
+                                      child: Text('Order refunds, discounts and debts', style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -421,7 +647,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                         Container(
                                           child: Padding(
                                             padding: const EdgeInsets.only(bottom: 10.0),
-                                            child: Text('Manage products, payments, and customers across all the places you sell, in store and online.', style: TextStyle(
+                                            child: Text('Return items of past purchases from any devices, and apply discounts and debts to each order.', style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             )),
@@ -448,14 +674,12 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                   ),
                                   child: ListTile(
                                     leading: Padding(
-                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
-                                      child: Icon(
-                                        SmartKyat_POS.product, size: 22, color: Colors.black,
-                                      ),
+                                      padding: const EdgeInsets.only(left:4.5, top: 3),
+                                      child: Image.asset('assets/system/features/customer_profile.png', width: 28,),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text('Unlimited products', style: TextStyle(
+                                      child: Text('Rich customer profiles', style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
                                           letterSpacing: -0.3
@@ -469,103 +693,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                         Container(
                                           child: Padding(
                                             padding: const EdgeInsets.only(bottom: 10.0),
-                                            child: Text('Add multiple variations to products such as size, color, or materials and assign their own price, SKU, weight, and inventory.', style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14, color: Colors.black,
-                                            )),
-                                          ),
-                                        ),
-                                        SizedBox(height: 3),
-                                      ],
-                                    ),
-
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15.0),
-                                    ),
-                                    color: AppTheme.lightBgColor,
-                                    border: Border.all(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        width: 1.0),
-                                  ),
-                                  child: ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
-                                      child: Icon(
-                                        Icons.qr_code_scanner_rounded, size: 22, color: Colors.black,
-                                      ),
-                                    ),
-                                    title: Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text('Barcode scans', style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          letterSpacing: -0.3
-                                      )),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 6),
-                                        Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(bottom: 10.0),
-                                            child: Text('Assign existing barcodes to products or create new ones to keep track of inventory and speed up checkout.', style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14, color: Colors.black,
-                                            )),
-                                          ),
-                                        ),
-                                        SizedBox(height: 3),
-                                      ],
-                                    ),
-
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15.0),
-                                    ),
-                                    color: AppTheme.lightBgColor,
-                                    border: Border.all(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        width: 1.0),
-                                  ),
-                                  child: ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(left:6.0, top: 3.0),
-                                      child: Icon(
-                                        Icons.inventory_rounded, size: 24, color: Colors.black,
-                                      ),
-                                    ),
-                                    title: Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text('Inventory status', style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          letterSpacing: -0.3
-                                      )),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 6),
-                                        Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(bottom: 10.0),
-                                            child: Text('Use inventory states to track and share the status of your inventory as products are received, transferred, or an order is fulfilled.', style: TextStyle(
+                                            child: Text('Keep track of contact information, purchase history, lifetime spend, and debts of each customers.', style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14, color: Colors.black,
                                             )),
