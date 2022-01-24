@@ -36,8 +36,27 @@ getDeviceId() async {
 
 class _LossProductState extends State<LossProduct> {
 
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
-  void initState() {
+  initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     priceAmount.text = priceUnit();
     // TODO: implement initState
     getDeviceId().then((value) {
@@ -305,7 +324,7 @@ class _LossProductState extends State<LossProduct> {
                                             right: 15.0,
                                             top: 20.0,
                                             bottom: 20.0),
-                                        suffixText: 'MMK',
+                                        suffixText: '$currencyUnit',
                                         suffixStyle: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 12,

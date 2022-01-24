@@ -9,6 +9,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
@@ -51,19 +52,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
         currencyType = value;
       });
     });
-    // var _selectedTestInit = [{'no': 1, 'keyword': 'Roll-55'}];
-    // _selectedTest = _selectedTestInit[0];
-    // _selectedTest = DropdownMenuItem(
-    //   value: 1,
-    //   child: Text('Roll-55'),
-    // );
     _dropdownTestItems = buildDropdownTestItems(_testList);
-    getStoreId().then((value) {
-      setState(() {
-        _result = value.toString();
-      });
-
-    });
     super.initState();
   }
 
@@ -99,16 +88,29 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
   }
 
   onChangeDropdownTests(selectedTest) {
-    // String gg = '';
-    //
-    // gg = selectedTest;
+    showOkCancelAlertDialog(
+      context: context,
+      title: 'Are you sure you want to change to US Dollar?',
+      message: '\nThis action will restart the application',
+      defaultType: OkCancelAlertDefaultType.cancel,
+    ).then((result) async {
+      if(result == OkCancelResult.ok) {
+        setState(() {
+          _selectedTest = selectedTest;
+        });
+        setCurrency(selectedTest['keyword'].toString()).then((_) {
+          // widget._chgShopCB3();
+          if (Platform.isAndroid) {
+            SystemNavigator.pop();
+          } else if (Platform.isIOS) {
+            exit(0);
+          }
+        });
 
+      }
+    }
+    );
 
-    setState(() {
-      _selectedTest = selectedTest;
-    });
-
-    setCurrency(selectedTest['keyword'].toString());
     print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 

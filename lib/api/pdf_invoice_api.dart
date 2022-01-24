@@ -49,8 +49,6 @@ class PdfInvoiceApi {
     );
 
 
-
-
     pdf.addPage(pw.Page(
       pageFormat: pageFormat,
       margin: new EdgeInsets.symmetric(horizontal: 0.0),
@@ -344,9 +342,9 @@ class PdfInvoiceApi {
           Rabbit.uni2zg(item.description + ' (' + item.date + ')'),
           // Utils.formatDate(item.date),
           '${item.quantity}'.replaceAll(regex, ''),
-          '${item.unitPrice} K',
+          '${item.unitPrice} ${item.currencyUnit}',
           // '${item.vat} %',
-          '${total.toStringAsFixed(2)} K',
+          '${total.toStringAsFixed(2)} ${item.currencyUnit}',
         ];
       }).toList();
 
@@ -396,7 +394,7 @@ class PdfInvoiceApi {
           // '${item.quantity}',
           // '\$ ${item.unitPrice}',
           // '${item.vat} %',
-          '${total.toStringAsFixed(2)} K',
+          '${total.toStringAsFixed(2)} ${item.currencyUnit}',
         ];
       }).toList();
 
@@ -438,8 +436,9 @@ class PdfInvoiceApi {
     final vatPercent = invoice.items.first.vat;
     final disType = invoice.items.first.type;
     final debt = invoice.items.first.debt;
-
+    final currency = invoice.items.first.currencyUnit;
     final vat;
+
     disType == '-p' ?  vat = netTotal * (vatPercent/100) : vat = vatPercent ;
     final total = netTotal - vat;
     final paid = total - debt;
@@ -473,7 +472,7 @@ class PdfInvoiceApi {
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: 'Sub total',
-                            value: Utils.formatPrice(netTotal),
+                            value: Utils.formatPrice(netTotal) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
                                 fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -485,7 +484,7 @@ class PdfInvoiceApi {
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: disType == '-p'? 'Discount (${vatPercent * 1} %)' : 'Discount',
-                            value: Utils.formatPrice(vat),
+                            value: Utils.formatPrice(vat) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
                                 fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -497,7 +496,7 @@ class PdfInvoiceApi {
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: 'Total price',
-                            value: Utils.formatPrice(total),
+                            value: Utils.formatPrice(total) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
                                 fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -509,7 +508,7 @@ class PdfInvoiceApi {
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: 'Paid',
-                            value: Utils.formatPrice(paid),
+                            value: Utils.formatPrice(paid) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
                                 fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -521,7 +520,7 @@ class PdfInvoiceApi {
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
                             title: 'Total debt',
-                            value: Utils.formatPrice(debt),
+                            value: Utils.formatPrice(debt) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
                                 fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -571,7 +570,7 @@ class PdfInvoiceApi {
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title: 'Sub total',
-                          value: Utils.formatPrice(netTotal),
+                          value: Utils.formatPrice(netTotal) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
                               fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -583,7 +582,7 @@ class PdfInvoiceApi {
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title:  disType == '-p'? 'Discount (${vatPercent * 1}) %' : 'Discount',
-                          value: Utils.formatPrice(vat),
+                          value: Utils.formatPrice(vat) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
                               fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -595,7 +594,7 @@ class PdfInvoiceApi {
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title: 'Total price',
-                          value: Utils.formatPrice(total),
+                          value: Utils.formatPrice(total) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
                               fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -607,7 +606,7 @@ class PdfInvoiceApi {
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title: 'Paid',
-                          value: Utils.formatPrice(paid),
+                          value: Utils.formatPrice(paid) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
                               fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
@@ -619,7 +618,7 @@ class PdfInvoiceApi {
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           title: 'Total debt',
-                          value: Utils.formatPrice(debt),
+                          value: Utils.formatPrice(debt) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
                               fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
