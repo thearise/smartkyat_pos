@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
 
@@ -44,9 +45,27 @@ class _FillProductState extends State<FillProduct> {
 
 
 
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
-  void initState() {
-    // TODO: implement initState
+  initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     super.initState();
   }
 
@@ -298,7 +317,7 @@ class _FillProductState extends State<FillProduct> {
                                             right: 15.0,
                                             top: 20.0,
                                             bottom: 20.0),
-                                        suffixText: 'MMK',
+                                        suffixText: '$currencyUnit',
                                         suffixStyle: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 12,

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_theme.dart';
 
@@ -32,8 +33,27 @@ class _PayDebtItemsState extends State<PayDebtItems> {
   }
   final _formKey = GlobalKey<FormState>();
 
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
-  void initState() {
+  initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     debtAmount = double.parse(widget.debt.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     _textFieldController.addListener((){
@@ -142,7 +162,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
     //
     //               _textFieldController.clear();
     //               Navigator.of(context).popUntil((route) => route.isFirst);
-    //               smartKyatFlash('$debtAmount MMK is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
+    //               smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
     //             } },
     //           child: Padding(
     //             padding: const EdgeInsets.only(
@@ -213,7 +233,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text('MMK ' + widget.data.split('^')[2].toString(),
+                                Text('$currencyUnit ' + widget.data.split('^')[2].toString(),
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
@@ -350,7 +370,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Text('Debt Remaining - MMK', style: TextStyle(
+                                        Text('Debt Remaining - $currencyUnit', style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.grey,
@@ -391,7 +411,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                                     contentPadding: const EdgeInsets.only(
                                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                                    suffixText: 'MMK',
+                                    suffixText: '$currencyUnit',
                                     suffixStyle: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 12,
@@ -457,7 +477,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       });
                                     },
                                     child: Container(
-                                      child: Text( 'MMK ' +
+                                      child: Text( '$currencyUnit ' +
                                           widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -498,7 +518,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                 //         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                                 //     contentPadding: const EdgeInsets.only(
                                 //         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                                //     suffixText: 'MMK',
+                                //     suffixText: '$currencyUnit',
                                 //     suffixStyle: TextStyle(
                                 //       color: Colors.grey,
                                 //       fontSize: 12,
@@ -648,7 +668,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                 //
                 //               _textFieldController.clear();
                 //               Navigator.of(context).popUntil((route) => route.isFirst);
-                //               smartKyatFlash('$debtAmount MMK is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
+                //               smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
                 //             } },
                 //           child: Padding(
                 //             padding: const EdgeInsets.only(
@@ -756,7 +776,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
 
                             _textFieldController.clear();
                             Navigator.of(context).popUntil((route) => route.isFirst);
-                            smartKyatFlash('$debtAmount MMK is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
+                            smartKyatFlash('$debtAmount $currencyUnit is successfully paid to #' + widget.data.split('^')[1].toString(), 's');
                           } },
                         child: Padding(
                           padding: const EdgeInsets.only(

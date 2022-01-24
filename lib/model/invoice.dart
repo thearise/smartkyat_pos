@@ -37,6 +37,7 @@ class InvoiceItem {
   final double unitPrice;
   final String type;
   final double debt;
+  final String currencyUnit;
 
   const InvoiceItem({
     required this.description,
@@ -46,5 +47,6 @@ class InvoiceItem {
     required this.unitPrice,
     required this.type,
     required this.debt,
+    required this.currencyUnit,
   });
 }

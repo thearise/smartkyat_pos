@@ -206,7 +206,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                                     right: 15.0,
                                                     top: 18.0,
                                                     bottom: 18.0),
-                                                suffixText: 'MMK',
+                                                //suffixText: 'MMK',
                                                 suffixStyle: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.grey,

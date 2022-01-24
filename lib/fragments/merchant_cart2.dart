@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 
 import '../app_theme.dart';
@@ -44,8 +45,27 @@ class MerchantCartState extends State<MerchantCart>
   bool merchCartCreating = false;
   bool disableTouch = false;
   RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
   initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     deviceIdNum = widget.deviceId;
     shopId = widget.shop;
     super.initState();
@@ -297,7 +317,7 @@ class MerchantCartState extends State<MerchantCart>
                                               DialogTextField(
                                                 keyboardType: TextInputType.number,
                                                 hintText: '0',
-                                                suffixText: 'MMK',
+                                                suffixText: '$currencyUnit',
                                                 // initialText: 'mono0926@gmail.com',
                                               ),
                                             ],
@@ -578,7 +598,7 @@ class MerchantCartState extends State<MerchantCart>
                                                       ],
                                                     ),
                                                   ),
-                                                  trailing: Text('MMK ' + (double.parse(
+                                                  trailing: Text('$currencyUnit ' + (double.parse(
                                                       widget.prodList2[i].split('^')[
                                                       1]) *
                                                       double.parse(widget.prodList2[
@@ -678,14 +698,14 @@ class MerchantCartState extends State<MerchantCart>
                                       subtitle: Text('Percentage (' +  discountAmount2.toString() + '%)', style: TextStyle(
                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       )),
-                                      trailing: Text('- MMK ' + (double.parse(TtlProdListPriceInit2()) - double.parse(TtlProdListPrice2())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit2()) - double.parse(TtlProdListPrice2())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                     ) :  ListTile (
                                       title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                       subtitle: Text('Amount applied', style: TextStyle(
                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       )),
-                                      trailing: Text('- MMK ' + discount2.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      trailing: Text('- $currencyUnit ' + discount2.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                     ),
                                   ) : Container(),
                                 ],
@@ -762,7 +782,7 @@ class MerchantCartState extends State<MerchantCart>
                             style: TextStyle(
                               fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                             )),
-                        trailing: Text('MMK '+
+                        trailing: Text('$currencyUnit '+
                             TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                           style: TextStyle(
                               fontSize: 17,
@@ -1031,7 +1051,7 @@ class MerchantCartState extends State<MerchantCart>
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text('MMK '+ titlePrice.toString(), style: TextStyle(
+                                      Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.grey,
                                       )),
@@ -1281,7 +1301,7 @@ class MerchantCartState extends State<MerchantCart>
                                             right: 15.0,
                                             top: 20,
                                             bottom: 20.0),
-                                        suffixText: 'MMK',
+                                        suffixText: '$currencyUnit',
                                         suffixStyle: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 12,
@@ -1341,18 +1361,18 @@ class MerchantCartState extends State<MerchantCart>
                                                     fontWeight: FontWeight.w500,
                                                   ),),
                                                   Spacer(),
-                                                  eachProd.split('^')[4]== 'unit_name' ? Text('MMK ' +  buy1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                  eachProd.split('^')[4]== 'unit_name' ? Text('$currencyUnit ' +  buy1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
                                                   ),) :
-                                                  eachProd.split('^')[4]== 'sub1_name' ? Text('MMK ' +  buy2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                  eachProd.split('^')[4]== 'sub1_name' ? Text('$currencyUnit ' +  buy2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey,
-                                                  ),) :  Text('MMK ' +  buy3.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                  ),) :  Text('$currencyUnit ' +  buy3.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                   TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
@@ -1511,7 +1531,7 @@ class MerchantCartState extends State<MerchantCart>
                                     FontWeight
                                         .w500),
                               ),
-                              trailing: Text('MMK '+
+                              trailing: Text('$currencyUnit '+
                                   (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                 style: TextStyle(
                                     fontSize: 17,
@@ -1899,7 +1919,7 @@ class MerchantCartState extends State<MerchantCart>
                                             color: Colors.grey,
                                           )),
                                           SizedBox(height: 3),
-                                          Text('MMK ' + TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
+                                          Text('$currencyUnit ' + TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style: TextStyle(
                                             fontSize: 23, fontWeight: FontWeight.w500,
                                           )),
                                         ],
@@ -1926,7 +1946,7 @@ class MerchantCartState extends State<MerchantCart>
                                           borderRadius: BorderRadius.all(Radius.circular(10.0))),
                                       contentPadding: const EdgeInsets.only(
                                           left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                                      suffixText: 'MMK',
+                                      suffixText: '$currencyUnit',
                                       suffixStyle: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 12,
@@ -2011,7 +2031,7 @@ class MerchantCartState extends State<MerchantCart>
                                           }); });
                                       },
                                       child: Container(
-                                        child: Text( 'MMK ' +
+                                        child: Text( '$currencyUnit ' +
                                             TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -2058,7 +2078,7 @@ class MerchantCartState extends State<MerchantCart>
                                       FontWeight
                                           .w500),
                                 ),
-                                trailing: Text('- MMK '+
+                                trailing: Text('- $currencyUnit '+
                                     debt2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                   style: TextStyle(
                                       fontSize: 17,
@@ -2075,7 +2095,7 @@ class MerchantCartState extends State<MerchantCart>
                                       FontWeight
                                           .w500),
                                 ),
-                                trailing: Text('MMK '+
+                                trailing: Text('$currencyUnit '+
                                     refund2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                   style: TextStyle(
                                       fontSize: 17,

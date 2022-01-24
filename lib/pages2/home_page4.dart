@@ -300,8 +300,27 @@ class HomePageState extends State<HomePage>
     }
   }
 
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
-  void initState() {
+  initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       // premiumCart();
       // Navigator.of(context).push(
@@ -2508,7 +2527,7 @@ class HomePageState extends State<HomePage>
                           //                               child: double.parse(totalItems()) == 1? Container(
                           //                                 child:
                           //                                 Text(
-                          //                                   totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
+                          //                                   totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
                           //                                   textAlign: TextAlign.center,
                           //                                   style: TextStyle(
                           //                                       fontSize: 18,
@@ -2518,7 +2537,7 @@ class HomePageState extends State<HomePage>
                           //                               ) : Container(
                           //                                 child:
                           //                                 Text(
-                          //                                   totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
+                          //                                   totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
                           //                                   textAlign: TextAlign.center,
                           //                                   style: TextStyle(
                           //                                       fontSize: 18,
@@ -2974,7 +2993,7 @@ class HomePageState extends State<HomePage>
                                                                                                                       ],
                                                                                                                     ),
                                                                                                                   ),
-                                                                                                                  trailing: Text('MMK ' + (double.parse(
+                                                                                                                  trailing: Text('$currencyUnit ' + (double.parse(
                                                                                                                       prodList[i].split('^')[
                                                                                                                       2]) *
                                                                                                                       double.parse(prodList[
@@ -3084,14 +3103,14 @@ class HomePageState extends State<HomePage>
                                                                                                       subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
                                                                                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                                                       )),
-                                                                                                      trailing: Text('- MMK ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                      trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                                                                                     ) :  ListTile (
                                                                                                       title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                                                       subtitle: Text('Amount applied', style: TextStyle(
                                                                                                           fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                                                       )),
-                                                                                                      trailing: Text('- MMK ' + discount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                      trailing: Text('- $currencyUnit ' + discount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                                                     ),
                                                                                                   ) : Container(),
                                                                                                 ],
@@ -3239,7 +3258,7 @@ class HomePageState extends State<HomePage>
                                                                                           DialogTextField(
                                                                                             keyboardType: TextInputType.number,
                                                                                             hintText: '0',
-                                                                                            suffixText: 'MMK',
+                                                                                            suffixText: '$currencyUnit',
                                                                                             // initialText: 'mono0926@gmail.com',
                                                                                           ),
                                                                                         ],
@@ -3356,7 +3375,7 @@ class HomePageState extends State<HomePage>
                                                                                       style: TextStyle(
                                                                                           fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
                                                                                       )),
-                                                                                  trailing: Text('MMK '+
+                                                                                  trailing: Text('$currencyUnit '+
                                                                                       TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                     style: TextStyle(
                                                                                         fontSize: 17,
@@ -3507,7 +3526,7 @@ class HomePageState extends State<HomePage>
                                                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                                                                   children: [
-                                                                                                    Text('Total sale - MMK',
+                                                                                                    Text('Total sale - $currencyUnit',
                                                                                                         textAlign: TextAlign.center,
                                                                                                         style: TextStyle(
                                                                                                             fontSize: 30, fontWeight: FontWeight.w700
@@ -3552,7 +3571,7 @@ class HomePageState extends State<HomePage>
                                                                                                     right: 15.0,
                                                                                                     top: 20.0,
                                                                                                     bottom: 20.0),
-                                                                                                suffixText: 'MMK' ,
+                                                                                                suffixText: '$currencyUnit' ,
                                                                                                 // tooltip: 'Increase volume by 10',
                                                                                                 suffixStyle: TextStyle(
                                                                                                   color: Colors.grey,
@@ -3687,7 +3706,7 @@ class HomePageState extends State<HomePage>
                                                                                                   });
                                                                                                 },
                                                                                                 child: Container(
-                                                                                                  child: Text( 'MMK ' +
+                                                                                                  child: Text( '$currencyUnit ' +
                                                                                                       TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                                     style: TextStyle(
                                                                                                         fontWeight: FontWeight.w600,
@@ -3733,7 +3752,7 @@ class HomePageState extends State<HomePage>
                                                                                           FontWeight
                                                                                               .w500),
                                                                                     ),
-                                                                                    trailing: Text('- MMK '+
+                                                                                    trailing: Text('- $currencyUnit '+
                                                                                         debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                       style: TextStyle(
                                                                                           fontSize: 17,
@@ -3750,7 +3769,7 @@ class HomePageState extends State<HomePage>
                                                                                           FontWeight
                                                                                               .w500),
                                                                                     ),
-                                                                                    trailing: Text('MMK '+
+                                                                                    trailing: Text('$currencyUnit '+
                                                                                         refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                       style: TextStyle(
                                                                                           fontSize: 17,
@@ -3969,6 +3988,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 type: disText,
                                                                                                                 debt: debt,
                                                                                                                 unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                                                currencyUnit: currencyUnit,
                                                                                                               )
 
                                                                                                           ],
@@ -4105,7 +4125,7 @@ class HomePageState extends State<HomePage>
                                                                                 children: [
                                                                                   Row(
                                                                                     children: [
-                                                                                      Text('MMK '+ titlePrice.toString(), style: TextStyle(
+                                                                                      Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
                                                                                           fontWeight: FontWeight.w500,
                                                                                           color: Colors.grey
                                                                                       )),
@@ -4316,7 +4336,7 @@ class HomePageState extends State<HomePage>
                                                                                                 right: 15.0,
                                                                                                 top: 20,
                                                                                                 bottom: 20.0),
-                                                                                            suffixText: 'MMK',
+                                                                                            suffixText: '$currencyUnit',
                                                                                             suffixStyle: TextStyle(
                                                                                               color: Colors.grey,
                                                                                               fontSize: 12,
@@ -4375,18 +4395,18 @@ class HomePageState extends State<HomePage>
                                                                                                           fontWeight: FontWeight.w500
                                                                                                       ),),
                                                                                                       Spacer(),
-                                                                                                      eachProd.split('^')[3]== 'unit_name' ? Text('MMK ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                                      eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                                       TextStyle(
                                                                                                         fontSize: 15,
                                                                                                         fontWeight: FontWeight.w500,
                                                                                                         color: Colors.grey,
                                                                                                       ),) :
-                                                                                                      eachProd.split('^')[3]== 'sub1_name' ? Text('MMK ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                                      eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                                       TextStyle(
                                                                                                           fontSize: 15,
                                                                                                           fontWeight: FontWeight.w500,
                                                                                                           color: Colors.grey
-                                                                                                      ),) :  Text('MMK ' +  sell3.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                                                      ),) :  Text('$currencyUnit ' +  sell3.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                                                       TextStyle(
                                                                                                           fontSize: 15,
                                                                                                           fontWeight: FontWeight.w500,
@@ -4526,7 +4546,7 @@ class HomePageState extends State<HomePage>
                                                                                             FontWeight
                                                                                                 .w500),
                                                                                       ),
-                                                                                      trailing: Text('MMK '+
+                                                                                      trailing: Text('$currencyUnit '+
                                                                                           (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                         style: TextStyle(
                                                                                             fontSize: 17,
@@ -4936,7 +4956,7 @@ class HomePageState extends State<HomePage>
                                                                                           FontWeight
                                                                                               .w500),
                                                                                     ),
-                                                                                    trailing: Text('MMK '+
+                                                                                    trailing: Text('$currencyUnit '+
                                                                                         TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                       style: TextStyle(
                                                                                           fontSize: 17,
@@ -5253,7 +5273,7 @@ class HomePageState extends State<HomePage>
                                                                                           FontWeight
                                                                                               .w500),
                                                                                     ),
-                                                                                    trailing: Text('MMK '+
+                                                                                    trailing: Text('$currencyUnit '+
                                                                                         debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                                       style: TextStyle(
                                                                                           fontSize: 17,
@@ -5515,7 +5535,7 @@ class HomePageState extends State<HomePage>
                                               //                       child: double.parse(totalItems()) == 1? Container(
                                               //                         child:
                                               //                         Text(
-                                              //                           totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
+                                              //                           totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
                                               //                           textAlign: TextAlign.center,
                                               //                           style: TextStyle(
                                               //                               fontSize: 18,
@@ -5525,7 +5545,7 @@ class HomePageState extends State<HomePage>
                                               //                       ) : Container(
                                               //                         child:
                                               //                         Text(
-                                              //                           totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
+                                              //                           totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
                                               //                           textAlign: TextAlign.center,
                                               //                           style: TextStyle(
                                               //                               fontSize: 18,
@@ -5623,7 +5643,7 @@ class HomePageState extends State<HomePage>
                                                                       child: double.parse(totalItems()) == 1? Container(
                                                                         child:
                                                                         Text(
-                                                                          totalItems() + ' item - ' + TtlProdListPrice() + ' MMK',
+                                                                          totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                               fontSize: 18,
@@ -5633,7 +5653,7 @@ class HomePageState extends State<HomePage>
                                                                       ) : Container(
                                                                         child:
                                                                         Text(
-                                                                          totalItems() + ' items - ' + TtlProdListPrice() + ' MMK',
+                                                                          totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                               fontSize: 18,
@@ -6289,7 +6309,7 @@ class HomePageState extends State<HomePage>
                                               children: [
                                                 Row(
                                                   children: [
-                                                    Text('MMK ' + result.split('^')[2], style: TextStyle(
+                                                    Text('$currencyUnit ' + result.split('^')[2], style: TextStyle(
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.grey
                                                     )),
@@ -6507,7 +6527,7 @@ class HomePageState extends State<HomePage>
                                                               right: 15.0,
                                                               top: 20,
                                                               bottom: 20.0),
-                                                          suffixText: 'MMK',
+                                                          suffixText: '$currencyUnit',
                                                           suffixStyle: TextStyle(
                                                             color: Colors.grey,
                                                             fontSize: 12,
@@ -6567,7 +6587,7 @@ class HomePageState extends State<HomePage>
                                                                         fontWeight: FontWeight.w500
                                                                     ),),
                                                                     Spacer(),
-                                                                    Text('MMK ' +  sellprice5.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                    Text('$currencyUnit ' +  sellprice5.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                     TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -6683,7 +6703,7 @@ class HomePageState extends State<HomePage>
                                                           FontWeight
                                                               .w500),
                                                     ),
-                                                    trailing: Text('MMK ' + (totalFixAmount2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                    trailing: Text('$currencyUnit ' + (totalFixAmount2).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                       style: TextStyle(
                                                           fontSize: 17,
                                                           fontWeight:
@@ -6906,7 +6926,7 @@ class HomePageState extends State<HomePage>
 
     // receiptText.addLeftRightText(
     //   'ငှက်ပျောသီး',
-    //   '30.000 MMK',
+    //   '30.000 $currencyUnit',
     //   leftStyle: ReceiptTextStyleType.normal,
     //   leftSize: ReceiptTextSizeType.small,
     //   rightSize: ReceiptTextSizeType.small,
@@ -6933,7 +6953,7 @@ class HomePageState extends State<HomePage>
     // receiptText.addSpacer(useDashed: true);
     // receiptText.addLeftRightText(
     //   'ငှက်ပျောသီး',
-    //   '30.000 MMK',
+    //   '30.000 $currencyUnit',
     //   leftStyle: ReceiptTextStyleType.normal,
     //   leftSize: ReceiptTextSizeType.small,
     //   rightSize: ReceiptTextSizeType.small,
@@ -6942,7 +6962,7 @@ class HomePageState extends State<HomePage>
     // // receiptText.addSpacer(useDashed: true);
     // // receiptText.addLeftRightText(
     // //   'ပန်းသီး',
-    // //   '30.000 MMK',
+    // //   '30.000 $currencyUnit',
     // //   leftStyle: ReceiptTextStyleType.normal,
     // //   rightStyle: ReceiptTextStyleType.bold,
     // //   leftSize: ReceiptTextSizeType.small,
@@ -7150,7 +7170,7 @@ class HomePageState extends State<HomePage>
 
                 // receiptText.addLeftRightText(
                 //   'ငှက်ပျောသီး',
-                //   '30.000 MMK',
+                //   '30.000 $currencyUnit',
                 //   leftStyle: ReceiptTextStyleType.normal,
                 //   leftSize: ReceiptTextSizeType.small,
                 //   rightSize: ReceiptTextSizeType.small,
@@ -7177,7 +7197,7 @@ class HomePageState extends State<HomePage>
                 // receiptText.addSpacer(useDashed: true);
                 // receiptText.addLeftRightText(
                 //   'ငှက်ပျောသီး',
-                //   '30.000 MMK',
+                //   '30.000 $currencyUnit',
                 //   leftStyle: ReceiptTextStyleType.normal,
                 //   leftSize: ReceiptTextSizeType.small,
                 //   rightSize: ReceiptTextSizeType.small,
@@ -7186,7 +7206,7 @@ class HomePageState extends State<HomePage>
                 // // receiptText.addSpacer(useDashed: true);
                 // // receiptText.addLeftRightText(
                 // //   'ပန်းသီး',
-                // //   '30.000 MMK',
+                // //   '30.000 $currencyUnit',
                 // //   leftStyle: ReceiptTextStyleType.normal,
                 // //   rightStyle: ReceiptTextStyleType.bold,
                 // //   leftSize: ReceiptTextSizeType.small,
@@ -7364,7 +7384,7 @@ class HomePageState extends State<HomePage>
                                                             DialogTextField(
                                                               keyboardType: TextInputType.number,
                                                               hintText: '0',
-                                                              suffixText: 'MMK',
+                                                              suffixText: '$currencyUnit',
                                                               // initialText: 'mono0926@gmail.com',
                                                             ),
                                                           ],
@@ -7675,7 +7695,7 @@ class HomePageState extends State<HomePage>
                                                                                         ],
                                                                                       ),
                                                                                     ),
-                                                                                    trailing: Text('MMK ' + (double.parse(
+                                                                                    trailing: Text('$currencyUnit ' + (double.parse(
                                                                                         prodList[i].split('^')[
                                                                                         2]) *
                                                                                         double.parse(prodList[
@@ -7784,13 +7804,13 @@ class HomePageState extends State<HomePage>
                                                                         subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', style: TextStyle(
                                                                             fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                         )),
-                                                                        trailing: Text('- MMK ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                        trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                       ) :  ListTile (
                                                                         title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                         subtitle: Text('Amount applied', style: TextStyle(
                                                                             fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
                                                                         )),
-                                                                        trailing: Text('- MMK ' + discount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                        trailing: Text('- $currencyUnit ' + discount.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                                       ),
                                                                     ) : Container(),
                                                                   ],
@@ -7868,7 +7888,7 @@ class HomePageState extends State<HomePage>
                                                           style: TextStyle(
                                                               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
                                                           )),
-                                                      trailing: Text('MMK '+
+                                                      trailing: Text('$currencyUnit '+
                                                           TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                         style: TextStyle(
                                                             fontSize: 17,
@@ -8073,7 +8093,7 @@ class HomePageState extends State<HomePage>
                                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                                     children: [
-                                                                      Text('Total sale - MMK',
+                                                                      Text('Total sale - $currencyUnit',
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                             fontSize: 20,
@@ -8120,7 +8140,7 @@ class HomePageState extends State<HomePage>
                                                                       right: 15.0,
                                                                       top: 20.0,
                                                                       bottom: 20.0),
-                                                                  suffixText: 'MMK' ,
+                                                                  suffixText: '$currencyUnit' ,
                                                                   // tooltip: 'Increase volume by 10',
                                                                   suffixStyle: TextStyle(
                                                                     color: Colors.grey,
@@ -8211,7 +8231,7 @@ class HomePageState extends State<HomePage>
                                                                     });
                                                                   },
                                                                   child: Container(
-                                                                    child: Text( 'MMK ' +
+                                                                    child: Text( '$currencyUnit ' +
                                                                         TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.w600,
@@ -8259,7 +8279,7 @@ class HomePageState extends State<HomePage>
                                                               FontWeight
                                                                   .w500),
                                                         ),
-                                                        trailing: Text('- MMK '+
+                                                        trailing: Text('- $currencyUnit '+
                                                             debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                           style: TextStyle(
                                                               fontSize: 17,
@@ -8276,7 +8296,7 @@ class HomePageState extends State<HomePage>
                                                               FontWeight
                                                                   .w500),
                                                         ),
-                                                        trailing: Text('MMK '+
+                                                        trailing: Text('$currencyUnit '+
                                                             refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                           style: TextStyle(
                                                               fontSize: 17,
@@ -8509,6 +8529,7 @@ class HomePageState extends State<HomePage>
                                                                                     debt: debt,
                                                                                     type: disText,
                                                                                     unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                    currencyUnit: currencyUnit,
                                                                                   )
 
                                                                                 // InvoiceItem(
@@ -8696,7 +8717,7 @@ class HomePageState extends State<HomePage>
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        Text('MMK '+ titlePrice.toString(), style: TextStyle(
+                                                        Text('$currencyUnit '+ titlePrice.toString(), style: TextStyle(
                                                             fontWeight: FontWeight.w500,
                                                             color: Colors.grey
                                                         )),
@@ -8903,7 +8924,7 @@ class HomePageState extends State<HomePage>
                                                                       right: 15.0,
                                                                       top: 20,
                                                                       bottom: 20.0),
-                                                                  suffixText: 'MMK',
+                                                                  suffixText: '$currencyUnit',
                                                                   suffixStyle: TextStyle(
                                                                     color: Colors.grey,
                                                                     fontSize: 12,
@@ -9000,18 +9021,18 @@ class HomePageState extends State<HomePage>
                                                                               fontWeight: FontWeight.w500,
                                                                             ),),
                                                                             Spacer(),
-                                                                            eachProd.split('^')[3]== 'unit_name' ? Text('MMK ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                            eachProd.split('^')[3]== 'unit_name' ? Text('$currencyUnit ' +  sell1.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                             TextStyle(
                                                                               fontSize: 15,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Colors.grey,
                                                                             ),) :
-                                                                            eachProd.split('^')[3]== 'sub1_name' ? Text('MMK ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                            eachProd.split('^')[3]== 'sub1_name' ? Text('$currencyUnit ' +  sell2.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                             TextStyle(
                                                                               fontSize: 15,
                                                                               fontWeight: FontWeight.w500,
                                                                               color: Colors.grey,
-                                                                            ),) :  Text('MMK ' +  sell3.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                            ),) :  Text('$currencyUnit ' +  sell3.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                             TextStyle(
                                                                               fontSize: 15,
                                                                               fontWeight: FontWeight.w500,
@@ -9152,7 +9173,7 @@ class HomePageState extends State<HomePage>
                                                                   FontWeight
                                                                       .w500),
                                                             ),
-                                                            trailing: Text('MMK '+
+                                                            trailing: Text('$currencyUnit '+
                                                                 (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                               style: TextStyle(
                                                                   fontSize: 17,
@@ -9565,7 +9586,7 @@ class HomePageState extends State<HomePage>
                                                               FontWeight
                                                                   .w500),
                                                         ),
-                                                        trailing: Text('MMK '+
+                                                        trailing: Text('$currencyUnit '+
                                                             TtlProdListPrice().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                           style: TextStyle(
                                                               fontSize: 17,
@@ -9882,7 +9903,7 @@ class HomePageState extends State<HomePage>
                                                             FontWeight
                                                                 .w500),
                                                       ),
-                                                      trailing: Text('MMK '+
+                                                      trailing: Text('$currencyUnit '+
                                                           debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                         style: TextStyle(
                                                             fontSize: 17,
@@ -10513,11 +10534,6 @@ class HomePageState extends State<HomePage>
       return 'Roll-57';
     }
     return prefs.getString('paper');
-  }
-
-  getCurrency() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('currency');
   }
 
   Future<void> addDateExist(id1, dOrder , length) async {
@@ -11341,7 +11357,7 @@ class HomePageState extends State<HomePage>
                                               //         FontWeight
                                               //             .w500),
                                               //   ),
-                                              //   trailing: Text('MMK '+
+                                              //   trailing: Text('$currencyUnit '+
                                               //       debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                               //     style: TextStyle(
                                               //         fontSize: 17,

@@ -85,8 +85,27 @@ class _EditProductState extends State<EditProduct> {
     return prefs.getString('lang');
   }
 
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
-  void initState() {
+  initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     prodNameCtrl.text = widget.prodName;
     barCodeCtrl.text = widget.barcode;
     mainQtyCtrl.text = double.parse(widget.mainQty).round().toString();
@@ -597,7 +616,7 @@ class _EditProductState extends State<EditProduct> {
                                     right: 15.0,
                                     top: 20.0,
                                     bottom: 20.0),
-                                suffixText: 'MMK',
+                                suffixText: '$currencyUnit',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 12,
@@ -660,7 +679,7 @@ class _EditProductState extends State<EditProduct> {
                                     right: 15.0,
                                     top: 20.0,
                                     bottom: 20.0),
-                                suffixText: 'MMK',
+                                suffixText: '$currencyUnit',
                                 suffixStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 12,
@@ -1334,7 +1353,7 @@ class _EditProductState extends State<EditProduct> {
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    // suffixText: 'MMK',
+                    // suffixText: '$currencyUnit',
                     // suffixStyle: TextStyle(
                     //   fontWeight: FontWeight.w500,
                     //   color: Colors.grey,
@@ -1388,7 +1407,7 @@ class _EditProductState extends State<EditProduct> {
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     contentPadding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    suffixText: 'MMK',
+                    suffixText: '$currencyUnit',
                     suffixStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.grey,

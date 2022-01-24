@@ -295,8 +295,26 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     return prefs.getString('lang');
   }
 
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
-  void initState() {
+  initState() {
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
     getDeviceId().then((value) {
       deviceIdNum = value;
     });
@@ -467,7 +485,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
                                             Text(
-                                              'MMK $mainPrice',
+                                              '$currencyUnit $mainPrice',
                                               textAlign: TextAlign.right,
                                               style: TextStyle(
                                                 fontSize: 13,
@@ -1162,7 +1180,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text('MMK ' + mainPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                      Text('$currencyUnit ' + mainPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1429,7 +1447,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text('MMK ' + sub1Price.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                      Text('$currencyUnit ' + sub1Price.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
@@ -1696,7 +1714,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                         fontWeight: FontWeight.w500,
                                                                       ),),
                                                                       Spacer(),
-                                                                      Text('MMK ' + sub2Price.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                                      Text('$currencyUnit ' + sub2Price.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
                                                                       TextStyle(
                                                                         fontSize: 15,
                                                                         fontWeight: FontWeight.w500,
