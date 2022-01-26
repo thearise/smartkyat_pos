@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,8 @@ import 'package:smartkyat_pos/app_theme.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:metooltip/metooltip.dart';
+import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class FirstLaunchPage extends StatefulWidget {
   const FirstLaunchPage({Key? key}) : super(key: key);
@@ -31,6 +35,8 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
 
   bool isEnglish = true;
 
+  int priProgVal = 5000;
+
   @override
   initState() {
     _dropdownTestItems = buildDropdownTestItems(_testList);
@@ -40,6 +46,8 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
       final dynamic tooltip = tTkey.currentState;
       tooltip.handleLongPress();
     });
+
+    // startPrintAni();
   }
 
   @override
@@ -127,6 +135,23 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                           blendMode: BlendMode.dstOut,
                           child: ListView(
                             children: [
+                              LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                              // Center(
+                              //     child: FAProgressBar(
+                              //       currentValue: priProgVal,
+                              //       displayText: '%',
+                              //       animatedDuration: Duration(milliseconds: 4000),
+                              //     )),
+                              // new LinearPercentIndicator(
+                              //   // width: 140.0,
+                              //   width: MediaQuery.of(context).size.width - 30,
+                              //   animationDuration: priProgVal,
+                              //   animation: true,
+                              //   lineHeight: 14.0,
+                              //   percent: 1,
+                              //   backgroundColor: Colors.grey,
+                              //   progressColor: Colors.blue,
+                              // ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 15, right: 15, top: 23.0),
                                 child: Container(
@@ -445,7 +470,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                   child: ListTile(
                                     leading: Padding(
                                       padding: const EdgeInsets.only(left:5.5, top: 4.0),
-                                      child: Image.asset('assets/system/features/inventory_status.png', width: 28,),
+                                      child: Image.asset('assets/system/features/inventory_status.png', width: 26.5,),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
@@ -582,8 +607,54 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                   ),
                                   child: ListTile(
                                     leading: Padding(
+                                      padding: const EdgeInsets.only(left:4.5, top: 3),
+                                      child: Image.asset('assets/system/features/printer_color.png', width: 25,),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text('Receipt print (with photos)', style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          letterSpacing: -0.3
+                                      )),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 6),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 10.0),
+                                            child: Text('Keep track of contact information, purchase history, lifetime spend, and debts of each customers.', style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14, color: Colors.black,
+                                            )),
+                                          ),
+                                        ),
+                                        SizedBox(height: 3),
+                                      ],
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 8, bottom: 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
+                                    ),
+                                    color: AppTheme.lightBgColor,
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 1.0),
+                                  ),
+                                  child: ListTile(
+                                    leading: Padding(
                                       padding: const EdgeInsets.only(left:6.0, top: 3.0),
-                                      child: Image.asset('assets/system/features/staffs.png', width: 25,),
+                                      child: Image.asset('assets/system/features/staffs.png', width: 24,),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
@@ -629,7 +700,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                   child: ListTile(
                                     leading: Padding(
                                       padding: const EdgeInsets.only(left:3.0, top: 3.0),
-                                      child: Image.asset('assets/system/features/order_refunds.png', width: 29,),
+                                      child: Image.asset('assets/system/features/order_refunds.png', width: 27,),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
@@ -899,5 +970,20 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
         ),
       ),
     );
+  }
+
+  void startPrintAni() {
+    const oneSec = Duration(milliseconds:1000);
+
+    Timer.periodic(oneSec, (Timer t) {
+      print('testted');
+      setState(() {
+        priProgVal = ((10000 - priProgVal) / 2).round();
+      });
+    });
+
+    // Future.delayed(const Duration(milliseconds: 2500), () {
+    //
+    // });
   }
 }
