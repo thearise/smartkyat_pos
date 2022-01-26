@@ -133,10 +133,7 @@ class ProductsFragmentState extends State<ProductsFragment>
   String textSetNewItem = 'New item';
   String textSetAll = 'All';
   String textSetLowStocks = 'Low stocks';
-  String textSetBestSales = 'Best Sales';
-  String textSetLowSales = 'Low Sales';
-
-
+  String  textSetSearch = 'Search';
 
   bool searchOpening = false;
   changeSearchOpening(bool index) {
@@ -231,19 +228,17 @@ class ProductsFragmentState extends State<ProductsFragment>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetNewItem = 'New item';
-          textSetAll = 'All';
-          textSetLowStocks = 'Low stocks';
-          textSetBestSales = 'Best Sales';
-          textSetLowSales = 'Low Sales';
+          textSetNewItem = 'ကုန်ပစ္စည်း';
+          textSetAll = 'အားလုံး';
+          textSetLowStocks = 'အနည်းမှ အများ';
+          textSetSearch = 'ရှာဖွေရန်';
         });
       } else if(value=='english') {
         setState(() {
           textSetNewItem = 'New item';
           textSetAll = 'All';
           textSetLowStocks = 'Low stocks';
-          textSetBestSales = 'Best Sales';
-          textSetLowSales = 'Low Sales';
+          textSetSearch = 'Search';
         });
       }
     });
@@ -1174,7 +1169,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                           left: 13,
                                           bottom: 1.5),
                                       child: Text(
-                                        'Search',
+                                       textSetSearch,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,

@@ -162,6 +162,7 @@ class HomeFragmentState extends State<HomeFragment>
   String textSetLast7Days = 'Last 7 Days';
   String textSetLast28D = 'LAST 28 DAYS';
   String textSetLast12M = 'LAST 12 MONTHS';
+  String textSetSearch = 'Search';
 
   String currencyUnit = 'MMK';
 
@@ -289,7 +290,6 @@ class HomeFragmentState extends State<HomeFragment>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-
           textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
           textSetTodaySoFar = 'ဒီနေ့အတွင်း';
           textSetStockCosts = 'ဝယ်ယူစရိတ်';
@@ -303,7 +303,7 @@ class HomeFragmentState extends State<HomeFragment>
           textSetLast7Days = '၇ရက်အတွင်း';
           textSetLast28D = '၂၈ရက်အတွင်း';
           textSetLast12M = '၁၂လအတွင်း';
-
+          textSetSearch = 'ရှာဖွေရန်';
         });
       } else if(value=='english') {
         setState(() {
@@ -320,6 +320,7 @@ class HomeFragmentState extends State<HomeFragment>
          textSetLast7Days = 'Last 7 Days';
          textSetLast28D = 'LAST 28 DAYS';
          textSetLast12M = 'LAST 12 MONTHS';
+         textSetSearch = 'Search';
 
         });
       }
@@ -2182,12 +2183,11 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                           child: Text('?')
                                                                                       ),
                                                                                       Text(textSetStockCosts,
-                                                                                        style: TextStyle( height: 0.9,
+                                                                                        style: TextStyle(
                                                                                             fontSize: 13,
                                                                                             fontWeight: FontWeight.w500,
                                                                                             color: Colors.Colors.black.withOpacity(0.6)),
                                                                                       ),
-
                                                                                       Positioned(
                                                                                           right: 0,
                                                                                           bottom: 2,
@@ -2792,7 +2792,7 @@ class HomeFragmentState extends State<HomeFragment>
                                             left: 13,
                                             bottom: 1.5),
                                         child: Text(
-                                          'Search',
+                                         textSetSearch,
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w500,

@@ -109,8 +109,58 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     return prefs.getString('currency');
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
+  String textSetPurchase = 'PURCHASED ITEMS';
+  String textSetRefund = 'REFUNDED ITEMS';
+  String textSetDebt = 'Debt Amount';
+  String textSetDiscount = 'Discount';
+  String textSetAmount = 'Amount applied';
+  String textSetRefBtn = 'Refund items';
+  String textSetPayCashBtn = 'Pay cash remains';
+  String textSetPrint = 'Print receipt';
+  String textSetPercent = 'Percentage';
+  String textSetAllRefund = 'All Items Refunded';
+  String textSetFullyRef = 'FULLY REFUNDED';
   @override
   initState() {
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetPurchase = 'PURCHASED ITEMS';
+          textSetRefund = 'REFUNDED ITEMS';
+          textSetDebt = 'Debt Amount';
+          textSetDiscount = 'Discount';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'Refund items';
+          textSetPayCashBtn = 'Pay cash remains';
+          textSetPrint = 'Print receipt';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'FULLY REFUNDED';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetPurchase = 'PURCHASED ITEMS';
+          textSetRefund = 'REFUNDED ITEMS';
+          textSetDebt = 'Debt Amount';
+          textSetDiscount = 'Discount';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'Refund\nitems';
+          textSetPayCashBtn = 'Pay cash\nremains';
+          textSetPrint = 'Print\nreceipt';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'FULLY REFUNDED';
+        });
+      }
+    });
 
     getCurrency().then((value){
       if(value == 'US Dollar') {
@@ -432,7 +482,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                              'Refund items',
+                                                              textSetRefBtn,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -491,7 +541,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                              'Pay cash remains',
+                                                             textSetPayCashBtn,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -564,7 +614,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                              'Print\nreceipt',
+                                                              textSetPrint,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -621,7 +671,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         bottom: 15,
                                                         left: 0,
                                                         child: Text(
-                                                          'Refund\nitems',
+                                                          textSetRefBtn,
                                                           style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             fontSize: 16,
@@ -670,7 +720,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                              'Pay cash remains',
+                                                             textSetPayCashBtn,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -743,7 +793,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                              'Print\nreceipt',
+                                                             textSetPrint,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -766,7 +816,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                       SizedBox(height: 20,),
                                       (ttlQ - ttlR).round().toString() != '0' ? Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                        child: Text('PURCHASED ITEMS', style: TextStyle(
+                                        child: Text(textSetPurchase, style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           letterSpacing: 2,
@@ -774,7 +824,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         ),),
                                       ):  ((widget.data.split('^')[6]) != '0.0') || ((widget.data.split('^')[5]) != '0.0') ? Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                        child: Text('FULLY REFUNDED', style: TextStyle(
+                                        child: Text(textSetFullyRef, style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           letterSpacing: 2,
@@ -835,7 +885,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             image,
                                                         width: 58,
                                                         height: 58,
-                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),
                                                         errorWidget: (context,
                                                             url,
                                                             error) =>
@@ -1013,7 +1063,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             padding: const EdgeInsets.symmetric(vertical: 1.0),
                                             child: ListTile(
                                               title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                              subtitle: Text('Percentage (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
+                                              subtitle: Text('$textSetPercent (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                               )),
                                               trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
@@ -1023,8 +1073,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                           ) :  Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 1.0),
                                             child: ListTile (
-                                              title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                              subtitle: Text('Amount applied', style: TextStyle(
+                                              title: Text(textSetDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                              subtitle: Text(textSetAmount, style: TextStyle(
                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                               )),
                                               trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
@@ -1074,7 +1124,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     padding: const EdgeInsets.only(top: 8.0, bottom: 11.0),
                                                     child: ListTile(
                                                       contentPadding: EdgeInsets.only(left: 0.0, right: 15),
-                                                      title: Text('Debt Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                      title: Text(textSetDebt, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                                       trailing: Text('$currencyUnit ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
@@ -1100,7 +1150,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                         )) : BoxDecoration(),
                                     child: Padding(
                                       padding: (ttlQ - ttlR).round().toString() != '0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0) : (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0): EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0),
-                                      child: Text('REFUNDED ITEMS', style: TextStyle(
+                                      child: Text(textSetRefund, style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
                                         letterSpacing: 2,
@@ -1145,8 +1195,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                 image,
                                                             width: 58,
                                                             height: 58,
-                                                            // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                            errorWidget: (context,
+                                                            placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),                                                            errorWidget: (context,
                                                                 url,
                                                                 error) =>
                                                                 Icon(Icons

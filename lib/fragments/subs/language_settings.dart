@@ -270,7 +270,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                       onChanged: (value) {
                         showOkCancelAlertDialog(
                           context: context,
-                          title: 'Are you sure you want to switch "English" language?',
+                          title: 'Are you sure you want to switch ' + value.toString() +' language?',
                           message: '\nThis action will restart the application',
                           defaultType: OkCancelAlertDefaultType.cancel,
                         ).then((result) async {
@@ -288,7 +288,6 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                                 exit(0);
                               }
                             });
-
                           }
                         }
                         );

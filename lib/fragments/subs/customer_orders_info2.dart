@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
 
 import '../../app_theme.dart';
@@ -50,6 +51,62 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
     } else {
       return '0' + string;
     }
+  }
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
+
+  String textSetAll = 'All';
+  String textSetTUnpaid = 'Unpaids';
+  String textSetTRefunds = 'Refunds';
+  String textSetTPaid = 'Paids';
+
+  @override
+ void initState() {
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetAll = 'အားလုံး';
+          textSetTUnpaid = 'မရှင်းသေး';
+          textSetTRefunds = 'ပြန်အမ်း';
+          textSetTPaid = 'ရှင်းပြီး';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetAll = 'All';
+          textSetTUnpaid = 'Unpadis';
+          textSetTRefunds = 'Refunds';
+          textSetTPaid = 'Paids';
+        });
+      }
+    });
+    super.initState();
   }
 
   @override
@@ -171,7 +228,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 },
                                 child: Container(
                                   child: Text(
-                                    'Alls',
+                                   textSetAll,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 14,
@@ -201,7 +258,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 },
                                 child: Container(
                                   child: Text(
-                                    'Unpaids',
+                                   textSetTUnpaid,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 14,
@@ -231,7 +288,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 },
                                 child: Container(
                                   child: Text(
-                                    'Refunds',
+                                    textSetTRefunds,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 14,
@@ -261,7 +318,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 },
                                 child: Container(
                                   child: Text(
-                                    'Paids',
+                                    textSetTPaid,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 14,
@@ -490,7 +547,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text('MMK ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
+                                    Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                     )),
@@ -714,7 +771,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text('MMK ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
+                                    Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                     )),
@@ -938,7 +995,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text('MMK ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
+                                    Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                     )),
@@ -1162,7 +1219,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text('MMK ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
+                                    Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2), style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                     )),

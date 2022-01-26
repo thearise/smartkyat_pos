@@ -90,7 +90,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
   onChangeDropdownTests(selectedTest) {
     showOkCancelAlertDialog(
       context: context,
-      title: 'Are you sure you want to change to US Dollar?',
+      title: 'Are you sure you want to change to ' + selectedTest['keyword'].toString() +'?',
       message: '\nThis action will restart the application',
       defaultType: OkCancelAlertDefaultType.cancel,
     ).then((result) async {

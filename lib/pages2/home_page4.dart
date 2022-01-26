@@ -302,13 +302,53 @@ class HomePageState extends State<HomePage>
 
   String currencyUnit = 'MMK';
 
+  String textSetGotoCart = 'Go to cart';
+  String totalVPrice = 'Total price';
+  String VPaid = 'Paid';
+  String VDebt = 'Total debt';
+  String subVTotal = 'Sub Total';
+  String VDiscount = 'Discount';
+
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
   }
 
+
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   @override
   initState() {
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+         textSetGotoCart = 'ရောင်းရန်စာရင်းသို့';
+          totalVPrice = 'Total price';
+          VPaid = 'Paid';
+          VDebt = 'Total debt';
+          subVTotal = 'Sub Total';
+          VDiscount = 'Discount';
+        });
+      }
+      else if(value=='english') {
+        setState(() {
+          textSetGotoCart = 'Go to cart';
+           totalVPrice = 'စုစုပေါင်း';
+           VPaid = 'ပေးငွေ';
+           VDebt = 'ကျန်ငွေ';
+           subVTotal = 'ကျသင့်ငွေပေါင်း';
+           VDiscount = 'လျှော့ငွေ';
+        });
+      }
+    });
 
     getCurrency().then((value){
       if(value == 'US Dollar') {
@@ -323,9 +363,9 @@ class HomePageState extends State<HomePage>
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       // premiumCart();
-      // Navigator.of(context).push(
-      //     FadeRoute(page: FirstLaunchPage(),)
-      // );
+      Navigator.of(context).push(
+          FadeRoute(page: FirstLaunchPage(),)
+      );
     });
     initConnectivity();
     _connectivitySubscription =
@@ -3989,6 +4029,11 @@ class HomePageState extends State<HomePage>
                                                                                                                 debt: debt,
                                                                                                                 unitPrice: double.parse(prodList[i].split('^')[2]),
                                                                                                                 currencyUnit: currencyUnit,
+                                                                                                                totalPriceText: totalVPrice,
+                                                                                                                paidText: VPaid,
+                                                                                                                totalDebtText: VDebt,
+                                                                                                                subTotalText: subVTotal,
+                                                                                                                discountText: VDiscount,
                                                                                                               )
 
                                                                                                           ],
@@ -5607,7 +5652,7 @@ class HomePageState extends State<HomePage>
                                                                           bottom: 2.0),
                                                                       child: Container(
                                                                         child: Text(
-                                                                          'Go to cart',
+                                                                         textSetGotoCart,
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                               fontSize: 18,
@@ -6874,7 +6919,6 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> _onPrintReceipt() async {
-    smartKyatFlash('Print command received and working on it.', 'i');
     // final ReceiptSectionText receiptText = ReceiptSectionText();
 
     final doc = await PdfDocument.openFile(pdfFile!.path);
@@ -8557,6 +8601,11 @@ class HomePageState extends State<HomePage>
                                                                                     type: disText,
                                                                                     unitPrice: double.parse(prodList[i].split('^')[2]),
                                                                                     currencyUnit: currencyUnit,
+                                                                                    totalPriceText: totalVPrice,
+                                                                                    paidText: VPaid,
+                                                                                    totalDebtText: VDebt,
+                                                                                    subTotalText: subVTotal,
+                                                                                    discountText: VDiscount,
                                                                                   )
 
                                                                                 // InvoiceItem(
@@ -10122,8 +10171,6 @@ class HomePageState extends State<HomePage>
     });
   }
 
-
-
   setStoreId(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // return(prefs.getString('store'));
@@ -11454,7 +11501,7 @@ class HomePageState extends State<HomePage>
                                       height: 67,
                                       width: double.infinity,
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                          color: Colors.white,
                                           border: Border(
                                               bottom: BorderSide(
                                                   color: Colors.grey
