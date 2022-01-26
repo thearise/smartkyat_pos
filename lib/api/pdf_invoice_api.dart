@@ -16,6 +16,19 @@ class PdfInvoiceApi {
   static double fontSizeDesc = 0;
 
   static Future<File> generate(Invoice invoice, String size) async {
+    final netTotal = invoice.items
+        .map((item) => item.unitPrice * item.quantity)
+        .reduce((item1, item2) => item1 + item2);
+    final vatPercent = invoice.items.first.vat;
+    final disType = invoice.items.first.type;
+    final debt = invoice.items.first.debt;
+    final currency = invoice.items.first.currencyUnit;
+    final vat;
+
+    disType == '-p' ?  vat = netTotal * (vatPercent/100) : vat = vatPercent ;
+    final total = netTotal - vat;
+    final paid = total - debt;
+
     if(size == 'Roll-57') {
       fontSizeDesc = 11.0;
     } else if(size == 'Roll-80') {
@@ -82,7 +95,7 @@ class PdfInvoiceApi {
                     Container(decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                              width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
+                              width: 2.5, color: PdfColors.black, style: BorderStyle.solid),
                         )
                     ),height: 1),
                     SizedBox(height: size == 'Roll-80'? 0.35 * PdfPageFormat.cm: 0.3 * PdfPageFormat.cm),
@@ -126,10 +139,241 @@ class PdfInvoiceApi {
               child: Container(decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                        width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
+                        width: 2.5, color: PdfColors.black, style: BorderStyle.solid),
                   )),height: 1),
             ),
-            buildTotal(invoice, size, pageFormat),
+            // buildTotal(invoice, size, pageFormat, font, font2),
+            // pw.Text(Rabbit.uni2zg('ကျေးဇူးတင်ပါသည်။'),
+            //   textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc: fontSizeDesc+8,font: ttfReg),
+            // ),
+            size != 'Roll-57' && size!='Roll-80' ?
+            Padding(
+                padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 4 * PdfPageFormat.mm),
+                        child: Container(
+                          height: 30,
+                          width: 90,
+                          child: BarcodeWidget(
+                              barcode: Barcode.code128(),
+                              data: invoice.info.number,
+                              drawText: false
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                          width: pageFormat.width/2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: size=='Roll-80'? 3 * PdfPageFormat.mm: 2.5 * PdfPageFormat.mm),
+                              Padding(
+                                padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
+                                child: buildText(
+                                  // title: 'Sub total',
+                                    title: Rabbit.uni2zg('တိုတယ်'),
+                                    value: Utils.formatPrice(netTotal) + ' $currency',
+                                    unite: true,
+                                    // titleStyle: TextStyle(
+                                    //     fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                    // )
+                                    titleStyle: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.black)
+                                ),
+                              ),
+                              SizedBox(height: 1.5 * PdfPageFormat.mm),
+                              Padding(
+                                padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
+                                child: buildText(
+                                    title: disType == '-p'? 'Discount (${vatPercent * 1} %)' : 'Discount',
+                                    value: Utils.formatPrice(vat) + ' $currency',
+                                    unite: true,
+                                    titleStyle: TextStyle(
+                                        fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                    )
+                                ),
+                              ),
+                              SizedBox(height: 1.5 * PdfPageFormat.mm),
+                              Padding(
+                                padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
+                                child: buildText(
+                                    title: 'Total price',
+                                    value: Utils.formatPrice(total) + ' $currency',
+                                    unite: true,
+                                    titleStyle: TextStyle(
+                                        fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                    )
+                                ),
+                              ),
+                              SizedBox(height: 1.5 * PdfPageFormat.mm),
+                              Padding(
+                                padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
+                                child: buildText(
+                                    title: 'Paid',
+                                    value: Utils.formatPrice(paid) + ' $currency',
+                                    unite: true,
+                                    titleStyle: TextStyle(
+                                        fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                    )
+                                ),
+                              ),
+                              SizedBox(height: 1.5 * PdfPageFormat.mm),
+                              Padding(
+                                padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
+                                child: buildText(
+                                    title: 'Total debt',
+                                    value: Utils.formatPrice(debt) + ' $currency',
+                                    unite: true,
+                                    titleStyle: TextStyle(
+                                        fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                    )
+                                ),
+                              ),
+                              SizedBox(height: size=='Roll-80'? 1 * PdfPageFormat.cm: .5 * PdfPageFormat.cm),
+
+
+                              // Container(decoration: BoxDecoration(
+                              //     border: Border(
+                              //       bottom: BorderSide(
+                              //           width: 1, color: PdfColors.grey800),
+                              //     )),height: 1),
+                              // buildText(
+                              //   title: 'Total amount due',
+                              //   titleStyle: TextStyle(
+                              //       fontSize: fontSizeDesc-6, fontWeight: FontWeight.bold
+                              //   ),
+                              //   value: Utils.formatPrice(total),
+                              //   unite: true,
+                              // ),
+                              // SizedBox(height: 2 * PdfPageFormat.mm),
+                              // Container(height: 1, color: PdfColors.grey400),
+                              // SizedBox(height: 0.5 * PdfPageFormat.mm),
+                              // Container(height: 1, color: PdfColors.grey400),
+                              // SizedBox(height: 1 * PdfPageFormat.cm),
+                            ],
+                          )
+                      ),
+                    ],
+                  ),
+                )
+            ):
+            Padding(
+                padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: size == 'Roll-80'? 3 * PdfPageFormat.mm: 2.5 * PdfPageFormat.mm),
+                            Padding(
+                              padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
+                              // child: buildText(
+                              //   // title: 'Sub total',
+                              //   title: Rabbit.uni2zg('တိုတယ်'),
+                              //   value: Utils.formatPrice(netTotal) + ' $currency',
+                              //   unite: true,
+                              //   // titleStyle: TextStyle(
+                              //   //     fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                              //   // )
+                              //   titleStyle: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: font, color: PdfColors.black)
+                              // ),
+                              child: Row(
+                                children: [
+                                  pw.Text(Rabbit.uni2zg('တိုတယ်'),
+                                    textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc: fontSizeDesc-3,font: ttfReg),
+                                  ),
+                                  Expanded(
+                                    child: pw.Text(Utils.formatPrice(netTotal) + ' $currency',
+                                      textAlign: pw.TextAlign.right, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc: fontSizeDesc-3,font: ttfReg),
+                                    ),
+                                  )
+                                ]
+                              )
+                            ),
+                            SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),
+                            Padding(
+                              padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
+                              child: buildText(
+                                  title:  disType == '-p'? 'Discount (${vatPercent * 1}) %' : 'Discount',
+                                  value: Utils.formatPrice(vat) + ' $currency',
+                                  unite: true,
+                                  titleStyle: TextStyle(
+                                      fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                  )
+                              ),
+                            ),
+                            SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),
+                            Padding(
+                              padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
+                              child: buildText(
+                                  title: 'Total price',
+                                  value: Utils.formatPrice(total) + ' $currency',
+                                  unite: true,
+                                  titleStyle: TextStyle(
+                                      fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                  )
+                              ),
+                            ),
+                            SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),
+                            Padding(
+                              padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
+                              child: buildText(
+                                  title: 'Paid',
+                                  value: Utils.formatPrice(paid) + ' $currency',
+                                  unite: true,
+                                  titleStyle: TextStyle(
+                                      fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                  )
+                              ),
+                            ),
+                            SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),
+                            Padding(
+                              padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
+                              child: buildText(
+                                  title: 'Total debt',
+                                  value: Utils.formatPrice(debt) + ' $currency',
+                                  unite: true,
+                                  titleStyle: TextStyle(
+                                      fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                  )
+                              ),
+                            ),
+                            SizedBox(height: size == 'Roll-80'? 0.3 * PdfPageFormat.cm: .1 * PdfPageFormat.cm),
+
+
+                            // Container(decoration: BoxDecoration(
+                            //     border: Border(
+                            //       bottom: BorderSide(
+                            //           width: 1, color: PdfColors.grey800),
+                            //     )),height: 1),
+                            // buildText(
+                            //   title: 'Total amount due',
+                            //   titleStyle: TextStyle(
+                            //       fontSize: fontSizeDesc-6, fontWeight: FontWeight.bold
+                            //   ),
+                            //   value: Utils.formatPrice(total),
+                            //   unite: true,
+                            // ),
+                            // SizedBox(height: 2 * PdfPageFormat.mm),
+                            // Container(height: 1, color: PdfColors.grey400),
+                            // SizedBox(height: 0.5 * PdfPageFormat.mm),
+                            // Container(height: 1, color: PdfColors.grey400),
+                            // SizedBox(height: 1 * PdfPageFormat.cm),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+            ),
+
             // size == 'Roll-57' ? Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   crossAxisAlignment: pw.CrossAxisAlignment.center,
@@ -429,7 +673,8 @@ class PdfInvoiceApi {
 
   }
 
-  static Widget buildTotal(Invoice invoice, String size, PdfPageFormat pageFormat) {
+  static buildTotal(Invoice invoice, String size, PdfPageFormat pageFormat, font, font2) {
+
     final netTotal = invoice.items
         .map((item) => item.unitPrice * item.quantity)
         .reduce((item1, item2) => item1 + item2);
@@ -442,6 +687,9 @@ class PdfInvoiceApi {
     disType == '-p' ?  vat = netTotal * (vatPercent/100) : vat = vatPercent ;
     final total = netTotal - vat;
     final paid = total - debt;
+    return pw.Text(Rabbit.uni2zg('ကျေးဇူးတင်ပါသည်။'),
+      textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc: fontSizeDesc+8,font: font),
+    );
     return size != 'Roll-57' && size!='Roll-80' ?
     Padding(
         padding: new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
@@ -471,12 +719,14 @@ class PdfInvoiceApi {
                       Padding(
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
-                            title: 'Sub total',
+                            // title: 'Sub total',
+                            title: Rabbit.uni2zg('တိုတယ်'),
                             value: Utils.formatPrice(netTotal) + ' $currency',
                             unite: true,
-                            titleStyle: TextStyle(
-                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
-                            )
+                            // titleStyle: TextStyle(
+                            //     fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                            // )
+                            titleStyle: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: font, color: PdfColors.black)
                         ),
                       ),
                       SizedBox(height: 1.5 * PdfPageFormat.mm),
@@ -567,14 +817,19 @@ class PdfInvoiceApi {
                   children: [
                     SizedBox(height: size == 'Roll-80'? 3 * PdfPageFormat.mm: 2.5 * PdfPageFormat.mm),
                     Padding(
-                      padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
-                      child: buildText(
-                          title: 'Sub total',
-                          value: Utils.formatPrice(netTotal) + ' $currency',
-                          unite: true,
-                          titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
-                          )
+                      padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
+                      // child: buildText(
+                      //   // title: 'Sub total',
+                      //   title: Rabbit.uni2zg('တိုတယ်'),
+                      //   value: Utils.formatPrice(netTotal) + ' $currency',
+                      //   unite: true,
+                      //   // titleStyle: TextStyle(
+                      //   //     fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                      //   // )
+                      //   titleStyle: pw.TextStyle(height: 1, fontSize: fontSizeDesc-3,font: font, color: PdfColors.black)
+                      // ),
+                      child: pw.Text(Rabbit.uni2zg('ကျေးဇူးတင်ပါသည်။'),
+                        textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc: fontSizeDesc+8,font: font),
                       ),
                     ),
                     SizedBox(height: size == 'Roll-80'? 2 * PdfPageFormat.mm: 1.5 * PdfPageFormat.mm),

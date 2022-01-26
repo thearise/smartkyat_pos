@@ -47,6 +47,8 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
   String pdfText = '';
   File? pdfFile;
 
+  bool saveImage = false;
+
   @override
   void dispose() {
     // Clean up the controller when the Widget is disposed
@@ -308,6 +310,9 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                     children: [
                                       GestureDetector(
                                         onTap: () async {
+                                          setState(() {
+                                            saveImage = true;
+                                          });
                                           var mergedImage;
 
                                           final doc = await PdfDocument.openFile(pdfFile!.path);
@@ -372,7 +377,12 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                     child: Container(
-                                                        child: Text(
+                                                        child: saveImage?
+                                                        Center(
+                                                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                              child: CupertinoActivityIndicator(radius: 10,)),
+                                                        ):
+                                                        Text(
                                                           'Save as image',
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
@@ -795,7 +805,10 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       print(s);
     }
 
-    print(success ? "Save to album success" : "Save to album failed");
+    success ? smartKyatFlash('Saved successfully order info in your photos', 's') : smartKyatFlash('An error occurred while saving order info.', 'e');
+    setState(() {
+      saveImage = false;
+    });
     // setState(() {
     //   _result = success ? "Save to album success" : "Save to album failed";
     // });
