@@ -339,19 +339,19 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetAddtoCart = 'Add to\nsell cart';
-          textSetRefill =  'Refill to\ninventory';
-          textSetAddLoss = 'Add\nLoss item';
-          textSetEdit = 'EDIT';
+          textSetAddtoCart = 'အရောင်းစာရင်း\nထည့်ရန်';
+          textSetRefill =  'ကုန်းပစ္စည်း\nပြန်ဖြည့်ရန်';
+          textSetAddLoss = 'ဆုံးရှုံးပစ္စည်း\nထည့်ရန်';
+          textSetEdit = 'ပြင်ဆင်ရန်';
           textSetMainUnit = 'MAIN UNIT';
           textSetSub1 = 'SUB-1 UNIT';
           textSetSub2 = 'SUB-2 UNIT';
-          textSetSalePrice = 'Sale price';
-          textSetInStock = 'In stock items';
-          textSetLoss = 'Loss items';
+          textSetSalePrice = 'ရောင်းဈေး';
+          textSetInStock = 'လက်ကျန်ပစ္စည်း';
+          textSetLoss = 'ဆုံးရှုံးပစ္စည်း';
           textSetBarcode = 'Barcode';
           textSetOtherInfo = 'OTHER INFORMATION';
-          textSetTotalSale = 'Total items sold';
+          textSetTotalSale = 'ရောင်းပြီးပစ္စည်း';
           textSetBuyPrice = 'Buy price';
         });
       } else if(value=='english') {
@@ -612,7 +612,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   left: 0,
                                                                   bottom: 15,
                                                                   child: Text(
-                                                                    textSetAddtoCart,
+                                                                    textSetAddtoCart, overflow: TextOverflow.ellipsis,
                                                                     style: TextStyle(
                                                                       fontWeight: FontWeight.bold,
                                                                       fontSize: 16,
@@ -713,7 +713,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             bottom: 15,
                                                             left: 0,
                                                             child: Text(
-                                                              textSetRefill,
+                                                              textSetRefill,overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
                                                                 fontWeight: FontWeight.bold,
                                                                 fontSize: 16,
@@ -910,7 +910,7 @@ class _ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                               bottom: 15,
                                                               left: 0,
                                                               child: Text(
-                                                                textSetAddLoss,
+                                                                textSetAddLoss,overflow: TextOverflow.ellipsis,
                                                                 style: TextStyle(
                                                                   fontWeight: FontWeight.bold,
                                                                   fontSize: 16,

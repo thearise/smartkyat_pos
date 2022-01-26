@@ -38,6 +38,11 @@ class InvoiceItem {
   final String type;
   final double debt;
   final String currencyUnit;
+  final String totalPriceText;
+  final String paidText;
+  final String totalDebtText;
+  final String subTotalText;
+  final String discountText;
 
   const InvoiceItem({
     required this.description,
@@ -48,5 +53,10 @@ class InvoiceItem {
     required this.type,
     required this.debt,
     required this.currencyUnit,
+    required this.totalPriceText,
+    required this.paidText,
+    required this.totalDebtText,
+    required this.subTotalText,
+    required this.discountText,
   });
 }

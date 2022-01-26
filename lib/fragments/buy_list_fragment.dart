@@ -112,6 +112,7 @@ class BuyListFragmentState extends State<BuyListFragment>
   String textSetTUnpaid = 'Unpaids';
   String textSetTRefunds = 'Refunds';
   String textSetTPaid = 'Paids';
+  String textSetSearch = 'Search';
 
   String currencyUnit = 'MMK';
 
@@ -209,10 +210,11 @@ class BuyListFragmentState extends State<BuyListFragment>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetAll = 'All';
-          textSetTUnpaid = 'Unpaids';
-          textSetTRefunds = 'Refunds';
-          textSetTPaid = 'Paids';
+          textSetAll = 'အားလုံး';
+          textSetTUnpaid = 'မရှင်းသေး';
+          textSetTRefunds = 'ပြန်အမ်း';
+          textSetTPaid = 'ရှင်းပြီး';
+          textSetSearch = 'ရှာဖွေရန်';
         });
       } else if(value=='english') {
         setState(() {
@@ -220,6 +222,7 @@ class BuyListFragmentState extends State<BuyListFragment>
           textSetTUnpaid = 'Unpadis';
           textSetTRefunds = 'Refunds';
           textSetTPaid = 'Paids';
+          textSetSearch = 'Search';
         });
       }
     });
@@ -4769,7 +4772,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                                           left: 13,
                                           bottom: 1.5),
                                       child: Text(
-                                        'Search',
+                                       textSetSearch,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,

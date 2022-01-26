@@ -52,6 +52,29 @@ class MerchantCartState extends State<MerchantCart>
     return prefs.getString('currency');
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
+  String textSetMerchOrders = 'Merchant orders';
+  String textSetClearCart = 'Clear cart';
+  String textSetDiscount = 'Discount';
+  String textSetNoMerchant = 'No merchant';
+  String textSetTotalSale = 'Total sale';
+  String textSetCheckout = 'Checkout';
+  String textSetAmountApplied = 'Amount applied';
+  String textSetPercent = 'Percentage';
+  String textSetCashAccept = 'Cash acceptance';
+  String textSetCashRev = 'CASH RECEIVED';
+  String textSetCustom = 'Custom amount';
+  String textSetDebt = 'Unpaid amount';
+  String textSetRefund = 'Cash refund';
+  String textSetDone = 'Done';
+
   @override
   initState() {
 
@@ -63,6 +86,45 @@ class MerchantCartState extends State<MerchantCart>
       } else if(value == 'Myanmar Kyat (MMK)') {
         setState(() {
           currencyUnit = 'MMK';
+        });
+      }
+    });
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetMerchOrders = 'အ၀ယ်စာရင်း';
+           textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
+           textSetDiscount = 'လျော့ဈေး';
+           textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
+           textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
+           textSetCheckout = 'ငွေရှင်းမည်';
+           textSetAmountApplied = 'Amount applied';
+           textSetPercent = 'Percentage';
+           textSetCashAccept = 'Cash acceptance';
+           textSetCashRev = 'CASH RECEIVED';
+           textSetCustom = 'Custom amount';
+           textSetDebt = 'Unpaid amount';
+           textSetRefund = 'Cash refund';
+           textSetDone = 'ငွေရှင်းမည်';
+        });
+      }
+      else if(value=='english') {
+        setState(() {
+           textSetMerchOrders = 'Merchant orders';
+           textSetClearCart = 'Clear cart';
+           textSetDiscount = 'Discount';
+           textSetNoMerchant = 'No merchant';
+           textSetTotalSale = 'Total sale';
+           textSetCheckout = 'Checkout';
+           textSetAmountApplied = 'Amount applied';
+           textSetPercent = 'Percentage';
+           textSetCashAccept = 'Cash acceptance';
+           textSetCashRev = 'CASH RECEIVED';
+           textSetCustom = 'Custom amount';
+           textSetDebt = 'Unpaid amount';
+           textSetRefund = 'Cash refund';
+           textSetDone = 'Done';
         });
       }
     });
@@ -167,7 +229,7 @@ class MerchantCartState extends State<MerchantCart>
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
                               ),),
-                            Text('Merchant orders',
+                            Text(textSetMerchOrders,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -251,7 +313,7 @@ class MerchantCartState extends State<MerchantCart>
                                             3.0),
                                         child: Container(
                                             child: Text(
-                                              'Clear cart',
+                                              textSetClearCart,
                                               textAlign:
                                               TextAlign
                                                   .center,
@@ -321,7 +383,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 // initialText: 'mono0926@gmail.com',
                                               ),
                                             ],
-                                            title: 'Discount',
+                                            title: textSetDiscount,
                                             message: 'Add Discount Amount to Cart',
                                           );
                                           setState(() {
@@ -340,7 +402,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 // initialText: 'mono0926@gmail.com',
                                               ),
                                             ],
-                                            title: 'Discount',
+                                            title: textSetDiscount,
                                             message: 'Add Discount Percent to Cart',
                                           );
                                           setState(() {
@@ -365,7 +427,7 @@ class MerchantCartState extends State<MerchantCart>
                                             3.0),
                                         child: Container(
                                             child: Text(
-                                              'Discount',
+                                              textSetDiscount,
                                               textAlign:
                                               TextAlign
                                                   .center,
@@ -694,15 +756,15 @@ class MerchantCartState extends State<MerchantCart>
                                   discount2 != 0.0 ? Container(
                                     child: isDiscount2 == 'percent' ?
                                     ListTile(
-                                      title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      subtitle: Text('Percentage (' +  discountAmount2.toString() + '%)', style: TextStyle(
+                                      title: Text(textSetDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      subtitle: Text('$textSetPercent (' +  discountAmount2.toString() + '%)', style: TextStyle(
                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       )),
                                       trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit2()) - double.parse(TtlProdListPrice2())).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
 
                                     ) :  ListTile (
-                                      title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      subtitle: Text('Amount applied', style: TextStyle(
+                                      title: Text(textSetDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                      subtitle: Text(textSetAmountApplied, style: TextStyle(
                                         fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                       )),
                                       trailing: Text('- $currencyUnit ' + discount2.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
@@ -768,7 +830,7 @@ class MerchantCartState extends State<MerchantCart>
                     children: [
                       ListTile(
                         title: Text(
-                          'Total sale',
+                         textSetTotalSale,
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight:
@@ -829,7 +891,7 @@ class MerchantCartState extends State<MerchantCart>
                                       padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                       child: Container(
                                           child: Text(
-                                            'Checkout',
+                                           textSetCheckout,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 18,
@@ -1865,7 +1927,7 @@ class MerchantCartState extends State<MerchantCart>
                                         fontWeight: FontWeight.w500,
                                         color: Colors.grey,
                                       ),),
-                                    Text('Cash acceptance',
+                                    Text(textSetCashAccept,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -1913,7 +1975,7 @@ class MerchantCartState extends State<MerchantCart>
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text('Total sale', style: TextStyle(
+                                          Text(textSetTotalSale, style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.grey,
@@ -1925,7 +1987,7 @@ class MerchantCartState extends State<MerchantCart>
                                         ],
                                       )),
                                   SizedBox(height: 15),
-                                  Text('CASH RECEIVED',style: TextStyle(
+                                  Text(textSetCashRev,style: TextStyle(
                                       letterSpacing: 2,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,color: Colors.grey
@@ -1956,7 +2018,7 @@ class MerchantCartState extends State<MerchantCart>
                                         color: Colors.grey,
                                       ),
                                       // errorText: 'Error message',
-                                      labelText: 'other  amount',
+                                      labelText: textSetCustom,
                                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                                       //filled: true,
                                       border: OutlineInputBorder(
@@ -2071,7 +2133,7 @@ class MerchantCartState extends State<MerchantCart>
                             children: [
                               debt2!= 0 ? ListTile(
                                 title: Text(
-                                  'Debt amount',
+                                  textSetDebt,
                                   style: TextStyle(
                                       fontSize: 17,
                                       fontWeight:
@@ -2088,7 +2150,7 @@ class MerchantCartState extends State<MerchantCart>
                                 ),
                               ) : ListTile(
                                 title: Text(
-                                  'Cash refund',
+                                  textSetRefund,
                                   style: TextStyle(
                                       fontSize: 17,
                                       fontWeight:
@@ -2293,7 +2355,7 @@ class MerchantCartState extends State<MerchantCart>
                                           padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                           child: Container(
                                             child: Text(
-                                              'Done',
+                                            textSetDone,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 18,

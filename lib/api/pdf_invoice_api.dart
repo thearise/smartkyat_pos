@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -82,9 +83,10 @@ class PdfInvoiceApi {
                     Container(decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                              width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
+                              width: 1.5, color: PdfColors.black, style: BorderStyle.dashed
+                          ),
                         )
-                    ),height: 1),
+                    ),height: 3),
                     SizedBox(height: size == 'Roll-80'? 0.35 * PdfPageFormat.cm: 0.3 * PdfPageFormat.cm),
 
 
@@ -126,10 +128,10 @@ class PdfInvoiceApi {
               child: Container(decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                        width: 1, color: PdfColors.grey800, style: BorderStyle.dashed),
+                        width: 1.5, color: PdfColors.black, style: BorderStyle.dashed),
                   )),height: 1),
             ),
-            buildTotal(invoice, size, pageFormat),
+            buildTotal(invoice, size, pageFormat, ttfReg),
             // size == 'Roll-57' ? Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   crossAxisAlignment: pw.CrossAxisAlignment.center,
@@ -429,7 +431,7 @@ class PdfInvoiceApi {
 
   }
 
-  static Widget buildTotal(Invoice invoice, String size, PdfPageFormat pageFormat) {
+  static Widget buildTotal(Invoice invoice, String size, PdfPageFormat pageFormat, ttfBold) {
     final netTotal = invoice.items
         .map((item) => item.unitPrice * item.quantity)
         .reduce((item1, item2) => item1 + item2);
@@ -437,8 +439,12 @@ class PdfInvoiceApi {
     final disType = invoice.items.first.type;
     final debt = invoice.items.first.debt;
     final currency = invoice.items.first.currencyUnit;
+    final subTotalText = invoice.items.first.subTotalText;
+    final discountText = invoice.items.first.discountText;
+    final totalPriceText = invoice.items.first.totalPriceText;
+    final paidText = invoice.items.first.paidText;
+    final totalDebtText =invoice.items.first.totalDebtText;
     final vat;
-
     disType == '-p' ?  vat = netTotal * (vatPercent/100) : vat = vatPercent ;
     final total = netTotal - vat;
     final paid = total - debt;
@@ -471,11 +477,11 @@ class PdfInvoiceApi {
                       Padding(
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
-                            title: 'Sub total',
+                            title:  Rabbit.uni2zg(subTotalText),
                             value: Utils.formatPrice(netTotal) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
-                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold,
                             )
                         ),
                       ),
@@ -483,23 +489,25 @@ class PdfInvoiceApi {
                       Padding(
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
-                            title: disType == '-p'? 'Discount (${vatPercent * 1} %)' : 'Discount',
+                            title: disType == '-p'? Rabbit.uni2zg('$discountText (${vatPercent * 1} %)') : Rabbit.uni2zg(discountText),
+                          //title: disType == '-p'?('Discount (${vatPercent * 1} %)') : ('Discount'),
                             value: Utils.formatPrice(vat) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
-                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
-                            )
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold
+                            ),
                         ),
                       ),
                       SizedBox(height: 1.5 * PdfPageFormat.mm),
                       Padding(
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
-                            title: 'Total price',
+                           title: Rabbit.uni2zg(totalPriceText),
+                            //title: 'Total',
                             value: Utils.formatPrice(total) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
-                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold
                             )
                         ),
                       ),
@@ -507,11 +515,12 @@ class PdfInvoiceApi {
                       Padding(
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
-                            title: 'Paid',
+                            title: Rabbit.uni2zg(paidText),
+                            //title: 'Paid',
                             value: Utils.formatPrice(paid) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
-                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold
                             )
                         ),
                       ),
@@ -519,17 +528,17 @@ class PdfInvoiceApi {
                       Padding(
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
-                            title: 'Total debt',
+                            title:  Rabbit.uni2zg(totalDebtText),
+                            //title: 'Debt',
+
                             value: Utils.formatPrice(debt) + ' $currency',
                             unite: true,
                             titleStyle: TextStyle(
-                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                                fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold
                             )
                         ),
                       ),
                       SizedBox(height: size=='Roll-80'? 1 * PdfPageFormat.cm: .5 * PdfPageFormat.cm),
-
-
                       // Container(decoration: BoxDecoration(
                       //     border: Border(
                       //       bottom: BorderSide(
@@ -569,11 +578,12 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                          title: 'Sub total',
+                         title: Rabbit.uni2zg(subTotalText),
+                          //title: 'Sub Total',
                           value: Utils.formatPrice(netTotal) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold ,  font: ttfBold
                           )
                       ),
                     ),
@@ -581,11 +591,12 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                          title:  disType == '-p'? 'Discount (${vatPercent * 1}) %' : 'Discount',
+                          //title: 'Paid',
+                          title:   disType == '-p'? Rabbit.uni2zg('$discountText (${vatPercent * 1} %)') : Rabbit.uni2zg(discountText),
                           value: Utils.formatPrice(vat) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold
                           )
                       ),
                     ),
@@ -593,11 +604,12 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                          title: 'Total price',
+                         title: Rabbit.uni2zg(totalPriceText),
+                          //title: 'Total',
                           value: Utils.formatPrice(total) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold
                           )
                       ),
                     ),
@@ -605,11 +617,12 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                          title: 'Paid',
+                         title: Rabbit.uni2zg(paidText),
+                          //title: 'Paid',
                           value: Utils.formatPrice(paid) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold
                           )
                       ),
                     ),
@@ -617,11 +630,12 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                          title: 'Total debt',
+                         title: Rabbit.uni2zg(totalDebtText),
+                          //title: 'Debt',
                           value: Utils.formatPrice(debt) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
-                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold
+                              fontSize: fontSizeDesc-3, fontWeight: FontWeight.bold, font: ttfBold
                           )
                       ),
                     ),

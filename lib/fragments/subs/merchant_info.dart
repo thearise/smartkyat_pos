@@ -6,6 +6,7 @@ import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/widgets/edit_merchant.dart';
 import 'package:smartkyat_pos/widgets/product_details_view.dart';
@@ -38,11 +39,60 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
     widget._printFromOrders(file);
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
   int _sliding = 0;
   late TabController _controller;
 
+  String textSetSaleCart = 'Add to\nbuy cart';
+  String textSetPurchasedOrders = 'Purchased\norders';
+  String textSetEdit = 'Edit merchant';
+  String textSetSaleInfo = 'Sale info';
+  String textSetContactInfo = 'Contact info';
+  String textSetInfo = 'MERCHANT INFORMATION';
+  String textSetName = 'Name';
+  String textSetPhone = 'Phone';
+  String textSetAddress = 'Address';
+  String textSetBarcode = 'Barcode';
+
   @override
   void initState() {
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetSaleCart = 'Add to\nbuy cart';
+          textSetPurchasedOrders = 'Purchased\norders';
+          textSetEdit = 'Edit merchant';
+          textSetSaleInfo = 'Sale info';
+          textSetContactInfo = 'Contact info';
+          textSetInfo = 'MERCHANT INFORMATION';
+           textSetName = 'Name';
+           textSetPhone = 'Phone';
+           textSetAddress = 'Address';
+          textSetBarcode = 'Barcode';
+        });
+      }
+      else if(value=='english') {
+        setState(() {
+          textSetSaleCart = 'Add to\nbuy cart';
+          textSetPurchasedOrders = 'Purchased\norders';
+          textSetEdit = 'Edit merchant';
+          textSetSaleInfo = 'Sale info';
+          textSetContactInfo = 'Contact info';
+          textSetInfo = 'MERCHANT INFORMATION';
+           textSetName = 'Name';
+           textSetPhone = 'Phone';
+           textSetAddress = 'Address';
+          textSetBarcode = 'Barcode';
+        });
+      }
+    });
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
       print('my index is'+ _controller.index.toString());
@@ -226,7 +276,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                       bottom: 10,
                                                       left: 0,
                                                       child: Text(
-                                                        'Add to\nsale cart',
+                                                        textSetSaleCart,
                                                         style: TextStyle(
                                                           fontWeight: FontWeight.bold,
                                                           fontSize: 16,
@@ -278,7 +328,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     bottom: 10,
                                                     left: 0,
                                                     child: Text(
-                                                      'Purchased\norders',
+                                                      textSetPurchasedOrders,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -340,7 +390,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                         ),
                                                       ),
                                                       Text(
-                                                        'Edit merchant',
+                                                        textSetEdit,
                                                         textAlign: TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: 14,
@@ -379,7 +429,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                   },
                                                   child:Container(
                                                     child: Text(
-                                                      'Sale info',
+                                                     textSetSaleInfo,
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(
                                                           fontSize: 14,
@@ -404,7 +454,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                   },
                                                   child:Container(
                                                     child: Text(
-                                                      'Contact info',
+                                                     textSetContactInfo,
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(
                                                           fontSize: 14,
@@ -440,7 +490,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'MERCHANT INFORMATION',
+                                                  textSetInfo,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 14,
@@ -468,7 +518,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               width: 1.0))),
                                                           child: Row(
                                                             children: [
-                                                              Text('Name', style:
+                                                              Text(textSetName, style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w500,
@@ -493,7 +543,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                       width: 1.0))),
                                                           child: Row(
                                                             children: [
-                                                              Text('Phone', style:
+                                                              Text(textSetPhone, style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w500,
@@ -517,7 +567,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                       width: 1.0))),
                                                           child: Row(
                                                             children: [
-                                                              Text('Address', style:
+                                                              Text(textSetAddress, style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w600,
@@ -593,7 +643,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                               width: 1.0))),
                                                           child: Row(
                                                             children: [
-                                                              Text('Name', style:
+                                                              Text(textSetName, style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w500,
@@ -618,7 +668,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                       width: 1.0))),
                                                           child: Row(
                                                             children: [
-                                                              Text('Phone', style:
+                                                              Text(textSetPhone, style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w500,
@@ -642,7 +692,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                       width: 1.0))),
                                                           child: Row(
                                                             children: [
-                                                              Text('Address', style:
+                                                              Text(textSetAddress, style:
                                                               TextStyle(
                                                                 fontSize: 15,
                                                                 fontWeight: FontWeight.w600,

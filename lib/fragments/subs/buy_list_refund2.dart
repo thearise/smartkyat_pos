@@ -47,8 +47,35 @@ class _BuyListRefundState extends State<BuyListRefund>
     return prefs.getString('currency');
   }
 
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
+  String textSetTtlRefund = 'Total refunds';
+  String textSetTtlRefundAmount = 'Total refund amount';
+  String textSetRefundBtn = 'Refund';
+
   @override
-  initState() {
+  void initState() {
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetTtlRefund = 'Total refunds';
+          textSetTtlRefundAmount = 'Total refund amount';
+          textSetRefundBtn = 'Refund';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetTtlRefund = 'Total refunds';
+          textSetTtlRefundAmount = 'Total refund amount';
+          textSetRefundBtn = 'Refund';
+        });
+      }
+    });
 
     getCurrency().then((value){
       if(value == 'US Dollar') {
@@ -558,7 +585,10 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                                         if ((double.parse(value)) <=
                                                                             double.parse(prodListView[i].split('-')[3])) {
                                                                           refundItems[i] = double.parse(value);
-                                                                        } else refundItems[i] = refundItems[i];
+                                                                          quantityCtrlList[i].text = refundItems[i].round().toString();
+                                                                        } else {refundItems[i] = refundItems[i];
+                                                                        quantityCtrlList[i].text = refundItems[i].round().toString();
+                                                                        }
                                                                       });
                                                                     },
                                                                     controller: quantityCtrlList[i],
@@ -645,7 +675,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                   ),
                                 ListTile(
                                   title: Text(
-                                    'Total refunds',
+                                   textSetTtlRefund,
                                     style: TextStyle(
                                         fontSize: 17,
                                         fontWeight:
@@ -670,7 +700,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                 ),
                                 ListTile(
                                   title: Text(
-                                    'Total refund Amount',
+                                   textSetTtlRefundAmount,
                                     style: TextStyle(
                                         fontSize: 17,
                                         fontWeight:
@@ -945,7 +975,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   bottom: 2.0),
                                               child: Container(
                                                 child: Text(
-                                                  'Refund',
+                                                 textSetRefundBtn,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 18,
