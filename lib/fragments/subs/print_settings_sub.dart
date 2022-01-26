@@ -322,7 +322,35 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                               ],
                             ),
                           ),
-                        )
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: 72,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                    color: AppTheme.skBorderColor2,
+                                    width: 1.0),
+                              )),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 4.0),
+                              child: ListTile(
+                                title: Text('Printers', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text('Connected printer' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                    SizedBox(width: 8,),
+                                    Icon(
+                                      Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
