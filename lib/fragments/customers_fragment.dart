@@ -89,6 +89,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   String textSetNewCus = 'New Customer';
   String textSetAll = 'All';
   String textSetUnpaids = 'Unpaids';
+  String textSetSearch = 'Search';
 
   List<List> orderList = [];
   var orders;
@@ -173,15 +174,17 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetNewCus = 'New Customer';
-          textSetAll = 'All';
-          textSetUnpaids = 'Unpaids';
+          textSetNewCus = 'ဝယ်သူ';
+          textSetAll = 'အားလုံး';
+          textSetUnpaids = 'မရှင်းသေး';
+           textSetSearch = 'ရှာဖွေရန်';
         });
       } else if(value=='english') {
         setState(() {
           textSetNewCus = 'New Customer';
           textSetAll = 'All';
           textSetUnpaids = 'Unpaids';
+          textSetSearch = 'Search';
         });
       }
     });
@@ -4335,7 +4338,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                           left: 13,
                                           bottom: 1.5),
                                       child: Text(
-                                        'Search',
+                                        textSetSearch,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,

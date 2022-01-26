@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
 
@@ -31,10 +32,44 @@ class _AddMerchantState extends State<AddMerchant> {
 
   String? shopId;
 
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
+
+  String textSetInformation = 'MERCHANT INFORMATION';
+  String textSetName = 'Name';
+  String textSetAddress = 'Address';
+  String textSetPhone = 'Phone number';
+  String textSetAdd = 'Add Merchant';
   @override
   void initState() {
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+           textSetInformation = 'MERCHANT INFORMATION';
+           textSetName = 'Name';
+           textSetAddress = 'Address';
+           textSetPhone = 'Phone number';
+           textSetAdd = 'Add Merchant';
+        });
+      } else if(value=='english') {
+        setState(() {
+           textSetInformation = 'MERCHANT INFORMATION';
+           textSetName = 'Name';
+           textSetAddress = 'Address';
+           textSetPhone = 'Phone number';
+           textSetAdd = 'Add Merchant';
+        });
+      }
+    });
+
     getStoreId().then((value) => shopId = value);
-    // TODO: implement initState
     super.initState();
   }
 
@@ -99,7 +134,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(right: 15.0, left: 15.0,),
-                                        child: Text('MERCHANT INFORMATION', style: TextStyle(
+                                        child: Text(textSetInformation, style: TextStyle(
                                           letterSpacing: 1.5,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,color: Colors.grey,
@@ -158,7 +193,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                               color: Colors.black,
                                             ),
 // errorText: 'Error message',
-                                            labelText: 'Name',
+                                            labelText: textSetName,
                                             floatingLabelBehavior:
                                             FloatingLabelBehavior.auto,
 //filled: true,
@@ -221,7 +256,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                               color: Colors.black,
                                             ),
 // errorText: 'Error message',
-                                            labelText: 'Address',
+                                            labelText: textSetAddress,
                                             floatingLabelBehavior:
                                             FloatingLabelBehavior.auto,
 //filled: true,
@@ -283,7 +318,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                               color: Colors.black,
                                             ),
 // errorText: 'Error message',
-                                            labelText: 'Phone number',
+                                            labelText: textSetPhone,
                                             floatingLabelBehavior:
                                             FloatingLabelBehavior.auto,
 //filled: true,
@@ -533,7 +568,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                       bottom: 3.0),
                                   child: Container(
                                     child: Text(
-                                      'Add merchant',
+                                      textSetAdd,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,

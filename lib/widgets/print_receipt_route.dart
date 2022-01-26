@@ -47,7 +47,19 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
   String pdfText = '';
   File? pdfFile;
 
-  bool saveImage = false;
+  String totalVPrice = 'Total price';
+  String VPaid = 'Paid';
+  String VDebt = 'Total debt';
+  String subVTotal = 'Sub Total';
+  String VDiscount = 'Discount';
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
 
   @override
   void dispose() {
@@ -60,6 +72,27 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
 
   @override
   void initState() {
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          totalVPrice = 'Total price';
+          VPaid = 'Paid';
+          VDebt = 'Total debt';
+          subVTotal = 'Sub Total';
+          VDiscount = 'Discount';
+        });
+      }
+      else if(value=='english') {
+        setState(() {
+           totalVPrice = 'စုစုပေါင်း';
+           VPaid = 'ပေးငွေ';
+           VDebt = 'ကျန်ငွေ';
+           subVTotal = 'ကျသင့်ငွေပေါင်း';
+           VDiscount = 'လျှော့ငွေ';
+        });
+      }
+    });
     print('printing route1 ' + widget.data.toString());
     print('printing route2 ' + widget.prodList.toString());
     print('printing route3 ' + widget.data.split('^')[0].substring(0,4) + '-' + widget.data.split('^')[0].substring(4,6) + '-' + widget.data.split('^')[0].substring(6,8));
@@ -100,7 +133,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
             description: 'My description...',
             // number: '${DateTime.now().year}-9999',
             // number: deviceIdNum.toString() + '^' + length.toString()
-            number: '001'
+            number: widget.data.split('^')[1],
         ),
         items: [
           for(int i=0; i<prodList.length; i++)
@@ -116,6 +149,11 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
               type: widget.data.split('^')[6] != '0.0' ? '-' + (widget.data.split('^')[6].split('-')[1]).toString() : '',
               debt: double.parse(widget.data.split('^')[5]),
               unitPrice: double.parse(widget.prodList[i].split('^')[2]), currencyUnit: widget.currency,
+              totalPriceText: totalVPrice,
+              paidText: VPaid,
+              totalDebtText: VDebt,
+              subTotalText: subVTotal,
+              discountText: VDiscount,
               // unitPrice: double.parse(prodList[i].split('^')[2]),
             )
 
@@ -310,9 +348,6 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                     children: [
                                       GestureDetector(
                                         onTap: () async {
-                                          setState(() {
-                                            saveImage = true;
-                                          });
                                           var mergedImage;
 
                                           final doc = await PdfDocument.openFile(pdfFile!.path);
@@ -377,12 +412,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                                     child: Container(
-                                                        child: saveImage?
-                                                        Center(
-                                                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                              child: CupertinoActivityIndicator(radius: 10,)),
-                                                        ):
-                                                        Text(
+                                                        child: Text(
                                                           'Save as image',
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
@@ -805,10 +835,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       print(s);
     }
 
-    success ? smartKyatFlash('Saved successfully order info in your photos', 's') : smartKyatFlash('An error occurred while saving order info.', 'e');
-    setState(() {
-      saveImage = false;
-    });
+    print(success ? "Save to album success" : "Save to album failed");
     // setState(() {
     //   _result = success ? "Save to album success" : "Save to album failed";
     // });

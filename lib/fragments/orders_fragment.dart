@@ -114,6 +114,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   String textSetTUnpaid = 'Unpadis';
   String textSetTRefunds = 'Refunds';
   String textSetTPaid = 'Paids';
+  String textSetSearch = 'Search';
 
   String currencyUnit = 'MMK';
 
@@ -212,10 +213,11 @@ class OrdersFragmentState extends State<OrdersFragment>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetAll = 'All';
-          textSetTUnpaid = 'Unpadis';
-          textSetTRefunds = 'Refunds';
-          textSetTPaid = 'Paids';
+          textSetAll = 'အားလုံး';
+          textSetTUnpaid = 'မရှင်းသေး';
+          textSetTRefunds = 'ပြန်အမ်း';
+          textSetTPaid = 'ရှင်းပြီး';
+          textSetSearch = 'ရှာဖွေရန်';
         });
       } else if(value=='english') {
         setState(() {
@@ -223,6 +225,7 @@ class OrdersFragmentState extends State<OrdersFragment>
           textSetTUnpaid = 'Unpadis';
           textSetTRefunds = 'Refunds';
           textSetTPaid = 'Paids';
+          textSetSearch = 'Search';
         });
       }
     });
@@ -4760,7 +4763,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                           left: 13,
                                           bottom: 1.5),
                                       child: Text(
-                                        'Search',
+                                       textSetSearch,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500,

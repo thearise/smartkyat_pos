@@ -76,6 +76,17 @@ class _EditProductState extends State<EditProduct> {
   bool prodAdding = false;
   bool disableTouch = false;
 
+  String textSetProductInfo = 'PRODUCT INFORMATION';
+  String textSetProdName = 'Product name';
+  String textSetBarcode = 'Barcode';
+  String textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+  String textSetSubUnit = 'SUB UNIT?';
+  String textSetUnitQty = 'Unit quantity';
+  String textSetUnitName = 'Unit name';
+  String textSetBuyPrice = 'Buy price';
+  String textSetSalePrice = 'Sale price';
+  String textSetRemove = 'REMOVE';
+  String textSetSaveProd = 'Save Product';
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -126,11 +137,31 @@ class _EditProductState extends State<EditProduct> {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-
+           textSetProductInfo = 'PRODUCT INFORMATION';
+           textSetProdName = 'Product name';
+           textSetBarcode = 'Barcode';
+           textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+           textSetSubUnit = 'SUB UNIT?';
+           textSetUnitQty = 'Unit quantity';
+           textSetUnitName = 'Unit name';
+           textSetBuyPrice = 'Buy price';
+           textSetSalePrice = 'Sale price';
+           textSetRemove = 'REMOVE';
+           textSetSaveProd = 'Save Product';
         });
       } else if(value=='english') {
         setState(() {
-
+           textSetProductInfo = 'PRODUCT INFORMATION';
+           textSetProdName = 'Product name';
+           textSetBarcode = 'Barcode';
+           textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+           textSetSubUnit = 'SUB UNIT?';
+           textSetUnitQty = 'Unit quantity';
+           textSetUnitName = 'Unit name';
+           textSetBuyPrice = 'Buy price';
+           textSetSalePrice = 'Sale price';
+           textSetRemove = 'REMOVE';
+           textSetSaveProd = 'Save Product';
         });
       }
     });
@@ -239,7 +270,7 @@ class _EditProductState extends State<EditProduct> {
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                             child: Text(
-                              'PRODUCT INFORMATION',
+                             textSetProductInfo,
                               style: TextStyle(
                                 letterSpacing: 1.5,
                                 fontWeight: FontWeight.bold,
@@ -328,7 +359,7 @@ class _EditProductState extends State<EditProduct> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Product Name',
+                                labelText: textSetProdName,
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -403,7 +434,7 @@ class _EditProductState extends State<EditProduct> {
                                   fontWeight: FontWeight.w500,
                                   color: Colors.black,
                                 ),
-                                labelText: 'Barcode',
+                                labelText: textSetBarcode,
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
                                 border: OutlineInputBorder(
@@ -504,7 +535,7 @@ class _EditProductState extends State<EditProduct> {
                                         color: Colors.black,
                                       ),
 // errorText: 'Error message',
-                                      labelText: 'Unit quantity',
+                                      labelText: textSetUnitQty,
                                       floatingLabelBehavior:
                                       FloatingLabelBehavior.auto,
 //filled: true,
@@ -568,7 +599,7 @@ class _EditProductState extends State<EditProduct> {
                                         color: Colors.black,
                                       ),
 // errorText: 'Error message',
-                                      labelText: 'Unit name',
+                                      labelText: textSetUnitName,
                                       floatingLabelBehavior:
                                       FloatingLabelBehavior.auto,
 //filled: true,
@@ -634,7 +665,7 @@ class _EditProductState extends State<EditProduct> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Buy price',
+                                labelText: textSetBuyPrice,
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -697,7 +728,7 @@ class _EditProductState extends State<EditProduct> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Sale price',
+                                labelText: textSetSalePrice,
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -1040,7 +1071,7 @@ class _EditProductState extends State<EditProduct> {
                                 bottom: 2.0),
                             child: Container(
                               child: Text(
-                                'Save Product',
+                                textSetSaveProd,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 18,
@@ -1315,7 +1346,7 @@ class _EditProductState extends State<EditProduct> {
                           color: Colors.black,
                         ),
                         // errorText: 'Error message',
-                        labelText: 'Unit name',
+                        labelText: textSetUnitName,
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                         //filled: true,
                         border: OutlineInputBorder(
@@ -1371,7 +1402,7 @@ class _EditProductState extends State<EditProduct> {
                         height: 0.1
                     ),
                     // errorText: 'Error message',
-                    labelText: 'Unit Quantity',
+                    labelText: textSetUnitQty,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     //filled: true,
                     border: OutlineInputBorder(
@@ -1425,7 +1456,7 @@ class _EditProductState extends State<EditProduct> {
                       color: Colors.black,
                     ),
                     // errorText: 'Error message',
-                    labelText: 'Sale price',
+                    labelText: textSetSalePrice,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     //filled: true,
                     border: OutlineInputBorder(

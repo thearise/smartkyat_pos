@@ -98,9 +98,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   var docId;
   var innerId;
 
-  String textSetNewMerch = 'New Merchant';
-  String textSetAll = 'All';
-  String textSetDebts = 'Debts';
+  String textSetSearch = 'Search';
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -173,16 +171,12 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetNewMerch = 'New Merchant';
-          textSetAll = 'All';
-          textSetDebts = 'Debts';
+          textSetSearch = 'ရှာဖွေရန်';
 
         });
       } else if(value=='english') {
         setState(() {
-          textSetNewMerch = 'New Merchant';
-          textSetAll = 'All';
-          textSetDebts = 'Debts';
+        textSetSearch = 'Search';
         });
       }
     });
@@ -1144,6 +1138,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                                     item.split('^sps^')[2],
                                                                 width: 75,
                                                                 height: 75,
+                                                                placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),
                                                                 // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
                                                                 errorWidget: (context,
                                                                     url,
@@ -1164,31 +1159,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                                 fit: BoxFit
                                                                     .cover,
                                                               )
-                                                                  : CachedNetworkImage(
-                                                                imageUrl:
-                                                                'https://riftplus.me/smartkyat_pos/api/uploads/shark1.jpg',
-                                                                width: 75,
-                                                                height: 75,
-                                                                // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                errorWidget: (context,
-                                                                    url,
-                                                                    error) =>
-                                                                    Icon(Icons
-                                                                        .error),
-                                                                fadeInDuration:
-                                                                Duration(
-                                                                    milliseconds:
-                                                                    100),
-                                                                fadeOutDuration:
-                                                                Duration(
-                                                                    milliseconds:
-                                                                    10),
-                                                                fadeInCurve:
-                                                                Curves
-                                                                    .bounceIn,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              )),
+                                                                  : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
                                                         ],
                                                       ),
                                                       SizedBox(
@@ -2632,7 +2603,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                             ),
 
                                             decoration: InputDecoration(
-                                              hintText: 'Search',
+                                              hintText:textSetSearch,
                                               isDense: true,
                                               // contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
                                               enabledBorder: const OutlineInputBorder(

@@ -65,9 +65,81 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 
   String? shopId;
 
+  String textSetProductInfo = 'PRODUCT INFORMATION';
+  String textSetProdName = 'Product name';
+  String textSetBarcode = 'Barcode';
+  String textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+  String textSetSubUnit = 'SUB UNIT?';
+  String textSetUnitQty = 'Unit quantity';
+  String textSetUnitName = 'Unit name';
+  String textSetBuyPrice = 'Buy price';
+  String textSetSalePrice = 'Sale price';
+  String textSetRemove = 'REMOVE';
+  String textSetSaveProd = 'Add Product';
+
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
+  }
+
+  String currencyUnit = 'MMK';
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
+
   @override
   initState() {
     getStoreId().then((value) => shopId = value);
+
+    getCurrency().then((value){
+      if(value == 'US Dollar') {
+        setState(() {
+          currencyUnit = 'USD';
+        });
+      } else if(value == 'Myanmar Kyat (MMK)') {
+        setState(() {
+          currencyUnit = 'MMK';
+        });
+      }
+    });
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          textSetProductInfo = 'PRODUCT INFORMATION';
+          textSetProdName = 'Product name';
+          textSetBarcode = 'Barcode';
+          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+          textSetSubUnit = 'SUB UNIT?';
+          textSetUnitQty = 'Unit quantity';
+          textSetUnitName = 'Unit name';
+          textSetBuyPrice = 'Buy price';
+          textSetSalePrice = 'Sale price';
+          textSetRemove = 'REMOVE';
+          textSetSaveProd = 'Add Product';
+        });
+      } else if(value=='english') {
+        setState(() {
+          textSetProductInfo = 'PRODUCT INFORMATION';
+          textSetProdName = 'Product name';
+          textSetBarcode = 'Barcode';
+          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+          textSetSubUnit = 'SUB UNIT?';
+          textSetUnitQty = 'Unit quantity';
+          textSetUnitName = 'Unit name';
+          textSetBuyPrice = 'Buy price';
+          textSetSalePrice = 'Sale price';
+          textSetRemove = 'REMOVE';
+          textSetSaveProd = 'Add Product';
+        });
+      }
+    });
     super.initState();
   }
 
@@ -726,7 +798,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                     child: Text(
-                                        'PRODUCT INFORMATION',
+                                       textSetProductInfo,
                                           style: TextStyle(
                                             letterSpacing: 1.5,
                                             fontWeight: FontWeight.bold,
@@ -825,7 +897,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   color: Colors.black,
                                                 ),
 // errorText: 'Error message',
-                                                labelText: 'Product name',
+                                                labelText: textSetProdName,
                                                 floatingLabelBehavior:
                                                     FloatingLabelBehavior.auto,
 //filled: true,
@@ -916,7 +988,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               color: Colors.black,
                                             ),
 // errorText: 'Error message',
-                                            labelText: 'Barcode',
+                                            labelText: textSetBarcode,
                                             floatingLabelBehavior:
                                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -984,7 +1056,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   setState(() => cards.add(createCard('sub1')));
                                                 } else print('sub limit reached');
                                                 },
-                                              child: Text('SUB UNIT?', style: TextStyle(
+                                              child: Text(textSetSubUnit, style: TextStyle(
                                                 letterSpacing: 1.5,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,color: Colors.blue,
@@ -1063,7 +1135,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     color: Colors.black,
                                                   ),
 // errorText: 'Error message',
-                                                  labelText: 'Unit quantity',
+                                                  labelText: textSetUnitQty,
                                                   floatingLabelBehavior:
                                                       FloatingLabelBehavior.auto,
 //filled: true,
@@ -1136,7 +1208,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     color: Colors.black,
                                                   ),
                                                   // errorText: 'Error message',
-                                                  labelText: 'Unit name',
+                                                  labelText: textSetUnitName,
                                                   floatingLabelBehavior:
                                                       FloatingLabelBehavior.auto,
                                                   //filled: true,
@@ -1185,7 +1257,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 right: 15.0,
                                                 top: 18.0,
                                                 bottom: 18.0),
-                                            suffixText: 'MMK',
+                                            suffixText: currencyUnit,
                                             suffixStyle: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.grey,
@@ -1203,7 +1275,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               color: Colors.black,
                                             ),
 // errorText: 'Error message',
-                                            labelText: 'Buy price',
+                                            labelText: textSetBuyPrice,
                                             floatingLabelBehavior:
                                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -1248,7 +1320,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 right: 15.0,
                                                 top: 18.0,
                                                 bottom: 18.0),
-                                            suffixText: 'MMK',
+                                            suffixText: currencyUnit,
                                             suffixStyle: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Colors.grey,
@@ -1266,7 +1338,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               color: Colors.black,
                                             ),
 // errorText: 'Error message',
-                                            labelText: 'Sale price',
+                                            labelText: textSetSalePrice,
                                             floatingLabelBehavior:
                                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -2408,7 +2480,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                           color: Colors.black,
                         ),
                         // errorText: 'Error message',
-                        labelText: 'Unit name',
+                        labelText: textSetUnitName,
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                         //filled: true,
                         border: OutlineInputBorder(
@@ -2464,7 +2536,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     height: 0.1
                 ),
                 // errorText: 'Error message',
-                labelText: 'Unit Quantity',
+                labelText: textSetUnitQty,
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 //filled: true,
                 border: OutlineInputBorder(
@@ -2500,7 +2572,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 contentPadding: const EdgeInsets.only(
                     left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                suffixText: 'MMK',
+                suffixText: currencyUnit,
                 suffixStyle: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.grey,
@@ -2518,7 +2590,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                   color: Colors.black,
                 ),
                 // errorText: 'Error message',
-                labelText: 'Sale price',
+                labelText: textSetSalePrice,
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 //filled: true,
                 border: OutlineInputBorder(
@@ -2608,7 +2680,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                             ),
                           ),
                           Text(
-                            "Add new product",
+                           textSetSaveProd,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 17,
