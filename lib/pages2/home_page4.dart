@@ -363,9 +363,9 @@ class HomePageState extends State<HomePage>
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       // premiumCart();
-      Navigator.of(context).push(
-          FadeRoute(page: FirstLaunchPage(),)
-      );
+      // Navigator.of(context).push(
+      //     FadeRoute(page: FirstLaunchPage(),)
+      // );
     });
     initConnectivity();
     _connectivitySubscription =
@@ -5748,8 +5748,7 @@ class HomePageState extends State<HomePage>
                                                         Expanded(
                                                           child: GestureDetector(
                                                             onTap: () {
-                                                              // print('go to cart 3');
-                                                              smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');
+                                                              print('go to cart 3');
                                                             },
                                                             child: Container(),
                                                           ),
@@ -5758,76 +5757,71 @@ class HomePageState extends State<HomePage>
                                                           children: [
                                                             // Text(startDate.isBefore(nowCheck) && endDate.isAfter(nowCheck)? 'Pro': 'Free'),
                                                             //SizedBox(width:15),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                smartKyatFlash('Thank for using Smart Kyat POS system.', 'i');                              
-                                                              },
-                                                              child: Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                      right: 15.0, left: 10.0, top: 2.0
-                                                                  ),
-                                                                  child: _connectionStatus?
-                                                                  Center(
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 2),
-                                                                      child: Icon(
-                                                                        Icons.wifi_tethering_rounded,
-                                                                        size: 24.5,
-                                                                        color: Colors.green,
-                                                                      ),
-                                                                    ),
-                                                                  ) :
-                                                                  Center(
+                                                            Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    right: 15.0, left: 10.0, top: 2.0
+                                                                ),
+                                                                child: _connectionStatus?
+                                                                Center(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(bottom: 2),
                                                                     child: Icon(
-                                                                      Icons.portable_wifi_off_rounded,
+                                                                      Icons.wifi_tethering_rounded,
                                                                       size: 24.5,
-                                                                      color: Colors.grey,
+                                                                      color: Colors.green,
                                                                     ),
-                                                                  )
-                                                                // child: StreamBuilder(
-                                                                //     stream: Connectivity().onConnectivityChanged,
-                                                                //     builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
-                                                                //       if (!snapShot.hasData)
-                                                                //         return Center(
-                                                                //           child: Icon(
-                                                                //             Icons.cloud_off_rounded,
-                                                                //             size: 25,
-                                                                //             color: Colors.black,
-                                                                //           ),
-                                                                //         );
-                                                                //       var result = snapShot.data;
-                                                                //       switch (result) {
-                                                                //         case ConnectivityResult.none:
-                                                                //
-                                                                //           return Center(
-                                                                //             child: Icon(
-                                                                //               Icons.cloud_off_rounded,
-                                                                //               size: 25,
-                                                                //               color: Colors.black,
-                                                                //             ),
-                                                                //           );
-                                                                //         case ConnectivityResult.mobile:
-                                                                //         case ConnectivityResult.wifi:
-                                                                //
-                                                                //           return Center(
-                                                                //             child: Icon(
-                                                                //               Icons.cloud_rounded,
-                                                                //               size: 25,
-                                                                //               color: Colors.black,
-                                                                //             ),
-                                                                //           );
-                                                                //         default:
-                                                                //           return Center(
-                                                                //             child: Icon(
-                                                                //               Icons.cloud_off_rounded,
-                                                                //               size: 25,
-                                                                //               color: Colors.black,
-                                                                //             ),
-                                                                //           );
-                                                                //       }
-                                                                //
-                                                                //     })
-                                                              ),
+                                                                  ),
+                                                                ) :
+                                                                Center(
+                                                                  child: Icon(
+                                                                    Icons.portable_wifi_off_rounded,
+                                                                    size: 24.5,
+                                                                    color: Colors.grey,
+                                                                  ),
+                                                                )
+                                                              // child: StreamBuilder(
+                                                              //     stream: Connectivity().onConnectivityChanged,
+                                                              //     builder: (BuildContext ctxt,AsyncSnapshot<ConnectivityResult> snapShot) {
+                                                              //       if (!snapShot.hasData)
+                                                              //         return Center(
+                                                              //           child: Icon(
+                                                              //             Icons.cloud_off_rounded,
+                                                              //             size: 25,
+                                                              //             color: Colors.black,
+                                                              //           ),
+                                                              //         );
+                                                              //       var result = snapShot.data;
+                                                              //       switch (result) {
+                                                              //         case ConnectivityResult.none:
+                                                              //
+                                                              //           return Center(
+                                                              //             child: Icon(
+                                                              //               Icons.cloud_off_rounded,
+                                                              //               size: 25,
+                                                              //               color: Colors.black,
+                                                              //             ),
+                                                              //           );
+                                                              //         case ConnectivityResult.mobile:
+                                                              //         case ConnectivityResult.wifi:
+                                                              //
+                                                              //           return Center(
+                                                              //             child: Icon(
+                                                              //               Icons.cloud_rounded,
+                                                              //               size: 25,
+                                                              //               color: Colors.black,
+                                                              //             ),
+                                                              //           );
+                                                              //         default:
+                                                              //           return Center(
+                                                              //             child: Icon(
+                                                              //               Icons.cloud_off_rounded,
+                                                              //               size: 25,
+                                                              //               color: Colors.black,
+                                                              //             ),
+                                                              //           );
+                                                              //       }
+                                                              //
+                                                              //     })
                                                             ),
                                                           ],
                                                         )
@@ -9753,371 +9747,444 @@ class HomePageState extends State<HomePage>
                                     Container(
                                       child: Stack(
                                         children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 67, bottom: 115),
-                                            child: _isLoading && _blueDevices.isEmpty
-                                                ? Center(
-                                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                  child: CupertinoActivityIndicator(radius: 15,)),
-                                            )
-                                                : _blueDevices.isNotEmpty
-                                                ? Container(
-                                              child: SingleChildScrollView(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      SizedBox(height: 5),
-                                                      // GestureDetector(
-                                                      //     onTap: _isLoading ? null : _onScanPressed,
-                                                      //     child: Text('click to scan', style: TextStyle(fontSize: 25),)
-                                                      // ),
-                                                      Column(
-                                                        children: List<Widget>.generate(_blueDevices.length,
-                                                                (int index) {
-                                                              return Row(
-                                                                children: <Widget>[
-                                                                  Expanded(
-                                                                    child: GestureDetector(
-                                                                      onTap: _blueDevices[index].address ==
-                                                                          (_selectedDevice?.address ?? '')
-                                                                          ? _onDisconnectDevice
-                                                                          : () => _onSelectDevice(index),
-                                                                      child: Container(
-                                                                        color: Colors.white,
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.all(8.0),
-                                                                          child: Column(
-                                                                            crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                            children: <Widget>[
-                                                                              Text(
-                                                                                _blueDevices[index].name,
-                                                                                style: TextStyle(
-                                                                                    color:
-                                                                                    _selectedDevice?.address ==
-                                                                                        _blueDevices[index]
-                                                                                            .address
-                                                                                        ? AppTheme.themeColor
-                                                                                        : Colors.black,
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    fontSize: 19
-                                                                                ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(18.0),
+                                                topRight: Radius.circular(18.0),
+                                              ),
+                                              color: Colors.white,
+                                            ),
+                                            child: Container(
+                                              child: Stack(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(top: 67, bottom: 70),
+                                                    child: _isLoading && _blueDevices.isEmpty
+                                                        ? Center(
+                                                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                          child: CupertinoActivityIndicator(radius: 15,)),
+                                                    )
+                                                        : _blueDevices.isNotEmpty
+                                                        ? Container(
+                                                      child: Column(
+                                                        children: [
+                                                          if(priInProgHome)
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
+                                                              child: Container(
+                                                                  child: Column(
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                          child: Container(
+                                                                            width: MediaQuery.of(context).size.width,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.all(
+                                                                                Radius.circular(10.0),
                                                                               ),
-                                                                              Text(
-                                                                                _blueDevices[index].address,
-                                                                                style: TextStyle(
-                                                                                    color:
-                                                                                    _selectedDevice?.address ==
-                                                                                        _blueDevices[index]
-                                                                                            .address
-                                                                                        ? Colors.blueGrey
-                                                                                        : Colors.grey,
-                                                                                    fontSize: 14,
-                                                                                    fontWeight: FontWeight.w500
+                                                                              color: Color(0xffE8EEF9),
+                                                                              border: Border.all(
+                                                                                  color: Color(0xffBCCEEA),
+                                                                                  width: 1.0
+                                                                              ),
+                                                                            ),
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(top: 10, bottom: 11.3),
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  SizedBox(width: 15),
+                                                                                  Icon(
+                                                                                    Icons.print_rounded,
+                                                                                    size: 25,
+                                                                                    color: Color(0xff5786DB),
+                                                                                  ),
+                                                                                  SizedBox(width: 8),
+                                                                                  Expanded(
+                                                                                    child: Text('Printing is in progress.', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                                                                                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                                                                                  ),
+                                                                                  GestureDetector(
+                                                                                    onTap: () {
+                                                                                      mystate(() {
+                                                                                        priInProgHome = false;
+                                                                                      });
+                                                                                    },
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets.all(8.0),
+                                                                                      child: Container(
+                                                                                        decoration: BoxDecoration(
+                                                                                          borderRadius: BorderRadius.all(
+                                                                                            Radius.circular(15.0),
+                                                                                          ),
+                                                                                          color: Color(0xffBCCEEA),
+                                                                                        ),
+                                                                                        child: Padding(
+                                                                                          padding: const EdgeInsets.all(2.0),
+                                                                                          child: Icon(
+                                                                                            Icons.close_rounded,
+                                                                                            size: 15,
+                                                                                            color: Colors.white,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(width: 15),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        SizedBox(height: 8),
+                                                                      ]
+                                                                  )
+                                                              ),
+                                                            ),
+                                                          Expanded(
+                                                            child: SingleChildScrollView(
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: <Widget>[
+                                                                    SizedBox(height: 15),
+                                                                    // GestureDetector(
+                                                                    //     onTap: _isLoading ? null : _onScanPressed,
+                                                                    //     child: Text('click to scan', style: TextStyle(fontSize: 25),)
+                                                                    // ),
+                                                                    Column(
+                                                                      children: List<Widget>.generate(_blueDevices.length,
+                                                                              (int index) {
+                                                                            return Row(
+                                                                              children: <Widget>[
+                                                                                Expanded(
+                                                                                  child: GestureDetector(
+                                                                                    onTap: _blueDevices[index].address ==
+                                                                                        (_selectedDevice?.address ?? '')
+                                                                                        ? _onDisconnectDevice
+                                                                                        : () => _onSelectDevice(index),
+                                                                                    child: Container(
+                                                                                      color: Colors.white,
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Column(
+                                                                                          crossAxisAlignment:
+                                                                                          CrossAxisAlignment.start,
+                                                                                          children: <Widget>[
+                                                                                            Text(
+                                                                                              _blueDevices[index].name == ''? 'Unknown': _blueDevices[index].name,
+                                                                                              style: TextStyle(
+                                                                                                  color:
+                                                                                                  _selectedDevice?.address ==
+                                                                                                      _blueDevices[index]
+                                                                                                          .address
+                                                                                                      ? AppTheme.themeColor
+                                                                                                      : Colors.black,
+                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  fontSize: 19
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              _blueDevices[index].address,
+                                                                                              style: TextStyle(
+                                                                                                  color:
+                                                                                                  _selectedDevice?.address ==
+                                                                                                      _blueDevices[index]
+                                                                                                          .address
+                                                                                                      ? Colors.blueGrey
+                                                                                                      : Colors.grey,
+                                                                                                  fontSize: 14,
+                                                                                                  fontWeight: FontWeight.w500
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                if (_loadingAtIndex == index && _isLoading)
+                                                                                  Container(
+                                                                                    height: 24.0,
+                                                                                    width: 65.0,
+                                                                                    margin: const EdgeInsets.only(right: 8.0),
+                                                                                    child: Center(
+                                                                                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                          child: Padding(
+                                                                                            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                                                                            child: CupertinoActivityIndicator(radius: 10,),
+                                                                                          )
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                if (!_isLoading &&
+                                                                                    _blueDevices[index].address ==
+                                                                                        (_selectedDevice?.address ?? ''))
+                                                                                  TextButton(
+                                                                                    onPressed: _onPrintReceipt,
+                                                                                    // child: Container(
+                                                                                    //   color: _selectedDevice == null
+                                                                                    //       ? AppTheme.buttonColor2
+                                                                                    //       : AppTheme.themeColor,
+                                                                                    //   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 10, left: 10),
+                                                                                    //   child: Icon(
+                                                                                    //     Icons.print_rounded,
+                                                                                    //     size: 25,
+                                                                                    //     color: Colors.black,
+                                                                                    //   )
+                                                                                    //   // child: const Text(
+                                                                                    //   //     'Print',
+                                                                                    //   //     style: TextStyle(color: Colors.white)
+                                                                                    //   // ),
+                                                                                    // ),
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
+                                                                                      child: Icon(
+                                                                                        Icons.print_rounded,
+                                                                                        size: 25,
+                                                                                        color: Colors.black,
+                                                                                      ),
+                                                                                    ),
+                                                                                    style: ButtonStyle(
+                                                                                        backgroundColor: MaterialStateProperty
+                                                                                            .resolveWith<Color>(
+                                                                                              (Set<MaterialState> states) {
+                                                                                            if (states.contains(
+                                                                                                MaterialState.pressed)) {
+                                                                                              return AppTheme.themeColor.withOpacity(0.5);
+                                                                                            }
+                                                                                            return AppTheme.themeColor;
+                                                                                          },
+                                                                                        ),
+                                                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                                            RoundedRectangleBorder(
+                                                                                              borderRadius: BorderRadius.circular(10.0),
+                                                                                            )
+                                                                                        )
+                                                                                    ),
+                                                                                  ),
+                                                                                SizedBox(width: 8.5)
+                                                                              ],
+                                                                            );
+                                                                          }),
+                                                                    ),
+                                                                    SizedBox(height: 15),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                        : Center(
+                                                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                          child: CupertinoActivityIndicator(radius: 15,)),
+                                                    ),
+                                                    // child: _devices.isEmpty
+                                                    //     ? Center(child: Text(_devicesMsg ?? ''))
+                                                    //     : ListView.builder(
+                                                    //   itemCount: _devices.length,
+                                                    //   itemBuilder: (c, i) {
+                                                    //     return ListTile(
+                                                    //       leading: Icon(Icons.print),
+                                                    //       title: Text(_devices[i].name.toString()),
+                                                    //       subtitle: Text(_devices[i].address.toString()),
+                                                    //       onTap: () {
+                                                    //         // _startPrint(_devices[i]);
+                                                    //       },
+                                                    //     );
+                                                    //   },
+                                                    // )
+                                                  ),
+                                                  Container(
+                                                    height: 67,
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.3),
+                                                                width: 1.0))),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15.0,
+                                                          top: 5.0,
+                                                          bottom: 0.0
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.grey,
+                                                          )),
+                                                          SizedBox(height: 2.5),
+                                                          Text('Printing service', style: TextStyle(
+                                                              fontWeight: FontWeight.w600,
+                                                              fontSize: 19
+                                                          )),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment: Alignment.bottomCenter,
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  color:
+                                                                  AppTheme.skBorderColor2,
+                                                                  width: 1.0),
+                                                            )),
+                                                        width: double.infinity,
+                                                        height: 81,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.end,
+                                                          children: [
+                                                            // ListTile(
+                                                            //   title: Text(
+                                                            //     'Total price',
+                                                            //     style: TextStyle(
+                                                            //         fontSize: 17,
+                                                            //         fontWeight:
+                                                            //         FontWeight
+                                                            //             .w500),
+                                                            //   ),
+                                                            //   trailing: Text('$currencyUnit '+
+                                                            //       debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                            //     style: TextStyle(
+                                                            //         fontSize: 17,
+                                                            //         fontWeight:
+                                                            //         FontWeight
+                                                            //             .w500),
+                                                            //   ),
+                                                            // ),
+                                                            SizedBox(height: 10),
+                                                            Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                                child: Row(
+                                                                    children: [
+                                                                      GestureDetector(
+                                                                        onTap: () {
+                                                                          _onScanPressed();
+                                                                        },
+                                                                        child: Container(
+                                                                          width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                          height: 50,
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(10.0),
+                                                                              color: AppTheme.secButtonColor),
+                                                                          child: Row(
+                                                                            mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                  child: Container(
+                                                                                      child: Text(
+                                                                                        'Scan',
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 18,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      )
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                             ],
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ),
-                                                                  if (_loadingAtIndex == index && _isLoading)
-                                                                    Container(
-                                                                      height: 24.0,
-                                                                      width: 65.0,
-                                                                      margin: const EdgeInsets.only(right: 8.0),
-                                                                      child: Center(
-                                                                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                            child: Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                                                                              child: CupertinoActivityIndicator(radius: 10,),
-                                                                            )
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  if (!_isLoading &&
-                                                                      _blueDevices[index].address ==
-                                                                          (_selectedDevice?.address ?? ''))
-                                                                    TextButton(
-                                                                      onPressed: _onPrintReceipt,
-                                                                      // child: Container(
-                                                                      //   color: _selectedDevice == null
-                                                                      //       ? AppTheme.buttonColor2
-                                                                      //       : AppTheme.themeColor,
-                                                                      //   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 10, left: 10),
-                                                                      //   child: Icon(
-                                                                      //     Icons.print_rounded,
-                                                                      //     size: 25,
-                                                                      //     color: Colors.black,
-                                                                      //   )
-                                                                      //   // child: const Text(
-                                                                      //   //     'Print',
-                                                                      //   //     style: TextStyle(color: Colors.white)
-                                                                      //   // ),
-                                                                      // ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
-                                                                        child: Icon(
-                                                                          Icons.print_rounded,
-                                                                          size: 25,
-                                                                          color: Colors.black,
-                                                                        ),
-                                                                      ),
-                                                                      style: ButtonStyle(
-                                                                          backgroundColor: MaterialStateProperty
-                                                                              .resolveWith<Color>(
-                                                                                (Set<MaterialState> states) {
-                                                                              if (states.contains(
-                                                                                  MaterialState.pressed)) {
-                                                                                return AppTheme.themeColor.withOpacity(0.5);
-                                                                              }
-                                                                              return AppTheme.themeColor;
-                                                                            },
+                                                                      Spacer(),
+                                                                      GestureDetector(
+                                                                        onTap: () async {
+                                                                          Navigator.of(context).pop();
+                                                                        },
+                                                                        child: Container(
+                                                                          width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                          height: 50,
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(10.0),
+                                                                              color: AppTheme.themeColor),
+                                                                          child: Row(
+                                                                            mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                  child: Container(
+                                                                                      child: Text(
+                                                                                        'Close',
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 17,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      )
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
                                                                           ),
-                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                              RoundedRectangleBorder(
-                                                                                borderRadius: BorderRadius.circular(10.0),
-                                                                              )
-                                                                          )
+                                                                        ),
                                                                       ),
-                                                                    ),
-                                                                  SizedBox(width: 8.5)
-                                                                ],
-                                                              );
-                                                            }),
-                                                      ),
-                                                      SizedBox(height: 5),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                                : Center(
-                                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                  child: CupertinoActivityIndicator(radius: 15,)),
-                                            ),
-                                            // child: _devices.isEmpty
-                                            //     ? Center(child: Text(_devicesMsg ?? ''))
-                                            //     : ListView.builder(
-                                            //   itemCount: _devices.length,
-                                            //   itemBuilder: (c, i) {
-                                            //     return ListTile(
-                                            //       leading: Icon(Icons.print),
-                                            //       title: Text(_devices[i].name.toString()),
-                                            //       subtitle: Text(_devices[i].address.toString()),
-                                            //       onTap: () {
-                                            //         // _startPrint(_devices[i]);
-                                            //       },
-                                            //     );
-                                            //   },
-                                            // )
-                                          ),
-                                          Align(
-                                            alignment: Alignment.topCenter,
-                                            child: AnimatedPadding(
-                                              padding: EdgeInsets.only(top: priInProgHome? 66: 13),
-                                              duration: const Duration(milliseconds: 200),
-                                              child: Container(
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      0.0),
-                                                  color: AppTheme.badgeBgSuccess,
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 1),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        'Printing service is in progress.',
-                                                        textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight: FontWeight.w400,
-                                                            letterSpacing:-0.1,
-                                                            color: Colors.white
+                                                                    ]
+                                                                )
+                                                            )
+                                                          ],
                                                         ),
                                                       ),
-                                                      Expanded(
-                                                        child: Text(
-                                                          '',
-                                                          textAlign: TextAlign.right,
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight: FontWeight.w500,
-                                                              letterSpacing:-0.1,
-                                                              color: Colors.black
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 67,
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border(
-                                                    bottom: BorderSide(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.3),
-                                                        width: 1.0))),
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 15.0,
-                                                  right: 15.0,
-                                                  top: 5.0,
-                                                  bottom: 0.0
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey,
-                                                  )),
-                                                  SizedBox(height: 2.5),
-                                                  Text('Printing service', style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 19
-                                                  )),
                                                 ],
                                               ),
                                             ),
                                           ),
-                                          Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border(
-                                                      top: BorderSide(
-                                                          color:
-                                                          AppTheme.skBorderColor2,
-                                                          width: 1.0),
-                                                    )),
-                                                width: double.infinity,
-                                                height: 81,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                                  children: [
-                                                    // ListTile(
-                                                    //   title: Text(
-                                                    //     'Total price',
-                                                    //     style: TextStyle(
-                                                    //         fontSize: 17,
-                                                    //         fontWeight:
-                                                    //         FontWeight
-                                                    //             .w500),
-                                                    //   ),
-                                                    //   trailing: Text('$currencyUnit '+
-                                                    //       debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    //     style: TextStyle(
-                                                    //         fontSize: 17,
-                                                    //         fontWeight:
-                                                    //         FontWeight
-                                                    //             .w500),
-                                                    //   ),
-                                                    // ),
-                                                    SizedBox(height: 10),
-                                                    Padding(
-                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                        child: Row(
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  _onScanPressedHome();
-                                                                },
-                                                                child: Container(
-                                                                  width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                  height: 50,
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(10.0),
-                                                                      color: AppTheme.secButtonColor),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                          child: Container(
-                                                                              child: Text(
-                                                                                'Scan',
-                                                                                textAlign: TextAlign.center,
-                                                                                style: TextStyle(
-                                                                                    fontSize: 18,
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    color: Colors.black
-                                                                                ),
-                                                                              )
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Spacer(),
-                                                              GestureDetector(
-                                                                onTap: () async {
-                                                                  Navigator.of(context).pop();
-                                                                },
-                                                                child: Container(
-                                                                  width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                  height: 50,
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(10.0),
-                                                                      color: AppTheme.themeColor),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                          child: Container(
-                                                                              child: Text(
-                                                                                'Close',
-                                                                                textAlign: TextAlign.center,
-                                                                                style: TextStyle(
-                                                                                    fontSize: 17,
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    color: Colors.black
-                                                                                ),
-                                                                              )
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ]
-                                                        )
-                                                    )
-                                                  ],
+                                          Positioned(
+                                            top: 42,
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Container(
+                                                  width: 50,
+                                                  height: 5,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.all(
+                                                        Radius.circular(25.0),
+                                                      ),
+                                                      color: Colors.white.withOpacity(0.5)),
                                                 ),
                                               ),
                                             ),
                                           ),
+                                          // Align(
+                                          //   alignment: Alignment.topCenter,
+                                          //   child: Padding(
+                                          //     padding: const EdgeInsets.only(top: 90.0),
+                                          //     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                                          //   )
+                                          // ),
                                         ],
                                       ),
                                     ),
@@ -11152,8 +11219,6 @@ class HomePageState extends State<HomePage>
 
     }
   }
-
-
   printFromOrders(File file) {
     bool firstTimeOrderPri = true;
     bool priInProgOrders = false;
@@ -11312,77 +11377,77 @@ class HomePageState extends State<HomePage>
                                         child: Column(
                                           children: [
                                             if(priInProgOrders)
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
-                                              child: Container(
-                                                  child: Column(
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                          child: Container(
-                                                            width: MediaQuery.of(context).size.width,
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.all(
-                                                                Radius.circular(10.0),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
+                                                child: Container(
+                                                    child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                            child: Container(
+                                                              width: MediaQuery.of(context).size.width,
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.all(
+                                                                  Radius.circular(10.0),
+                                                                ),
+                                                                color: Color(0xffE8EEF9),
+                                                                border: Border.all(
+                                                                    color: Color(0xffBCCEEA),
+                                                                    width: 1.0
+                                                                ),
                                                               ),
-                                                              color: Color(0xffE8EEF9),
-                                                              border: Border.all(
-                                                                  color: Color(0xffBCCEEA),
-                                                                  width: 1.0
-                                                              ),
-                                                            ),
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(top: 10, bottom: 11.3),
-                                                              child: Row(
-                                                                children: [
-                                                                  SizedBox(width: 15),
-                                                                  Icon(
-                                                                    Icons.print_rounded,
-                                                                    size: 25,
-                                                                    color: Color(0xff5786DB),
-                                                                  ),
-                                                                  SizedBox(width: 8),
-                                                                  Expanded(
-                                                                    child: Text('Printing is in progress.', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
-                                                                        fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      mystate(() {
-                                                                        priInProgOrders = false;
-                                                                      });
-                                                                    },
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.all(8.0),
-                                                                      child: Container(
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.all(
-                                                                            Radius.circular(15.0),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(top: 10, bottom: 11.3),
+                                                                child: Row(
+                                                                  children: [
+                                                                    SizedBox(width: 15),
+                                                                    Icon(
+                                                                      Icons.print_rounded,
+                                                                      size: 25,
+                                                                      color: Color(0xff5786DB),
+                                                                    ),
+                                                                    SizedBox(width: 8),
+                                                                    Expanded(
+                                                                      child: Text('Printing is in progress.', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                                                                          fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
+                                                                    ),
+                                                                    GestureDetector(
+                                                                      onTap: () {
+                                                                        mystate(() {
+                                                                          priInProgOrders = false;
+                                                                        });
+                                                                      },
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.all(8.0),
+                                                                        child: Container(
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.all(
+                                                                              Radius.circular(15.0),
+                                                                            ),
+                                                                            color: Color(0xffBCCEEA),
                                                                           ),
-                                                                          color: Color(0xffBCCEEA),
-                                                                        ),
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.all(2.0),
-                                                                          child: Icon(
-                                                                            Icons.close_rounded,
-                                                                            size: 15,
-                                                                            color: Colors.white,
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.all(2.0),
+                                                                            child: Icon(
+                                                                              Icons.close_rounded,
+                                                                              size: 15,
+                                                                              color: Colors.white,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  SizedBox(width: 15),
-                                                                ],
+                                                                    SizedBox(width: 15),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        SizedBox(height: 8),
-                                                      ]
-                                                  )
+                                                          SizedBox(height: 8),
+                                                        ]
+                                                    )
+                                                ),
                                               ),
-                                            ),
                                             Expanded(
                                               child: SingleChildScrollView(
                                                 child: Padding(
