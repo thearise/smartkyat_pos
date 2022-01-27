@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:pdf_render/pdf_render.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/api/pdf_api.dart';
 import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
 import 'package:smartkyat_pos/model/customer.dart';
 import 'package:smartkyat_pos/model/invoice.dart';
@@ -505,7 +506,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                               ): GestureDetector(
                                   onTap: () {
                                     // print('clicked');
-                                    // PdfApi.openFile(pdfFile!);
+                                    PdfApi.openFile(pdfFile!);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
