@@ -51,7 +51,11 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
   String textSetPhone = 'Phone';
   String textSetAddress = 'Address';
   String textSetBarcode = 'Barcode';
-
+  String textSetDebtAmount = 'Total Unpaid';
+  String textSetDebts = 'Total Unpaid Orders';
+  String textSetTtlOrders = 'Total Orders';
+  String textSetRefunds = 'Total Refunded Orders';
+  String textSetSaleTitle = 'SALE INFORMATION';
   @override
   void initState() {
     getLangId().then((value) {
@@ -67,6 +71,12 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
            textSetPhone = 'Phone';
            textSetAddress = 'Address';
            textSetBarcode = 'Barcode';
+           textSetDebtAmount = 'Total Unpaid';
+           textSetDebts = 'Total Unpaid Orders';
+            textSetTtlOrders = 'Total Orders';
+            textSetRefunds = 'Total Refunded Orders';
+           textSetSaleTitle = 'SALE INFORMATION';
+
         });
       }
       else if(value=='english') {
@@ -81,6 +91,11 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
            textSetPhone = 'Phone';
            textSetAddress = 'Address';
            textSetBarcode = 'Barcode';
+           textSetDebtAmount = 'Total Unpaid';
+           textSetDebts = 'Total Unpaid Orders';
+           textSetTtlOrders = 'Total Orders';
+           textSetRefunds = 'Total Refunded Orders';
+           textSetSaleTitle = 'SALE INFORMATION';
         });
       }
     });
@@ -125,6 +140,10 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                 var customerName = output?['customer_name'];
                 var address = output?['customer_address'];
                 var phone = output?['customer_phone'];
+                var debtAmount = output?['debtAmount'];
+                var debts = output?['debts'];
+                var totalOrders = output?['total_orders'];
+                var totalRefunds = output?['total_refunds'];
                 return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                     // mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -487,6 +506,158 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
+                                                  textSetSaleTitle,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    letterSpacing: 2,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 15,),
+                                                Container(
+                                                  height: 220,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    color: AppTheme.lightBgColor,
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          height: 55,
+                                                          decoration: BoxDecoration(border: Border(bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(0.2),
+                                                              width: 1.0))),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(textSetTtlOrders, style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                              ),),
+                                                              Spacer(),
+                                                              Text(totalOrders.round().toString(), style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.grey,
+                                                              ),),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 55,
+                                                          decoration: BoxDecoration(
+                                                              border: Border(
+                                                                  bottom: BorderSide(
+                                                                      color: Colors.grey
+                                                                          .withOpacity(0.2),
+                                                                      width: 1.0))),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(textSetDebts, style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                              ),),
+                                                              Spacer(),
+                                                              Text(debts.round().toString(), style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.grey,
+                                                              ),),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 55,
+                                                          decoration: BoxDecoration(
+                                                              border: Border(
+                                                                  bottom: BorderSide(
+                                                                      color: Colors.grey
+                                                                          .withOpacity(0.2),
+                                                                      width: 1.0))),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(textSetDebtAmount, style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),),
+                                                              Spacer(),
+                                                              Text( 'MMK '+ debtAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w600,
+                                                                color: Colors.grey,
+                                                              ),),
+
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 55,
+                                                          decoration: BoxDecoration(
+                                                              border: Border(
+                                                                  bottom: BorderSide(
+                                                                      color: Colors.grey
+                                                                          .withOpacity(0.2),
+                                                                      width: 1.0))),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(textSetRefunds, style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),),
+                                                              Spacer(),
+                                                              Text(totalRefunds.round().toString(), style:
+                                                              TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight: FontWeight.w600,
+                                                                color: Colors.grey,
+                                                              ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Container(
+                                                        //   height: 55,
+                                                        //   child: Row(
+                                                        //     children: [
+                                                        //       Text('Barcode', style:
+                                                        //       TextStyle(
+                                                        //         fontSize: 15,
+                                                        //         fontWeight: FontWeight.w600,
+                                                        //       ),),
+                                                        //       Spacer(),
+                                                        //       Text('3kro46456218', style:
+                                                        //       TextStyle(
+                                                        //         fontSize: 15,
+                                                        //         fontWeight: FontWeight.w600,
+                                                        //         color: Colors.grey,
+                                                        //       ),),
+                                                        //     ],
+                                                        //   ),
+                                                        // ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
                                                   textSetInfo,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
@@ -497,7 +668,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                 ),
                                                 SizedBox(height: 15,),
                                                 Container(
-                                                  height: 220,
+                                                  height: 165,
                                                   decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(20.0),
                                                     color: AppTheme.lightBgColor,
@@ -580,150 +751,25 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             ],
                                                           ),
                                                         ),
-                                                        Container(
-                                                          height: 55,
-                                                          child: Row(
-                                                            children: [
-                                                              Text('Barcode', style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text('3kro46456218', style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'CUSTOMER INFORMATION',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14,
-                                                    letterSpacing: 2,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 15,),
-                                                Container(
-                                                  height: 220,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(20.0),
-                                                    color: AppTheme.lightBgColor,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(border: Border(bottom: BorderSide(
-                                                              color: Colors.grey
-                                                                  .withOpacity(0.2),
-                                                              width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetName, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(customerName, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.2),
-                                                                      width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetPhone, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(phone, style: TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 55,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.2),
-                                                                      width: 1.0))),
-                                                          child: Row(
-                                                            children: [
-                                                              Text(textSetAddress, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text(address, style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: Colors.grey,
-                                                              ),),
-
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height: 55,
-                                                          child: Row(
-                                                            children: [
-                                                              Text('Barcode', style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),),
-                                                              Spacer(),
-                                                              Text('3kro46456218', style:
-                                                              TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: Colors.grey,
-                                                              ),),
-                                                            ],
-                                                          ),
-                                                        ),
+                                                        // Container(
+                                                        //   height: 55,
+                                                        //   child: Row(
+                                                        //     children: [
+                                                        //       Text('Barcode', style:
+                                                        //       TextStyle(
+                                                        //         fontSize: 15,
+                                                        //         fontWeight: FontWeight.w600,
+                                                        //       ),),
+                                                        //       Spacer(),
+                                                        //       Text('3kro46456218', style:
+                                                        //       TextStyle(
+                                                        //         fontSize: 15,
+                                                        //         fontWeight: FontWeight.w600,
+                                                        //         color: Colors.grey,
+                                                        //       ),),
+                                                        //     ],
+                                                        //   ),
+                                                        // ),
                                                       ],
                                                     ),
                                                   ),
