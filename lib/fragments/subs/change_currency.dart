@@ -21,7 +21,7 @@ import '../app_theme.dart';
 class ChangeCurrency extends StatefulWidget {
   final _chgShopCB3;
 
-  ChangeCurrency( {required void changeShopCallback3()}) :
+  ChangeCurrency({required void changeShopCallback3()}) :
         _chgShopCB3 = changeShopCallback3;
 
   @override

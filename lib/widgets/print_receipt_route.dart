@@ -24,7 +24,6 @@ class PrintReceiptRoute extends StatefulWidget {
 
   const PrintReceiptRoute({Key? key, required this.currency, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file)})
       : _printFromOrders = printFromOrders;
-
   final String data;
   final List prodList;
   final String shopId;
