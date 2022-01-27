@@ -154,15 +154,15 @@ class PdfInvoiceApi {
             pw.Text(Rabbit.uni2zg('ကျေးဇူးတင်ပါသည်။'),
               textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc+5: fontSizeDesc+8,font: ttfBold),
             ),
-            SizedBox(height: size == 'Roll-80'? 0.2 * PdfPageFormat.cm: 0.15 * PdfPageFormat.cm),
+            SizedBox(height: size == 'Roll-80'? 0.17 * PdfPageFormat.cm: 0.15 * PdfPageFormat.cm),
             pw.Center(
-              child: pw.Image(image, height: fontSizeDesc + 6),
+              child: pw.Image(image, height: size=='Roll-80'? fontSizeDesc + 10 : fontSizeDesc + 6),
             ),
             // pw.Text('Powered by Smart Kyat', textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: fontSizeDesc-5),),
             // pw.Icon(
             //   Icons.remove, size: 20,
             // ),
-            SizedBox(height: size == 'Roll-80'? 1 * PdfPageFormat.cm: 0.5 * PdfPageFormat.cm),
+            SizedBox(height: size == 'Roll-80'? 0.8 * PdfPageFormat.cm: 0.5 * PdfPageFormat.cm),
           ]
       ),
       // footer: (context) => buildFooter(invoice),
