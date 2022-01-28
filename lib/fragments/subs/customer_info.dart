@@ -218,14 +218,97 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                               delegate: SliverChildListDelegate(
                                 [
                                   SizedBox(height: 15,),
-                                  Container(
-                                    height: 110,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 15.0),
-                                          child: ButtonTheme(
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                    child: Container(
+                                      height: 110,
+                                      child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          customerName != 'No customer' ? Padding(
+                                            padding: const EdgeInsets.only(right: 10.0),
+                                            child: ButtonTheme(
+                                              minWidth: 133,
+                                              //minWidth: 50,
+                                              splashColor: Colors.transparent,
+                                              height: 100,
+                                              child: FlatButton(
+                                                color: AppTheme.buttonColor2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(7.0),
+                                                  side: BorderSide(
+                                                    color: AppTheme.buttonColor2,
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  widget._callback(widget.id.toString() + '^' + customerName);
+                                                },
+                                                child: Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  child: Stack(
+                                                    children: [
+                                                      Positioned(
+                                                        top: 10,
+                                                        left: 0,
+                                                        child: Stack(
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top: 7.0),
+                                                              child: Icon(
+                                                                SmartKyat_POS.customer1,
+                                                                size: 17.5,
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 14.0, top: 11.0),
+                                                              child: Icon(
+                                                                SmartKyat_POS.customer2,
+                                                                size: 9,
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 5.0, top: 5),
+                                                              child: Container(
+                                                                width: 8,
+                                                                height: 7.5,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(10.0),
+                                                                    color: Colors.black),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 14.5, top: 7.5),
+                                                              child: Container(
+                                                                width: 5,
+                                                                height: 4.5,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(10.0),
+                                                                    color: Colors.black),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        bottom: 10,
+                                                        left: 0,
+                                                        child: Text(
+                                                         textSetSaleCart,
+                                                          style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ) : Container(),
+                                          //SizedBox(width: 10),
+                                          ButtonTheme(
                                             minWidth: 133,
                                             //minWidth: 50,
                                             splashColor: Colors.transparent,
@@ -239,7 +322,12 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                 ),
                                               ),
                                               onPressed: () async {
-                                                widget._callback(widget.id.toString() + '^' + customerName);
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId, closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),
+                                                  ),
+                                                );
                                               },
                                               child: Container(
                                                 width: 100,
@@ -249,50 +337,16 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                     Positioned(
                                                       top: 10,
                                                       left: 0,
-                                                      child: Stack(
-                                                        children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(top: 7.0),
-                                                            child: Icon(
-                                                              SmartKyat_POS.customer1,
-                                                              size: 17.5,
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 14.0, top: 11.0),
-                                                            child: Icon(
-                                                              SmartKyat_POS.customer2,
-                                                              size: 9,
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 5.0, top: 5),
-                                                            child: Container(
-                                                              width: 8,
-                                                              height: 7.5,
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: Colors.black),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 14.5, top: 7.5),
-                                                            child: Container(
-                                                              width: 5,
-                                                              height: 4.5,
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                  color: Colors.black),
-                                                            ),
-                                                          )
-                                                        ],
+                                                      child: Icon(
+                                                        SmartKyat_POS.order,
+                                                        size: 21,
                                                       ),
                                                     ),
                                                     Positioned(
                                                       bottom: 10,
                                                       left: 0,
                                                       child: Text(
-                                                       textSetSaleCart,
+                                                        textSetPurchasedOrders,
                                                         style: TextStyle(
                                                           fontWeight: FontWeight.bold,
                                                           fontSize: 16,
@@ -304,59 +358,8 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(width: 10),
-                                        ButtonTheme(
-                                          minWidth: 133,
-                                          //minWidth: 50,
-                                          splashColor: Colors.transparent,
-                                          height: 100,
-                                          child: FlatButton(
-                                            color: AppTheme.buttonColor2,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(7.0),
-                                              side: BorderSide(
-                                                color: AppTheme.buttonColor2,
-                                              ),
-                                            ),
-                                            onPressed: () async {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId, closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              width: 100,
-                                              height: 100,
-                                              child: Stack(
-                                                children: [
-                                                  Positioned(
-                                                    top: 10,
-                                                    left: 0,
-                                                    child: Icon(
-                                                      SmartKyat_POS.order,
-                                                      size: 21,
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    bottom: 10,
-                                                    left: 0,
-                                                    child: Text(
-                                                      textSetPurchasedOrders,
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(height: 5,),
@@ -374,62 +377,66 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                       padding: const EdgeInsets.only(left: 15, right: 0.0, top: 12.0, bottom: 12.0),
                                       child: Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              FlatButton(
-                                                padding: EdgeInsets.only(left: 0, right: 0),
-                                                color: AppTheme.secButtonColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(8.0),
-                                                  side: BorderSide(
-                                                    color: AppTheme.skBorderColor2,
+                                          customerName != 'No customer' ?
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 10.0),
+                                            child: Row(
+                                              children: [
+                                                FlatButton(
+                                                  padding: EdgeInsets.only(left: 0, right: 0),
+                                                  color: AppTheme.secButtonColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(8.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.skBorderColor2,
+                                                    ),
                                                   ),
-                                                ),
-                                                onPressed: () async {
-                                                  widget._closeCartBtn();
-                                                  await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone,)),);
-                                                  widget._openCartBtn();
+                                                  onPressed: () async {
+                                                    widget._closeCartBtn();
+                                                    await Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => EditCustomer(shopId: widget.shopId, cusId: widget.id, cusName: customerName, cusAddress: address, cusPhone: phone,)),);
+                                                    widget._openCartBtn();
 
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                  child: Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(right: 6.0),
-                                                        child: Icon(
-                                                          Icons.edit_rounded,
-                                                          size: 17,
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                    child: Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 6.0),
+                                                          child: Icon(
+                                                            Icons.edit_rounded,
+                                                            size: 17,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      Text(
-                                                        textSetEdit,
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.black),
-                                                      ),
-                                                    ],
+                                                        Text(
+                                                          textSetEdit,
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(width: 12),
-                                              Container(
-                                                color: Colors.grey.withOpacity(0.2),
-                                                width: 1.5,
-                                                height: 30,
-                                              )
-                                            ],
-                                          ),
+                                                SizedBox(width: 12),
+                                                Container(
+                                                  color: Colors.grey.withOpacity(0.2),
+                                                  width: 1.5,
+                                                  height: 30,
+                                                )
+                                              ],
+                                            ),
+                                          ) :Container(),
                                           Expanded(
                                             child: ListView(
                                               scrollDirection: Axis.horizontal,
                                               children: [
-                                                SizedBox(width: 10),
+                                               // SizedBox(width: 10),
                                                 FlatButton(
                                                   minWidth: 0,
                                                   padding: EdgeInsets.only(left: 8, right: 12),
@@ -455,7 +462,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                   ),
                                                 ),
                                                 SizedBox(width: 10),
-                                                FlatButton(
+                                                customerName != 'No customer' ? FlatButton(
                                                   minWidth: 0,
                                                   padding: EdgeInsets.only(left: 8, right: 12),
                                                   color: _sliding == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -478,7 +485,8 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                           color: Colors.black),
                                                     ),
                                                   ),
-                                                ),
+                                                ) :
+                                                Container(),
                                                 SizedBox(width: 15),
                                               ],
                                             ),
@@ -787,7 +795,6 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                           ],
                         ),
                       )
-
                     ]
                 );
               }

@@ -765,7 +765,6 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   totalRefunds = 0;
                                                 }
 
-                                                if(widget.data.split('^')[3].split('&')[1] !='name') {
                                                   cusRefund.doc(widget.data.split('^')[3].split('&')[1]).update({
                                                     'total_refunds' : FieldValue.increment(double.parse(totalRefunds.toString())),
                                                     'debts' : FieldValue.increment(0 - double.parse(ttlDebts.toString())),
@@ -773,7 +772,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   }).then((value) {
                                                     print('customer updated');
                                                   }).catchError((error) => print("Failed to update user: $error"));
-                                                }
+
                                                 setState(() {
                                                   loadingState = false;
                                                   disableTouch = false;

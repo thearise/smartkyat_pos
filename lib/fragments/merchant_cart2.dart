@@ -2309,18 +2309,16 @@ class MerchantCartState extends State<MerchantCart>
                                           }
                                         });
 
-                                        if(widget.merchantId.split('^')[0] != 'name' && debt2.toString() != '0.0') {
+                                        if(debt2.toString() != '0.0') {
                                           debts = 1;
                                           debtAmounts = debt2;
                                         } else {
                                           debts = 0;
                                           debtAmounts = 0;
                                         }
-
-                                        if(widget.merchantId.split('^')[0] != 'name') {
                                           totalOrders = totalOrders + 1;
                                           merchOrder(totalOrders, debts, debtAmounts);
-                                        }
+
                                       });
 
                                       widget.clearMerch();

@@ -405,54 +405,6 @@ class _AddCustomerState extends State<AddCustomer> {
                                             'total_refunds' : 0,
                                           }).then((value) {
                                             print('product added 2');
-                                            // showFlash(
-                                            //   context: context,
-                                            //   duration: const Duration(seconds: 2),
-                                            //   persistent: true,
-                                            //   builder: (_, controller) {
-                                            //     return Flash(
-                                            //       controller: controller,
-                                            //       backgroundColor: Colors.transparent,
-                                            //       brightness: Brightness.light,
-                                            //       // boxShadows: [BoxShadow(blurRadius: 4)],
-                                            //       // barrierBlur: 3.0,
-                                            //       // barrierColor: Colors.black38,
-                                            //       barrierDismissible: true,
-                                            //       behavior: FlashBehavior.floating,
-                                            //       position: FlashPosition.top,
-                                            //       child: Padding(
-                                            //         padding: const EdgeInsets.only(
-                                            //             top: 80.0),
-                                            //         child: Padding(
-                                            //           padding: const EdgeInsets.only(
-                                            //               left: 15.0, right: 15.0),
-                                            //           child: Container(
-                                            //             decoration: BoxDecoration(
-                                            //               borderRadius:
-                                            //               BorderRadius.circular(
-                                            //                   10.0),
-                                            //               color: Colors.green,
-                                            //             ),
-                                            //             child: FlashBar(
-                                            //               title: Text('Success'),
-                                            //               content:
-                                            //               Text('New customer added'),
-                                            //               // showProgressIndicator: true,
-                                            //               primaryAction: TextButton(
-                                            //                 onPressed: () =>
-                                            //                     controller.dismiss(),
-                                            //                 child: Text('DISMISS',
-                                            //                     style: TextStyle(
-                                            //                         color: Colors
-                                            //                             .amber)),
-                                            //               ),
-                                            //             ),
-                                            //           ),
-                                            //         ),
-                                            //       ),
-                                            //     );
-                                            //   },
-                                            // );
                                           });
                                           Future.delayed(const Duration(milliseconds: 3000), () {
                                             setState(() {
@@ -467,8 +419,14 @@ class _AddCustomerState extends State<AddCustomer> {
                                         } else
                                         {
                                           merchants.doc('name').set({
-                                            'customer_name': 'Unknown',
-                                            'debt': 0, }).then((value) {
+                                            'customer_name': 'No customer',
+                                            'customer_address': 'unknown',
+                                            'customer_phone' : '',
+                                            'total_orders' : 0,
+                                            'debts' : 0,
+                                            'debtAmount' : 0,
+                                            'total_refunds' : 0,
+                                          }).then((value) {
                                             print('name created');
                                           });
 
