@@ -90,6 +90,12 @@ class _WelcomeState extends State<Welcome>
         getStoreId().then((value) {
           print('Out ID -> ' + value.toString());
         });
+
+        setStoreId('');
+
+        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          checkFirstSeen();
+        });
       } else {
         getStoreId().then((value) {
           print('ID -> ' + value.toString());
@@ -120,11 +126,29 @@ class _WelcomeState extends State<Welcome>
     _bottomTabBarCtl = TabController(length: 4, vsync: this);
     _bottomTabBarCtl.animateTo(1);
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      checkFirstSeen();
-    });
+
 
     super.initState();
+  }
+
+  Future<String> getStoreId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    var index = prefs.getString('store');
+    print(index);
+    if (index == null) {
+      return 'idk';
+    } else {
+      return index;
+    }
+  }
+
+  setStoreId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    prefs.setString('store', id);
   }
 
   @override

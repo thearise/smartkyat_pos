@@ -161,7 +161,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   @override
   initState() {
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });

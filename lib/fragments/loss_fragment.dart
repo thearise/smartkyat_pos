@@ -47,7 +47,7 @@ class _LossProductState extends State<LossProduct> {
   initState() {
 
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });

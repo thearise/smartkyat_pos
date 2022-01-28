@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
+import 'package:smartkyat_pos/pages2/first_launch_page.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
 
@@ -37,8 +38,27 @@ class chooseStoreState extends State<chooseStore> {
 
   bool loadingState = false;
 
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+
+    if (_seen) {
+
+      print('_seen');
+    } else {
+      print('_notSeen');
+      Navigator.of(context).push(
+          FadeRoute(page: FirstLaunchPage(),)
+      );
+      await prefs.setBool('seen', true);
+    }
+  }
+
   @override
   initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      checkFirstSeen();
+    });
     // jiggleCtl.toggle();
     // user = auth.currentUser!;
     print('UID -> ' + auth.currentUser!.uid.toString());
@@ -378,8 +398,11 @@ class chooseStoreState extends State<chooseStore> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => AddShop()),);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddShop()),
+                            );
                             // Navigator.push(context, MaterialPageRoute(builder: (context) => AddShop()),);
                           },
                           child: Container(

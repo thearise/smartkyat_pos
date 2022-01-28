@@ -76,7 +76,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
   @override
   void initState() {
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });

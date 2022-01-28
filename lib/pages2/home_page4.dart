@@ -351,7 +351,7 @@ class HomePageState extends State<HomePage>
     });
 
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });
@@ -455,6 +455,11 @@ class HomePageState extends State<HomePage>
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
     );
     getStoreId().then((value0) {
+      if(value0 == '' || value0 == null) {
+        Navigator.of(context).push(
+            FadeRoute(page: chooseStore(),)
+        );
+      }
       setState(() {
         shopId = value0;
       });
@@ -10260,6 +10265,22 @@ class HomePageState extends State<HomePage>
     return prefs.getString('device');
   }
 
+  setPrinterCon(bool data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+    prefs.setBool('printer_con', data);
+  }
+
+  getPrinterCon() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getBool('printer_con') == null || prefs.getBool('printer_con') == true) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
 
   var counter = 0;
   var orderLoading = false;
@@ -11245,7 +11266,7 @@ class HomePageState extends State<HomePage>
                 });
               }
 
-              void _onDisconnectDevice() {
+              void _onDisconnectDeviceOrder() {
                 _bluePrintPos.disconnect().then((ConnectionStatus status) {
                   if (status == ConnectionStatus.disconnect) {
                     mystate(() {
@@ -11267,7 +11288,7 @@ class HomePageState extends State<HomePage>
                   if (status == ConnectionStatus.connected) {
                     mystate(() => _selectedDevice = blueDevice);
                   } else if (status == ConnectionStatus.timeout) {
-                    _onDisconnectDevice();
+                    _onDisconnectDeviceOrder();
                   } else {
                     print('$runtimeType - something wrong');
                   }
@@ -11325,10 +11346,18 @@ class HomePageState extends State<HomePage>
                     } else if(value == 'Roll-80') {
                       width = 570;
                     }
-                    await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-                    mystate(() {
-                      priInProgOrders = false;
+                    _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true).then((value) {
+                      mystate(() {
+                        priInProgOrders = false;
+                      });
+                      getPrinterCon().then((value) {
+                        if(value) {
+                          _onDisconnectDeviceOrder();
+                        }
+                      });
+
                     });
+
                   });
                 }
               }
@@ -11469,7 +11498,7 @@ class HomePageState extends State<HomePage>
                                                                     child: GestureDetector(
                                                                       onTap: _blueDevices[index].address ==
                                                                           (_selectedDevice?.address ?? '')
-                                                                          ? _onDisconnectDevice
+                                                                          ? _onDisconnectDeviceOrder
                                                                           : () => _onSelectDevice(index),
                                                                       child: Container(
                                                                         color: Colors.white,

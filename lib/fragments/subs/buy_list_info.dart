@@ -159,7 +159,7 @@ class _BuyListInfoState extends State<BuyListInfo>
     });
 
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });

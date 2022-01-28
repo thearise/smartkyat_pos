@@ -163,7 +163,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
     });
 
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });
