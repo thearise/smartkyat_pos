@@ -98,7 +98,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     getStoreId().then((value) => shopId = value);
 
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });

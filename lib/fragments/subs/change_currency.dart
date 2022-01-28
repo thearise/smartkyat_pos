@@ -40,7 +40,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 
   List _testList = [
     {'no': 1, 'keyword': 'Myanmar Kyat (MMK)'},
-    {'no': 2, 'keyword': 'US Dollar'},
+    {'no': 2, 'keyword': 'US Dollar (USD)'},
   ];
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   var _selectedTest;
@@ -111,7 +111,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
     }
     );
 
-    print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
+    print(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar (USD)'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 
   // addShop(shopName) {
