@@ -276,7 +276,7 @@ class HomeFragmentState extends State<HomeFragment>
     });
 
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });

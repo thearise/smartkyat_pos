@@ -56,7 +56,7 @@ class _FillProductState extends State<FillProduct> {
   initState() {
 
     getCurrency().then((value){
-      if(value == 'US Dollar') {
+      if(value == 'US Dollar (USD)') {
         setState(() {
           currencyUnit = 'USD';
         });
