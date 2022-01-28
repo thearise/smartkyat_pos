@@ -481,8 +481,14 @@ class _AddMerchantState extends State<AddMerchant> {
                                     } else
                                     {
                                       merchants.doc('name').set({
-                                        'merchant_name': 'Unknown',
-                                        'debt': 0, }).then((value) {
+                                        'merchant_name': 'No merchant',
+                                        'merchant_address' : 'unknown',
+                                        'merchant_phone' : '',
+                                        'total_orders' : 0,
+                                        'debts' : 0,
+                                        'debtAmount' : 0,
+                                        'total_refunds' : 0,
+                                      }).then((value) {
                                         print('name created');
                                       });
 

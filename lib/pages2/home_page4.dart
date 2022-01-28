@@ -328,7 +328,7 @@ class HomePageState extends State<HomePage>
 
   @override
   initState() {
-
+    setPrinterCon(false);
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
@@ -478,8 +478,8 @@ class HomePageState extends State<HomePage>
       orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
       buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
       //buyOrderSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
-      customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').where('customer_name', isNotEqualTo: 'Unknown').snapshots();
-      merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').where('merchant_name', isNotEqualTo: 'Unknown').snapshots();
+      customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
+      merchantSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
       merchantSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('merchants').snapshots();
       customerSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
       //homeOrderSnapshot =   FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
@@ -7092,6 +7092,7 @@ class HomePageState extends State<HomePage>
     bool sellDone = false;
     // bool saleCartDrag = true;
     bool priInProgHome = false;
+    printClosed = false;
     showModalBottomSheet(
         isDismissible: !disableTouch,
         enableDrag: !disableTouch,
@@ -7150,7 +7151,7 @@ class HomePageState extends State<HomePage>
                 });
               }
 
-              void _onDisconnectDevice() {
+              void _onDisconnectDeviceHome() {
                 _bluePrintPos.disconnect().then((ConnectionStatus status) {
                   if (status == ConnectionStatus.disconnect) {
                     mystate(() {
@@ -7170,7 +7171,7 @@ class HomePageState extends State<HomePage>
                   if (status == ConnectionStatus.connected) {
                     mystate(() => _selectedDevice = blueDevice);
                   } else if (status == ConnectionStatus.timeout) {
-                    _onDisconnectDevice();
+                    _onDisconnectDeviceHome();
                   } else {
                     print('$runtimeType - something wrong');
                   }
@@ -7182,11 +7183,11 @@ class HomePageState extends State<HomePage>
                 mystate(() {
                   priInProgHome = true;
                 });
-                Future.delayed(const Duration(milliseconds: 1500), () {
-                  mystate(() {
-                    priInProgHome = false;
-                  });
-                });
+                // Future.delayed(const Duration(milliseconds: 1500), () {
+                //   mystate(() {
+                //     priInProgHome = false;
+                //   });
+                // });
                 // final ReceiptSectionText receiptText = ReceiptSectionText();
 
                 final doc = await PdfDocument.openFile(pdfFile!.path);
@@ -7257,6 +7258,9 @@ class HomePageState extends State<HomePage>
                     width = 570;
                   }
                   await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                  mystate(() {
+                    priInProgHome = false;
+                  });
                 });
 
 
@@ -8520,7 +8524,7 @@ class HomePageState extends State<HomePage>
 
                                                                       }
 
-                                                                      if(customerId.split('^')[0] != 'name' && debt.toString() != '0.0') {
+                                                                      if( debt.toString() != '0.0') {
                                                                         debts = 1;
                                                                         debtAmounts = debt;
                                                                       } else {
@@ -8530,10 +8534,8 @@ class HomePageState extends State<HomePage>
 
                                                                       print('subList2 ' + subList2.toString());
 
-                                                                      if(customerId.split('^')[0] != 'name') {
                                                                         totalOrders = totalOrders + 1;
                                                                         CusOrder(totalOrders, debts, debtAmounts);
-                                                                      }
 
                                                                       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
                                                                           .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
@@ -9869,7 +9871,7 @@ class HomePageState extends State<HomePage>
                                                                                   child: GestureDetector(
                                                                                     onTap: _blueDevices[index].address ==
                                                                                         (_selectedDevice?.address ?? '')
-                                                                                        ? _onDisconnectDevice
+                                                                                        ? _onDisconnectDeviceHome
                                                                                         : () => _onSelectDevice(index),
                                                                                     child: Container(
                                                                                       color: Colors.white,
@@ -10121,7 +10123,20 @@ class HomePageState extends State<HomePage>
                                                                       Spacer(),
                                                                       GestureDetector(
                                                                         onTap: () async {
+                                                                          //printClosed = true;
                                                                           Navigator.of(context).pop();
+                                                                          // Future.delayed(const Duration(milliseconds: 10000), () {
+                                                                          //   if(printClosed) {
+                                                                          //     _bluePrintPos.disconnect().then((ConnectionStatus status) {
+                                                                          //       if (status == ConnectionStatus.disconnect) {
+                                                                          //         setState(() {
+                                                                          //           _selectedDevice = null;
+                                                                          //         });
+                                                                          //       }
+                                                                          //     });
+                                                                          //   }
+                                                                         // });
+
                                                                         },
                                                                         child: Container(
                                                                           width: (MediaQuery.of(context).size.width - 45)/2,
@@ -10227,6 +10242,12 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
+      printClosed = true;
+      Future.delayed(const Duration(milliseconds: 30000), () {
+        if(printClosed) {
+          _onDisconnectDevice();
+        }
+      });
       print('Hey there, I\'m calling after hide bottomSheet');
       if(sellDone) {
         setState(() {
@@ -10675,8 +10696,7 @@ class HomePageState extends State<HomePage>
       'total_orders': FieldValue.increment(double.parse(ttlOrders.toString())),
       'debtAmount' : FieldValue.increment(double.parse(debtAmount.toString())),
       'debts': FieldValue.increment(double.parse(debts.toString())),
-    })
-        .then((value) => print("User Updated"))
+    }).then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
 
@@ -11242,6 +11262,7 @@ class HomePageState extends State<HomePage>
 
     }
   }
+
   printFromOrders(File file) {
     printClosed = false;
     bool firstTimeOrderPri = true;
@@ -11349,18 +11370,18 @@ class HomePageState extends State<HomePage>
                     } else if(value == 'Roll-80') {
                       width = 570;
                     }
-                    // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-                    final ReceiptSectionText receiptText = ReceiptSectionText();
-                    receiptText.addLeftRightText(
-                      'ငှက်ပျောသီး',
-                      '30.000 $currencyUnit',
-                      leftStyle: ReceiptTextStyleType.normal,
-                      leftSize: ReceiptTextSizeType.small,
-                      rightSize: ReceiptTextSizeType.small,
-                      rightStyle: ReceiptTextStyleType.bold,
-                    );
 
-                    await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
+                    // final ReceiptSectionText receiptText = ReceiptSectionText();
+                    // receiptText.addLeftRightText(
+                    //   'ငှက်ပျောသီး',
+                    //   '30.000 $currencyUnit',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   leftSize: ReceiptTextSizeType.small,
+                    //   rightSize: ReceiptTextSizeType.small,
+                    //   rightStyle: ReceiptTextStyleType.bold,
+                    // );
+                     await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                    //await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
                     mystate(() {
                       priInProgOrders = false;
                     });
@@ -11757,19 +11778,20 @@ class HomePageState extends State<HomePage>
                                                         Spacer(),
                                                         GestureDetector(
                                                           onTap: () async {
-                                                            printClosed = true;
-                                                            Future.delayed(const Duration(milliseconds: 20000), () {
-                                                              if(printClosed) {
-                                                                _bluePrintPos.disconnect().then((ConnectionStatus status) {
-                                                                  if (status == ConnectionStatus.disconnect) {
-                                                                    setState(() {
-                                                                      _selectedDevice = null;
-                                                                    });
-                                                                  }
-                                                                });
-                                                              }
-                                                            });
+                                                           // printClosed = true;
                                                             Navigator.of(context).pop();
+                                                            // Future.delayed(const Duration(milliseconds: 30000), () {
+                                                            //   if(printClosed) {
+                                                            //     _bluePrintPos.disconnect().then((ConnectionStatus status) {
+                                                            //       if (status == ConnectionStatus.disconnect) {
+                                                            //         setState(() {
+                                                            //           _selectedDevice = null;
+                                                            //         });
+                                                            //       }
+                                                            //     });
+                                                            //   }
+                                                            // });
+
                                                           },
                                                           child: Container(
                                                             width: (MediaQuery.of(context).size.width - 45)/2,
@@ -11850,13 +11872,14 @@ class HomePageState extends State<HomePage>
             },
           );
         }).whenComplete(() {
-          printClosed = true;
-          Future.delayed(const Duration(milliseconds: 20000), () {
-            if(printClosed) {
-              _onDisconnectDevice();
-            }
-          });
-        });
+      printClosed = true;
+      Future.delayed(const Duration(milliseconds: 30000), () {
+        if(printClosed) {
+          print('complete');
+          _onDisconnectDevice();
+        }
+      });
+    });
   }
 }
 

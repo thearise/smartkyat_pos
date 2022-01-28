@@ -948,8 +948,6 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               } else {
                                                 totalRefunds = 0;
                                               }
-
-                                              if(widget.data.split('^')[3].split('&')[1] !='name') {
                                                 cusRefund.doc(widget.data.split('^')[3].split('&')[1]).update({
                                                   'total_refunds' : FieldValue.increment(double.parse(totalRefunds.toString())),
                                                   'debts' : FieldValue.increment(0 - double.parse(ttlDebts.toString())),
@@ -957,7 +955,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 }).then((value) {
                                                   print('merchant updated');
                                                 }).catchError((error) => print("Failed to update user: $error"));
-                                              }
+
 
                                               setState(() {
                                                 loadingState = false;
