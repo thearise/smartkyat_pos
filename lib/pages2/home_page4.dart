@@ -95,6 +95,8 @@ class HomePageState extends State<HomePage>
 
   bool drawerDrag = false;
 
+  bool printClosed = true;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -11241,6 +11243,7 @@ class HomePageState extends State<HomePage>
     }
   }
   printFromOrders(File file) {
+    printClosed = false;
     bool firstTimeOrderPri = true;
     bool priInProgOrders = false;
     showModalBottomSheet(
@@ -11300,10 +11303,10 @@ class HomePageState extends State<HomePage>
                 mystate(() {
                   priInProgOrders = true;
                 });
-                // Future.delayed(const Duration(milliseconds: 1500), () {
-                //   mystate(() {
-                //     priInProgOrders = false;
-                //   });
+                // Future.delayed(const Duration(milliseconds: 20000), () {
+                //   if(printClosed) {
+                //     _onDisconnectDeviceOrder();
+                //   }
                 // });
 
                 // smartKyatFlash('Print command received and working on it.', 'i');
@@ -11346,10 +11349,20 @@ class HomePageState extends State<HomePage>
                     } else if(value == 'Roll-80') {
                       width = 570;
                     }
-                    _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true).then((value) {
-                      mystate(() {
-                        priInProgOrders = false;
-                      });
+                    // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                    final ReceiptSectionText receiptText = ReceiptSectionText();
+                    receiptText.addLeftRightText(
+                      'ငှက်ပျောသီး',
+                      '30.000 $currencyUnit',
+                      leftStyle: ReceiptTextStyleType.normal,
+                      leftSize: ReceiptTextSizeType.small,
+                      rightSize: ReceiptTextSizeType.small,
+                      rightStyle: ReceiptTextStyleType.bold,
+                    );
+
+                    await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
+                    mystate(() {
+                      priInProgOrders = false;
                     });
 
                   });
@@ -11744,9 +11757,16 @@ class HomePageState extends State<HomePage>
                                                         Spacer(),
                                                         GestureDetector(
                                                           onTap: () async {
-                                                            getPrinterCon().then((value) {
-                                                              if(value) {
-                                                                _onDisconnectDeviceOrder();
+                                                            printClosed = true;
+                                                            Future.delayed(const Duration(milliseconds: 20000), () {
+                                                              if(printClosed) {
+                                                                _bluePrintPos.disconnect().then((ConnectionStatus status) {
+                                                                  if (status == ConnectionStatus.disconnect) {
+                                                                    setState(() {
+                                                                      _selectedDevice = null;
+                                                                    });
+                                                                  }
+                                                                });
                                                               }
                                                             });
                                                             Navigator.of(context).pop();
@@ -11829,6 +11849,13 @@ class HomePageState extends State<HomePage>
               );
             },
           );
+        }).whenComplete(() {
+          printClosed = true;
+          Future.delayed(const Duration(milliseconds: 20000), () {
+            if(printClosed) {
+              _onDisconnectDevice();
+            }
+          });
         });
   }
 }
