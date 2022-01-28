@@ -11350,12 +11350,6 @@ class HomePageState extends State<HomePage>
                       mystate(() {
                         priInProgOrders = false;
                       });
-                      getPrinterCon().then((value) {
-                        if(value) {
-                          _onDisconnectDeviceOrder();
-                        }
-                      });
-
                     });
 
                   });
@@ -11750,6 +11744,11 @@ class HomePageState extends State<HomePage>
                                                         Spacer(),
                                                         GestureDetector(
                                                           onTap: () async {
+                                                            getPrinterCon().then((value) {
+                                                              if(value) {
+                                                                _onDisconnectDeviceOrder();
+                                                              }
+                                                            });
                                                             Navigator.of(context).pop();
                                                           },
                                                           child: Container(
