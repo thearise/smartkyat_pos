@@ -973,12 +973,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   //
   //
   //
-  //     Future.delayed(const Duration(milliseconds: 500), () {
-  //       setState(() {
-  //         searchingOverAll = false;
-  //       });
-  //     });
-  //   });
+
   //
   // }
   //

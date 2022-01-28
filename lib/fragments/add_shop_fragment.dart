@@ -544,9 +544,9 @@ class _AddShopState extends State<AddShop> {
 
                                             CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
                                             cusName.doc('name').set({
-                                              'customer_name': 'Unknown',
-                                              'customer_address': '-',
-                                              'customer_phone': '-',
+                                              'customer_name': 'No customer',
+                                              'customer_address': 'unknown',
+                                              'customer_phone': '',
                                               'total_orders' : 0,
                                               'debts' : 0,
                                               'debtAmount' : 0,
@@ -556,9 +556,9 @@ class _AddShopState extends State<AddShop> {
 
                                             CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
                                             merchName.doc('name').set({
-                                              'merchant_name': 'Unknown',
-                                              'merchant_address': '-',
-                                              'merchant_phone': '-',
+                                              'merchant_name': 'No merchant',
+                                              'merchant_address': 'unknown',
+                                              'merchant_phone': '',
                                               'total_orders' : 0,
                                               'debts' : 0,
                                               'debtAmount' : 0,

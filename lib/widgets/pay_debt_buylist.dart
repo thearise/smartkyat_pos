@@ -718,7 +718,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                             if(debtAmount == 0.0) {
                               debts = 1;
                             } else debts = 0;
-                            if( widget.data.split('^')[3].split('&')[1] !='name') {
+
                               customerDebt.doc(
                                   widget.data.split('^')[3].split('&')[1])
                                   .update({
@@ -726,7 +726,7 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
                                 'debts' : FieldValue.increment( 0 - double.parse(debts.toString())),
                               })
                                   .then((value) => print("User Updated"))
-                                  .catchError((error) => print("Failed to update user: $error"));}
+                                  .catchError((error) => print("Failed to update user: $error"));
                             Future.delayed(const Duration(milliseconds: 2000), () {
                               setState(() {
                                 loadingState = false;
