@@ -247,402 +247,402 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
         body: SafeArea(
           bottom: true,
           top: true,
-          child: !searchOpening? Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    height: 81,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Colors.grey.withOpacity(0.3),
-                                width: 1.0))),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
-                      child: Row(
-                        children: [
-                          Text(textSetTitle,
-                            style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w600,
-                            ),),
-                          Spacer(),
-                          GestureDetector(
-                            onTap: () {
-                              widget._premiumCart();
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 100,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0),
-                                  ),
-                                  color: Colors.grey.withOpacity(0.3)),
-                              child: Text(isPro == 'free'? 'Free Version': 'Pro Version', style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13
-                              ),),
-                            ),
-                          ),
-                        ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                height: 81,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Colors.grey.withOpacity(0.3),
+                            width: 1.0))),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
+                  child: Row(
+                    children: [
+                      Text(textSetTitle,
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          widget._premiumCart();
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 100,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              color: Colors.grey.withOpacity(0.3)),
+                          child: Text(isPro == 'free'? 'Free Version': 'Pro Version', style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13
+                          ),),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  Expanded(
-                    child: ListView(
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: [
+                    SizedBox(height: 15,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 15,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Text(textInfo, style: TextStyle(
-                                letterSpacing: 1.5,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,color: Colors.grey,
-                              ),),),
-                            GestureDetector(
-                              onTap: () async {
-                                closeDrawerFrom();
-                               await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          AccountSetting(email: email, name: name, id: version.toString(),)),
-                                );
-                                openDrawerFrom();
-                              },
-                              child: Container(
-                                height: 72,
-                                // decoration: BoxDecoration(
-                                //     border: Border(
-                                //       bottom: BorderSide(
-                                //           color: AppTheme.skBorderColor2,
-                                //           width: 1.0),
-                                //     )),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          child: Text(textSetAccount,
-                                            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                        ),
-                                        StreamBuilder(
-                                            stream: widget.usersSnapshot,
-                                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                              if(snapshot.hasData) {
-                                                return Expanded(
-                                                  child: ListView(
-                                                    physics: NeverScrollableScrollPhysics(),
-                                                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                                      Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                                                      name = data['name'];
-                                                      email = data['email'];
-                                                      version = document.id;
-                                                      return Padding(
-                                                        padding: const EdgeInsets.only(top: 24),
-                                                        child: Container(
-                                                          width: MediaQuery.of(context).size.width/2,
-                                                          child: Text(data['name'],textAlign: TextAlign.right, overflow: TextOverflow.ellipsis,
-                                                            style: TextStyle(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Text(textInfo, style: TextStyle(
+                            letterSpacing: 1.5,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,color: Colors.grey,
+                          ),),),
+                        GestureDetector(
+                          onTap: () async {
+                            closeDrawerFrom();
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AccountSetting(email: email, name: name, id: version.toString(),)),
+                            );
+                            openDrawerFrom();
+                          },
+                          child: Container(
+                            height: 72,
+                            // decoration: BoxDecoration(
+                            //     border: Border(
+                            //       bottom: BorderSide(
+                            //           color: AppTheme.skBorderColor2,
+                            //           width: 1.0),
+                            //     )),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Row(
+                                    children: [
+                                      Container(
+                                        child: Text(textSetAccount,
+                                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                      ),
+                                      StreamBuilder(
+                                          stream: widget.usersSnapshot,
+                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                            if(snapshot.hasData) {
+                                              return Expanded(
+                                                child: ListView(
+                                                  physics: NeverScrollableScrollPhysics(),
+                                                  children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                                    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                                                    name = data['name'];
+                                                    email = data['email'];
+                                                    version = document.id;
+                                                    return Padding(
+                                                      padding: const EdgeInsets.only(top: 24),
+                                                      child: Container(
+                                                        width: MediaQuery.of(context).size.width/2,
+                                                        child: Text(data['name'],textAlign: TextAlign.right, overflow: TextOverflow.ellipsis,
+                                                          style: TextStyle(
                                                               fontSize: 17,
                                                               fontWeight: FontWeight
                                                                   .w500,
                                                               color: Colors.grey),),
-                                                        ),
-                                                      );
-                                                          }).toList(),
-                                                          ),
-                                                        );
-                                                      }
-                                                          return Container();
-                                                        }
-                                                    ),
-                                                    SizedBox(width: 8,),
-                                                    Icon(
-                                                      Icons
-                                                          .arrow_forward_ios_rounded,
-                                                      size: 16,
-                                                      color: Colors.grey,
-                                                    ),
-                                               ]
-                                              ),
-                                  ),
-                                ),
-                            ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15.0),
-                              child: Container(
-                                color: AppTheme.skBorderColor2,
-                                height: 1,
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                closeDrawerFrom();
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ShopSettingsSub(changeShopCallback2: chgShopFromSubSet)),
-                                );
-                                openDrawerFrom();
-                              },
-                              child: Container(
-                                color: Colors.white,
-                                height: 72,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
-                                  child: Row(
-                                   // mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                    Text(textSetShopSetting, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                        Spacer(),
-                                        StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
-                                            builder: (BuildContext context, snapshot) {
-                                              if(snapshot.hasData) {
-                                                var output = snapshot.data!.data();
-                                                var shopName = output?['shop_name'];
-                                            return Container(
-                                              width: MediaQuery.of(context).size.width/2,
-                                                child: Text(shopName ,textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
-                                            );
-                                          }
-                                            return Container();
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              );
                                             }
-                                        ),
-                                        SizedBox(width: 8,),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Text(textDisplay, style: TextStyle(
-                                  letterSpacing: 1.5,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14, color: Colors.grey,
-                              ),),
-                            ),
-                            Container(
-                              height: 72,
-                              // decoration: BoxDecoration(
-                              //     color: AppTheme.white,
-                              //     border: Border(
-                              //       bottom: BorderSide(
-                              //           color: AppTheme.skBorderColor2,
-                              //           width: 1.0),
-                              //     )),
-                              child: Center(
-                                child: ListTile(
-                                  title: Text('Dark mode', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('Off' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.grey),),
+                                            return Container();
+                                          }
+                                      ),
                                       SizedBox(width: 8,),
                                       Icon(
                                         Icons
-                                            .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                            .arrow_forward_ios_rounded,
+                                        size: 16,
+                                        color: Colors.grey,
+                                      ),
+                                    ]
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            color: AppTheme.skBorderColor2,
+                            height: 1,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            closeDrawerFrom();
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ShopSettingsSub(changeShopCallback2: chgShopFromSubSet)),
+                            );
+                            openDrawerFrom();
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            height: 72,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(textSetShopSetting, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                  Spacer(),
+                                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                      stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                                      builder: (BuildContext context, snapshot) {
+                                        if(snapshot.hasData) {
+                                          var output = snapshot.data!.data();
+                                          var shopName = output?['shop_name'];
+                                          return Container(
+                                              width: MediaQuery.of(context).size.width/2,
+                                              child: Text(shopName ,textAlign: TextAlign.right,overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),)
+                                          );
+                                        }
+                                        return Container();
+                                      }
+                                  ),
+                                  SizedBox(width: 8,),
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Text(textDisplay, style: TextStyle(
+                            letterSpacing: 1.5,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14, color: Colors.grey,
+                          ),),
+                        ),
+                        Container(
+                          height: 72,
+                          // decoration: BoxDecoration(
+                          //     color: AppTheme.white,
+                          //     border: Border(
+                          //       bottom: BorderSide(
+                          //           color: AppTheme.skBorderColor2,
+                          //           width: 1.0),
+                          //     )),
+                          child: Center(
+                            child: ListTile(
+                              title: Text('Dark mode', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('Off' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,color: Colors.grey),),
+                                  SizedBox(width: 8,),
+                                  Icon(
+                                    Icons
+                                        .arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            color: AppTheme.skBorderColor2,
+                            height: 1,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            closeDrawerFrom();
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LanguageSettings(changeShopCallback3: () {  },)),
+                            );
+                            openDrawerFrom();
+                          },
+                          child: Container(
+                            height: 72,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
+                                child: ListTile(
+                                  title: Text(textSetLanguage, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(languageId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                      SizedBox(width: 8,),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
                                       ),
                                     ],
                                   ),
+
+
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15.0),
-                              child: Container(
-                                color: AppTheme.skBorderColor2,
-                                height: 1,
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                closeDrawerFrom();
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => LanguageSettings(changeShopCallback3: () {  },)),
-                                );
-                                openDrawerFrom();
-                              },
-                              child: Container(
-                                height: 72,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 4.0),
-                                    child: ListTile(
-                                      title: Text(textSetLanguage, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(languageId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                          SizedBox(width: 8,),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                          ),
-                                        ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            color: AppTheme.skBorderColor2,
+                            height: 1,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            closeDrawerFrom();
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ChangeCurrency(changeShopCallback3: () {  },)),
+                            );
+                            openDrawerFrom();
+                          },
+                          child: Container(
+                            height: 72,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
+                                child: ListTile(
+                                  title: Text('Currency', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(currencyId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                      SizedBox(width: 8,),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
                                       ),
-
-
-                                    ),
+                                    ],
                                   ),
+
+
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15.0),
-                              child: Container(
-                                color: AppTheme.skBorderColor2,
-                                height: 1,
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                closeDrawerFrom();
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ChangeCurrency(changeShopCallback3: () {  },)),
-                                );
-                                openDrawerFrom();
-                              },
-                              child: Container(
-                                height: 72,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 4.0),
-                                    child: ListTile(
-                                      title: Text('Currency', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(currencyId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                          SizedBox(width: 8,),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                          ),
-                                        ],
-                                      ),
-
-
-                                    ),
-                                  ),
+                          ),
+                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                        //   child: Container(
+                        //     height: 55,
+                        //     child: TextDropdownFormField(
+                        //       options: ["Male", "Female"],
+                        //       decoration: InputDecoration(
+                        //           enabledBorder: const OutlineInputBorder(
+                        //               borderSide: const BorderSide(
+                        //                   color: AppTheme.skBorderColor,
+                        //                   width: 2.0),
+                        //               borderRadius: BorderRadius.all(
+                        //                   Radius.circular(10.0))),
+                        //
+                        //           focusedBorder: const OutlineInputBorder(
+                        //               borderSide: const BorderSide(
+                        //                   color: AppTheme.themeColor,
+                        //                   width: 2.0),
+                        //               borderRadius: BorderRadius.all(
+                        //                   Radius.circular(10.0))),
+                        //           // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
+                        //           // isDense: true,
+                        //           contentPadding: const EdgeInsets.only(
+                        //               left: 15.0,
+                        //               right: 15.0,
+                        //               top:20,
+                        //               bottom: 20),
+                        //           suffixStyle: TextStyle(
+                        //             color: Colors.grey,
+                        //             fontSize: 12,
+                        //             fontFamily: 'capsulesans',
+                        //           ),
+                        //           // errorText: wrongEmail,
+                        //           errorStyle: TextStyle(
+                        //               backgroundColor: Colors.white,
+                        //               fontSize: 12,
+                        //               fontFamily: 'capsulesans',
+                        //               height: 0.1
+                        //           ),
+                        //           labelStyle: TextStyle(
+                        //             fontWeight: FontWeight.w500,
+                        //             color: Colors.black,
+                        //           ),
+                        //           labelText: 'Email address',
+                        //           floatingLabelBehavior:
+                        //           FloatingLabelBehavior.auto,
+                        //           border: OutlineInputBorder(
+                        //             borderRadius: BorderRadius.circular(10),
+                        //           ),
+                        //           // border: OutlineInputBorder(),
+                        //           suffixIcon: Icon(Icons.arrow_drop_down),
+                        //           // labelText: "Gender"
+                        //       ),
+                        //       dropdownHeight: 120,
+                        //     ),
+                        //   ),
+                        // ),
+                        SizedBox(height: 15,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Text('OTHERS', style: TextStyle(
+                            letterSpacing: 1.5,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14, color: Colors.grey,
+                          ),),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            closeDrawerFrom();
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => PrintSettingsSub(changeShopCallback3: () {  },)),
+                            );
+                            openDrawerFrom();
+                          },
+                          child: Container(
+                            height: 72,
+                            child: Center(
+                              child: ListTile(
+                                title: Text(textSetPrint, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(paperId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
+                                    SizedBox(width: 8,),
+                                    Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,),
+                                  ],
                                 ),
                               ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                            //   child: Container(
-                            //     height: 55,
-                            //     child: TextDropdownFormField(
-                            //       options: ["Male", "Female"],
-                            //       decoration: InputDecoration(
-                            //           enabledBorder: const OutlineInputBorder(
-                            //               borderSide: const BorderSide(
-                            //                   color: AppTheme.skBorderColor,
-                            //                   width: 2.0),
-                            //               borderRadius: BorderRadius.all(
-                            //                   Radius.circular(10.0))),
-                            //
-                            //           focusedBorder: const OutlineInputBorder(
-                            //               borderSide: const BorderSide(
-                            //                   color: AppTheme.themeColor,
-                            //                   width: 2.0),
-                            //               borderRadius: BorderRadius.all(
-                            //                   Radius.circular(10.0))),
-                            //           // contentPadding: EdgeInsets.symmetric(vertical: 10), //Change this value to custom as you like
-                            //           // isDense: true,
-                            //           contentPadding: const EdgeInsets.only(
-                            //               left: 15.0,
-                            //               right: 15.0,
-                            //               top:20,
-                            //               bottom: 20),
-                            //           suffixStyle: TextStyle(
-                            //             color: Colors.grey,
-                            //             fontSize: 12,
-                            //             fontFamily: 'capsulesans',
-                            //           ),
-                            //           // errorText: wrongEmail,
-                            //           errorStyle: TextStyle(
-                            //               backgroundColor: Colors.white,
-                            //               fontSize: 12,
-                            //               fontFamily: 'capsulesans',
-                            //               height: 0.1
-                            //           ),
-                            //           labelStyle: TextStyle(
-                            //             fontWeight: FontWeight.w500,
-                            //             color: Colors.black,
-                            //           ),
-                            //           labelText: 'Email address',
-                            //           floatingLabelBehavior:
-                            //           FloatingLabelBehavior.auto,
-                            //           border: OutlineInputBorder(
-                            //             borderRadius: BorderRadius.circular(10),
-                            //           ),
-                            //           // border: OutlineInputBorder(),
-                            //           suffixIcon: Icon(Icons.arrow_drop_down),
-                            //           // labelText: "Gender"
-                            //       ),
-                            //       dropdownHeight: 120,
-                            //     ),
-                            //   ),
-                            // ),
-                            SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Text('OTHERS', style: TextStyle(
-                                letterSpacing: 1.5,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14, color: Colors.grey,
-                              ),),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                closeDrawerFrom();
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => PrintSettingsSub(changeShopCallback3: () {  },)),
-                                );
-                                openDrawerFrom();
-                              },
-                              child: Container(
-                                height: 72,
-                                child: Center(
-                                  child: ListTile(
-                                    title: Text(textSetPrint, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(paperId.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                        SizedBox(width: 8,),
-                                        Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ): Container(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         )
     );
   }
