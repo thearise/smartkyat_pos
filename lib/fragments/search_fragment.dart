@@ -2696,7 +2696,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                           ),
                                         ): loadingSearch && _searchController.text == '' ?
                                         Padding(
-                                            padding: const EdgeInsets.only(left: 2, bottom: 0.5, right: 3),
+                                            padding: const EdgeInsets.only(left: 2, bottom: 1.5, right: 3),
                                             child: Icon(
                                               Icons.arrow_back_ios_rounded,
                                               size: 21,
