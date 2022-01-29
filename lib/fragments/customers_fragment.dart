@@ -99,9 +99,17 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   // Stream<QuerySnapshot>? customerSnapshot;
 
   bool searchOpening = false;
+
+  bool searchOpeningR = false;
+
   changeSearchOpening(bool index) {
     setState(() {
       searchOpening = index;
+    });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        searchOpeningR = index;
+      });
     });
   }
 
@@ -3647,7 +3655,8 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
             bottom: true,
             child: Stack(
               children: [
-                !searchOpening? Align(
+                if(!searchOpening)
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 81.0),
@@ -4245,11 +4254,17 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                       ),
                     ),
                   ),
-                ): Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                        child: CupertinoActivityIndicator(radius: 15,)),
+                ),
+                if(searchOpeningR)
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  color: Colors.white,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                          child: CupertinoActivityIndicator(radius: 15,)),
+                    ),
                   ),
                 ),
                 Align(

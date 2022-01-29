@@ -107,9 +107,16 @@ class HomeFragmentState extends State<HomeFragment>
 
   bool searchOpening = false;
 
+  bool searchOpeningR = false;
+
   changeSearchOpening(bool index) {
     setState(() {
       searchOpening = index;
+    });
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      setState(() {
+        searchOpeningR = index;
+      });
     });
   }
 
@@ -1358,7 +1365,8 @@ class HomeFragmentState extends State<HomeFragment>
               //     : MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
-                  !searchOpening? StreamBuilder(
+                  if(!searchOpening)
+                  StreamBuilder(
                       stream: widget.ordersSnapshot,
                       // stream: FirebaseFirestore.instance
                       //     .collection('shops')
@@ -2437,13 +2445,20 @@ class HomeFragmentState extends State<HomeFragment>
                         }
                         return Container();
                       }
-                  ):Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 30.0),
-                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                          child: CupertinoActivityIndicator(radius: 15,)),
-                    ),
                   ),
+                  // if(searchOpeningR)
+                  // Expanded(
+                  //   child: Container(
+                  //     color: Colors.Colors.white,
+                  //     child: Center(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.only(top: 30.0),
+                  //         child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                  //             child: CupertinoActivityIndicator(radius: 15,)),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Align(
                     alignment: Alignment.topCenter,
                     child: Container(
