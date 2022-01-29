@@ -1547,9 +1547,16 @@ class HomeFragmentState extends State<HomeFragment>
 
   bool searchOpening = false;
 
+  bool searchOpeningR = false;
+
   changeSearchOpening(bool index) {
     setState(() {
       searchOpening = index;
+    });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        searchOpeningR = index;
+      });
     });
   }
 
@@ -1630,7 +1637,8 @@ class HomeFragmentState extends State<HomeFragment>
               //     : MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
-                  !searchOpening? StreamBuilder(
+                  if(!searchOpening)
+                  StreamBuilder(
                       stream: widget.ordersSnapshot,
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot0) {
                         if(snapshot0.hasData) {
@@ -2689,11 +2697,17 @@ class HomeFragmentState extends State<HomeFragment>
                         }
                         return Container();
                       }
-                  ): Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 30.0),
-                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                          child: CupertinoActivityIndicator(radius: 15,)),
+                  ),
+                  if(searchOpeningR)
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.Colors.white,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                            child: CupertinoActivityIndicator(radius: 15,)),
+                      ),
                     ),
                   ),
                   Align(

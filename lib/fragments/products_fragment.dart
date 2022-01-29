@@ -107,6 +107,8 @@ class ProductsFragmentState extends State<ProductsFragment>
   String searchProdCount = '0';
 
   bool buySellerStatus = false;
+
+  bool searchOpeningR = false;
   
   @override
   bool get wantKeepAlive => true;
@@ -140,6 +142,11 @@ class ProductsFragmentState extends State<ProductsFragment>
     setState(() {
       searchOpening = index;
     });
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        searchOpeningR = index;
+      });
+    });
   }
 
   getLangId() async {
@@ -159,7 +166,13 @@ class ProductsFragmentState extends State<ProductsFragment>
 
   @override
   initState() {
-
+    // if(!searchOpening) {
+    //   Future.delayed(const Duration(milliseconds: 1500), () {
+    //     setState(() {
+    //       searchOpeningR = false;
+    //     });
+    //   });
+    // }
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -563,7 +576,8 @@ class ProductsFragmentState extends State<ProductsFragment>
             bottom: true,
             child: Stack(
               children: [
-                !searchOpening? Align(
+                if(!searchOpening)
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 81.0),
@@ -1066,11 +1080,17 @@ class ProductsFragmentState extends State<ProductsFragment>
                         }
                     ),
                   ),
-                ): Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                        child: CupertinoActivityIndicator(radius: 15,)),
+                ),
+                if(searchOpeningR)
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  color: Colors.white,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                          child: CupertinoActivityIndicator(radius: 15,)),
+                    ),
                   ),
                 ),
                 Align(
