@@ -328,7 +328,6 @@ class HomePageState extends State<HomePage>
 
   @override
   initState() {
-    setPrinterCon(false);
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
