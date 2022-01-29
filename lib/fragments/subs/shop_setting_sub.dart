@@ -249,12 +249,6 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                           },
                           child:  Container(
                             height: 72,
-                            decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      color: AppTheme.skBorderColor2,
-                                      width: 1.0),
-                                )),
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 4.0, left: 15, right: 15),
                               child: Row(
@@ -289,57 +283,6 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            try {
-                              final result = await InternetAddress.lookup('google.com');
-                              if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => StaffSettingsSub(ownerId: ownerId.toString(),)),
-                                );
-                              }
-                            } on SocketException catch (_) {
-                              smartKyatFlash('Internet connection is required to take this action.', 'w');
-                            }
-
-                          },
-                          child: Container(
-                            height: 72,
-                            decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      color: AppTheme.skBorderColor2,
-                                      width: 1.0),
-                                )),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 4.0),
-                                child: ListTile(
-                                  title: Text('Staff settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      StreamBuilder(
-                                          stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('role', isNotEqualTo: 'owner').snapshots(),
-                                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                            if(snapshot.hasData) {
-                                            return Text('Total - ' + snapshot.data!.docs.length.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
-                                          }
-                                            return Container();
-                                          }
-                                      ),
-                                      SizedBox(width: 8,),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                         StreamBuilder(
                             stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users')
                                 .where('email', isEqualTo: auth.currentUser!.email.toString())
@@ -350,47 +293,102 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                Map<String, dynamic> dataUser = snapshotUser.data!.docs[0].data()! as Map<String, dynamic>;
                                var role = dataUser['role'];
 
-                            return (role == 'admin' || role == 'owner') ? GestureDetector(
-                              onTap: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ShopInformation(name: nameShop.toString(), address: addressShop.toString(), phone: phoneShop.toString(),)),
-                                );
-                              },
-                              child: Container(
-                                height: 72,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                          color: AppTheme.skBorderColor2,
-                                          width: 1.0),
-                                    )),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 4.0),
-                                    child: ListTile(
-                                      title: Text('Shop info', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          StreamBuilder<Object>(
-                                              stream: null,
-                                              builder: (context, snapshot) {
-                                                return Text('' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
-                                              }
+                            return (role == 'admin' || role == 'owner') ? Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    try {
+                                      final result = await InternetAddress.lookup('google.com');
+                                      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => StaffSettingsSub(ownerId: ownerId.toString(),)),
+                                        );
+                                      }
+                                    } on SocketException catch (_) {
+                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                    }
+
+                                  },
+                                  child: Container(
+                                    height: 72,
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                              color: AppTheme.skBorderColor2,
+                                              width: 1.0),
+                                        )),
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 4.0),
+                                        child: ListTile(
+                                          title: Text('Staff settings', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              StreamBuilder(
+                                                  stream: FirebaseFirestore.instance.collection('shops').doc(shopId).collection('users').where('role', isNotEqualTo: 'owner').snapshots(),
+                                                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                    if(snapshot.hasData) {
+                                                      return Text('Total - ' + snapshot.data!.docs.length.toString() ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                                    }
+                                                    return Container();
+                                                  }
+                                              ),
+                                              SizedBox(width: 8,),
+                                              Icon(
+                                                Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                              ),
+                                            ],
                                           ),
-                                          SizedBox(width: 8,),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-
-
                                     ),
                                   ),
                                 ),
-                              ),
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => ShopInformation(name: nameShop.toString(), address: addressShop.toString(), phone: phoneShop.toString(),)),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 72,
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                              color: AppTheme.skBorderColor2,
+                                              width: 1.0),
+                                        )),
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 4.0),
+                                        child: ListTile(
+                                          title: Text('Shop info', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              StreamBuilder<Object>(
+                                                  stream: null,
+                                                  builder: (context, snapshot) {
+                                                    return Text('' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),);
+                                                  }
+                                              ),
+                                              SizedBox(width: 8,),
+                                              Icon(
+                                                Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                              ),
+                                            ],
+                                          ),
+
+
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ) : Container();
                            }
                              return Container();

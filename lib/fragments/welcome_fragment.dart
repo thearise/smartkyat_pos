@@ -174,7 +174,7 @@ class _WelcomeState extends State<Welcome>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         bottom: true,
@@ -1750,6 +1750,9 @@ class _WelcomeState extends State<Welcome>
                             ),
                           ),
                         ),
+                        Container(
+                          height: MediaQuery.of(context).viewInsets.bottom
+                        )
                       ],
                     ),
                   ),
