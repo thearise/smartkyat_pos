@@ -540,7 +540,15 @@ class _AccountSettingState extends State<AccountSetting> {
                                                   color: Colors.grey.withOpacity(0.3),
                                                   width: 1.0))),
                                     ),
-                                    SizedBox(height: 15.0,),
+                                    SizedBox(height: 15),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                      child: Text('PASSWORD', style: TextStyle(
+                                        letterSpacing: 1.5,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14, color: Colors.grey,
+                                      ),),
+                                    ),
                                     GestureDetector(
                                       onTap : () async {
                                         try {
@@ -556,30 +564,33 @@ class _AccountSettingState extends State<AccountSetting> {
                                         }
 
                                       },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                        child: Row(
-                                          children: [
-                                            Text('Authentication', style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                            ),),
-                                            Spacer(),
-                                            Text('change password', style: TextStyle(
-                                              fontSize: 15, fontWeight: FontWeight.w500, color: Colors.grey,
-                                            ),),
-                                            SizedBox(width: 5,),
-                                            Icon(
-                                              Icons
-                                                  .arrow_forward_ios_rounded,
-                                              size: 16,
-                                              color: Colors.blueGrey
-                                                  .withOpacity(
-                                                  0.8),
-                                            ),
-                                          ],
-                                        ),
+                                      child: Container(
+                                        height: 72,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                          child: Row(
+                                            children: [
+                                              Text('Authentication', style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 17,
+                                              ),),
+                                              Spacer(),
+                                              Text('change password', style: TextStyle(
+                                                fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey,
+                                              ),),
+                                              SizedBox(width: 5,),
+                                              Icon(
+                                                Icons
+                                                    .arrow_forward_ios_rounded,
+                                                size: 16,
+                                                color: Colors.blueGrey
+                                                    .withOpacity(
+                                                    0.8),
+                                              ),
+                                            ],
+                                          ),
 
+                                        ),
                                       ),
                                     ),
                                     SizedBox(height: 20,),

@@ -239,7 +239,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Information',
+                                    'Display',
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 13,
@@ -249,7 +249,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                                 ],
                               ),
                               Text(
-                                'Shop settings',
+                                'Currency',
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -273,7 +273,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text('INFORMATION', style: TextStyle(
+                          child: Text('CHANGE CURRENCY', style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -312,7 +312,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                             text: new TextSpan(
                               children: [
                                 new TextSpan(
-                                  text: 'Choose the paper size correctly to work well with your printer.',
+                                  text: 'This currency will be applied to your all financial amount display.',
                                   style: new TextStyle(
                                       fontSize: 12.5,
                                       color: Colors.grey,

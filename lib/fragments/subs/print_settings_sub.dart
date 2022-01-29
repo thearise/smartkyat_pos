@@ -9,6 +9,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page4.dart';
@@ -45,12 +46,17 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
   ];
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   var _selectedTest;
-
+  bool blueConnect = true;
   @override
   initState() {
     getPaperId().then((value) {
       setState(() {
         paperType = value;
+      });
+    });
+    getPrinterCon().then((value) {
+      setState(() {
+        blueConnect = value;
       });
     });
     // var _selectedTestInit = [{'no': 1, 'keyword': 'Roll-55'}];
@@ -239,7 +245,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Information',
+                                    'Others',
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 13,
@@ -249,7 +255,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                 ],
                               ),
                               Text(
-                                'Shop settings',
+                                'Print settings',
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -273,7 +279,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text('INFORMATION', style: TextStyle(
+                          child: Text('PAPER SIZE', style: TextStyle(
                             letterSpacing: 1.5,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,color: Colors.grey,
@@ -325,25 +331,54 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                         ),
                         SizedBox(height: 20),
                         Container(
-                          height: 72,
                           decoration: BoxDecoration(
                               border: Border(
                                 top: BorderSide(
                                     color: AppTheme.skBorderColor2,
                                     width: 1.0),
                               )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                          child: Text('BLUETOOTH', style: TextStyle(
+                            letterSpacing: 1.5,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,color: Colors.grey,
+                          ),),
+                        ),
+                        Container(
+                          height: 72,
+                          // decoration: BoxDecoration(
+                          //     border: Border(
+                          //       top: BorderSide(
+                          //           color: AppTheme.skBorderColor2,
+                          //           width: 1.0),
+                          //     )),
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 4.0),
                               child: ListTile(
-                                title: Text('Printers', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
+                                title: Text('Connect always', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500,),),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text('Connected printer' ,style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.grey),),
-                                    SizedBox(width: 8,),
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey,
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 3.0),
+                                      child: FlutterSwitch(
+                                        width: 38.0,
+                                        height: 22.0,
+                                        valueFontSize: 5.0,
+                                        toggleSize: 16.0,
+                                        padding: 2.5,
+                                        value: blueConnect,
+                                        activeColor: AppTheme.themeColor,
+                                        onToggle: (val) {
+                                          setState(() {
+                                            blueConnect = !blueConnect;
+                                          });
+                                          setPrinterCon(blueConnect);
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -797,6 +832,22 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
         ),
       ),
     );
+  }
+
+  setPrinterCon(bool data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+    prefs.setBool('printer_con', data);
+  }
+
+  getPrinterCon() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getBool('printer_con') == null || prefs.getBool('printer_con') == true) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   addDailyExp(priContext) {
