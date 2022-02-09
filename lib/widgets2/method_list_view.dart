@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:smartkyat_pos/fragments/products_fragment.dart';
 
 import '../app_theme.dart';
@@ -44,7 +45,11 @@ class MethodListView extends StatelessWidget {
                 try {
                   final result = await InternetAddress.lookup('google.com');
                   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                    onSelectMethod(model);
+                    await onSelectMethod(model);
+                    print('go on');
+                    Future.delayed(const Duration(milliseconds: 300), () {
+                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                    });
                   }
                 } on SocketException catch (_) {
                   Color bdColor = Color(0xffffffff);

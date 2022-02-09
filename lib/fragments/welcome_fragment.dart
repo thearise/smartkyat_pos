@@ -75,7 +75,16 @@ class _WelcomeState extends State<Welcome>
 
   @override
   initState() {
+    if(Platform.isIOS)
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    if(Platform.isAndroid)
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white, // navigation bar color
+      statusBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark// status bar color
+    ));
+
     FirebaseAuth.instance
         .authStateChanges()
         .listen((User? user) {
