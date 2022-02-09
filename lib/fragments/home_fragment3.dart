@@ -210,6 +210,43 @@ class HomeFragmentState extends State<HomeFragment>
     return prefs.getString('currency');
   }
 
+  DateTime lossDayStartByDate(DateTime date) {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    String endDateOfMonth = '31';
+    if(date.month.toString() == '9' || date.month.toString() == '4' || date.month.toString() == '6' || date.month.toString() == '11') {
+      endDateOfMonth = '30';
+    } else if(date.month.toString() == '2') {
+      endDateOfMonth = '29';
+    } else {
+      endDateOfMonth = '31';
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date.year.toString() + '-' + zeroToTen(date.month.toString()) + '-' + endDateOfMonth + ' 23:59:59');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
+  DateTime lossDayEndByDate(DateTime date) {
+    // DateTime today = DateTime.now();
+    // DateTime yearStart = DateTime.now();
+    // DateTime tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(today.year.toString() + '-01-01 00:00:00');
+    // today.
+    DateTime notTday = date;
+    notTday = date;
+    int month = notTday.month;
+    int ayinMonth = 0;
+    if(month == 1) {
+      ayinMonth = 12;
+    } else {
+      ayinMonth = month - 1;
+    }
+    DateTime yearStart = DateFormat("yyyy-MM-dd hh:mm:ss").parse(notTday.year.toString() + '-' + zeroToTen(ayinMonth.toString()) + '-00 00:00:00');
+    print('DDDD ' + yearStart.toString());
+    return yearStart;
+  }
+
   @override
   initState() {
     print('home frag3');
@@ -237,14 +274,14 @@ class HomeFragmentState extends State<HomeFragment>
         shopId = value;
       });
     });
-    _searchController.addListener((){
-      setState(() {
-        gloSearchText = _searchController.text;
-        searchValue = _searchController.text;
-      });
-      searchKeyChanged();
-      // print(searchValue);
-    });
+    // _searchController.addListener((){
+    //   setState(() {
+    //     gloSearchText = _searchController.text;
+    //     searchValue = _searchController.text;
+    //   });
+    //   searchKeyChanged();
+    //   // print(searchValue);
+    // });
     subTabController = TabController(length: 3, vsync: this);
     slidingSearchCont();
 
@@ -1672,7 +1709,7 @@ class HomeFragmentState extends State<HomeFragment>
                                             top: 0.0, left: 0.0, right: 0.0),
 
                                         child: StreamBuilder(
-                                            stream: widget.lossSnapshot,
+                                            stream: FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('loss').where('date', isLessThanOrEqualTo: lossDayStartByDate(DateTime.now())).where('date', isGreaterThanOrEqualTo: lossDayEndByDate(DateTime.now())).orderBy('date', descending: true).snapshots(),
                                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotLoss) {
                                               if(snapshotLoss.hasData) {
                                                 double totalLossPrice = 0;
@@ -3216,460 +3253,460 @@ class HomeFragmentState extends State<HomeFragment>
         });
   }
 
-  Widget _buildHeader3(BuildContext context, int sectionIndex, int index) {
-    return Container(
-        height: 50,
-        child: Center(child: Text('Searching...'))
-    );
-  }
-
-  Future<void> searchKeyChanged() async {
-    setState(() {
-      searchingOverAll = true;
-    });
-
-    if(searchValue != '') {
-      if(slidingSearch == 2) {
-        if(searchValue.toLowerCase().contains('b')) {
-          if(searchValue.contains('-')) {
-            searchValue = searchValue.split('-')[1];
-          }
-          // print('hereeee');
-          sectionList2 = List<ExampleSection>.empty(growable: true);
-
-          subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
-
-          // print("search " + searchValue);
-          String max = searchValue;
-          // sectionList = [];
-          List detailIdList = [];
-
-          setState(() {
-            var sections = List<ExampleSection>.empty(growable: true);
-
-            var init = ExampleSection()
-              ..header = ''
-              ..items = ['']
-              ..expanded = true;
-
-            // var buyOrders = ExampleSection()
-            //   ..header = 'Products'
-            //   ..items = ['']
-            //   ..expanded = true;
-            sections.add(init);
-            // sections.add(buyOrders);
-            sectionList2 = sections;
-          });
-
-          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
-          // FirebaseFirestore.instance.collection('space')
-              .where('each_order',  arrayContains: searchValue)
-              .limit(1)
-              .get()
-              .then((QuerySnapshot querySnapshot1) {
-            // print('leng ' + querySnapshot1.docs.length.toString());
-            if(querySnapshot1.docs.length == 0) {
-              setState(() {
-                detailIdList = [];
-                setState(() {
-                  var sections = List<ExampleSection>.empty(growable: true);
-
-                  var saleOrders = ExampleSection()
-                    ..header = 'Buy orders^' + 'GG'
-                    ..items = detailIdList.cast<String>()
-                    ..expanded = true;
-
-                  // var buyOrders = ExampleSection()
-                  //   ..header = 'Buy orders^' + 'GG'
-                  //   ..items = detailIdList.cast<String>()
-                  //   ..expanded = true;
-
-                  // print('buy ord ' + detailIdList.length.toString());
-                  sections.add(saleOrders);
-                  // sections.add(buyOrders);
-                  sectionList2 = sections;
-                });
-              });
-            }
-
-
-            querySnapshot1.docs.forEach((doc) async {
-              await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(doc.id).collection('expansion')
-                  .where('orderId',  isEqualTo: searchValue)
-                  .get()
-                  .then((QuerySnapshot querySnapshot2) async {
-                querySnapshot2.docs.forEach((doc) {
-                  String isRef = 'pf';
-                  if(doc['refund'] == 'TRUE') {
-                    isRef = 'rf';
-                  }
-                  if(doc['refund'] == 'PART') {
-                    isRef = 'sf';
-                  }
-                  setState(() {
-                    detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + doc['discount'].toString());
-                  });
-                });
-
-                await FirebaseFirestore.instance.collection('shops').doc(
-                    shopId).collection('merchants')
-                    .get()
-                    .then((QuerySnapshot querySnapshot3) {
-                  setState(() {
-
-                    // if(detailIdList.length == 0) {
-                    //   noSearchData = true;
-                    // } else {
-                    //   noSearchData = false;
-                    // }
-                    var sections = List<ExampleSection>.empty(growable: true);
-
-                    var saleOrders = ExampleSection()
-                      ..header = 'Buy orders^' + detailIdList.length.toString()
-                      ..items = changeData2(detailIdList.cast<String>(), querySnapshot3)
-                    // ..items = detailIdList.cast<String>()
-                      ..expanded = true;
-
-                    // var buyOrders = ExampleSection()
-                    //   ..header = 'Buy orders^' + detailIdList.length.toString()
-                    //   ..items = detailIdList.cast<String>()
-                    //   ..expanded = true;
-
-                    // print('buy ord ' + detailIdList.length.toString());
-                    sections.add(saleOrders);
-                    // sections.add(buyOrders);
-                    sectionList2 = sections;
-                  });
-                });
-
-
-
-              });
-            });
-
-
-          });
-        } else {
-          if(searchValue.contains('-')) {
-            searchValue = searchValue.split('-')[1];
-          }
-          // print('hereeee');
-          sectionList2 = List<ExampleSection>.empty(growable: true);
-
-          subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
-
-          // print("search " + searchValue);
-          String max = searchValue;
-          // sectionList = [];
-          List detailIdList = [];
-
-          setState(() {
-            var sections = List<ExampleSection>.empty(growable: true);
-
-            var init = ExampleSection()
-              ..header = ''
-              ..items = ['']
-              ..expanded = true;
-
-            // var buyOrders = ExampleSection()
-            //   ..header = 'Products'
-            //   ..items = ['']
-            //   ..expanded = true;
-            sections.add(init);
-            // sections.add(buyOrders);
-            sectionList2 = sections;
-          });
-
-          await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
-          // FirebaseFirestore.instance.collection('space')
-              .where('each_order',  arrayContains: searchValue)
-          // .limit(1)
-              .get()
-              .then((QuerySnapshot querySnapshot1) {
-            // print('leng ' + querySnapshot1.docs.length.toString());
-            if(querySnapshot1.docs.length == 0) {
-              setState(() {
-                detailIdList = [];
-                setState(() {
-                  var sections = List<ExampleSection>.empty(growable: true);
-
-                  var saleOrders = ExampleSection()
-                    ..header = 'Sale orders^' + 'GG'
-                    ..items = detailIdList.cast<String>()
-                    ..expanded = true;
-
-                  // var buyOrders = ExampleSection()
-                  //   ..header = 'Buy orders^' + 'GG'
-                  //   ..items = detailIdList.cast<String>()
-                  //   ..expanded = true;
-
-                  // print('buy ord ' + detailIdList.length.toString());
-                  sections.add(saleOrders);
-                  // sections.add(buyOrders);
-                  sectionList2 = sections;
-                });
-              });
-            }
-
-
-            querySnapshot1.docs.forEach((doc) async {
-              await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(doc.id).collection('detail')
-                  .where('orderId',  isEqualTo: searchValue)
-                  .get()
-                  .then((QuerySnapshot querySnapshot2) async {
-                querySnapshot2.docs.forEach((doc) {
-                  String isRef = 'pf';
-                  if(doc['refund'] == 'TRUE') {
-                    isRef = 'rf';
-                  }
-                  if(doc['refund'] == 'PART') {
-                    isRef = 'sf';
-                  }
-                  setState(() {
-                    detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + '0.0');
-                  });
-                });
-
-                await FirebaseFirestore.instance.collection('shops').doc(
-                    shopId).collection('customers')
-                    .get()
-                    .then((QuerySnapshot querySnapshot3) {
-                  setState(() {
-
-                    // if(detailIdList.length == 0) {
-                    //   noSearchData = true;
-                    // } else {
-                    //   noSearchData = false;
-                    // }
-                    var sections = List<ExampleSection>.empty(growable: true);
-
-                    var saleOrders = ExampleSection()
-                      ..header = 'Sale orders^' + detailIdList.length.toString()
-                      ..items = changeData(detailIdList.cast<String>(), querySnapshot3)
-                    // ..items = detailIdList.cast<String>()
-                      ..expanded = true;
-
-                    // var buyOrders = ExampleSection()
-                    //   ..header = 'Buy orders^' + detailIdList.length.toString()
-                    //   ..items = detailIdList.cast<String>()
-                    //   ..expanded = true;
-
-                    // print('buy ord ' + detailIdList.length.toString());
-                    sections.add(saleOrders);
-                    // sections.add(buyOrders);
-                    sectionList2 = sections;
-                  });
-                });
-
-
-
-              });
-            });
-
-
-          });
-        }
-
-
-        //BUY BUY BUY
-
-
-
-
-
-      } else if (slidingSearch == 1) {
-        sectionList1 = [];
-        subTabController.animateTo(1, duration: Duration(microseconds: 1), curve: Curves.ease);
-
-        setState(() {
-          var sections = List<ExampleSection>.empty(growable: true);
-
-          var init = ExampleSection()
-            ..header = ''
-            ..items = ['']
-            ..expanded = true;
-
-          // var buyOrders = ExampleSection()
-          //   ..header = 'Products'
-          //   ..items = ['']
-          //   ..expanded = true;
-          sections.add(init);
-          sections.add(init);
-          // sections.add(buyOrders);
-          sectionList1 = sections;
-        });
-        List<String> items = [];
-        List<String> items1 = [];
-
-        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers')
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-
-          String sps = '^sps^';
-          querySnapshot.docs.forEach((doc) {
-            if(doc.id != 'name' && doc['customer_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
-              setState(() {
-                items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
-              });
-
-              // print(doc['prod_name'].toString());
-            }
-          });
-
-          if(items.length == 0) {
-            setState(() {
-              noSearchData = true;
-            });
-          } else {
-            setState(() {
-              noSearchData = false;
-            });
-          }
-
-
-        });
-
-
-        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants')
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-
-          String sps = '^sps^';
-          querySnapshot.docs.forEach((doc) {
-            if(doc.id != 'name' && doc['merchant_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
-              setState(() {
-                items1.add(doc.id + sps + doc['merchant_name'] + sps + doc['merchant_phone'] + sps + doc['merchant_address']);
-              });
-
-              // print(doc['prod_name'].toString());
-            }
-          });
-
-          if(items1.length == 0) {
-            setState(() {
-              noSearchData = true;
-            });
-          } else {
-            setState(() {
-              noSearchData = false;
-            });
-          }
-
-
-        });
-
-        setState(() {
-          var sections = List<ExampleSection>.empty(growable: true);
-          // var sections1 = List<ExampleSection>.empty(growable: true);
-
-          var init = ExampleSection()
-            ..header = 'Customers^' + items.length.toString()
-            ..items = items
-            ..expanded = true;
-
-          var init1 = ExampleSection()
-            ..header = 'Merchants^' + items1.length.toString()
-            ..items = items1
-            ..expanded = true;
-
-          // var buyOrders = ExampleSection()
-          //   ..header = 'Products'
-          //   ..items = ['']
-          //   ..expanded = true;
-          sections.add(init);
-          sections.add(init1);
-          // sections.add(buyOrders);
-          sectionList1 = sections;
-        });
-
-
-      } else {
-
-        subTabController.animateTo(0, duration: Duration(microseconds: 0), curve: Curves.ease);
-
-        setState(() {
-          var sections = List<ExampleSection>.empty(growable: true);
-
-          var init = ExampleSection()
-            ..header = ''
-            ..items = ['']
-            ..expanded = true;
-
-          sections.add(init);
-          // sections.add(buyOrders);
-          sectionList = sections;
-        });
-        List<String> items = [];
-
-        await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-
-          String sps = '^sps^';
-          querySnapshot.docs.forEach((doc) {
-            if(doc['prod_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
-              setState(() {
-                items.add(doc.id + sps +
-                    doc['prod_name'] + sps +
-                    doc['img_1'] + sps +
-                    doc['unit_sell'] + '-' + doc['inStock1'].toString() + '-' + doc['unit_name'] + sps +
-                    doc['sub1_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub1_name'] + sps +
-                    doc['sub2_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub2_name']);
-              });
-
-              // print(doc['prod_name'].toString());
-            }
-          });
-
-          if(items.length == 0) {
-            setState(() {
-              noSearchData = true;
-            });
-          } else {
-            setState(() {
-              noSearchData = false;
-            });
-          }
-
-
-        });
-
-        setState(() {
-          var sections = List<ExampleSection>.empty(growable: true);
-
-          var init = ExampleSection()
-            ..header = 'Products^' + items.length.toString()
-            ..items = items
-            ..expanded = true;
-
-          // var buyOrders = ExampleSection()
-          //   ..header = 'Products'
-          //   ..items = ['']
-          //   ..expanded = true;
-          sections.add(init);
-          // sections.add(buyOrders);
-          sectionList = sections;
-        });
-
-
-      }
-    } else {
-      setState(() {
-        noSearchData = true;
-      });
-    }
-    Future.delayed(const Duration(milliseconds: 500), () async {
-
-
-
-      Future.delayed(const Duration(milliseconds: 500), () {
-        setState(() {
-          searchingOverAll = false;
-        });
-      });
-    });
-
-  }
+  // Widget _buildHeader3(BuildContext context, int sectionIndex, int index) {
+  //   return Container(
+  //       height: 50,
+  //       child: Center(child: Text('Searching...'))
+  //   );
+  // }
+
+  // Future<void> searchKeyChanged() async {
+  //   setState(() {
+  //     searchingOverAll = true;
+  //   });
+  //
+  //   if(searchValue != '') {
+  //     if(slidingSearch == 2) {
+  //       if(searchValue.toLowerCase().contains('b')) {
+  //         if(searchValue.contains('-')) {
+  //           searchValue = searchValue.split('-')[1];
+  //         }
+  //         // print('hereeee');
+  //         sectionList2 = List<ExampleSection>.empty(growable: true);
+  //
+  //         subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
+  //
+  //         // print("search " + searchValue);
+  //         String max = searchValue;
+  //         // sectionList = [];
+  //         List detailIdList = [];
+  //
+  //         setState(() {
+  //           var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //           var init = ExampleSection()
+  //             ..header = ''
+  //             ..items = ['']
+  //             ..expanded = true;
+  //
+  //           // var buyOrders = ExampleSection()
+  //           //   ..header = 'Products'
+  //           //   ..items = ['']
+  //           //   ..expanded = true;
+  //           sections.add(init);
+  //           // sections.add(buyOrders);
+  //           sectionList2 = sections;
+  //         });
+  //
+  //         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders')
+  //         // FirebaseFirestore.instance.collection('space')
+  //             .where('each_order',  arrayContains: searchValue)
+  //             .limit(1)
+  //             ..get(GetOptions(source: Source.cache))
+  //             .then((QuerySnapshot querySnapshot1) {
+  //           // print('leng ' + querySnapshot1.docs.length.toString());
+  //           if(querySnapshot1.docs.length == 0) {
+  //             setState(() {
+  //               detailIdList = [];
+  //               setState(() {
+  //                 var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //                 var saleOrders = ExampleSection()
+  //                   ..header = 'Buy orders^' + 'GG'
+  //                   ..items = detailIdList.cast<String>()
+  //                   ..expanded = true;
+  //
+  //                 // var buyOrders = ExampleSection()
+  //                 //   ..header = 'Buy orders^' + 'GG'
+  //                 //   ..items = detailIdList.cast<String>()
+  //                 //   ..expanded = true;
+  //
+  //                 // print('buy ord ' + detailIdList.length.toString());
+  //                 sections.add(saleOrders);
+  //                 // sections.add(buyOrders);
+  //                 sectionList2 = sections;
+  //               });
+  //             });
+  //           }
+  //
+  //
+  //           querySnapshot1.docs.forEach((doc) async {
+  //             await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrders').doc(doc.id).collection('expansion')
+  //                 .where('orderId',  isEqualTo: searchValue)
+  //                 .get(GetOptions(source: Source.cache))
+  //                 .then((QuerySnapshot querySnapshot2) async {
+  //               querySnapshot2.docs.forEach((doc) {
+  //                 String isRef = 'pf';
+  //                 if(doc['refund'] == 'TRUE') {
+  //                   isRef = 'rf';
+  //                 }
+  //                 if(doc['refund'] == 'PART') {
+  //                   isRef = 'sf';
+  //                 }
+  //                 setState(() {
+  //                   detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['merchantId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + doc['discount'].toString());
+  //                 });
+  //               });
+  //
+  //               await FirebaseFirestore.instance.collection('shops').doc(
+  //                   shopId).collection('merchants')
+  //                   .get(GetOptions(source: Source.cache))
+  //                   .then((QuerySnapshot querySnapshot3) {
+  //                 setState(() {
+  //
+  //                   // if(detailIdList.length == 0) {
+  //                   //   noSearchData = true;
+  //                   // } else {
+  //                   //   noSearchData = false;
+  //                   // }
+  //                   var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //                   var saleOrders = ExampleSection()
+  //                     ..header = 'Buy orders^' + detailIdList.length.toString()
+  //                     ..items = changeData2(detailIdList.cast<String>(), querySnapshot3)
+  //                   // ..items = detailIdList.cast<String>()
+  //                     ..expanded = true;
+  //
+  //                   // var buyOrders = ExampleSection()
+  //                   //   ..header = 'Buy orders^' + detailIdList.length.toString()
+  //                   //   ..items = detailIdList.cast<String>()
+  //                   //   ..expanded = true;
+  //
+  //                   // print('buy ord ' + detailIdList.length.toString());
+  //                   sections.add(saleOrders);
+  //                   // sections.add(buyOrders);
+  //                   sectionList2 = sections;
+  //                 });
+  //               });
+  //
+  //
+  //
+  //             });
+  //           });
+  //
+  //
+  //         });
+  //       } else {
+  //         if(searchValue.contains('-')) {
+  //           searchValue = searchValue.split('-')[1];
+  //         }
+  //         // print('hereeee');
+  //         sectionList2 = List<ExampleSection>.empty(growable: true);
+  //
+  //         subTabController.animateTo(2, duration: Duration(microseconds: 0), curve: Curves.ease);
+  //
+  //         // print("search " + searchValue);
+  //         String max = searchValue;
+  //         // sectionList = [];
+  //         List detailIdList = [];
+  //
+  //         setState(() {
+  //           var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //           var init = ExampleSection()
+  //             ..header = ''
+  //             ..items = ['']
+  //             ..expanded = true;
+  //
+  //           // var buyOrders = ExampleSection()
+  //           //   ..header = 'Products'
+  //           //   ..items = ['']
+  //           //   ..expanded = true;
+  //           sections.add(init);
+  //           // sections.add(buyOrders);
+  //           sectionList2 = sections;
+  //         });
+  //
+  //         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
+  //         // FirebaseFirestore.instance.collection('space')
+  //             .where('each_order',  arrayContains: searchValue)
+  //         // .limit(1)
+  //             .get()
+  //             .then((QuerySnapshot querySnapshot1) {
+  //           // print('leng ' + querySnapshot1.docs.length.toString());
+  //           if(querySnapshot1.docs.length == 0) {
+  //             setState(() {
+  //               detailIdList = [];
+  //               setState(() {
+  //                 var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //                 var saleOrders = ExampleSection()
+  //                   ..header = 'Sale orders^' + 'GG'
+  //                   ..items = detailIdList.cast<String>()
+  //                   ..expanded = true;
+  //
+  //                 // var buyOrders = ExampleSection()
+  //                 //   ..header = 'Buy orders^' + 'GG'
+  //                 //   ..items = detailIdList.cast<String>()
+  //                 //   ..expanded = true;
+  //
+  //                 // print('buy ord ' + detailIdList.length.toString());
+  //                 sections.add(saleOrders);
+  //                 // sections.add(buyOrders);
+  //                 sectionList2 = sections;
+  //               });
+  //             });
+  //           }
+  //
+  //
+  //           querySnapshot1.docs.forEach((doc) async {
+  //             await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders').doc(doc.id).collection('detail')
+  //                 .where('orderId',  isEqualTo: searchValue)
+  //                 .get()
+  //                 .then((QuerySnapshot querySnapshot2) async {
+  //               querySnapshot2.docs.forEach((doc) {
+  //                 String isRef = 'pf';
+  //                 if(doc['refund'] == 'TRUE') {
+  //                   isRef = 'rf';
+  //                 }
+  //                 if(doc['refund'] == 'PART') {
+  //                   isRef = 'sf';
+  //                 }
+  //                 setState(() {
+  //                   detailIdList.add(doc.id + '^' + doc['deviceId'] + doc['orderId'] + '^' + doc['total'].toString() + '^' + doc['customerId'] + '^' + isRef + '^' + doc['debt'].toString() + '^' + '0.0');
+  //                 });
+  //               });
+  //
+  //               await FirebaseFirestore.instance.collection('shops').doc(
+  //                   shopId).collection('customers')
+  //                   .get()
+  //                   .then((QuerySnapshot querySnapshot3) {
+  //                 setState(() {
+  //
+  //                   // if(detailIdList.length == 0) {
+  //                   //   noSearchData = true;
+  //                   // } else {
+  //                   //   noSearchData = false;
+  //                   // }
+  //                   var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //                   var saleOrders = ExampleSection()
+  //                     ..header = 'Sale orders^' + detailIdList.length.toString()
+  //                     ..items = changeData(detailIdList.cast<String>(), querySnapshot3)
+  //                   // ..items = detailIdList.cast<String>()
+  //                     ..expanded = true;
+  //
+  //                   // var buyOrders = ExampleSection()
+  //                   //   ..header = 'Buy orders^' + detailIdList.length.toString()
+  //                   //   ..items = detailIdList.cast<String>()
+  //                   //   ..expanded = true;
+  //
+  //                   // print('buy ord ' + detailIdList.length.toString());
+  //                   sections.add(saleOrders);
+  //                   // sections.add(buyOrders);
+  //                   sectionList2 = sections;
+  //                 });
+  //               });
+  //
+  //
+  //
+  //             });
+  //           });
+  //
+  //
+  //         });
+  //       }
+  //
+  //
+  //       //BUY BUY BUY
+  //
+  //
+  //
+  //
+  //
+  //     } else if (slidingSearch == 1) {
+  //       sectionList1 = [];
+  //       subTabController.animateTo(1, duration: Duration(microseconds: 1), curve: Curves.ease);
+  //
+  //       setState(() {
+  //         var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //         var init = ExampleSection()
+  //           ..header = ''
+  //           ..items = ['']
+  //           ..expanded = true;
+  //
+  //         // var buyOrders = ExampleSection()
+  //         //   ..header = 'Products'
+  //         //   ..items = ['']
+  //         //   ..expanded = true;
+  //         sections.add(init);
+  //         sections.add(init);
+  //         // sections.add(buyOrders);
+  //         sectionList1 = sections;
+  //       });
+  //       List<String> items = [];
+  //       List<String> items1 = [];
+  //
+  //       await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers')
+  //           .get()
+  //           .then((QuerySnapshot querySnapshot) {
+  //
+  //         String sps = '^sps^';
+  //         querySnapshot.docs.forEach((doc) {
+  //           if(doc.id != 'name' && doc['customer_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
+  //             setState(() {
+  //               items.add(doc.id + sps + doc['customer_name'] + sps + doc['customer_phone'] + sps + doc['customer_address']);
+  //             });
+  //
+  //             // print(doc['prod_name'].toString());
+  //           }
+  //         });
+  //
+  //         if(items.length == 0) {
+  //           setState(() {
+  //             noSearchData = true;
+  //           });
+  //         } else {
+  //           setState(() {
+  //             noSearchData = false;
+  //           });
+  //         }
+  //
+  //
+  //       });
+  //
+  //
+  //       await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants')
+  //           .get()
+  //           .then((QuerySnapshot querySnapshot) {
+  //
+  //         String sps = '^sps^';
+  //         querySnapshot.docs.forEach((doc) {
+  //           if(doc.id != 'name' && doc['merchant_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
+  //             setState(() {
+  //               items1.add(doc.id + sps + doc['merchant_name'] + sps + doc['merchant_phone'] + sps + doc['merchant_address']);
+  //             });
+  //
+  //             // print(doc['prod_name'].toString());
+  //           }
+  //         });
+  //
+  //         if(items1.length == 0) {
+  //           setState(() {
+  //             noSearchData = true;
+  //           });
+  //         } else {
+  //           setState(() {
+  //             noSearchData = false;
+  //           });
+  //         }
+  //
+  //
+  //       });
+  //
+  //       setState(() {
+  //         var sections = List<ExampleSection>.empty(growable: true);
+  //         // var sections1 = List<ExampleSection>.empty(growable: true);
+  //
+  //         var init = ExampleSection()
+  //           ..header = 'Customers^' + items.length.toString()
+  //           ..items = items
+  //           ..expanded = true;
+  //
+  //         var init1 = ExampleSection()
+  //           ..header = 'Merchants^' + items1.length.toString()
+  //           ..items = items1
+  //           ..expanded = true;
+  //
+  //         // var buyOrders = ExampleSection()
+  //         //   ..header = 'Products'
+  //         //   ..items = ['']
+  //         //   ..expanded = true;
+  //         sections.add(init);
+  //         sections.add(init1);
+  //         // sections.add(buyOrders);
+  //         sectionList1 = sections;
+  //       });
+  //
+  //
+  //     } else {
+  //
+  //       subTabController.animateTo(0, duration: Duration(microseconds: 0), curve: Curves.ease);
+  //
+  //       setState(() {
+  //         var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //         var init = ExampleSection()
+  //           ..header = ''
+  //           ..items = ['']
+  //           ..expanded = true;
+  //
+  //         sections.add(init);
+  //         // sections.add(buyOrders);
+  //         sectionList = sections;
+  //       });
+  //       List<String> items = [];
+  //
+  //       await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
+  //           .get()
+  //           .then((QuerySnapshot querySnapshot) {
+  //
+  //         String sps = '^sps^';
+  //         querySnapshot.docs.forEach((doc) {
+  //           if(doc['prod_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
+  //             setState(() {
+  //               items.add(doc.id + sps +
+  //                   doc['prod_name'] + sps +
+  //                   doc['img_1'] + sps +
+  //                   doc['unit_sell'] + '-' + doc['inStock1'].toString() + '-' + doc['unit_name'] + sps +
+  //                   doc['sub1_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub1_name'] + sps +
+  //                   doc['sub2_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub2_name']);
+  //             });
+  //
+  //             // print(doc['prod_name'].toString());
+  //           }
+  //         });
+  //
+  //         if(items.length == 0) {
+  //           setState(() {
+  //             noSearchData = true;
+  //           });
+  //         } else {
+  //           setState(() {
+  //             noSearchData = false;
+  //           });
+  //         }
+  //
+  //
+  //       });
+  //
+  //       setState(() {
+  //         var sections = List<ExampleSection>.empty(growable: true);
+  //
+  //         var init = ExampleSection()
+  //           ..header = 'Products^' + items.length.toString()
+  //           ..items = items
+  //           ..expanded = true;
+  //
+  //         // var buyOrders = ExampleSection()
+  //         //   ..header = 'Products'
+  //         //   ..items = ['']
+  //         //   ..expanded = true;
+  //         sections.add(init);
+  //         // sections.add(buyOrders);
+  //         sectionList = sections;
+  //       });
+  //
+  //
+  //     }
+  //   } else {
+  //     setState(() {
+  //       noSearchData = true;
+  //     });
+  //   }
+  //   Future.delayed(const Duration(milliseconds: 500), () async {
+  //
+  //
+  //
+  //     Future.delayed(const Duration(milliseconds: 500), () {
+  //       setState(() {
+  //         searchingOverAll = false;
+  //       });
+  //     });
+  //   });
+  //
+  // }
 
 
   convertToHour(String input){

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -16,6 +17,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // MobileAds.instance.initialize();
   await Firebase.initializeApp();
+  FirebaseFirestore.instance.settings = Settings(
+      persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(MyApp());
 }
 

@@ -328,7 +328,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => MerchantOrdersInfoSubs(id: widget.id, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                                      builder: (context) => MerchantOrdersInfoSubs(id: widget.id, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, merchName: merchantName, merchAddress: address,)),
                                                 );
 
                                               },

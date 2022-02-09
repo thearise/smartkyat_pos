@@ -3863,7 +3863,7 @@ class BuyListFragmentState extends State<BuyListFragment>
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: StreamBuilder(
-                            stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId.toString()).collection('buyOrders').where('date', isLessThanOrEqualTo: lossDayStart()).where('date', isGreaterThanOrEqualTo: lossDayEnd()).orderBy('date', descending: true).snapshots(),
+                            stream: widget.buyOrdersSnapshot,
                             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if(snapshot.hasData) {
                                 return StreamBuilder(
