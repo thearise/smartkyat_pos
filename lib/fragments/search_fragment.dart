@@ -822,7 +822,6 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
             .get(GetOptions(source: Source.cache))
             .then((QuerySnapshot querySnapshot) {
-
           String sps = '^sps^';
           querySnapshot.docs.forEach((doc) {
             if(doc['prod_name'].toString().toLowerCase().contains(searchValue.toLowerCase())) {
@@ -975,11 +974,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   }
 
   overAllSearch() {
-    return StreamBuilder(
-        stream: widget.productsSnapshot,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if(snapshot.hasData) {
-            return Padding(
+    return Padding(
               padding: const EdgeInsets.only(top: 80.0),
               child: IgnorePointer(
                 ignoring: !loadingSearch,
@@ -1108,7 +1103,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 .width,
                                             decoration: BoxDecoration(
                                                 border: Border(
-                                                    bottom: index == snapshot.data!.docs.length-1 ?
+                                                    bottom: index == length-1 ?
                                                     BorderSide(
                                                         color: Colors.transparent,
                                                         width: 1.0) :
@@ -1261,7 +1256,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                         ),
                                       ),
                                     );
-                                  } else if(slidingSearch == 1 && item.contains('^sps^')) {
+                                  }
+                                  else if(slidingSearch == 1 && item.contains('^sps^')) {
                                     return GestureDetector(
                                       onTap: () async {
                                         closeDrawerFrom();
@@ -1426,7 +1422,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                         ),
                                       ),
                                     );
-                                  } else if(searchValue == '') {
+                                  }
+                                  else if(searchValue == '') {
                                     return Container();
                                   }
                                   return Container(
@@ -2298,10 +2295,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 ),
               ),
             );
-          }
-          return Container();
-        }
-    );
+    //       }
+    //       return Container();
+    //     }
+    // );
   }
 
   convertToAMPM(String input){
@@ -2720,7 +2717,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     ),
                   ),
                 ),
-               // overAllSearch(),
+                overAllSearch(),
 
 
               ],
