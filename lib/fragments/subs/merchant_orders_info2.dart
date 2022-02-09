@@ -278,7 +278,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
 
                               ),
                             ),),
-                          footer: SliverToBoxAdapter(child: Padding(
+                          footer: SliverToBoxAdapter(
+                              child: Padding(
                             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                             child: Center(child: Text('End of results')),
                           )),
