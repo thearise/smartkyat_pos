@@ -331,7 +331,7 @@ class HomePageState extends State<HomePage>
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-         textSetGotoCart = 'ရောင်းရန်စာရင်းသို့';
+          textSetGotoCart = 'ရောင်းရန်စာရင်းသို့';
           totalVPrice = 'Total price';
           VPaid = 'Paid';
           VDebt = 'Total debt';
@@ -342,11 +342,11 @@ class HomePageState extends State<HomePage>
       else if(value=='english') {
         setState(() {
           textSetGotoCart = 'Go to cart';
-           totalVPrice = 'စုစုပေါင်း';
-           VPaid = 'ပေးငွေ';
-           VDebt = 'ကျန်ငွေ';
-           subVTotal = 'ကျသင့်ငွေပေါင်း';
-           VDiscount = 'လျှော့ငွေ';
+          totalVPrice = 'စုစုပေါင်း';
+          VPaid = 'ပေးငွေ';
+          VDebt = 'ကျန်ငွေ';
+          subVTotal = 'ကျသင့်ငွေပေါင်း';
+          VDiscount = 'လျှော့ငွေ';
         });
       }
     });
@@ -5658,7 +5658,7 @@ class HomePageState extends State<HomePage>
                                                                           bottom: 2.0),
                                                                       child: Container(
                                                                         child: Text(
-                                                                         textSetGotoCart,
+                                                                          textSetGotoCart,
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                               fontSize: 18,
@@ -8533,8 +8533,8 @@ class HomePageState extends State<HomePage>
 
                                                                       print('subList2 ' + subList2.toString());
 
-                                                                        totalOrders = totalOrders + 1;
-                                                                        CusOrder(totalOrders, debts, debtAmounts);
+                                                                      totalOrders = totalOrders + 1;
+                                                                      CusOrder(totalOrders, debts, debtAmounts);
 
                                                                       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
                                                                           .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
@@ -10134,7 +10134,7 @@ class HomePageState extends State<HomePage>
                                                                           //       }
                                                                           //     });
                                                                           //   }
-                                                                         // });
+                                                                          // });
 
                                                                         },
                                                                         child: Container(
@@ -11379,7 +11379,7 @@ class HomePageState extends State<HomePage>
                     //   rightSize: ReceiptTextSizeType.small,
                     //   rightStyle: ReceiptTextStyleType.bold,
                     // );
-                     await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                    await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
                     //await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
                     mystate(() {
                       priInProgOrders = false;
@@ -11777,7 +11777,7 @@ class HomePageState extends State<HomePage>
                                                         Spacer(),
                                                         GestureDetector(
                                                           onTap: () async {
-                                                           // printClosed = true;
+                                                            // printClosed = true;
                                                             Navigator.of(context).pop();
                                                             // Future.delayed(const Duration(milliseconds: 30000), () {
                                                             //   if(printClosed) {

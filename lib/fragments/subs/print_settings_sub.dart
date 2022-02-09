@@ -21,7 +21,7 @@ import '../app_theme.dart';
 class PrintSettingsSub extends StatefulWidget {
   final _chgShopCB3;
 
-  PrintSettingsSub( {required void changeShopCallback3()}) :
+  PrintSettingsSub({required void changeShopCallback3()}) :
         _chgShopCB3 = changeShopCallback3;
 
   @override

@@ -325,7 +325,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId, closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),
+                                                    builder: (context) => CustomerOrdersInfoSubs(id: widget.id, shopId: widget.shopId, closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, custName: customerName, custAddress: address,),
                                                   ),
                                                 );
                                               },
