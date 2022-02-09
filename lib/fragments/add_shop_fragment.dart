@@ -181,40 +181,6 @@ class _AddShopState extends State<AddShop> {
               ),
             ),
           ),
-          // child: Padding(
-          //   padding: const EdgeInsets.only(
-          //       top: 93.0, left: 15, right: 15),
-          //   child: Container(
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.all(
-          //         Radius.circular(10.0),
-          //       ),
-          //       color: bgColor,
-          //       border: Border.all(
-          //           color: bdColor,
-          //           width: 1.0
-          //       ),
-          //     ),
-          //     child: Padding(
-          //         padding: const EdgeInsets.only(
-          //             top: 15.0, left: 10, right: 10, bottom: 15),
-          //         child: Row(
-          //           children: [
-          //             SizedBox(width: 5),
-          //             widgetCon,
-          //             SizedBox(width: 10),
-          //             Padding(
-          //               padding: const EdgeInsets.only(bottom: 2.5),
-          //               child: Container(
-          //                 child: Text(text, overflow: TextOverflow.visible, style: TextStyle(
-          //                     fontWeight: FontWeight.w400, fontSize: 14.5)),
-          //               ),
-          //             )
-          //           ],
-          //         )
-          //     ),
-          //   ),
-          // ),
         );
       },
     );
@@ -235,29 +201,99 @@ class _AddShopState extends State<AddShop> {
       body: SafeArea(
         bottom: true,
         top: true,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 40.0, bottom: 25.0),
-                    child: Container(
-                      child: Image.asset('assets/system/smartkyat.png', height: 68, width: 68,),
-                    ),
-                  ),
-                ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Text('SHOP REGISTRATION', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 15, letterSpacing: 2,
-                          color: Colors.grey,),),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    Container(
+                      height: 81,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  width: 1.0))),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: Container(
+                                width: 37,
+                                height: 37,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(35.0),
+                                    ),
+                                    color: Colors.grey.withOpacity(0.3)),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 3.0),
+                                  child: IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_back_ios_rounded,
+                                        size: 17,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'Information',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      'Add new shop',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                  Stack(
+                    ),
+                    SizedBox(height: 15,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text('SHOP INFORMATION', style: TextStyle(
+                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,color: Colors.grey,
+                      ),),
+                    ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Stack(
                     children: [
                       //SizedBox(height: 18,),
                       Padding(
@@ -453,166 +489,129 @@ class _AddShopState extends State<AddShop> {
                      // SizedBox(height: 30,),
                     ],
                   ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Row(
-                            children: [
-                              ButtonTheme(
-                                minWidth: (MediaQuery.of(context).size.width/2 )-22,
-                                splashColor: Colors.transparent,
-                                height: 53,
-                                child: FlatButton(
-                                  color: AppTheme.buttonColor2,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
-                                    side: BorderSide(
-                                      color: AppTheme.buttonColor2,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0,
-                                        right: 5.0,
-                                        bottom: 2.0),
-                                    child: Container(
-                                      child: Text(
-                                        'Back',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 17.5,
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing:-0.1
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
+                        child: ButtonTheme(
+                          minWidth: (MediaQuery.of(context).size.width),
+                          splashColor: Colors.transparent,
+                          height: 53,
+                          child: FlatButton(
+                            color: AppTheme.themeColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                color: AppTheme.themeColor,
                               ),
-                              Spacer(),
-                              ButtonTheme(
-                                minWidth: (MediaQuery.of(context).size.width/2 )-22,
-                                splashColor: Colors.transparent,
-                                height: 53,
-                                child: FlatButton(
-                                  color: AppTheme.themeColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(10.0),
-                                    side: BorderSide(
-                                      color: AppTheme.themeColor,
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    try {
-                                      final result = await InternetAddress.lookup('google.com');
-                                      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                        shopFieldsValue = [];
-                                        CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                        final User? user = auth.currentUser;
-                                        final uid = user!.uid;
-                                        final email = user.email;
-                                        if (_formKey.currentState!.validate()) {
-                                          setState(() {
-                                            loadingState = true;
-                                          });
-                                          shops.add(
-                                              {
-                                                'owner_id' : uid.toString(),
-                                                'shop_name': shopFieldsValue[0],
-                                                'shop_address' : shopFieldsValue[1],
-                                                'shop_phone': shopFieldsValue[2],
-                                                'users': FieldValue.arrayUnion([email.toString()]),
-                                                'orders_length': 1000,
-                                                'buyOrders_length': 1000,
-                                                'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
-                                              }
-                                          ).then((value) async {
-                                            shops.doc(value.id).collection('users').add({
-                                              'email': email.toString(),
-                                              'role' : 'owner',
-                                            }).then((value) {
-
-                                            })
-                                                .catchError((error) => print("Failed to update user: $error"));
-                                            setStoreId(value.id.toString());
-
-                                            CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
-                                            cusName.doc('name').set({
-                                              'customer_name': 'No customer',
-                                              'customer_address': 'unknown',
-                                              'customer_phone': '',
-                                              'total_orders' : 0,
-                                              'debts' : 0,
-                                              'debtAmount' : 0,
-                                              'total_refunds' : 0,
-                                            }).then((value) {})
-                                                .catchError((error) => print("Failed to update user: $error"));
-
-                                            CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
-                                            merchName.doc('name').set({
-                                              'merchant_name': 'No merchant',
-                                              'merchant_address': 'unknown',
-                                              'merchant_phone': '',
-                                              'total_orders' : 0,
-                                              'debts' : 0,
-                                              'debtAmount' : 0,
-                                              'total_refunds' : 0,
-                                            }).then((value) {})
-                                                .catchError((error) => print("Failed to update user: $error"));
-                                            var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                            //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                            print('shop added'); });
+                            ),
+                            onPressed: () async {
+                              try {
+                                final result = await InternetAddress.lookup('google.com');
+                                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                  shopFieldsValue = [];
+                                  CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                  final User? user = auth.currentUser;
+                                  final uid = user!.uid;
+                                  final email = user.email;
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() {
+                                      loadingState = true;
+                                    });
+                                    shops.add(
+                                        {
+                                          'owner_id' : uid.toString(),
+                                          'shop_name': shopFieldsValue[0],
+                                          'shop_address' : shopFieldsValue[1],
+                                          'shop_phone': shopFieldsValue[2],
+                                          'users': FieldValue.arrayUnion([email.toString()]),
+                                          'orders_length': 1000,
+                                          'buyOrders_length': 1000,
+                                          'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
                                         }
-                                      }
-                                    } on SocketException catch (_) {
-                                      setState(() {
-                                        smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                      });
-                                    }
+                                    ).then((value) async {
+                                      shops.doc(value.id).collection('users').add({
+                                        'email': email.toString(),
+                                        'role' : 'owner',
+                                      }).then((value) {
 
-                                  },
-                                  child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                      child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0,
-                                        right: 5.0,
-                                        bottom: 2.0),
-                                    child: Container(
-                                      child: Text(
-                                        'Create shop',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 17.5,
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing:-0.1
-                                        ),
-                                      ),
-                                    ),
+                                      })
+                                          .catchError((error) => print("Failed to update user: $error"));
+                                      setStoreId(value.id.toString());
+
+                                      CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
+                                      cusName.doc('name').set({
+                                        'customer_name': 'No customer',
+                                        'customer_address': 'unknown',
+                                        'customer_phone': '',
+                                        'total_orders' : 0,
+                                        'debts' : 0,
+                                        'debtAmount' : 0,
+                                        'total_refunds' : 0,
+                                      }).then((value) {})
+                                          .catchError((error) => print("Failed to update user: $error"));
+
+                                      CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
+                                      merchName.doc('name').set({
+                                        'merchant_name': 'No merchant',
+                                        'merchant_address': 'unknown',
+                                        'merchant_phone': '',
+                                        'total_orders' : 0,
+                                        'debts' : 0,
+                                        'debtAmount' : 0,
+                                        'total_refunds' : 0,
+                                      }).then((value) {})
+                                          .catchError((error) => print("Failed to update user: $error"));
+                                      var resultPop = await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                      //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                      print('shop added'); });
+                                  }
+                                }
+                              } on SocketException catch (_) {
+                                setState(() {
+                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                });
+                              }
+
+                            },
+                            child:  loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5.0,
+                                  right: 5.0,
+                                  bottom: 2.0),
+                              child: Container(
+                                child: Text(
+                                  'Create shop',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 17.5,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing:-0.1
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      Text('Set up some information about your shop later in shop settings.'),
-                      SizedBox(height: 15,),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text('Set up some information about your shop later in shop settings.'),
+                    ),
+                    SizedBox(height: 15,),
+                  ],
                 ),
-                Container(
-                  color: Colors.white,
-                  height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
-                ),
-              ],
-            ),
+              ),
+              Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
+              ),
+            ],
           ),
         ),
       ),

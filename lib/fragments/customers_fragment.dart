@@ -3625,7 +3625,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   }
 
   Future<String> countDocuments(myDoc) async {
-    QuerySnapshot _myDoc = await myDoc.get();
+    QuerySnapshot _myDoc = await myDoc.get(GetOptions(source: Source.cache));
     List<DocumentSnapshot> _myDocCount = _myDoc.docs;
     return _myDocCount.length.toString();
   }

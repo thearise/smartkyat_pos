@@ -690,7 +690,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                   size: 17,
                                   color: Colors.black,
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
                                   Navigator.pop(context);
                                 }),
                           ),
