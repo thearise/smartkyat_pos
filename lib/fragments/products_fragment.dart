@@ -713,66 +713,6 @@ class ProductsFragmentState extends State<ProductsFragment>
                                           ),
                                         ),
                                       ),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                      //   child: FlatButton(
-                                      //     minWidth: 0,
-                                      //     padding: EdgeInsets.only(left: 12, right: 12),
-                                      //     color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-                                      //     shape: RoundedRectangleBorder(
-                                      //       borderRadius: BorderRadius.circular(20.0),
-                                      //       side: BorderSide(
-                                      //         color: AppTheme.skBorderColor2,
-                                      //       ),
-                                      //     ),
-                                      //     onPressed: () {
-                                      //       _animateToIndex(16.4);
-                                      //       setState(() {
-                                      //         cateScIndex = 2;
-                                      //       });
-                                      //     },
-                                      //     child: Container(
-                                      //       child: Text(
-                                      //        textSetBestSales,
-                                      //         textAlign: TextAlign.center,
-                                      //         style: TextStyle(
-                                      //             fontSize: 14,
-                                      //             fontWeight: FontWeight.w500,
-                                      //             color: Colors.black),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                      //   child: FlatButton(
-                                      //     minWidth: 0,
-                                      //     padding: EdgeInsets.only(left: 12, right: 12),
-                                      //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                      //     shape: RoundedRectangleBorder(
-                                      //       borderRadius: BorderRadius.circular(20.0),
-                                      //       side: BorderSide(
-                                      //         color: AppTheme.skBorderColor2,
-                                      //       ),
-                                      //     ),
-                                      //     onPressed: () {
-                                      //       _animateToIndex(20);
-                                      //       setState(() {
-                                      //         cateScIndex = 3;
-                                      //       });
-                                      //     },
-                                      //     child: Container(
-                                      //       child: Text(
-                                      //         textSetLowSales,
-                                      //         textAlign: TextAlign.center,
-                                      //         style: TextStyle(
-                                      //             fontSize: 14,
-                                      //             fontWeight: FontWeight.w500,
-                                      //             color: Colors.black),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
                                       SizedBox(
                                         width: 11,
                                       )
@@ -797,7 +737,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                         final data =  documentSnapshots[index].data() as Map<String, dynamic>;
                         var version = documentSnapshots[index].id;
                         //String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.merchName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
-                        return  GestureDetector(
+                        return GestureDetector(
                           onTap: () async {
                             closeDrawerFrom();
                             await Navigator.of(context).push(
@@ -995,7 +935,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                         );
                       },
                       // orderBy is compulsory to enable pagination
-                      query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy('prod_name'),
+                      query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy(cateScIndex == 0 ?'prod_name' : 'inStock1', descending: false),
                       // to fetch real-time data
                       isLive: true,
                     ),
