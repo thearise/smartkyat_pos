@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // MobileAds.instance.initialize();
   await Firebase.initializeApp();
+  FirebaseFirestore.instance.settings = Settings(
+      persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(MyApp());
 }
 
@@ -42,6 +45,9 @@ class _MyAppState extends State<MyApp> {
       ),
       navigatorObservers: [OneContext().heroController],
       builder: OneContext().builder,
+      // home: Container(
+      //   color: Colors.white,
+      // ),
       home: Welcome(),
     );
   }

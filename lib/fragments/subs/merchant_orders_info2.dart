@@ -1470,4 +1470,3 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
 
   }
 }
-
