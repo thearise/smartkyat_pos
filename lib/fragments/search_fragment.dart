@@ -528,7 +528,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder')
               .where('orderId',  isEqualTo: searchValue)
-              .get(GetOptions(source: Source.cache))
+              .get()
               .then((QuerySnapshot querySnapshot2) async {
             if(querySnapshot2.docs.length == 0) {
               setState(() {
@@ -561,7 +561,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
             await FirebaseFirestore.instance.collection('shops').doc(
                 shopId).collection('merchants')
-               .get(GetOptions(source: Source.cache))
+                .get()
                 .then((QuerySnapshot querySnapshot3) {
               setState(() {
 
@@ -623,7 +623,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
               .where('orderId',  isEqualTo: searchValue)
-              .get(GetOptions(source: Source.cache))
+              .get()
               .then((QuerySnapshot querySnapshot2) async {
             if(querySnapshot2.docs.length == 0) {
               setState(() {
@@ -657,7 +657,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
             await FirebaseFirestore.instance.collection('shops').doc(
                 shopId).collection('customers')
-                .get(GetOptions(source: Source.cache))
+                .get()
                 .then((QuerySnapshot querySnapshot3) {
               setState(() {
 
@@ -720,7 +720,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items1 = [];
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers')
-            .get(GetOptions(source: Source.cache))
+            .get()
             .then((QuerySnapshot querySnapshot) {
 
           String sps = '^sps^';
@@ -749,7 +749,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants')
-            .get(GetOptions(source: Source.cache))
+            .get()
             .then((QuerySnapshot querySnapshot) {
 
           String sps = '^sps^';
@@ -820,7 +820,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items = [];
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-            .get(GetOptions(source: Source.cache))
+            .get()
             .then((QuerySnapshot querySnapshot) {
 
           String sps = '^sps^';
@@ -2509,7 +2509,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   }
 
   Future<String> countDocuments(myDoc) async {
-    QuerySnapshot _myDoc = await myDoc.get(GetOptions(source: Source.cache));
+    QuerySnapshot _myDoc = await myDoc.get();
     List<DocumentSnapshot> _myDocCount = _myDoc.docs;
     return _myDocCount.length.toString();
   }
@@ -2720,7 +2720,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                     ),
                   ),
                 ),
-               // overAllSearch(),
+                overAllSearch(),
 
 
               ],

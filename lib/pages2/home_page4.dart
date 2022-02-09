@@ -371,10 +371,10 @@ class HomePageState extends State<HomePage>
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.white
-    ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //     statusBarColor: Colors.black
+    // ));
     _textFieldControllerTablet.addListener((){
       print("value: ${_textFieldControllerTablet.text}");
       setState(() {
@@ -3970,7 +3970,7 @@ class HomePageState extends State<HomePage>
                                                                                                   FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
                                                                                                       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
                                                                                                       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                                                                                      .get()
+                                                                                                      .get(GetOptions(source: Source.cache))
                                                                                                       .then((QuerySnapshot querySnapshot)  async {
                                                                                                     querySnapshot.docs.forEach((doc) {
                                                                                                       dateExist = true;
