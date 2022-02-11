@@ -137,31 +137,31 @@ class _EditProductState extends State<EditProduct> {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-           textSetProductInfo = 'PRODUCT INFORMATION';
-           textSetProdName = 'Product name';
-           textSetBarcode = 'Barcode';
-           textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-           textSetSubUnit = 'SUB UNIT?';
-           textSetUnitQty = 'Unit quantity';
-           textSetUnitName = 'Unit name';
-           textSetBuyPrice = 'Buy price';
-           textSetSalePrice = 'Sale price';
-           textSetRemove = 'REMOVE';
-           textSetSaveProd = 'Save Product';
+          textSetProductInfo = 'PRODUCT INFORMATION';
+          textSetProdName = 'Product name';
+          textSetBarcode = 'Barcode';
+          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+          textSetSubUnit = 'SUB UNIT?';
+          textSetUnitQty = 'Unit quantity';
+          textSetUnitName = 'Unit name';
+          textSetBuyPrice = 'Buy price';
+          textSetSalePrice = 'Sale price';
+          textSetRemove = 'REMOVE';
+          textSetSaveProd = 'Save Product';
         });
       } else if(value=='english') {
         setState(() {
-           textSetProductInfo = 'PRODUCT INFORMATION';
-           textSetProdName = 'Product name';
-           textSetBarcode = 'Barcode';
-           textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-           textSetSubUnit = 'SUB UNIT?';
-           textSetUnitQty = 'Unit quantity';
-           textSetUnitName = 'Unit name';
-           textSetBuyPrice = 'Buy price';
-           textSetSalePrice = 'Sale price';
-           textSetRemove = 'REMOVE';
-           textSetSaveProd = 'Save Product';
+          textSetProductInfo = 'PRODUCT INFORMATION';
+          textSetProdName = 'Product name';
+          textSetBarcode = 'Barcode';
+          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+          textSetSubUnit = 'SUB UNIT?';
+          textSetUnitQty = 'Unit quantity';
+          textSetUnitName = 'Unit name';
+          textSetBuyPrice = 'Buy price';
+          textSetSalePrice = 'Sale price';
+          textSetRemove = 'REMOVE';
+          textSetSaveProd = 'Save Product';
         });
       }
     });
@@ -182,7 +182,7 @@ class _EditProductState extends State<EditProduct> {
     for(int j =0; j<example.length; j++) {
       for(i = j ; i<example.length; i++) {
         intResult = intResult + example[i].toString();
-        result.add(intResult);
+        result.add(intResult.toLowerCase());
       }
       intResult = '';
     }
@@ -284,7 +284,7 @@ class _EditProductState extends State<EditProduct> {
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
                             child: Text(
-                             textSetProductInfo,
+                              textSetProductInfo,
                               style: TextStyle(
                                 letterSpacing: 1.5,
                                 fontWeight: FontWeight.bold,

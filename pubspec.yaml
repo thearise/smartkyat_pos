@@ -87,6 +87,7 @@ dependencies:
   bottom_picker:
   connectivity: ^3.0.6
   metooltip: ^0.0.7
+  flutter_bloc:
 
 #  esc_pos_bluetooth:
 #  flutter_bluetooth_basic:
