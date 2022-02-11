@@ -946,7 +946,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                             ),
                                             Positioned(
                                               top : 11,
-                                              right: MediaQuery.of(context).size.width - 80,
+                                              right:  (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
                                               child: Container(
                                                 // height: 20,
                                                 // width: 30,
@@ -1272,7 +1272,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               // ),
                                               Positioned(
                                                 top : 11,
-                                                right: MediaQuery.of(context).size.width - 80,
+                                                right:  (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
                                                 child: Container(
                                                   // height: 20,
                                                   // width: 30,

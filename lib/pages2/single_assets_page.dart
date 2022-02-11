@@ -58,7 +58,6 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
   final msaleCtrl = TextEditingController();
   final mcostCtrl = TextEditingController();
 
-
   bool prodAdding = false;
 
   String? shopId;

@@ -986,28 +986,6 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                   ),
                                                 ],
                                               ),
-                                              // Padding(
-                                              //   padding:
-                                              //       const EdgeInsets.only(
-                                              //           bottom: 20.0),
-                                              //   child: IconButton(
-                                              //     icon: Icon(
-                                              //       Icons
-                                              //           .arrow_forward_ios_rounded,
-                                              //       size: 16,
-                                              //       color: Colors.blueGrey
-                                              //           .withOpacity(0.8),
-                                              //     ),
-                                              //     onPressed: () {
-                                              //       Navigator.push(
-                                              //         context,
-                                              //         MaterialPageRoute(
-                                              //             builder: (context) => ProductDetailsView(
-                                              //                 idString: version, toggleCoinCallback:
-                                              //             addProduct1, toggleCoinCallback3: addProduct3)),);
-                                              //     },
-                                              //   ),
-                                              // ),
                                               Spacer(),
                                               Padding(
                                                 padding:
