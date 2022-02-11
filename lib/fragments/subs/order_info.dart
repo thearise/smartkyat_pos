@@ -541,7 +541,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                             textSetPayCashBtn,
+                                                              textSetPayCashBtn,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -720,7 +720,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                             textSetPayCashBtn,
+                                                              textSetPayCashBtn,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -793,7 +793,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                             textSetPrint,
+                                                              textSetPrint,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -878,14 +878,14 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       BorderRadius
                                                           .circular(
                                                           5.0),
-                                                      child: image != "" || image != null
+                                                      child: image != ""
                                                           ? CachedNetworkImage(
                                                         imageUrl:
                                                         'https://riftplus.me/smartkyat_pos/api/uploads/' +
                                                             image,
-                                                        width: 58,
-                                                        height: 58,
-                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),
+                                                        width: 56.5,
+                                                        height: 56.5,
+                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
                                                         errorWidget: (context,
                                                             url,
                                                             error) =>
@@ -905,10 +905,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         fit: BoxFit
                                                             .cover,
                                                       )
-                                                          :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
+                                                          :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
                                                     title: Text(
                                                       output2?[
-                                                        'prod_name'],
+                                                      'prod_name'],
                                                       style:
                                                       TextStyle(
                                                           fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -1116,8 +1116,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       border: Border(
                                                         top:
                                                         BorderSide(color:
-                                                          (((ttlQ - ttlR).round().toString() != '0') || (ttlQ - ttlR).round().toString() == '0' && (widget.data.split('^')[6]) != '0.0') ? AppTheme.skBorderColor2 : Colors.transparent,
-                                                          width: 0.5
+                                                        (((ttlQ - ttlR).round().toString() != '0') || (ttlQ - ttlR).round().toString() == '0' && (widget.data.split('^')[6]) != '0.0') ? AppTheme.skBorderColor2 : Colors.transparent,
+                                                            width: 0.5
                                                         ),
                                                       )),
                                                   child: Padding(
@@ -1196,10 +1196,10 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             width: 58,
                                                             height: 58,
                                                             placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),                                                            errorWidget: (context,
-                                                                url,
-                                                                error) =>
-                                                                Icon(Icons
-                                                                    .error),
+                                                              url,
+                                                              error) =>
+                                                              Icon(Icons
+                                                                  .error),
                                                             fadeInDuration:
                                                             Duration(
                                                                 milliseconds:
@@ -1217,7 +1217,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
                                                       title: Text(
                                                         output2?[
-                                                          'prod_name'],
+                                                        'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),

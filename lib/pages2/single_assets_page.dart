@@ -1678,6 +1678,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           'sub1SellUnit' : 0,
                                           'sub2SellUnit' : 0,
                                           'img_1': '',
+                                         'search_name': textSplitFunction(prodFieldsValue[0].toString()),
                                         }).then((value) {
                                           print('product added');
                                         });
@@ -1873,7 +1874,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     'mainSellUnit' : 0,
                                                     'sub1SellUnit' : 0,
                                                     'sub2SellUnit' : 0,
+                                                    'search_name' :  FieldValue.arrayUnion([]),
                                                     'img_1': photoArray[0],
+                                                    'search_name': textSplitFunction(prodFieldsValue[0].toString()),
                                                   }).then((value) {
                                                     print('product added');
                                                     setState(() {
@@ -1968,6 +1971,21 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     //     ),
     //   ],
     // );
+  }
+
+  textSplitFunction(String text) {
+    List example = text.runes.map((rune) => new String.fromCharCode(rune)).toList();
+    List result = [];
+    String intResult = '';
+    int i = 0;
+    for(int j =0; j<example.length; j++) {
+      for(i = j ; i<example.length; i++) {
+        intResult = intResult + example[i].toString();
+        result.add(intResult);
+      }
+      intResult = '';
+    }
+    return result;
   }
   void smartKyatFlash(String text, String type) {
     Widget widgetCon = Container();

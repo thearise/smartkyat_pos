@@ -731,11 +731,13 @@ class ProductsFragmentState extends State<ProductsFragment>
                       // bottomLoader: Container(
                       //   child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
                       // ),
+
                       itemBuilderType:
                       PaginateBuilderType.listView,
                       itemBuilder: (context1, documentSnapshots, index) {
                         final data =  documentSnapshots[index].data() as Map<String, dynamic>;
                         var version = documentSnapshots[index].id;
+                        print('cate' + cateScIndex.toString());
                         //String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.merchName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                         return GestureDetector(
                           onTap: () async {
@@ -935,7 +937,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                         );
                       },
                       // orderBy is compulsory to enable pagination
-                      query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy(cateScIndex == 0 ?'prod_name' : 'inStock1', descending: false),
+                      query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy('inStock1',  descending: false),
+
                       // to fetch real-time data
                       isLive: true,
                     ),
@@ -1093,6 +1096,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       ),
     );
   }
+
 
   _animateToIndex(i) {
     // print((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());

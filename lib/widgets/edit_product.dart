@@ -174,6 +174,20 @@ class _EditProductState extends State<EditProduct> {
     super.dispose();
   }
 
+  textSplitFunction(String text) {
+    List example = text.runes.map((rune) => new String.fromCharCode(rune)).toList();
+    List result = [];
+    String intResult = '';
+    int i = 0;
+    for(int j =0; j<example.length; j++) {
+      for(i = j ; i<example.length; i++) {
+        intResult = intResult + example[i].toString();
+        result.add(intResult);
+      }
+      intResult = '';
+    }
+    return result;
+  }
 
 
   int addSubUnit = 0;
@@ -482,8 +496,7 @@ class _EditProductState extends State<EditProduct> {
                             child: Row(
                               children: [
                                 Container(
-                                  width:
-                                  (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
+                                  width: (MediaQuery.of(context).size.width - 30) * (2.41 / 4),
                                   child: TextFormField(
                                     controller: mainQtyCtrl,
                                     keyboardType: TextInputType.number,
@@ -1009,6 +1022,7 @@ class _EditProductState extends State<EditProduct> {
                                       'sub2_sell' : sub2SellCtrl.text,
                                       'buyPrice2' : sub1Buy,
                                       'buyPrice3' : sub2Buy,
+                                      'search_name': textSplitFunction(prodNameCtrl.text.toString()),
                                     }).then((value) {
                                     }).catchError((error) => print("Failed to update: $error"));
 
@@ -1050,6 +1064,7 @@ class _EditProductState extends State<EditProduct> {
                                             'buyPrice2' : sub1Buy,
                                             'buyPrice3' : sub2Buy,
                                             'img_1' : photoArray.toString(),
+                                            'search_name': textSplitFunction(prodNameCtrl.text.toString()),
                                           }).then((value){ Navigator.pop(context);
                                           setState(() {
                                             prodAdding = false;

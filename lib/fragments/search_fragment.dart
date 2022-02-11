@@ -528,7 +528,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('buyOrder')
               .where('orderId',  isEqualTo: searchValue)
-              .get()
+              .get(GetOptions(source: Source.cache))
               .then((QuerySnapshot querySnapshot2) async {
             if(querySnapshot2.docs.length == 0) {
               setState(() {
@@ -561,7 +561,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
             await FirebaseFirestore.instance.collection('shops').doc(
                 shopId).collection('merchants')
-                .get()
+                .get(GetOptions(source: Source.cache))
                 .then((QuerySnapshot querySnapshot3) {
               setState(() {
 
@@ -623,7 +623,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
           await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order')
               .where('orderId',  isEqualTo: searchValue)
-              .get()
+              .get(GetOptions(source: Source.cache))
               .then((QuerySnapshot querySnapshot2) async {
             if(querySnapshot2.docs.length == 0) {
               setState(() {
@@ -657,7 +657,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
             await FirebaseFirestore.instance.collection('shops').doc(
                 shopId).collection('customers')
-                .get()
+                .get(GetOptions(source: Source.cache))
                 .then((QuerySnapshot querySnapshot3) {
               setState(() {
 
@@ -720,7 +720,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items1 = [];
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('customers')
-            .get()
+            .get(GetOptions(source: Source.cache))
             .then((QuerySnapshot querySnapshot) {
 
           String sps = '^sps^';
@@ -749,7 +749,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('merchants')
-            .get()
+            .get(GetOptions(source: Source.cache))
             .then((QuerySnapshot querySnapshot) {
 
           String sps = '^sps^';
@@ -820,7 +820,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items = [];
 
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-            .get()
+            .get(GetOptions(source: Source.cache))
             .then((QuerySnapshot querySnapshot) {
           String sps = '^sps^';
           querySnapshot.docs.forEach((doc) {
@@ -829,9 +829,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                 items.add(doc.id + sps +
                     doc['prod_name'] + sps +
                     doc['img_1'] + sps +
-                    doc['unit_sell'] + '-' + doc['inStock1'].toString() + '-' + doc['unit_name'] + sps +
-                    doc['sub1_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub1_name'] + sps +
-                    doc['sub2_sell'] + '-' + doc['inStock2'].toString() + '-' + doc['sub2_name']);
+                    doc['unit_sell'] + '~' + doc['inStock1'].toString() + '~' + doc['unit_name'] + sps +
+                    doc['sub1_sell'] + '~' + doc['inStock2'].toString() + '~' + doc['sub1_name'] + sps +
+                    doc['sub2_sell'] + '~' + doc['inStock2'].toString() + '~' + doc['sub2_name']);
               });
 
               print(doc['prod_name'].toString());
@@ -876,8 +876,6 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
       });
     }
     Future.delayed(const Duration(milliseconds: 500), () async {
-
-
 
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
@@ -1069,6 +1067,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                 itemBuilder: (context, sectionIndex, itemIndex, index) {
                                   String item = sectionList[sectionIndex].items[itemIndex];
                                   int length = sectionList[sectionIndex].items.length;
+
                                   // if(sectionIndex == 0) {
                                   //   return Container(
                                   //     height: 0.1,
@@ -1183,7 +1182,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                           Row(
                                                             children: [
                                                               Text(
-                                                                'MMK ' + item.split('^sps^')[3].split('-')[0],
+                                                                'MMK ' + item.split('^sps^')[3].split('~')[0],
                                                                 style: TextStyle(
                                                                   height: 1.3,
                                                                   fontSize: 15,
@@ -1192,7 +1191,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                                 ),
                                                               ),
                                                               Text(
-                                                                item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == '' ? ' - ' + item.split('^sps^')[4].split('-')[0] : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? ' - ' + item.split('^sps^')[5].split('-')[0] : '',
+                                                                item.split('^sps^')[4].split('~')[2] != '' && item.split('^sps^')[5].split('~')[2] == '' ? ' - ' + item.split('^sps^')[4].split('~')[0] : item.split('^sps^')[4].split('~')[2] != '' && item.split('^sps^')[5].split('~')[2] != '' ? ' - ' + item.split('^sps^')[5].split('~')[0] : '',
                                                                 style: TextStyle(
                                                                   height: 1.3,
                                                                   fontSize: 15,
@@ -1210,7 +1209,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
                                                               Text(
-                                                                  double.parse(item.split('^sps^')[3].split('-')[1]).round().toString()+ ' '  + item.split('^sps^')[3].split('-')[2] + ' ', style: TextStyle(
+                                                                 double.parse(item.split('^sps^')[3].split('~')[1]).round().toString() + ' '  + item.split('^sps^')[3].split('~')[2] + ' ', style: TextStyle(
                                                                 height: 1.3,
                                                                 fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
                                                               )),
@@ -1219,12 +1218,12 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                                 child: Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
                                                               ),
 
-                                                              item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] == ''?
+                                                              item.split('^sps^')[4].split('~')[2] != '' && item.split('^sps^')[5].split('~')[2] == ''?
                                                               Text(
                                                                   '  +1 Sub item', style: TextStyle(
                                                                 height: 1.3,
                                                                 fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-                                                              )) : item.split('^sps^')[4].split('-')[2] != '' && item.split('^sps^')[5].split('-')[2] != '' ? Text(
+                                                              )) : item.split('^sps^')[4].split('~')[2] != '' && item.split('^sps^')[5].split('~')[2] != '' ? Text(
                                                                   '  +2 Sub items', style: TextStyle(
                                                                 height: 1.3,
                                                                 fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
@@ -1735,7 +1734,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                                   .doc(item.split('^sps^')[0].toString())
                                                                   .snapshots(),
                                                               builder: (BuildContext context, snapshot5) {
-                                                                if(snapshot5.hasData){
+                                                                if(snapshot5.hasData) {
                                                                   var output3 = snapshot5.data!.data();
                                                                   var debts = output3?['debts'].toInt();
                                                                   return debts != 0 ? Container(
@@ -2506,7 +2505,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   }
 
   Future<String> countDocuments(myDoc) async {
-    QuerySnapshot _myDoc = await myDoc.get();
+    QuerySnapshot _myDoc = await myDoc .get(GetOptions(source: Source.cache));
     List<DocumentSnapshot> _myDocCount = _myDoc.docs;
     return _myDocCount.length.toString();
   }
