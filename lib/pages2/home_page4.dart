@@ -474,7 +474,7 @@ class HomePageState extends State<HomePage>
       //productSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
      // productSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('products').snapshots();
 
-      orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).snapshots();
+      orderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('orders').orderBy('date', descending: true).limit(60).snapshots();
       buyOrderSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
       //buyOrderSnapshot2 = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('buyOrders').orderBy('date', descending: true).snapshots();
       customerSnapshot = FirebaseFirestore.instance.collection('shops').doc(shopId.toString()).collection('customers').snapshots();
