@@ -878,14 +878,14 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                       BorderRadius
                                                           .circular(
                                                           5.0),
-                                                      child: image != "" || image != null
+                                                      child: image != ""
                                                           ? CachedNetworkImage(
                                                         imageUrl:
                                                         'https://riftplus.me/smartkyat_pos/api/uploads/' +
                                                             image,
-                                                        width: 58,
-                                                        height: 58,
-                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),
+                                                        width: 56.5,
+                                                        height: 56.5,
+                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
                                                         errorWidget: (context,
                                                             url,
                                                             error) =>
@@ -905,7 +905,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         fit: BoxFit
                                                             .cover,
                                                       )
-                                                          :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
+                                                          :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
                                                     title: Text(
                                                       output2?[
                                                         'prod_name'],
