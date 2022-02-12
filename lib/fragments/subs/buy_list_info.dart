@@ -143,17 +143,17 @@ class _BuyListInfoState extends State<BuyListInfo>
         });
       } else if(value=='english') {
         setState(() {
-           textSetPurchase = 'PURCHASED ITEMS';
-           textSetRefund = 'REFUNDED ITEMS';
-           textSetDebt = 'Debt Amount';
-           textSetDiscount = 'Discount';
-           textSetAmount = 'Amount applied';
-           textSetRefBtn = 'Refund\nitems';
-           textSetPayCashBtn = 'Pay cash\nremains';
-           textSetPrint = 'Print\nreceipt';
-           textSetPercent = 'Percentage';
-           textSetAllRefund = 'All Items Refunded';
-           textSetFullyRef = 'FULLY REFUNDED';
+          textSetPurchase = 'PURCHASED ITEMS';
+          textSetRefund = 'REFUNDED ITEMS';
+          textSetDebt = 'Debt Amount';
+          textSetDiscount = 'Discount';
+          textSetAmount = 'Amount applied';
+          textSetRefBtn = 'Refund\nitems';
+          textSetPayCashBtn = 'Pay cash\nremains';
+          textSetPrint = 'Print\nreceipt';
+          textSetPercent = 'Percentage';
+          textSetAllRefund = 'All Items Refunded';
+          textSetFullyRef = 'FULLY REFUNDED';
         });
       }
     });
@@ -810,7 +810,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           padding: const EdgeInsets.only(top: 6),
                                                           child: Container(
                                                             child: Text(
-                                                             textSetPrint,
+                                                              textSetPrint,
                                                               maxLines: 2,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -1103,7 +1103,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           :  Image.asset('assets/system/default-product.png', height: 75, width: 75),),
                                                     title: Text(
                                                       output2?[
-                                                        'prod_name'],
+                                                      'prod_name'],
                                                       style:
                                                       TextStyle(
                                                           fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -1399,7 +1399,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                               : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
                                                       title: Text(
                                                         output2?[
-                                                          'prod_name'],
+                                                        'prod_name'],
                                                         style:
                                                         TextStyle(
                                                             fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
