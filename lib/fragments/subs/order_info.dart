@@ -389,793 +389,647 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             // height: 580,
                             child: ListView(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 15.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      _connectionStatus ? Container(
-                                        height: 100,
-                                        child: ListView(
-                                          scrollDirection: Axis.horizontal,
-                                          children: [
-                                            SizedBox(width: 15),
-                                            ButtonTheme(
-                                              minWidth: 133,
-                                              child: FlatButton(
-                                                color: AppTheme.buttonColor2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(7.0),
-                                                  side: BorderSide(
-                                                    color: Colors.white.withOpacity(0.85),
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  widget._closeCartBtn();
-                                                  String isRef = 'p';
-                                                  double debt = double.parse(widget.data.split('^')[5]);
-                                                  print('result__1 ' + result.toString());
-                                                  for (int i = 0; i < prodListView.length; i++) {
-                                                    if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
-                                                      isRef = 'r';
-                                                    }
-                                                    if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
-                                                      isRef = 's';
-                                                    }
-                                                  }
-
-                                                  if(totalPrice <= double.parse(widget.data.split('^')[5])) {
-                                                    debt = totalPrice;
-                                                  }
-
-                                                  result = widget.data
-                                                      .split('^')[0] +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[1] +
-                                                      '^' +
-                                                      totalPrice
-                                                          .toString() +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[3] +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
-                                                      .split('^')[6];
-
-                                                  await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            OrderRefundsSub(
-                                                              data: result,
-                                                              data2: prodList,
-                                                              realPrice: totalRealPrice,
-                                                              toggleCoinCallback:
-                                                                  () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(),)),
-                                                  );
-                                                  widget._openCartBtn();
-                                                  print('result__2 ' + result.toString());
-                                                },
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        height: 40,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 10.0),
-                                                          child: Icon(
-                                                            SmartKyat_POS.product,
-                                                            size: 18,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 6),
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetRefBtn,
-                                                              maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 12),
-                                            debt.toString() != '0.0' ? ButtonTheme(
-                                              minWidth: 133,
-                                              child: FlatButton(
-                                                color: AppTheme.buttonColor2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(7.0),
-                                                  side: BorderSide(
-                                                    color: Colors.white.withOpacity(0.85),
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  widget._closeCartBtn();
-                                                  await Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
-                                                  );
-                                                  widget._openCartBtn();
-                                                },
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        height: 40,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 10.0),
-                                                          child: Icon(
-                                                            SmartKyat_POS.pay,
-                                                            size: 22,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 6),
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetPayCashBtn,
-                                                              maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ) : Container(),
-                                            debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
-                                            ButtonTheme(
-                                              minWidth: 133,
-                                              child: FlatButton(
-                                                color: AppTheme.buttonColor2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(7.0),
-                                                  side: BorderSide(
-                                                    color: Colors.white.withOpacity(0.85),
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  result = widget.data
-                                                      .split('^')[0] +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[1] +
-                                                      '^' +
-                                                      totalPrice
-                                                          .toString() +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[3] +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
-                                                      .split('^')[6];
-
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        height: 40,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 10.0),
-                                                          child: Icon(
-                                                            Icons.print_rounded,
-                                                            size: 23,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 6),
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetPrint,
-                                                              maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 15),
-                                          ],
-                                        ),
-                                      ):
-                                      Container(
-                                        height: 100,
-                                        child: ListView(
-                                          scrollDirection: Axis.horizontal,
-                                          children: [
-                                            SizedBox(width: 15),
-                                            ButtonTheme(
-                                              minWidth: 133,
-                                              child: FlatButton(
-                                                color: AppTheme.buttonColor2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(7.0),
-                                                  side: BorderSide(
-                                                    color: Colors.white.withOpacity(0.85),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                                },
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  child: Stack(
-                                                    children: [
-                                                      Positioned(
-                                                        top: 17,
-                                                        left: 0,
-                                                        child: Icon(
-                                                          SmartKyat_POS.product,
-                                                          size: 18,
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        bottom: 15,
-                                                        left: 0,
-                                                        child: Text(
-                                                          textSetRefBtn,
-                                                          style: TextStyle(
-                                                            fontWeight: FontWeight.bold,
-                                                            fontSize: 16,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 12),
-                                            debt.toString() != '0.0' ? ButtonTheme(
-                                              minWidth: 133,
-                                              child: FlatButton(
-                                                color: AppTheme.buttonColor2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(7.0),
-                                                  side: BorderSide(
-                                                    color: Colors.white.withOpacity(0.85),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  smartKyatFlash('Check your internet connection and try again.', 'w');
-                                                },
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        height: 40,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 10.0),
-                                                          child: Icon(
-                                                            SmartKyat_POS.pay,
-                                                            size: 22,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 6),
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetPayCashBtn,
-                                                              maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ) : Container(),
-                                            debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
-                                            ButtonTheme(
-                                              minWidth: 133,
-                                              child: FlatButton(
-                                                color: AppTheme.buttonColor2,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(7.0),
-                                                  side: BorderSide(
-                                                    color: Colors.white.withOpacity(0.85),
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  result = widget.data
-                                                      .split('^')[0] +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[1] +
-                                                      '^' +
-                                                      totalPrice
-                                                          .toString() +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[3] +
-                                                      '^' +
-                                                      widget.data
-                                                          .split('^')[4] + '^' + debt.toString() + '^' + widget.data
-                                                      .split('^')[6];
-
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 100,
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        height: 40,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 10.0),
-                                                          child: Icon(
-                                                            Icons.print_rounded,
-                                                            size: 23,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(top: 6),
-                                                          child: Container(
-                                                            child: Text(
-                                                              textSetPrint,
-                                                              maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 15),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 20,),
-                                      (ttlQ - ttlR).round().toString() != '0' ? Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                        child: Text(textSetPurchase, style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                          letterSpacing: 2,
-                                          color: Colors.grey,
-                                        ),),
-                                      ):  ((widget.data.split('^')[6]) != '0.0') || ((widget.data.split('^')[5]) != '0.0') ? Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                        child: Text(textSetFullyRef, style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                          letterSpacing: 2,
-                                          color: Colors.grey,
-                                        ),),
-                                      ): Container(),
-                                    ],
-                                  ),
-                                ),
-
-                                for (int i = 0; i < prodListView.length; i++)
-                                // if (prodListView[i].split('-')[3] != prodListView[i].split('-')[7])
-                                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('shops')
-                                        .doc(widget.shopId)
-                                        .collection('products')
-                                        .doc(prodListView[i].split('-')[0])
-                                        .snapshots(),
-                                    builder: (BuildContext context, snapshot2) {
-                                      if (snapshot2.hasData) {
-
-                                        var output2 = snapshot2.data!.data();
-                                        var image = output2?['img_1'];
-                                        print('image htwet ' + prodListView[i].toString());
-                                        if(i == 0) {
-                                          prodListPrint = [];
-                                          prodListPrint.add(
-                                              output2?['prod_name'] + '^' +
-                                                  output2?[prodListView[i].split('-')[5]] + '^' +
-                                                  prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
-                                          );
-                                        } else {
-                                          prodListPrint.add(
-                                              output2?['prod_name'] + '^' +
-                                                  output2?[prodListView[i].split('-')[5]] + '^' +
-                                                  prodListView[i].split('-')[4] + '^' +
-                                                  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
-                                          );
-                                        }
-                                        return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
-                                          children: [
-                                            Container(
-                                              color: Colors.white,
-                                              child: Column(
-                                                children: [
-                                                  SizedBox(height: 12),
-                                                  ListTile(
-                                                    leading: ClipRRect(
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          _connectionStatus ? Container(
+                                            height: 100,
+                                            child: ListView(
+                                              scrollDirection: Axis.horizontal,
+                                              children: [
+                                                SizedBox(width: 15),
+                                                ButtonTheme(
+                                                  minWidth: 133,
+                                                  child: FlatButton(
+                                                    color: AppTheme.buttonColor2,
+                                                    shape: RoundedRectangleBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          5.0),
-                                                      child: image != ""
-                                                          ? CachedNetworkImage(
-                                                        imageUrl:
-                                                        'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                            image,
-                                                        width: 56.5,
-                                                        height: 56.5,
-                                                        placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
-                                                        errorWidget: (context,
-                                                            url,
-                                                            error) =>
-                                                            Icon(Icons
-                                                                .error),
-                                                        fadeInDuration:
-                                                        Duration(
-                                                            milliseconds:
-                                                            100),
-                                                        fadeOutDuration:
-                                                        Duration(
-                                                            milliseconds:
-                                                            10),
-                                                        fadeInCurve:
-                                                        Curves
-                                                            .bounceIn,
-                                                        fit: BoxFit
-                                                            .cover,
-                                                      )
-                                                          :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                    title: Text(
-                                                      output2?[
-                                                      'prod_name'],
-                                                      style:
-                                                      TextStyle(
-                                                          fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                      BorderRadius.circular(7.0),
+                                                      side: BorderSide(
+                                                        color: Colors.white.withOpacity(0.85),
+                                                      ),
                                                     ),
-                                                    subtitle: Padding(
-                                                      padding: const EdgeInsets.only(top: 4.0),
-                                                      child: Row(
+                                                    onPressed: () async {
+                                                      widget._closeCartBtn();
+                                                      String isRef = 'p';
+                                                      double debt = double.parse(widget.data.split('^')[5]);
+                                                      print('result__1 ' + result.toString());
+                                                      for (int i = 0; i < prodListView.length; i++) {
+                                                        if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] == prodListView[i].split('-')[3]) {
+                                                          isRef = 'r';
+                                                        }
+                                                        if (prodListView[i].split('-')[7] != '0' && prodListView[i].split('-')[7] != prodListView[i].split('-')[3]) {
+                                                          isRef = 's';
+                                                        }
+                                                      }
+
+                                                      if(totalPrice <= double.parse(widget.data.split('^')[5])) {
+                                                        debt = totalPrice;
+                                                      }
+
+                                                      result = widget.data
+                                                          .split('^')[0] +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[1] +
+                                                          '^' +
+                                                          totalPrice
+                                                              .toString() +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[3] +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                          .split('^')[6];
+
+                                                      await Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                OrderRefundsSub(
+                                                                  data: result,
+                                                                  data2: prodList,
+                                                                  realPrice: totalRealPrice,
+                                                                  toggleCoinCallback:
+                                                                      () {}, shopId: widget.shopId, docId: docId.toString(), documentId: documentId.toString(),)),
+                                                      );
+                                                      widget._openCartBtn();
+                                                      print('result__2 ' + result.toString());
+                                                    },
+                                                    child: Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                          )),
-                                                          if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                          else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                          else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                          Container(
+                                                            height: 40,
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 10.0),
+                                                              child: Icon(
+                                                                SmartKyat_POS.product,
+                                                                size: 18,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 6),
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetRefBtn,
+                                                                  maxLines: 2,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
-                                                    trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),),
                                                   ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 15.0),
-                                                    child: Container(height: 12,
-                                                      decoration: BoxDecoration(
-                                                          border: Border(
-                                                            bottom:
-                                                            BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
-                                                          )),),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Positioned(
-                                              top : 11,
-                                              right:  (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
-                                              child: Container(
-                                                // height: 20,
-                                                // width: 30,
-                                                alignment: Alignment.center,
-                                                decoration: BoxDecoration(
-                                                    color: AppTheme.skBorderColor2,
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        10.0),
-                                                    border: Border.all(
-                                                      color: Colors.white,
-                                                      width: 2,
-                                                    )),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                  child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
-                                                      fontSize: 11, fontWeight: FontWeight.w500
-                                                  )),
                                                 ),
-                                              ),
-                                            ),
-                                            // Positioned(
-                                            //   top : 8,
-                                            //   left : 50,
-                                            //   child: Container(
-                                            //     height: 20,
-                                            //     width: 30,
-                                            //     alignment: Alignment.center,
-                                            //     decoration: BoxDecoration(
-                                            //         color: AppTheme.skBorderColor2,
-                                            //         borderRadius:
-                                            //         BorderRadius.circular(
-                                            //             10.0),
-                                            //         border: Border.all(
-                                            //           color: Colors.white,
-                                            //           width: 2,
-                                            //         )),
-                                            //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
-                                            //       fontSize: 11, fontWeight: FontWeight.w500,
-                                            //     )),
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ): Container();
-                                      }
-                                      return Container();
-                                    },
-                                  ),
-                                Container(
-                                  // color: Colors.blue,
-                                  child: Column(
-                                    children: [
-                                      // ListTile (
-                                      //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //   // subtitle: Text('Amount applied', style: TextStyle(
-                                      //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                      //   // )),
-                                      //   trailing: Text('MMK ' + totalRealPrice.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      // ),
-                                      // if ((widget.data.split('^')[6]) != '0.0') Container(
-                                      //   child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
-                                      //   ListTile(
-                                      //     title: Text('SubTotal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //
-                                      //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //
-                                      //   ) :  ListTile (
-                                      //     title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //
-                                      //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + double.parse(widget.data.split('^')[6].split('-')[0])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //   ),
-                                      // ) else ListTile (
-                                      //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      // ),
+                                                SizedBox(width: 12),
+                                                debt.toString() != '0.0' ? ButtonTheme(
+                                                  minWidth: 133,
+                                                  child: FlatButton(
+                                                    color: AppTheme.buttonColor2,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(7.0),
+                                                      side: BorderSide(
+                                                        color: Colors.white.withOpacity(0.85),
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      widget._closeCartBtn();
+                                                      await Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => PayDebtItems(debt: debt.toString(), data: widget.data, docId: docId, shopId: widget.shopId, documentId: documentId.toString(),))
+                                                      );
+                                                      widget._openCartBtn();
+                                                    },
+                                                    child: Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Container(
+                                                            height: 40,
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 10.0),
+                                                              child: Icon(
+                                                                SmartKyat_POS.pay,
+                                                                size: 22,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 6),
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetPayCashBtn,
+                                                                  maxLines: 2,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ) : Container(),
+                                                debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
+                                                ButtonTheme(
+                                                  minWidth: 133,
+                                                  child: FlatButton(
+                                                    color: AppTheme.buttonColor2,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(7.0),
+                                                      side: BorderSide(
+                                                        color: Colors.white.withOpacity(0.85),
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      result = widget.data
+                                                          .split('^')[0] +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[1] +
+                                                          '^' +
+                                                          totalPrice
+                                                              .toString() +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[3] +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                          .split('^')[6];
 
-
-                                      // (ttlQ - ttlR).round().toString() == '0' ?
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(left: 15.0),
-                                      //   child: Container(
-                                      //   ),
-                                      // ): (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'?
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(left: 15.0),
-                                      //   child: Container(
-                                      //   ),
-                                      // ):
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(left: 15.0),
-                                      //   child: Container(height: 1,
-                                      //     decoration: BoxDecoration(
-                                      //         border: Border(
-                                      //           top:
-                                      //           BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                      //         )),
-                                      //   ),
-                                      // ),
-                                      if ((widget.data.split('^')[6]) != '0.0' && (ttlQ - ttlR).round().toString() != '0')
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 15.0),
-                                          child: Container(height: 1,
-                                            decoration: BoxDecoration(
-                                                border: Border(
-                                                  top:
-                                                  BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                                )),
-                                          ),
-                                        ),
-                                      if ((widget.data.split('^')[6]) != '0.0')
-                                        Container(
-                                          child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 1.0),
-                                            child: ListTile(
-                                              title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                              subtitle: Text('$textSetPercent (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
-                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )),
-                                              trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                              // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
-                                              //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                            ),
-                                          ) :  Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 1.0),
-                                            child: ListTile (
-                                              title: Text(textSetDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                              subtitle: Text(textSetAmount, style: TextStyle(
-                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )),
-                                              trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                            ),
-                                          ),
-                                        ) else Container(),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(left: 15.0),
-                                      //   child: Container(height: 12,
-                                      //     decoration: BoxDecoration(
-                                      //         border: Border(
-                                      //           bottom:
-                                      //           BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
-                                      //         )),),
-                                      // ),
-                                      // ListTile (
-                                      //   title: Text('Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //   // subtitle: Text('Amount applied', style: TextStyle(
-                                      //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                      //   // )),
-                                      //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      // ),
-                                      // ListTile (
-                                      //   title: Text('Paid', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      //   // subtitle: Text('Amount applied', style: TextStyle(
-                                      //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                      //   // )),
-                                      //   trailing: Text('- MMK ' + (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                      // ),
-                                      if ((widget.data.split('^')[5]) != '0.0')
-                                        Container(
-                                          // color: Colors.green,
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 15.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border(
-                                                        top:
-                                                        BorderSide(color:
-                                                        (((ttlQ - ttlR).round().toString() != '0') || (ttlQ - ttlR).round().toString() == '0' && (widget.data.split('^')[6]) != '0.0') ? AppTheme.skBorderColor2 : Colors.transparent,
-                                                            width: 0.5
-                                                        ),
-                                                      )),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(top: 8.0, bottom: 11.0),
-                                                    child: ListTile(
-                                                      contentPadding: EdgeInsets.only(left: 0.0, right: 15),
-                                                      title: Text(textSetDebt, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-
-                                                      trailing: Text('$currencyUnit ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Container(
+                                                            height: 40,
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 10.0),
+                                                              child: Icon(
+                                                                Icons.print_rounded,
+                                                                size: 23,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 6),
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetPrint,
+                                                                  maxLines: 2,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ) else Container(),
+                                                SizedBox(width: 15),
+                                              ],
+                                            ),
+                                          ):
+                                          Container(
+                                            height: 100,
+                                            child: ListView(
+                                              scrollDirection: Axis.horizontal,
+                                              children: [
+                                                SizedBox(width: 15),
+                                                ButtonTheme(
+                                                  minWidth: 133,
+                                                  child: FlatButton(
+                                                    color: AppTheme.buttonColor2,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(7.0),
+                                                      side: BorderSide(
+                                                        color: Colors.white.withOpacity(0.85),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                    },
+                                                    child: Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: Stack(
+                                                        children: [
+                                                          Positioned(
+                                                            top: 17,
+                                                            left: 0,
+                                                            child: Icon(
+                                                              SmartKyat_POS.product,
+                                                              size: 18,
+                                                            ),
+                                                          ),
+                                                          Positioned(
+                                                            bottom: 15,
+                                                            left: 0,
+                                                            child: Text(
+                                                              textSetRefBtn,
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12),
+                                                debt.toString() != '0.0' ? ButtonTheme(
+                                                  minWidth: 133,
+                                                  child: FlatButton(
+                                                    color: AppTheme.buttonColor2,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(7.0),
+                                                      side: BorderSide(
+                                                        color: Colors.white.withOpacity(0.85),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      smartKyatFlash('Check your internet connection and try again.', 'w');
+                                                    },
+                                                    child: Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Container(
+                                                            height: 40,
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 10.0),
+                                                              child: Icon(
+                                                                SmartKyat_POS.pay,
+                                                                size: 22,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 6),
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetPayCashBtn,
+                                                                  maxLines: 2,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ) : Container(),
+                                                debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
+                                                ButtonTheme(
+                                                  minWidth: 133,
+                                                  child: FlatButton(
+                                                    color: AppTheme.buttonColor2,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(7.0),
+                                                      side: BorderSide(
+                                                        color: Colors.white.withOpacity(0.85),
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      result = widget.data
+                                                          .split('^')[0] +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[1] +
+                                                          '^' +
+                                                          totalPrice
+                                                              .toString() +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[3] +
+                                                          '^' +
+                                                          widget.data
+                                                              .split('^')[4] + '^' + debt.toString() + '^' + widget.data
+                                                          .split('^')[6];
 
-                                    ],
-                                  ),
-                                ),
-                                if(ttlR.round().toString() != '0')
-                                  Container(
-                                    decoration: (ttlQ - ttlR).round().toString() != '0' ? BoxDecoration(
-                                        border: Border(
-                                          top: BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                        )) : (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'? BoxDecoration(
-                                        border: Border(
-                                          top: BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                        )) : BoxDecoration(),
-                                    child: Padding(
-                                      padding: (ttlQ - ttlR).round().toString() != '0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0) : (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0): EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0),
-                                      child: Text(textSetRefund, style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        letterSpacing: 2,
-                                        color: Colors.grey,
-                                      ),),
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => PrintReceiptRoute(printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrint, shopId: widget.shopId, currency: currencyUnit,))
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Container(
+                                                            height: 40,
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 10.0),
+                                                              child: Icon(
+                                                                Icons.print_rounded,
+                                                                size: 23,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(top: 6),
+                                                              child: Container(
+                                                                child: Text(
+                                                                  textSetPrint,
+                                                                  maxLines: 2,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 15),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 20,),
+                                          (ttlQ - ttlR).round().toString() != '0' ? Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                            child: Text(textSetPurchase, style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              letterSpacing: 2,
+                                              color: Colors.grey,
+                                            ),),
+                                          ):  ((widget.data.split('^')[6]) != '0.0') || ((widget.data.split('^')[5]) != '0.0') ? Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                            child: Text(textSetFullyRef, style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              letterSpacing: 2,
+                                              color: Colors.grey,
+                                            ),),
+                                          ): Container(),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                for (int i = 0; i < prodListView.length; i++)
-                                  if (prodListView[i].split('-')[7] != '0')
-                                    StreamBuilder<
-                                        DocumentSnapshot<
-                                            Map<String, dynamic>>>(
-                                      stream: FirebaseFirestore.instance
+                                    // FutureBuilder(
+                                    //   // future: getDetailProd(prodListView[i].split('-')[0]),
+                                    //   future: FirebaseFirestore.instance
+                                    //       .collection('shops')
+                                    //       .doc(widget.shopId)
+                                    //       .collection('products')
+                                    //       .doc(prodListView[i].split('-')[0]).get(),
+                                    //   builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> ssFuture) {
+                                    //     if(ssFuture.hasData){
+                                    //       Map<String, dynamic> data = ssFuture.data!.data() as Map<String, dynamic>;
+                                    //       // return Center( // here only return is missing
+                                    //       //     child: Text('GGGGG' + data.toString())
+                                    //       // );
+                                    //       // var output2 = snapshot2.data!.data();
+                                    //       var image = data['img_1'];
+                                    //       print('image htwet heree' + prodListView[i].toString());
+                                    //       if(i == 0) {
+                                    //         prodListPrint = [];
+                                    //         prodListPrint.add(
+                                    //             data['prod_name'] + '^' +
+                                    //                 data[prodListView[i].split('-')[5]] + '^' +
+                                    //                 prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                    //         );
+                                    //       } else {
+                                    //         prodListPrint.add(
+                                    //             data['prod_name'] + '^' +
+                                    //                 data[prodListView[i].split('-')[5]] + '^' +
+                                    //                 prodListView[i].split('-')[4] + '^' +
+                                    //                 (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                    //         );
+                                    //       }
+                                    //       return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
+                                    //         children: [
+                                    //           Container(
+                                    //             color: Colors.white,
+                                    //             child: Column(
+                                    //               children: [
+                                    //                 SizedBox(height: 12),
+                                    //                 ListTile(
+                                    //                   leading: ClipRRect(
+                                    //                     borderRadius:
+                                    //                     BorderRadius
+                                    //                         .circular(
+                                    //                         5.0),
+                                    //                     child: image != ""
+                                    //                         ? CachedNetworkImage(
+                                    //                       imageUrl:
+                                    //                       'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                    //                           image,
+                                    //                       width: 56.5,
+                                    //                       height: 56.5,
+                                    //                       placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
+                                    //                       errorWidget: (context,
+                                    //                           url,
+                                    //                           error) =>
+                                    //                           Icon(Icons
+                                    //                               .error),
+                                    //                       fadeInDuration:
+                                    //                       Duration(
+                                    //                           milliseconds:
+                                    //                           100),
+                                    //                       fadeOutDuration:
+                                    //                       Duration(
+                                    //                           milliseconds:
+                                    //                           10),
+                                    //                       fadeInCurve:
+                                    //                       Curves
+                                    //                           .bounceIn,
+                                    //                       fit: BoxFit
+                                    //                           .cover,
+                                    //                     )
+                                    //                         :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
+                                    //                   title: Text(
+                                    //                     data[
+                                    //                     'prod_name'],
+                                    //                     style:
+                                    //                     TextStyle(
+                                    //                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                    //                   ),
+                                    //                   subtitle: Padding(
+                                    //                     padding: const EdgeInsets.only(top: 4.0),
+                                    //                     child: Row(
+                                    //                       children: [
+                                    //                         Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                    //                             fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                    //                         )),
+                                    //                         if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                    //                         else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                    //                         else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                    //                       ],
+                                    //                     ),
+                                    //                   ),
+                                    //                   trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                    //                     style: TextStyle(
+                                    //                       fontSize: 16,
+                                    //                       fontWeight: FontWeight.w500,
+                                    //                     ),),
+                                    //                 ),
+                                    //                 Padding(
+                                    //                   padding: const EdgeInsets.only(left: 15.0),
+                                    //                   child: Container(height: 12,
+                                    //                     decoration: BoxDecoration(
+                                    //                         border: Border(
+                                    //                           bottom:
+                                    //                           BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
+                                    //                         )),),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //           Positioned(
+                                    //             top : 11,
+                                    //             right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
+                                    //             child: Container(
+                                    //               // height: 20,
+                                    //               // width: 30,
+                                    //               alignment: Alignment.center,
+                                    //               decoration: BoxDecoration(
+                                    //                   color: AppTheme.skBorderColor2,
+                                    //                   borderRadius:
+                                    //                   BorderRadius.circular(
+                                    //                       10.0),
+                                    //                   border: Border.all(
+                                    //                     color: Colors.white,
+                                    //                     width: 2,
+                                    //                   )),
+                                    //               child: Padding(
+                                    //                 padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                    //                 child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                                    //                     fontSize: 11, fontWeight: FontWeight.w500
+                                    //                 )),
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //           // Positioned(
+                                    //           //   top : 8,
+                                    //           //   left : 50,
+                                    //           //   child: Container(
+                                    //           //     height: 20,
+                                    //           //     width: 30,
+                                    //           //     alignment: Alignment.center,
+                                    //           //     decoration: BoxDecoration(
+                                    //           //         color: AppTheme.skBorderColor2,
+                                    //           //         borderRadius:
+                                    //           //         BorderRadius.circular(
+                                    //           //             10.0),
+                                    //           //         border: Border.all(
+                                    //           //           color: Colors.white,
+                                    //           //           width: 2,
+                                    //           //         )),
+                                    //           //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                    //           //       fontSize: 11, fontWeight: FontWeight.w500,
+                                    //           //     )),
+                                    //           //   ),
+                                    //           // ),
+                                    //         ],
+                                    //       ): Container();
+                                    //     }
+                                    //     return Container();
+                                    //   },
+                                    // ),
+                                    for (int i = 0; i < prodListView.length; i++)
+                                    FutureBuilder(
+                                      // future: getDetailProd(prodListView[i].split('-')[0]),
+                                      future: FirebaseFirestore.instance
                                           .collection('shops')
                                           .doc(widget.shopId)
                                           .collection('products')
-                                          .doc(prodListView[i].split('-')[0])
-                                          .snapshots(),
-                                      builder:
-                                          (BuildContext context, snapshot2) {
-                                        if (snapshot2.hasData) {
-                                          var output2 =
-                                          snapshot2.data!.data();
-                                          var image = output2?['img_1'];
-                                          return double.parse(prodListView[i].split('-')[7]).round().toString() != '0' ? Stack(
+                                          .doc(prodListView[i].split('-')[0]).get(),
+                                      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> ssFuture) {
+                                        if(ssFuture.hasData){
+                                          Map<String, dynamic> data = ssFuture.data!.data() as Map<String, dynamic>;
+                                          // return Center( // here only return is missing
+                                          //     child: Text('GGGGG' + data.toString())
+                                          // );
+                                          // var output2 = snapshot2.data!.data();
+                                          var image = data['img_1'];
+                                          print('image htwet heree' + prodListView[i].toString());
+                                          if(i == 0) {
+                                            prodListPrint = [];
+                                            prodListPrint.add(
+                                                data['prod_name'] + '^' +
+                                                    data[prodListView[i].split('-')[5]] + '^' +
+                                                    prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                            );
+                                          } else {
+                                            prodListPrint.add(
+                                                data['prod_name'] + '^' +
+                                                    data[prodListView[i].split('-')[5]] + '^' +
+                                                    prodListView[i].split('-')[4] + '^' +
+                                                    (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                            );
+                                          }
+                                          return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
                                             children: [
                                               Container(
                                                 color: Colors.white,
@@ -1184,39 +1038,40 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                     SizedBox(height: 12),
                                                     ListTile(
                                                       leading: ClipRRect(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              5.0),
-                                                          child: image != ""
-                                                              ? CachedNetworkImage(
-                                                            imageUrl:
-                                                            'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                image,
-                                                            width: 58,
-                                                            height: 58,
-                                                            placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),                                                            errorWidget: (context,
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            5.0),
+                                                        child: image != ""
+                                                            ? CachedNetworkImage(
+                                                          imageUrl:
+                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                              image,
+                                                          width: 56.5,
+                                                          height: 56.5,
+                                                          placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
+                                                          errorWidget: (context,
                                                               url,
                                                               error) =>
                                                               Icon(Icons
                                                                   .error),
-                                                            fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                100),
-                                                            fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                10),
-                                                            fadeInCurve:
-                                                            Curves
-                                                                .bounceIn,
-                                                            fit: BoxFit
-                                                                .cover,
-                                                          )
-                                                              : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
+                                                          fadeInDuration:
+                                                          Duration(
+                                                              milliseconds:
+                                                              100),
+                                                          fadeOutDuration:
+                                                          Duration(
+                                                              milliseconds:
+                                                              10),
+                                                          fadeInCurve:
+                                                          Curves
+                                                              .bounceIn,
+                                                          fit: BoxFit
+                                                              .cover,
+                                                        )
+                                                            :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
                                                       title: Text(
-                                                        output2?[
+                                                        data[
                                                         'prod_name'],
                                                         style:
                                                         TextStyle(
@@ -1226,7 +1081,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                         padding: const EdgeInsets.only(top: 4.0),
                                                         child: Row(
                                                           children: [
-                                                            Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                            Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
                                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
                                                             )),
                                                             if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
@@ -1235,7 +1090,11 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                           ],
                                                         ),
                                                       ),
-                                                      trailing: discTra(widget.data.split('^')[6], prodListView[i]),
+                                                      trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w500,
+                                                        ),),
                                                     ),
                                                     Padding(
                                                       padding: const EdgeInsets.only(left: 15.0),
@@ -1247,6 +1106,30 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             )),),
                                                     ),
                                                   ],
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top : 11,
+                                                right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
+                                                child: Container(
+                                                  // height: 20,
+                                                  // width: 30,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      color: AppTheme.skBorderColor2,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                      border: Border.all(
+                                                        color: Colors.white,
+                                                        width: 2,
+                                                      )),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                    child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                                                        fontSize: 11, fontWeight: FontWeight.w500
+                                                    )),
+                                                  ),
                                                 ),
                                               ),
                                               // Positioned(
@@ -1265,43 +1148,491 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                               //           color: Colors.white,
                                               //           width: 2,
                                               //         )),
-                                              //     child: Text(prodListView[i].split('-')[7].toString(), style: TextStyle(
+                                              //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
                                               //       fontSize: 11, fontWeight: FontWeight.w500,
                                               //     )),
                                               //   ),
                                               // ),
-                                              Positioned(
-                                                top : 11,
-                                                right:  (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
-                                                child: Container(
-                                                  // height: 20,
-                                                  // width: 30,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: AppTheme.skBorderColor2,
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                      border: Border.all(
-                                                        color: Colors.white,
-                                                        width: 2,
-                                                      )),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                    child: Text(double.parse(prodListView[i].split('-')[7]).round().toString(), style: TextStyle(
-                                                        fontSize: 11, fontWeight: FontWeight.w500
-                                                    )),
-                                                  ),
-                                                ),
-                                              ),
                                             ],
-                                          ) : Container();
+                                          ): Container();
                                         }
                                         return Container();
                                       },
-                                    )
+                                    ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.symmetric(vertical: 50.0),
+                                      //   child: Text("SAPAPAPAPAPA"),
+                                      // ),
 
-                                // orderLoading?Text('Loading'):Text('')
+
+
+                                    // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                    //   stream: FirebaseFirestore.instance
+                                    //       .collection('shops')
+                                    //       .doc(widget.shopId)
+                                    //       .collection('products')
+                                    //       .doc(prodListView[i].split('-')[0])
+                                    //       .snapshots(),
+                                    //   builder: (BuildContext context, snapshot2) {
+                                    //     if (snapshot2.hasData) {
+                                    //
+                                    //       var output2 = snapshot2.data!.data();
+                                    //       var image = output2?['img_1'];
+                                    //       print('image htwet ' + prodListView[i].toString());
+                                    //       if(i == 0) {
+                                    //         prodListPrint = [];
+                                    //         prodListPrint.add(
+                                    //             output2?['prod_name'] + '^' +
+                                    //                 output2?[prodListView[i].split('-')[5]] + '^' +
+                                    //                 prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                    //         );
+                                    //       } else {
+                                    //         prodListPrint.add(
+                                    //             output2?['prod_name'] + '^' +
+                                    //                 output2?[prodListView[i].split('-')[5]] + '^' +
+                                    //                 prodListView[i].split('-')[4] + '^' +
+                                    //                 (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                    //         );
+                                    //       }
+                                    //       return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
+                                    //         children: [
+                                    //           Container(
+                                    //             color: Colors.white,
+                                    //             child: Column(
+                                    //               children: [
+                                    //                 SizedBox(height: 12),
+                                    //                 ListTile(
+                                    //                   leading: ClipRRect(
+                                    //                     borderRadius:
+                                    //                     BorderRadius
+                                    //                         .circular(
+                                    //                         5.0),
+                                    //                     child: image != ""
+                                    //                         ? CachedNetworkImage(
+                                    //                       imageUrl:
+                                    //                       'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                    //                           image,
+                                    //                       width: 56.5,
+                                    //                       height: 56.5,
+                                    //                       placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
+                                    //                       errorWidget: (context,
+                                    //                           url,
+                                    //                           error) =>
+                                    //                           Icon(Icons
+                                    //                               .error),
+                                    //                       fadeInDuration:
+                                    //                       Duration(
+                                    //                           milliseconds:
+                                    //                           100),
+                                    //                       fadeOutDuration:
+                                    //                       Duration(
+                                    //                           milliseconds:
+                                    //                           10),
+                                    //                       fadeInCurve:
+                                    //                       Curves
+                                    //                           .bounceIn,
+                                    //                       fit: BoxFit
+                                    //                           .cover,
+                                    //                     )
+                                    //                         :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
+                                    //                   title: Text(
+                                    //                     output2?[
+                                    //                       'prod_name'],
+                                    //                     style:
+                                    //                     TextStyle(
+                                    //                         fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                    //                   ),
+                                    //                   subtitle: Padding(
+                                    //                     padding: const EdgeInsets.only(top: 4.0),
+                                    //                     child: Row(
+                                    //                       children: [
+                                    //                         Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                    //                             fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                    //                         )),
+                                    //                         if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                    //                         else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                    //                         else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                    //                       ],
+                                    //                     ),
+                                    //                   ),
+                                    //                   trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                    //                     style: TextStyle(
+                                    //                       fontSize: 16,
+                                    //                       fontWeight: FontWeight.w500,
+                                    //                     ),),
+                                    //                 ),
+                                    //                 Padding(
+                                    //                   padding: const EdgeInsets.only(left: 15.0),
+                                    //                   child: Container(height: 12,
+                                    //                     decoration: BoxDecoration(
+                                    //                         border: Border(
+                                    //                           bottom:
+                                    //                           BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
+                                    //                         )),),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //           Positioned(
+                                    //             top : 11,
+                                    //             right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
+                                    //             child: Container(
+                                    //               // height: 20,
+                                    //               // width: 30,
+                                    //               alignment: Alignment.center,
+                                    //               decoration: BoxDecoration(
+                                    //                   color: AppTheme.skBorderColor2,
+                                    //                   borderRadius:
+                                    //                   BorderRadius.circular(
+                                    //                       10.0),
+                                    //                   border: Border.all(
+                                    //                     color: Colors.white,
+                                    //                     width: 2,
+                                    //                   )),
+                                    //               child: Padding(
+                                    //                 padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                    //                 child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                                    //                     fontSize: 11, fontWeight: FontWeight.w500
+                                    //                 )),
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //           // Positioned(
+                                    //           //   top : 8,
+                                    //           //   left : 50,
+                                    //           //   child: Container(
+                                    //           //     height: 20,
+                                    //           //     width: 30,
+                                    //           //     alignment: Alignment.center,
+                                    //           //     decoration: BoxDecoration(
+                                    //           //         color: AppTheme.skBorderColor2,
+                                    //           //         borderRadius:
+                                    //           //         BorderRadius.circular(
+                                    //           //             10.0),
+                                    //           //         border: Border.all(
+                                    //           //           color: Colors.white,
+                                    //           //           width: 2,
+                                    //           //         )),
+                                    //           //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                    //           //       fontSize: 11, fontWeight: FontWeight.w500,
+                                    //           //     )),
+                                    //           //   ),
+                                    //           // ),
+                                    //         ],
+                                    //       ): Container();
+                                    //     }
+                                    //     return Container();
+                                    //   },
+                                    // ),
+                                    Container(
+                                      // color: Colors.blue,
+                                      child: Column(
+                                        children: [
+                                          // ListTile (
+                                          //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          //   // subtitle: Text('Amount applied', style: TextStyle(
+                                          //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                          //   // )),
+                                          //   trailing: Text('MMK ' + totalRealPrice.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          // ),
+                                          // if ((widget.data.split('^')[6]) != '0.0') Container(
+                                          //   child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
+                                          //   ListTile(
+                                          //     title: Text('SubTotal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          //
+                                          //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          //
+                                          //   ) :  ListTile (
+                                          //     title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          //
+                                          //     trailing: Text('MMK ' + (double.parse(widget.data.split('^')[2]) + double.parse(widget.data.split('^')[6].split('-')[0])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          //   ),
+                                          // ) else ListTile (
+                                          //   title: Text('Sub Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          // ),
+
+
+                                          // (ttlQ - ttlR).round().toString() == '0' ?
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(left: 15.0),
+                                          //   child: Container(
+                                          //   ),
+                                          // ): (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'?
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(left: 15.0),
+                                          //   child: Container(
+                                          //   ),
+                                          // ):
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(left: 15.0),
+                                          //   child: Container(height: 1,
+                                          //     decoration: BoxDecoration(
+                                          //         border: Border(
+                                          //           top:
+                                          //           BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                          //         )),
+                                          //   ),
+                                          // ),
+                                          if ((widget.data.split('^')[6]) != '0.0' && (ttlQ - ttlR).round().toString() != '0')
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(height: 1,
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                      top:
+                                                      BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                    )),
+                                              ),
+                                            ),
+                                          if ((widget.data.split('^')[6]) != '0.0')
+                                            Container(
+                                              child: (widget.data.split('^')[6]).split('-')[1] == 'p' ?
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 1.0),
+                                                child: ListTile(
+                                                  title: Text('Discount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  subtitle: Text('$textSetPercent (' +  (widget.data.split('^')[6]).split('-')[0] + '%)', style: TextStyle(
+                                                    fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                  )),
+                                                  trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('-')[4]) * (int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7]))).toString()),
+                                                  //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                ),
+                                              ) :  Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 1.0),
+                                                child: ListTile (
+                                                  title: Text(textSetDiscount, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                  subtitle: Text(textSetAmount, style: TextStyle(
+                                                    fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                  )),
+                                                  trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('-')[0], style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                ),
+                                              ),
+                                            ) else Container(),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(left: 15.0),
+                                          //   child: Container(height: 12,
+                                          //     decoration: BoxDecoration(
+                                          //         border: Border(
+                                          //           bottom:
+                                          //           BorderSide(color: AppTheme.skBorderColor2, width: 1.0),
+                                          //         )),),
+                                          // ),
+                                          // ListTile (
+                                          //   title: Text('Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          //   // subtitle: Text('Amount applied', style: TextStyle(
+                                          //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                          //   // )),
+                                          //   trailing: Text('MMK ' + (widget.data.split('^')[2]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          // ),
+                                          // ListTile (
+                                          //   title: Text('Paid', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          //   // subtitle: Text('Amount applied', style: TextStyle(
+                                          //   //   fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                                          //   // )),
+                                          //   trailing: Text('- MMK ' + (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5])).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                          // ),
+                                          if ((widget.data.split('^')[5]) != '0.0')
+                                            Container(
+                                              // color: Colors.green,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                            top:
+                                                            BorderSide(color:
+                                                            (((ttlQ - ttlR).round().toString() != '0') || (ttlQ - ttlR).round().toString() == '0' && (widget.data.split('^')[6]) != '0.0') ? AppTheme.skBorderColor2 : Colors.transparent,
+                                                                width: 0.5
+                                                            ),
+                                                          )),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(top: 8.0, bottom: 11.0),
+                                                        child: ListTile(
+                                                          contentPadding: EdgeInsets.only(left: 0.0, right: 15),
+                                                          title: Text(textSetDebt, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+
+                                                          trailing: Text('$currencyUnit ' + (widget.data.split('^')[5]).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) else Container(),
+
+                                        ],
+                                      ),
+                                    ),
+                                    if(ttlR.round().toString() != '0')
+                                      Container(
+                                        decoration: (ttlQ - ttlR).round().toString() != '0' ? BoxDecoration(
+                                            border: Border(
+                                              top: BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                            )) : (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'? BoxDecoration(
+                                            border: Border(
+                                              top: BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                            )) : BoxDecoration(),
+                                        child: Padding(
+                                          padding: (ttlQ - ttlR).round().toString() != '0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0) : (ttlQ - ttlR).round().toString() == '0' && widget.data.split('^')[6] != '0.0'? EdgeInsets.only(left: 15.0, right: 15.0, top: 10, bottom: 0): EdgeInsets.only(left: 15.0, right: 15.0, bottom: 0),
+                                          child: Text(textSetRefund, style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            letterSpacing: 2,
+                                            color: Colors.grey,
+                                          ),),
+                                        ),
+                                      ),
+                                    for (int i = 0; i < prodListView.length; i++)
+                                      if (prodListView[i].split('-')[7] != '0')
+                                        StreamBuilder<
+                                            DocumentSnapshot<
+                                                Map<String, dynamic>>>(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('shops')
+                                              .doc(widget.shopId)
+                                              .collection('products')
+                                              .doc(prodListView[i].split('-')[0])
+                                              .snapshots(),
+                                          builder:
+                                              (BuildContext context, snapshot2) {
+                                            if (snapshot2.hasData) {
+                                              var output2 =
+                                              snapshot2.data!.data();
+                                              var image = output2?['img_1'];
+                                              return double.parse(prodListView[i].split('-')[7]).round().toString() != '0' ? Stack(
+                                                children: [
+                                                  Container(
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(height: 12),
+                                                        ListTile(
+                                                          leading: ClipRRect(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  5.0),
+                                                              child: image != ""
+                                                                  ? CachedNetworkImage(
+                                                                imageUrl:
+                                                                'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                    image,
+                                                                width: 58,
+                                                                height: 58,
+                                                                placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 75, width: 75,),                                                            errorWidget: (context,
+                                                                  url,
+                                                                  error) =>
+                                                                  Icon(Icons
+                                                                      .error),
+                                                                fadeInDuration:
+                                                                Duration(
+                                                                    milliseconds:
+                                                                    100),
+                                                                fadeOutDuration:
+                                                                Duration(
+                                                                    milliseconds:
+                                                                    10),
+                                                                fadeInCurve:
+                                                                Curves
+                                                                    .bounceIn,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              )
+                                                                  : Image.asset('assets/system/default-product.png', height: 75, width: 75)),
+                                                          title: Text(
+                                                            output2?[
+                                                              'prod_name'],
+                                                            style:
+                                                            TextStyle(
+                                                                fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                          ),
+                                                          subtitle: Padding(
+                                                            padding: const EdgeInsets.only(top: 4.0),
+                                                            child: Row(
+                                                              children: [
+                                                                Text(output2?[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                    fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                )),
+                                                                if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                                else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                                else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          trailing: discTra(widget.data.split('^')[6], prodListView[i]),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0),
+                                                          child: Container(height: 12,
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                  bottom:
+                                                                  BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
+                                                                )),),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  // Positioned(
+                                                  //   top : 8,
+                                                  //   left : 50,
+                                                  //   child: Container(
+                                                  //     height: 20,
+                                                  //     width: 30,
+                                                  //     alignment: Alignment.center,
+                                                  //     decoration: BoxDecoration(
+                                                  //         color: AppTheme.skBorderColor2,
+                                                  //         borderRadius:
+                                                  //         BorderRadius.circular(
+                                                  //             10.0),
+                                                  //         border: Border.all(
+                                                  //           color: Colors.white,
+                                                  //           width: 2,
+                                                  //         )),
+                                                  //     child: Text(prodListView[i].split('-')[7].toString(), style: TextStyle(
+                                                  //       fontSize: 11, fontWeight: FontWeight.w500,
+                                                  //     )),
+                                                  //   ),
+                                                  // ),
+                                                  Positioned(
+                                                    top : 11,
+                                                    right:  (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
+                                                    child: Container(
+                                                      // height: 20,
+                                                      // width: 30,
+                                                      alignment: Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                          color: AppTheme.skBorderColor2,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                          border: Border.all(
+                                                            color: Colors.white,
+                                                            width: 2,
+                                                          )),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                        child: Text(double.parse(prodListView[i].split('-')[7]).round().toString(), style: TextStyle(
+                                                            fontSize: 11, fontWeight: FontWeight.w500
+                                                        )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ) : Container();
+                                            }
+                                            return Container();
+                                          },
+                                        )
+
+                                    // orderLoading?Text('Loading'):Text('')
+                                  ],
+                                )
                               ],
                             ),
                           );
@@ -1645,5 +1976,18 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         ),);
     }
 
+  }
+
+  String whatTheFuck() {
+    print('GGGGGGG');
+    return '';
+  }
+
+  getDetailProd(String docId) async {
+    var a = await FirebaseFirestore.instance
+        .collection("met_with")
+        .doc(docId)
+        .get();
+    return a;
   }
 }
