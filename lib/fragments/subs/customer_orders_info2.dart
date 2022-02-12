@@ -14,7 +14,7 @@ class CustomerOrdersInfoSubs extends StatefulWidget {
   final _openCartBtn;
   final _closeCartBtn;
   final _printFromOrders;
-  const CustomerOrdersInfoSubs({Key? key, required this.custName, required this.custAddress, this.selectedDev, required void printFromOrders(File file), required this.id, required this.shopId, required void openCartBtn(), required void closeCartBtn()}) : _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn, _printFromOrders = printFromOrders;
+  const CustomerOrdersInfoSubs({Key? key, required this.custName, required this.custAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required this.id, required this.shopId, required void openCartBtn(), required void closeCartBtn()}) : _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn, _printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final BlueDevice? selectedDev;
@@ -43,8 +43,8 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
 
   bool endOfResult = false;
 
-  void printFromOrdersFun(File file) {
-    widget._printFromOrders(file);
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
   }
 
   zeroToTen(String string) {

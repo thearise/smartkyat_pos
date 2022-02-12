@@ -16,7 +16,7 @@ class CustomerInfoSubs extends StatefulWidget {
   final _closeCartBtn;
   final _openCartBtn;
   final _printFromOrders;
-  const CustomerInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file), required void closeCartBtn(), required this.id, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
+  const CustomerInfoSubs({Key? key, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void closeCartBtn(), required this.id, required this.shopId, required void openCartBtn(), required void toggleCoinCallback(String str)}) : _callback = toggleCoinCallback, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,  _printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final BlueDevice? selectedDev;
@@ -116,8 +116,8 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
     super.initState();
   }
 
-  void printFromOrdersFun(File file) {
-    widget._printFromOrders(file);
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
   }
 
   @override

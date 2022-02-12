@@ -23,7 +23,7 @@ import 'printer_check_route.dart';
 
 class PrintReceiptRoute extends StatefulWidget {
 
-  const PrintReceiptRoute({Key? key, required this.currency, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file)})
+  const PrintReceiptRoute({Key? key, required this.currency, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file, var prodListPR)})
       : _printFromOrders = printFromOrders;
   final String data;
   final List prodList;
@@ -46,6 +46,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
 
   String pdfText = '';
   File? pdfFile;
+  File? pdfFilePRoll;
 
   String totalVPrice = 'Total price';
   String VPaid = 'Paid';
@@ -163,6 +164,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       getPaperId().then((value) async {
         print('VVAALLUUEE ' + value.toString());
         pdfFile = await PdfInvoiceApi.generate(invoice, value);
+        pdfFilePRoll = await PdfInvoiceApi.generate(invoice, 'Roll-57');
 
         // Uint8List bytes = pdfFile!.readAsBytesSync();
 
@@ -432,7 +434,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                       Spacer(),
                                       GestureDetector(
                                         onTap: () async {
-                                          widget._printFromOrders(pdfFile);
+                                          widget._printFromOrders(pdfFilePRoll, widget.prodList);
                                           // Navigator.push(
                                           //     context,
                                           //     MaterialPageRoute(

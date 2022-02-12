@@ -39,7 +39,7 @@ class SearchFragment extends StatefulWidget {
   final _printFromOrders;
 
   SearchFragment( {
-    this.selectedDev, required void printFromOrders(File file),
+    this.selectedDev, required void printFromOrders(File file, var prodListPR),
     required void closeDrawerBtn(String str),
     required void openDrawerBtn(String str),
     required this.productsSnapshot,
@@ -124,8 +124,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     widget._openDrawerBtn('search');
   }
 
-  void printFromOrdersFun(File file) {
-    widget._printFromOrders(file);
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
   }
 
   @override
