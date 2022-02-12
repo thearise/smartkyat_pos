@@ -38,7 +38,7 @@ class BuyListFragment extends StatefulWidget {
 
   BuyListFragment(
       {
-        required void printFromOrders(File file),
+        required void printFromOrders(File file, var prodListPR),
         this.selectedDev,
         required void closeCartBtn(String str),
         required void openCartBtn(String str),
@@ -155,8 +155,8 @@ class BuyListFragmentState extends State<BuyListFragment>
     widget._openDrawerBtn('buyorders');
   }
 
-  void printFromOrdersFun(File file) {
-    widget._printFromOrders(file);
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
   }
 
   getCurrency() async {

@@ -2959,7 +2959,7 @@ class HomePageState extends State<HomePage>
                                                                                                       .data!
                                                                                                       .data();
                                                                                                   var image = output2?[
-                                                                                                  'img_1'];
+                                                                                                    'img_1'];
                                                                                                   prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                       prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                   return GestureDetector(
@@ -7691,7 +7691,7 @@ class HomePageState extends State<HomePage>
                                                                         .data!
                                                                         .data();
                                                                     var image = output2?[
-                                                                    'img_1'];
+                                                                      'img_1'];
                                                                     prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                         prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                     return GestureDetector(
@@ -11271,7 +11271,8 @@ class HomePageState extends State<HomePage>
     }
   }
 
-  printFromOrders(File file) {
+  printFromOrders(File file, var prodListPR) {
+    print('PRRRRR ' + prodListPR.toString());
     printClosed = false;
     bool firstTimeOrderPri = true;
     bool priInProgOrders = false;
@@ -11379,45 +11380,65 @@ class HomePageState extends State<HomePage>
                       width = 570;
                     }
 
-                    final ReceiptSectionText receiptText = ReceiptSectionText();
-                    receiptText.addSpacer();
-                    receiptText.addText(
-                      'MY STORE',
-                      size: ReceiptTextSizeType.medium,
-                      style: ReceiptTextStyleType.bold,
-                    );
-                    receiptText.addText(
-                      'Black White Street, Jakarta, Indonesia',
-                      size: ReceiptTextSizeType.small,
-                    );
-                    receiptText.addSpacer(useDashed: true);
-                    receiptText.addLeftRightText('Time', '04/06/21, 10:00');
-                    receiptText.addSpacer(useDashed: true);
-                    receiptText.addLeftRightText(
-                      'Apple 1kg',
-                      'Rp30.000',
-                      leftStyle: ReceiptTextStyleType.normal,
-                      rightStyle: ReceiptTextStyleType.bold,
-                    );
-                    receiptText.addSpacer(useDashed: true);
-                    receiptText.addLeftRightText(
-                      'TOTAL',
-                      'Rp30.000',
-                      leftStyle: ReceiptTextStyleType.normal,
-                      rightStyle: ReceiptTextStyleType.bold,
-                    );
-                    receiptText.addSpacer(useDashed: true);
-                    receiptText.addLeftRightText(
-                      'Payment',
-                      'Cash',
-                      leftStyle: ReceiptTextStyleType.normal,
-                      rightStyle: ReceiptTextStyleType.normal,
-                    );
-                    receiptText.addSpacer(count: 2);
+                    // final ReceiptSectionText receiptText = ReceiptSectionText();
+                    // for(int i = 0; i< prodListPR.length; i++) {
+                    //   receiptText.addLeftRightText(
+                    //     prodListPR[i].split('^')[0] + ' (' + prodListPR[i].split('^')[1] + ' - ' + prodListPR[i].split('^')[2] + ' x ' + prodListPR[i].split('^')[3] + ')',
+                    //     (double.parse(prodListPR[i].split('^')[2]) * double.parse(prodListPR[i].split('^')[2])).toStringAsFixed(2) + ' $currencyUnit',
+                    //     leftStyle: ReceiptTextStyleType.normal,
+                    //     leftSize: ReceiptTextSizeType.small,
+                    //     rightSize: ReceiptTextSizeType.small,
+                    //     rightStyle: ReceiptTextStyleType.bold,
+                    //   );
+                    // }
+                    // // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                    // await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
+                    // mystate(() {
+                    //   priInProgOrders = false;
+                    // });
 
-                    await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
 
-                    /// Example for print QR
+
+
+                    // final ReceiptSectionText receiptText = ReceiptSectionText();
+                    // receiptText.addSpacer();
+                    // receiptText.addText(
+                    //   'MY STORE',
+                    //   size: ReceiptTextSizeType.medium,
+                    //   style: ReceiptTextStyleType.bold,
+                    // );
+                    // receiptText.addText(
+                    //   'Black White Street, Jakarta, Indonesia',
+                    //   size: ReceiptTextSizeType.small,
+                    // );
+                    // receiptText.addSpacer(useDashed: true);
+                    // receiptText.addLeftRightText('Time', '04/06/21, 10:00');
+                    // receiptText.addSpacer(useDashed: true);
+                    // receiptText.addLeftRightText(
+                    //   'Apple 1kg',
+                    //   'Rp30.000',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   rightStyle: ReceiptTextStyleType.bold,
+                    // );
+                    // receiptText.addSpacer(useDashed: true);
+                    // receiptText.addLeftRightText(
+                    //   'TOTAL',
+                    //   'Rp30.000',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   rightStyle: ReceiptTextStyleType.bold,
+                    // );
+                    // receiptText.addSpacer(useDashed: true);
+                    // receiptText.addLeftRightText(
+                    //   'Payment',
+                    //   'Cash',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   rightStyle: ReceiptTextStyleType.normal,
+                    // );
+                    // receiptText.addSpacer(count: 2);
+                    //
+                    // await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
+                    //
+                    // /// Example for print QR
                     // await _bluePrintPos.printQR('www.google.com', size: 250);
                     //
                     // /// Text after QR
@@ -11425,12 +11446,8 @@ class HomePageState extends State<HomePage>
                     // receiptSecondText.addText('Powered by ayeee',
                     //     size: ReceiptTextSizeType.small);
                     // receiptSecondText.addSpacer();
-                    // await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1,  paperSize: posUtils.PaperSize.mm80);
-                    // // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-                    // await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
-                    mystate(() {
-                      priInProgOrders = false;
-                    });
+                    // await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1);
+                    await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
 
                   });
                 }

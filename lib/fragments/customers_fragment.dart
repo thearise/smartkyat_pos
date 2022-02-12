@@ -40,7 +40,7 @@ class CustomersFragment extends StatefulWidget {
   final _closeDrawerBtn;
   final _printFromOrders;
   CustomersFragment({
-    this.selectedDev, required void printFromOrders(File file),
+    this.selectedDev, required void printFromOrders(File file, var prodListPR),
     required void closeDrawerBtn(String str),
     required void openDrawerBtn(String str),
     required void closeCartBtn(String str),
@@ -199,8 +199,8 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
     super.initState();
   }
 
-  void printFromOrdersFun(File file) {
-    widget._printFromOrders(file);
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
   }
   // chgShopIdFrmHomePage() {
   //   setState(() {

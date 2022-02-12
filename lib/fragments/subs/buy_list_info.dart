@@ -30,7 +30,7 @@ class BuyListInfo extends StatefulWidget {
   final _closeCartBtn;
   final _printFromOrders;
   const BuyListInfo(
-      {Key? key, this.selectedDev, required void printFromOrders(File file), required void openCartBtn(), required void closeCartBtn(), required this.data, required this.shopId,required void toggleCoinCallback()})
+      {Key? key, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.data, required this.shopId,required void toggleCoinCallback()})
       : _callback = toggleCoinCallback, _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn, _printFromOrders = printFromOrders;
   final String data;
   final String shopId;
@@ -100,8 +100,8 @@ class _BuyListInfoState extends State<BuyListInfo>
     }
   }
 
-  void printFromOrdersFun(File file) {
-    widget._printFromOrders(file);
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
   }
 
   String currencyUnit = 'MMK';

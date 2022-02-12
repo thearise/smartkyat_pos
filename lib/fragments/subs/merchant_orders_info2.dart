@@ -16,7 +16,7 @@ class MerchantOrdersInfoSubs extends StatefulWidget {
   final _openCartBtn;
   final _closeCartBtn;
   final _printFromOrders;
-  const MerchantOrdersInfoSubs({Key? key, required this.merchName, required this.merchAddress, this.selectedDev, required void printFromOrders(File file), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
+  const MerchantOrdersInfoSubs({Key? key, required this.merchName, required this.merchAddress, this.selectedDev, required void printFromOrders(File file, var prodListPR), required void openCartBtn(), required void closeCartBtn(), required this.id, required this.shopId}) : _openCartBtn = openCartBtn, _closeCartBtn = closeCartBtn ,_printFromOrders = printFromOrders;
   final String id;
   final String shopId;
   final BlueDevice? selectedDev;
@@ -51,8 +51,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
       return '0' + string;
     }
   }
-  void printFromOrdersFun(File file) {
-    widget._printFromOrders(file);
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
   }
 
   getLangId() async {

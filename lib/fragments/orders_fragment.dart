@@ -51,7 +51,7 @@ class OrdersFragment extends StatefulWidget {
         required void searchBtn(),
         required void closeCartBtn(String str),
         required void openCartBtn(String str),
-        required void printFromOrders(File file),
+        required void printFromOrders(File file, var prodListPR),
         Key? key,
       })
       :
@@ -162,8 +162,8 @@ class OrdersFragmentState extends State<OrdersFragment>
     widget._openDrawerBtn('saleorders');
   }
 
-  void printFromOrdersFun(File file) {
-    widget._printFromOrders(file);
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
   }
 
   @override

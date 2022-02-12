@@ -686,7 +686,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               ),
                                             ),
                                             onPressed: () async {
-                                               widget._callback();
+                                              widget._callback();
                                               // print('execution');
                                               // // print('array -> ' + textSplitFunction('abcde').toString());
                                               // getStoreId().then((value) async {
@@ -695,10 +695,14 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               //       .get(GetOptions(source: Source.server))
                                               //       .then((QuerySnapshot querySnapshotProdChange) {
                                               //     querySnapshotProdChange.docs.map((document) async {
+                                              //       print('id    -> ' + document['prod_name'].toString());
+                                              //       // print('changeData ' + document['customer_name'].toString() + list[0].toString());
+                                              //       print('array -> ' + textSplitFunction(document['prod_name']).toString());
+                                              //
                                               //
                                               //       CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
                                               //       productId.doc(document.id).update({
-                                              //         'update_time': DateTime.now(),
+                                              //         'search_name': textSplitFunction(document['prod_name']),
                                               //       }).then((value) {
                                               //       }).catchError((error) => print("Failed to update: $error"));
                                               //     }).toList();

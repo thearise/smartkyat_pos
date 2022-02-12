@@ -23,7 +23,7 @@ import 'printer_check_route.dart';
 
 class PrintReceiptRoute extends StatefulWidget {
 
-  const PrintReceiptRoute({Key? key, required this.currency, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file)})
+  const PrintReceiptRoute({Key? key, required this.currency, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file, var prodListPR)})
       : _printFromOrders = printFromOrders;
   final String data;
   final List prodList;
@@ -86,11 +86,11 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       }
       else if(value=='english') {
         setState(() {
-          totalVPrice = 'စုစုပေါင်း';
-          VPaid = 'ပေးငွေ';
-          VDebt = 'ကျန်ငွေ';
-          subVTotal = 'ကျသင့်ငွေပေါင်း';
-          VDiscount = 'လျှော့ငွေ';
+           totalVPrice = 'စုစုပေါင်း';
+           VPaid = 'ပေးငွေ';
+           VDebt = 'ကျန်ငွေ';
+           subVTotal = 'ကျသင့်ငွေပေါင်း';
+           VDiscount = 'လျှော့ငွေ';
         });
       }
     });
@@ -129,12 +129,12 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
           address: '',
         ),
         info: InvoiceInfo(
-          date: date,
-          dueDate: dueDate,
-          description: 'My description...',
-          // number: '${DateTime.now().year}-9999',
-          // number: deviceIdNum.toString() + '^' + length.toString()
-          number: widget.data.split('^')[1],
+            date: date,
+            dueDate: dueDate,
+            description: 'My description...',
+            // number: '${DateTime.now().year}-9999',
+            // number: deviceIdNum.toString() + '^' + length.toString()
+            number: widget.data.split('^')[1],
         ),
         items: [
           for(int i=0; i<prodList.length; i++)
@@ -434,7 +434,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                       Spacer(),
                                       GestureDetector(
                                         onTap: () async {
-                                          widget._printFromOrders(pdfFilePRoll);
+                                          widget._printFromOrders(pdfFilePRoll, widget.prodList);
                                           // Navigator.push(
                                           //     context,
                                           //     MaterialPageRoute(
