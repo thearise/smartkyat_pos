@@ -623,7 +623,15 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                       widget.data.split('^')[3].split('&')[1] +
                                       '^' +
                                       widget.data.split('^')[4] + '^' + debtAmount.toString() + '^' + widget.data.split('^')[6];
-
+                                  bool deFilter = false;
+                                  double debts = 0;
+                                  if(debtAmount == 0.0) {
+                                    deFilter = false;
+                                    debts = 1;
+                                  } else {
+                                    deFilter = true;
+                                    debts = 0;
+                                  }
                                   CollectionReference dailyOrders = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders');
                                   CollectionReference order = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order');
                                   CollectionReference customerDebt = await  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('customers');
@@ -643,15 +651,13 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                   order.doc(
                                       widget.docId)
                                       .update({
-                                    'debt' : debtAmount
+                                    'debt' : debtAmount,
+                                    'debt_filter': deFilter
                                   })
                                       .then((value) => print("User Updated"))
                                       .catchError((error) => print("Failed to update user: $error"));
 
-                                  double debts = 0;
-                                  if(debtAmount == 0.0) {
-                                    debts = 1;
-                                  } else debts = 0;
+
 
                                     customerDebt.doc(
                                         widget.data.split('^')[3].split('&')[1])

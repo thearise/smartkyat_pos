@@ -1022,6 +1022,7 @@ class _EditProductState extends State<EditProduct> {
                                       'sub2_sell' : sub2SellCtrl.text,
                                       'buyPrice2' : sub1Buy,
                                       'buyPrice3' : sub2Buy,
+                                      'update_time' : DateTime.now(),
                                       'search_name': textSplitFunction(prodNameCtrl.text.toString()),
                                     }).then((value) {
                                     }).catchError((error) => print("Failed to update: $error"));
@@ -1064,6 +1065,7 @@ class _EditProductState extends State<EditProduct> {
                                             'buyPrice2' : sub1Buy,
                                             'buyPrice3' : sub2Buy,
                                             'img_1' : photoArray.toString(),
+                                            'update_time' : DateTime.now(),
                                             'search_name': textSplitFunction(prodNameCtrl.text.toString()),
                                           }).then((value){ Navigator.pop(context);
                                           setState(() {

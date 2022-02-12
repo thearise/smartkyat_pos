@@ -686,28 +686,24 @@ class ProductsFragmentState extends State<ProductsFragment>
                                               ),
                                             ),
                                             onPressed: () async {
-                                              // widget._callback();
-                                              print('execution');
-                                              // print('array -> ' + textSplitFunction('abcde').toString());
-                                              getStoreId().then((value) async {
-                                                await FirebaseFirestore.instance.collection('shops').doc(
-                                                    value.toString()).collection('products')
-                                                    .get(GetOptions(source: Source.server))
-                                                    .then((QuerySnapshot querySnapshotProdChange) {
-                                                  querySnapshotProdChange.docs.map((document) async {
-                                                    print('id    -> ' + document['prod_name'].toString());
-                                                    // print('changeData ' + document['customer_name'].toString() + list[0].toString());
-                                                    print('array -> ' + textSplitFunction(document['prod_name']).toString());
-
-
-                                                    CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
-                                                    productId.doc(document.id).update({
-                                                      'search_name': textSplitFunction(document['prod_name']),
-                                                    }).then((value) {
-                                                    }).catchError((error) => print("Failed to update: $error"));
-                                                  }).toList();
-                                                });
-                                              });
+                                               widget._callback();
+                                              // print('execution');
+                                              // // print('array -> ' + textSplitFunction('abcde').toString());
+                                              // getStoreId().then((value) async {
+                                              //   await FirebaseFirestore.instance.collection('shops').doc(
+                                              //       value.toString()).collection('products')
+                                              //       .get(GetOptions(source: Source.server))
+                                              //       .then((QuerySnapshot querySnapshotProdChange) {
+                                              //     querySnapshotProdChange.docs.map((document) async {
+                                              //
+                                              //       CollectionReference productId = await FirebaseFirestore.instance.collection('shops').doc(value.toString()).collection('products');
+                                              //       productId.doc(document.id).update({
+                                              //         'update_time': DateTime.now(),
+                                              //       }).then((value) {
+                                              //       }).catchError((error) => print("Failed to update: $error"));
+                                              //     }).toList();
+                                              //   });
+                                              // });
                                             },
                                             child: Container(
                                               child: Row(
@@ -1009,7 +1005,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                               );
                             },
                             // orderBy is compulsory to enable pagination
-                            query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy(cateScIndex == 0 ?'prod_name' : 'inStock1', descending: false),
+                            query: cateScIndex == 0 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy('update_time', descending: true) : FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('products').orderBy('inStock1', descending: false),
                             // to fetch real-time data
                             isLive: true,
                           ),

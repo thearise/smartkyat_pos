@@ -46,6 +46,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
 
   String pdfText = '';
   File? pdfFile;
+  File? pdfFilePRoll;
 
   String totalVPrice = 'Total price';
   String VPaid = 'Paid';
@@ -85,11 +86,11 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       }
       else if(value=='english') {
         setState(() {
-           totalVPrice = 'စုစုပေါင်း';
-           VPaid = 'ပေးငွေ';
-           VDebt = 'ကျန်ငွေ';
-           subVTotal = 'ကျသင့်ငွေပေါင်း';
-           VDiscount = 'လျှော့ငွေ';
+          totalVPrice = 'စုစုပေါင်း';
+          VPaid = 'ပေးငွေ';
+          VDebt = 'ကျန်ငွေ';
+          subVTotal = 'ကျသင့်ငွေပေါင်း';
+          VDiscount = 'လျှော့ငွေ';
         });
       }
     });
@@ -128,12 +129,12 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
           address: '',
         ),
         info: InvoiceInfo(
-            date: date,
-            dueDate: dueDate,
-            description: 'My description...',
-            // number: '${DateTime.now().year}-9999',
-            // number: deviceIdNum.toString() + '^' + length.toString()
-            number: widget.data.split('^')[1],
+          date: date,
+          dueDate: dueDate,
+          description: 'My description...',
+          // number: '${DateTime.now().year}-9999',
+          // number: deviceIdNum.toString() + '^' + length.toString()
+          number: widget.data.split('^')[1],
         ),
         items: [
           for(int i=0; i<prodList.length; i++)
@@ -163,6 +164,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       getPaperId().then((value) async {
         print('VVAALLUUEE ' + value.toString());
         pdfFile = await PdfInvoiceApi.generate(invoice, value);
+        pdfFilePRoll = await PdfInvoiceApi.generate(invoice, 'Roll-57');
 
         // Uint8List bytes = pdfFile!.readAsBytesSync();
 
@@ -392,7 +394,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                           _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
                                         },
                                         child: Container(
-                                          width:  MediaQuery.of(context).size.width > 900 ?  ((MediaQuery.of(context).size.width * (2 / 3.5)) - 45) * (3/4) : (MediaQuery.of(context).size.width - 45)* (3/4),
+                                          width: (MediaQuery.of(context).size.width - 45)* (3/4),
                                           height: 50,
                                           decoration: BoxDecoration(
                                             borderRadius:
@@ -432,14 +434,14 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                       Spacer(),
                                       GestureDetector(
                                         onTap: () async {
-                                          widget._printFromOrders(pdfFile);
+                                          widget._printFromOrders(pdfFilePRoll);
                                           // Navigator.push(
                                           //     context,
                                           //     MaterialPageRoute(
                                           //         builder: (context) => PrinterCheckRoute(data: widget.data,)));
                                         },
                                         child: Container(
-                                          width:  MediaQuery.of(context).size.width > 900 ?  ((MediaQuery.of(context).size.width * (2 / 3.5)) - 45) * (1/4) : (MediaQuery.of(context).size.width - 45)* (1/4),
+                                          width: (MediaQuery.of(context).size.width - 45)* (1/4),
                                           height: 50,
                                           decoration: BoxDecoration(
                                               borderRadius:

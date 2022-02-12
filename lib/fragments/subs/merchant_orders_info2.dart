@@ -123,9 +123,173 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 81.0),
                         child: PaginateFirestore(
-                          key: cateScIndex == 0? ValueKey<String>('1'): cateScIndex == 1? ValueKey<String>('2') : cateScIndex == 2? ValueKey<String>('3') : ValueKey<String>('4'),
+                          itemsPerPage: 10,
+                          onEmpty: Align(
+                            alignment: Alignment.topCenter,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 12.0, bottom: 12.0),
+                                  child: Container(
+                                    height: 32,
+                                    width: MediaQuery.of(context).size.width,
+                                    // color: Colors.yellow,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child:  ListView(
+                                            controller: cateScCtler,
+                                            scrollDirection: Axis.horizontal,
+                                            children: [
+                                              SizedBox(
+                                                width: 0,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                                child: FlatButton(
+                                                  minWidth: 0,
+                                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                                  color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.skBorderColor2,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    _animateToIndex(0);
+                                                    setState(() {
+                                                      cateScIndex = 0;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    child: Text(
+                                                      textSetAll,
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                child: FlatButton(
+                                                  minWidth: 0,
+                                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                                  color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.skBorderColor2,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    _animateToIndex(5.4);
+                                                    setState(() {
+                                                      cateScIndex = 1;
+                                                    });
+                                                    toggleIndexOne();
+                                                  },
+                                                  child: Container(
+                                                    child: Text(
+                                                      textSetTUnpaid,
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                                                child: FlatButton(
+                                                  minWidth: 0,
+                                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                                  color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(20.0),
+                                                    side: BorderSide(
+                                                      color: AppTheme.skBorderColor2,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    _animateToIndex(16.4);
+                                                    setState(() {
+                                                      cateScIndex = 2;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    child: Text(
+                                                      textSetTRefunds,
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              // Padding(
+                                              //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                              //   child: FlatButton(
+                                              //     minWidth: 0,
+                                              //     padding: EdgeInsets.only(left: 12, right: 12),
+                                              //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                              //     shape: RoundedRectangleBorder(
+                                              //       borderRadius: BorderRadius.circular(20.0),
+                                              //       side: BorderSide(
+                                              //         color: AppTheme.skBorderColor2,
+                                              //       ),
+                                              //     ),
+                                              //     onPressed: () {
+                                              //       _animateToIndex(20);
+                                              //       setState(() {
+                                              //         cateScIndex = 3;
+                                              //       });
+                                              //     },
+                                              //     child: Container(
+                                              //       child: Text(
+                                              //         textSetTPaid,
+                                              //         textAlign: TextAlign.center,
+                                              //         style: TextStyle(
+                                              //             fontSize: 14,
+                                              //             fontWeight: FontWeight.w500,
+                                              //             color: Colors.black),
+                                              //       ),
+                                              //     ),
+                                              //   ),
+                                              // ),
+                                              SizedBox(
+                                                width: 11,
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    // color: AppTheme.lightBgColor,
+                                    color: Colors.white,
+                                    child: Center(child: Text('No data found', style: TextStyle(fontSize: 15),)),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                           // Use SliverAppBar in header to make it sticky
+                          key: cateScIndex == 0? ValueKey<String>('00'): cateScIndex == 1? (togIndOne? ValueKey<String>('11'): ValueKey<String>('12')): cateScIndex == 2? ValueKey<String>('22'): ValueKey<String>('33'),
                           header: SliverAppBar(
+                            leading: Container(),
                             elevation: 0,
                             backgroundColor: Colors.white,
                             // Provide a standard title.
@@ -133,7 +297,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             // back up the list of items.
                             floating: true,
                             flexibleSpace: Padding(
-                              padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+                              padding: const EdgeInsets.only(left: 8.0, top: 12.0, bottom: 12.0),
                               child: Container(
                                 height: 32,
                                 width: MediaQuery.of(context).size.width,
@@ -146,7 +310,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                         scrollDirection: Axis.horizontal,
                                         children: [
                                           SizedBox(
-                                            width: 4,
+                                            width: 0,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
@@ -195,6 +359,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                 setState(() {
                                                   cateScIndex = 1;
                                                 });
+                                                toggleIndexOne();
                                               },
                                               child: Container(
                                                 child: Text(
@@ -238,36 +403,36 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                            child: FlatButton(
-                                              minWidth: 0,
-                                              padding: EdgeInsets.only(left: 12, right: 12),
-                                              color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(20.0),
-                                                side: BorderSide(
-                                                  color: AppTheme.skBorderColor2,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                _animateToIndex(20);
-                                                setState(() {
-                                                  cateScIndex = 3;
-                                                });
-                                              },
-                                              child: Container(
-                                                child: Text(
-                                                  textSetTPaid,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                          //   child: FlatButton(
+                                          //     minWidth: 0,
+                                          //     padding: EdgeInsets.only(left: 12, right: 12),
+                                          //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                                          //     shape: RoundedRectangleBorder(
+                                          //       borderRadius: BorderRadius.circular(20.0),
+                                          //       side: BorderSide(
+                                          //         color: AppTheme.skBorderColor2,
+                                          //       ),
+                                          //     ),
+                                          //     onPressed: () {
+                                          //       _animateToIndex(20);
+                                          //       setState(() {
+                                          //         cateScIndex = 3;
+                                          //       });
+                                          //     },
+                                          //     child: Container(
+                                          //       child: Text(
+                                          //         textSetTPaid,
+                                          //         textAlign: TextAlign.center,
+                                          //         style: TextStyle(
+                                          //             fontSize: 14,
+                                          //             fontWeight: FontWeight.w500,
+                                          //             color: Colors.black),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           SizedBox(
                                             width: 11,
                                           )
@@ -279,24 +444,21 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
 
                               ),
                             ),),
-                          footer: SliverToBoxAdapter(
-                              child: Padding(
+                          footer: SliverToBoxAdapter(child: Padding(
                             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                             child: Center(child: Text('End of results')),
                           )),
-                          // bottomLoader: Container(
-                          //   child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                          // ),
-                          itemBuilderType:
-                          PaginateBuilderType.listView,
+                          bottomLoader: Container(
+                            child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                          ),
                           itemBuilder: (context1, documentSnapshots, index) {
-                            final data =  documentSnapshots[index].data() as Map<String, dynamic>;
+                            Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
                             String item = zeroToTen(data['date'].toDate().year.toString()) +  zeroToTen(data['date'].toDate().month.toString()) +  zeroToTen(data['date'].toDate().day.toString()) +  zeroToTen(data['date'].toDate().hour.toString()) +  zeroToTen(data['date'].toDate().minute.toString()) + data['deviceId'].split('-')[0] + data['orderId'] +'^' + data['deviceId'] + data['orderId'] + '^' + data['total'].toString() + '^' + widget.merchName + '&'+ data['merchantId'] + '^' + data['refund'] + '^' + data['debt'].toString() + '^' + data['discount'].toString() + '^' + data['date'].toDate().hour.toString() + '^' + data['date'].toDate().minute.toString();
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(context,
                                   MaterialPageRoute(
-                                      builder: (context) => BuyListInfo(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(),closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                    builder: (context) => OrderInfoSub(data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), closeCartBtn: widget._closeCartBtn, openCartBtn: widget._openCartBtn, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,),),
                                 );
                               },
                               child: Stack(
@@ -391,7 +553,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                     ),
                                                   ),
 
-                                                if(data['debt'].toString() != '0.0' && double.parse(data['total'])  > double.parse(data['debt'].toString()))
+                                                if(data['debt'].toString() != '0.0' && double.parse(data['total'].toString())  > double.parse(data['debt'].toString()))
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 0.0),
                                                     child: Container(
@@ -412,7 +574,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                                       ),
                                                     ),
                                                   ),
-                                                if(data['debt'].toString()  != '0.0'  && double.parse(data['total']) == data['debt'])
+                                                if(data['debt'].toString()  != '0.0'  && double.parse(data['total'].toString()) == data['debt'])
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 0.0),
                                                     child: Container(
@@ -516,12 +678,12 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                               ),
                             );
                           },
+                          itemBuilderType:
+                          PaginateBuilderType.listView,
+                          // cateScIndex
                           // orderBy is compulsory to enable pagination
-                          query: cateScIndex == 1 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('merchantId', isEqualTo: widget.id.toString()).where('debt', isNotEqualTo: 0)
-                              .orderBy('date', descending: true) : cateScIndex == 2 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('merchantId', isEqualTo: widget.id.toString()).where('refund', isNotEqualTo: 'FALSE')
-                              .orderBy('date', descending: true) : cateScIndex == 3 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('merchantId', isEqualTo: widget.id.toString()).where('debt', isEqualTo: 0)
-                              .orderBy('date', descending: true): FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder')
-                              .orderBy('date', descending: true),
+                          // query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order').where('debt', isGreaterThan: 0),
+                          query: queryFilter(),
                           // to fetch real-time data
                           isLive: true,
                         ),
@@ -597,6 +759,32 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
     );
 
 
+
+
+  }
+
+  queryFilter() {
+    print('cust id ' + widget.id.toString());
+    if(cateScIndex == 0) {
+      return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('merchantId', isEqualTo: widget.id).orderBy('date', descending: true);
+    } else if(cateScIndex == 1) {
+      if(togIndOne) {
+        return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('merchantId', isEqualTo: widget.id).where('debt_filter', isEqualTo: true).orderBy('debt', descending: true);
+      }
+      return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('merchantId', isEqualTo: widget.id).where('debt_filter', isEqualTo: true).orderBy('date', descending: true);
+    } else if(cateScIndex == 2) {
+      return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('merchantId', isEqualTo: widget.id).where('refund_filter', isEqualTo: true).orderBy('date', descending: true);
+    } else {
+      return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('buyOrder').where('debt', isEqualTo: 0).orderBy('date', descending: true);
+    }
+  }
+
+  bool togIndOne = true;
+
+  void toggleIndexOne() {
+    setState(() {
+      togIndOne = !togIndOne;
+    });
   }
 
   convertToAMPM(String input){

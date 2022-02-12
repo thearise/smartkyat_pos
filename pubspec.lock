@@ -67,17 +67,17 @@ packages:
   blue_print_pos:
     dependency: "direct main"
     description:
-      name: blue_print_pos
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.10"
+      path: "../blue_print_pos"
+      relative: true
+    source: path
+    version: "0.0.9"
   blue_thermal_printer:
     dependency: transitive
     description:
       name: blue_thermal_printer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.8"
+    version: "1.2.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -631,7 +631,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.1.1"
   image_gallery_saver:
     dependency: "direct main"
     description:

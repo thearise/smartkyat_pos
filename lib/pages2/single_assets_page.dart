@@ -1676,6 +1676,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             'sub2SellUnit' : 0,
                                             'img_1': '',
                                             'search_name': textSplitFunction(prodFieldsValue[0].toString()),
+                                            'update_time' : DateTime.now(),
                                           }).then((value) {
                                             print('product added');
                                           });
@@ -1873,6 +1874,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                   'sub2SellUnit' : 0,
                                                   'search_name' :  FieldValue.arrayUnion([]),
                                                   'img_1': photoArray[0],
+                                                  'update_time' : DateTime.now(),
                                                   'search_name': textSplitFunction(prodFieldsValue[0].toString()),
                                                 }).then((value) {
                                                   print('product added');
