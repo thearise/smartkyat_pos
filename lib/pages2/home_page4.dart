@@ -3878,37 +3878,41 @@ class HomePageState extends State<HomePage>
                                                                                             GestureDetector(
                                                                                               onTap: () async {
                                                                                                 discountAmount = discount;
-                                                                                                subList2 = [];
+                                                                                                subList = [];
                                                                                                 DateTime now = DateTime.now();
+                                                                                                //CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
                                                                                                 int length = 0;
                                                                                                 int totalOrders = 0;
                                                                                                 int debts = 0;
                                                                                                 var dateExist = false;
                                                                                                 var dateId = '';
+                                                                                                bool reFilter = false;
+                                                                                                bool deFilter = false;
                                                                                                 double debtAmounts = 0 ;
-
-                                                                                                Navigator.of(context).push(
-                                                                                                    FadeRoute(page: Transparent(key: tranGlobalKey),)
-                                                                                                );
+                                                                                                print('order creating');
 
                                                                                                 FirebaseFirestore.instance.collection('shops').doc(shopId)
                                                                                                     .get().then((value) async {
                                                                                                   length = int.parse(value.data()!['orders_length'].toString());
                                                                                                   print('lengthsss' + length.toString());
+
                                                                                                   length = length + 1;
 
                                                                                                   print('CHECK POINT 0' + deviceIdNum.toString());
                                                                                                   print('CHECK POINT 1');
-
                                                                                                   orderLengthIncrease();
-                                                                                                  print('datacheck' + prodList.toString());
+                                                                                                  print('productList' + prodList.toString());
+
                                                                                                   for (String str in prodList) {
+
                                                                                                     CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                                                    subList2.add(str.split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
+                                                                                                    subList.add(str.split('^')[0] + '-' + 'veriD' + '-' + 'buy0' + '-' + str.split('^')[4] +'-' + str.split('^')[2] + '-' + str.split('^')[3] +'-' + str.split('^')[4] + '-0-' + 'date');
+                                                                                                    print('strsplit' + str.split('-')[0].toString());
 
                                                                                                     productsFire.doc(str.split('^')[0])
                                                                                                         .get().then((val22) async {
+
                                                                                                       List<String> subLink = [];
                                                                                                       List<String> subName = [];
                                                                                                       List<double> subStock = [];
@@ -3933,9 +3937,6 @@ class HomePageState extends State<HomePage>
                                                                                                       if(str.split('^')[3] == 'unit_name') {
                                                                                                         decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
                                                                                                         prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                                                        // await productsFire.update({
-                                                                                                        //   'mainSellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                                                        // });
 
                                                                                                       } else if(str.split('^')[3] == 'sub1_name') {
                                                                                                         sub1Execution(subStock, subLink, str.split('^')[0], str.split('^')[4]);
@@ -3950,26 +3951,30 @@ class HomePageState extends State<HomePage>
                                                                                                         });
                                                                                                       }
                                                                                                     });
-
                                                                                                   }
+                                                                                                  print('subList ' + subList.toString());
 
-                                                                                                  if( debt.toString() != '0.0') {
+                                                                                                  if(debt.toString() != '0.0') {
+                                                                                                    deFilter = true;
                                                                                                     debts = 1;
                                                                                                     debtAmounts = debt;
                                                                                                   } else {
                                                                                                     debts = 0;
                                                                                                     debtAmounts = 0;
+                                                                                                    deFilter = false;
                                                                                                   }
 
                                                                                                   print('subList2 ' + subList2.toString());
 
-                                                                                                  totalOrders = totalOrders + 1;
-                                                                                                  CusOrder(totalOrders, debts, debtAmounts);
+                                                                                                  if(customerId.split('^')[0] != 'name') {
+                                                                                                    totalOrders = totalOrders + 1;
+                                                                                                    CusOrder(totalOrders, debts, debtAmounts);
+                                                                                                  }
 
                                                                                                   FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders')
                                                                                                       .where('date', isGreaterThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 00:00:00'))
                                                                                                       .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd hh:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 23:59:59'))
-                                                                                                      .get()
+                                                                                                      .get(GetOptions(source: Source.cache))
                                                                                                       .then((QuerySnapshot querySnapshot)  async {
                                                                                                     querySnapshot.docs.forEach((doc) {
                                                                                                       dateExist = true;
@@ -3978,17 +3983,15 @@ class HomePageState extends State<HomePage>
 
                                                                                                     if (dateExist) {
                                                                                                       addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                                                      Detail(now, length.toString(),subList2, dateId);
+                                                                                                      Detail(now, length.toString(),subList, dateId, deFilter, reFilter);
                                                                                                       print('adddateexist added');
                                                                                                     }
                                                                                                     else {
                                                                                                       DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                                                      Detail(now, length.toString(),subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
+                                                                                                      Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), deFilter, reFilter);
                                                                                                       print('adddateexist not');
                                                                                                     }
                                                                                                   });
-
-
 
                                                                                                   List<String> subNameList = [];
                                                                                                   int subNameListLength = 0;
@@ -3996,16 +3999,13 @@ class HomePageState extends State<HomePage>
                                                                                                     subNameListLength = subNameListLength + 1;
                                                                                                     CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
                                                                                                     print('DATA CHECK PROD ' + str.toString());
-
                                                                                                     var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(str.split('^')[0])
                                                                                                         .get();
-
                                                                                                     if (docSnapshot10.exists) {
-                                                                                                      Map<String, dynamic>? data11 = docSnapshot10.data();
-                                                                                                      subNameList.add(data11 ? [str.split('^')[3]]);
+                                                                                                      Map<String, dynamic>? data10 = docSnapshot10.data();
+                                                                                                      subNameList.add(data10 ? [str.split('^')[3]]);
                                                                                                       if(prodList.length == subNameListLength) {
                                                                                                         print('fianlize : ' + subNameList.toString());
-                                                                                                        // final date = DateTime.now();
                                                                                                         final date = now;
                                                                                                         final dueDate = date.add(Duration(days: 7));
                                                                                                         print('CUZMER CHECK ' + customerId.toString());
@@ -4025,7 +4025,7 @@ class HomePageState extends State<HomePage>
                                                                                                               dueDate: dueDate,
                                                                                                               description: 'My description...',
                                                                                                               // number: '${DateTime.now().year}-9999',
-                                                                                                              number: deviceIdNum.toString() + '-' + length.toString()
+                                                                                                              number: deviceIdNum.toString() + '^' + length.toString()
                                                                                                           ),
                                                                                                           items: [
                                                                                                             for(int i=0; i<prodList.length; i++)
@@ -4035,8 +4035,8 @@ class HomePageState extends State<HomePage>
                                                                                                                 date: subNameList[i].toString(),
                                                                                                                 quantity: double.parse(prodList[i].split('^')[4]),
                                                                                                                 vat: discountAmount,
-                                                                                                                debt: debt,
                                                                                                                 type: disText,
+                                                                                                                debt: debt,
                                                                                                                 unitPrice: double.parse(prodList[i].split('^')[2]),
                                                                                                                 currencyUnit: currencyUnit,
                                                                                                                 totalPriceText: totalVPrice,
@@ -4046,80 +4046,9 @@ class HomePageState extends State<HomePage>
                                                                                                                 discountText: VDiscount,
                                                                                                               )
 
-                                                                                                            // InvoiceItem(
-                                                                                                            //   description: 'Water',
-                                                                                                            //   date: DateTime.now(),
-                                                                                                            //   quantity: 8,
-                                                                                                            //   vat: 0.19,
-                                                                                                            //   unitPrice: 0.99,
-                                                                                                            // ),
-                                                                                                            // InvoiceItem(
-                                                                                                            //   description: 'Orange',
-                                                                                                            //   date: DateTime.now(),
-                                                                                                            //   quantity: 3,
-                                                                                                            //   vat: 0.19,
-                                                                                                            //   unitPrice: 2.99,
-                                                                                                            // ),
-                                                                                                            // InvoiceItem(
-                                                                                                            //   description: 'Apple',
-                                                                                                            //   date: DateTime.now(),
-                                                                                                            //   quantity: 8,
-                                                                                                            //   vat: 0.19,
-                                                                                                            //   unitPrice: 3.99,
-                                                                                                            // ),
-                                                                                                            // InvoiceItem(
-                                                                                                            //   description: 'Mango',
-                                                                                                            //   date: DateTime.now(),
-                                                                                                            //   quantity: 1,
-                                                                                                            //   vat: 0.19,
-                                                                                                            //   unitPrice: 1.59,
-                                                                                                            // ),
-                                                                                                            // InvoiceItem(
-                                                                                                            //   description: 'Blue Berries',
-                                                                                                            //   date: DateTime.now(),
-                                                                                                            //   quantity: 5,
-                                                                                                            //   vat: 0.19,
-                                                                                                            //   unitPrice: 0.99,
-                                                                                                            // ),
-                                                                                                            // InvoiceItem(
-                                                                                                            //   description: 'Black',
-                                                                                                            //   date: DateTime.now(),
-                                                                                                            //   quantity: 4,
-                                                                                                            //   vat: 0.19,
-                                                                                                            //   unitPrice: 1.29,
-                                                                                                            // ),
                                                                                                           ],
                                                                                                         );
 
-                                                                                                        // mystate(()  {
-                                                                                                        //   prodList = [];
-                                                                                                        //   discount = 0.0;
-                                                                                                        //   debt =0;
-                                                                                                        //   refund =0;
-                                                                                                        // });
-                                                                                                        // // _controller.animateTo(0);
-                                                                                                        // // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                                        //
-                                                                                                        // _textFieldController.clear();
-                                                                                                        // Navigator.pop(context);
-                                                                                                       // sellDone = true;
-                                                                                                       // _controllerTablet.animateTo(0);
-                                                                                                        // //discountAmount =0.0;
-                                                                                                        // pdfFile = await PdfInvoiceApi.generate(invoice, pageType);
-                                                                                                        // mystate(() {
-                                                                                                        //   // setState(() {
-                                                                                                        //   pdfText = pdfFile!.path.toString();
-                                                                                                        //   // });
-                                                                                                        // });
-
-
-                                                                                                        // mystate(()  {
-                                                                                                        //   prodList = [];
-                                                                                                        //   discount = 0.0;
-                                                                                                        //   debt =0;
-                                                                                                        //   refund =0;
-                                                                                                        //   //customerId = 'name^name';
-                                                                                                        // });
 
                                                                                                         getPaperId().then((value) async {
                                                                                                           print('VVAALLUUEE ' + value.toString());
@@ -4127,20 +4056,48 @@ class HomePageState extends State<HomePage>
 
                                                                                                           Uint8List bytes = pdfFile!.readAsBytesSync();
 
-                                                                                                          Future.delayed(const Duration(milliseconds: 3000), () {
-                                                                                                            setState(() {
-                                                                                                                // setState(() {
-                                                                                                                pdfText = pdfFile!.path.toString();
-                                                                                                            });
-                                                                                                            // print('saleCartDrag ' + saleCartDrag.toString());
-                                                                                                            tranGlobalKey.currentState!.disLoading();
-                                                                                                            _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                                          // mystate(() {
+                                                                                                          //   // setState(() {
+                                                                                                          //   pdfText = pdfFile!.path.toString();
+                                                                                                          //   // });
+                                                                                                          // });
+                                                                                                          setState(() {
+                                                                                                            pdfText = pdfFile!.path.toString();
+
+                                                                                                            prodList = [];
+                                                                                                            discount = 0.0;
+                                                                                                            discountAmount =0.0;
+                                                                                                            debt =0;
+                                                                                                            refund =0;
+                                                                                                            customerId = 'name^name';
+                                                                                                            disText = '';
+                                                                                                            isDiscount = '';
                                                                                                           });
+
+
+                                                                                                          // mystate(()  {
+                                                                                                          //   prodList = [];
+                                                                                                          //   discount = 0.0;
+                                                                                                          //   debt =0;
+                                                                                                          //   refund =0;
+                                                                                                          //   //customerId = 'name^name';
+                                                                                                          // });
+
+
+                                                                                                          _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
                                                                                                         });
+
                                                                                                       }
                                                                                                     }
+
                                                                                                   }
+
+
+
+
+
                                                                                                 });
+
                                                                                               },
                                                                                               child: Container(
                                                                                                 width: ((MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5))) - 52)/2,
@@ -4847,7 +4804,7 @@ class HomePageState extends State<HomePage>
                                                                                                   images.add(libImage!);
                                                                                                 }
 
-// stitch image
+// stitch images
                                                                                                 int totalHeight = 0;
                                                                                                 images.forEach((e) {
                                                                                                   totalHeight += e.height;
@@ -5137,466 +5094,315 @@ class HomePageState extends State<HomePage>
                                                                     ),
                                                                   ),
                                                                   Container(
-                                                                    child: Stack(
+                                                                    child: Column(
                                                                       children: [
                                                                         Container(
+                                                                          height: 67,
+                                                                          width: double.infinity,
                                                                           decoration: BoxDecoration(
-                                                                            borderRadius: BorderRadius.only(
-                                                                              topLeft: Radius.circular(18.0),
-                                                                              topRight: Radius.circular(18.0),
+                                                                              border: Border(
+                                                                                  bottom: BorderSide(
+                                                                                      color: Colors.grey
+                                                                                          .withOpacity(0.3),
+                                                                                      width: 1.0))),
+                                                                          child: Padding(
+                                                                            padding: EdgeInsets.only(
+                                                                                left: 15.0,
+                                                                                right: 15.0,
+                                                                                top: 5.0,
+                                                                                bottom: 0.0
                                                                             ),
-                                                                            color: Colors.white,
-                                                                          ),
-                                                                          child: Container(
-                                                                            child: Stack(
+                                                                            child: Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                                               children: [
-                                                                                Padding(
-                                                                                  padding: EdgeInsets.only(top: 67, bottom: 70),
-                                                                                  child: _isLoading && _blueDevices.isEmpty
-                                                                                      ? Center(
-                                                                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                        child: CupertinoActivityIndicator(radius: 15,)),
-                                                                                  )
-                                                                                      : _blueDevices.isNotEmpty
-                                                                                      ? Container(
-                                                                                    child: Column(
-                                                                                      children: [
-                                                                                        if(priInProgTablet)
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
-                                                                                            child: Container(
-                                                                                                child: Column(
-                                                                                                    children: [
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                                                                        child: Container(
-                                                                                                          width: MediaQuery.of(context).size.width,
-                                                                                                          decoration: BoxDecoration(
-                                                                                                            borderRadius: BorderRadius.all(
-                                                                                                              Radius.circular(10.0),
-                                                                                                            ),
-                                                                                                            color: Color(0xffE8EEF9),
-                                                                                                            border: Border.all(
-                                                                                                                color: Color(0xffBCCEEA),
-                                                                                                                width: 1.0
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(top: 10, bottom: 11.3),
-                                                                                                            child: Row(
-                                                                                                              children: [
-                                                                                                                SizedBox(width: 15),
-                                                                                                                Icon(
-                                                                                                                  Icons.print_rounded,
-                                                                                                                  size: 25,
-                                                                                                                  color: Color(0xff5786DB),
-                                                                                                                ),
-                                                                                                                SizedBox(width: 8),
-                                                                                                                Expanded(
-                                                                                                                  child: Text('Printing is in progress.', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
-                                                                                                                      fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
-                                                                                                                ),
-                                                                                                                GestureDetector(
-                                                                                                                  onTap: () {
-                                                                                                                 setState(() {
-                                                                                                                   priInProgTablet = false;
-                                                                                                                 });
-                                                                                                                  },
-                                                                                                                  child: Padding(
-                                                                                                                    padding: const EdgeInsets.all(8.0),
-                                                                                                                    child: Container(
-                                                                                                                      decoration: BoxDecoration(
-                                                                                                                        borderRadius: BorderRadius.all(
-                                                                                                                          Radius.circular(15.0),
-                                                                                                                        ),
-                                                                                                                        color: Color(0xffBCCEEA),
-                                                                                                                      ),
-                                                                                                                      child: Padding(
-                                                                                                                        padding: const EdgeInsets.all(2.0),
-                                                                                                                        child: Icon(
-                                                                                                                          Icons.close_rounded,
-                                                                                                                          size: 15,
-                                                                                                                          color: Colors.white,
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                                SizedBox(width: 15),
-                                                                                                              ],
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      SizedBox(height: 8),
-                                                                                                    ]
-                                                                                                )
-                                                                                            ),
-                                                                                          ),
-                                                                                        Expanded(
-                                                                                          child: SingleChildScrollView(
-                                                                                            child: Padding(
-                                                                                              padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                                                                                              child: Column(
-                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                children: <Widget>[
-                                                                                                  SizedBox(height: 15),
-                                                                                                  // GestureDetector(
-                                                                                                  //     onTap: _isLoading ? null : _onScanPressed,
-                                                                                                  //     child: Text('click to scan', style: TextStyle(fontSize: 25),)
-                                                                                                  // ),
-                                                                                                  Column(
-                                                                                                    children: List<Widget>.generate(_blueDevices.length,
-                                                                                                            (int index) {
-                                                                                                          return Row(
-                                                                                                            children: <Widget>[
-                                                                                                              Expanded(
-                                                                                                                child: GestureDetector(
-                                                                                                                  onTap: _blueDevices[index].address ==
-                                                                                                                      (_selectedDevice?.address ?? '')
-                                                                                                                      ? _onDisconnectDevice
-                                                                                                                      : () => _onSelectDevice(index),
-                                                                                                                  child: Container(
-                                                                                                                    color: Colors.white,
-                                                                                                                    child: Padding(
-                                                                                                                      padding: const EdgeInsets.all(8.0),
-                                                                                                                      child: Column(
-                                                                                                                        crossAxisAlignment:
-                                                                                                                        CrossAxisAlignment.start,
-                                                                                                                        children: <Widget>[
-                                                                                                                          Text(
-                                                                                                                            _blueDevices[index].name == ''? 'Unknown': _blueDevices[index].name,
-                                                                                                                            style: TextStyle(
-                                                                                                                                color:
-                                                                                                                                _selectedDevice?.address ==
-                                                                                                                                    _blueDevices[index]
-                                                                                                                                        .address
-                                                                                                                                    ? AppTheme.themeColor
-                                                                                                                                    : Colors.black,
-                                                                                                                                fontWeight: FontWeight.w600,
-                                                                                                                                fontSize: 19
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                          Text(
-                                                                                                                            _blueDevices[index].address,
-                                                                                                                            style: TextStyle(
-                                                                                                                                color:
-                                                                                                                                _selectedDevice?.address ==
-                                                                                                                                    _blueDevices[index]
-                                                                                                                                        .address
-                                                                                                                                    ? Colors.blueGrey
-                                                                                                                                    : Colors.grey,
-                                                                                                                                fontSize: 14,
-                                                                                                                                fontWeight: FontWeight.w500
-                                                                                                                            ),
-                                                                                                                          ),
-                                                                                                                        ],
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                              if (_loadingAtIndex == index && _isLoading)
-                                                                                                                Container(
-                                                                                                                  height: 24.0,
-                                                                                                                  width: 65.0,
-                                                                                                                  margin: const EdgeInsets.only(right: 8.0),
-                                                                                                                  child: Center(
-                                                                                                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                                                        child: Padding(
-                                                                                                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                                                                                                                          child: CupertinoActivityIndicator(radius: 10,),
-                                                                                                                        )
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              if (!_isLoading &&
-                                                                                                                  _blueDevices[index].address ==
-                                                                                                                      (_selectedDevice?.address ?? ''))
-                                                                                                                TextButton(
-                                                                                                                  onPressed: _onPrintReceipt,
-                                                                                                                  // child: Container(
-                                                                                                                  //   color: _selectedDevice == null
-                                                                                                                  //       ? AppTheme.buttonColor2
-                                                                                                                  //       : AppTheme.themeColor,
-                                                                                                                  //   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 10, left: 10),
-                                                                                                                  //   child: Icon(
-                                                                                                                  //     Icons.print_rounded,
-                                                                                                                  //     size: 25,
-                                                                                                                  //     color: Colors.black,
-                                                                                                                  //   )
-                                                                                                                  //   // child: const Text(
-                                                                                                                  //   //     'Print',
-                                                                                                                  //   //     style: TextStyle(color: Colors.white)
-                                                                                                                  //   // ),
-                                                                                                                  // ),
-                                                                                                                  child: Padding(
-                                                                                                                    padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
-                                                                                                                    child: Icon(
-                                                                                                                      Icons.print_rounded,
-                                                                                                                      size: 25,
-                                                                                                                      color: Colors.black,
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  style: ButtonStyle(
-                                                                                                                      backgroundColor: MaterialStateProperty
-                                                                                                                          .resolveWith<Color>(
-                                                                                                                            (Set<MaterialState> states) {
-                                                                                                                          if (states.contains(
-                                                                                                                              MaterialState.pressed)) {
-                                                                                                                            return AppTheme.themeColor.withOpacity(0.5);
-                                                                                                                          }
-                                                                                                                          return AppTheme.themeColor;
-                                                                                                                        },
-                                                                                                                      ),
-                                                                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                                                                          RoundedRectangleBorder(
-                                                                                                                            borderRadius: BorderRadius.circular(10.0),
-                                                                                                                          )
-                                                                                                                      )
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              SizedBox(width: 8.5)
-                                                                                                            ],
-                                                                                                          );
-                                                                                                        }),
-                                                                                                  ),
-                                                                                                  SizedBox(height: 15),
-                                                                                                ],
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  )
-                                                                                      : Center(
-                                                                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                        child: CupertinoActivityIndicator(radius: 15,)),
-                                                                                  ),
-                                                                                  // child: _devices.isEmpty
-                                                                                  //     ? Center(child: Text(_devicesMsg ?? ''))
-                                                                                  //     : ListView.builder(
-                                                                                  //   itemCount: _devices.length,
-                                                                                  //   itemBuilder: (c, i) {
-                                                                                  //     return ListTile(
-                                                                                  //       leading: Icon(Icons.print),
-                                                                                  //       title: Text(_devices[i].name.toString()),
-                                                                                  //       subtitle: Text(_devices[i].address.toString()),
-                                                                                  //       onTap: () {
-                                                                                  //         // _startPrint(_devices[i]);
-                                                                                  //       },
-                                                                                  //     );
-                                                                                  //   },
-                                                                                  // )
-                                                                                ),
-                                                                                Container(
-                                                                                  height: 67,
-                                                                                  width: double.infinity,
-                                                                                  decoration: BoxDecoration(
-                                                                                      color: Colors.white,
-                                                                                      border: Border(
-                                                                                          bottom: BorderSide(
-                                                                                              color: Colors.grey
-                                                                                                  .withOpacity(0.3),
-                                                                                              width: 1.0))),
-                                                                                  child: Padding(
-                                                                                    padding: EdgeInsets.only(
-                                                                                        left: 15.0,
-                                                                                        right: 15.0,
-                                                                                        top: 5.0,
-                                                                                        bottom: 0.0
-                                                                                    ),
-                                                                                    child: Column(
-                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                      children: [
-                                                                                        Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                          color: Colors.grey,
-                                                                                        )),
-                                                                                        SizedBox(height: 2.5),
-                                                                                        Text('Printing service', style: TextStyle(
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                            fontSize: 19
-                                                                                        )),
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                Align(
-                                                                                  alignment: Alignment.bottomCenter,
-                                                                                  child: Padding(
-                                                                                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                                                                    child: Container(
-                                                                                      decoration: BoxDecoration(
-                                                                                          color: Colors.white,
-                                                                                          border: Border(
-                                                                                            top: BorderSide(
-                                                                                                color:
-                                                                                                AppTheme.skBorderColor2,
-                                                                                                width: 1.0),
-                                                                                          )),
-                                                                                      width: double.infinity,
-                                                                                      height: 81,
-                                                                                      child: Column(
-                                                                                        mainAxisAlignment:
-                                                                                        MainAxisAlignment.end,
-                                                                                        crossAxisAlignment:
-                                                                                        CrossAxisAlignment.end,
-                                                                                        children: [
-                                                                                          // ListTile(
-                                                                                          //   title: Text(
-                                                                                          //     'Total price',
-                                                                                          //     style: TextStyle(
-                                                                                          //         fontSize: 17,
-                                                                                          //         fontWeight:
-                                                                                          //         FontWeight
-                                                                                          //             .w500),
-                                                                                          //   ),
-                                                                                          //   trailing: Text('$currencyUnit '+
-                                                                                          //       debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                          //     style: TextStyle(
-                                                                                          //         fontSize: 17,
-                                                                                          //         fontWeight:
-                                                                                          //         FontWeight
-                                                                                          //             .w500),
-                                                                                          //   ),
-                                                                                          // ),
-                                                                                          SizedBox(height: 10),
-                                                                                          Padding(
-                                                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                              child: Row(
-                                                                                                  children: [
-                                                                                                    GestureDetector(
-                                                                                                      onTap: () {
-                                                                                                        _onScanPressed();
-                                                                                                      },
-                                                                                                      child: Container(
-                                                                                                       width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
-                                                                                                        height: 50,
-                                                                                                        decoration: BoxDecoration(
-                                                                                                            borderRadius:
-                                                                                                            BorderRadius.circular(10.0),
-                                                                                                            color: AppTheme.secButtonColor),
-                                                                                                        child: Row(
-                                                                                                          mainAxisAlignment:
-                                                                                                          MainAxisAlignment
-                                                                                                              .center,
-                                                                                                          children: [
-                                                                                                            Expanded(
-                                                                                                              child: Padding(
-                                                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                                child: Container(
-                                                                                                                    child: Text(
-                                                                                                                      'Scan',
-                                                                                                                      textAlign: TextAlign.center,
-                                                                                                                      style: TextStyle(
-                                                                                                                          fontSize: 18,
-                                                                                                                          fontWeight: FontWeight.w600,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    )
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    Spacer(),
-                                                                                                    GestureDetector(
-                                                                                                      onTap: () async {
-                                                                                                        setState(() {
-                                                                                                          // mystate(()  {
-                                                                                                          prodList = [];
-                                                                                                          discount = 0.0;
-                                                                                                          discountAmount =0.0;
-                                                                                                          debt =0;
-                                                                                                          refund =0;
-                                                                                                          customerId = 'name^name';
-                                                                                                          disText = '';
-                                                                                                          isDiscount = '';
-                                                                                                          // });
-                                                                                                        });
-                                                                                                        // _controller.animateTo(0);
-                                                                                                        // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-
-                                                                                                        _textFieldControllerTablet.clear();
-                                                                                                        _controllerTablet.animateTo(0);
-                                                                                                        // Navigator.pop(context);
-                                                                                                        // sellDone = true;
-
-
-                                                                                                      },
-                                                                                                      child: Container(
-                                                                                                        width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
-                                                                                                        height: 50,
-                                                                                                        decoration: BoxDecoration(
-                                                                                                            borderRadius:
-                                                                                                            BorderRadius.circular(10.0),
-                                                                                                            color: AppTheme.themeColor),
-                                                                                                        child: Row(
-                                                                                                          mainAxisAlignment:
-                                                                                                          MainAxisAlignment
-                                                                                                              .center,
-                                                                                                          children: [
-                                                                                                            Expanded(
-                                                                                                              child: Padding(
-                                                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                                child: Container(
-                                                                                                                    child: Text(
-                                                                                                                      'Close',
-                                                                                                                      textAlign: TextAlign.center,
-                                                                                                                      style: TextStyle(
-                                                                                                                          fontSize: 17,
-                                                                                                                          fontWeight: FontWeight.w600,
-                                                                                                                          color: Colors.black
-                                                                                                                      ),
-                                                                                                                    )
-                                                                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ]
-                                                                                              )
-                                                                                          )
-                                                                                        ],
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
+                                                                                Text(customerId.split('^')[1] == 'name'? 'No customer':customerId.split('^')[1], style: TextStyle(
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.grey,
+                                                                                )),
+                                                                                SizedBox(height: 2.5),
+                                                                                Text('Printing service', style: TextStyle(
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontSize: 19
+                                                                                )),
                                                                               ],
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                        Positioned(
-                                                                          top: 42,
-                                                                          child: Container(
-                                                                            width: MediaQuery.of(context).size.width,
-                                                                            child: Align(
-                                                                              alignment: Alignment.center,
-                                                                              child: Container(
-                                                                                width: 50,
-                                                                                height: 5,
-                                                                                decoration: BoxDecoration(
-                                                                                    borderRadius: BorderRadius.all(
-                                                                                      Radius.circular(25.0),
+                                                                        // GestureDetector(
+                                                                        //     onTap: _isLoading ? null : _onScanPressed,
+                                                                        //     child: Text('click to scan', style: TextStyle(fontSize: 25),)
+                                                                        // ),
+                                                                        Expanded(
+                                                                          child: _isLoading && _blueDevices.isEmpty
+                                                                              ? Center(
+                                                                            child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                child: CupertinoActivityIndicator(radius: 15,)),
+                                                                          )
+                                                                              : _blueDevices.isNotEmpty
+                                                                              ? SingleChildScrollView(
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: <Widget>[
+                                                                                  SizedBox(height: 5),
+                                                                                  Column(
+                                                                                    children: List<Widget>.generate(_blueDevices.length,
+                                                                                            (int index) {
+                                                                                          return Row(
+                                                                                            children: <Widget>[
+                                                                                              Expanded(
+                                                                                                child: GestureDetector(
+                                                                                                  onTap: _blueDevices[index].address ==
+                                                                                                      (_selectedDevice?.address ?? '')
+                                                                                                      ? _onDisconnectDevice
+                                                                                                      : () => _onSelectDevice(index),
+                                                                                                  child: Container(
+                                                                                                    color: Colors.white,
+                                                                                                    child: Padding(
+                                                                                                      padding: const EdgeInsets.all(8.0),
+                                                                                                      child: Column(
+                                                                                                        crossAxisAlignment:
+                                                                                                        CrossAxisAlignment.start,
+                                                                                                        children: <Widget>[
+                                                                                                          Text(
+                                                                                                            _blueDevices[index].name,
+                                                                                                            style: TextStyle(
+                                                                                                                color:
+                                                                                                                _selectedDevice?.address ==
+                                                                                                                    _blueDevices[index]
+                                                                                                                        .address
+                                                                                                                    ? AppTheme.themeColor
+                                                                                                                    : Colors.black,
+                                                                                                                fontWeight: FontWeight.w600,
+                                                                                                                fontSize: 19
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          Text(
+                                                                                                            _blueDevices[index].address,
+                                                                                                            style: TextStyle(
+                                                                                                                color:
+                                                                                                                _selectedDevice?.address ==
+                                                                                                                    _blueDevices[index]
+                                                                                                                        .address
+                                                                                                                    ? Colors.blueGrey
+                                                                                                                    : Colors.grey,
+                                                                                                                fontSize: 14,
+                                                                                                                fontWeight: FontWeight.w500
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              if (_loadingAtIndex == index && _isLoading)
+                                                                                                Container(
+                                                                                                  height: 24.0,
+                                                                                                  width: 65.0,
+                                                                                                  margin: const EdgeInsets.only(right: 8.0),
+                                                                                                  child: Center(
+                                                                                                    child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                                        child: Padding(
+                                                                                                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                                                                                          child: CupertinoActivityIndicator(radius: 10,),
+                                                                                                        )
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              if (!_isLoading &&
+                                                                                                  _blueDevices[index].address ==
+                                                                                                      (_selectedDevice?.address ?? ''))
+                                                                                                TextButton(
+                                                                                                  onPressed: _onPrintReceipt,
+                                                                                                  // child: Container(
+                                                                                                  //   color: _selectedDevice == null
+                                                                                                  //       ? AppTheme.buttonColor2
+                                                                                                  //       : AppTheme.themeColor,
+                                                                                                  //   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 10, left: 10),
+                                                                                                  //   child: Icon(
+                                                                                                  //     Icons.print_rounded,
+                                                                                                  //     size: 25,
+                                                                                                  //     color: Colors.black,
+                                                                                                  //   )
+                                                                                                  //   // child: const Text(
+                                                                                                  //   //     'Print',
+                                                                                                  //   //     style: TextStyle(color: Colors.white)
+                                                                                                  //   // ),
+                                                                                                  // ),
+                                                                                                  child: Padding(
+                                                                                                    padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
+                                                                                                    child: Icon(
+                                                                                                      Icons.print_rounded,
+                                                                                                      size: 25,
+                                                                                                      color: Colors.black,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  style: ButtonStyle(
+                                                                                                      backgroundColor: MaterialStateProperty
+                                                                                                          .resolveWith<Color>(
+                                                                                                            (Set<MaterialState> states) {
+                                                                                                          if (states.contains(
+                                                                                                              MaterialState.pressed)) {
+                                                                                                            return AppTheme.themeColor.withOpacity(0.5);
+                                                                                                          }
+                                                                                                          return AppTheme.themeColor;
+                                                                                                        },
+                                                                                                      ),
+                                                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                                                          RoundedRectangleBorder(
+                                                                                                            borderRadius: BorderRadius.circular(10.0),
+                                                                                                          )
+                                                                                                      )
+                                                                                                  ),
+                                                                                                ),
+                                                                                              SizedBox(width: 8.5)
+                                                                                            ],
+                                                                                          );
+                                                                                        }),
+                                                                                  ),
+                                                                                  SizedBox(height: 5),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                              : Center(
+                                                                            child: Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: const <Widget>[
+                                                                                Text(
+                                                                                  'Scan bluetooth device',
+                                                                                  style: TextStyle(fontSize: 24, color: Colors.blue),
+                                                                                ),
+                                                                                Text(
+                                                                                  'Press button scan',
+                                                                                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          // child: _devices.isEmpty
+                                                                          //     ? Center(child: Text(_devicesMsg ?? ''))
+                                                                          //     : ListView.builder(
+                                                                          //   itemCount: _devices.length,
+                                                                          //   itemBuilder: (c, i) {
+                                                                          //     return ListTile(
+                                                                          //       leading: Icon(Icons.print),
+                                                                          //       title: Text(_devices[i].name.toString()),
+                                                                          //       subtitle: Text(_devices[i].address.toString()),
+                                                                          //       onTap: () {
+                                                                          //         // _startPrint(_devices[i]);
+                                                                          //       },
+                                                                          //     );
+                                                                          //   },
+                                                                          // )
+                                                                        ),
+                                                                        Align(
+                                                                          alignment: Alignment.bottomCenter,
+                                                                          child: Padding(
+                                                                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                                            child: Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  color: Colors.white,
+                                                                                  border: Border(
+                                                                                    top: BorderSide(
+                                                                                        color:
+                                                                                        AppTheme.skBorderColor2,
+                                                                                        width: 1.0),
+                                                                                  )),
+                                                                              width: double.infinity,
+                                                                              height: 150,
+                                                                              child: Column(
+                                                                                mainAxisAlignment:
+                                                                                MainAxisAlignment.end,
+                                                                                crossAxisAlignment:
+                                                                                CrossAxisAlignment.end,
+                                                                                children: [
+                                                                                  ListTile(
+                                                                                    title: Text(
+                                                                                      'Total price',
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 17,
+                                                                                          fontWeight:
+                                                                                          FontWeight
+                                                                                              .w500),
                                                                                     ),
-                                                                                    color: Colors.white.withOpacity(0.5)),
+                                                                                    trailing: Text('$currencyUnit '+
+                                                                                        debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 17,
+                                                                                          fontWeight:
+                                                                                          FontWeight
+                                                                                              .w500),
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(height: 10),
+                                                                                  Padding(
+                                                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 27.0),
+                                                                                      child: Row(
+                                                                                          children: [
+                                                                                            GestureDetector(
+                                                                                              onTap: () async {
+                                                                                                // setState(() {
+                                                                                                //   prodList = [];
+                                                                                                //   discount = 0.0;
+                                                                                                //   discountAmount =0.0;
+                                                                                                //   debt =0;
+                                                                                                //   refund =0;
+                                                                                                //   customerId = 'name^name';
+                                                                                                //   disText = '';
+                                                                                                //   isDiscount = '';
+                                                                                                // });
+                                                                                                // _controller.animateTo(0);
+                                                                                                // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+
+                                                                                                _textFieldController.clear();
+                                                                                                _textFieldControllerTablet.clear();
+                                                                                                _controllerTablet.animateTo(0);
+
+
+                                                                                              },
+                                                                                              child: Container(
+                                                                                                width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31,
+                                                                                                height: 50,
+                                                                                                decoration: BoxDecoration(
+                                                                                                    borderRadius:
+                                                                                                    BorderRadius.circular(10.0),
+                                                                                                    color: AppTheme.themeColor),
+                                                                                                child: Row(
+                                                                                                  mainAxisAlignment:
+                                                                                                  MainAxisAlignment
+                                                                                                      .center,
+                                                                                                  children: [
+                                                                                                    Expanded(
+                                                                                                      child: Padding(
+                                                                                                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                        child: Container(
+                                                                                                            child: Text(
+                                                                                                              'Next sale',
+                                                                                                              textAlign: TextAlign.center,
+                                                                                                              style: TextStyle(
+                                                                                                                  fontSize: 17,
+                                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                                  color: Colors.black
+                                                                                                              ),
+                                                                                                            )
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ]
+                                                                                      )
+                                                                                  )
+                                                                                ],
                                                                               ),
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                        // Align(
-                                                                        //   alignment: Alignment.topCenter,
-                                                                        //   child: Padding(
-                                                                        //     padding: const EdgeInsets.only(top: 90.0),
-                                                                        //     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                                                                        //   )
-                                                                        // ),
                                                                       ],
                                                                     ),
                                                                   ),
@@ -6172,7 +5978,7 @@ class HomePageState extends State<HomePage>
   //     orderLoading = true;
   //   });
   //
-  //   print('');
+  //   print('order creating');
   //
   //   FirebaseFirestore
   //       .instance
@@ -7123,14 +6929,6 @@ class HomePageState extends State<HomePage>
   }
 
   Future<void> _onPrintReceipt() async {
-    setState(() {
-      priInProgTablet = true;
-    });
-    // Future.delayed(const Duration(milliseconds: 1500), () {
-    //   mystate(() {
-    //     priInProgHome = false;
-    //   });
-    // });
     // final ReceiptSectionText receiptText = ReceiptSectionText();
 
     final doc = await PdfDocument.openFile(pdfFile!.path);
@@ -7201,9 +6999,6 @@ class HomePageState extends State<HomePage>
         width = 570;
       }
       await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-      setState(() {
-        priInProgTablet = false;
-      });
     });
 
 
@@ -7269,7 +7064,6 @@ class HomePageState extends State<HomePage>
     // _onDisconnectDevice();
     // _onDisconnectDevice();
   }
-  bool priInProgTablet = false;
 
   saleCart(priContext) {
     mainLoss = 0;
@@ -8657,6 +8451,8 @@ class HomePageState extends State<HomePage>
                                                                     int debts = 0;
                                                                     var dateExist = false;
                                                                     var dateId = '';
+                                                                    bool reFilter = false;
+                                                                    bool deFilter = false;
                                                                     double debtAmounts = 0 ;
                                                                     mystate(() {
                                                                       setState(() {
@@ -8730,15 +8526,16 @@ class HomePageState extends State<HomePage>
                                                                             });
                                                                           }
                                                                         });
-
                                                                       }
 
                                                                       if( debt.toString() != '0.0') {
                                                                         debts = 1;
                                                                         debtAmounts = debt;
+                                                                        deFilter = true;
                                                                       } else {
                                                                         debts = 0;
                                                                         debtAmounts = 0;
+                                                                        deFilter = false;
                                                                       }
 
                                                                       print('subList2 ' + subList2.toString());
@@ -8758,12 +8555,12 @@ class HomePageState extends State<HomePage>
 
                                                                         if (dateExist) {
                                                                           addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                          Detail(now, length.toString(),subList2, dateId);
+                                                                          Detail(now, length.toString(),subList2, dateId, reFilter, deFilter);
                                                                           print('adddateexist added');
                                                                         }
                                                                         else {
                                                                           DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                          Detail(now, length.toString(),subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
+                                                                          Detail(now, length.toString(),subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
                                                                           print('adddateexist not');
                                                                         }
                                                                       });
@@ -10866,7 +10663,7 @@ class HomePageState extends State<HomePage>
     return oldString.substring(0, index) + newChar + oldString.substring(index + 1);
   }
 
-  Future<void> Detail(date, length, subs, docId) async {
+  Future<void> Detail(date, length, subs, docId, reF, deF) async {
     print('CHECKING PRODSALE ORD');
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order');
     String customId = deviceIdNum.toString() + length.toString();
@@ -10882,6 +10679,8 @@ class HomePageState extends State<HomePage>
       'deviceId' : deviceIdNum.toString() + '-',
       'orderId' : length.toString(),
       'documentId' : docId,
+      'refund_filter' : reF,
+      'debt_filter' : deF,
     })
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
@@ -11542,7 +11341,7 @@ class HomePageState extends State<HomePage>
                 // smartKyatFlash('Print command received and working on it.', 'i');
                 // final ReceiptSectionText receiptText = ReceiptSectionText();
                 if(file != null) {
-                  final doc = await PdfDocument.openFile(file!.path);
+                  final doc = await PdfDocument.openFile(file.path);
                   final pages = doc.pageCount;
                   List<imglib.Image> images = [];
 
@@ -11580,17 +11379,55 @@ class HomePageState extends State<HomePage>
                       width = 570;
                     }
 
-                    // final ReceiptSectionText receiptText = ReceiptSectionText();
-                    // receiptText.addLeftRightText(
-                    //   'ငှက်ပျောသီး',
-                    //   '30.000 $currencyUnit',
-                    //   leftStyle: ReceiptTextStyleType.normal,
-                    //   leftSize: ReceiptTextSizeType.small,
-                    //   rightSize: ReceiptTextSizeType.small,
-                    //   rightStyle: ReceiptTextStyleType.bold,
-                    // );
-                    await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-                    //await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
+                    final ReceiptSectionText receiptText = ReceiptSectionText();
+                    receiptText.addSpacer();
+                    receiptText.addText(
+                      'MY STORE',
+                      size: ReceiptTextSizeType.medium,
+                      style: ReceiptTextStyleType.bold,
+                    );
+                    receiptText.addText(
+                      'Black White Street, Jakarta, Indonesia',
+                      size: ReceiptTextSizeType.small,
+                    );
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addLeftRightText('Time', '04/06/21, 10:00');
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addLeftRightText(
+                      'Apple 1kg',
+                      'Rp30.000',
+                      leftStyle: ReceiptTextStyleType.normal,
+                      rightStyle: ReceiptTextStyleType.bold,
+                    );
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addLeftRightText(
+                      'TOTAL',
+                      'Rp30.000',
+                      leftStyle: ReceiptTextStyleType.normal,
+                      rightStyle: ReceiptTextStyleType.bold,
+                    );
+                    receiptText.addSpacer(useDashed: true);
+                    receiptText.addLeftRightText(
+                      'Payment',
+                      'Cash',
+                      leftStyle: ReceiptTextStyleType.normal,
+                      rightStyle: ReceiptTextStyleType.normal,
+                    );
+                    receiptText.addSpacer(count: 2);
+
+                    await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
+
+                    /// Example for print QR
+                    // await _bluePrintPos.printQR('www.google.com', size: 250);
+                    //
+                    // /// Text after QR
+                    // final ReceiptSectionText receiptSecondText = ReceiptSectionText();
+                    // receiptSecondText.addText('Powered by ayeee',
+                    //     size: ReceiptTextSizeType.small);
+                    // receiptSecondText.addSpacer();
+                    // await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1,  paperSize: posUtils.PaperSize.mm80);
+                    // // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                    // await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
                     mystate(() {
                       priInProgOrders = false;
                     });
