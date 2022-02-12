@@ -40,7 +40,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
     }
     return prefs.getString('lang');
   }
-  
+
   String textSetSaleCart = 'Add to\nsale cart';
   String textSetPurchasedOrders = 'Purchased\norders';
   String textSetEdit = 'Edit customer';
@@ -61,45 +61,45 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-           textSetSaleCart = 'Add to\nsale cart';
-           textSetPurchasedOrders = 'Purchased\norders';
-           textSetEdit = 'Edit customer';
-           textSetSaleInfo = 'Sale info';
-           textSetContactInfo = 'Contact info';
-           textSetInfo = 'CUSTOMER INFORMATION';
-           textSetName = 'Name';
-           textSetPhone = 'Phone';
-           textSetAddress = 'Address';
-           textSetBarcode = 'Barcode';
-           textSetDebtAmount = 'Total Unpaid';
-           textSetDebts = 'Total Unpaid Orders';
-            textSetTtlOrders = 'Total Orders';
-            textSetRefunds = 'Total Refunded Orders';
-           textSetSaleTitle = 'SALE INFORMATION';
+          textSetSaleCart = 'Add to\nsale cart';
+          textSetPurchasedOrders = 'Purchased\norders';
+          textSetEdit = 'Edit customer';
+          textSetSaleInfo = 'Sale info';
+          textSetContactInfo = 'Contact info';
+          textSetInfo = 'CUSTOMER INFORMATION';
+          textSetName = 'Name';
+          textSetPhone = 'Phone';
+          textSetAddress = 'Address';
+          textSetBarcode = 'Barcode';
+          textSetDebtAmount = 'Total Unpaid';
+          textSetDebts = 'Total Unpaid Orders';
+          textSetTtlOrders = 'Total Orders';
+          textSetRefunds = 'Total Refunded Orders';
+          textSetSaleTitle = 'SALE INFORMATION';
 
         });
       }
       else if(value=='english') {
         setState(() {
-           textSetSaleCart = 'Add to\nsale cart';
-           textSetPurchasedOrders = 'Purchased\norders';
-           textSetEdit = 'Edit customer';
-           textSetSaleInfo = 'Sale info';
-           textSetContactInfo = 'Contact info';
-           textSetInfo = 'CUSTOMER INFORMATION';
-           textSetName = 'Name';
-           textSetPhone = 'Phone';
-           textSetAddress = 'Address';
-           textSetBarcode = 'Barcode';
-           textSetDebtAmount = 'Total Unpaid';
-           textSetDebts = 'Total Unpaid Orders';
-           textSetTtlOrders = 'Total Orders';
-           textSetRefunds = 'Total Refunded Orders';
-           textSetSaleTitle = 'SALE INFORMATION';
+          textSetSaleCart = 'Add to\nsale cart';
+          textSetPurchasedOrders = 'Purchased\norders';
+          textSetEdit = 'Edit customer';
+          textSetSaleInfo = 'Sale info';
+          textSetContactInfo = 'Contact info';
+          textSetInfo = 'CUSTOMER INFORMATION';
+          textSetName = 'Name';
+          textSetPhone = 'Phone';
+          textSetAddress = 'Address';
+          textSetBarcode = 'Barcode';
+          textSetDebtAmount = 'Total Unpaid';
+          textSetDebts = 'Total Unpaid Orders';
+          textSetTtlOrders = 'Total Orders';
+          textSetRefunds = 'Total Refunded Orders';
+          textSetSaleTitle = 'SALE INFORMATION';
         });
       }
     });
-    
+
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
       print('my index is'+ _controller.index.toString());
@@ -294,7 +294,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                         bottom: 10,
                                                         left: 0,
                                                         child: Text(
-                                                         textSetSaleCart,
+                                                          textSetSaleCart,
                                                           style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             fontSize: 16,
@@ -436,7 +436,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                             child: ListView(
                                               scrollDirection: Axis.horizontal,
                                               children: [
-                                               // SizedBox(width: 10),
+                                                // SizedBox(width: 10),
                                                 FlatButton(
                                                   minWidth: 0,
                                                   padding: EdgeInsets.only(left: 8, right: 12),

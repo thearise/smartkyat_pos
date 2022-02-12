@@ -826,10 +826,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         List<String> items = [];
         String searchtxt = searchValue;
         await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-            // .where("prod_name",isNotEqualTo:searchtxt)
-            // .orderBy("prod_name")
-            // .startAt([searchtxt,])
-            // .endAt([searchtxt+'\uf8ff',])
+        // .where("prod_name",isNotEqualTo:searchtxt)
+        // .orderBy("prod_name")
+        // .startAt([searchtxt,])
+        // .endAt([searchtxt+'\uf8ff',])
             .where("search_name", arrayContains: searchValue)
             .get(GetOptions(source: Source.cache))
             .then((QuerySnapshot querySnapshot) async {
@@ -859,10 +859,10 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
           if(items.length == 0) {
             await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products')
-              .where('search_name', arrayContains: searchValue)
-              .limit(10)
-              .get(GetOptions(source: Source.server))
-              .then((QuerySnapshot querySnapshotPS) {
+                .where('search_name', arrayContains: searchValue)
+                .limit(10)
+                .get(GetOptions(source: Source.server))
+                .then((QuerySnapshot querySnapshotPS) {
               querySnapshot.docs.forEach((doc) {
                 setState(() {
                   items.add(doc.id + sps +

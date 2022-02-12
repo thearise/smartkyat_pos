@@ -682,7 +682,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                   },
                   itemBuilderType:
                   PaginateBuilderType.listView,
-                    // cateScIndex
+                  // cateScIndex
                   // orderBy is compulsory to enable pagination
                   // query: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('order').where('debt', isGreaterThan: 0),
                   query: queryFilter(),
@@ -989,11 +989,11 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
     });
   }
 
-  // bool togIndOne = true;
-  //
-  // void toggleIndexOne() {
-  //   setState(() {
-  //     togIndOne = !togIndOne;
-  //   });
-  // }
+// bool togIndOne = true;
+//
+// void toggleIndexOne() {
+//   setState(() {
+//     togIndOne = !togIndOne;
+//   });
+// }
 }
