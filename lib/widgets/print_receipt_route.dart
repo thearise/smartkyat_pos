@@ -86,11 +86,11 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       }
       else if(value=='english') {
         setState(() {
-           totalVPrice = 'စုစုပေါင်း';
-           VPaid = 'ပေးငွေ';
-           VDebt = 'ကျန်ငွေ';
-           subVTotal = 'ကျသင့်ငွေပေါင်း';
-           VDiscount = 'လျှော့ငွေ';
+          totalVPrice = 'စုစုပေါင်း';
+          VPaid = 'ပေးငွေ';
+          VDebt = 'ကျန်ငွေ';
+          subVTotal = 'ကျသင့်ငွေပေါင်း';
+          VDiscount = 'လျှော့ငွေ';
         });
       }
     });
@@ -129,12 +129,12 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
           address: '',
         ),
         info: InvoiceInfo(
-            date: date,
-            dueDate: dueDate,
-            description: 'My description...',
-            // number: '${DateTime.now().year}-9999',
-            // number: deviceIdNum.toString() + '^' + length.toString()
-            number: widget.data.split('^')[1],
+          date: date,
+          dueDate: dueDate,
+          description: 'My description...',
+          // number: '${DateTime.now().year}-9999',
+          // number: deviceIdNum.toString() + '^' + length.toString()
+          number: widget.data.split('^')[1],
         ),
         items: [
           for(int i=0; i<prodList.length; i++)

@@ -1004,446 +1004,446 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                     //   },
                                     // ),
                                     for (int i = 0; i < prodListView.length; i++)
-                                    FutureBuilder(
-                                      // future: getDetailProd(prodListView[i].split('-')[0]),
-                                      future: FirebaseFirestore.instance
-                                          .collection('shops')
-                                          .doc(widget.shopId)
-                                          .collection('products')
-                                          .doc(prodListView[i].split('-')[0]).get(GetOptions(source: Source.cache)),
-                                      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> ssFuture) {
-                                        if(ssFuture.hasData && ssFuture.data!.exists){
-                                          Map<String, dynamic> data = ssFuture.data!.data() as Map<String, dynamic>;
-                                          // return Center( // here only return is missing
-                                          //     child: Text('GGGGG' + data.toString())
-                                          // );
-                                          // var output2 = snapshot2.data!.data();
-                                          var image = data['img_1'];
-                                          print('image htwet heree' + prodListView[i].toString());
-                                          if(firstBuild) {
-                                            if(i == 0) {
-                                              prodListPrint.add(
-                                                  data['prod_name'] + '^' +
-                                                      data[prodListView[i].split('-')[5]] + '^' +
-                                                      prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
-                                              );
-                                            } else {
-                                              prodListPrint.add(
-                                                  data['prod_name'] + '^' +
-                                                      data[prodListView[i].split('-')[5]] + '^' +
-                                                      prodListView[i].split('-')[4] + '^' +
-                                                      (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
-                                              );
+                                      FutureBuilder(
+                                        // future: getDetailProd(prodListView[i].split('-')[0]),
+                                        future: FirebaseFirestore.instance
+                                            .collection('shops')
+                                            .doc(widget.shopId)
+                                            .collection('products')
+                                            .doc(prodListView[i].split('-')[0]).get(GetOptions(source: Source.cache)),
+                                        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> ssFuture) {
+                                          if(ssFuture.hasData && ssFuture.data!.exists){
+                                            Map<String, dynamic> data = ssFuture.data!.data() as Map<String, dynamic>;
+                                            // return Center( // here only return is missing
+                                            //     child: Text('GGGGG' + data.toString())
+                                            // );
+                                            // var output2 = snapshot2.data!.data();
+                                            var image = data['img_1'];
+                                            print('image htwet heree' + prodListView[i].toString());
+                                            if(firstBuild) {
+                                              if(i == 0) {
+                                                prodListPrint.add(
+                                                    data['prod_name'] + '^' +
+                                                        data[prodListView[i].split('-')[5]] + '^' +
+                                                        prodListView[i].split('-')[4] + '^' + (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                                );
+                                              } else {
+                                                prodListPrint.add(
+                                                    data['prod_name'] + '^' +
+                                                        data[prodListView[i].split('-')[5]] + '^' +
+                                                        prodListView[i].split('-')[4] + '^' +
+                                                        (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                                );
+                                              }
                                             }
-                                          }
-                                          if(i == prodListView.length-1) {
-                                            firstBuild = false;
-                                          }
+                                            if(i == prodListView.length-1) {
+                                              firstBuild = false;
+                                            }
 
-                                          return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
-                                            children: [
-                                              Container(
-                                                color: Colors.white,
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(height: 12),
-                                                    ListTile(
-                                                      leading: ClipRRect(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            5.0),
-                                                        child: image != ""
-                                                            ? CachedNetworkImage(
-                                                          imageUrl:
-                                                          'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                              image,
-                                                          width: 56.5,
-                                                          height: 56.5,
-                                                          placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
-                                                          errorWidget: (context,
-                                                              url,
-                                                              error) =>
-                                                              Icon(Icons
-                                                                  .error),
-                                                          fadeInDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              100),
-                                                          fadeOutDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              10),
-                                                          fadeInCurve:
-                                                          Curves
-                                                              .bounceIn,
-                                                          fit: BoxFit
-                                                              .cover,
-                                                        )
-                                                            :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                      title: Text(
-                                                        data[
-                                                        'prod_name'],
-                                                        style:
-                                                        TextStyle(
-                                                            fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                            return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
+                                              children: [
+                                                Container(
+                                                  color: Colors.white,
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(height: 12),
+                                                      ListTile(
+                                                        leading: ClipRRect(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              5.0),
+                                                          child: image != ""
+                                                              ? CachedNetworkImage(
+                                                            imageUrl:
+                                                            'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                image,
+                                                            width: 56.5,
+                                                            height: 56.5,
+                                                            placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
+                                                            errorWidget: (context,
+                                                                url,
+                                                                error) =>
+                                                                Icon(Icons
+                                                                    .error),
+                                                            fadeInDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                100),
+                                                            fadeOutDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                10),
+                                                            fadeInCurve:
+                                                            Curves
+                                                                .bounceIn,
+                                                            fit: BoxFit
+                                                                .cover,
+                                                          )
+                                                              :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
+                                                        title: Text(
+                                                          data[
+                                                          'prod_name'],
+                                                          style:
+                                                          TextStyle(
+                                                              fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                        ),
+                                                        subtitle: Padding(
+                                                          padding: const EdgeInsets.only(top: 4.0),
+                                                          child: Row(
+                                                            children: [
+                                                              Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                  fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                              )),
+                                                              if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                              else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                              else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.w500,
+                                                          ),),
                                                       ),
-                                                      subtitle: Padding(
-                                                        padding: const EdgeInsets.only(top: 4.0),
-                                                        child: Row(
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0),
+                                                        child: Container(height: 12,
+                                                          decoration: BoxDecoration(
+                                                              border: Border(
+                                                                bottom:
+                                                                BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
+                                                              )),),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  top : 11,
+                                                  right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
+                                                  child: Container(
+                                                    // height: 20,
+                                                    // width: 30,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                        color: AppTheme.skBorderColor2,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                        border: Border.all(
+                                                          color: Colors.white,
+                                                          width: 2,
+                                                        )),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                      child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                                                          fontSize: 11, fontWeight: FontWeight.w500
+                                                      )),
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Positioned(
+                                                //   top : 8,
+                                                //   left : 50,
+                                                //   child: Container(
+                                                //     height: 20,
+                                                //     width: 30,
+                                                //     alignment: Alignment.center,
+                                                //     decoration: BoxDecoration(
+                                                //         color: AppTheme.skBorderColor2,
+                                                //         borderRadius:
+                                                //         BorderRadius.circular(
+                                                //             10.0),
+                                                //         border: Border.all(
+                                                //           color: Colors.white,
+                                                //           width: 2,
+                                                //         )),
+                                                //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                //       fontSize: 11, fontWeight: FontWeight.w500,
+                                                //     )),
+                                                //   ),
+                                                // ),
+                                              ],
+                                            ): Container();
+                                          } else if(ssFuture.hasData && !ssFuture.data!.exists) {
+                                            return FutureBuilder(
+                                              // future: getDetailProd(prodListView[i].split('-')[0]),
+                                              future: FirebaseFirestore.instance
+                                                  .collection('shops')
+                                                  .doc(widget.shopId)
+                                                  .collection('products')
+                                                  .doc(prodListView[i].split('-')[0]).get(GetOptions(source: Source.serverAndCache)),
+                                              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> ssFuture) {
+                                                if(ssFuture.hasData && ssFuture.data!.exists){
+                                                  Map<String, dynamic> data = ssFuture.data!.data() as Map<String, dynamic>;
+                                                  // return Center( // here only return is missing
+                                                  //     child: Text('GGGGG' + data.toString())
+                                                  // );
+                                                  // var output2 = snapshot2.data!.data();
+                                                  var image = data['img_1'];
+                                                  print('image htwet heree' + prodListView[i].toString());
+                                                  if(firstBuild) {
+                                                    prodListPrint.add(
+                                                        data['prod_name'] + '^' +
+                                                            data[prodListView[i].split('-')[5]] + '^' +
+                                                            prodListView[i].split('-')[4] + '^' +
+                                                            (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                                    );
+                                                  }
+                                                  if(i == prodListView.length-1) {
+                                                    firstBuild = false;
+                                                  }
+
+                                                  return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
+                                                    children: [
+                                                      Container(
+                                                        color: Colors.white,
+                                                        child: Column(
                                                           children: [
-                                                            Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                            )),
-                                                            if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                            else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                            else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                            SizedBox(height: 12),
+                                                            ListTile(
+                                                              leading: ClipRRect(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    5.0),
+                                                                child: image != ""
+                                                                    ? CachedNetworkImage(
+                                                                  imageUrl:
+                                                                  'https://riftplus.me/smartkyat_pos/api/uploads/' +
+                                                                      image,
+                                                                  width: 56.5,
+                                                                  height: 56.5,
+                                                                  placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
+                                                                  errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                      Icon(Icons
+                                                                          .error),
+                                                                  fadeInDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                      100),
+                                                                  fadeOutDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                      10),
+                                                                  fadeInCurve:
+                                                                  Curves
+                                                                      .bounceIn,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                )
+                                                                    :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
+                                                              title: Text(
+                                                                data[
+                                                                'prod_name'],
+                                                                style:
+                                                                TextStyle(
+                                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
+                                                              ),
+                                                              subtitle: Padding(
+                                                                padding: const EdgeInsets.only(top: 4.0),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
+                                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                    )),
+                                                                    if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                                    else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                                    else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.w500,
+                                                                ),),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0),
+                                                              child: Container(height: 12,
+                                                                decoration: BoxDecoration(
+                                                                    border: Border(
+                                                                      bottom:
+                                                                      BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
+                                                                    )),),
+                                                            ),
                                                           ],
                                                         ),
                                                       ),
-                                                      trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.w500,
-                                                        ),),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                      child: Container(height: 12,
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                              bottom:
-                                                              BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
-                                                            )),),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Positioned(
-                                                top : 11,
-                                                right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
-                                                child: Container(
-                                                  // height: 20,
-                                                  // width: 30,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: AppTheme.skBorderColor2,
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                      border: Border.all(
+                                                      Positioned(
+                                                        top : 11,
+                                                        right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
+                                                        child: Container(
+                                                          // height: 20,
+                                                          // width: 30,
+                                                          alignment: Alignment.center,
+                                                          decoration: BoxDecoration(
+                                                              color: AppTheme.skBorderColor2,
+                                                              borderRadius:
+                                                              BorderRadius.circular(
+                                                                  10.0),
+                                                              border: Border.all(
+                                                                color: Colors.white,
+                                                                width: 2,
+                                                              )),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                            child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                                                                fontSize: 11, fontWeight: FontWeight.w500
+                                                            )),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      // Positioned(
+                                                      //   top : 8,
+                                                      //   left : 50,
+                                                      //   child: Container(
+                                                      //     height: 20,
+                                                      //     width: 30,
+                                                      //     alignment: Alignment.center,
+                                                      //     decoration: BoxDecoration(
+                                                      //         color: AppTheme.skBorderColor2,
+                                                      //         borderRadius:
+                                                      //         BorderRadius.circular(
+                                                      //             10.0),
+                                                      //         border: Border.all(
+                                                      //           color: Colors.white,
+                                                      //           width: 2,
+                                                      //         )),
+                                                      //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                      //       fontSize: 11, fontWeight: FontWeight.w500,
+                                                      //     )),
+                                                      //   ),
+                                                      // ),
+                                                    ],
+                                                  ): Container();
+                                                } else if(ssFuture.hasData && !ssFuture.data!.exists) {
+                                                  if(firstBuild) {
+                                                    prodListPrint.add(
+                                                        'Unknown' + '^' +
+                                                            prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + '^' +
+                                                            prodListView[i].split('-')[4] + '^' +
+                                                            (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
+                                                    );
+                                                  }
+                                                  if(i == prodListView.length-1) {
+                                                    firstBuild = false;
+                                                  }
+
+                                                  return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
+                                                    children: [
+                                                      Container(
                                                         color: Colors.white,
-                                                        width: 2,
-                                                      )),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                    child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
-                                                        fontSize: 11, fontWeight: FontWeight.w500
-                                                    )),
-                                                  ),
-                                                ),
-                                              ),
-                                              // Positioned(
-                                              //   top : 8,
-                                              //   left : 50,
-                                              //   child: Container(
-                                              //     height: 20,
-                                              //     width: 30,
-                                              //     alignment: Alignment.center,
-                                              //     decoration: BoxDecoration(
-                                              //         color: AppTheme.skBorderColor2,
-                                              //         borderRadius:
-                                              //         BorderRadius.circular(
-                                              //             10.0),
-                                              //         border: Border.all(
-                                              //           color: Colors.white,
-                                              //           width: 2,
-                                              //         )),
-                                              //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
-                                              //       fontSize: 11, fontWeight: FontWeight.w500,
-                                              //     )),
-                                              //   ),
-                                              // ),
-                                            ],
-                                          ): Container();
-                                        } else if(ssFuture.hasData && !ssFuture.data!.exists) {
-                                          return FutureBuilder(
-                                            // future: getDetailProd(prodListView[i].split('-')[0]),
-                                            future: FirebaseFirestore.instance
-                                                .collection('shops')
-                                                .doc(widget.shopId)
-                                                .collection('products')
-                                                .doc(prodListView[i].split('-')[0]).get(GetOptions(source: Source.serverAndCache)),
-                                            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> ssFuture) {
-                                              if(ssFuture.hasData && ssFuture.data!.exists){
-                                                Map<String, dynamic> data = ssFuture.data!.data() as Map<String, dynamic>;
-                                                // return Center( // here only return is missing
-                                                //     child: Text('GGGGG' + data.toString())
-                                                // );
-                                                // var output2 = snapshot2.data!.data();
-                                                var image = data['img_1'];
-                                                print('image htwet heree' + prodListView[i].toString());
-                                                if(firstBuild) {
-                                                  prodListPrint.add(
-                                                      data['prod_name'] + '^' +
-                                                          data[prodListView[i].split('-')[5]] + '^' +
-                                                          prodListView[i].split('-')[4] + '^' +
-                                                          (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
-                                                  );
-                                                }
-                                                if(i == prodListView.length-1) {
-                                                  firstBuild = false;
-                                                }
-
-                                                return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
-                                                  children: [
-                                                    Container(
-                                                      color: Colors.white,
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(height: 12),
-                                                          ListTile(
-                                                            leading: ClipRRect(
-                                                              borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  5.0),
-                                                              child: image != ""
-                                                                  ? CachedNetworkImage(
-                                                                imageUrl:
-                                                                'https://riftplus.me/smartkyat_pos/api/uploads/' +
-                                                                    image,
-                                                                width: 56.5,
-                                                                height: 56.5,
-                                                                placeholder: (context, url) => Image(image: AssetImage('assets/system/default-product.png'), height: 58, width: 58,),
-                                                                errorWidget: (context,
-                                                                    url,
-                                                                    error) =>
-                                                                    Icon(Icons
-                                                                        .error),
-                                                                fadeInDuration:
-                                                                Duration(
-                                                                    milliseconds:
-                                                                    100),
-                                                                fadeOutDuration:
-                                                                Duration(
-                                                                    milliseconds:
-                                                                    10),
-                                                                fadeInCurve:
-                                                                Curves
-                                                                    .bounceIn,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              )
-                                                                  :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                            title: Text(
-                                                              data[
-                                                              'prod_name'],
-                                                              style:
-                                                              TextStyle(
-                                                                  fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
-                                                            ),
-                                                            subtitle: Padding(
-                                                              padding: const EdgeInsets.only(top: 4.0),
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(data[prodListView[i].split('-')[5]] + ' ', style: TextStyle(
-                                                                      fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                                  )),
-                                                                  if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                                  else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                                  else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                ],
+                                                        child: Column(
+                                                          children: [
+                                                            SizedBox(height: 12),
+                                                            ListTile(
+                                                              leading: ClipRRect(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    5.0),
+                                                                child: Image.asset('assets/system/default-product.png', height: 58, width: 58),),
+                                                              title: Text(
+                                                                'Unknown',
+                                                                style:
+                                                                TextStyle(
+                                                                    fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
                                                               ),
+                                                              subtitle: Padding(
+                                                                padding: const EdgeInsets.only(top: 4.0),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
+                                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
+                                                                    )),
+                                                                    if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
+                                                                    else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
+                                                                    else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.w500,
+                                                                ),),
                                                             ),
-                                                            trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0),
-                                                            child: Container(height: 12,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border(
-                                                                    bottom:
-                                                                    BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
-                                                                  )),),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      top : 11,
-                                                      right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
-                                                      child: Container(
-                                                        // height: 20,
-                                                        // width: 30,
-                                                        alignment: Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                            color: AppTheme.skBorderColor2,
-                                                            borderRadius:
-                                                            BorderRadius.circular(
-                                                                10.0),
-                                                            border: Border.all(
-                                                              color: Colors.white,
-                                                              width: 2,
-                                                            )),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                          child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
-                                                              fontSize: 11, fontWeight: FontWeight.w500
-                                                          )),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0),
+                                                              child: Container(height: 12,
+                                                                decoration: BoxDecoration(
+                                                                    border: Border(
+                                                                      bottom:
+                                                                      BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
+                                                                    )),),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
-                                                    ),
-                                                    // Positioned(
-                                                    //   top : 8,
-                                                    //   left : 50,
-                                                    //   child: Container(
-                                                    //     height: 20,
-                                                    //     width: 30,
-                                                    //     alignment: Alignment.center,
-                                                    //     decoration: BoxDecoration(
-                                                    //         color: AppTheme.skBorderColor2,
-                                                    //         borderRadius:
-                                                    //         BorderRadius.circular(
-                                                    //             10.0),
-                                                    //         border: Border.all(
-                                                    //           color: Colors.white,
-                                                    //           width: 2,
-                                                    //         )),
-                                                    //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
-                                                    //       fontSize: 11, fontWeight: FontWeight.w500,
-                                                    //     )),
-                                                    //   ),
-                                                    // ),
-                                                  ],
-                                                ): Container();
-                                              } else if(ssFuture.hasData && !ssFuture.data!.exists) {
-                                                if(firstBuild) {
-                                                  prodListPrint.add(
-                                                      'Unknown' + '^' +
-                                                          prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + '^' +
-                                                          prodListView[i].split('-')[4] + '^' +
-                                                          (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).toString() + '^'
-                                                  );
-                                                }
-                                                if(i == prodListView.length-1) {
-                                                  firstBuild = false;
-                                                }
-
-                                                return  (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString() != '0' ? Stack(
-                                                  children: [
-                                                    Container(
-                                                      color: Colors.white,
-                                                      child: Column(
-                                                        children: [
-                                                          SizedBox(height: 12),
-                                                          ListTile(
-                                                            leading: ClipRRect(
+                                                      Positioned(
+                                                        top : 11,
+                                                        right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
+                                                        child: Container(
+                                                          // height: 20,
+                                                          // width: 30,
+                                                          alignment: Alignment.center,
+                                                          decoration: BoxDecoration(
+                                                              color: AppTheme.skBorderColor2,
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  5.0),
-                                                              child: Image.asset('assets/system/default-product.png', height: 58, width: 58),),
-                                                            title: Text(
-                                                              'Unknown',
-                                                              style:
-                                                              TextStyle(
-                                                                  fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
-                                                            ),
-                                                            subtitle: Padding(
-                                                              padding: const EdgeInsets.only(top: 4.0),
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(prodListView[i].split('-')[5] == 'unit_name'? 'main': prodListView[i].split('-')[5] == 'sub1_name'? 'sub1': 'sub2' + ' ', style: TextStyle(
-                                                                      fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, height: 0.9
-                                                                  )),
-                                                                  if (prodListView[i].split('-')[5] == 'unit_name') Icon( SmartKyat_POS.prodm, size: 17, color: Colors.grey,)
-                                                                  else if(prodListView[i].split('-')[5] == 'sub1_name')Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,)
-                                                                  else Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            trailing: Text('$currencyUnit ' + (double.parse(prodListView[i].split('-')[4]) * (double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7]))).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0),
-                                                            child: Container(height: 12,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border(
-                                                                    bottom:
-                                                                    BorderSide(color: i == prodListView.length - 1 ? Colors.transparent: AppTheme.skBorderColor2, width: 0.5),
-                                                                  )),),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      top : 11,
-                                                      right:  (MediaQuery.of(context).size.width > 900? (MediaQuery.of(context).size.width * (2 / 3.5)) : MediaQuery.of(context).size.width)  - 80,
-                                                      child: Container(
-                                                        // height: 20,
-                                                        // width: 30,
-                                                        alignment: Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                            color: AppTheme.skBorderColor2,
-                                                            borderRadius:
-                                                            BorderRadius.circular(
-                                                                10.0),
-                                                            border: Border.all(
-                                                              color: Colors.white,
-                                                              width: 2,
+                                                              BorderRadius.circular(
+                                                                  10.0),
+                                                              border: Border.all(
+                                                                color: Colors.white,
+                                                                width: 2,
+                                                              )),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
+                                                            child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
+                                                                fontSize: 11, fontWeight: FontWeight.w500
                                                             )),
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(left: 8.5, right: 8.5, top: 1, bottom: 1),
-                                                          child: Text((double.parse(prodListView[i].split('-')[3]) - double.parse(prodListView[i].split('-')[7])).round().toString(), style: TextStyle(
-                                                              fontSize: 11, fontWeight: FontWeight.w500
-                                                          )),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    // Positioned(
-                                                    //   top : 8,
-                                                    //   left : 50,
-                                                    //   child: Container(
-                                                    //     height: 20,
-                                                    //     width: 30,
-                                                    //     alignment: Alignment.center,
-                                                    //     decoration: BoxDecoration(
-                                                    //         color: AppTheme.skBorderColor2,
-                                                    //         borderRadius:
-                                                    //         BorderRadius.circular(
-                                                    //             10.0),
-                                                    //         border: Border.all(
-                                                    //           color: Colors.white,
-                                                    //           width: 2,
-                                                    //         )),
-                                                    //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
-                                                    //       fontSize: 11, fontWeight: FontWeight.w500,
-                                                    //     )),
-                                                    //   ),
-                                                    // ),
-                                                  ],
-                                                ): Container();
-                                              }
-                                              return Container();
-                                            },
-                                          );
-                                        }
-                                        return Container();
-                                      },
-                                    ),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.symmetric(vertical: 50.0),
-                                      //   child: Text("SAPAPAPAPAPA"),
-                                      // ),
+                                                      // Positioned(
+                                                      //   top : 8,
+                                                      //   left : 50,
+                                                      //   child: Container(
+                                                      //     height: 20,
+                                                      //     width: 30,
+                                                      //     alignment: Alignment.center,
+                                                      //     decoration: BoxDecoration(
+                                                      //         color: AppTheme.skBorderColor2,
+                                                      //         borderRadius:
+                                                      //         BorderRadius.circular(
+                                                      //             10.0),
+                                                      //         border: Border.all(
+                                                      //           color: Colors.white,
+                                                      //           width: 2,
+                                                      //         )),
+                                                      //     child: Text((int.parse(prodListView[i].split('-')[3]) - int.parse(prodListView[i].split('-')[7])).toString(), style: TextStyle(
+                                                      //       fontSize: 11, fontWeight: FontWeight.w500,
+                                                      //     )),
+                                                      //   ),
+                                                      // ),
+                                                    ],
+                                                  ): Container();
+                                                }
+                                                return Container();
+                                              },
+                                            );
+                                          }
+                                          return Container();
+                                        },
+                                      ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.symmetric(vertical: 50.0),
+                                    //   child: Text("SAPAPAPAPAPA"),
+                                    // ),
 
 
 
@@ -1829,7 +1829,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                   :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
                                                             title: Text(
                                                               dataRef[
-                                                                'prod_name'],
+                                                              'prod_name'],
                                                               style:
                                                               TextStyle(
                                                                   fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
@@ -1968,7 +1968,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       :  Image.asset('assets/system/default-product.png', height: 58, width: 58),),
                                                                 title: Text(
                                                                   dataRefSC[
-                                                                    'prod_name'],
+                                                                  'prod_name'],
                                                                   style:
                                                                   TextStyle(
                                                                       fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),
