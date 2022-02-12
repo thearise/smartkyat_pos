@@ -2959,7 +2959,7 @@ class HomePageState extends State<HomePage>
                                                                                                       .data!
                                                                                                       .data();
                                                                                                   var image = output2?[
-                                                                                                  'img_1'];
+                                                                                                    'img_1'];
                                                                                                   prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                                                       prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                                                   return GestureDetector(
@@ -3886,6 +3886,8 @@ class HomePageState extends State<HomePage>
                                                                                                 int debts = 0;
                                                                                                 var dateExist = false;
                                                                                                 var dateId = '';
+                                                                                                bool reFilter = false;
+                                                                                                bool deFilter = false;
                                                                                                 double debtAmounts = 0 ;
                                                                                                 print('order creating');
 
@@ -3952,12 +3954,14 @@ class HomePageState extends State<HomePage>
                                                                                                   }
                                                                                                   print('subList ' + subList.toString());
 
-                                                                                                  if(customerId.split('^')[0] != 'name' && debt.toString() != '0.0') {
+                                                                                                  if(debt.toString() != '0.0') {
+                                                                                                    deFilter = true;
                                                                                                     debts = 1;
                                                                                                     debtAmounts = debt;
                                                                                                   } else {
                                                                                                     debts = 0;
                                                                                                     debtAmounts = 0;
+                                                                                                    deFilter = false;
                                                                                                   }
 
                                                                                                   print('subList2 ' + subList2.toString());
@@ -3979,12 +3983,12 @@ class HomePageState extends State<HomePage>
 
                                                                                                     if (dateExist) {
                                                                                                       addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                                                      Detail(now, length.toString(),subList, dateId);
+                                                                                                      Detail(now, length.toString(),subList, dateId, deFilter, reFilter);
                                                                                                       print('adddateexist added');
                                                                                                     }
                                                                                                     else {
                                                                                                       DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                                                      Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
+                                                                                                      Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), deFilter, reFilter);
                                                                                                       print('adddateexist not');
                                                                                                     }
                                                                                                   });
@@ -7687,7 +7691,7 @@ class HomePageState extends State<HomePage>
                                                                         .data!
                                                                         .data();
                                                                     var image = output2?[
-                                                                    'img_1'];
+                                                                      'img_1'];
                                                                     prodList[i] = prodList[i].split('^')[0] + '^' + output2?['prod_name'] + '^' +
                                                                         prodList[i].split('^')[2] + '^' + prodList[i].split('^')[3] + '^' + prodList[i].split('^')[4] + '^' + prodList[i].split('^')[5];
                                                                     return GestureDetector(
@@ -8447,6 +8451,8 @@ class HomePageState extends State<HomePage>
                                                                     int debts = 0;
                                                                     var dateExist = false;
                                                                     var dateId = '';
+                                                                    bool reFilter = false;
+                                                                    bool deFilter = false;
                                                                     double debtAmounts = 0 ;
                                                                     mystate(() {
                                                                       setState(() {
@@ -8520,15 +8526,16 @@ class HomePageState extends State<HomePage>
                                                                             });
                                                                           }
                                                                         });
-
                                                                       }
 
                                                                       if( debt.toString() != '0.0') {
                                                                         debts = 1;
                                                                         debtAmounts = debt;
+                                                                        deFilter = true;
                                                                       } else {
                                                                         debts = 0;
                                                                         debtAmounts = 0;
+                                                                        deFilter = false;
                                                                       }
 
                                                                       print('subList2 ' + subList2.toString());
@@ -8548,12 +8555,12 @@ class HomePageState extends State<HomePage>
 
                                                                         if (dateExist) {
                                                                           addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                          Detail(now, length.toString(),subList2, dateId);
+                                                                          Detail(now, length.toString(),subList2, dateId, reFilter, deFilter);
                                                                           print('adddateexist added');
                                                                         }
                                                                         else {
                                                                           DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString())  + deviceIdNum.toString() + length.toString() + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0] + '^FALSE' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-                                                                          Detail(now, length.toString(),subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString());
+                                                                          Detail(now, length.toString(),subList2, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter);
                                                                           print('adddateexist not');
                                                                         }
                                                                       });
@@ -10656,7 +10663,7 @@ class HomePageState extends State<HomePage>
     return oldString.substring(0, index) + newChar + oldString.substring(index + 1);
   }
 
-  Future<void> Detail(date, length, subs, docId) async {
+  Future<void> Detail(date, length, subs, docId, reF, deF) async {
     print('CHECKING PRODSALE ORD');
     CollectionReference detail = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('order');
     String customId = deviceIdNum.toString() + length.toString();
@@ -10672,6 +10679,8 @@ class HomePageState extends State<HomePage>
       'deviceId' : deviceIdNum.toString() + '-',
       'orderId' : length.toString(),
       'documentId' : docId,
+      'refund_filter' : reF,
+      'debt_filter' : deF,
     })
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
@@ -11262,7 +11271,8 @@ class HomePageState extends State<HomePage>
     }
   }
 
-  printFromOrders(File file) {
+  printFromOrders(File file, var prodListPR) {
+    print('PRRRRR ' + prodListPR.toString());
     printClosed = false;
     bool firstTimeOrderPri = true;
     bool priInProgOrders = false;
@@ -11332,7 +11342,7 @@ class HomePageState extends State<HomePage>
                 // smartKyatFlash('Print command received and working on it.', 'i');
                 // final ReceiptSectionText receiptText = ReceiptSectionText();
                 if(file != null) {
-                  final doc = await PdfDocument.openFile(file!.path);
+                  final doc = await PdfDocument.openFile(file.path);
                   final pages = doc.pageCount;
                   List<imglib.Image> images = [];
 
@@ -11371,19 +11381,73 @@ class HomePageState extends State<HomePage>
                     }
 
                     // final ReceiptSectionText receiptText = ReceiptSectionText();
+                    // for(int i = 0; i< prodListPR.length; i++) {
+                    //   receiptText.addLeftRightText(
+                    //     prodListPR[i].split('^')[0] + ' (' + prodListPR[i].split('^')[1] + ' - ' + prodListPR[i].split('^')[2] + ' x ' + prodListPR[i].split('^')[3] + ')',
+                    //     (double.parse(prodListPR[i].split('^')[2]) * double.parse(prodListPR[i].split('^')[2])).toStringAsFixed(2) + ' $currencyUnit',
+                    //     leftStyle: ReceiptTextStyleType.normal,
+                    //     leftSize: ReceiptTextSizeType.small,
+                    //     rightSize: ReceiptTextSizeType.small,
+                    //     rightStyle: ReceiptTextStyleType.bold,
+                    //   );
+                    // }
+                    // // await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
+                    // await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
+                    // mystate(() {
+                    //   priInProgOrders = false;
+                    // });
+
+
+
+
+                    // final ReceiptSectionText receiptText = ReceiptSectionText();
+                    // receiptText.addSpacer();
+                    // receiptText.addText(
+                    //   'MY STORE',
+                    //   size: ReceiptTextSizeType.medium,
+                    //   style: ReceiptTextStyleType.bold,
+                    // );
+                    // receiptText.addText(
+                    //   'Black White Street, Jakarta, Indonesia',
+                    //   size: ReceiptTextSizeType.small,
+                    // );
+                    // receiptText.addSpacer(useDashed: true);
+                    // receiptText.addLeftRightText('Time', '04/06/21, 10:00');
+                    // receiptText.addSpacer(useDashed: true);
                     // receiptText.addLeftRightText(
-                    //   'ငှက်ပျောသီး',
-                    //   '30.000 $currencyUnit',
+                    //   'Apple 1kg',
+                    //   'Rp30.000',
                     //   leftStyle: ReceiptTextStyleType.normal,
-                    //   leftSize: ReceiptTextSizeType.small,
-                    //   rightSize: ReceiptTextSizeType.small,
                     //   rightStyle: ReceiptTextStyleType.bold,
                     // );
+                    // receiptText.addSpacer(useDashed: true);
+                    // receiptText.addLeftRightText(
+                    //   'TOTAL',
+                    //   'Rp30.000',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   rightStyle: ReceiptTextStyleType.bold,
+                    // );
+                    // receiptText.addSpacer(useDashed: true);
+                    // receiptText.addLeftRightText(
+                    //   'Payment',
+                    //   'Cash',
+                    //   leftStyle: ReceiptTextStyleType.normal,
+                    //   rightStyle: ReceiptTextStyleType.normal,
+                    // );
+                    // receiptText.addSpacer(count: 2);
+                    //
+                    // await _bluePrintPos.printReceiptText(receiptText, paperSize: posUtils.PaperSize.mm80);
+                    //
+                    // /// Example for print QR
+                    // await _bluePrintPos.printQR('www.google.com', size: 250);
+                    //
+                    // /// Text after QR
+                    // final ReceiptSectionText receiptSecondText = ReceiptSectionText();
+                    // receiptSecondText.addText('Powered by ayeee',
+                    //     size: ReceiptTextSizeType.small);
+                    // receiptSecondText.addSpacer();
+                    // await _bluePrintPos.printReceiptText(receiptSecondText, feedCount: 1);
                     await _bluePrintPos.printReceiptImage(imglib.encodeJpg(mergedImage),width: width, useRaster: true);
-                    //await _bluePrintPos.printReceiptText(receiptText, useRaster: true, paperSize: posUtils.PaperSize.mm80);
-                    mystate(() {
-                      priInProgOrders = false;
-                    });
 
                   });
                 }
