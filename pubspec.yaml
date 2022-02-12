@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  blue_print_pos:
+    path: ../blue_print_pos
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -99,7 +101,7 @@ dependencies:
 #  esc_pos_printer: ^4.0.3
 #  blue_print_pos: 0.0.9
   paginate_firestore: ^1.0.2
-  blue_print_pos: 0.0.10
+#  blue_print_pos: 0.0.12
   ntp: ^2.0.0
   flutter_animation_progress_bar: ^2.0.1
   percent_indicator: ^4.0.0
